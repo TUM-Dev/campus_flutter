@@ -1,0 +1,50 @@
+name: campus_flutter
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  cached_network_image: ^3.2.3
+  dio: ^5.1.1
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+  flutter_native_splash: ^2.2.19
+  flutter_secure_storage: ^8.0.0
+  freezed_annotation: ^2.2.0
+  geolocator: ^9.0.2
+  google_maps_flutter: ^2.2.5
+  http: ^0.13.5
+  intl: ^0.18.1
+  json_annotation: ^4.8.0
+  json_serializable: ^6.6.1
+  provider: ^6.0.5
+  syncfusion_flutter_charts: ^21.1.41
+  table_calendar: ^3.0.9
+  url_launcher: ^6.1.10
+  uuid: ^3.0.7
+  xml: ^6.2.2
+  xml2json: ^5.3.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+  freezed: ^2.3.2
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: SanFrancisco
+      fonts:
+        - asset: assets/fonts/sanFrancisco/SF-Pro.ttf
+        - asset: assets/fonts/sanFrancisco/SF-Pro-Italic.ttf
+  assets:
+    - assets/
+    - assets/map_styles/
+    - assets/images/logos/tum-logo-blue.png
+    - assets/images/Portrait_Placeholder.png
