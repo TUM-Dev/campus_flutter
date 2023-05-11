@@ -1,8 +1,8 @@
-import 'package:campus_flutter/base/Networking/Protocols/APIError.dart';
+import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 
-part 'API.freezed.dart';
+part 'api.freezed.dart';
 
 abstract class API {
 

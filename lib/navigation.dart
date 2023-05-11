@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
-import 'package:campus_flutter/HomeComponent/home.dart';
+import 'package:campus_flutter/homeComponent/home.dart';
 import 'package:campus_flutter/loginComponent/loginViewModel.dart';
-import 'package:campus_flutter/MapComponent/map.dart';
+import 'package:campus_flutter/mapComponent/map.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 

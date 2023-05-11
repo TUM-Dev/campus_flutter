@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/Networking/APIs/TUMOnlineAPI.dart';
-import '../../base/Networking/Protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
+import '../../base/networking/protocols/mainApi.dart';
 import '../model/lecture.dart';
 
 class LectureService {

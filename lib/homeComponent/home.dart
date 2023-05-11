@@ -1,6 +1,6 @@
 import 'package:campus_flutter/eatComponent/eatService.dart';
 import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
-import 'package:campus_flutter/HomeComponent/PersonalDetailsComponent/View/personalDetails.dart';
+import 'package:campus_flutter/homeComponent/personalDetailsComponent/view/personalDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

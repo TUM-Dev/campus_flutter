@@ -1,6 +1,5 @@
-import 'package:campus_flutter/base/Networking/Protocols/APIError.dart';
-
-import '../Protocols/API.dart';
+import 'package:campus_flutter/base/networking/protocols/apiError.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class EatAPI extends API {
 

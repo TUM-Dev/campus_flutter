@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/Networking/Protocols/API.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
 import 'package:flutter/material.dart';

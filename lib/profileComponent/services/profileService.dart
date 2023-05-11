@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/Networking/APIs/TUMOnlineAPI.dart';
-import 'package:campus_flutter/base/Networking/Protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
+import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
 

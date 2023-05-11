@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../base/Networking/Protocols/apiResponse.dart';
+import '../../base/networking/protocols/apiResponse.dart';
 
 part 'dishLabel.g.dart';
 

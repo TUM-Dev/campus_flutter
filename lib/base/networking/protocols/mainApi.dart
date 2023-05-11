@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:campus_flutter/base/Networking/Protocols/apiResponse.dart';
+import 'package:campus_flutter/base/networking/cache.dart';
+import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml2json/xml2json.dart';
-import '../cache.dart';
-import 'API.dart';
 
 class MainAPI {
   static final Cache<String, Serializable> cache = Cache();
