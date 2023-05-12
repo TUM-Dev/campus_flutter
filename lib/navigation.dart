@@ -1,3 +1,5 @@
+import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
+import 'package:campus_flutter/calendarComponent/views/calendarView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/home.dart';
@@ -86,7 +88,7 @@ class _NavigationState extends State<Navigation> {
         ChangeNotifierProvider(
             create: (context) => GradeViewModel(), child: const GradesView()),
         const LectureView(),
-        const Text("Coming Soon"),
+        Provider(create: (context) => CalendarViewModel(), child: const CalendarView()),
         const PlacesWidget()
       ][currentPageIndex],
     );
