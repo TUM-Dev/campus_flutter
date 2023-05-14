@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:campus_flutter/mapComponent/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -98,13 +99,13 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    /*determinePosition().then((value) async {
+    LocationService.determinePosition().then((value) async {
       final GoogleMapController controller = await _controller.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(value.latitude, value.longitude),
         zoom: 14,
       )));
-    });*/
+    });
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: _defaultCameraPosition,

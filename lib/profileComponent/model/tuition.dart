@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,7 +6,7 @@ part 'tuition.g.dart';
 
 @JsonSerializable()
 class Tuition implements Serializable {
-  @JsonKey(name: "soll")
+  @JsonKey(name: "soll", fromJson: stringToDouble)
   final double? amount;
   @JsonKey(name: "frist")
   final DateTime? deadline;
@@ -43,9 +44,9 @@ class TuitionData implements Serializable {
 @JsonSerializable()
 class Tuitions implements Serializable {
   @JsonKey(name: "row")
-  final List<Tuition> tuitions;
+  final Tuition tuition;
 
-  Tuitions({required this.tuitions});
+  Tuitions({required this.tuition});
 
   factory Tuitions.fromJson(Map<String, dynamic> json) => _$TuitionsFromJson(json);
 
