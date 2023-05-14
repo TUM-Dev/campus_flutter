@@ -9,8 +9,7 @@ import 'navigation.dart';
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(ChangeNotifierProvider(
-      create: (context) => LoginViewModel(), child: const CampusApp()));
+  runApp(Provider(create: (context) => LoginViewModel(), child: const CampusApp()));
 }
 
 class CampusApp extends StatelessWidget {
@@ -96,19 +95,19 @@ class _AuthenticationRouterState extends State<AuthenticationRouter> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginViewModel>(
-      builder: (context, loginViewModel, child) {
-        if (loginViewModel.credentials == null) {
-          return const CircularProgressIndicator();
-        } else {
-          FlutterNativeSplash.remove();
-          if (loginViewModel.credentials == Credentials.none) {
-            return LoginView();
+    return StreamBuilder(
+        stream: Provider.of<LoginViewModel>(context, listen: true).credentials,
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            FlutterNativeSplash.remove();
+            if(snapshot.data == Credentials.tumId || snapshot.data == Credentials.noTumId) {
+              return const Navigation();
+            } else {
+              return LoginView();
+            }
           } else {
-            return const Navigation();
+            return LoginView();
           }
-        }
-      },
-    );
+        });
   }
 }
