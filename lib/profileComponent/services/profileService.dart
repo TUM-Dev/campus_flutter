@@ -17,11 +17,11 @@ class ProfileService {
 
   static Future<Tuition?> fetchTuition(String personGroup, String id) async {
     final response = await MainAPI.makeRequest<TuitionData, TUMOnlineAPI>(
-        TUMOnlineAPI(TUMOnlineServices.profileImage,
+        TUMOnlineAPI(TUMOnlineServices.tuitionStatus,
             {TUMOnlineParameters.personGroup: personGroup, TUMOnlineParameters.id: id}
         ),
         TuitionData.fromJson,
-        null,
+        TUMOnlineAPI.token,
         false
     );
 

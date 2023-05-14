@@ -7,7 +7,7 @@ part of 'tuition.dart';
 // **************************************************************************
 
 Tuition _$TuitionFromJson(Map<String, dynamic> json) => Tuition(
-      amount: (json['soll'] as num?)?.toDouble(),
+      amount: stringToDouble(json['soll'] as String),
       deadline: json['frist'] == null
           ? null
           : DateTime.parse(json['frist'] as String),

@@ -10,10 +10,11 @@ class ProfileViewModel {
 
   fetchProfile() async {
     profile.add(await ProfileService.fetchProfile());
+    fetchTuition();
   }
 
   fetchTuition() async {
-    if (profile.value != null) {
+    if (profile.hasValue) {
       tuition.add(await ProfileService.fetchTuition(
           profile.value?.personGroup ?? "", profile.value?.id ?? ""
       ));
