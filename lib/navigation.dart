@@ -1,6 +1,6 @@
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
-import 'package:campus_flutter/homeComponent/home.dart';
+import 'package:campus_flutter/homeComponent/homeScreen.dart';
 import 'package:campus_flutter/loginComponent/loginViewModel.dart';
 import 'package:campus_flutter/MapComponent/map.dart';
 import 'package:flutter/cupertino.dart';
@@ -110,7 +110,7 @@ class _NavigationState extends State<Navigation> {
             )),
         body: SafeArea(
           child: <Widget>[
-            const Home(),
+            const HomeScreen(),
             Provider(create: (context) => GradeViewModel(), child: const GradesView()),
             const LectureView(),
             const Text("Coming Soon"),
