@@ -43,9 +43,9 @@ class TuitionData implements Serializable {
 @JsonSerializable()
 class Tuitions implements Serializable {
   @JsonKey(name: "row")
-  final List<Tuition> tuitions;
+  final Tuition tuition;
 
-  Tuitions({required this.tuitions});
+  Tuitions({required this.tuition});
 
   factory Tuitions.fromJson(Map<String, dynamic> json) => _$TuitionsFromJson(json);
 

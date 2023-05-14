@@ -80,9 +80,9 @@ class ProfileData implements Serializable {
 @JsonSerializable()
 class Profiles implements Serializable {
   @JsonKey(name: "row")
-  final List<Profile> profiles;
+  final Profile profile;
 
-  Profiles({required this.profiles});
+  Profiles({required this.profile});
 
   factory Profiles.fromJson(Map<String, dynamic> json) => _$ProfilesFromJson(json);
 
