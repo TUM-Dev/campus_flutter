@@ -30,17 +30,17 @@ class _GradesViewState extends State<GradesView> {
           if (snapshot.hasData && snapshot.data != null) {
             return Scrollbar(
                 child: SingleChildScrollView(
-              clipBehavior: Clip.antiAlias,
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(children: [
-                    for (var degree in snapshot.data!.entries)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: DegreeView(degree: degree),
-                      ),
-                  ])),
-            ));
+                  clipBehavior: Clip.antiAlias,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(children: [
+                        for (var degree in snapshot.data!.entries)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: DegreeView(degree: degree),
+                          ),
+                      ])),
+                ));
           } else if (snapshot.hasError) {
             return const Center(child: Text("no grades found"));
           }
@@ -59,11 +59,12 @@ class DegreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ChartView(
-            studyID: degree.key,
-            title: degree.value.values.first.first.studyDesignation),
+        Card(
+            child: ChartView(
+                studyID: degree.key,
+                title: degree.value.values.first.first.studyDesignation)),
         for (var semester in degree.value.entries)
-          SemesterView(semester: semester)
+          SemesterView(semester: semester),
       ],
     );
   }
@@ -76,14 +77,22 @@ class SemesterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ExpansionTile(
-          title: Text(semester.key),
+    return Card(
+        child: ExpansionTile(
+          title: Text(GradeViewModel.toFullSemesterName(semester.key)),
           initiallyExpanded: true,
-          children: [for (var grade in semester.value) GradeRow(grade: grade)],
-        )
-      ],
-    );
+          childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
+          /*children: ListTile.divideTiles(
+        context: context,
+          tiles: Iterable.generate(semester.value.length, (index) => GradeRow(grade: semester.value[index]))
+      ).toList(),*/
+          children: [
+            for (var index = 0; index < semester.value.length; index++)
+              Column(children: [
+                GradeRowAlt(grade: semester.value[index]),
+                (index != semester.value.length - 1 ? const Divider() : const SizedBox.shrink())
+              ])
+          ],
+        ));
   }
 }

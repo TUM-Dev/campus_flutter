@@ -1,20 +1,18 @@
 import 'package:campus_flutter/loginComponent/loginRepository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
-
-class LoginViewModel extends ChangeNotifier {
+class LoginViewModel {
   final LoginRepository _loginRepository = LoginRepository();
   final _storage = const FlutterSecureStorage();
-  String? token;
-  Credentials? credentials;
+  BehaviorSubject<String?> token = BehaviorSubject.seeded(null);
+  BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
 
   Future checkLogin() async {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
         await _loginRepository.confirmNewToken(value).then((value) {
-          credentials = Credentials.tumId;
-          notifyListeners();
+          credentials.add(Credentials.tumId);
         }, onError: (error) => _errorHandling());
       } else {
         _errorHandling();
@@ -24,35 +22,30 @@ class LoginViewModel extends ChangeNotifier {
 
   _errorHandling() {
     print("Error");
-    credentials = Credentials.none;
-    notifyListeners();
+    credentials.add(Credentials.none);
   }
 
   Future requestLogin(String name) async {
-    token = await _loginRepository.fetchNewToken(name);
-    _storage.write(key: "token", value: token);
-    notifyListeners();
+    token.add(await _loginRepository.fetchNewToken(name));
+    _storage.write(key: "token", value: token.value);
   }
 
   Future confirmLogin() async {
     if (token != null) {
       try {
-        await _loginRepository.confirmNewToken(token!);
-        credentials = Credentials.tumId;
-        notifyListeners();
+        await _loginRepository.confirmNewToken(token.value!);
+        credentials.add(Credentials.tumId);
       } catch (e) {}
     }
   }
 
   Future skip() async {
-    credentials = Credentials.noTumId;
-    notifyListeners();
+    credentials.add(Credentials.noTumId);
   }
 
   Future logout() async {
-    credentials = Credentials.none;
+    credentials.add(Credentials.none);
     _storage.delete(key: "token");
-    notifyListeners();
   }
 }
 

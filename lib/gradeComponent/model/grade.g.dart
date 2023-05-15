@@ -12,7 +12,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) => Grade(
       semester: json['lv_semester'] as String,
       title: json['lv_titel'] as String,
       examiner: json['pruefer_nachname'] as String,
-      grade: Grade._stringToDouble(json['uninotenamekurz'] as String),
+      grade: stringToDouble(json['uninotenamekurz'] as String),
       examType: json['exam_typ_name'] as String,
       modus: json['modus'] as String,
       studyID: json['studienidentifikator'] as String,
