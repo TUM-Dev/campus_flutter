@@ -11,6 +11,8 @@ jobs:
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
 
       - name: setup fastlane
         working-directory: ./ios
