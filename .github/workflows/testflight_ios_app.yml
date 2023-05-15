@@ -18,7 +18,7 @@ jobs:
         run: cd ./ios && bundle install
 
       - name: run fastlane
-        run: fastlane beta
+        run: cd ./ios && bundle install
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
