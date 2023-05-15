@@ -15,11 +15,9 @@ jobs:
           ruby-version: 3.2.2
 
       - name: setup fastlane
-        working-directory: ios
-        run: bundle install
+        run: cd ./ios && bundle install
 
       - name: run fastlane
-        working-directory: ios.
         run: fastlane beta
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
