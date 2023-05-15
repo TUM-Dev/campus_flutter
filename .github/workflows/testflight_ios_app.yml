@@ -7,8 +7,18 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: fastlane beta
+      - uses: actions/checkout@v3
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: setup fastlane
+        working-directory: ./ios
+        run: bundle install
+
+      - name: run fastlane
+        working-directory: ./ios.
+        run: fastlane beta
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
