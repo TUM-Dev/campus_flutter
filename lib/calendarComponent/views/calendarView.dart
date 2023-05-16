@@ -31,13 +31,30 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      CupertinoSlidingSegmentedControl(
-        children: calendarTabs, onValueChanged: (i) {
-          setState(() {
-            _selectedCalendarTab = i ?? 0;
-          });
-      }, groupValue: _selectedCalendarTab,
-      ),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedCalendarTab = 0;
+                    });
+                  },
+                  child: const Text("Today")),
+              Expanded(
+                child: CupertinoSlidingSegmentedControl(
+                  children: calendarTabs,
+                  onValueChanged: (i) {
+                    setState(() {
+                      _selectedCalendarTab = i ?? 0;
+                    });
+                  },
+                  groupValue: _selectedCalendarTab,
+                ),
+              )
+            ],
+          )),
       <Widget>[
         const CalendarDayView(),
         const CalendarWeekView(),

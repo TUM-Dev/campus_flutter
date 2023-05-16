@@ -20,6 +20,7 @@ class CalendarMonthView extends StatelessWidget {
             dataSource: snapshot.hasData
                 ? MeetingDataSource(snapshot.data!)
                 : null,
+            firstDayOfWeek: 1,
           ));
         });
   }

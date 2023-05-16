@@ -54,7 +54,6 @@ class Lecture implements Serializable {
     }
   }
 
-
   Lecture({
     required this.id,
     required this.lvNumber,

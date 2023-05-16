@@ -1,4 +1,6 @@
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
@@ -17,6 +19,23 @@ class Event extends Serializable {
   @JsonKey(name: "dtend")
   final DateTime endDate;
   final String location;
+
+  String? get lvNr {
+    return url.split("LvNr=").last;
+  }
+
+  String get timePeriod {
+    return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
+  }
+
+  // TODO: Mon, dd.mm.yyyy, hh:mm - hh:mm
+  String get timeDatePeriod {
+    if (startDate.day == endDate.day) {
+      return "coming soon";
+    } else {
+      return "coming soon";
+    }
+  }
 
   Event(
       {required this.id,
