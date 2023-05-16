@@ -26,6 +26,10 @@ class CampusApp extends StatelessWidget {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             scaffoldBackgroundColor: const Color(0xfff2f2f7),
+            textTheme: const TextTheme(
+                labelLarge: TextStyle(color: Color(0xff0065bd)),
+                titleMedium: TextStyle(color: Color(0xff0065bd))
+            ),
             appBarTheme: const AppBarTheme(
                 surfaceTintColor: Color(0xfff2f2f7),
                 backgroundColor: Color(0xfff2f2f7)),
@@ -88,9 +92,9 @@ class _AuthenticationRouterState extends State<AuthenticationRouter> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<LoginViewModel>(context, listen: false).checkLogin();
-    });
+    //});
   }
 
   @override

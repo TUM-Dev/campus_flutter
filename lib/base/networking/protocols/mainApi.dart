@@ -15,8 +15,9 @@ class MainAPI {
       String? token,
       bool forcedRefresh) async {
 
-    if (!forcedRefresh && cache.checkKeyInCache(key: endpoint.toString())) {
-      final data = await cache.getAllRecords(key: endpoint.toString());
+    // TODO: fix caching for endpoints which use multiple params
+    if (!forcedRefresh && cache.checkKeyInCache(key: endpoint.requestURL())) {
+      final data = await cache.getAllRecords(key: endpoint.requestURL());
       return data as T;
     }
 
