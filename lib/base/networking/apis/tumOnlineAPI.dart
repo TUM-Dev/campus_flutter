@@ -53,6 +53,8 @@ class TUMOnlineAPI extends API {
       return "${path}wbservicesbasic.secretUpload";
     case TUMOnlineServices.profileImage:
       return "${path}visitenkarte.showImage";
+      case TUMOnlineServices.tumCard:
+        return "${path}wbservicesbasic.tumCard";
     }
   }
 
@@ -95,6 +97,7 @@ class TUMOnlineAPI extends API {
       case TUMOnlineServices.lectureSearch:
       case TUMOnlineServices.lectureDetails:
       case TUMOnlineServices.identify:
+      case TUMOnlineServices.tumCard:
         return true;
       default:
         return false;
@@ -129,7 +132,8 @@ enum TUMOnlineServices {
   lectureDetails,
   identify,
   secretUpload,
-  profileImage
+  profileImage,
+  tumCard
 }
 
 enum TUMOnlineParameters {
