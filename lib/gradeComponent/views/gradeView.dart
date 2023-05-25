@@ -13,16 +13,17 @@ class GradeRowAlt extends StatelessWidget {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
         title: Text(grade.title),
-        subtitle: Column(children: [
-          Row(children: [
-            Expanded(
-                child: IconText(text: grade.modusShort, icon: Icons.edit)),
-            Expanded(
-                child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
-          ]),
-          IconText(text: grade.examiner, icon: Icons.person),
-        ],)
-    );
+        subtitle: Column(
+          children: [
+            Row(children: [
+              Expanded(
+                  child: IconText(text: grade.modusShort, icon: Icons.edit)),
+              Expanded(
+                  child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
+            ]),
+            IconText(text: grade.examiner, icon: Icons.person),
+          ],
+        ));
   }
 }
 
@@ -36,23 +37,29 @@ class GradeRow extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GradeRectangle(grade: grade.grade),
         ),
         Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  grade.title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-
-              ],
-            ))
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              grade.title,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Row(children: [
+              Expanded(
+                  child: IconText(text: grade.modusShort, icon: Icons.edit)),
+              Expanded(
+                  child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
+            ]),
+            IconText(text: grade.examiner, icon: Icons.person),
+          ],
+        ))
       ],
     );
   }
@@ -65,7 +72,23 @@ class GradeRectangle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+            decoration: BoxDecoration(
+                color: GradeViewModel.getColor(grade),
+                borderRadius: BorderRadius.circular(4)),
+            child: Center(
+              child: Text(
+                grade.toString(),
+                style: Theme.of(context).textTheme.headlineSmall?.apply(
+                    color: Colors.white,
+                    shadows: [
+                      const Shadow(color: Colors.black, blurRadius: 10.0)
+                    ]),
+              ),
+            )));
+    /*return Container(
       height: 60.0,
       width: 60.0,
       decoration: BoxDecoration(
@@ -79,7 +102,7 @@ class GradeRectangle extends StatelessWidget {
               shadows: [const Shadow(color: Colors.black, blurRadius: 10.0)]),
         ),
       ),
-    );
+    );*/
   }
 }
 

@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# fastlane related
+ios/Runner.app.dSYM.zip
+ios/Runner.ipa
+ios/fastlane/report.xml
