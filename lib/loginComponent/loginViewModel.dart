@@ -31,12 +31,10 @@ class LoginViewModel {
   }
 
   Future confirmLogin() async {
-    if (token != null) {
-      try {
-        await _loginRepository.confirmNewToken(token.value!);
-        credentials.add(Credentials.tumId);
-      } catch (e) {}
-    }
+    try {
+      await _loginRepository.confirmNewToken(token.value!);
+      credentials.add(Credentials.tumId);
+    } catch (e) {}
   }
 
   Future skip() async {

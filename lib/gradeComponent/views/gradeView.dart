@@ -84,10 +84,11 @@ class GradeRectangle extends StatelessWidget {
 }
 
 class IconText extends StatelessWidget {
-  const IconText({super.key, required this.text, required this.icon});
+  const IconText({super.key, required this.text, required this.icon, this.maxLines = 1});
 
   final String text;
   final IconData icon;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +96,12 @@ class IconText extends StatelessWidget {
       children: [
         Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-        Text(
+        Expanded(child: Text(
           text,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-          maxLines: 1,
-        )
+          maxLines: maxLines,
+        ))
       ],
     );
   }

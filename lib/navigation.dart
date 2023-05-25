@@ -1,9 +1,10 @@
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
-import 'package:campus_flutter/loginComponent/loginViewModel.dart';
-import 'package:campus_flutter/MapComponent/map.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:campus_flutter/mapComponent/map.dart';
+import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
+import 'package:campus_flutter/studentCardComponent/views/studentCardView.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
@@ -53,24 +54,39 @@ class _NavigationState extends State<Navigation> {
             }
           }()),
           actions: <Widget>[
-            IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
             IconButton(
                 onPressed: () {
-                  Provider.of<LoginViewModel>(context, listen: false).logout();
+                  showModalBottomSheet<void>(
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      showDragHandle: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const SafeArea(child:
+                          Wrap(children: [
+                          StudentCardView()
+                        ]));
+                      });
                 },
-                icon: const Icon(Icons.logout_rounded))
+                icon: const Icon(Icons.credit_card)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SettingsView()));
+                },
+                icon: const Icon(Icons.settings)),
           ],
         ),
         bottomNavigationBar: DecoratedBox(
             decoration: const BoxDecoration(
               border: Border(
                   top: BorderSide(
-                    color: CupertinoDynamicColor.withBrightness(
-                      color: Color(0x4C000000),
-                      darkColor: Color(0x29000000),
-                    ),
-                    width: 0.0,
-                  )),
+                color: CupertinoDynamicColor.withBrightness(
+                  color: Color(0x4C000000),
+                  darkColor: Color(0x29000000),
+                ),
+                width: 0.0,
+              )),
             ),
             child: NavigationBar(
               onDestinationSelected: (int index) {
@@ -111,7 +127,9 @@ class _NavigationState extends State<Navigation> {
         body: SafeArea(
           child: <Widget>[
             const HomeScreen(),
-            Provider(create: (context) => GradeViewModel(), child: const GradesView()),
+            Provider(
+                create: (context) => GradeViewModel(),
+                child: const GradesView()),
             const LectureView(),
             const Text("Coming Soon"),
             const PlacesWidget()

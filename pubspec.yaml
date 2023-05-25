@@ -4,9 +4,10 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=3.0.0 <=3.0.2'
 
 dependencies:
+  barcode_widget: ^2.0.4
   cached_network_image: ^3.2.3
   dio: ^5.1.1
   equatable: ^2.0.5
@@ -34,6 +35,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: ^1.24.1
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
   freezed: ^2.3.2

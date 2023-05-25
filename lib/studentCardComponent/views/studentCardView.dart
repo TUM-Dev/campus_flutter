@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/gradeComponent/views/gradeView.dart';
 import 'package:campus_flutter/studentCardComponent/model/studentCard.dart';
 import 'package:campus_flutter/studentCardComponent/services/studentCardService.dart';
 import 'package:campus_flutter/studentCardComponent/views/barCodeView.dart';
