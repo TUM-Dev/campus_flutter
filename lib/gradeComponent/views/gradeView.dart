@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,17 @@ class GradeRowAlt extends StatelessWidget {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
         title: Text(grade.title),
-        subtitle: Column(children: [
-          Row(children: [
-            Expanded(
-                child: IconText(text: grade.modusShort, icon: Icons.edit)),
-            Expanded(
-                child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
-          ]),
-          IconText(text: grade.examiner, icon: Icons.person),
-        ],)
-    );
+        subtitle: Column(
+          children: [
+            Row(children: [
+              Expanded(
+                  child: IconText(text: grade.modusShort, icon: Icons.edit)),
+              Expanded(
+                  child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
+            ]),
+            IconText(text: grade.examiner, icon: Icons.person),
+          ],
+        ));
   }
 }
 
@@ -36,7 +38,7 @@ class GradeRow extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GradeRectangle(grade: grade.grade),
         ),
         Expanded(
@@ -50,7 +52,13 @@ class GradeRow extends StatelessWidget {
                       .titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-
+                Row(children: [
+                  Expanded(
+                      child: IconText(text: grade.modusShort, icon: Icons.edit)),
+                  Expanded(
+                      child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
+                ]),
+                IconText(text: grade.examiner, icon: Icons.person),
               ],
             ))
       ],
@@ -61,11 +69,27 @@ class GradeRow extends StatelessWidget {
 class GradeRectangle extends StatelessWidget {
   const GradeRectangle({super.key, required this.grade});
 
-  final double? grade;
+  final String grade;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+            decoration: BoxDecoration(
+                color: GradeViewModel.getColor(stringToDouble(grade)),
+                borderRadius: BorderRadius.circular(4)),
+            child: Center(
+              child: Text(
+                grade,
+                style: Theme.of(context).textTheme.headlineSmall?.apply(
+                    color: Colors.white,
+                    shadows: [
+                      const Shadow(color: Colors.black, blurRadius: 10.0)
+                    ]),
+              ),
+            )));
+    /*return Container(
       height: 60.0,
       width: 60.0,
       decoration: BoxDecoration(
@@ -79,7 +103,7 @@ class GradeRectangle extends StatelessWidget {
               shadows: [const Shadow(color: Colors.black, blurRadius: 10.0)]),
         ),
       ),
-    );
+    );*/
   }
 }
 
