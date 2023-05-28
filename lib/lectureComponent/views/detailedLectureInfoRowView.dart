@@ -18,7 +18,7 @@ class DetailedLectureInfoRow extends StatelessWidget {
               .textTheme
               .titleSmall
               ?.copyWith(fontWeight: FontWeight.bold)),
-      Text(information)
+      Text(information.replaceAll(r'\\n', "\n"))
     ]);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/cache.dart';
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
@@ -26,7 +27,7 @@ class MainAPI {
     try {
       response = await endpoint.asResponse(token: token);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       // TODO: Networking Error
       throw Exception();
     }
@@ -38,14 +39,14 @@ class MainAPI {
       if (response.headers["content-type"]?.contains("json") ?? false) {
         final data =
             ApiResponse<T>.fromJson(jsonDecode(response.body), create).data;
-        cache.saveAllRecords(value: data, key: endpoint.toString());
+        cache.saveAllRecords(value: data, key: endpoint.requestURL());
         return data;
       } else {
         final transformer = Xml2Json();
         transformer.parse(response.body);
         final json = transformer.toParker();
         final data = ApiResponse<T>.fromJson(jsonDecode(json), create).data;
-        cache.saveAllRecords(value: data, key: endpoint.toString());
+        cache.saveAllRecords(value: data, key: endpoint.requestURL());
         return data;
       }
     }

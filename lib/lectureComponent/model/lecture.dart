@@ -54,6 +54,10 @@ class Lecture implements Serializable {
     }
   }
 
+  String get sws {
+    return "$duration SWS";
+  }
+
   Lecture({
     required this.id,
     required this.lvNumber,
