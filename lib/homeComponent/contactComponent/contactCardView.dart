@@ -67,7 +67,7 @@ class _ContactCardViewState extends State<ContactCardView> {
                     Text(data != null
                         ? data.email
                         : PersonDetailsViewModel.defaultPersonDetails.email),
-                    // TODO: study program only possible via grades?
+                    // TODO: solve with tumCard api
                     const Text("Wirtschaftsinformatik B.Sc.")
                   ],
                 )

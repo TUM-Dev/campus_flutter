@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
 import 'package:xml/xml.dart';
 import 'dart:io' as io;
@@ -8,8 +10,6 @@ class LoginRepository {
         TUMOnlineServices.tokenRequest,
         {TUMOnlineParameters.tumID: name, TUMOnlineParameters.tokenName : io.Platform.localHostname}
     ).asResponse();
-
-    print(response.body);
 
     if(response.statusCode == 200) {
       final document = XmlDocument.parse(response.body);
@@ -26,7 +26,7 @@ class LoginRepository {
   Future confirmNewToken(String token) async {
     TUMOnlineAPI.token = token;
 
-    print(TUMOnlineAPI.token);
+    log(TUMOnlineAPI.token ?? "no token");
 
     final response = await TUMOnlineAPI(
         TUMOnlineServices.tokenConfirmation,

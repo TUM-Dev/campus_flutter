@@ -4,10 +4,9 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.0 <=3.0.2'
+  sdk: '>=3.0.0 <=3.10.2'
 
 dependencies:
-  barcode_widget: ^2.0.4
   cached_network_image: ^3.2.3
   dio: ^5.1.1
   equatable: ^2.0.5
@@ -24,6 +23,7 @@ dependencies:
   json_serializable: ^6.6.1
   provider: ^6.0.5
   rxdart: ^0.27.7
+  syncfusion_flutter_calendar: ^21.2.4
   shimmer: ^2.0.0
   syncfusion_flutter_charts: ^21.1.41
   table_calendar: ^3.0.9
@@ -31,6 +31,7 @@ dependencies:
   uuid: ^3.0.7
   xml: ^6.2.2
   xml2json: ^5.3.6
+  barcode_widget: ^2.0.4
 
 dev_dependencies:
   flutter_test:

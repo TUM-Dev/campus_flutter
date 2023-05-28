@@ -3,7 +3,6 @@ import 'package:campus_flutter/studentCardComponent/model/studentCard.dart';
 import 'package:campus_flutter/studentCardComponent/services/studentCardService.dart';
 import 'package:campus_flutter/studentCardComponent/views/barCodeView.dart';
 import 'package:campus_flutter/studentCardComponent/views/informationView.dart';
-import 'package:campus_flutter/studentCardComponent/views/studiesView.dart';
 import 'package:flutter/material.dart';
 
 class StudentCardView extends StatefulWidget {

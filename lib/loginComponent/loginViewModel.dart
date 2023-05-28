@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/loginComponent/loginRepository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,7 +23,7 @@ class LoginViewModel {
   }
 
   _errorHandling() {
-    print("Error");
+    log("Error");
     credentials.add(Credentials.none);
   }
 
