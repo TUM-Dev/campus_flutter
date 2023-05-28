@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
@@ -25,14 +27,14 @@ abstract class API {
       var finalParameters = parameters;
       finalParameters.addAll({"pToken": token ?? ""});
       final uri = Uri.https(baseURL, paths, finalParameters);
-      print(uri);
+      log(uri.toString());
       return http.get(uri);
     } else {
       final uri = Uri(scheme: "https",
           host: baseURL,
           path: paths,
           queryParameters: parameters);
-      print(uri);
+      log(uri.toString());
       return http.get(uri);
     }
   }
