@@ -20,8 +20,8 @@ class Grade implements Serializable {
   String title;
   @JsonKey(name: "pruefer_nachname")
   final String examiner;
-  @JsonKey(name: "uninotenamekurz", fromJson: stringToDouble)
-  final double? grade;
+  @JsonKey(name: "uninotenamekurz")
+  final String grade;
   @JsonKey(name: "exam_typ_name")
   final String examType;
   @JsonKey(name: "modus")
