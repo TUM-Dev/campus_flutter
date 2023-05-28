@@ -1,4 +1,3 @@
-import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {

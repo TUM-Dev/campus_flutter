@@ -1,12 +1,11 @@
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'event.g.dart';
+part 'calendarEvent.g.dart';
 
 @JsonSerializable()
-class Event extends Serializable {
+class CalendarEvent extends Serializable {
   @JsonKey(name: "nr")
   final String id;
   final String status;
@@ -37,7 +36,7 @@ class Event extends Serializable {
     }
   }
 
-  Event(
+  CalendarEvent(
       {required this.id,
       required this.status,
       required this.url,
@@ -47,32 +46,32 @@ class Event extends Serializable {
       required this.endDate,
       required this.location});
 
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) => _$CalendarEventFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$EventToJson(this);
+  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
 
 @JsonSerializable()
-class EventData extends Serializable {
-  final Events events;
+class CalendarEventsData extends Serializable {
+  final CalendarEvents events;
 
-  EventData({required this.events});
+  CalendarEventsData({required this.events});
 
-  factory EventData.fromJson(Map<String, dynamic> json) => _$EventDataFromJson(json);
+  factory CalendarEventsData.fromJson(Map<String, dynamic> json) => _$CalendarEventsDataFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$EventDataToJson(this);
+  Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
 }
 
 @JsonSerializable()
-class Events extends Serializable {
-  final List<Event> event;
+class CalendarEvents extends Serializable {
+  final List<CalendarEvent> event;
 
-  Events({required this.event});
+  CalendarEvents({required this.event});
 
-  factory Events.fromJson(Map<String, dynamic> json) => _$EventsFromJson(json);
+  factory CalendarEvents.fromJson(Map<String, dynamic> json) => _$CalendarEventsFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$EventsToJson(this);
+  Map<String, dynamic> toJson() => _$CalendarEventsToJson(this);
 }

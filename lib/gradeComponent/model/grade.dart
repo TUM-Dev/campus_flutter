@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 

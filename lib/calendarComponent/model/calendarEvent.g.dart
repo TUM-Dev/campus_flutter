@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'event.dart';
+part of 'calendarEvent.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Event _$EventFromJson(Map<String, dynamic> json) => Event(
+CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
+    CalendarEvent(
       id: json['nr'] as String,
       status: json['status'] as String,
       url: json['url'] as String,
@@ -17,7 +18,8 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       location: json['location'] as String,
     );
 
-Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
+Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>
+    <String, dynamic>{
       'nr': instance.id,
       'status': instance.status,
       'url': instance.url,
@@ -28,20 +30,24 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'location': instance.location,
     };
 
-EventData _$EventDataFromJson(Map<String, dynamic> json) => EventData(
-      events: Events.fromJson(json['events'] as Map<String, dynamic>),
+CalendarEventsData _$CalendarEventsDataFromJson(Map<String, dynamic> json) =>
+    CalendarEventsData(
+      events: CalendarEvents.fromJson(json['events'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$EventDataToJson(EventData instance) => <String, dynamic>{
+Map<String, dynamic> _$CalendarEventsDataToJson(CalendarEventsData instance) =>
+    <String, dynamic>{
       'events': instance.events,
     };
 
-Events _$EventsFromJson(Map<String, dynamic> json) => Events(
+CalendarEvents _$CalendarEventsFromJson(Map<String, dynamic> json) =>
+    CalendarEvents(
       event: (json['event'] as List<dynamic>)
-          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .map((e) => CalendarEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$EventsToJson(Events instance) => <String, dynamic>{
+Map<String, dynamic> _$CalendarEventsToJson(CalendarEvents instance) =>
+    <String, dynamic>{
       'event': instance.event,
     };

@@ -1,5 +1,5 @@
 import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
-import 'package:campus_flutter/calendarComponent/views/calendarView.dart';
+import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
@@ -117,7 +117,7 @@ class _NavigationState extends State<Navigation> {
             const HomeScreen(),
             Provider(create: (context) => GradeViewModel(), child: const GradesView()),
             const LectureView(),
-            Provider(create: (context) => CalendarViewModel(), child: const CalendarView()),
+            Provider(create: (context) => CalendarViewModel(), child: const CalendarsView()),
             const PlacesWidget()
           ][currentPageIndex],
         ));

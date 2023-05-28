@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 const Color _primaryLightColor = Color(0xff0065bd);
 const Color _primaryDarkColor = Color(0xff3070B3);
@@ -9,11 +8,6 @@ const Color _lightGray = Color(0xffAAAAAA);
 const Color _darkGray = Color(0xff555555);
 const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
-
-/*var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
-bool isDarkMode = brightness == Brightness.dark;
-
-final Color primaryColor = isDarkMode ? _primaryDarkColor : _primaryLightColor;*/
 
 final lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -28,14 +22,16 @@ final lightTheme = ThemeData(
         onError: _almostBlack,
         background: _lightBackground,
         onBackground: _lightGray,
-        // TODO: weird color to test behaviour
-        surface: Colors.purple,
+        surface: _lightBackground,
         onSurface: _almostBlack
     ),
     primaryColor: _primaryLightColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     //scaffoldBackgroundColor: const Color(0xfff2f2f7),
+    bottomSheetTheme: const BottomSheetThemeData(
+        surfaceTintColor: Colors.transparent
+    ),
     textTheme: const TextTheme(
         labelLarge: TextStyle(color: _primaryLightColor),
         titleMedium: TextStyle(color: _primaryLightColor)
@@ -73,14 +69,16 @@ final darkTheme = ThemeData(
         onError: _almostWhite,
         background: _darkBackground,
         onBackground: _almostWhite,
-        // TODO: weird color to test behaviour
-        surface: Colors.purple,
+        surface: _darkBackground,
         onSurface: _almostWhite
     ),
     primaryColor: _primaryDarkColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     // scaffoldBackgroundColor: const Color(0xff191919),
+    bottomSheetTheme: const BottomSheetThemeData(
+        surfaceTintColor: Colors.transparent
+    ),
     textTheme: const TextTheme(
         labelLarge: TextStyle(color: _primaryDarkColor),
         titleMedium: TextStyle(color: _primaryDarkColor)

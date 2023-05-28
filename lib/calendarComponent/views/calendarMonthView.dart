@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'calendarsView.dart';
+
 class CalendarMonthView extends StatelessWidget {
   const CalendarMonthView({super.key});
 
@@ -17,10 +19,18 @@ class CalendarMonthView extends StatelessWidget {
         builder: (context, snapshot) {
           return Expanded(child: SfCalendar(
             view: CalendarView.month,
+            monthViewSettings: const MonthViewSettings(
+                showAgenda: true,
+                navigationDirection: MonthNavigationDirection.vertical),
             dataSource: snapshot.hasData
-                ? MeetingDataSource(snapshot.data!)
+                ? MeetingDataSource(snapshot.data!, context)
                 : null,
             firstDayOfWeek: 1,
+            showDatePickerButton: true,
+            showNavigationArrow: true,
+            onTap: (details) {
+              showModalSheet(details, context);
+            },
           ));
         });
   }

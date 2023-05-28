@@ -1,9 +1,9 @@
-import 'package:campus_flutter/calendarComponent/model/event.dart';
+import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/services/calendarService.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CalendarViewModel {
-  late BehaviorSubject<List<Event>?> events = BehaviorSubject.seeded(null);
+  late BehaviorSubject<List<CalendarEvent>?> events = BehaviorSubject.seeded(null);
 
   fetchEvents() async {
     final events = await CalendarService.fetchCalendar();
