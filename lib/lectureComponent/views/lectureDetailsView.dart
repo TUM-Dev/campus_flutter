@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/lectureComponent/model/lectureDetails.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
@@ -42,17 +43,21 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
   }
 
   Widget lectureDetailsView(LectureDetails lectureDetails) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(lectureDetails.title,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headlineSmall,
-              textAlign: TextAlign.start),
-          Text(lectureDetails.eventType, textAlign: TextAlign.start),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(lectureDetails.title,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headlineSmall,
+                      textAlign: TextAlign.start),
+                  Text(lectureDetails.eventType, textAlign: TextAlign.start),
+                ])),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
           Expanded(
               child: Scrollbar(
                   controller: widget.scrollController,
@@ -62,7 +67,7 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
                           child: Column(
                             children: _infoCards(lectureDetails),
                           )))))
-        ]));
+        ]);
   }
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {
@@ -94,20 +99,17 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
   }
 
   Widget _infoCard(IconData icon, String title, Widget child) {
-    return Card(
-        margin: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                IconText(
-                    iconData: icon,
-                    label: title,
-                    style: Theme.of(context).textTheme.titleMedium),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
-                child
-              ],
-            )));
+    return CardWithPadding(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        IconText(
+            iconData: icon,
+            label: title,
+            style: Theme.of(context).textTheme.titleMedium),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+        child
+      ],
+    ));
   }
 }

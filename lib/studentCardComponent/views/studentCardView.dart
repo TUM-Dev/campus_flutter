@@ -28,15 +28,13 @@ class _StudentCardViewState extends State<StudentCardView> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  children: [
-                    _warningCard(),
-                    InformationView(studentCard: data),
-                    BarCodeView(libraryID: data.libraryID),
-                  ],
-                ));
+            return Column(
+              children: [
+                _warningCard(),
+                InformationView(studentCard: data),
+                BarCodeView(libraryID: data.libraryID),
+              ],
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

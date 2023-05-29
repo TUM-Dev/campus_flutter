@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/homeComponent/eatSlider.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/contactView.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
@@ -10,14 +11,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(children: [
+        child: Column(children: [
               Provider(
                   create: (context) => ProfileViewModel(),
                   child: const ContactScreen()),
-              const Divider(),
-              const EatSlider()
-            ])));
+              const PaddedDivider(),
+              const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+                  child: EatSlider()
+              )
+            ]));
   }
 }

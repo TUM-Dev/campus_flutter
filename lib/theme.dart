@@ -42,7 +42,8 @@ final lightTheme = ThemeData(
     cardTheme: const CardTheme(
         color: Colors.white,
         surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent),
+        shadowColor: Colors.transparent,
+        margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0)),
     expansionTileTheme: const ExpansionTileThemeData(
         collapsedTextColor: _primaryLightColor,
         collapsedIconColor: _primaryLightColor,
@@ -89,7 +90,8 @@ final darkTheme = ThemeData(
     cardTheme: const CardTheme(
         color: Color(0xff252525),
         surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent),
+        shadowColor: Colors.transparent,
+        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0)),
     expansionTileTheme: const ExpansionTileThemeData(
         collapsedTextColor: _primaryDarkColor,
         collapsedIconColor: _primaryDarkColor,

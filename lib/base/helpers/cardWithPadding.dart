@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CardWithPadding extends StatelessWidget {
-
   final Widget child;
   final Color? color;
 

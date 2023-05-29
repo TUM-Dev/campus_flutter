@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
+import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/gradeComponent/views/chartView.dart';
@@ -29,18 +31,13 @@ class _GradesViewState extends State<GradesView> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return Scrollbar(
-                child: SingleChildScrollView(
+              child: SingleChildScrollView(
                   clipBehavior: Clip.antiAlias,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(children: [
-                        for (var degree in snapshot.data!.entries)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DegreeView(degree: degree),
-                          ),
-                      ])),
-                ));
+                  child: Column(children: [
+                    for (var degree in snapshot.data!.entries)
+                      DegreeView(degree: degree),
+                  ])),
+            );
           } else if (snapshot.hasError) {
             return const Center(child: Text("no grades found"));
           }
@@ -59,7 +56,7 @@ class DegreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
+        CardWithPadding(
             child: ChartView(
                 studyID: degree.key,
                 title: degree.value.values.first.first.studyDesignation)),
@@ -81,16 +78,11 @@ class SemesterView extends StatelessWidget {
         child: ExpansionTile(
           title: Text(GradeViewModel.toFullSemesterName(semester.key)),
           initiallyExpanded: true,
-          childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
-          /*children: ListTile.divideTiles(
-        context: context,
-          tiles: Iterable.generate(semester.value.length, (index) => GradeRow(grade: semester.value[index]))
-      ).toList(),*/
           children: [
             for (var index = 0; index < semester.value.length; index++)
               Column(children: [
                 GradeRowAlt(grade: semester.value[index]),
-                (index != semester.value.length - 1 ? const Divider() : const SizedBox.shrink())
+                (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
               ])
           ],
         ));
