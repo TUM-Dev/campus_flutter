@@ -1,3 +1,0 @@
-- fix warnings from TestFlight
-- fix rectangle bug in GradeView
-- attempt to integrate changelog into fastlane

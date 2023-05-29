@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=3.0.0 <=3.10.2'
 
 dependencies:
   cached_network_image: ^3.2.3
@@ -23,6 +23,7 @@ dependencies:
   json_serializable: ^6.6.1
   provider: ^6.0.5
   rxdart: ^0.27.7
+  syncfusion_flutter_calendar: ^21.2.4
   shimmer: ^2.0.0
   syncfusion_flutter_charts: ^21.1.41
   table_calendar: ^3.0.9

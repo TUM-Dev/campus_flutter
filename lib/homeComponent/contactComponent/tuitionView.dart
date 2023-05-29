@@ -1,5 +1,6 @@
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TuitionView extends StatelessWidget {
@@ -45,9 +46,13 @@ class TuitionView extends StatelessWidget {
             .stream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Icon(snapshot.data?.amount == 0.0
-                ? Icons.check
-                : Icons.telegram_sharp);
+            if (snapshot.data?.amount == 0.0) {
+              return const Icon(Icons.check);
+            } else {
+              final numberFormat = NumberFormat("#,##0.00", "de_DE");
+              return Text("${numberFormat.format(snapshot.data?.amount)} €",
+                  style: const TextStyle(color: Colors.red));
+            }
           } else {
             return const Text("n/a", style: TextStyle(color: Colors.red));
           }

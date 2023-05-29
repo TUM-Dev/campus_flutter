@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/gradeService.dart';
@@ -8,8 +9,8 @@ class GradeViewModel {
   APIState<List<Grade>> state = const APIState.na();
   bool hasError = false;
   //final ValueNotifier<Map<String, Map<String, List<Grade>>>> _grades = ValueNotifier({});
-  BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
-  new BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
+  final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
+  BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
 
   Future<Map<String, Map<String, List<Grade>>>>
   gradesByDegreeAndSemester() async {
@@ -47,9 +48,8 @@ class GradeViewModel {
     Map<double, int> chartData = {};
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
-        final gradeValue = grade.grade ?? 0.0;
         chartData.update(
-          gradeValue,
+          stringToDouble(grade.grade) ?? 0.0,
               (value) => ++value,
           ifAbsent: () => 1,
         );

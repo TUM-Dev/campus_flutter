@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:campus_flutter/personDetailedComponent/model/phoneExtension.dart';
 import 'package:campus_flutter/personDetailedComponent/model/room.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../base/enums/gender.dart';
@@ -15,14 +14,14 @@ class PersonDetails implements Serializable {
   @JsonKey(name: "obfuscated_id")
   final String obfuscatedID;
   String? get personGroup {
-    final split = obfuscatedID?.split("*");
-    assert(split?.first != null && split?.length == 2);
-    return split?.first;
+    final split = obfuscatedID.split("*");
+    assert(split.length == 2);
+    return split.first;
   }
   String? get id {
-    final split = obfuscatedID?.split("*");
-    assert(split?.last != null && split?.length == 2);
-    return split?.last;
+    final split = obfuscatedID.split("*");
+    assert(split.length == 2);
+    return split.last;
   }
   @JsonKey(name: "vorname")
   final String firstName;
