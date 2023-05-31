@@ -50,7 +50,7 @@ class _StudentCardViewState extends State<StudentCardView> {
               Icon(Icons.warning, color: Colors.red),
               Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
               Expanded(child:
-              Text("Does NOT replace the physical StudentCard",
+              Text("Does NOT Replace the Physical StudentCard!",
                   style: TextStyle(color: Colors.red)))
             ]));
   }

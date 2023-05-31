@@ -11,7 +11,7 @@ class LinkView extends StatelessWidget {
         Expanded(
             child: Card(
           margin: const EdgeInsets.only(
-              right: 6.0, top: 6.0, bottom: 6.0, left: 12.0),
+              right: 5.0, top: 5.0, bottom: 5.0, left: 10.0),
           child: TextButton.icon(
             onPressed: () async {
               final url = Uri.parse("https://moodle.tum.de");
@@ -36,7 +36,7 @@ class LinkView extends StatelessWidget {
         Expanded(
             child: Card(
           margin: const EdgeInsets.only(
-              left: 6.0, top: 6.0, bottom: 6.0, right: 12.0),
+              left: 5.0, top: 5.0, bottom: 5.0, right: 10.0),
           child: TextButton.icon(
             onPressed: () async {
               final url = Uri.parse("https://campus.tum.de");

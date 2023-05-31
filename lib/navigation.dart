@@ -58,16 +58,22 @@ class _NavigationState extends State<Navigation> {
           actions: <Widget>[
             IconButton(
                 onPressed: () {
-                  showModalBottomSheet<void>(
+                  showModalBottomSheet(
                       isScrollControlled: true,
                       useSafeArea: true,
                       showDragHandle: true,
                       context: context,
                       builder: (BuildContext context) {
-                        return const SafeArea(child:
-                          Wrap(children: [
-                          StudentCardView()
-                        ]));
+                        return SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: const StudentCardView()
+                        );
+                        /// leave here for now, enables height adjusted to content
+                        /*return const SafeArea(child:
+                          //Wrap(children: [
+                          //StudentCardView()
+                        ]));*/
                       });
                 },
                 icon: const Icon(Icons.credit_card)),

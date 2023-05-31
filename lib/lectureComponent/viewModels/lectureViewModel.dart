@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../model/lecture.dart';
 
 class LectureViewModel extends ChangeNotifier {
-  APIState<List<Grade>> state = const APIState.na();
+  //APIState<List<Grade>> state = const APIState.na();
   bool hasError = false;
   final List<Lecture> _lectures = [];
 

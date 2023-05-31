@@ -29,10 +29,36 @@ class _EatSliderState extends State<EatSlider> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  for (var dish in snapShot.data!.dishes) ...[
-                    Container(
-                        width: 160, color: Colors.blue, child: Text(dish.name)),
-                    const Padding(padding: EdgeInsets.only(right: 8))
+                  for (var indexAndValue in snapShot.data!.dishes.indexed) ...[
+                    if (indexAndValue.$1 == 0) ...[
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5)),
+                      Container(
+                          width: 160,
+                          color: Colors.blue,
+                          child: Text(indexAndValue.$2.name))
+                    ],
+                    if (indexAndValue.$1 ==
+                        snapShot.data!.dishes.length - 1) ...[
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5)),
+                      Container(
+                          width: 160,
+                          color: Colors.blue,
+                          child: Text(indexAndValue.$2.name)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5))
+                    ],
+                    if (indexAndValue.$1 != 0 &&
+                        indexAndValue.$1 !=
+                            snapShot.data!.dishes.length - 1) ...[
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5)),
+                      Container(
+                          width: 160,
+                          color: Colors.blue,
+                          child: Text(indexAndValue.$2.name))
+                    ]
                   ]
                 ],
               ),

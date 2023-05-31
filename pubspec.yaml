@@ -14,7 +14,6 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.2.19
   flutter_secure_storage: ^8.0.0
-  freezed_annotation: ^2.2.0
   geolocator: ^9.0.2
   google_maps_flutter: ^2.2.5
   http: ^0.13.5
@@ -24,14 +23,15 @@ dependencies:
   provider: ^6.0.5
   rxdart: ^0.27.7
   syncfusion_flutter_calendar: ^21.2.4
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   syncfusion_flutter_charts: ^21.1.41
   table_calendar: ^3.0.9
   url_launcher: ^6.1.10
   uuid: ^3.0.7
   xml: ^6.2.2
-  xml2json: ^5.3.6
+  xml2json: ^6.1.0
   barcode_widget: ^2.0.4
+  lottie: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -39,7 +39,6 @@ dev_dependencies:
   test: ^1.24.1
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
-  freezed: ^2.3.2
 
 flutter:
   uses-material-design: true
@@ -53,3 +52,7 @@ flutter:
     - assets/map_styles/
     - assets/images/logos/tum-logo-blue.png
     - assets/images/Portrait_Placeholder.png
+    - assets/lottieFiles/gradient_background_blue_red.json
+    - assets/lottieFiles/gradient_background_blue_white.json
+    - assets/lottieFiles/gradient_background_blue_white_speedup.json
+    - assets/lottieFiles/gradient_background_silver_white.json

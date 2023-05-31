@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/studentCardComponent/model/studentCard.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class InformationView extends StatelessWidget {
   const InformationView({super.key, required this.studentCard});
@@ -14,33 +15,39 @@ class InformationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardWithPadding(
         child: Column(children: [
+      const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
       _tumLogo(),
-      const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+      const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _profileImage(),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
           Expanded(
               flex: 2,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _title(context),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _name(context),
                     _infoEntryRow("Birthday",
                         DateFormat.yMd().format(studentCard.birthday)),
                     _infoEntryRow("Study ID", studentCard.studyID),
                     _infoEntryRow("Semester",
                         StringParser.toShortSemesterName(studentCard.semester)),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     if (studentCard.studies != null) ..._currentSubjects(),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
-                    _validUntil(context)
                   ]))
         ],
-      )
+      ),
+      const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        const Spacer(),
+        _validUntil(context),
+        const Spacer(),
+        _validBadge(),
+      ])
     ]));
   }
 
@@ -89,6 +96,28 @@ class InformationView extends StatelessWidget {
   Widget _validUntil(BuildContext context) {
     return Text(
         "Valid until: ${DateFormat.yMd().format(studentCard.validUntil)}",
-        style: Theme.of(context).textTheme.bodyLarge);
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.copyWith(fontWeight: FontWeight.bold));
+  }
+
+  Widget _validBadge() {
+    return SizedBox(
+        height: 40,
+        width: 80,
+        child: Stack(alignment: AlignmentDirectional.center, children: [
+          ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Lottie.asset(
+                  "assets/lottieFiles/gradient_background_blue_white_speedup.json")),
+          const Center(
+              child: Text("VALID",
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.0)))
+        ]));
   }
 }

@@ -11,7 +11,6 @@ const Color _almostWhite = Color(0xffe3e2e6);
 
 final lightTheme = ThemeData(
     brightness: Brightness.light,
-    //colorSchemeSeed: primaryLightColor,
     colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: _primaryLightColor,
@@ -28,12 +27,10 @@ final lightTheme = ThemeData(
     primaryColor: _primaryLightColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
-    //scaffoldBackgroundColor: const Color(0xfff2f2f7),
     bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Colors.transparent
     ),
     textTheme: const TextTheme(
-        labelLarge: TextStyle(color: _primaryLightColor),
         titleMedium: TextStyle(color: _primaryLightColor)
     ),
     appBarTheme: const AppBarTheme(
@@ -43,7 +40,7 @@ final lightTheme = ThemeData(
         color: Colors.white,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0)),
+        margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
     expansionTileTheme: const ExpansionTileThemeData(
         collapsedTextColor: _primaryLightColor,
         collapsedIconColor: _primaryLightColor,
@@ -59,7 +56,6 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    //colorSchemeSeed: primaryDarkColor,
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: _primaryDarkColor,
@@ -76,12 +72,10 @@ final darkTheme = ThemeData(
     primaryColor: _primaryDarkColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
-    // scaffoldBackgroundColor: const Color(0xff191919),
     bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Colors.transparent
     ),
     textTheme: const TextTheme(
-        labelLarge: TextStyle(color: _primaryDarkColor),
         titleMedium: TextStyle(color: _primaryDarkColor)
     ),
     appBarTheme: const AppBarTheme(
@@ -91,7 +85,7 @@ final darkTheme = ThemeData(
         color: Color(0xff252525),
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0)),
+        margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
     expansionTileTheme: const ExpansionTileThemeData(
         collapsedTextColor: _primaryDarkColor,
         collapsedIconColor: _primaryDarkColor,

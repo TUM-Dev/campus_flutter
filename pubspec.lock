@@ -384,22 +384,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  freezed:
-    dependency: "direct dev"
-    description:
-      name: freezed
-      sha256: "2edb9ef971d0f803860ecd9084afd48c717d002141ad77b69be3e976bee7190e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.4"
-  freezed_annotation:
-    dependency: "direct main"
-    description:
-      name: freezed_annotation
-      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -600,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      sha256: "23522951540d20a57a60202ed7022e6376bed206a4eee1c347a91f58bd57eb9f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
   matcher:
     dependency: transitive
     description:
@@ -852,10 +844,10 @@ packages:
     dependency: "direct main"
     description:
       name: shimmer
-      sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
+      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.0"
   simple_gesture_detector:
     dependency: transitive
     description:
@@ -961,34 +953,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "05af3bbaf83b6a923496b9a3c14398db0d910b08c442c7b3815c03ac66cc3699"
+      sha256: "95fddd57f4e5000cd602de9802c794c80764ab2f4ca606bdb529dc3c6b079490"
       url: "https://pub.dev"
     source: hosted
-    version: "21.2.6"
+    version: "21.2.8"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: a70aa0b2608c5b11bfe549c13572e87d929553703f6987497589217d106b2ad7
+      sha256: "85bac56da967d6943d742b3c75a4a1bd4d4d017f03b4016042898d9de6c36284"
       url: "https://pub.dev"
     source: hosted
-    version: "21.2.6"
+    version: "21.2.8"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "998d242c1f022eccf53f414a4343af34ab980700fee36cef8f78d94538ca749f"
+      sha256: c71208a5bbcdcad64f08264d6cd6d6ed9c0ee95ae3f4dea9d33a0f84134ccf99
       url: "https://pub.dev"
     source: hosted
-    version: "21.2.6"
+    version: "21.2.8"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "93e2cad846282391bfa6cd769e0ac59f3fdf2d4ea75f09db75cd1545308696c9"
+      sha256: "7a9e2594329e03fc024b1b05b2f857d57bd11635e3c0d234b5596c416765fc36"
       url: "https://pub.dev"
     source: hosted
-    version: "21.2.6"
+    version: "21.2.8"
   synchronized:
     dependency: transitive
     description:
@@ -1041,10 +1033,10 @@ packages:
     dependency: transitive
     description:
       name: timezone
-      sha256: "24c8fcdd49a805d95777a39064862133ff816ebfffe0ceff110fb5960e557964"
+      sha256: "1cfd8ddc2d1cfd836bc93e67b9be88c3adaeca6f40a00ca999104c30693cdca0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.1"
+    version: "0.9.2"
   timing:
     dependency: transitive
     description:
@@ -1209,10 +1201,10 @@ packages:
     dependency: "direct main"
     description:
       name: xml2json
-      sha256: c8cb35b83cce879c2ea86951fd257f4e765b0030a0298b35cf94f2b3d0f32095
+      sha256: "12ebc382f8684cafcc1e3ae5c982de82b5a52007a5d0ac79b22745d34f5ba975"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.6"
+    version: "6.1.0"
   yaml:
     dependency: transitive
     description:

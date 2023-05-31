@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel {
-  APIState<List<Grade>> state = const APIState.na();
+  //APIState<List<Grade>> state = const APIState.na();
   bool hasError = false;
   //final ValueNotifier<Map<String, Map<String, List<Grade>>>> _grades = ValueNotifier({});
   final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =

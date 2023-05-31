@@ -17,8 +17,8 @@ class HomeScreen extends StatelessWidget {
                   child: const ContactScreen()),
               const PaddedDivider(),
               const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
-                  child: EatSlider()
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  child: /*EatSlider()*/Text("Coming Soon!")
               )
             ]));
   }

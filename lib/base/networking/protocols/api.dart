@@ -1,10 +1,7 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/protocols/apiError.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
-
-part 'api.freezed.dart';
 
 abstract class API {
 
@@ -50,11 +47,5 @@ abstract class API {
   }
 }
 
-
-@freezed
-class APIState<T> with _$APIState {
-  const factory APIState.na() = na;
-  const factory APIState.loading() = loading;
-  const factory APIState.success(T data) = success;
-  const factory APIState.error(Error error) = loadingError;
-}
+// TODO: rewrite with sealed class
+//class APIState<T>
