@@ -3,6 +3,7 @@ import 'package:campus_flutter/studentCardComponent/model/studentCard.dart';
 import 'package:campus_flutter/studentCardComponent/services/studentCardService.dart';
 import 'package:campus_flutter/studentCardComponent/views/barCodeView.dart';
 import 'package:campus_flutter/studentCardComponent/views/informationView.dart';
+import 'package:campus_flutter/studentCardComponent/views/snappingSlider.dart';
 import 'package:flutter/material.dart';
 
 class StudentCardView extends StatefulWidget {
@@ -32,7 +33,8 @@ class _StudentCardViewState extends State<StudentCardView> {
               children: [
                 _warningCard(),
                 InformationView(studentCard: data),
-                BarCodeView(libraryID: data.libraryID),
+                SnappingSlider(libraryID: data.libraryID)
+                //BarCodeView(libraryID: data.libraryID),
               ],
             );
           } else {

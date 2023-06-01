@@ -13,7 +13,7 @@ class IconText extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyle = style ?? TextStyle(color: textColor);
     var iconColor = style?.color ?? Theme.of(context).primaryColor;
-    var iconSize = style != null ? style!.fontSize!+2.0 : 20.0;
+    var iconSize = style?.fontSize != null ? style!.fontSize!+2.0 : 20.0;
     return Row(
       children: [
         Icon(iconData, color: iconColor, size: iconSize),

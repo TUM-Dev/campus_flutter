@@ -76,12 +76,18 @@ class InformationView extends StatelessWidget {
 
   Widget _name(BuildContext context) {
     return Text(studentCard.name,
-        style: Theme.of(context).textTheme.titleMedium);
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(fontWeight: FontWeight.bold));
   }
 
   Widget _infoEntryRow(String title, String information) {
     return Row(children: [
-      Expanded(flex: 2, child: Text("$title:")),
+      Expanded(
+          flex: 2,
+          child: Text("$title:",
+              style: const TextStyle(fontWeight: FontWeight.w500))),
       Expanded(flex: 3, child: Text(information))
     ]);
   }

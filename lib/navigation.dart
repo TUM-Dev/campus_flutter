@@ -4,7 +4,6 @@ import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
-import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/mapComponent/map.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
@@ -59,25 +58,7 @@ class _NavigationState extends State<Navigation> {
           }()),
           actions: <Widget>[
             IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      showDragHandle: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width,
-                            child: const StudentCardView());
-
-                        /// leave here for now, enables height adjusted to content
-                        /*return const SafeArea(child:
-                          //Wrap(children: [
-                          //StudentCardView()
-                        ]));*/
-                      });
-                },
+                onPressed: () => _openStudentCardSheet(),
                 icon: const Icon(Icons.credit_card)),
             IconButton(
                 onPressed: () {
@@ -150,6 +131,38 @@ class _NavigationState extends State<Navigation> {
                 child: const CalendarsView()),
             const PlacesWidget()
           ][currentPageIndex],
-        ));
+        ),
+      floatingActionButton: /*FloatingActionButton.extended(
+          onPressed: () => _openStudentCardSheet(),
+          label: const IconText(
+              iconData: Icons.credit_card,
+              label: "StudentCard",
+              style: TextStyle(color: Colors.white),
+          ),
+      ),*/
+      FloatingActionButton(
+          onPressed: () => _openStudentCardSheet(),
+          child: const Icon(Icons.credit_card)
+      )
+    );
+  }
+
+  void _openStudentCardSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: const StudentCardView());
+          /// leave here for now, enables height adjusted to content
+          /*return const SafeArea(child:
+                          //Wrap(children: [
+                          //StudentCardView()
+                        ]));*/
+        });
   }
 }

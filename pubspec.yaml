@@ -51,6 +51,7 @@ flutter:
     - assets/
     - assets/map_styles/
     - assets/images/logos/tum-logo-blue.png
+    - assets/images/logos/tum-logo-rainbow.png
     - assets/images/Portrait_Placeholder.png
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json

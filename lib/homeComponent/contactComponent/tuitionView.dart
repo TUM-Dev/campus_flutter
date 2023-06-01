@@ -47,7 +47,7 @@ class TuitionView extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data?.amount == 0.0) {
-              return const Icon(Icons.check);
+              return const Icon(Icons.check, color: Colors.green);
             } else {
               final numberFormat = NumberFormat("#,##0.00", "de_DE");
               return Text("${numberFormat.format(snapshot.data?.amount)} €",
