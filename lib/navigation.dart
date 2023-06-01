@@ -3,6 +3,8 @@ import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
+import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
+import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/mapComponent/map.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
@@ -67,8 +69,8 @@ class _NavigationState extends State<Navigation> {
                         return SizedBox(
                             height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.width,
-                            child: const StudentCardView()
-                        );
+                            child: const StudentCardView());
+
                         /// leave here for now, enables height adjusted to content
                         /*return const SafeArea(child:
                           //Wrap(children: [
@@ -140,8 +142,12 @@ class _NavigationState extends State<Navigation> {
             Provider(
                 create: (context) => GradeViewModel(),
                 child: const GradesView()),
-            const LectureView(),
-            Provider(create: (context) => CalendarViewModel(), child: const CalendarsView()),
+            Provider(
+                create: (context) => LectureViewModel(),
+                child: const LectureView()),
+            Provider(
+                create: (context) => CalendarViewModel(),
+                child: const CalendarsView()),
             const PlacesWidget()
           ][currentPageIndex],
         ));

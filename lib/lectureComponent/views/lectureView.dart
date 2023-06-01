@@ -15,34 +15,33 @@ class LectureView extends StatefulWidget {
 }
 
 class _GradeViewState extends State<LectureView> {
-  late Future<Map<String, List<Lecture>>> lectures;
-
   @override
   void initState() {
+    Provider.of<LectureViewModel>(context, listen: false).lecturesBySemester();
     super.initState();
-    lectures = LectureViewModel().lecturesBySemester();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: lectures,
+    return StreamBuilder(
+        stream: Provider.of<LectureViewModel>(context, listen: true).lectures.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return Scrollbar(
-                child: SingleChildScrollView(
-              //child: Padding(
-                  //padding: const EdgeInsets.all(4.0),
-                  child: Column(children: [
-                    for (var semester in snapshot.data!.entries)
-                      SemesterView(semester: semester),
-                  ])),
-            )/*)*/;
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text("no lectures found"));
+            } else {
+              return Scrollbar(
+                  child: SingleChildScrollView(
+                      child: Column(children: [
+                        for (var semester in snapshot.data!.entries)
+                          SemesterView(semester: semester),
+                      ])));
+            }
           } else if (snapshot.hasError) {
             return const Center(child: Text("no lectures found"));
+          } else {
+            return const Center(child: CircularProgressIndicator());
           }
-
-          return const Center(child: CircularProgressIndicator());
         });
   }
 }
@@ -70,13 +69,11 @@ class SemesterView extends StatelessWidget {
                   Row(children: [
                     Expanded(
                         child: IconText(
-                            iconData: Icons.edit,
-                            label: semester.value[index].eventType,
-                            textColor:
-                                Theme.of(context).colorScheme.secondary,
-                          multipleLines: true,
-                        )
-                    ),
+                      iconData: Icons.edit,
+                      label: semester.value[index].eventType,
+                      textColor: Theme.of(context).colorScheme.secondary,
+                      multipleLines: true,
+                    )),
                     Expanded(
                         child: IconText(
                             iconData: Icons.access_time,
@@ -86,10 +83,10 @@ class SemesterView extends StatelessWidget {
                   ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                   IconText(
-                      iconData: Icons.person,
-                      label: semester.value[index].speaker,
-                      textColor: Theme.of(context).colorScheme.secondary,
-                      multipleLines: true,
+                    iconData: Icons.person,
+                    label: semester.value[index].speaker,
+                    textColor: Theme.of(context).colorScheme.secondary,
+                    multipleLines: true,
                   ),
                 ],
               ),

@@ -7,17 +7,15 @@ import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel {
   //APIState<List<Grade>> state = const APIState.na();
-  bool hasError = false;
-  //final ValueNotifier<Map<String, Map<String, List<Grade>>>> _grades = ValueNotifier({});
-  final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
-  BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
+  //bool hasError = false;
+  final BehaviorSubject<Map<String, Map<String, List<Grade>>>?> grades =
+  BehaviorSubject.seeded(null);
 
-  Future<Map<String, Map<String, List<Grade>>>>
-  gradesByDegreeAndSemester() async {
+  void gradesByDegreeAndSemester() async {
     List<Grade> grades = await GradeService.fetchGrades();
 
     if (grades.isEmpty) {
-      return {};
+      this.grades.add({});
     }
 
     Map<String, List<Grade>> gradesByDegree = {};
@@ -35,12 +33,11 @@ class GradeViewModel {
       }
     }
 
-    _grades.value = gradesByDegreeAndSemester;
-    return gradesByDegreeAndSemester;
+    this.grades.add(gradesByDegreeAndSemester);
   }
 
   Map<double, int> chartDataForDegree(String studyID) {
-    final degreeGrades = _grades.value[studyID];
+    final degreeGrades = grades.value?[studyID];
     if (degreeGrades == null) {
       return {};
     }

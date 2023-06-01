@@ -4,6 +4,7 @@ import 'package:campus_flutter/loginComponent/loginRepository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
+// TODO: rewrite
 class LoginViewModel {
   final LoginRepository _loginRepository = LoginRepository();
   final _storage = const FlutterSecureStorage();

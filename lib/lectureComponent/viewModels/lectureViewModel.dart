@@ -1,20 +1,17 @@
 import 'package:campus_flutter/base/helpers/stringParser.dart';
-import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
-import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import '../model/lecture.dart';
 
-class LectureViewModel extends ChangeNotifier {
-  //APIState<List<Grade>> state = const APIState.na();
-  bool hasError = false;
-  final List<Lecture> _lectures = [];
+class LectureViewModel {
+  BehaviorSubject<Map<String, List<Lecture>>?> lectures =
+      BehaviorSubject.seeded(null);
 
-  Future<Map<String, List<Lecture>>> lecturesBySemester() async {
+  lecturesBySemester() async {
     List<Lecture> lectures = await LectureService.fetchLecture();
 
     if (lectures.isEmpty) {
-      return {};
+      this.lectures.add({});
     }
 
     Map<String, List<Lecture>> lecturesBySemester = {};
@@ -30,7 +27,7 @@ class LectureViewModel extends ChangeNotifier {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    return sortedLecturesBySemester.map((key, value) =>
-        MapEntry(StringParser.toFullSemesterName(key), value));
+    this.lectures.add(sortedLecturesBySemester.map(
+        (key, value) => MapEntry(StringParser.toFullSemesterName(key), value)));
   }
 }

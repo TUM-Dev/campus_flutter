@@ -15,29 +15,30 @@ class GradesView extends StatefulWidget {
 }
 
 class _GradesViewState extends State<GradesView> {
-  late Future<Map<String, Map<String, List<Grade>>>> grades;
 
   @override
   void initState() {
+    Provider.of<GradeViewModel>(context, listen: false).gradesByDegreeAndSemester();
     super.initState();
-    grades = Provider.of<GradeViewModel>(context, listen: false)
-        .gradesByDegreeAndSemester();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: grades,
+    return StreamBuilder(
+        stream: Provider.of<GradeViewModel>(context, listen: true).grades,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return Scrollbar(
-              child: SingleChildScrollView(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(children: [
-                    for (var degree in snapshot.data!.entries)
-                      DegreeView(degree: degree),
-                  ])),
-            );
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return const Text("no grades found");
+            } else {
+              return Scrollbar(
+                child: SingleChildScrollView(
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(children: [
+                      for (var degree in snapshot.data!.entries)
+                        DegreeView(degree: degree),
+                    ])));
+            }
           } else if (snapshot.hasError) {
             return const Center(child: Text("no grades found"));
           }
