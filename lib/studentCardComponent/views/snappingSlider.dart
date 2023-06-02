@@ -1,6 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/studentCardComponent/views/barCodeView.dart';
 import 'package:flutter/material.dart';
 
 class SnappingSlider extends StatefulWidget {
@@ -57,6 +56,7 @@ class _SnappingSliderState extends State<SnappingSlider> {
       BarcodeWidget(
           data: "https://www.tum.app",
           barcode: Barcode.qrCode(),
+          color: Theme.of(context).colorScheme.onSurface,
           drawText: false,
           height: 150
       ),
@@ -73,6 +73,7 @@ class _SnappingSliderState extends State<SnappingSlider> {
           data: widget.libraryID,
           barcode: Barcode.code39(),
           drawText: false,
+          color: Theme.of(context).colorScheme.onSurface,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           height: 100
       ),

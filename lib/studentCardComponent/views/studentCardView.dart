@@ -4,6 +4,7 @@ import 'package:campus_flutter/studentCardComponent/services/studentCardService.
 import 'package:campus_flutter/studentCardComponent/views/barCodeView.dart';
 import 'package:campus_flutter/studentCardComponent/views/informationView.dart';
 import 'package:campus_flutter/studentCardComponent/views/snappingSlider.dart';
+import 'package:campus_flutter/studentCardComponent/views/verficationCodeView.dart';
 import 'package:flutter/material.dart';
 
 class StudentCardView extends StatefulWidget {
@@ -33,7 +34,8 @@ class _StudentCardViewState extends State<StudentCardView> {
               children: [
                 _warningCard(),
                 InformationView(studentCard: data),
-                SnappingSlider(libraryID: data.libraryID)
+                SnappingSlider(libraryID: data.libraryID),
+                //const VerificationCodeView(),
                 //BarCodeView(libraryID: data.libraryID),
               ],
             );
@@ -46,14 +48,13 @@ class _StudentCardViewState extends State<StudentCardView> {
   Widget _warningCard() {
     return CardWithPadding(
         color: Colors.redAccent.withOpacity(0.2),
-        child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.warning, color: Colors.red),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-              Expanded(child:
-              Text("Does NOT Replace the Physical StudentCard!",
+        child:
+            const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Icon(Icons.warning, color: Colors.red),
+          Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+          Expanded(
+              child: Text("Does NOT Replace the Physical StudentCard!",
                   style: TextStyle(color: Colors.red)))
-            ]));
+        ]));
   }
 }
