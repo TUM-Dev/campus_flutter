@@ -1,61 +1,114 @@
+import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+// TODO: code cleanup
 class TuitionView extends StatelessWidget {
   const TuitionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: TextButton(
-          onPressed: () {},
-          style: FilledButton.styleFrom(
-            textStyle: Theme
-                .of(context)
-                .textTheme
-                .bodyMedium,
-            foregroundColor: Theme
-                .of(context)
-                .textTheme
-                .bodyMedium
-                ?.color,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          child: Row(children: [
-            const Padding(
-              padding: EdgeInsets.all(7.0),
-              child: Icon(Icons.euro),
-            ),
-            const Text("Tuition fees"),
-            const Spacer(),
-            tuitionStatus(context)
-          ])
-      ),
-    );
+    return StreamBuilder(
+        stream: Provider.of<ProfileViewModel>(context, listen: true).tuition,
+        builder: (context, snapshot) {
+          return Card(
+            child: TextButton(
+                onPressed: () {
+                  snapshot.hasData
+                      ? showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Text(
+                                  "Tuition Fees",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+                                content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.semester,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w500),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5.0)),
+                                      _infoRow(
+                                          "Due Date:",
+                                          DateFormat("dd.MM.yyyy")
+                                              .format(snapshot.data!.deadline)),
+                                      _infoRow(
+                                          "Open Amount:",
+                                          NumberFormat.currency(
+                                                  locale: "de_DE", symbol: '€')
+                                              .format(snapshot.data!.amount))
+                                    ]),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text("OK"))
+                                ],
+                                actionsAlignment: MainAxisAlignment.center,
+                              ))
+                      : {};
+                },
+                style: FilledButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  foregroundColor:
+                      Theme.of(context).textTheme.bodyMedium?.color,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Row(children: [
+                  const Padding(
+                    padding: EdgeInsets.all(7.0),
+                    child: Icon(Icons.euro),
+                  ),
+                  const Text("Tuition fees"),
+                  const Spacer(),
+                  _tuitionStatus(context, snapshot)
+                ])),
+          );
+        });
   }
 
-  Widget tuitionStatus(BuildContext context) {
-    return StreamBuilder(
-        stream: Provider
-            .of<ProfileViewModel>(context)
-            .tuition
-            .stream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data?.amount == 0.0) {
-              return const Icon(Icons.check, color: Colors.green);
-            } else {
-              final numberFormat = NumberFormat("#,##0.00", "de_DE");
-              return Text("${numberFormat.format(snapshot.data?.amount)} €",
-                  style: const TextStyle(color: Colors.red));
-            }
-          } else {
-            return const Text("n/a", style: TextStyle(color: Colors.red));
-          }
-        });
+  Widget _tuitionStatus(
+      BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
+    if (snapshot.hasData) {
+      if (snapshot.data?.amount == 0.0) {
+        return const IconText(
+          iconData: Icons.check,
+          label: "Tuition Paid",
+          style: TextStyle(color: Colors.green),
+          leadingIcon: false,
+        );
+      } else {
+        final numberFormat =
+            NumberFormat.currency(locale: "de_DE", symbol: "€");
+        return Text("${numberFormat.format(snapshot.data?.amount)} €",
+            style: const TextStyle(color: Colors.red));
+      }
+    } else {
+      return const Text("n/a", style: TextStyle(color: Colors.red));
+    }
+  }
+
+  Widget _infoRow(String title, String info) {
+    return Row(children: [
+      Expanded(
+          child:
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
+      Expanded(child: Text(info))
+    ]);
   }
 }

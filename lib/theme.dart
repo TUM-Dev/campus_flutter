@@ -27,6 +27,10 @@ final lightTheme = ThemeData(
     primaryColor: _primaryLightColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
+    dialogTheme: const DialogTheme(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent
+    ),
     bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Colors.transparent
     ),
@@ -72,6 +76,10 @@ final darkTheme = ThemeData(
     primaryColor: _primaryDarkColor,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
+    dialogTheme: const DialogTheme(
+        backgroundColor: Color(0xff252525),
+        surfaceTintColor: Colors.transparent
+    ),
     bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: Colors.transparent
     ),

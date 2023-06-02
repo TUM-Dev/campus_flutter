@@ -7,19 +7,19 @@ part 'tuition.g.dart';
 @JsonSerializable()
 class Tuition implements Serializable {
   @JsonKey(name: "soll", fromJson: stringToDouble)
-  final double? amount;
+  final double amount;
   @JsonKey(name: "frist")
-  final DateTime? deadline;
+  final DateTime deadline;
   @JsonKey(name: "semester_bezeichnung")
-  final String? semester;
+  final String semester;
   @JsonKey(name: "semester_id")
-  final String? semesterID;
+  final String semesterID;
 
   Tuition({
-    this.amount,
-    this.deadline,
-    this.semester,
-    this.semesterID
+    required this.amount,
+    required this.deadline,
+    required this.semester,
+    required this.semesterID
   });
 
   factory Tuition.fromJson(Map<String, dynamic> json) => _$TuitionFromJson(json);

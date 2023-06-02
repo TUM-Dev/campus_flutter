@@ -1,4 +1,4 @@
-double? stringToDouble(String number) {
+double stringToDouble(String number) {
   number = number.replaceAll(",", ".");
-  return double.tryParse(number);
+  return double.parse(number);
 }
