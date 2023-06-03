@@ -2,8 +2,8 @@ import 'package:campus_flutter/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
-import 'loginComponent/loginView.dart';
-import 'loginComponent/loginViewModel.dart';
+import 'loginComponent/views/loginView.dart';
+import 'loginComponent/viewModels/loginViewModel.dart';
 import 'navigation.dart';
 
 main() async {

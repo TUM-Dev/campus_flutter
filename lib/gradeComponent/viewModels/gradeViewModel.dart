@@ -1,13 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/gradeService.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel {
-  APIState<List<Grade>> state = const APIState.na();
-  bool hasError = false;
-  //final ValueNotifier<Map<String, Map<String, List<Grade>>>> _grades = ValueNotifier({});
   BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
   new BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
 

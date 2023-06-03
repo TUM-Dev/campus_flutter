@@ -1,9 +1,9 @@
-import 'package:campus_flutter/loginComponent/loginRepository.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
+import 'package:campus_flutter/loginComponent/services/loginService.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel {
-  final LoginRepository _loginRepository = LoginRepository();
   final _storage = const FlutterSecureStorage();
   BehaviorSubject<String?> token = BehaviorSubject.seeded(null);
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
@@ -11,7 +11,8 @@ class LoginViewModel {
   Future checkLogin() async {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
-        await _loginRepository.confirmNewToken(value).then((value) {
+        TUMOnlineAPI.token = value;
+        await LoginService.confirmToken().then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) => _errorHandling());
       } else {
@@ -26,15 +27,17 @@ class LoginViewModel {
   }
 
   Future requestLogin(String name) async {
-    token.add(await _loginRepository.fetchNewToken(name));
+    token.add((await LoginService.requestNewToken(name)).content);
     _storage.write(key: "token", value: token.value);
   }
 
   Future confirmLogin() async {
     if (token != null) {
       try {
-        await _loginRepository.confirmNewToken(token.value!);
-        credentials.add(Credentials.tumId);
+        final confirm = await LoginService.confirmToken();
+        if (confirm.confirmed) {
+          credentials.add(Credentials.tumId);
+        }
       } catch (e) {}
     }
   }
