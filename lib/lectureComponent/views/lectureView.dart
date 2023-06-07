@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
@@ -41,7 +42,7 @@ class _GradeViewState extends State<LectureView> {
             return const Center(child: Text("no lectures found"));
           }
 
-          return const Center(child: CircularProgressIndicator());
+          return const DelayedLoadingIndicator();
         });
   }
 }

@@ -1,0 +1,43 @@
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigaTumApiService.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/networking/protocols/apiError.dart';
+
+class NavigaTumApi extends Api {
+
+  final NavigaTumService navigaTumService;
+
+  NavigaTumApi({required this.navigaTumService});
+
+  @override
+  Map<String, String> get baseHeaders => {};
+
+  @override
+  String get baseURL => "https://nav.tum.de/";
+
+  @override
+  // TODO: implement error
+  ApiError get error => throw UnimplementedError();
+
+  @override
+  bool get needsAuth => false;
+
+  @override
+  Map<String, String> get parameters => navigaTumService.getParameters();
+
+  @override
+  String get path => "";
+
+  @override
+  String get paths {
+    switch (navigaTumService) {
+      case NavigaTumServiceSearch _:
+        return "api/search";
+      case NavigaTumServiceDetails details:
+        return "api/get/${details.id}";
+      case NavigaTumServiceImages images:
+        return "cdn/maps/roomfinder/${images.id}";
+      case NavigaTumServiceOverlayImages overlayImages:
+        return "cdn/maps/roomfinder/${overlayImages.id}";
+    }
+  }
+}

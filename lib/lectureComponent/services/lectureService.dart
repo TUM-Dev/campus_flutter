@@ -1,13 +1,14 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
 import '../../base/networking/protocols/mainApi.dart';
 import '../model/lecture.dart';
 
 class LectureService {
   static Future<List<Lecture>> fetchLecture() async {
-    final data = await MainAPI.makeRequest<LectureData, TUMOnlineAPI>(
-        TUMOnlineAPI(TUMOnlineServices.personalLectures, {}),
+    final data = await MainApi.makeRequest<LectureData, TUMOnlineApi>(
+        TUMOnlineApi(TUMOnlineServicePersonalLectures()),
         LectureData.fromJson,
-        TUMOnlineAPI.token,
+        TUMOnlineApi.token,
         false);
     return data.lecturesAttribute.lectures;
   }

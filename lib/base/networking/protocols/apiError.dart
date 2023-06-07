@@ -1,3 +1,3 @@
-abstract class APIError extends Error {
-  APIError(String message);
+abstract class ApiError {
+  ApiError(String message);
 }

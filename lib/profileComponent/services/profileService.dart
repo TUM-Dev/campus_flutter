@@ -1,14 +1,15 @@
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
+import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
-import '../../base/networking/protocols/mainApi.dart';
-import '../../base/networking/apis/tumOnlineAPI.dart';
 
 class ProfileService {
   static Future<Profile> fetchProfile() async {
-    final response = await MainAPI.makeRequest<ProfileData, TUMOnlineAPI>(
-        TUMOnlineAPI(TUMOnlineServices.identify, {}),
+    final response = await MainApi.makeRequest<ProfileData, TUMOnlineApi>(
+        TUMOnlineApi(TUMOnlineServiceIdentify()),
         ProfileData.fromJson,
-        TUMOnlineAPI.token,
+        TUMOnlineApi.token,
         false
     );
 
@@ -16,12 +17,10 @@ class ProfileService {
   }
 
   static Future<Tuition?> fetchTuition(String personGroup, String id) async {
-    final response = await MainAPI.makeRequest<TuitionData, TUMOnlineAPI>(
-        TUMOnlineAPI(TUMOnlineServices.tuitionStatus,
-            {TUMOnlineParameters.personGroup: personGroup, TUMOnlineParameters.id: id}
-        ),
+    final response = await MainApi.makeRequest<TuitionData, TUMOnlineApi>(
+        TUMOnlineApi(TUMOnlineServiceTuitionStatus()),
         TuitionData.fromJson,
-        TUMOnlineAPI.token,
+        TUMOnlineApi.token,
         false
     );
 

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
 import 'package:campus_flutter/loginComponent/services/loginService.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,18 +11,19 @@ class LoginViewModel {
   Future checkLogin() async {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
-        TUMOnlineAPI.token = value;
+        TUMOnlineApi.token = value;
         await LoginService.confirmToken().then((value) {
           credentials.add(Credentials.tumId);
-        }, onError: (error) => _errorHandling());
+        }, onError: (error) => _errorHandling(error));
       } else {
-        _errorHandling();
+        _errorHandling("value is null");
       }
-    }, onError: (error) => _errorHandling());
+    }, onError: (error) => _errorHandling(error));
   }
 
-  _errorHandling() {
-    print("Error");
+  _errorHandling(dynamic error) {
+    // TODO:
+    print(error);
     credentials.add(Credentials.none);
   }
 
@@ -47,6 +48,7 @@ class LoginViewModel {
   }
 
   Future logout() async {
+    // TODO: invalidate whole cache
     credentials.add(Credentials.none);
     _storage.delete(key: "token");
   }

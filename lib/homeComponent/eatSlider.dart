@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/eatComponent/eatService.dart';
 import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _EatSliderState extends State<EatSlider> {
             );
           }
 
-          return const CircularProgressIndicator();
+          return const DelayedLoadingIndicator();
         });
   }
 }

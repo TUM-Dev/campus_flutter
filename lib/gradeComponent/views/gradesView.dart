@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/gradeComponent/views/chartView.dart';
@@ -45,7 +46,7 @@ class _GradesViewState extends State<GradesView> {
             return const Center(child: Text("no grades found"));
           }
 
-          return const Center(child: CircularProgressIndicator());
+          return DelayedLoadingIndicator();
         });
   }
 }
