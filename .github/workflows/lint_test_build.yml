@@ -4,11 +4,9 @@ on:
   push:
     branches-ignore:
       - "development"
-      - "ci_cd"
   pull_request:
     branches-ignore:
       - "development"
-      - "ci_cd"
   workflow_call:
 
 jobs:
