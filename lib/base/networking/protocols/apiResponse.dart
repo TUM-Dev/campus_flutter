@@ -1,19 +1,18 @@
-class ApiResponse<T extends Serializable> {
+import 'package:dio/dio.dart';
+
+class ApiResponse<T> {
   T data;
+  DateTime? saved;
 
-  ApiResponse({required this.data});
+  ApiResponse({required this.data, this.saved});
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json, Function(Map<String, dynamic>) create) {
+  factory ApiResponse.fromJson(
+      Map<String, dynamic> json, 
+      Headers headers,
+      Function(Map<String, dynamic>) create) {
     return ApiResponse<T>(
-      data: create(json),
+        data: create(json),
+        saved: DateTime.tryParse(headers["date"]?.first ?? "")
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    "data": this.data.toJson(),
-  };
-}
-
-abstract class Serializable {
-  Map<String, dynamic> toJson();
 }

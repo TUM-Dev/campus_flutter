@@ -1,19 +1,23 @@
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApi.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApiError.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApiService.dart';
+import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/eatComponent/model/mealPlan.dart';
 import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
-import 'package:campus_flutter/base/extensions/dateTime+weekNumber.dart';
-import '../base/networking/protocols/mainApi.dart';
-import '../base/networking/apis/eatAPI.dart';
-import 'model/mealPlan.dart';
+import 'package:get/get.dart';
 
 class EatService {
   static Future<MealPlan> fetchFood() async {
     // TODO: location based
-    final currentDate = DateTime.now();
-    return await MainAPI.makeRequest<MealPlan, EatAPI>(
-        EatAPI(EatAPIServices.menu, "mensa-arcisstr", currentDate.year,
-            currentDate.weekNumber()),
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<MealPlan, EatApi, EatApiError>(
+        EatApi(EatApiServiceMenu(location: "mensa-arcisstr")),
         MealPlan.fromJson,
-        null,
-        false);
+        EatApiError.fromJson,
+        false
+    );
+
+    return response.data;
   }
 
   static Future<MensaMenu> fetchTodayFood() async {

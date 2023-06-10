@@ -3,12 +3,27 @@ import 'package:campus_flutter/mapComponent/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlacesWidget extends StatelessWidget {
   const PlacesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return SlidingUpPanel(
+      parallaxEnabled: true,
+      panel: /*Container(
+        color: Theme.of(context).canvasColor,
+    child: ListView.builder(
+    //controller: scrollController,
+    itemCount: 25,
+    itemBuilder: (BuildContext context, int index) {
+    return ListTile(title: Text('Item $index'));
+    },
+    ),
+    ),*/const Text("Test"),
+      body: const MapWidget(),
+    );
     return Stack(children: [
       const MapWidget(),
       DraggableScrollableSheet(

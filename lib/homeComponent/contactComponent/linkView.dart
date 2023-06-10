@@ -52,7 +52,7 @@ class LinkView extends StatelessWidget {
                   padding: EdgeInsets.all(7.0),
                   child: Icon(Icons.language_outlined),
                 ),
-                label: const Text("TUMOnline"),
+                label: const Text("TumOnline"),
               ),
             )),
       ],

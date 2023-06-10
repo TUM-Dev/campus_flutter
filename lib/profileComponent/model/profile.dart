@@ -1,12 +1,10 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
+import 'package:campus_flutter/base/enums/role.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../base/enums/role.dart';
 
 part 'profile.g.dart';
 
 @JsonSerializable()
-class Profile implements Serializable {
+class Profile {
   @JsonKey(name: "familienname")
   final String? firstname;
   @JsonKey(name: "obfuscated_id")
@@ -60,12 +58,11 @@ class Profile implements Serializable {
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
 }
 
 @JsonSerializable()
-class ProfileData implements Serializable {
+class ProfileData {
   @JsonKey(name: "rowset")
   Profiles profilesAttribute;
 
@@ -73,12 +70,11 @@ class ProfileData implements Serializable {
 
   factory ProfileData.fromJson(Map<String, dynamic> json) => _$ProfileDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ProfileDataToJson(this);
 }
 
 @JsonSerializable()
-class Profiles implements Serializable {
+class Profiles {
   @JsonKey(name: "row")
   final Profile profile;
 
@@ -86,6 +82,5 @@ class Profiles implements Serializable {
 
   factory Profiles.fromJson(Map<String, dynamic> json) => _$ProfilesFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ProfilesToJson(this);
 }

@@ -3,7 +3,7 @@ import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
-import 'package:campus_flutter/loginComponent/loginViewModel.dart';
+import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:campus_flutter/MapComponent/map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
