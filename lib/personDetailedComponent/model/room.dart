@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'room.g.dart';
 
 @JsonSerializable()
-class Room implements Serializable {
+class Room {
   @JsonKey(name: "nummer")
   final String number;
   @JsonKey(name: "gebaeudename")
@@ -38,6 +37,5 @@ class Room implements Serializable {
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$RoomToJson(this);
 }

@@ -1,11 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../base/networking/protocols/apiResponse.dart';
-
 part 'dish.g.dart';
 
 @JsonSerializable()
-class Dish implements Serializable {
+class Dish {
   final String name;
   final Map<String, Price> prices;
   final List<String> labels;
@@ -16,12 +14,11 @@ class Dish implements Serializable {
 
   factory Dish.fromJson(Map<String, dynamic> json) => _$DishFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$DishToJson(this);
 }
 
 @JsonSerializable()
-class Price implements Serializable {
+class Price {
   final double? basePrice;
   final double? unitPrice;
   final String? unit;
@@ -30,6 +27,5 @@ class Price implements Serializable {
 
   factory Price.fromJson(Map<String, dynamic> json) => _$PriceFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$PriceToJson(this);
 }

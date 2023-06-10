@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
@@ -39,9 +40,9 @@ class _GradeViewState extends State<LectureView> {
             }
           } else if (snapshot.hasError) {
             return const Center(child: Text("no lectures found"));
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
+
+          return const DelayedLoadingIndicator(name: "Lectures");
         });
   }
 }

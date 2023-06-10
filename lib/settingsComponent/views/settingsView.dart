@@ -1,4 +1,4 @@
-import 'package:campus_flutter/loginComponent/loginViewModel.dart';
+import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

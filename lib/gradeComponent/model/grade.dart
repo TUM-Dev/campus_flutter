@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'grade.g.dart';
 
 @JsonSerializable()
-class Grade implements Serializable {
+class Grade {
   String get id {
     return "${date.toIso8601String()}-$lvNumber";
   }
@@ -63,12 +62,11 @@ class Grade implements Serializable {
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$GradeToJson(this);
 }
 
 @JsonSerializable()
-class GradeData implements Serializable {
+class GradeData {
   @JsonKey(name: "rowset")
   Grades gradesAttribute;
 
@@ -76,12 +74,11 @@ class GradeData implements Serializable {
 
   factory GradeData.fromJson(Map<String, dynamic> json) => _$GradeDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$GradeDataToJson(this);
 }
 
 @JsonSerializable()
-class Grades implements Serializable {
+class Grades {
   @JsonKey(name: "row")
   final List<Grade> personalGrades;
 
@@ -89,6 +86,5 @@ class Grades implements Serializable {
 
   factory Grades.fromJson(Map<String, dynamic> json) => _$GradesFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$GradesToJson(this);
 }

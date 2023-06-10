@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'studentCard.g.dart';
 
 @JsonSerializable()
-class StudentCard implements Serializable {
+class StudentCard {
   @JsonKey(name: "obfuscated_id")
   final String id;
 
@@ -53,12 +52,11 @@ class StudentCard implements Serializable {
   factory StudentCard.fromJson(Map<String, dynamic> json) =>
       _$StudentCardFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$StudentCardToJson(this);
 }
 
 @JsonSerializable()
-class Studies implements Serializable {
+class Studies {
   @JsonKey(name: "studium", fromJson: alwaysAsList)
   final List<Subject> study;
 
@@ -67,7 +65,6 @@ class Studies implements Serializable {
   factory Studies.fromJson(Map<String, dynamic> json) =>
       _$StudiesFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$StudiesToJson(this);
 }
 
@@ -81,7 +78,7 @@ List<Subject> alwaysAsList(dynamic data) {
 }
 
 @JsonSerializable()
-class Subject implements Serializable {
+class Subject {
   final String name;
 
   @JsonKey(name: "abschluss")
@@ -95,12 +92,11 @@ class Subject implements Serializable {
   factory Subject.fromJson(Map<String, dynamic> json) =>
       _$SubjectFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$SubjectToJson(this);
 }
 
 @JsonSerializable()
-class StudentCards implements Serializable {
+class StudentCards {
   @JsonKey(name: "card")
   final StudentCard studentCard;
 
@@ -109,12 +105,11 @@ class StudentCards implements Serializable {
   factory StudentCards.fromJson(Map<String, dynamic> json) =>
       _$StudentCardsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$StudentCardsToJson(this);
 }
 
 @JsonSerializable()
-class StudentCardData implements Serializable {
+class StudentCardData {
   @JsonKey(name: "cards")
   final StudentCards studentCards;
 
@@ -123,6 +118,5 @@ class StudentCardData implements Serializable {
   factory StudentCardData.fromJson(Map<String, dynamic> json) =>
       _$StudentCardDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$StudentCardDataToJson(this);
 }

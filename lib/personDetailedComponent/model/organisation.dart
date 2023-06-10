@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'organisation.g.dart';
 
 @JsonSerializable()
-class Organisation implements Serializable {
+class Organisation {
   @JsonKey(name: "org")
   final String name;
   @JsonKey(name: "kennung")
@@ -26,6 +25,5 @@ class Organisation implements Serializable {
 
   factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$OrganisationToJson(this);
 }

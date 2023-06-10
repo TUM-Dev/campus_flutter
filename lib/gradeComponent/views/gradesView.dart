@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
@@ -40,10 +42,15 @@ class _GradesViewState extends State<GradesView> {
                     ])));
             }
           } else if (snapshot.hasError) {
-            return const Center(child: Text("no grades found"));
+            // TODO: make nice
+            if (snapshot.error is TumOnlineApiError) {
+              return Center(child: Text((snapshot.error as TumOnlineApiError).errorDescription));
+            } else {
+              return const Center(child: Text("Unknown Error"));
+            }
           }
 
-          return const Center(child: CircularProgressIndicator());
+          return const DelayedLoadingIndicator(name: "Grades");
         });
   }
 }
