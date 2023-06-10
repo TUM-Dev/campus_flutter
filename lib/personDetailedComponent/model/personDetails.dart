@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:campus_flutter/personDetailedComponent/model/phoneExtension.dart';
 import 'package:campus_flutter/personDetailedComponent/model/room.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -9,7 +8,7 @@ import 'organisation.dart';
 part 'personDetails.g.dart';
 
 @JsonSerializable()
-class PersonDetails implements Serializable {
+class PersonDetails {
   final String nr;
   @JsonKey(name: "obfuscated_id")
   final String obfuscatedID;
@@ -71,7 +70,6 @@ class PersonDetails implements Serializable {
 
   factory PersonDetails.fromJson(Map<String, dynamic> json) => _$PersonDetailsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$PersonDetailsToJson(this);
 
   static Gender _stringToGender(String gender) {
@@ -89,7 +87,7 @@ class PersonDetails implements Serializable {
 }
 
 @JsonSerializable()
-class PersonDetailsData implements Serializable {
+class PersonDetailsData {
   @JsonKey(name: "person")
   PersonDetails person;
 
@@ -97,6 +95,5 @@ class PersonDetailsData implements Serializable {
 
   factory PersonDetailsData.fromJson(Map<String, dynamic> json) => _$PersonDetailsDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$PersonDetailsDataToJson(this);
 }

@@ -1,11 +1,10 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendarEvent.g.dart';
 
 @JsonSerializable()
-class CalendarEvent extends Serializable {
+class CalendarEvent {
   @JsonKey(name: "nr")
   final String id;
   final String status;
@@ -48,30 +47,27 @@ class CalendarEvent extends Serializable {
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) => _$CalendarEventFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
 
 @JsonSerializable()
-class CalendarEventsData extends Serializable {
+class CalendarEventsData {
   final CalendarEvents events;
 
   CalendarEventsData({required this.events});
 
   factory CalendarEventsData.fromJson(Map<String, dynamic> json) => _$CalendarEventsDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
 }
 
 @JsonSerializable()
-class CalendarEvents extends Serializable {
+class CalendarEvents {
   final List<CalendarEvent> event;
 
   CalendarEvents({required this.event});
 
   factory CalendarEvents.fromJson(Map<String, dynamic> json) => _$CalendarEventsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$CalendarEventsToJson(this);
 }
