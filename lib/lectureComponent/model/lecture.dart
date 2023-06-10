@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture.g.dart';
 
 @JsonSerializable()
-class Lecture implements Serializable {
+class Lecture {
   @JsonKey(name: "stp_sp_nr")
   final String id;
   @JsonKey(name: "stp_lv_nr")
@@ -75,12 +74,11 @@ class Lecture implements Serializable {
 
   factory Lecture.fromJson(Map<String, dynamic> json) => _$LectureFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 }
 
 @JsonSerializable()
-class LectureData implements Serializable {
+class LectureData {
   @JsonKey(name: "rowset")
   Lectures lecturesAttribute;
 
@@ -88,12 +86,11 @@ class LectureData implements Serializable {
 
   factory LectureData.fromJson(Map<String, dynamic> json) => _$LectureDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LectureDataToJson(this);
 }
 
 @JsonSerializable()
-class Lectures implements Serializable {
+class Lectures {
   @JsonKey(name: "row")
   final List<Lecture> lectures;
 
@@ -101,6 +98,5 @@ class Lectures implements Serializable {
 
   factory Lectures.fromJson(Map<String, dynamic> json) => _$LecturesFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LecturesToJson(this);
 }

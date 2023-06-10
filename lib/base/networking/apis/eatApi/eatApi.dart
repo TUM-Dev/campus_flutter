@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/networking/apis/eatApi/eatApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class EatApi extends Api {
@@ -13,13 +12,6 @@ class EatApi extends Api {
 
   @override
   String get path => "/eat-api/";
-
-  @override
-  Map<String, String> get baseHeaders => {};
-
-  @override
-  // TODO: implement error
-  ApiError get error => throw UnimplementedError();
 
   @override
   String get paths {

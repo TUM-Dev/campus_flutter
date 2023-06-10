@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class TUMCabeApi extends Api {
+class TumCabeApi extends Api {
 
-  final TUMCabeService tumCabeService;
+  final TumCabeService tumCabeService;
 
-  TUMCabeApi({required this.tumCabeService});
+  TumCabeApi({required this.tumCabeService});
 
   @override
   String get baseURL => "https://app.tum.de/api/";
@@ -43,58 +42,54 @@ class TUMCabeApi extends Api {
   String get path => "";
 
   @override
-  // TODO: implement error
-  ApiError get error => throw UnimplementedError();
-
-  @override
   bool get needsAuth => false;
 
   @override
   String get paths {
     switch (tumCabeService) {
-      case TUMCabeServiceMovie _:
+      case TumCabeServiceMovie _:
         return "kino";
-      case TUMCabeServiceCafeteria _:
+      case TumCabeServiceCafeteria _:
         return "mensen";
-      case TUMCabeServiceNews news:
+      case TumCabeServiceNews news:
         return "news/${news.source}/getAll";
-      case TUMCabeServiceNewsSources _:
+      case TumCabeServiceNewsSources _:
         return "news/sources";
-      case TUMCabeServiceNewsAlert _:
+      case TumCabeServiceNewsAlert _:
         return "news/alert";
-      case TUMCabeServiceRoomSearch roomSearch:
+      case TumCabeServiceRoomSearch roomSearch:
         // TODO:
         return "";
         /*return "roomfinder/room/search/${roomSearch.query.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TUMCabeServiceRoomMaps roomMaps:
+      case TumCabeServiceRoomMaps roomMaps:
         // TODO:
         return "";
         /*return "roomfinder/room/availableMaps/${roomMaps.room.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TUMCabeServiceRoomCoordinates roomCoordinates:
+      case TumCabeServiceRoomCoordinates roomCoordinates:
         return "roomfinder/room/coordinates/${roomCoordinates.room}";
-      case TUMCabeServiceDefaultMap defaultMap:
+      case TumCabeServiceDefaultMap defaultMap:
         return "roomfinder/room/defaultMap/${defaultMap.room}";
-      case TUMCabeServiceMapImage mapImage:
+      case TumCabeServiceMapImage mapImage:
         return "roomfinder/room/map/${mapImage.room}/${mapImage.id}";
-      case TUMCabeServiceRegisterDevice registerDevice:
+      case TumCabeServiceRegisterDevice registerDevice:
         return "device/register/${registerDevice.publicKey}";
-      case TUMCabeServiceEvents _:
+      case TumCabeServiceEvents _:
         return "event/list";
-      case TUMCabeServiceMyEvents _:
+      case TumCabeServiceMyEvents _:
         return "event/ticket/my";
-      case TUMCabeServiceTicketTypes ticketTypes:
+      case TumCabeServiceTicketTypes ticketTypes:
         return "event/ticket/type/${ticketTypes.event}";
-      case TUMCabeServiceTicketStats ticketStats:
+      case TumCabeServiceTicketStats ticketStats:
         return "event/ticket/type/${ticketStats.event}";
-      case TUMCabeServiceTicketReservation _:
+      case TumCabeServiceTicketReservation _:
         return "event/ticket/reserve";
-      case TUMCabeServiceTicketReservationCancellation _:
+      case TumCabeServiceTicketReservationCancellation _:
         return "event/ticket/reserve/cancel";
-      case TUMCabeServiceTicketPurchase _:
+      case TumCabeServiceTicketPurchase _:
         return "event/ticket/payment/stripe/purchase";
-      case TUMCabeServiceStripeKey _:
+      case TumCabeServiceStripeKey _:
         return "event/ticket/payment/stripe/ephemeralkey";
     }
   }

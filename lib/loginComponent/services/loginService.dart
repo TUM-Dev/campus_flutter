@@ -1,29 +1,34 @@
 import 'dart:io' as io;
 
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/model/token.dart';
+import 'package:get/get.dart';
 
 class LoginService {
   static Future<Token> requestNewToken(String name) async {
-    final token = await MainApi.makeRequest<Token, TUMOnlineApi>(
-        TUMOnlineApi(TUMOnlineServiceTokenRequest(tumId: name, deviceName: io.Platform.localHostname)),
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<Token, TumOnlineApi, TumOnlineApiError>(
+        TumOnlineApi(TumOnlineServiceTokenRequest(tumId: name, deviceName: io.Platform.localHostname)),
         Token.fromJson,
-        null,
+        TumOnlineApiError.fromJson,
         false
     );
-    TUMOnlineApi.token = token.content;
-    return token;
+    return response.data;
   }
   
   static Future<Confirm> confirmToken() async {
-    return await MainApi.makeRequest<Confirm, TUMOnlineApi>(
-        TUMOnlineApi(TUMOnlineServiceTokenConfirmation()),
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<Confirm, TumOnlineApi, TumOnlineApiError>(
+        TumOnlineApi(TumOnlineServiceTokenConfirmation()),
         Confirm.fromJson,
-        TUMOnlineApi.token,
+        TumOnlineApiError.fromJson,
         false
     );
+
+    return response.data;
   }
 }

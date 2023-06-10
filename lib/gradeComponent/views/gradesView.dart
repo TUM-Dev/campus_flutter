@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/gradeComponent/views/chartView.dart';
@@ -29,6 +30,7 @@ class _GradesViewState extends State<GradesView> {
         future: grades,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
+            // TODO: handle empty data
             return Scrollbar(
                 child: SingleChildScrollView(
                   clipBehavior: Clip.antiAlias,
@@ -43,10 +45,15 @@ class _GradesViewState extends State<GradesView> {
                       ])),
                 ));
           } else if (snapshot.hasError) {
-            return const Center(child: Text("no grades found"));
+            // TODO: make nice
+            if (snapshot.error is TumOnlineApiError) {
+              return Center(child: Text((snapshot.error as TumOnlineApiError).errorDescription));
+            } else {
+              return const Center(child: Text("Unknown Error"));
+            }
           }
 
-          return DelayedLoadingIndicator();
+          return const DelayedLoadingIndicator(name: "Grades");
         });
   }
 }

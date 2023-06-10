@@ -1,45 +1,43 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
+import 'dart:developer';
+
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/loginComponent/services/loginService.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel {
   final _storage = const FlutterSecureStorage();
-  BehaviorSubject<String?> token = BehaviorSubject.seeded(null);
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
 
   Future checkLogin() async {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
-        TUMOnlineApi.token = value;
+        Api.tumToken = value;
         await LoginService.confirmToken().then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) => _errorHandling(error));
-      } else {
-        _errorHandling("value is null");
       }
     }, onError: (error) => _errorHandling(error));
   }
 
   _errorHandling(dynamic error) {
-    // TODO:
-    print(error);
+    log(error.toString());
     credentials.add(Credentials.none);
   }
 
   Future requestLogin(String name) async {
-    token.add((await LoginService.requestNewToken(name)).content);
-    _storage.write(key: "token", value: token.value);
+    final token = (await LoginService.requestNewToken(name)).content;
+    _storage.write(key: "token", value: token);
+    Get.put(token, tag: "tumToken");
   }
 
   Future confirmLogin() async {
-    if (token != null) {
-      try {
-        final confirm = await LoginService.confirmToken();
-        if (confirm.confirmed) {
-          credentials.add(Credentials.tumId);
-        }
-      } catch (e) {}
+    final confirm = await LoginService.confirmToken();
+    if (confirm.confirmed) {
+      credentials.add(Credentials.tumId);
     }
   }
 
@@ -48,8 +46,9 @@ class LoginViewModel {
   }
 
   Future logout() async {
-    // TODO: invalidate whole cache
     credentials.add(Credentials.none);
+    final directory = await getTemporaryDirectory();
+    HiveCacheStore(directory.path).clean();
     _storage.delete(key: "token");
   }
 }

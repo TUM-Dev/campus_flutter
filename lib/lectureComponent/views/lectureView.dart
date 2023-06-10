@@ -42,7 +42,7 @@ class _GradeViewState extends State<LectureView> {
             return const Center(child: Text("no lectures found"));
           }
 
-          return const DelayedLoadingIndicator();
+          return const DelayedLoadingIndicator(name: "Lectures");
         });
   }
 }
@@ -64,9 +64,9 @@ class SemesterView extends StatelessWidget {
               Column(children: [
                 ListTile(
                   title: Text(semester.value[index].title),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LectureDetailsView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LectureDetailsView()));
                   },
                 ),
                 (index != semester.value.length - 1

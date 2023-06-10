@@ -1,11 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../base/networking/protocols/apiResponse.dart';
-
 part 'dishLabel.g.dart';
 
 @JsonSerializable()
-class DishLabel implements Serializable {
+class DishLabel {
   @JsonKey(name: "enum_name")
   final String name;
   final Map<String, String> text;
@@ -15,6 +13,5 @@ class DishLabel implements Serializable {
 
   factory DishLabel.fromJson(Map<String, dynamic> json) => _$DishLabelFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$DishLabelToJson(this);
 }

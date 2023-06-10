@@ -1,78 +1,78 @@
-sealed class TUMCabeService {
+sealed class TumCabeService {
   Map<String, String> getParameters() => {};
 }
 
-class TUMCabeServiceMovie extends TUMCabeService {}
+class TumCabeServiceMovie extends TumCabeService {}
 
-class TUMCabeServiceCafeteria extends TUMCabeService {}
+class TumCabeServiceCafeteria extends TumCabeService {}
 
-class TUMCabeServiceNews extends TUMCabeService {
+class TumCabeServiceNews extends TumCabeService {
   final String source;
 
-  TUMCabeServiceNews({required this.source});
+  TumCabeServiceNews({required this.source});
 }
 
-class TUMCabeServiceNewsSources extends TUMCabeService {}
+class TumCabeServiceNewsSources extends TumCabeService {}
 
-class TUMCabeServiceNewsAlert extends TUMCabeService {}
+class TumCabeServiceNewsAlert extends TumCabeService {}
 
-class TUMCabeServiceRoomSearch extends TUMCabeService {
+class TumCabeServiceRoomSearch extends TumCabeService {
   final String query;
 
-  TUMCabeServiceRoomSearch({required this.query});
+  TumCabeServiceRoomSearch({required this.query});
 }
 
-class TUMCabeServiceRoomMaps extends TUMCabeService {
+class TumCabeServiceRoomMaps extends TumCabeService {
   final String room;
 
-  TUMCabeServiceRoomMaps({required this.room});
+  TumCabeServiceRoomMaps({required this.room});
 }
 
-class TUMCabeServiceRoomCoordinates extends TUMCabeService {
+class TumCabeServiceRoomCoordinates extends TumCabeService {
   final String room;
 
-  TUMCabeServiceRoomCoordinates({required this.room});
+  TumCabeServiceRoomCoordinates({required this.room});
 }
 
-class TUMCabeServiceMapImage extends TUMCabeService {
+class TumCabeServiceMapImage extends TumCabeService {
   final int id;
   final String room;
 
-  TUMCabeServiceMapImage({required this.id, required this.room});
+  TumCabeServiceMapImage({required this.id, required this.room});
 }
 
-class TUMCabeServiceDefaultMap extends TUMCabeService {
+class TumCabeServiceDefaultMap extends TumCabeService {
   final String room;
 
-  TUMCabeServiceDefaultMap({required this.room});
+  TumCabeServiceDefaultMap({required this.room});
 }
 
-class TUMCabeServiceRegisterDevice extends TUMCabeService {
+class TumCabeServiceRegisterDevice extends TumCabeService {
   final String publicKey;
 
-  TUMCabeServiceRegisterDevice({required this.publicKey});
+  TumCabeServiceRegisterDevice({required this.publicKey});
 }
 
-class TUMCabeServiceEvents extends TUMCabeService {}
+class TumCabeServiceEvents extends TumCabeService {}
 
-class TUMCabeServiceMyEvents extends TUMCabeService {}
+class TumCabeServiceMyEvents extends TumCabeService {}
 
-class TUMCabeServiceTicketTypes extends TUMCabeService {
+class TumCabeServiceTicketTypes extends TumCabeService {
   final int event;
 
-  TUMCabeServiceTicketTypes({required this.event});
+  TumCabeServiceTicketTypes({required this.event});
 }
 
-class TUMCabeServiceTicketStats extends TUMCabeService {
+class TumCabeServiceTicketStats extends TumCabeService {
   final int event;
 
-  TUMCabeServiceTicketStats({required this.event});
+  TumCabeServiceTicketStats({required this.event});
 }
 
-class TUMCabeServiceTicketReservation extends TUMCabeService {}
+class TumCabeServiceTicketReservation extends TumCabeService {}
 
-class TUMCabeServiceTicketReservationCancellation extends TUMCabeService {}
+class TumCabeServiceTicketReservationCancellation extends TumCabeService {}
 
-class TUMCabeServiceTicketPurchase extends TUMCabeService {}
+class TumCabeServiceTicketPurchase extends TumCabeService {}
 
-class TUMCabeServiceStripeKey extends TUMCabeService {}
+class TumCabeServiceStripeKey extends TumCabeService {}

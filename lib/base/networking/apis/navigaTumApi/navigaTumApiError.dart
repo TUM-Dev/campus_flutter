@@ -1,16 +1,16 @@
 import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 
-class EatApiError implements ApiError {
+class NavigaTumApiError implements ApiError {
 
   final String message;
 
-  EatApiError({required this.message});
+  NavigaTumApiError({required this.message});
 
   /// method for decoder
   // TODO: format of error
-  factory EatApiError.fromJson(Map<String, dynamic> json) {
+  factory NavigaTumApiError.fromJson(Map<String, dynamic> json) {
     final error = ErrorBody.fromJson(json);
-    return EatApiError(message: error.errorMessage.message);
+    return NavigaTumApiError(message: error.errorMessage.message);
   }
 
   String get errorDescription => "Unknown Error: $message";

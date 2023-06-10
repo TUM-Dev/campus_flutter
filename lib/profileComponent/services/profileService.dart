@@ -1,29 +1,33 @@
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
+import 'package:get/get.dart';
 
 class ProfileService {
   static Future<Profile> fetchProfile() async {
-    final response = await MainApi.makeRequest<ProfileData, TUMOnlineApi>(
-        TUMOnlineApi(TUMOnlineServiceIdentify()),
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<ProfileData, TumOnlineApi, TumOnlineApiError>(
+        TumOnlineApi(TumOnlineServiceIdentify()),
         ProfileData.fromJson,
-        TUMOnlineApi.token,
+        TumOnlineApiError.fromJson,
         false
     );
 
-    return response.profilesAttribute.profile;
+    return response.data.profilesAttribute.profile;
   }
 
   static Future<Tuition?> fetchTuition(String personGroup, String id) async {
-    final response = await MainApi.makeRequest<TuitionData, TUMOnlineApi>(
-        TUMOnlineApi(TUMOnlineServiceTuitionStatus()),
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<TuitionData, TumOnlineApi, TumOnlineApiError>(
+        TumOnlineApi(TumOnlineServiceTuitionStatus()),
         TuitionData.fromJson,
-        TUMOnlineApi.token,
+        TumOnlineApiError.fromJson,
         false
     );
 
-    return response.profilesAttribute.tuition;
+    return response.data.profilesAttribute.tuition;
   }
 }

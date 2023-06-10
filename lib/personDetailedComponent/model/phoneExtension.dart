@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'phoneExtension.g.dart';
 
 @JsonSerializable()
-class PhoneExtension implements Serializable {
+class PhoneExtension {
   // TODO: needed?
   //String id;
   @JsonKey(name: "telefonnummer")
@@ -28,6 +27,5 @@ class PhoneExtension implements Serializable {
 
   factory PhoneExtension.fromJson(Map<String, dynamic> json) => _$PhoneExtensionFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$PhoneExtensionToJson(this);
 }

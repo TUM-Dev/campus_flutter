@@ -1,12 +1,10 @@
+import 'package:campus_flutter/eatComponent/model/dish.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../base/networking/protocols/apiResponse.dart';
-import 'dish.dart';
 
 part 'mensaMenu.g.dart';
 
 @JsonSerializable()
-class MensaMenu implements Serializable {
+class MensaMenu {
   final DateTime date;
   final List<Dish> dishes;
   
@@ -14,12 +12,11 @@ class MensaMenu implements Serializable {
 
   factory MensaMenu.fromJson(Map<String, dynamic> json) => _$MensaMenuFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$MensaMenuToJson(this);
 }
 
 @JsonSerializable()
-class Category implements Serializable {
+class Category {
   final String name;
   final List<Dish> dishes;
 
@@ -27,6 +24,5 @@ class Category implements Serializable {
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }

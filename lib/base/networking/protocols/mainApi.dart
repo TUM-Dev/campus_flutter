@@ -1,69 +1,104 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:campus_flutter/base/networking/errors/noConnectionError.dart';
+import 'package:campus_flutter/base/networking/errors/responseError.dart';
 import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 
 class MainApi {
-  /*static Future<Dio> get dio async {
-    late CacheStore cacheStore;
 
-    final directory = await getTemporaryDirectory();
+  late Dio dio;
 
-    cacheStore = HiveCacheStore(directory.path);
+  MainApi(Directory directory) {
+    final cacheStore = HiveCacheStore(directory.path);
 
+    /// cache duration is 30 days for offline mode
     var cacheOptions = CacheOptions(
-      //store: BackupCacheStore(primary: MemCacheStore(), secondary: cacheStore),
       store: cacheStore,
-      policy: CachePolicy.forceCache,
-      maxStale: const Duration(days: 30),
-      hitCacheOnErrorExcept: [], // for offline behaviour
+      policy: CachePolicy.request,
+      maxStale: const Duration(days: 30)
     );
 
     final dio = Dio();
+
+    /// add custom interceptor to enforce cache for at least 10 minutes
+    /// the custom interceptor also invalidates caches for force refreshes
+    // TODO: maybe move connectivity check to app startup and use get
+    dio.interceptors.add(
+        InterceptorsWrapper(onRequest: (options, handler) async {
+          final connectivityStatus = await Connectivity().checkConnectivity();
+          if (connectivityStatus != ConnectivityResult.none
+              && connectivityStatus != ConnectivityResult.bluetooth) {
+            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            final cache = await cacheStore.get(key);
+            if (cache != null && DateTime.now().difference(cache.responseDate).inMinutes < 10) {
+              return handler.resolve(cache.toResponse(options, fromNetwork: false));
+            }
+          } else if (options.extra.isNotEmpty) {
+            final key = CacheOptions.defaultCacheKeyBuilder(options);
+            cacheStore.delete(key);
+          }
+          handler.next(options);
+        })
+    );
 
     dio.interceptors.add(
       DioCacheInterceptor(options: cacheOptions),
     );
 
-    return dio;
-  }*/
+    this.dio = dio;
+  }
 
-  static Future<T> makeRequest<T extends Serializable, S extends Api/*, U extends ApiError*/>(
+  Future<ApiResponse<T>> makeRequest<T, S extends Api, U extends ApiError>(
           S endpoint,
           dynamic Function(Map<String, dynamic>) createObject,
-          //dynamic Function(Map<String, dynamic>) createError,
-          String? token,
+          dynamic Function(Map<String, dynamic>) createError,
           bool forcedRefresh) async {
 
     Response<String> response;
 
     try {
-      response = await endpoint.asResponse(token: token);
+      if (forcedRefresh) {
+        final tempDio = dio;
+        tempDio.options.extra["forceRefresh"] = true;
+        response = await endpoint.asResponse(dio: dio);
+      } else {
+        response = await endpoint.asResponse(dio: dio);
+      }
     } catch (e) {
-      log(e.toString());
-      // TODO: networking Error
-      throw Exception();
+      print(e);
+      throw NoConnectionError();
     }
 
     if (response.statusCode != 200 && response.statusCode != 304) {
-      //// TODO: response Error
-      throw Exception();
+      throw ResponseError();
     } else {
       log("${response.statusCode}: ${response.realUri}");
       try {
-        /// check if response is error message by decoding it
-        /*return ApiResponse<T>
-            .fromJson(jsonDecode(response.data.toString()), createError)
-            .data;*/
-        throw Error();
+        /// check if response is error message by  attempting to decoding it
+        throw ApiResponse<U>.fromJson(
+            jsonDecode(response.data.toString()),
+            response.headers,
+            createError
+        ).data;
+      } on U catch (e) {
+        e.toString();
+        /// rethrow error if specified error U
+        rethrow;
       } catch (_) {
-        /// if it's not, decode response to expected object
-        return ApiResponse<T>
-            .fromJson(jsonDecode(response.data.toString()), createObject)
-            .data;
+        /// catch possible decoding error and return actual expected object
+        return ApiResponse<T>.fromJson(
+            jsonDecode(response.data.toString()),
+            response.headers,
+            createObject
+        );
       }
     }
   }

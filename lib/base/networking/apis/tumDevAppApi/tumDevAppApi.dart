@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 
+// TODO: figure out errors
 class TumDevAppApi extends Api {
 
   final TumDevAppService tumDevAppService;
@@ -9,14 +9,7 @@ class TumDevAppApi extends Api {
   TumDevAppApi({required this.tumDevAppService});
 
   @override
-  Map<String, String> get baseHeaders => {};
-
-  @override
   String get baseURL => "https://www.devapp.it.tum.de/";
-
-  @override
-  // TODO: implement error
-  ApiError get error => throw UnimplementedError();
 
   @override
   bool get needsAuth => false;

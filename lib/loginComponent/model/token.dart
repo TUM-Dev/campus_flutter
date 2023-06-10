@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
 
 @JsonSerializable()
-class Token implements Serializable {
+class Token {
   @JsonKey(name: "token")
   final String content;
 
@@ -12,6 +11,5 @@ class Token implements Serializable {
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$TokenToJson(this);
 }

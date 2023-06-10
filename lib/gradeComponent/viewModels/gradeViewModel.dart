@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel {
-  BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
-  new BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
+  final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
+  BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
 
   Future<Map<String, Map<String, List<Grade>>>>
   gradesByDegreeAndSemester() async {

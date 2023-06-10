@@ -1,6 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigaTumApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 
 class NavigaTumApi extends Api {
 
@@ -9,14 +8,7 @@ class NavigaTumApi extends Api {
   NavigaTumApi({required this.navigaTumService});
 
   @override
-  Map<String, String> get baseHeaders => {};
-
-  @override
   String get baseURL => "https://nav.tum.de/";
-
-  @override
-  // TODO: implement error
-  ApiError get error => throw UnimplementedError();
 
   @override
   bool get needsAuth => false;

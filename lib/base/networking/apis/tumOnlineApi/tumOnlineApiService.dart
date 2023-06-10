@@ -1,12 +1,12 @@
-sealed class TUMOnlineService {
+sealed class TumOnlineService {
   Map<String, String> getParameters() => {};
 }
 
-class TUMOnlineServiceTokenRequest extends TUMOnlineService {
+class TumOnlineServiceTokenRequest extends TumOnlineService {
   final String tumId;
   final String deviceName;
 
-  TUMOnlineServiceTokenRequest({
+  TumOnlineServiceTokenRequest({
     required this.tumId,
     required this.deviceName
   });
@@ -18,16 +18,16 @@ class TUMOnlineServiceTokenRequest extends TUMOnlineService {
   };
 }
 
-class TUMOnlineServiceTokenConfirmation extends TUMOnlineService {}
+class TumOnlineServiceTokenConfirmation extends TumOnlineService {}
 
-class TUMOnlineServiceTuitionStatus extends TUMOnlineService {}
+class TumOnlineServiceTuitionStatus extends TumOnlineService {}
 
-class TUMOnlineServiceCalendar extends TUMOnlineService {}
+class TumOnlineServiceCalendar extends TumOnlineService {}
 
-class TUMOnlineServicePersonSearch extends TUMOnlineService {
+class TumOnlineServicePersonSearch extends TumOnlineService {
   final String search;
 
-  TUMOnlineServicePersonSearch({required this.search});
+  TumOnlineServicePersonSearch({required this.search});
 
   @override
   Map<String, String> getParameters() => {
@@ -35,10 +35,10 @@ class TUMOnlineServicePersonSearch extends TUMOnlineService {
   };
 }
 
-class TUMOnlineServicePersonDetails extends TUMOnlineService {
+class TumOnlineServicePersonDetails extends TumOnlineService {
   final String identNumber;
 
-  TUMOnlineServicePersonDetails({required this.identNumber});
+  TumOnlineServicePersonDetails({required this.identNumber});
 
   @override
   Map<String, String> getParameters() => {
@@ -46,14 +46,14 @@ class TUMOnlineServicePersonDetails extends TUMOnlineService {
   };
 }
 
-class TUMOnlineServicePersonalLectures extends TUMOnlineService {}
+class TumOnlineServicePersonalLectures extends TumOnlineService {}
 
-class TUMOnlineServicePersonalGrades extends TUMOnlineService {}
+class TumOnlineServicePersonalGrades extends TumOnlineService {}
 
-class TUMOnlineServiceLectureSearch extends TUMOnlineService {
+class TumOnlineServiceLectureSearch extends TumOnlineService {
   final String search;
 
-  TUMOnlineServiceLectureSearch({required this.search});
+  TumOnlineServiceLectureSearch({required this.search});
 
   @override
   Map<String, String> getParameters() => {
@@ -61,10 +61,10 @@ class TUMOnlineServiceLectureSearch extends TUMOnlineService {
   };
 }
 
-class TUMOnlineServiceLectureDetails extends TUMOnlineService {
+class TumOnlineServiceLectureDetails extends TumOnlineService {
   final String lvNr;
 
-  TUMOnlineServiceLectureDetails({required this.lvNr});
+  TumOnlineServiceLectureDetails({required this.lvNr});
 
   @override
   Map<String, String> getParameters() => {
@@ -72,15 +72,15 @@ class TUMOnlineServiceLectureDetails extends TUMOnlineService {
   };
 }
 
-class TUMOnlineServiceIdentify extends TUMOnlineService {}
+class TumOnlineServiceIdentify extends TumOnlineService {}
 
-class TUMOnlineServiceSecretUpload extends TUMOnlineService {}
+class TumOnlineServiceSecretUpload extends TumOnlineService {}
 
-class TUMOnlineServiceProfileImage extends TUMOnlineService {
+class TumOnlineServiceProfileImage extends TumOnlineService {
   final String personGroup;
   final String id;
 
-  TUMOnlineServiceProfileImage({required this.personGroup, required this.id});
+  TumOnlineServiceProfileImage({required this.personGroup, required this.id});
 
   @override
   Map<String, String> getParameters() => {
