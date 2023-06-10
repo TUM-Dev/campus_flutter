@@ -47,7 +47,7 @@ class _EatSliderState extends State<EatSlider> {
             );
           }
 
-          return const DelayedLoadingIndicator();
+          return const DelayedLoadingIndicator(name: "Mealplan");
         });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/gradeComponent/services/gradeService.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -43,9 +44,8 @@ class GradeViewModel {
     Map<double, int> chartData = {};
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
-        final gradeValue = grade.grade ?? 0.0;
         chartData.update(
-          gradeValue,
+          stringToDouble(grade.grade) ?? 0.0,
               (value) => ++value,
           ifAbsent: () => 1,
         );

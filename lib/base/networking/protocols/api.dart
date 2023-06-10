@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:get/get.dart';
 import 'package:xml2json/xml2json.dart';
 
 abstract class Api {

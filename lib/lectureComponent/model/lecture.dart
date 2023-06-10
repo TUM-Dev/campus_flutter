@@ -53,6 +53,9 @@ class Lecture {
     }
   }
 
+  String get sws {
+    return "$duration SWS";
+  }
 
   Lecture({
     required this.id,

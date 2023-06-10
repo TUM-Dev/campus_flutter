@@ -1,12 +1,19 @@
-
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApi.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApiError.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eatApiService.dart';
+import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/eatComponent/model/mealPlan.dart';
+import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
+import 'package:get/get.dart';
 
 class EatService {
-  /*static Future<MealPlan> fetchFood() async {
+  static Future<MealPlan> fetchFood() async {
     // TODO: location based
-    final response = await MainApi.makeRequest<MealPlan, EatApi>(
+    MainApi mainApi = Get.find();
+    final response = await mainApi.makeRequest<MealPlan, EatApi, EatApiError>(
         EatApi(EatApiServiceMenu(location: "mensa-arcisstr")),
         MealPlan.fromJson,
-        null,
+        EatApiError.fromJson,
         false
     );
 
@@ -23,5 +30,5 @@ class EatService {
 
     return mealPlan.days
         .firstWhere((element) => element.date.weekday == today.weekday);
-  }*/
+  }
 }
