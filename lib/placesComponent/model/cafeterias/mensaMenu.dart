@@ -1,4 +1,4 @@
-import 'package:campus_flutter/eatComponent/model/dish.dart';
+import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'mensaMenu.g.dart';
