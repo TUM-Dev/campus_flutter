@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dishLabel.dart';
+part of 'dish_label.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

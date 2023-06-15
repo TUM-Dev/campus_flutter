@@ -1,4 +1,3 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
@@ -35,8 +34,9 @@ class Cafeteria {
   @JsonKey(name: "canteen_id")
   String id;
   @JsonKey(name: "queue_status")
-  final String queueStatusApi;
-  Queue queue;
+  final String? queueStatusApi;
+  Queue? queue;
+
   String? get title {
     return name;
   }
@@ -48,13 +48,14 @@ class Cafeteria {
   Map<String, dynamic> toJson() => _$CafeteriaToJson(this);
 }
 
-extension on List<Cafeteria> {
-  sortByDistance(Location location) {
-    sort((a, b) {
-      return Geolocator.distanceBetween(location.latitude, location.longitude,
-              a.location.latitude, a.location.longitude)
-          .compareTo(Geolocator.distanceBetween(location.latitude,
-              location.longitude, a.location.latitude, a.location.longitude));
-    });
-  }
+@JsonSerializable()
+class Cafeterias {
+  @JsonKey(name: "data")
+  final List<Cafeteria> cafeterias;
+
+  Cafeterias({required this.cafeterias});
+
+  factory Cafeterias.fromJson(Map<String, dynamic> json) => _$CafeteriasFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CafeteriasToJson(this);
 }

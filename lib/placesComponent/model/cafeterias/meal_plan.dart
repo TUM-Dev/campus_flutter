@@ -1,7 +1,7 @@
-import 'package:campus_flutter/placesComponent/model/cafeterias/mensaMenu.dart';
+import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'mealPlan.g.dart';
+part 'meal_plan.g.dart';
 
 @JsonSerializable()
 class MealPlan {

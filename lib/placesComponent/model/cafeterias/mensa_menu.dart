@@ -1,7 +1,7 @@
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'mensaMenu.g.dart';
+part 'mensa_menu.g.dart';
 
 @JsonSerializable()
 class MensaMenu {
@@ -16,13 +16,13 @@ class MensaMenu {
 }
 
 @JsonSerializable()
-class Category {
+class MenuCategory {
   final String name;
   final List<Dish> dishes;
 
-  Category({required this.name, required this.dishes});
+  MenuCategory({required this.name, required this.dishes});
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory MenuCategory.fromJson(Map<String, dynamic> json) => _$MenuCategoryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CategoryToJson(this);
+  Map<String, dynamic> toJson() => _$MenuCategoryToJson(this);
 }

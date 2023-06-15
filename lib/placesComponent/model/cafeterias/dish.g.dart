@@ -24,13 +24,13 @@ Map<String, dynamic> _$DishToJson(Dish instance) => <String, dynamic>{
     };
 
 Price _$PriceFromJson(Map<String, dynamic> json) => Price(
-      basePrice: (json['basePrice'] as num?)?.toDouble(),
-      unitPrice: (json['unitPrice'] as num?)?.toDouble(),
+      basePrice: (json['base_price'] as num?)?.toDouble(),
+      unitPrice: (json['price_per_unit'] as num?)?.toDouble(),
       unit: json['unit'] as String?,
     );
 
 Map<String, dynamic> _$PriceToJson(Price instance) => <String, dynamic>{
-      'basePrice': instance.basePrice,
-      'unitPrice': instance.unitPrice,
+      'base_price': instance.basePrice,
+      'price_per_unit': instance.unitPrice,
       'unit': instance.unit,
     };

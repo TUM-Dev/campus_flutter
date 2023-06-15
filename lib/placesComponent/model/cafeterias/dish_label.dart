@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'dishLabel.g.dart';
+part 'dish_label.g.dart';
 
 @JsonSerializable()
 class DishLabel {

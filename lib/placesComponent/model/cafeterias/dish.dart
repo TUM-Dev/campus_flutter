@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'dish.g.dart';
@@ -19,7 +20,9 @@ class Dish {
 
 @JsonSerializable()
 class Price {
+  @JsonKey(name: "base_price")
   final double? basePrice;
+  @JsonKey(name: "price_per_unit")
   final double? unitPrice;
   final String? unit;
 

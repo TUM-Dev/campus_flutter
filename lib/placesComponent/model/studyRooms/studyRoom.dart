@@ -24,11 +24,11 @@ class StudyRoom {
   final String? occupiedBy;
   @JsonKey(name: "belegung_fuer")
   final int occupiedFor;
-  @JsonKey(name: "belegung_ab")
+  @JsonKey(name: "belegung_ab", fromJson: DateTime.tryParse)
   final DateTime? occupiedFrom;
   @JsonKey(name: "belegung_in")
   final int occupiedIn;
-  @JsonKey(name: "belegung_bis")
+  @JsonKey(name: "belegung_bis", fromJson: DateTime.tryParse)
   final DateTime? occupiedUntil;
   final String? raum_nr_architekt;
   final int res_nr;

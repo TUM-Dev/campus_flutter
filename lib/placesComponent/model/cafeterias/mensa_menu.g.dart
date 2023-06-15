@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mensaMenu.dart';
+part of 'mensa_menu.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -18,14 +18,15 @@ Map<String, dynamic> _$MensaMenuToJson(MensaMenu instance) => <String, dynamic>{
       'dishes': instance.dishes,
     };
 
-Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
+MenuCategory _$MenuCategoryFromJson(Map<String, dynamic> json) => MenuCategory(
       name: json['name'] as String,
       dishes: (json['dishes'] as List<dynamic>)
           .map((e) => Dish.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
+Map<String, dynamic> _$MenuCategoryToJson(MenuCategory instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'dishes': instance.dishes,
     };
