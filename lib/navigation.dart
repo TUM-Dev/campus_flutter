@@ -5,9 +5,8 @@ import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:campus_flutter/mapComponent/map.dart';
+import 'package:campus_flutter/placesComponent/map.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
-import 'package:campus_flutter/studentCardComponent/views/studentCardView.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
@@ -57,9 +56,6 @@ class _NavigationState extends State<Navigation> {
             }
           }()),
           actions: <Widget>[
-            IconButton(
-                onPressed: () => _openStudentCardSheet(),
-                icon: const Icon(Icons.credit_card)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -132,37 +128,6 @@ class _NavigationState extends State<Navigation> {
             const PlacesWidget()
           ][currentPageIndex],
         ),
-      floatingActionButton: /*FloatingActionButton.extended(
-          onPressed: () => _openStudentCardSheet(),
-          label: const IconText(
-              iconData: Icons.credit_card,
-              label: "StudentCard",
-              style: TextStyle(color: Colors.white),
-          ),
-      ),*/
-      FloatingActionButton(
-          onPressed: () => _openStudentCardSheet(),
-          child: const Icon(Icons.credit_card)
-      )
     );
-  }
-
-  void _openStudentCardSheet() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        useSafeArea: true,
-        showDragHandle: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: const StudentCardView());
-          /// leave here for now, enables height adjusted to content
-          /*return const SafeArea(child:
-                          //Wrap(children: [
-                          //StudentCardView()
-                        ]));*/
-        });
   }
 }
