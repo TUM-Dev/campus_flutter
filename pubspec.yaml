@@ -39,6 +39,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   get_it: ^7.6.0
   collection: ^1.17.1
+  map_launcher: ^2.5.0+1
 
 dev_dependencies:
   flutter_test:

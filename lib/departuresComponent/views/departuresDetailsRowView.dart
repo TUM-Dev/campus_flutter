@@ -79,7 +79,7 @@ class DeparturesDetailsRowView extends StatelessWidget {
     }
   }
 
-  Widget timeBuilder(DepartureDateTime dateTime, Color? color) {
+  Widget timeBuilder(DateTime dateTime, Color? color) {
     // TODO: walking distance
     if (departure.countdown < 1) {
       return Text("NOW", style: TextStyle(color: color, fontWeight: FontWeight.w500));

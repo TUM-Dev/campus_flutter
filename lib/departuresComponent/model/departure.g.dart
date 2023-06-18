@@ -9,12 +9,9 @@ part of 'departure.dart';
 Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
       stopId: stringToInt(json['stopID'] as String?),
       countdown: stringToInt(json['countdown'] as String?),
-      dateTime:
-          DepartureDateTime.fromJson(json['dateTime'] as Map<String, dynamic>),
-      realDateTime: json['realDateTime'] == null
-          ? null
-          : DepartureDateTime.fromJson(
-              json['realDateTime'] as Map<String, dynamic>),
+      dateTime: Departure.plannedDate(json['dateTime'] as Map<String, dynamic>),
+      realDateTime:
+          Departure.realDate(json['realDateTime'] as Map<String, dynamic>?),
       servingLine:
           ServingLine.fromJson(json['servingLine'] as Map<String, dynamic>),
     );
@@ -22,8 +19,8 @@ Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
 Map<String, dynamic> _$DepartureToJson(Departure instance) => <String, dynamic>{
       'stopID': instance.stopId,
       'countdown': instance.countdown,
-      'dateTime': instance.dateTime,
-      'realDateTime': instance.realDateTime,
+      'dateTime': instance.dateTime.toIso8601String(),
+      'realDateTime': instance.realDateTime?.toIso8601String(),
       'servingLine': instance.servingLine,
     };
 

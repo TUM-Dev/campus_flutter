@@ -109,29 +109,13 @@ class DeparturesViewModel {
   void sortDepartures(List<Departure> departures) {
     departures.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
-        if (departure1.realDateTime!.hour != departure2.realDateTime!.hour) {
-          return departure1.realDateTime!.hour.compareTo(departure2.realDateTime!.hour);
-        } else {
-          return departure1.realDateTime!.minute.compareTo(departure2.realDateTime!.minute);
-        }
+        return departure1.realDateTime!.compareTo(departure2.realDateTime!);
       } else if (departure1.realDateTime != null) {
-        if (departure1.realDateTime!.hour != departure2.dateTime.hour) {
-          return departure1.realDateTime!.hour.compareTo(departure2.dateTime.hour);
-        } else {
-          return departure1.realDateTime!.minute.compareTo(departure2.dateTime.minute);
-        }
+        return departure1.realDateTime!.compareTo(departure2.dateTime);
       } else if (departure2.realDateTime != null) {
-        if (departure1.dateTime.hour != departure2.dateTime.hour) {
-          return departure1.dateTime.hour.compareTo(departure2.realDateTime!.hour);
-        } else {
-          return departure1.dateTime.minute.compareTo(departure2.realDateTime!.minute);
-        }
+        return departure1.dateTime.compareTo(departure2.realDateTime!);
       } else {
-        if (departure1.dateTime.hour != departure2.dateTime.hour) {
-          return departure1.dateTime.hour.compareTo(departure2.dateTime.hour);
-        } else {
-          return departure1.dateTime.minute.compareTo(departure2.dateTime.minute);
-        }
+        return departure1.dateTime.compareTo(departure2.dateTime);
       }
     });
 
