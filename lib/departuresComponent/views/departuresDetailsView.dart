@@ -1,10 +1,12 @@
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/views/departuresDetailsRowView.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class DeparturesDetailsScaffold extends ConsumerWidget {
   const DeparturesDetailsScaffold({super.key});
@@ -64,7 +66,31 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       text: ref.watch(departureViewModel).selectedStation.value!.name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor))
-                ]))
+                ])),
+                GestureDetector(onTap: () async {
+                  Station? selectedStation = ref.read(departureViewModel).selectedStation.value;
+                  if (selectedStation != null) {
+                    if (await MapLauncher.isMapAvailable(MapType.google) ?? false) {
+                      await MapLauncher.showDirections(
+                          mapType: MapType.google,
+                          directionsMode: DirectionsMode.walking,
+                          destination: Coords(
+                              selectedStation.location.latitude,
+                              selectedStation.location.longitude
+                          ),
+                      );
+                    } else if (await MapLauncher.isMapAvailable(MapType.apple) ?? false) {
+                      await MapLauncher.showDirections(
+                        mapType: MapType.apple,
+                        directionsMode: DirectionsMode.walking,
+                        destination: Coords(
+                            selectedStation.location.latitude,
+                            selectedStation.location.longitude
+                        ),
+                      );
+                    }
+                  }
+                }, child: const IconText(iconData: Icons.open_in_new, label: "Show Directions"))
               ],
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               const Row(

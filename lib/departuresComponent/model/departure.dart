@@ -10,9 +10,12 @@ class Departure {
   final int stopId;
   @JsonKey(fromJson: stringToInt)
   final int countdown;
-  final DepartureDateTime dateTime;
-  final DepartureDateTime? realDateTime;
+  @JsonKey(fromJson: plannedDate)
+  final DateTime dateTime;
+  @JsonKey(fromJson: realDate)
+  final DateTime? realDateTime;
   final ServingLine servingLine;
+  // TODO: lineInfos
   //final LineInfosType? lineInfos;
 
   Departure({
@@ -27,6 +30,30 @@ class Departure {
   factory Departure.fromJson(Map<String, dynamic> json) => _$DepartureFromJson(json);
 
   Map<String, dynamic> toJson() => _$DepartureToJson(this);
+
+  static DateTime plannedDate(Map<String, dynamic> json) {
+    return DateTime(
+        int.parse(json["year"]),
+        int.parse(json["month"]),
+        int.parse(json["day"]),
+        int.parse(json["hour"]),
+        int.parse(json["minute"])
+    );
+  }
+
+  static DateTime? realDate(Map<String, dynamic>? json) {
+    if (json != null) {
+      return DateTime(
+          int.parse(json["year"]),
+          int.parse(json["month"]),
+          int.parse(json["day"]),
+          int.parse(json["hour"]),
+          int.parse(json["minute"])
+      );
+    } else {
+      return null;
+    }
+  }
 }
 
 @JsonSerializable()
