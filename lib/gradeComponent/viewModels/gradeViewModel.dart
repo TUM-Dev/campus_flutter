@@ -8,29 +8,29 @@ class GradeViewModel {
   final BehaviorSubject<Map<String, Map<String, List<Grade>>>?> grades =
   BehaviorSubject.seeded(null);
 
-  void gradesByDegreeAndSemester() async {
-    List<Grade> grades = await GradeService.fetchGrades();
-
-    if (grades.isEmpty) {
-      this.grades.add({});
-    }
-
-    Map<String, List<Grade>> gradesByDegree = {};
-    for (var grade in grades) {
-      gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
-    }
-
-    Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
-    for (var entry in gradesByDegree.entries) {
-      for (var grade in entry.value) {
-        gradesByDegreeAndSemester
-            .putIfAbsent(entry.key, () => {})
-            .putIfAbsent(grade.semester, () => [])
-            .add(grade);
+  gradesByDegreeAndSemester() async {
+    GradeService.fetchGrades().then((grades) {
+      if (grades.isEmpty) {
+        this.grades.add({});
       }
-    }
 
-    this.grades.add(gradesByDegreeAndSemester);
+      Map<String, List<Grade>> gradesByDegree = {};
+      for (var grade in grades) {
+        gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
+      }
+
+      Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
+      for (var entry in gradesByDegree.entries) {
+        for (var grade in entry.value) {
+          gradesByDegreeAndSemester
+              .putIfAbsent(entry.key, () => {})
+              .putIfAbsent(grade.semester, () => [])
+              .add(grade);
+        }
+      }
+
+      this.grades.add(gradesByDegreeAndSemester);
+    }, onError: (error) => grades.addError(error));
   }
 
   Map<double, int> chartDataForDegree(String studyID) {

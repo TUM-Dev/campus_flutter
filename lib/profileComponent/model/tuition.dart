@@ -6,7 +6,7 @@ part 'tuition.g.dart';
 @JsonSerializable()
 class Tuition {
   @JsonKey(name: "soll", fromJson: stringToDouble)
-  final double amount;
+  final double? amount;
   @JsonKey(name: "frist")
   final DateTime deadline;
   @JsonKey(name: "semester_bezeichnung")

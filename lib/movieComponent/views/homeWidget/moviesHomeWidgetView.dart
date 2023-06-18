@@ -1,46 +1,46 @@
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/horizontalSlider.dart';
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiError.dart';
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widgetTitleChild.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
-import 'package:campus_flutter/movieComponent/viewModel/movieViewModel.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movieCardView.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:campus_flutter/providers_get_it.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesHomeWidget extends StatefulWidget {
+class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MoviesHomeWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MoviesHomeWidgetState();
 }
 
-class _MoviesHomeWidgetState extends State<MoviesHomeWidget> {
+class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
   @override
   void initState() {
-    Provider.of<MovieViewModel>(context, listen: false).getMovies();
+    ref.read(movieViewModel).getMovies();
+    //Provider.of<MovieViewModel>(context, listen: false).getMovies();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WidgetTitleChild(title: "TU Film", child:
+    return WidgetFrameView(title: "TU Film", child:
     StreamBuilder(
-        stream: Provider.of<MovieViewModel>(context, listen: true).movies,
+        stream: ref.watch(movieViewModel).movies,
+        //stream: Provider.of<MovieViewModel>(context, listen: true).movies,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.movies.isEmpty) {
               return const SizedBox.shrink();
             } else {
-              return SizedBox(height: MediaQuery.of(context).size.height * 0.34, child:
-              HorizontalSlider<Movie>(
+              return HorizontalSlider<Movie>(
                   data: snapshot.data!.movies,
+                  height: MediaQuery.of(context).size.height * 0.34,
                   child: (data) {
                     return MovieCardView(movie: data);
                   }
-              ));
+              );
             }
           } else if (snapshot.hasError) {
             if (snapshot.error is TumCabeApiError) {
@@ -50,7 +50,10 @@ class _MoviesHomeWidgetState extends State<MoviesHomeWidget> {
               return const SizedBox.shrink();
             }
           } else {
-            return const DelayedLoadingIndicator(name: "Movies");
+            return Card(
+                child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.34,
+                    child: const DelayedLoadingIndicator(name: "Movies")));
           }
         }));
   }

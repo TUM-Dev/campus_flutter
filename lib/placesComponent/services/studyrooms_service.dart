@@ -7,11 +7,11 @@ import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApiSer
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomData.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomImageMapping.dart';
-import 'package:get/get.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 
 class StudyRoomsService {
   static Future<StudyRoomData> fetchStudyRooms() async {
-    MainApi mainApi = Get.find();
+    MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<StudyRoomData, TumDevAppApi, TumDevAppApiError>(
         TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
         StudyRoomData.fromJson,
@@ -23,7 +23,7 @@ class StudyRoomsService {
   }
 
   static Future<StudyRoomImageMapping> fetchMap(String room) async {
-    MainApi mainApi = Get.find();
+    MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<StudyRoomImageMapping, TumCabeApi, TumCabeApiError>(
         TumCabeApi(tumCabeService: TumCabeServiceRoomMaps(room: room)),
         StudyRoomImageMapping.fromJson,

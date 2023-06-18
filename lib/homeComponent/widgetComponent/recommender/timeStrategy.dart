@@ -16,7 +16,7 @@ class TimeStrategy implements WidgetRecommenderStrategy {
     switch (homeWidget) {
       case HomeWidget.cafeteria:
         // There is no menu on weekends.
-        if (currentDate.weekday == 1 || currentDate.weekday == 7) {
+        if (currentDate.weekday == 6 || currentDate.weekday == 7) {
           priority = 0;
           break;
         }
@@ -30,6 +30,11 @@ class TimeStrategy implements WidgetRecommenderStrategy {
 
         // The menu might be interesting before the opening hours.
         if (currentDate.hour < 14 && 6 < currentDate.hour) {
+          priority += 1;
+        }
+
+        // TODO: useful?
+        if (currentDate.hour >= 10 && currentDate.hour <= 12) {
           priority += 1;
         }
 
@@ -58,20 +63,6 @@ class TimeStrategy implements WidgetRecommenderStrategy {
           priority += 1;
         }
 
-      case HomeWidget.grades:
-        // Grades are most interesting after the exams, i.e. at the end of the semester.
-        if ((currentDate.month == 2 && currentDate.day > 15) ||
-            currentDate.month == 3 ||
-            (currentDate.month == 7 && currentDate.day >= 15) ||
-            currentDate.month == 8) {
-          priority += 1;
-        }
-
-        // Bonus points in August and March.
-        if (currentDate.month == 3 || currentDate.month == 8) {
-          priority += 1;
-        }
-
       case HomeWidget.departures:
         // departures are always interesting
         priority += 1;
@@ -84,7 +75,6 @@ class TimeStrategy implements WidgetRecommenderStrategy {
         // bonus if during workhours
         if (currentDate.hour >= 9 && currentDate.hour <= 20) {
           priority += 1;
-          ;
         }
     }
 

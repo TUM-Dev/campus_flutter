@@ -1,18 +1,19 @@
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(leading: const BackButton()),
       body: ListView(children: [
         IconButton(
             onPressed: () {
-              Provider.of<LoginViewModel>(context, listen: false).logout();
+              //Provider.of<LoginViewModel>(context, listen: false).logout();
+              ref.read(loginViewModel).logout();
             },
             icon: const Icon(Icons.logout_rounded))
       ])

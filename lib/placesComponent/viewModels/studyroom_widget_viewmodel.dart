@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:campus_flutter/base/services/locationService.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';

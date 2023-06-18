@@ -2,47 +2,70 @@ import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
-import 'package:campus_flutter/departuresComponent/viewModel/departuresViewModel.dart';
 import 'package:campus_flutter/departuresComponent/views/departuresDetailsRowView.dart';
 import 'package:campus_flutter/departuresComponent/views/departuresDetailsView.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // TODO: stateless?
-class DeparturesHomeWidget extends StatefulWidget {
+class DeparturesHomeWidget extends ConsumerStatefulWidget {
   const DeparturesHomeWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => _DeparturesHomeWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _DeparturesHomeWidgetState();
 }
 
-class _DeparturesHomeWidgetState extends State<DeparturesHomeWidget> {
+class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   @override
   void deactivate() {
-    Provider.of<DeparturesViewModel>(context, listen: false).timer?.cancel();
+    ref.read(departureViewModel).timer?.cancel();
+    //Provider.of<DeparturesViewModel>(context, listen: false).timer?.cancel();
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    return CardWithPadding(
-        height: MediaQuery.of(context).size.height * 0.21,
-        child: StreamBuilder(
-            stream: Provider.of<DeparturesViewModel>(context, listen: true).departures,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final station =
-                    Provider.of<DeparturesViewModel>(context, listen: true).selectedStation.value!;
-                return MaterialButton(
-                    onPressed: () => _onWidgetPressed(context),
-                    child: _widgetContent(snapshot, station)
-                );
-              } else if (snapshot.hasError) {
-                return const Text("Error");
-              } else {
-                return const DelayedLoadingIndicator(name: "Departures");
-              }
-            }));
+    return StreamBuilder(
+        stream: ref.watch(departureViewModel).departures,
+        //stream: Provider.of<DeparturesViewModel>(context).departures,
+        builder: (context, snapshot) {
+          return WidgetFrameView(
+              title:  _titleBuilder(),
+              child: GestureDetector(
+                  onTap: () => _onWidgetPressed(context),
+                  child: CardWithPadding(
+                      height: MediaQuery.of(context).size.height * 0.21,
+                      child: StreamBuilder(
+                          stream: ref.watch(departureViewModel).departures,
+                          //stream: Provider.of<DeparturesViewModel>(context, listen: true).departures,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final station =
+                                  ref.watch(departureViewModel).selectedStation.value!;
+                              //Provider.of<DeparturesViewModel>(context, listen: true).selectedStation.value!;
+                              return _widgetContent(snapshot, station);
+                            } else if (snapshot.hasError) {
+                              return const Text("Error");
+                            } else {
+                              return const DelayedLoadingIndicator(name: "Departures");
+                            }
+                          }))
+              )
+          );
+        }
+    );
+  }
+
+  String _titleBuilder() {
+    if (ref.watch(departureViewModel).closestCampus.value?.name != null) {
+    //if (Provider.of<DeparturesViewModel>(context).closestCampus.value?.name != null) {
+      return "Departures @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
+      //return "Departures @ ${Provider.of<DeparturesViewModel>(context).closestCampus.value?.name}";
+    } else {
+      return "Departures";
+    }
   }
 
   Widget _widgetContent(AsyncSnapshot<List<Departure>?> snapshot, Station station) {
@@ -63,9 +86,9 @@ class _DeparturesHomeWidgetState extends State<DeparturesHomeWidget> {
 
   _onWidgetPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (newContext) => Provider<DeparturesViewModel>.value(
+        builder: (context) => /*Provider<DeparturesViewModel>.value(
             value: Provider.of<DeparturesViewModel>(context),
-            child: const DeparturesDetailsScaffold()
-        )));
+            child: */const DeparturesDetailsScaffold()
+        ))/*)*/;
   }
 }

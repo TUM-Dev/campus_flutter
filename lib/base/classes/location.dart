@@ -2,5 +2,5 @@ class Location {
   final double latitude;
   final double longitude;
 
-  Location(this.latitude, this.longitude);
+  Location({required this.latitude, required this.longitude});
 }

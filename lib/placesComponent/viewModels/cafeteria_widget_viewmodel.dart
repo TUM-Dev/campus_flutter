@@ -42,8 +42,8 @@ class CafeteriaWidgetViewModel {
 
       this.cafeteria.add(cafeteria);
 
-      final menus = await MealPlanService.getCafeteriaMenu(cafeteria, false);
-      cafeteriaMenu.add(menus.first);
+      final menus = await MealPlanService.getCafeteriaMenu(cafeteria);
+      cafeteriaMenu.add(menus.firstOrNull);
     } else {
       return;
     }

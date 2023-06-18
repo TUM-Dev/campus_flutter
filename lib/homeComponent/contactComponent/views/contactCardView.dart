@@ -1,34 +1,37 @@
 import 'package:campus_flutter/base/extensions/base64+decodeImageData.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/contactCardLoadingView.dart';
+import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardLoadingView.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ContactCardView extends StatefulWidget {
+class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ContactCardViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ContactCardViewState();
 }
 
-class _ContactCardViewState extends State<ContactCardView> {
-  late PersonDetailsViewModel personDetailsViewModel;
+class _ContactCardViewState extends ConsumerState<ContactCardView> {
+  //late PersonDetailsViewModel personDetailsViewModel;
 
   @override
   void initState() {
-    personDetailsViewModel =
+    /*personDetailsViewModel =
         Provider.of<PersonDetailsViewModel>(context, listen: false);
-    personDetailsViewModel.fetchPersonDetails();
+    personDetailsViewModel.fetchPersonDetails();*/
+    //ref.read(profileDetailsViewModel).fetchPersonDetails();
     super.initState();
   }
 
   @override
   build(BuildContext context) {
     return StreamBuilder(
-        stream: Provider.of<PersonDetailsViewModel>(context, listen: true)
+        stream: ref.watch(profileDetailsViewModel).personDetails,
+        /*stream: Provider.of<PersonDetailsViewModel>(context, listen: true)
             .personDetails
-            .stream,
+            .stream,*/
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return contactInfo(snapshot.data);
@@ -61,8 +64,8 @@ class _ContactCardViewState extends State<ContactCardView> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.headlineSmall),
-                    Text(personDetailsViewModel.profile != null
-                        ? personDetailsViewModel.profile?.tumID ?? "xy00abc"
+                    Text(ref.watch(profileDetailsViewModel).profile != null
+                        ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "xy00abc"
                         : "xy00abc"),
                     Text(data != null
                         ? data.email

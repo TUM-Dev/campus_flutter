@@ -1,16 +1,10 @@
-import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
-import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:campus_flutter/placesComponent/map.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-
-import 'package:provider/provider.dart';
 
 import 'lectureComponent/views/lectureView.dart';
 
@@ -116,16 +110,11 @@ class _NavigationState extends State<Navigation> {
         body: SafeArea(
           child: <Widget>[
             const HomeScreen(),
-            Provider(
-                create: (context) => GradeViewModel(),
-                child: const GradesView()),
-            Provider(
-                create: (context) => LectureViewModel(),
-                child: const LectureView()),
-            Provider(
-                create: (context) => CalendarViewModel(),
-                child: const CalendarsView()),
-            const PlacesWidget()
+            const GradesView(),
+            const LectureView(),
+            const CalendarsView(),
+            // TODO: replace with places widget
+            const Text("Coming Soon")
           ][currentPageIndex],
         ),
     );

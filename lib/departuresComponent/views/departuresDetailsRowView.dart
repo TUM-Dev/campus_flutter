@@ -27,10 +27,12 @@ class DeparturesDetailsRowView extends StatelessWidget {
   }
 
   Widget _lineNumberRectangle(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: Stack(children: [
-          Container(
+    return Stack(
+          children: [
+    Padding(
+    padding: const EdgeInsets.only(right: 15),
+    child:
+            Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5), color: departure.servingLine.color),
               width: 55,
@@ -40,10 +42,11 @@ class DeparturesDetailsRowView extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)))),
-          // TODO:
-          //_warningOverlay()
-        ]));
+                          ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold))),
+            )),
+            //Positioned(width: 55 * 2, bottom: 20, child: Icon(Icons.warning, color: Colors.yellow))
+          ],
+        );
   }
 
   // TODO:
@@ -79,11 +82,11 @@ class DeparturesDetailsRowView extends StatelessWidget {
   Widget timeBuilder(DepartureDateTime dateTime, Color? color) {
     // TODO: walking distance
     if (departure.countdown < 1) {
-      return Text("NOW", style: TextStyle(color: color));
+      return Text("NOW", style: TextStyle(color: color, fontWeight: FontWeight.w500));
     } else {
       final hour = NumberFormat("00").format(dateTime.hour);
       final minute = NumberFormat("00").format(dateTime.minute);
-      return Text("$hour:$minute", style: TextStyle(color: color));
+      return Text("$hour:$minute", style: TextStyle(color: color, fontWeight: FontWeight.w500));
     }
   }
 }

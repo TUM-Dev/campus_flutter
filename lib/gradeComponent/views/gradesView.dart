@@ -6,28 +6,32 @@ import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/gradeComponent/views/chartView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradeView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GradesView extends StatefulWidget {
+class GradesView extends ConsumerStatefulWidget {
   const GradesView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GradesViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GradesViewState();
 }
 
-class _GradesViewState extends State<GradesView> {
+class _GradesViewState extends ConsumerState<GradesView> {
+
+  late GradeViewModel gradeVM;
 
   @override
-  void initState() {
-    Provider.of<GradeViewModel>(context, listen: false).gradesByDegreeAndSemester();
-    super.initState();
+  void didChangeDependencies() {
+    gradeVM = ref.watch(gradeViewModel);
+    gradeVM.gradesByDegreeAndSemester();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Provider.of<GradeViewModel>(context, listen: true).grades,
+        stream: gradeVM.grades,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {

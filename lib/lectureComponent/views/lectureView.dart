@@ -2,30 +2,31 @@ import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LectureView extends StatefulWidget {
+class LectureView extends ConsumerStatefulWidget {
   const LectureView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GradeViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GradeViewState();
 }
 
-class _GradeViewState extends State<LectureView> {
+class _GradeViewState extends ConsumerState<LectureView> {
   @override
   void initState() {
-    Provider.of<LectureViewModel>(context, listen: false).lecturesBySemester();
+    ref.read(lectureViewModel).lecturesBySemester();
+    //Provider.of<LectureViewModel>(context, listen: false).lecturesBySemester();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Provider.of<LectureViewModel>(context, listen: true).lectures.stream,
+        stream: ref.watch(lectureViewModel).lectures,
+        //stream: Provider.of<LectureViewModel>(context, listen: true).lectures.stream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
@@ -47,13 +48,13 @@ class _GradeViewState extends State<LectureView> {
   }
 }
 
-class SemesterView extends StatelessWidget {
+class SemesterView extends ConsumerWidget {
   const SemesterView({super.key, required this.semester});
 
   final MapEntry<String, List<Lecture>> semester;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
       title: Text(semester.key),
@@ -92,15 +93,13 @@ class SemesterView extends StatelessWidget {
                 ],
               ),
               onTap: () {
+                ref.read(selectedLecture.notifier).state = semester.value[index];
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Provider(
-                            create: (context) => LectureDetailsViewModel(
-                                lecture: semester.value[index]),
-                            child: Scaffold(
+                        builder: (context) => Scaffold(
                                 appBar: AppBar(leading: const BackButton()),
-                                body: const LectureDetailsView()))));
+                                body: const LectureDetailsView())));
               },
             ),
             (index != semester.value.length - 1

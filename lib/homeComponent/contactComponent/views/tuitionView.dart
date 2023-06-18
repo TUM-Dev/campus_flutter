@@ -1,18 +1,19 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 // TODO: code cleanup
-class TuitionView extends StatelessWidget {
+class TuitionView extends ConsumerWidget {
   const TuitionView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream: Provider.of<ProfileViewModel>(context, listen: true).tuition,
+        stream: ref.watch(profileViewModel).tuition,
+        //stream: Provider.of<ProfileViewModel>(context, listen: true).tuition,
         builder: (context, snapshot) {
           return Card(
             child: TextButton(

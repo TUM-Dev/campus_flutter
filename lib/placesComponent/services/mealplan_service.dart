@@ -8,19 +8,19 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.d
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/meal_plan.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
-import 'package:get/get.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 
 class MealPlanService {
   static Future<List<CafeteriaMenu>> getCafeteriaMenu(
-      Cafeteria cafeteria, bool forcedRefresh) async {
-    MainApi mainApi = Get.find();
+      Cafeteria cafeteria) async {
+    MainApi mainApi = getIt<MainApi>();
     final today = DateTime.now();
     final response = await mainApi.makeRequest<MealPlan, EatApi, EatApiError>(
         EatApi(
             EatApiServiceMenu(location: cafeteria.id, year: today.year, week: today.weekNumber())),
         MealPlan.fromJson,
         EatApiError.fromJson,
-        forcedRefresh);
+        false);
 
     final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
 
@@ -33,7 +33,7 @@ class MealPlanService {
           )),
           MealPlan.fromJson,
           EatApiError.fromJson,
-          forcedRefresh);
+          false);
 
       final List<CafeteriaMenu> nextWeekMenu =
       _filterNextWeekMenu(_getMenuPerDay(nextWeekResponse.data), thisWeekMenu);
@@ -42,6 +42,8 @@ class MealPlanService {
 
       return thisWeekMenu;
     } catch (_) {
+      print("Error");
+      print(thisWeekMenu.length);
       return thisWeekMenu;
     }
   }

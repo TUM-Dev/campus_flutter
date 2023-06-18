@@ -4,7 +4,6 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/loginComponent/services/loginService.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 

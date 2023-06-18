@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:campus_flutter/base/enums/homeWidget.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/locationStrategy.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/timeStrategy.dart';
@@ -13,11 +11,14 @@ class SpatialTemporalStrategy implements WidgetRecommenderStrategy {
 
     final timeRecommendations = await timeStrategy.getRecommendations();
     final locationRecommendations = await locationStrategy.getRecommendations();
-
-    final recommendations = {
-      for (var e in HomeWidget.values)
-        e: (timeRecommendations[e] ?? 0) + (locationRecommendations[e] ?? 0)
-    };
+    
+    Map<HomeWidget, int> recommendations = Map.fromIterable(HomeWidget.values, key: (homeWidget) => homeWidget, value: (homeWidget) {
+      if (timeRecommendations[homeWidget] != 0) {
+        return (timeRecommendations[homeWidget] ?? 0) + (locationRecommendations[homeWidget] ?? 0);
+      } else {
+        return 0;
+      }
+    });
 
     /// remove all where priority is 0
     recommendations.removeWhere((key, value) => value <= 1);

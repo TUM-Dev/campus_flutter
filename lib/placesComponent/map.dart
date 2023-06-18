@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 import 'package:campus_flutter/base/services/locationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -136,4 +136,4 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       markers: _markers,
     );
   }
-}
+}*/

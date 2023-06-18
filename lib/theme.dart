@@ -50,6 +50,7 @@ final lightTheme = ThemeData(
         collapsedIconColor: _primaryLightColor,
         textColor: _primaryLightColor,
         iconColor: _primaryLightColor),
+    buttonTheme: const ButtonThemeData(padding: EdgeInsets.zero, minWidth: 0, layoutBehavior: ButtonBarLayoutBehavior.constrained, highlightColor: Colors.transparent),
     useMaterial3: true,
     dividerColor: Colors.transparent,
     navigationBarTheme: const NavigationBarThemeData(
@@ -100,6 +101,7 @@ final darkTheme = ThemeData(
         textColor: _primaryDarkColor,
         iconColor: _primaryDarkColor,
     ),
+    buttonTheme: const ButtonThemeData(padding: EdgeInsets.zero, minWidth: 0, layoutBehavior: ButtonBarLayoutBehavior.constrained, highlightColor: Colors.transparent),
     useMaterial3: true,
     dividerColor: Colors.transparent,
     navigationBarTheme: const NavigationBarThemeData(

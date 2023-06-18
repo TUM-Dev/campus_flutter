@@ -11,9 +11,9 @@ class ErrorBody {
 
   ErrorBody({required this.errorMessage});
 
-  factory ErrorBody.fromJson(Map<String, dynamic> json) => _$ErrorFromJson(json);
+  factory ErrorBody.fromJson(Map<String, dynamic> json) => _$ErrorBodyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ErrorToJson(this);
+  Map<String, dynamic> toJson() => _$ErrorBodyToJson(this);
 }
 
 @JsonSerializable()

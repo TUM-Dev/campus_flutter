@@ -1,20 +1,21 @@
 import 'package:campus_flutter/calendarComponent/model/calendarDataSource.dart';
-import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class CalendarWeekView extends StatelessWidget {
+class CalendarWeekView extends ConsumerWidget {
   const CalendarWeekView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream: Provider
+        stream: ref.watch(calendarViewModel).events,
+        /*stream: Provider
             .of<CalendarViewModel>(context, listen: true)
             .events
-            .stream,
+            .stream,*/
         builder: (context, snapshot) {
           return Expanded(child: SfCalendar(
             view: CalendarView.week,
@@ -22,7 +23,7 @@ class CalendarWeekView extends StatelessWidget {
                 ? MeetingDataSource(snapshot.data!, context)
                 : null,
             onTap: (details) {
-              showModalSheet(details, context);
+              showModalSheet(details, context, ref);
             },
             firstDayOfWeek: 1,
             showDatePickerButton: true,
