@@ -19,7 +19,6 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
   @override
   void initState() {
     ref.read(movieViewModel).getMovies();
-    //Provider.of<MovieViewModel>(context, listen: false).getMovies();
     super.initState();
   }
 
@@ -28,7 +27,6 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
     return WidgetFrameView(title: "TU Film", child:
     StreamBuilder(
         stream: ref.watch(movieViewModel).movies,
-        //stream: Provider.of<MovieViewModel>(context, listen: true).movies,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.movies.isEmpty) {

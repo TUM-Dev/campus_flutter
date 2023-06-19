@@ -97,11 +97,11 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               const Row(
                 children: [
-                  SizedBox(width: 50, child: Text("Line")),
+                  SizedBox(width: 50, child: Text("Line", style: TextStyle(fontWeight: FontWeight.w500))),
                   Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
-                  Text("Direction"),
+                  Text("Direction", style: TextStyle(fontWeight: FontWeight.w500)),
                   Spacer(),
-                  Text("Departure")
+                  Text("Departure", style: TextStyle(fontWeight: FontWeight.w500))
                 ],
               ),
               const Divider(),

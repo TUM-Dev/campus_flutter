@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/extensions/base64+decodeImageData.dart';
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardLoadingView.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
@@ -14,29 +15,18 @@ class ContactCardView extends ConsumerStatefulWidget {
 }
 
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
-  //late PersonDetailsViewModel personDetailsViewModel;
-
-  @override
-  void initState() {
-    /*personDetailsViewModel =
-        Provider.of<PersonDetailsViewModel>(context, listen: false);
-    personDetailsViewModel.fetchPersonDetails();*/
-    //ref.read(profileDetailsViewModel).fetchPersonDetails();
-    super.initState();
-  }
-
   @override
   build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(profileDetailsViewModel).personDetails,
-        /*stream: Provider.of<PersonDetailsViewModel>(context, listen: true)
-            .personDetails
-            .stream,*/
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return contactInfo(snapshot.data);
           } else {
-            return const ContactCardLoadingView();
+            return const DelayedLoadingIndicator(
+              alternativeLoadingIndicator: ContactCardLoadingView(),
+              delayWidget: SizedBox.expand(),
+            );
           }
         });
   }
@@ -44,15 +34,17 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   Widget contactInfo(PersonDetails? data) {
     return Card(
         child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: data != null ? Image.memory(base64DecodeImageData(data.imageData)).image :
-                  const AssetImage('assets/images/Portrait_Placeholder.png'),
+                  backgroundImage: data != null
+                      ? Image.memory(base64DecodeImageData(data.imageData)).image
+                      : const AssetImage('assets/images/Portrait_Placeholder.png'),
+                  backgroundColor: Colors.white,
                   radius: 50,
                 ),
-                const Padding(padding: EdgeInsets.only(left: 16)),
+                const Padding(padding: EdgeInsets.only(left: 15)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

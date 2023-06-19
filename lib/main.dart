@@ -27,8 +27,8 @@ class CampusApp extends StatelessWidget {
     return MaterialApp(
         title: "TUM Campus App",
         debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        darkTheme: darkTheme,
+        theme: lightTheme(context),
+        darkTheme: darkTheme(context),
         routes: {
           confirm: (context) => const ConfirmView(),
         },

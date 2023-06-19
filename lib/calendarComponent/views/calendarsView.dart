@@ -30,7 +30,6 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
   @override
   void initState() {
     ref.read(calendarViewModel).fetchEvents();
-    //Provider.of<CalendarViewModel>(context, listen: false).fetchEvents();
     super.initState();
   }
 
@@ -71,20 +70,27 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
   }
 }
 
-showModalSheet(CalendarTapDetails details, BuildContext context, WidgetRef ref) {
-  if (details.targetElement == CalendarElement.appointment &&
-      details.appointments!.isNotEmpty) {
+showModalSheet(
+    CalendarTapDetails? details, CalendarEvent? event, BuildContext context, WidgetRef ref) {
+  CalendarEvent? calendarEvent;
+  if (details != null) {
+    if (details.targetElement == CalendarElement.appointment && details.appointments!.isNotEmpty) {
+      calendarEvent = details.appointments?.first as CalendarEvent;
+    }
+  } else if (event != null) {
+    calendarEvent = event;
+  }
 
-    var event = details.appointments?.first as CalendarEvent;
-    ref.read(selectedEvent.notifier).state = event;
+  ref.read(selectedEvent.notifier).state = calendarEvent;
+  ref.read(selectedLecture.notifier).state = null;
 
+  if (calendarEvent != null) {
     showModalBottomSheet(
         isScrollControlled: true,
         useSafeArea: true,
         showDragHandle: true,
         context: context,
         builder: (context) {
-
           return DraggableScrollableSheet(
               initialChildSize: 1,
               minChildSize: 1,

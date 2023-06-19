@@ -16,7 +16,6 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   void initState() {
     ref.read(studyRoomWidgetViewModel).getClosestRooms();
-    //Provider.of<StudyRoomWidgetViewModel>(context, listen: false).getClosestRooms();
     super.initState();
   }
 
@@ -28,7 +27,6 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
           height: 60,
           child: StreamBuilder(
               stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
-              //stream: Provider.of<StudyRoomWidgetViewModel>(context, listen: true).studyRoomGroup,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return _buttonLabel(context, snapshot);

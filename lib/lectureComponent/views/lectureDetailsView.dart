@@ -21,8 +21,6 @@ class LectureDetailsView extends ConsumerStatefulWidget {
 class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   @override
   void initState() {
-    /*Provider.of<LectureDetailsViewModel>(context, listen: false)
-        .fetchLectureDetails();*/
     ref.read(lectureDetailsViewModel).fetchLectureDetails();
     super.initState();
   }
@@ -31,9 +29,6 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: ref.watch(lectureDetailsViewModel).lectureDetails,
-      /*stream: Provider
-          .of<LectureDetailsViewModel>(context, listen: true)
-          .lectureDetails,*/
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return lectureDetailsView(snapshot.data!);
@@ -75,20 +70,17 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   List<Widget> _infoCards(LectureDetails lectureDetails) {
     return [
       if (ref.read(lectureDetailsViewModel).event != null) ...[
-      //if (Provider.of<LectureDetailsViewModel>(context, listen: false).event != null) ...[
         _infoCard(Icons.calendar_month, "This Meeting",
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BasicLectureInfoRow(
                   information: ref.read(lectureDetailsViewModel).event!.timeDatePeriod,
-                  //information: Provider.of<LectureDetailsViewModel>(context, listen: false).event!.timeDatePeriod,
                   iconData: Icons.hourglass_top),
               const Divider(),
               // TODO: roomfinder
               BasicLectureInfoRow(
                   information: ref.read(lectureDetailsViewModel).event!.location,
-                  //information: Provider.of<LectureDetailsViewModel>(context, listen: false).event!.location,
                   iconData: Icons.location_on)
             ],
           )

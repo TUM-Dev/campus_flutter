@@ -21,8 +21,6 @@ class _ChartViewState extends ConsumerState<ChartView> {
 
   @override
   void initState() {
-    /*data = Provider.of<GradeViewModel>(context, listen: false)
-        .chartDataForDegree(widget.studyID);*/
     data = ref.read(gradeViewModel).chartDataForDegree(widget.studyID);
     super.initState();
   }

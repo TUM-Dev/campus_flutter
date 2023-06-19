@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:campus_flutter/base/networking/custom_cache_interceptor.dart';
 import 'package:campus_flutter/base/networking/errors/noConnectionError.dart';
 import 'package:campus_flutter/base/networking/errors/responseError.dart';
 import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/providers_get_it.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
@@ -21,40 +20,15 @@ class MainApi {
 
     /// cache duration is 30 days for offline mode
     var cacheOptions = CacheOptions(
-      store: cacheStore,
-      policy: CachePolicy.request,
-      maxStale: const Duration(days: 30),
-      hitCacheOnErrorExcept: [401, 404]
+        store: cacheStore,
+        policy: CachePolicy.forceCache,
+        maxStale: const Duration(days: 30),
+        hitCacheOnErrorExcept: [401, 404]
     );
 
-    final dio = Dio();
-
-    /// add custom interceptor to enforce cache for at least 10 minutes
-    /// the custom interceptor also invalidates caches for force refreshes
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
-      ConnectivityResult connectivityResult = getIt<ConnectivityResult>();
-      if (connectivityResult != ConnectivityResult.none
-          && !options.path.contains("tumCard")) {
-        if (options.extra["forcedRefresh"] == "true") {
-          final key = CacheOptions.defaultCacheKeyBuilder(options);
-          cacheStore.delete(key);
-        } else {
-          final key = CacheOptions.defaultCacheKeyBuilder(options);
-          final cache = await cacheStore.get(key);
-          if (cache != null && DateTime.now().difference(cache.responseDate).inMinutes <= 10) {
-            return handler.resolve(cache.toResponse(options, fromNetwork: false));
-          } else {
-            cacheStore.delete(key);
-          }
-        }
-      }
-      handler.next(options);
-    }));
-
-    dio.interceptors.add(
-      DioCacheInterceptor(options: cacheOptions),
-    );
-
+    final dio = Dio()
+      ..interceptors
+          .add(CustomCacheInterceptor(cacheStore: cacheStore, cacheOptions: cacheOptions));
     this.dio = dio;
   }
 
@@ -74,8 +48,8 @@ class MainApi {
         response = await endpoint.asResponse(dioClient: dio);
       }
     } catch (e) {
-      print(endpoint.toString());
-      print(e.toString());
+      log(endpoint.toString());
+      log(e.toString());
       throw NoConnectionError();
     }
 

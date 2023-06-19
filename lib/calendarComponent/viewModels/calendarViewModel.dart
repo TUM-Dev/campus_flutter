@@ -24,7 +24,8 @@ class CalendarViewModel {
       final currentDay = DateTime(currentDate.year, currentDate.month, currentDate.day);
 
       for (CalendarEvent event in events.value ?? []) {
-        if (event.startDate.isAtSameMomentAs(currentDay) && leftColumn == null) {
+        final dateToCheck =  DateTime(event.startDate.year, event.startDate.month, event.startDate.day);
+        if (dateToCheck == currentDay && leftColumn == null) {
           leftColumn = event;
         } else if (rightColumn.length <= 2 && (rightColumn.firstOrNull == null || rightColumn.first.startDate.isBefore(event.startDate))) {
           rightColumn.add(event);

@@ -7,30 +7,29 @@ class ContactCardLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Card(
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    backgroundImage:
-                    AssetImage('assets/images/Portrait_Placeholder.png'),
-                    radius: 50,
-                  ),
-                  const Padding(padding: EdgeInsets.only(left: 16)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ShimmerView(child: PlaceholderText(
-                        text: "Max Mustermann",
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      )),
-                      const ShimmerView(child: PlaceholderText(text: "go43hum")),
-                      const ShimmerView(child: PlaceholderText(text: "max.mustermann@tum.de")),
-                      const ShimmerView(child: PlaceholderText(text: "Informatik B.Sc.")),
-                    ],
-                  )
-                ],
-              )));
+    return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              backgroundImage: AssetImage('assets/images/Portrait_Placeholder.png'),
+              radius: 50,
+            ),
+            const Padding(padding: EdgeInsets.only(left: 15)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerView(
+                    child: PlaceholderText(
+                  text: "Max Mustermann",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                )),
+                const ShimmerView(child: PlaceholderText(text: "go43hum")),
+                const ShimmerView(child: PlaceholderText(text: "max.mustermann@tum.de")),
+                const ShimmerView(child: PlaceholderText(text: "Informatik B.Sc.")),
+              ],
+            )
+          ],
+        ));
   }
 }

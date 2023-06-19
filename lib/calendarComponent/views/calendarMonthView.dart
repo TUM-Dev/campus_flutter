@@ -13,10 +13,6 @@ class CalendarMonthView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        /*stream: Provider
-            .of<CalendarViewModel>(context, listen: true)
-            .events
-            .stream,*/
         builder: (context, snapshot) {
           return Expanded(child: SfCalendar(
             view: CalendarView.month,
@@ -30,7 +26,7 @@ class CalendarMonthView extends ConsumerWidget {
             showDatePickerButton: true,
             showNavigationArrow: true,
             onTap: (details) {
-              showModalSheet(details, context, ref);
+              showModalSheet(details, null, context, ref);
             },
           ));
         });

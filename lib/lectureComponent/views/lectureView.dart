@@ -18,7 +18,6 @@ class _GradeViewState extends ConsumerState<LectureView> {
   @override
   void initState() {
     ref.read(lectureViewModel).lecturesBySemester();
-    //Provider.of<LectureViewModel>(context, listen: false).lecturesBySemester();
     super.initState();
   }
 
@@ -26,7 +25,6 @@ class _GradeViewState extends ConsumerState<LectureView> {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(lectureViewModel).lectures,
-        //stream: Provider.of<LectureViewModel>(context, listen: true).lectures.stream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
@@ -94,6 +92,7 @@ class SemesterView extends ConsumerWidget {
               ),
               onTap: () {
                 ref.read(selectedLecture.notifier).state = semester.value[index];
+                ref.read(selectedEvent.notifier).state = null;
                 Navigator.push(
                     context,
                     MaterialPageRoute(

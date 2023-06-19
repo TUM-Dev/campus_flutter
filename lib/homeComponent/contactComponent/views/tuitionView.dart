@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -13,7 +14,6 @@ class TuitionView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
         stream: ref.watch(profileViewModel).tuition,
-        //stream: Provider.of<ProfileViewModel>(context, listen: true).tuition,
         builder: (context, snapshot) {
           return Card(
             child: TextButton(
@@ -100,7 +100,10 @@ class TuitionView extends ConsumerWidget {
             style: const TextStyle(color: Colors.red));
       }
     } else {
-      return const Text("n/a", style: TextStyle(color: Colors.red));
+      return const DelayedLoadingIndicator(
+          name: "Tuition",
+          alternativeLoadingIndicator: Text("n/a", style: TextStyle(color: Colors.red))
+      );
     }
   }
 

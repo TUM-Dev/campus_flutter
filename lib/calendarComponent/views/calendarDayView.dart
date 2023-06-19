@@ -14,8 +14,6 @@ class CalendarDayView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        /*stream:
-            Provider.of<CalendarViewModel>(context, listen: true).events.stream,*/
         builder: (context, snapshot) {
           return Expanded(
               child: SfCalendar(
@@ -26,7 +24,7 @@ class CalendarDayView extends ConsumerWidget {
                 ? MeetingDataSource(snapshot.data!, context)
                 : null,
             onTap: (details) {
-              showModalSheet(details, context, ref);
+              showModalSheet(details, null, context, ref);
             },
             headerDateFormat: "EEEE, dd.MM.yyyy",
             showNavigationArrow: true,

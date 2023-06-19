@@ -21,7 +21,6 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   @override
   void deactivate() {
     ref.read(departureViewModel).timer?.cancel();
-    //Provider.of<DeparturesViewModel>(context, listen: false).timer?.cancel();
     super.deactivate();
   }
 
@@ -29,7 +28,6 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
-        //stream: Provider.of<DeparturesViewModel>(context).departures,
         builder: (context, snapshot) {
           return WidgetFrameView(
               title:  _titleBuilder(),
@@ -39,12 +37,10 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                       height: MediaQuery.of(context).size.height * 0.21,
                       child: StreamBuilder(
                           stream: ref.watch(departureViewModel).departures,
-                          //stream: Provider.of<DeparturesViewModel>(context, listen: true).departures,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               final station =
                                   ref.watch(departureViewModel).selectedStation.value!;
-                              //Provider.of<DeparturesViewModel>(context, listen: true).selectedStation.value!;
                               return _widgetContent(snapshot, station);
                             } else if (snapshot.hasError) {
                               return const Text("Error");
@@ -60,9 +56,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   String _titleBuilder() {
     if (ref.watch(departureViewModel).closestCampus.value?.name != null) {
-    //if (Provider.of<DeparturesViewModel>(context).closestCampus.value?.name != null) {
       return "Departures @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
-      //return "Departures @ ${Provider.of<DeparturesViewModel>(context).closestCampus.value?.name}";
     } else {
       return "Departures";
     }
@@ -86,9 +80,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   _onWidgetPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => /*Provider<DeparturesViewModel>.value(
-            value: Provider.of<DeparturesViewModel>(context),
-            child: */const DeparturesDetailsScaffold()
-        ))/*)*/;
+        builder: (context) => const DeparturesDetailsScaffold()
+        ));
   }
 }

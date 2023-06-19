@@ -12,7 +12,6 @@ class SettingsView extends ConsumerWidget {
       body: ListView(children: [
         IconButton(
             onPressed: () {
-              //Provider.of<LoginViewModel>(context, listen: false).logout();
               ref.read(loginViewModel).logout();
             },
             icon: const Icon(Icons.logout_rounded))

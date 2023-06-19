@@ -21,42 +21,38 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
   @override
   void initState() {
     ref.read(cafeteriaWidgetViewModel).getClosestCafeteria();
-    //Provider.of<CafeteriaWidgetViewModel>(context, listen: false).getClosestCafeteria();
     super.initState();
   }
-
-
 
   // TODO: make nice
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(cafeteriaWidgetViewModel).cafeteriaMenu,
-        //stream: Provider.of<CafeteriaWidgetViewModel>(context).cafeteriaMenu,
         builder: (context, snapshot) {
           return WidgetFrameView(
-            //title: Provider.of<CafeteriaWidgetViewModel>(context).cafeteria.value?.name ?? "Cafeteria",
             title: ref.watch(cafeteriaWidgetViewModel).cafeteria.value?.name ?? "Cafeteria",
           child: _dynamicContent(snapshot)
           );
         }
     );
   }
-  
+
   Widget _dynamicContent(AsyncSnapshot<CafeteriaMenu?> snapshot) {
     if (snapshot.hasData) {
-      //final dishes = Provider.of<CafeteriaWidgetViewModel>(context).getTodayDishes();
       final dishes = ref.watch(cafeteriaWidgetViewModel).getTodayDishes();
-      return HorizontalSlider<(Dish, String)>(data: dishes, height: 160, child: (dish) {
-        return _dishCard(dish);
-      });
+      return HorizontalSlider<(Dish, String)>(
+          data: dishes,
+          height: 160,
+          child: (dish) {
+            return _dishCard(dish);
+          });
     } else if (snapshot.hasError) {
-      return const Text("Error");
+      return const Card(
+          child: SizedBox(height: 150, child: Center(child: Text("no meal plan found"))));
     } else {
       return const Card(
-          child: SizedBox(
-              height: 150,
-              child: DelayedLoadingIndicator(name: "Mealplan")));
+          child: SizedBox(height: 150, child: DelayedLoadingIndicator(name: "Mealplan")));
     }
   }
 

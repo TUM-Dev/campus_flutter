@@ -17,9 +17,6 @@ class LoginView extends ConsumerWidget {
             TextField(controller: textFieldController),
             ElevatedButton(
                 onPressed: () {
-                  /*Provider.of<LoginViewModel>(context, listen: false)
-                      .requestLogin(textFieldController.value.text)
-                      .then((value) => Navigator.of(context).pushNamed(confirm));*/
                   ref.watch(loginViewModel)
                       .requestLogin(textFieldController.value.text)
                       .then((value) => Navigator.of(context).pushNamed(confirm));
@@ -28,7 +25,6 @@ class LoginView extends ConsumerWidget {
             ElevatedButton(
               onPressed: () {
                 ref.read(loginViewModel).skip();
-                //Provider.of<LoginViewModel>(context, listen: false).skip();
               },
               child: const Text("Skip"),
             ),
@@ -46,10 +42,7 @@ class ConfirmView extends ConsumerWidget {
         appBar: AppBar(title: const Text("Confirm")),
         body: ElevatedButton(
           onPressed: () {
-            ref.read(loginViewModel).confirmLogin()
-            /*Provider.of<LoginViewModel>(context, listen: false)
-                .confirmLogin()*/
-                .then((value) {
+            ref.read(loginViewModel).confirmLogin().then((value) {
               if (value != null) {
                 Navigator.of(context).pop();
               }

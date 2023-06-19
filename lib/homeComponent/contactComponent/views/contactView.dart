@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardLoadingView.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardView.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/linkView.dart';
@@ -15,22 +16,16 @@ class ContactScreen extends ConsumerStatefulWidget {
 
 class _ContactScreenState extends ConsumerState<ContactScreen> {
   @override
-  initState() {
-    //ref.read(profileViewModel).fetchProfile();
-    //Provider.of<ProfileViewModel>(context, listen: false).fetchProfile();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(profileViewModel).profile,
-        //stream: Provider.of<ProfileViewModel>(context, listen: true).profile.stream,
         builder: (context, snapshot) {
           return Column(children: [
+            SizedBox(height: 125, child: Card(child: Center(child:
             snapshot.hasData
                 ? const ContactCardView()
-                : const ContactCardLoadingView(),
+                : const SizedBox.expand()
+            ))),
             const TuitionView(),
             const LinkView()
           ]);

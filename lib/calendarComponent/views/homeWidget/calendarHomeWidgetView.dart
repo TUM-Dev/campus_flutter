@@ -18,7 +18,6 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   @override
   void initState() {
     ref.read(calendarViewModel).fetchEvents();
-    //Provider.of<CalendarViewModel>(context, listen: false).fetchEvents();
     super.initState();
   }
 
@@ -26,12 +25,9 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        //stream: Provider.of<CalendarViewModel>(context, listen: true).events,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return _calendarWidgetCard(
-                //Provider.of<CalendarViewModel>(context, listen: false).getWidgetEvents());
-                ref.read(calendarViewModel).getWidgetEvents());
+            return _calendarWidgetCard(ref.read(calendarViewModel).getWidgetEvents());
           } else if (snapshot.hasError) {
             return const Text("Error!");
           } else {
@@ -70,6 +66,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                     ? CalendarHomeWidgetEventView(calendarEvent: events.$1!)
                     : const Center(child: Text("No Events Today")))
           ])),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
           Expanded(
               child: Column(children: [
             Expanded(child: CalendarHomeWidgetEventView(calendarEvent: events.$2.first)),
