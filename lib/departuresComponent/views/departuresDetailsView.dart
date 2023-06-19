@@ -17,9 +17,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
           return Scaffold(
-              backgroundColor: Theme.of(context).cardTheme.color,
               appBar: AppBar(
-                backgroundColor: Theme.of(context).cardTheme.color,
                 leading: const BackButton(),
                 title:
                     Text(ref.watch(departureViewModel).selectedStation.value?.name ?? "Departures"),
