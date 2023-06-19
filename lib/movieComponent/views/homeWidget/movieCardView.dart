@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MovieCardView extends StatelessWidget {
   const MovieCardView({super.key, required this.movie});

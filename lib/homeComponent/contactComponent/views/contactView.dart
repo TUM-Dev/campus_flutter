@@ -1,5 +1,3 @@
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardLoadingView.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardView.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/linkView.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/tuitionView.dart';
