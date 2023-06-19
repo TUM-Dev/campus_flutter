@@ -13,13 +13,14 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(Theme.of(context).cardColor);
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
           return Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).cardTheme.color,
               appBar: AppBar(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).cardTheme.color,
                 leading: const BackButton(),
                 title:
                     Text(ref.watch(departureViewModel).selectedStation.value?.name ?? "Departures"),
