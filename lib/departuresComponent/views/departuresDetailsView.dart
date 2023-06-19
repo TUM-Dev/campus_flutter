@@ -13,7 +13,6 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(Theme.of(context).cardColor);
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {

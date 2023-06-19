@@ -42,8 +42,6 @@ class MealPlanService {
 
       return thisWeekMenu;
     } catch (_) {
-      print("Error");
-      print(thisWeekMenu.length);
       return thisWeekMenu;
     }
   }
