@@ -32,7 +32,6 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
             return NewsCardView(news: news);
           });
         } else if (snapshot.hasError) {
-          print(snapshot.error);
           return const SizedBox(height: 300, child: Card(child: Center(child: Text("Error"))));
         } else {
           return const DelayedLoadingIndicator(name: "News");

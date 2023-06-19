@@ -1,4 +1,3 @@
-
 import 'package:campus_flutter/base/services/locationService.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
@@ -40,6 +39,10 @@ class StudyRoomWidgetViewModel {
           return 1;
         } else if (room1.localizedStatus == "Free" && room2.localizedStatus != "Free") {
           return -1;
+        } else if (room1.localizedStatus != "Unkown" && room2.localizedStatus == "Unkown") {
+          return -1;
+        } else if (room1.localizedStatus == "Unkown" && room2.localizedStatus != "Unkown") {
+          return 1;
         } else {
           return 0;
         }

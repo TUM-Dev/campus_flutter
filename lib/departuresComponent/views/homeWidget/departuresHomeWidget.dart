@@ -9,7 +9,6 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// TODO: stateless?
 class DeparturesHomeWidget extends ConsumerStatefulWidget {
   const DeparturesHomeWidget({super.key});
 
