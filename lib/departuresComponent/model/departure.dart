@@ -15,8 +15,7 @@ class Departure {
   @JsonKey(fromJson: realDate)
   final DateTime? realDateTime;
   final ServingLine servingLine;
-  // TODO: lineInfos
-  //final LineInfosType? lineInfos;
+  final LineInfosType? lineInfos;
 
   Departure({
     required this.stopId,
@@ -24,7 +23,7 @@ class Departure {
     required this.dateTime,
     this.realDateTime,
     required this.servingLine,
-    //this.lineInfos
+    this.lineInfos
   });
 
   factory Departure.fromJson(Map<String, dynamic> json) => _$DepartureFromJson(json);
@@ -116,58 +115,82 @@ class ServingLine {
   }
 }
 
-// TODO:
-/*
-/// found on https://stackoverflow.com/questions/48739760/swift-4-json-codable-value-returned-is-sometimes-an-object-others-an-array
-enum LineInfosType: Codable, Hashable {
-case array([LineInfoContent])
-case element(LineInfoElement)
+/// no @JsonSerializable
+class LineInfosType {
+  final List<LineInfoContent>? array;
+  final LineInfoElement? element;
 
-init(from decoder: Decoder) throws {
-let container = try decoder.singleValueContainer()
-do {
-self = try .array(container.decode([LineInfoContent].self))
-} catch DecodingError.typeMismatch {
-do {
-self = try .element(container.decode(LineInfoElement.self))
-} catch DecodingError.typeMismatch {
-throw DecodingError.typeMismatch(LineInfosType.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Encoded payload not of an expected type"))
-}
-}
-}
+  LineInfosType({this.array, this.element});
 
-func encode(to encoder: Encoder) throws {
-var container = encoder.singleValueContainer()
-switch self {
-case .array(let array):
-try container.encode(array)
-case .element(let element):
-try container.encode(element)
-}
-}
+  factory LineInfosType.fromJson(Map<String, dynamic> json) {
+    if (json['lineInfos'] != null) {
+      return LineInfosType(array: (json['lineInfos'] as List).map((e) => LineInfoContent.fromJson(e)).toList());
+    } else if (json['lineInfo'] != null) {
+      return LineInfosType(element: LineInfoElement.fromJson(json));
+    } else {
+      throw const FormatException('Invalid LineInfosType JSON');
+    }
+  }
+
+  Map<String, dynamic> toJson() => {
+    'array': array?.map((e) => e.toJson()).toList(),
+    'element': element?.toJson(),
+  };
 }
 
-struct LineInfoElement: Hashable, Codable {
-let lineInfo: LineInfoContent
+@JsonSerializable()
+class LineInfoElement {
+  final LineInfoContent lineInfo;
+
+  LineInfoElement({required this.lineInfo});
+
+  factory LineInfoElement.fromJson(Map<String, dynamic> json) => _$LineInfoElementFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LineInfoElementToJson(this);
 }
 
-struct LineInfoContent: Hashable, Codable {
-let infoLinkText: String?
-let infoText: InfoText?
-let additionalLinks: [AdditionalLink]?
+@JsonSerializable()
+class LineInfoContent {
+  final String? infoLinkText;
+  final InfoText? infoText;
+  final List<AdditionalLink>? additionalLinks;
+
+  LineInfoContent({this.infoLinkText, this.infoText, this.additionalLinks});
+
+  factory LineInfoContent.fromJson(Map<String, dynamic> json) => _$LineInfoContentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LineInfoContentToJson(this);
 }
 
-struct AdditionalLink: Hashable, Codable {
-let id: String
-let linkURL: String
-let linkText, linkTextShort, linkTarget: String
+@JsonSerializable()
+class AdditionalLink {
+  @JsonKey(name: "ID")
+  final String id;
+  final String linkURL, linkText, linkTextShort, linkTarget;
 
-enum CodingKeys: String, CodingKey {
-case id = "ID"
-case linkURL, linkText, linkTextShort, linkTarget
-}
+  AdditionalLink({
+    required this.id,
+    required this.linkURL,
+    required this.linkText,
+    required this.linkTextShort,
+    required this.linkTarget
+  });
+
+  factory AdditionalLink.fromJson(Map<String, dynamic> json) => _$AdditionalLinkFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdditionalLinkToJson(this);
 }
 
-struct InfoText: Hashable, Codable {
-let content, subtitle: String
-}*/
+@JsonSerializable()
+class InfoText {
+  final String content, subtitle;
+
+  InfoText({
+   required this.content,
+   required this.subtitle
+  });
+
+  factory InfoText.fromJson(Map<String, dynamic> json) => _$InfoTextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InfoTextToJson(this);
+}

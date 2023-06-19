@@ -32,7 +32,20 @@ class StudyRoomWidgetViewModel {
       });
 
       studyRoomGroup.add(group);
-      rooms.add(group?.getRooms(response.rooms!));
+      final rooms = group?.getRooms(response.rooms!);
+      rooms?.sort((room1, room2) {
+        if (room1.localizedStatus == "Free" && room2.localizedStatus == "Free") {
+          return 0;
+        } else if (room1.localizedStatus != "Free" && room2.localizedStatus == "Free") {
+          return 1;
+        } else if (room1.localizedStatus == "Free" && room2.localizedStatus != "Free") {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      this.rooms.add(rooms);
     } else {
       return;
     }

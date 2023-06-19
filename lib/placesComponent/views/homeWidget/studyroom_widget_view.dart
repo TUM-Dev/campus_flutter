@@ -1,6 +1,8 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
+import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,36 +23,44 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _onPressed(context),
-      child: CardWithPadding(
-          height: 60,
-          child: StreamBuilder(
-              stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
-              builder: (context, snapshot) {
+    return StreamBuilder(
+        stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
+        builder: (context, snapshot) {
+          return GestureDetector(
+              onTap: () {
                 if (snapshot.hasData) {
-                  return _buttonLabel(context, snapshot);
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text("no study rooms near you found"));
-                } else {
-                  return const DelayedLoadingIndicator(name: "Closest Study Room");
+                  _onPressed(context, snapshot.data!,
+                      ref.read(studyRoomWidgetViewModel).rooms.value ?? []);
                 }
-              }))
-    );
+              },
+              child: CardWithPadding(height: 60, child: _widgetLabel(snapshot, context)));
+        });
   }
 
-  _onPressed(BuildContext context) {
-    // TODO: on button pressed
+  Widget _widgetLabel(AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
+    if (snapshot.hasData) {
+      return _buttonLabel(context, snapshot);
+    } else if (snapshot.hasError) {
+      return const Center(child: Text("no study rooms near you found"));
+    } else {
+      return const DelayedLoadingIndicator(name: "Closest Study Room");
+    }
+  }
+
+  _onPressed(BuildContext context, StudyRoomGroup studyRoomGroup, List<StudyRoom> studyRooms) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            StudyRoomGroupScaffold(studyRoomGroup: studyRoomGroup, studyRooms: studyRooms)));
   }
 
   Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
     return Row(
       children: [
         Text(snapshot.data?.name ?? "Unkown"),
-        // TODO: iconText or text?
-        //IconText(iconData: Icons.menu_book, label: snapshot.data?.name ?? "Unkown"),
         const Spacer(),
-        _freeRooms(snapshot)
+        _freeRooms(snapshot),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
+        const Icon(Icons.arrow_forward_ios, size: 15)
       ],
     );
   }

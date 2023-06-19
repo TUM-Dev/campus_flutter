@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -47,7 +48,7 @@ class NewsCardView extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis)),
                               Expanded(
                                   child: Text(
-                                      DateFormat.yMd().format(news.$2.created),
+                                      StringParser.dateFormatter(news.$2.created),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall)),

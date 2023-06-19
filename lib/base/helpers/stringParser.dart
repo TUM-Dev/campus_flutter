@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class StringParser {
   static String degreeShortFromID(String studyID) {
     switch (studyID) {
@@ -41,6 +43,7 @@ class StringParser {
   }
 
   static String degreeShort(String degree) {
+    // TODO:
     switch (degree) {
       case "Bachelor of Science": return "B.Sc.";
       default: return "unknown";
@@ -73,5 +76,9 @@ class StringParser {
       default:
         return "Unknown";
     }
+  }
+
+  static String dateFormatter(DateTime dateTime) {
+    return DateFormat(DateFormat.YEAR_MONTH_DAY).format(dateTime);
   }
 }

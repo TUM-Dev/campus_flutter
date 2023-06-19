@@ -48,7 +48,7 @@ class _WidgetScreenState extends State<WidgetScreen> {
                           return const DeparturesHomeWidget();
                         case HomeWidget.studyRoom:
                           return const WidgetFrameView(
-                              title: "Nearest Study Room",
+                              title: "Nearest Study Rooms",
                               child: StudyRoomWidgetView());
                         default:
                           return const SizedBox.shrink();

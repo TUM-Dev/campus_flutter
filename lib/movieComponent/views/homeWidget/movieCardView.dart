@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class MovieCardView extends StatelessWidget {
                                                 fontWeight: FontWeight.w500))),
                                 Expanded(
                                     child: Text(
-                                        DateFormat.yMd().format(movie.date),
+                                        StringParser.dateFormatter(movie.date),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,
