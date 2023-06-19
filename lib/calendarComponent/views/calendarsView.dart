@@ -1,23 +1,22 @@
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
-import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarDayView.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarMonthView.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarWeekView.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class CalendarsView extends StatefulWidget {
+class CalendarsView extends ConsumerStatefulWidget {
   const CalendarsView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _CalendarsViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CalendarsViewState();
 }
 
-class _CalendarsViewState extends State<CalendarsView> {
+class _CalendarsViewState extends ConsumerState<CalendarsView> {
   int _selectedCalendarTab = 0;
 
   final CalendarController _calendarController = CalendarController();
@@ -30,7 +29,7 @@ class _CalendarsViewState extends State<CalendarsView> {
 
   @override
   void initState() {
-    Provider.of<CalendarViewModel>(context, listen: false).fetchEvents();
+    ref.read(calendarViewModel).fetchEvents();
     super.initState();
   }
 
@@ -71,24 +70,32 @@ class _CalendarsViewState extends State<CalendarsView> {
   }
 }
 
-showModalSheet(CalendarTapDetails details, BuildContext context) {
-  if (details.targetElement == CalendarElement.appointment &&
-      details.appointments!.isNotEmpty) {
+showModalSheet(
+    CalendarTapDetails? details, CalendarEvent? event, BuildContext context, WidgetRef ref) {
+  CalendarEvent? calendarEvent;
+  if (details != null) {
+    if (details.targetElement == CalendarElement.appointment && details.appointments!.isNotEmpty) {
+      calendarEvent = details.appointments?.first as CalendarEvent;
+    }
+  } else if (event != null) {
+    calendarEvent = event;
+  }
+
+  ref.read(selectedEvent.notifier).state = calendarEvent;
+  ref.read(selectedLecture.notifier).state = null;
+
+  if (calendarEvent != null) {
     showModalBottomSheet(
         isScrollControlled: true,
         useSafeArea: true,
         showDragHandle: true,
         context: context,
         builder: (context) {
-          var event = details.appointments?.first as CalendarEvent;
           return DraggableScrollableSheet(
               initialChildSize: 1,
               minChildSize: 1,
               builder: (context, scrollController) {
-                return Provider(
-                    create: (context) => LectureDetailsViewModel(event: event),
-                    child:
-                        LectureDetailsView(scrollController: scrollController));
+                return LectureDetailsView(scrollController: scrollController);
               });
         });
   }

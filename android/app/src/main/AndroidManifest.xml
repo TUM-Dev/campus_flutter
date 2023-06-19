@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
-            android:label="campus_flutter"
+            android:label="Campus Flutter"
             android:name="${applicationName}"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:icon="@mipmap/ic_launcher">
@@ -40,4 +40,11 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyAxUbnUMsXWVzeptXiLuNDMGpGEVFHLT4Y"/>
     </application>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
 </manifest>

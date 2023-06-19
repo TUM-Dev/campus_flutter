@@ -1,15 +1,15 @@
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
+import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends ConsumerWidget {
   LoginView({super.key});
 
   final textFieldController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(title: const Text("Login")),
         body: Column(
@@ -17,14 +17,14 @@ class LoginView extends StatelessWidget {
             TextField(controller: textFieldController),
             ElevatedButton(
                 onPressed: () {
-                  Provider.of<LoginViewModel>(context, listen: false)
+                  ref.watch(loginViewModel)
                       .requestLogin(textFieldController.value.text)
                       .then((value) => Navigator.of(context).pushNamed(confirm));
                 },
                 child: const Text("Login")),
             ElevatedButton(
               onPressed: () {
-                Provider.of<LoginViewModel>(context, listen: false).skip();
+                ref.read(loginViewModel).skip();
               },
               child: const Text("Skip"),
             ),
@@ -33,18 +33,16 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class ConfirmView extends StatelessWidget {
+class ConfirmView extends ConsumerWidget {
   const ConfirmView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(title: const Text("Confirm")),
         body: ElevatedButton(
           onPressed: () {
-            Provider.of<LoginViewModel>(context, listen: false)
-                .confirmLogin()
-                .then((value) {
+            ref.read(loginViewModel).confirmLogin().then((value) {
               if (value != null) {
                 Navigator.of(context).pop();
               }

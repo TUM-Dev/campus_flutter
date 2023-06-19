@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
-  const DelayedLoadingIndicator({super.key, required this.name});
+  const DelayedLoadingIndicator({
+    super.key,
+    this.name,
+    this.alternativeLoadingIndicator, this.delayWidget = const SizedBox.shrink()
+  });
 
-  final String name;
+  final String? name;
+  final Widget? alternativeLoadingIndicator;
+  final Widget delayWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +17,21 @@ class DelayedLoadingIndicator extends StatelessWidget {
         future: Future.delayed(const Duration(milliseconds: 150)),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator.adaptive(),
-                    Text("Loading $name")
-                  ]
-                )
-            );
+            if (alternativeLoadingIndicator == null) {
+              return Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator.adaptive(),
+                        Text(name != null ? "Loading $name" : "Loading")
+                      ]
+                  )
+              );
+            } else {
+              return alternativeLoadingIndicator!;
+            }
           } else {
-            return const SizedBox.shrink();
+            return delayWidget;
           }
         }
     );

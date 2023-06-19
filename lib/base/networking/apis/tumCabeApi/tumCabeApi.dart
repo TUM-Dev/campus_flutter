@@ -1,9 +1,6 @@
-import 'dart:io';
 
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class TumCabeApi extends Api {
 
@@ -12,34 +9,44 @@ class TumCabeApi extends Api {
   TumCabeApi({required this.tumCabeService});
 
   @override
-  String get baseURL => "https://app.tum.de/api/";
+  String get baseURL => "app.tum.de";
 
   @override
   Map<String, String> get baseHeaders {
-    Map<String, String> headerEntries = {};
-    PackageInfo.fromPlatform().then((value) => headerEntries
+    return {
+      "x-app-version": "0.1.0",
+      "x-app-build": "11",
+      "x-device-id": "not available",
+      "x-os-version": "16.4.1"
+    };
+
+    // TODO:
+
+    /*Map<String, String> headerEntries = {};
+
+    PackageInfo.fromPlatform().then((value) { headerEntries
         .addAll({
-          "X-APP-VERSION": value.version,
-          "X-APP-BUILD": value.buildNumber,
-        }));
+          "x-app-version": [value.version],
+          "x-app-build": [value.buildNumber],
+        });
 
     var deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
       deviceInfo.iosInfo.then((value) => headerEntries
           .addAll({
-            "X-DEVICE-ID": value.identifierForVendor ?? "not available",
-            "X-OS-VERSION": value.systemVersion
+            "x-device-id": [value.identifierForVendor ?? "not available"],
+            "x-os-version": [value.systemVersion]
           }));
     } else if (Platform.isAndroid) {
       deviceInfo.androidInfo.then((value) => headerEntries
-          .addAll({"X-DEVICE-ID": value.id, "X-OS-VERSION": value.version.toString()}));
-    }
+          .addAll({"x-device-id": [value.id], "x-os-version": [value.version.toString()]}));
+    }});
 
-    return headerEntries;
+    return headerEntries;*/
   }
 
   @override
-  String get path => "";
+  String get path => "/api/";
 
   @override
   bool get needsAuth => false;
@@ -48,49 +55,49 @@ class TumCabeApi extends Api {
   String get paths {
     switch (tumCabeService) {
       case TumCabeServiceMovie _:
-        return "kino";
+        return "${path}kino";
       case TumCabeServiceCafeteria _:
-        return "mensen";
+        return "${path}mensen";
       case TumCabeServiceNews news:
-        return "news/${news.source}/getAll";
+        return "${path}news/${news.source}/getAll";
       case TumCabeServiceNewsSources _:
-        return "news/sources";
+        return "${path}news/sources";
       case TumCabeServiceNewsAlert _:
-        return "news/alert";
+        return "${path}news/alert";
       case TumCabeServiceRoomSearch roomSearch:
         // TODO:
-        return "";
+        return path;
         /*return "roomfinder/room/search/${roomSearch.query.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
       case TumCabeServiceRoomMaps roomMaps:
         // TODO:
-        return "";
+        return path;
         /*return "roomfinder/room/availableMaps/${roomMaps.room.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
       case TumCabeServiceRoomCoordinates roomCoordinates:
-        return "roomfinder/room/coordinates/${roomCoordinates.room}";
+        return "${path}roomfinder/room/coordinates/${roomCoordinates.room}";
       case TumCabeServiceDefaultMap defaultMap:
-        return "roomfinder/room/defaultMap/${defaultMap.room}";
+        return "${path}roomfinder/room/defaultMap/${defaultMap.room}";
       case TumCabeServiceMapImage mapImage:
-        return "roomfinder/room/map/${mapImage.room}/${mapImage.id}";
+        return "${path}roomfinder/room/map/${mapImage.room}/${mapImage.id}";
       case TumCabeServiceRegisterDevice registerDevice:
-        return "device/register/${registerDevice.publicKey}";
+        return "${path}device/register/${registerDevice.publicKey}";
       case TumCabeServiceEvents _:
-        return "event/list";
+        return "${path}event/list";
       case TumCabeServiceMyEvents _:
-        return "event/ticket/my";
+        return "${path}event/ticket/my";
       case TumCabeServiceTicketTypes ticketTypes:
-        return "event/ticket/type/${ticketTypes.event}";
+        return "${path}event/ticket/type/${ticketTypes.event}";
       case TumCabeServiceTicketStats ticketStats:
-        return "event/ticket/type/${ticketStats.event}";
+        return "${path}event/ticket/type/${ticketStats.event}";
       case TumCabeServiceTicketReservation _:
-        return "event/ticket/reserve";
+        return "${path}event/ticket/reserve";
       case TumCabeServiceTicketReservationCancellation _:
-        return "event/ticket/reserve/cancel";
+        return "${path}event/ticket/reserve/cancel";
       case TumCabeServiceTicketPurchase _:
-        return "event/ticket/payment/stripe/purchase";
+        return "${path}event/ticket/payment/stripe/purchase";
       case TumCabeServiceStripeKey _:
-        return "event/ticket/payment/stripe/ephemeralkey";
+        return "${path}event/ticket/payment/stripe/ephemeralkey";
     }
   }
 

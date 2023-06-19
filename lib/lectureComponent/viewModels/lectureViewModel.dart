@@ -1,14 +1,17 @@
+import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
-import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import '../model/lecture.dart';
 
-class LectureViewModel extends ChangeNotifier {
+class LectureViewModel {
+  BehaviorSubject<Map<String, List<Lecture>>?> lectures =
+      BehaviorSubject.seeded(null);
 
-  Future<Map<String, List<Lecture>>> lecturesBySemester() async {
+  lecturesBySemester() async {
     List<Lecture> lectures = await LectureService.fetchLecture();
 
     if (lectures.isEmpty) {
-      return {};
+      this.lectures.add({});
     }
 
     Map<String, List<Lecture>> lecturesBySemester = {};
@@ -24,22 +27,7 @@ class LectureViewModel extends ChangeNotifier {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    return sortedLecturesBySemester.map((key, value) =>
-        MapEntry(LectureViewModel.toFullSemesterName(key), value));
-  }
-
-  static String toFullSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
-
-
-    switch (semester.substring(2)) {
-      case "W":
-        return "Wintersemester" " $year/$nextYearShort";
-      case "S":
-        return "Summersemester" " $year";
-      default:
-        return "Unknown";
-    }
+    this.lectures.add(sortedLecturesBySemester.map(
+        (key, value) => MapEntry(StringParser.toFullSemesterName(key), value)));
   }
 }
