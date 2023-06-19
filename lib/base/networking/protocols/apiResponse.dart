@@ -7,12 +7,19 @@ class ApiResponse<T> {
   ApiResponse({required this.data, this.saved});
 
   factory ApiResponse.fromJson(
-      Map<String, dynamic> json, 
+      dynamic json,
       Headers headers,
       Function(Map<String, dynamic>) create) {
-    return ApiResponse<T>(
-        data: create(json),
+    if (json is List<dynamic>) {
+      return ApiResponse<T>(
+        data: create({"data": json}),
         saved: DateTime.tryParse(headers["date"]?.first ?? "")
-    );
+      );
+    } else {
+      return ApiResponse<T>(
+          data: create(json),
+          saved: DateTime.tryParse(headers["date"]?.first ?? "")
+      );
+    }
   }
 }

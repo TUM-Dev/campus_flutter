@@ -7,17 +7,15 @@ part of 'tuition.dart';
 // **************************************************************************
 
 Tuition _$TuitionFromJson(Map<String, dynamic> json) => Tuition(
-      amount: stringToDouble(json['soll'] as String),
-      deadline: json['frist'] == null
-          ? null
-          : DateTime.parse(json['frist'] as String),
-      semester: json['semester_bezeichnung'] as String?,
-      semesterID: json['semester_id'] as String?,
+      amount: stringToDouble(json['soll'] as String?),
+      deadline: DateTime.parse(json['frist'] as String),
+      semester: json['semester_bezeichnung'] as String,
+      semesterID: json['semester_id'] as String,
     );
 
 Map<String, dynamic> _$TuitionToJson(Tuition instance) => <String, dynamic>{
       'soll': instance.amount,
-      'frist': instance.deadline?.toIso8601String(),
+      'frist': instance.deadline.toIso8601String(),
       'semester_bezeichnung': instance.semester,
       'semester_id': instance.semesterID,
     };

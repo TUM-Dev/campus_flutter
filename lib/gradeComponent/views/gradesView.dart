@@ -1,49 +1,50 @@
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
+import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
+import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/gradeComponent/views/chartView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradeView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GradesView extends StatefulWidget {
+class GradesView extends ConsumerStatefulWidget {
   const GradesView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GradesViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GradesViewState();
 }
 
-class _GradesViewState extends State<GradesView> {
-  late Future<Map<String, Map<String, List<Grade>>>> grades;
+class _GradesViewState extends ConsumerState<GradesView> {
+
+  late GradeViewModel gradeVM;
 
   @override
-  void initState() {
-    super.initState();
-    grades = Provider.of<GradeViewModel>(context, listen: false)
-        .gradesByDegreeAndSemester();
+  void didChangeDependencies() {
+    gradeVM = ref.watch(gradeViewModel);
+    gradeVM.gradesByDegreeAndSemester();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: grades,
+    return StreamBuilder(
+        stream: gradeVM.grades,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            // TODO: handle empty data
-            return Scrollbar(
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return const Text("no grades found");
+            } else {
+              return Scrollbar(
                 child: SingleChildScrollView(
-                  clipBehavior: Clip.antiAlias,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(children: [
-                        for (var degree in snapshot.data!.entries)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: DegreeView(degree: degree),
-                          ),
-                      ])),
-                ));
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(children: [
+                      for (var degree in snapshot.data!.entries)
+                        DegreeView(degree: degree),
+                    ])));
+            }
           } else if (snapshot.hasError) {
             // TODO: make nice
             if (snapshot.error is TumOnlineApiError) {
@@ -67,7 +68,7 @@ class DegreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
+        CardWithPadding(
             child: ChartView(
                 studyID: degree.key,
                 title: degree.value.values.first.first.studyDesignation)),
@@ -89,16 +90,11 @@ class SemesterView extends StatelessWidget {
         child: ExpansionTile(
           title: Text(GradeViewModel.toFullSemesterName(semester.key)),
           initiallyExpanded: true,
-          childrenPadding: const EdgeInsets.symmetric(vertical: 8.0),
-          /*children: ListTile.divideTiles(
-        context: context,
-          tiles: Iterable.generate(semester.value.length, (index) => GradeRow(grade: semester.value[index]))
-      ).toList(),*/
           children: [
             for (var index = 0; index < semester.value.length; index++)
               Column(children: [
                 GradeRowAlt(grade: semester.value[index]),
-                (index != semester.value.length - 1 ? const Divider() : const SizedBox.shrink())
+                (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
               ])
           ],
         ));

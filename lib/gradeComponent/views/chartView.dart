@@ -1,27 +1,27 @@
 import 'dart:math';
 
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ChartView extends StatefulWidget {
+class ChartView extends ConsumerStatefulWidget {
   const ChartView({super.key, required this.studyID, required this.title});
 
   final String title;
   final String studyID;
 
   @override
-  State<StatefulWidget> createState() => _ChartViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ChartViewState();
 }
 
-class _ChartViewState extends State<ChartView> {
+class _ChartViewState extends ConsumerState<ChartView> {
   late Map<double, int> data;
 
   @override
   void initState() {
-    data = Provider.of<GradeViewModel>(context, listen: false)
-        .chartDataForDegree(widget.studyID);
+    data = ref.read(gradeViewModel).chartDataForDegree(widget.studyID);
     super.initState();
   }
 

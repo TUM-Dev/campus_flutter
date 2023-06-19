@@ -1,20 +1,19 @@
 import 'package:campus_flutter/calendarComponent/model/calendarDataSource.dart';
-import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class CalendarDayView extends StatelessWidget {
+class CalendarDayView extends ConsumerWidget {
   const CalendarDayView({super.key, required this.calendarController});
 
   final CalendarController calendarController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream:
-            Provider.of<CalendarViewModel>(context, listen: true).events.stream,
+        stream: ref.watch(calendarViewModel).events,
         builder: (context, snapshot) {
           return Expanded(
               child: SfCalendar(
@@ -25,7 +24,7 @@ class CalendarDayView extends StatelessWidget {
                 ? MeetingDataSource(snapshot.data!, context)
                 : null,
             onTap: (details) {
-              showModalSheet(details, context);
+              showModalSheet(details, null, context, ref);
             },
             headerDateFormat: "EEEE, dd.MM.yyyy",
             showNavigationArrow: true,

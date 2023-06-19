@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiSer
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class TumOnlineApi extends Api {
-
   final TumOnlineService tumOnlineService;
 
   TumOnlineApi(this.tumOnlineService);
@@ -16,32 +15,34 @@ class TumOnlineApi extends Api {
   @override
   String get paths {
     switch (tumOnlineService) {
-    case TumOnlineServicePersonSearch _:
-      return "${path}wbservicesbasic.personenSuche";
-    case TumOnlineServiceTokenRequest _:
-      return "${path}wbservicesbasic.requestToken";
-    case TumOnlineServiceTokenConfirmation _:
-      return "${path}wbservicesbasic.isTokenConfirmed";
-    case TumOnlineServiceTuitionStatus _:
-      return "${path}wbservicesbasic.studienbeitragsstatus";
-    case TumOnlineServiceCalendar _:
-      return "${path}wbservicesbasic.kalender";
-    case TumOnlineServicePersonDetails _:
-      return "${path}wbservicesbasic.personenDetails";
-    case TumOnlineServicePersonalLectures _:
-      return "${path}wbservicesbasic.veranstaltungenEigene";
-    case TumOnlineServicePersonalGrades _:
-      return "${path}wbservicesbasic.noten";
-    case TumOnlineServiceLectureSearch _:
-      return "${path}wbservicesbasic.veranstaltungenSuche";
-    case TumOnlineServiceLectureDetails _:
-      return "${path}wbservicesbasic.veranstaltungenDetails";
-    case TumOnlineServiceIdentify _:
-      return "${path}wbservicesbasic.id";
-    case TumOnlineServiceSecretUpload _:
-      return "${path}wbservicesbasic.secretUpload";
-    case TumOnlineServiceProfileImage _:
-      return "${path}visitenkarte.showImage";
+      case TumOnlineServicePersonSearch _:
+        return "${path}wbservicesbasic.personenSuche";
+      case TumOnlineServiceTokenRequest _:
+        return "${path}wbservicesbasic.requestToken";
+      case TumOnlineServiceTokenConfirmation _:
+        return "${path}wbservicesbasic.isTokenConfirmed";
+      case TumOnlineServiceTuitionStatus _:
+        return "${path}wbservicesbasic.studienbeitragsstatus";
+      case TumOnlineServiceCalendar _:
+        return "${path}wbservicesbasic.kalender";
+      case TumOnlineServicePersonDetails _:
+        return "${path}wbservicesbasic.personenDetails";
+      case TumOnlineServicePersonalLectures _:
+        return "${path}wbservicesbasic.veranstaltungenEigene";
+      case TumOnlineServicePersonalGrades _:
+        return "${path}wbservicesbasic.noten";
+      case TumOnlineServiceLectureSearch _:
+        return "${path}wbservicesbasic.veranstaltungenSuche";
+      case TumOnlineServiceLectureDetails _:
+        return "${path}wbservicesbasic.veranstaltungenDetails";
+      case TumOnlineServiceIdentify _:
+        return "${path}wbservicesbasic.id";
+      case TumOnlineServiceSecretUpload _:
+        return "${path}wbservicesbasic.secretUpload";
+      case TumOnlineServiceProfileImage _:
+        return "${path}visitenkarte.showImage";
+      case TumOnlineServiceTumCard _:
+        return "${path}wbservicesbasic.tumCard";
     }
   }
 
@@ -61,6 +62,7 @@ class TumOnlineApi extends Api {
       case TumOnlineServiceLectureSearch _:
       case TumOnlineServiceLectureDetails _:
       case TumOnlineServiceIdentify _:
+      case TumOnlineServiceTumCard _:
         return true;
       default:
         return false;

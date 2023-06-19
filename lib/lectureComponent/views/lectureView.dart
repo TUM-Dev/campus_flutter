@@ -1,46 +1,42 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LectureView extends StatefulWidget {
+class LectureView extends ConsumerStatefulWidget {
   const LectureView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GradeViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GradeViewState();
 }
 
-class _GradeViewState extends State<LectureView> {
-  late Future<Map<String, List<Lecture>>> lectures;
-
+class _GradeViewState extends ConsumerState<LectureView> {
   @override
   void initState() {
+    ref.read(lectureViewModel).lecturesBySemester();
     super.initState();
-    lectures = LectureViewModel().lecturesBySemester();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: lectures,
+    return StreamBuilder(
+        stream: ref.watch(lectureViewModel).lectures,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return Scrollbar(
-                child: SingleChildScrollView(
-              child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    for (var semester in snapshot.data!.entries)
-                      //Padding(
-                      //padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      /*child:*/ SemesterView(semester: semester),
-                    //)
-                  ])),
-            ));
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text("no lectures found"));
+            } else {
+              return Scrollbar(
+                  child: SingleChildScrollView(
+                      child: Column(children: [
+                        for (var semester in snapshot.data!.entries)
+                          SemesterView(semester: semester),
+                      ])));
+            }
           } else if (snapshot.hasError) {
             return const Center(child: Text("no lectures found"));
           }
@@ -50,18 +46,17 @@ class _GradeViewState extends State<LectureView> {
   }
 }
 
-class SemesterView extends StatelessWidget {
+class SemesterView extends ConsumerWidget {
   const SemesterView({super.key, required this.semester});
 
   final MapEntry<String, List<Lecture>> semester;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
       title: Text(semester.key),
       initiallyExpanded: true,
-      childrenPadding: const EdgeInsets.all(8.0),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [
@@ -74,13 +69,11 @@ class SemesterView extends StatelessWidget {
                   Row(children: [
                     Expanded(
                         child: IconText(
-                            iconData: Icons.edit,
-                            label: semester.value[index].eventType,
-                            textColor:
-                                Theme.of(context).colorScheme.secondary,
-                          multipleLines: true,
-                        )
-                    ),
+                      iconData: Icons.edit,
+                      label: semester.value[index].eventType,
+                      textColor: Theme.of(context).colorScheme.secondary,
+                      multipleLines: true,
+                    )),
                     Expanded(
                         child: IconText(
                             iconData: Icons.access_time,
@@ -90,27 +83,26 @@ class SemesterView extends StatelessWidget {
                   ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                   IconText(
-                      iconData: Icons.person,
-                      label: semester.value[index].speaker,
-                      textColor: Theme.of(context).colorScheme.secondary,
-                      multipleLines: true,
+                    iconData: Icons.person,
+                    label: semester.value[index].speaker,
+                    textColor: Theme.of(context).colorScheme.secondary,
+                    multipleLines: true,
                   ),
                 ],
               ),
               onTap: () {
+                ref.read(selectedLecture.notifier).state = semester.value[index];
+                ref.read(selectedEvent.notifier).state = null;
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Provider(
-                            create: (context) => LectureDetailsViewModel(
-                                lecture: semester.value[index]),
-                            child: Scaffold(
+                        builder: (context) => Scaffold(
                                 appBar: AppBar(leading: const BackButton()),
-                                body: const LectureDetailsView()))));
+                                body: const LectureDetailsView())));
               },
             ),
             (index != semester.value.length - 1
-                ? const Divider()
+                ? const PaddedDivider()
                 : const SizedBox.shrink())
           ])
       ],

@@ -5,38 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel {
-  final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
-  BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
+  final BehaviorSubject<Map<String, Map<String, List<Grade>>>?> grades =
+  BehaviorSubject.seeded(null);
 
-  Future<Map<String, Map<String, List<Grade>>>>
   gradesByDegreeAndSemester() async {
-    List<Grade> grades = await GradeService.fetchGrades();
-
-    if (grades.isEmpty) {
-      return {};
-    }
-
-    Map<String, List<Grade>> gradesByDegree = {};
-    for (var grade in grades) {
-      gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
-    }
-
-    Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
-    for (var entry in gradesByDegree.entries) {
-      for (var grade in entry.value) {
-        gradesByDegreeAndSemester
-            .putIfAbsent(entry.key, () => {})
-            .putIfAbsent(grade.semester, () => [])
-            .add(grade);
+    GradeService.fetchGrades().then((grades) {
+      if (grades.isEmpty) {
+        this.grades.add({});
       }
-    }
 
-    _grades.value = gradesByDegreeAndSemester;
-    return gradesByDegreeAndSemester;
+      Map<String, List<Grade>> gradesByDegree = {};
+      for (var grade in grades) {
+        gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
+      }
+
+      Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
+      for (var entry in gradesByDegree.entries) {
+        for (var grade in entry.value) {
+          gradesByDegreeAndSemester
+              .putIfAbsent(entry.key, () => {})
+              .putIfAbsent(grade.semester, () => [])
+              .add(grade);
+        }
+      }
+
+      this.grades.add(gradesByDegreeAndSemester);
+    }, onError: (error) => grades.addError(error));
   }
 
   Map<double, int> chartDataForDegree(String studyID) {
-    final degreeGrades = _grades.value[studyID];
+    final degreeGrades = grades.value?[studyID];
     if (degreeGrades == null) {
       return {};
     }

@@ -1,24 +1,22 @@
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
-import 'package:campus_flutter/mapComponent/location.dart';
+import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
+import 'package:campus_flutter/loginComponent/views/loginView.dart';
+import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/routes.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:get/get.dart';
-import 'loginComponent/views/loginView.dart';
-import 'loginComponent/viewModels/loginViewModel.dart';
-import 'navigation.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  Get.put(LocationService());
-  Get.put(Connectivity());
-  Get.put(MainApi(await getTemporaryDirectory()));
-  runApp(Provider(create: (context) => LoginViewModel(), child: const CampusApp()));
+  getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
+  getIt.registerSingleton<MainApi>(MainApi(await getTemporaryDirectory()));
+  runApp(const ProviderScope(child: CampusApp()));
 }
 
 class CampusApp extends StatelessWidget {
@@ -29,8 +27,8 @@ class CampusApp extends StatelessWidget {
     return MaterialApp(
         title: "TUM Campus App",
         debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        darkTheme: darkTheme,
+        theme: lightTheme(context),
+        darkTheme: darkTheme(context),
         routes: {
           confirm: (context) => const ConfirmView(),
         },
@@ -38,24 +36,24 @@ class CampusApp extends StatelessWidget {
   }
 }
 
-class AuthenticationRouter extends StatefulWidget {
+class AuthenticationRouter extends ConsumerStatefulWidget {
   const AuthenticationRouter({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AuthenticationRouterState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AuthenticationRouterState();
 }
 
-class _AuthenticationRouterState extends State<AuthenticationRouter> {
+class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
   @override
   void initState() {
-    Provider.of<LoginViewModel>(context, listen: false).checkLogin();
+    ref.read(loginViewModel).checkLogin();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Provider.of<LoginViewModel>(context, listen: true).credentials,
+        stream: ref.watch(loginViewModel).credentials,
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             FlutterNativeSplash.remove();
