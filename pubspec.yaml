@@ -31,6 +31,7 @@ dependencies:
   syncfusion_flutter_calendar: ^21.2.4
   syncfusion_flutter_charts: ^21.1.41
   url_launcher: ^6.1.10
+  video_player: ^2.6.1
   xml: ^6.2.2
   xml2json: ^6.1.0
   barcode_widget: ^2.0.4
@@ -56,9 +57,11 @@ flutter:
     - assets/map_styles/
     - assets/images/logos/tum-logo-blue.png
     - assets/images/logos/tum-logo-rainbow.png
-    - assets/images/Portrait_Placeholder.png
+    - assets/images/portrait_placeholder.png
     - assets/images/movie_placeholder.png
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json
     - assets/lottieFiles/gradient_background_blue_white_speedup.json
     - assets/lottieFiles/gradient_background_silver_white.json
+    - assets/images/tower.png
+    - assets/videos/token-tutorial.mp4

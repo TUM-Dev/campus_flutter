@@ -13,6 +13,7 @@ class SettingsView extends ConsumerWidget {
         IconButton(
             onPressed: () {
               ref.read(loginViewModel).logout();
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
             icon: const Icon(Icons.logout_rounded))
       ])

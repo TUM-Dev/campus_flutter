@@ -38,9 +38,9 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: data != null
-                      ? Image.memory(base64DecodeImageData(data.imageData)).image
-                      : const AssetImage('assets/images/Portrait_Placeholder.png'),
+                  backgroundImage: data?.imageData != null
+                      ? Image.memory(base64DecodeImageData(data!.imageData!)).image
+                      : const AssetImage('assets/images/portrait_placeholder.png'),
                   backgroundColor: Colors.white,
                   radius: 50,
                 ),

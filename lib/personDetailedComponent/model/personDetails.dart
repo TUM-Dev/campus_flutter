@@ -39,7 +39,8 @@ class PersonDetails {
   @JsonKey(name: "privat")
   final List<ContactInfo>  privateContact;*/
   @JsonKey(name: "image_data")
-  final String imageData;
+  // TODO: set image to optional
+  final String? imageData;
   @JsonKey(name: "gruppen")
   final List<Organisation>? organisations;
   @JsonKey(name: "raeume")

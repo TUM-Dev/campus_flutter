@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
+import 'package:campus_flutter/loginComponent/views/confirmView.dart';
 import 'package:campus_flutter/loginComponent/views/loginView.dart';
 import 'package:campus_flutter/navigation.dart';
 import 'package:campus_flutter/providers_get_it.dart';
