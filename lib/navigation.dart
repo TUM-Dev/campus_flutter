@@ -1,5 +1,5 @@
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
-import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
+import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';

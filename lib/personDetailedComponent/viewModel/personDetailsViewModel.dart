@@ -1,13 +1,15 @@
 import 'package:campus_flutter/base/enums/gender.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/personDetailedComponent/services/personDetailsService.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PersonDetailsViewModel {
+class PersonDetailsViewModel implements ViewModel {
   final Profile? profile;
 
-  BehaviorSubject<PersonDetails?> personDetails = BehaviorSubject.seeded(null);
+  BehaviorSubject<(DateTime?, PersonDetails)?> personDetails = BehaviorSubject.seeded(null);
 
   PersonDetailsViewModel(this.profile);
 
@@ -24,10 +26,14 @@ class PersonDetailsViewModel {
       imageData: ""
   );
 
-  fetchPersonDetails() async {
+  @override
+  Future fetch(bool forcedRefresh) async {
     if (profile != null) {
+      PersonDetailsService.fetchPersonDetails(forcedRefresh, profile!.obfuscatedID ?? "")
+          .then((response) => personDetails.add(response), onError: (error) => personDetails.addError(error));
+    } else {
       personDetails
-          .add(await PersonDetailsService.fetchPersonDetails(profile!.obfuscatedID ?? ""));
+          .addError(TumOnlineApiException(tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound()));
     }
   }
 }

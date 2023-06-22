@@ -15,7 +15,7 @@ class LoginViewModel {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
         Api.tumToken = value;
-        await LoginService.confirmToken().then((value) {
+        await LoginService.confirmToken(false).then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) => _errorHandling(error));
       } else {
@@ -30,13 +30,13 @@ class LoginViewModel {
   }
 
   Future requestLogin(String name) async {
-    final token = (await LoginService.requestNewToken(name)).content;
+    final token = (await LoginService.requestNewToken(true, name)).content;
     _storage.write(key: "token", value: token);
     Api.tumToken = token;
   }
 
   Future confirmLogin() async {
-    final confirm = await LoginService.confirmToken();
+    final confirm = await LoginService.confirmToken(true);
     if (confirm.confirmed) {
       credentials.add(Credentials.tumId);
     }
@@ -49,7 +49,7 @@ class LoginViewModel {
   Future logout() async {
     credentials.add(Credentials.none);
     final directory = await getTemporaryDirectory();
-    HiveCacheStore(directory.path).clean();
+    HiveCacheStore(directory.path).close();
     _storage.delete(key: "token");
   }
 }
