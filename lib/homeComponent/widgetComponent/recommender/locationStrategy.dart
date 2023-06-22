@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/homeWidget.dart';
-import 'package:campus_flutter/base/services/locationService.dart';
+import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widgetRecommenderStrategy.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/studyrooms_service.dart';
@@ -74,8 +74,8 @@ class LocationStrategy implements WidgetRecommenderStrategy {
 
   Future<List<Location>> _getCafeteriaLocations() async {
     try {
-      final cafeterias = await CafeteriasService.fetchCafeterias();
-      return cafeterias
+      final cafeterias = await CafeteriasService.fetchCafeterias(false);
+      return cafeterias.$2
           .map((e) => Location(latitude: e.location.latitude, longitude: e.location.longitude))
           .toList();
     } catch (_) {
@@ -86,13 +86,13 @@ class LocationStrategy implements WidgetRecommenderStrategy {
   Future<List<Location>> _getStudyRoomLocations() async {
     try {
       List<Location> locations = [];
-      final response = await StudyRoomsService.fetchStudyRooms();
+      final response = await StudyRoomsService.fetchStudyRooms(false);
 
-      if (response.groups == null) {
+      if (response.$2.groups == null) {
         return locations;
       }
 
-      for (var group in response.groups!) {
+      for (var group in response.$2.groups!) {
         if (group.coordinate != null) {
           locations.add(group.coordinate!);
         }
