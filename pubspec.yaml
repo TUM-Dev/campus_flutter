@@ -40,6 +40,7 @@ dependencies:
   get_it: ^7.6.0
   collection: ^1.17.1
   map_launcher: ^2.5.0+1
+  timeago: ^3.4.0
 
 dev_dependencies:
   flutter_test:
@@ -56,8 +57,11 @@ flutter:
     - assets/map_styles/
     - assets/images/logos/tum-logo-blue.png
     - assets/images/logos/tum-logo-rainbow.png
-    - assets/images/Portrait_Placeholder.png
-    - assets/images/movie_placeholder.png
+    - assets/images/placeholders/portrait_placeholder.png
+    - assets/images/placeholders/movie_placeholder.png
+    - assets/images/errors/error.png
+    - assets/images/errors/error_crop.png
+    - assets/images/errors/error_square.png
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json
     - assets/lottieFiles/gradient_background_blue_white_speedup.json
