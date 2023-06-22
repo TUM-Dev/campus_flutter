@@ -33,7 +33,6 @@ class LectureViewModel implements ViewModel {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    lectures.add((response.$1, sortedLecturesBySemester.map(
-        (key, value) => MapEntry(StringParser.toFullSemesterName(key), value))));
+    lectures.add((response.$1, sortedLecturesBySemester));
   }
 }

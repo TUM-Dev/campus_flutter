@@ -2,6 +2,8 @@ import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/semester_calculator.dart';
+import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
@@ -32,13 +34,16 @@ class _GradeViewState extends ConsumerState<LectureView> {
           if (data.$2.isEmpty) {
             return const Center(child: Text("no lectures found"));
           } else {
-            return Scrollbar(
-                child: SingleChildScrollView(
-                    child: Column(children: [
-                      if (data.$1 != null) LastUpdatedText(data.$1!),
-                      for (var semester in data.$2.entries)
-                        SemesterView(semester: semester),
-                    ])));
+            return RefreshIndicator(
+                onRefresh: () => ref.read(lectureViewModel).fetch(true),
+                child: Scrollbar(
+                    child: SingleChildScrollView(
+                        child: Column(children: [
+                          if (data.$1 != null) LastUpdatedText(data.$1!),
+                          for (var semester in data.$2.entries)
+                            SemesterView(semester: semester),
+                        ]))),
+            );
           }
         },
         errorBuilder: (context, error) => ErrorHandlingView(
@@ -84,8 +89,8 @@ class SemesterView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
-      title: Text(semester.key),
-      initiallyExpanded: true,
+      title: Text(StringParser.toFullSemesterName(semester.key)),
+      initiallyExpanded: semester.key == SemesterCalculator.getCurrentSemester(),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [

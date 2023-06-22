@@ -34,16 +34,15 @@ class _ChartViewState extends ConsumerState<ChartView> {
             children: [
               Text("${widget.title} ${widget.studyID}",
                   style: Theme.of(context).textTheme.bodyLarge),
-          // TODO: study program picker
-          /*PopupMenuButton<String>(
-            itemBuilder: itemBuilder,
+          PopupMenuButton<String>(
+            itemBuilder: (context) => ref.read(gradeViewModel).getMenuEntries(),
             onSelected: (selected) {
-
+              ref.read(gradeViewModel).setSelectedDegree(selected);
             },
-          )*/
+            icon: const Icon(Icons.keyboard_arrow_down),
+          )
         ]),
         SfCartesianChart(
-            //title: ChartTitle(text: "${widget.title} ${widget.studyID}"),
             primaryXAxis: CategoryAxis(),
             primaryYAxis: NumericAxis(
                 minimum: 0,

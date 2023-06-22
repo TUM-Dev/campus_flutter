@@ -77,7 +77,13 @@ ThemeData lightTheme(BuildContext context) {
           indicatorColor: Colors.transparent,
           backgroundColor: const Color(0xF0F8F9F8),
           surfaceTintColor: Colors.transparent,
-          elevation: 50.0));
+          elevation: 50.0),
+    popupMenuTheme: PopupMenuThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0)),
+      surfaceTintColor: Colors.transparent
+    )
+  );
 }
 
 /// dark theme
@@ -147,5 +153,11 @@ ThemeData darkTheme(BuildContext context) {
           indicatorColor: Colors.transparent,
           backgroundColor: const Color(0xF01D1D1D),
           surfaceTintColor: Colors.transparent,
-          elevation: 50.0));
+          elevation: 50.0),
+      popupMenuTheme: PopupMenuThemeData(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0)),
+          surfaceTintColor: Colors.transparent
+      )
+  );
 }

@@ -2,6 +2,8 @@ import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
+import 'package:campus_flutter/base/helpers/semester_calculator.dart';
+import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
@@ -31,8 +33,9 @@ class _GradesViewState extends ConsumerState<GradesView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericStreamBuilder<({DateTime? saved, Map<String, Map<String, List<Grade>>> data})>(
-        stream: gradeVM.grades,
+    return GenericStreamBuilder<
+            ({DateTime? saved, Map<String, List<Grade>> data})>(
+        stream: gradeVM.studyProgramGrades,
         dataBuilder: (context, data) {
           if (data.data.isEmpty) {
             return const Text("no grades found");
@@ -43,7 +46,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
                         clipBehavior: Clip.antiAlias,
                         child: Column(children: [
                           if (data.saved != null) LastUpdatedText(data.saved!),
-                          for (var degree in data.data.entries) DegreeView(degree: degree),
+                            DegreeView(degree: data.data),
                         ]))),
                 onRefresh: () async {
                   ref.read(gradeViewModel).fetch(true);
@@ -55,15 +58,15 @@ class _GradesViewState extends ConsumerState<GradesView> {
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
               retry: ref.read(gradeViewModel).fetch,
             ),
-        loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Grades")
-    );
+        loadingBuilder: (context) =>
+            const DelayedLoadingIndicator(name: "Grades"));
   }
 }
 
 class DegreeView extends StatelessWidget {
   const DegreeView({super.key, required this.degree});
 
-  final MapEntry<String, Map<String, List<Grade>>> degree;
+  final Map<String, List<Grade>> degree;
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +74,9 @@ class DegreeView extends StatelessWidget {
       children: [
         CardWithPadding(
             child: ChartView(
-                studyID: degree.key,
-                title: degree.value.values.first.first.studyDesignation)),
-        for (var semester in degree.value.entries)
+                studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
+                title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown")),
+        for (var semester in degree.entries)
           SemesterView(semester: semester),
       ],
     );
@@ -89,8 +92,10 @@ class SemesterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: ExpansionTile(
-      title: Text(GradeViewModel.toFullSemesterName(semester.key)),
-      initiallyExpanded: true,
+      title: Text(StringParser.toFullSemesterName(semester.key)),
+      initiallyExpanded:
+          (semester.key == SemesterCalculator.getCurrentSemester() ||
+              semester.key == SemesterCalculator.getPriorSemester()),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [

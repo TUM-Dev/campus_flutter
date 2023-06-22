@@ -26,9 +26,6 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                         "Departures"),
                 actions: [
                   PopupMenuButton<Station>(
-                    surfaceTintColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
                     initialValue:
                         ref.watch(departureViewModel).selectedStation.value,
                     onSelected: (station) {

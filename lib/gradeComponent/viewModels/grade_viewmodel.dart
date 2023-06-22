@@ -7,20 +7,29 @@ import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel implements ViewModel {
 
-  final BehaviorSubject<
-          ({DateTime? saved, Map<String, Map<String, List<Grade>>> data})?>
-      grades = BehaviorSubject.seeded(null);
+  final BehaviorSubject<({DateTime? saved, Map<String, List<Grade>> data})?>
+  studyProgramGrades = BehaviorSubject.seeded(null);
+
+  final BehaviorSubject<String?> selectedDegree = BehaviorSubject.seeded(null);
+
+  ({DateTime? saved, Map<String, Map<String, List<Grade>>> data})? allGrades;
+
+  setSelectedDegree(String studyID) {
+    studyProgramGrades.add(
+        (saved: allGrades?.saved, data: allGrades?.data[studyID] ?? {})
+    );
+  }
 
   @override
   Future fetch(bool forcedRefresh) async {
     GradeService.fetchGrades(forcedRefresh).then((response) {
       _gradesByDegreeAndSemester(response);
-    }, onError: (error) => grades.addError(error));
+    }, onError: (error) => studyProgramGrades.addError(error));
   }
 
   _gradesByDegreeAndSemester(({DateTime? saved, List<Grade> data}) response) async {
       if (response.data.isEmpty) {
-        grades.add((saved: response.saved, data: {}));
+        studyProgramGrades.add((saved: response.saved, data: {}));
       }
 
       Map<String, List<Grade>> gradesByDegree = {};
@@ -38,11 +47,25 @@ class GradeViewModel implements ViewModel {
         }
       }
 
-      grades.add((saved: response.saved, data: gradesByDegreeAndSemester));
+      final firstDegree = gradesByDegreeAndSemester.values.firstOrNull ?? {};
+      studyProgramGrades.add((saved: response.saved, data: firstDegree));
+      allGrades = (saved: response.saved, data: gradesByDegreeAndSemester);
+  }
+
+  List<PopupMenuEntry<String>> getMenuEntries() {
+    if (allGrades?.data.values != null) {
+      return allGrades!.data.values
+        .map((e) => PopupMenuItem(
+          value: e.values.first.first.studyID,
+          child: Text(e.values.first.first.studyDesignation)))
+        .toList();
+    } else {
+      return [];
+    }
   }
 
   Map<double, int> chartDataForDegree(String studyID) {
-    final degreeGrades = grades.value?.data[studyID];
+    final degreeGrades = studyProgramGrades.value?.data;
     if (degreeGrades == null) {
       return {};
     }
@@ -91,20 +114,6 @@ class GradeViewModel implements ViewModel {
       }
     } else {
       return const Color.fromRGBO(205, 205, 205, 1.0);
-    }
-  }
-
-  static String toFullSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
-
-    switch (semester.substring(2)) {
-      case "W":
-        return "Wintersemester" " $year/$nextYearShort";
-      case "S":
-        return "Summersemester" " $year";
-      default:
-        return "Unknown";
     }
   }
 }
