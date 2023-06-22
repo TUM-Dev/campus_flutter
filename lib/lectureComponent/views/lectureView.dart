@@ -1,6 +1,9 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -17,12 +20,37 @@ class LectureView extends ConsumerStatefulWidget {
 class _GradeViewState extends ConsumerState<LectureView> {
   @override
   void initState() {
-    ref.read(lectureViewModel).lecturesBySemester();
+    ref.read(lectureViewModel).fetch(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return GenericStreamBuilder<(DateTime?, Map<String, List<Lecture>>)>(
+        stream: ref.watch(lectureViewModel).lectures,
+        dataBuilder: (context, data) {
+          if (data.$2.isEmpty) {
+            return const Center(child: Text("no lectures found"));
+          } else {
+            return Scrollbar(
+                child: SingleChildScrollView(
+                    child: Column(children: [
+                      if (data.$1 != null) LastUpdatedText(data.$1!),
+                      for (var semester in data.$2.entries)
+                        SemesterView(semester: semester),
+                    ])));
+          }
+        },
+        errorBuilder: (context, error) => ErrorHandlingView(
+            error: error,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(lectureViewModel).fetch
+        ),
+        loadingBuilder: (context) => const DelayedLoadingIndicator(
+            name: "Lectures"
+        )
+    );
+    /*
     return StreamBuilder(
         stream: ref.watch(lectureViewModel).lectures,
         builder: (context, snapshot) {
@@ -43,6 +71,7 @@ class _GradeViewState extends ConsumerState<LectureView> {
 
           return const DelayedLoadingIndicator(name: "Lectures");
         });
+     */
   }
 }
 

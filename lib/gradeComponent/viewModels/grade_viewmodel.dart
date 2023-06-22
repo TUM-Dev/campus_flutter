@@ -1,21 +1,30 @@
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/base/helpers/stringToDouble.dart';
-import 'package:campus_flutter/gradeComponent/services/gradeService.dart';
+import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-class GradeViewModel {
-  final BehaviorSubject<Map<String, Map<String, List<Grade>>>?> grades =
-  BehaviorSubject.seeded(null);
+class GradeViewModel implements ViewModel {
 
-  gradesByDegreeAndSemester() async {
-    GradeService.fetchGrades().then((grades) {
-      if (grades.isEmpty) {
-        this.grades.add({});
+  final BehaviorSubject<
+          ({DateTime? saved, Map<String, Map<String, List<Grade>>> data})?>
+      grades = BehaviorSubject.seeded(null);
+
+  @override
+  Future fetch(bool forcedRefresh) async {
+    GradeService.fetchGrades(forcedRefresh).then((response) {
+      _gradesByDegreeAndSemester(response);
+    }, onError: (error) => grades.addError(error));
+  }
+
+  _gradesByDegreeAndSemester(({DateTime? saved, List<Grade> data}) response) async {
+      if (response.data.isEmpty) {
+        grades.add((saved: response.saved, data: {}));
       }
 
       Map<String, List<Grade>> gradesByDegree = {};
-      for (var grade in grades) {
+      for (var grade in response.data) {
         gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
       }
 
@@ -29,12 +38,11 @@ class GradeViewModel {
         }
       }
 
-      this.grades.add(gradesByDegreeAndSemester);
-    }, onError: (error) => grades.addError(error));
+      grades.add((saved: response.saved, data: gradesByDegreeAndSemester));
   }
 
   Map<double, int> chartDataForDegree(String studyID) {
-    final degreeGrades = grades.value?[studyID];
+    final degreeGrades = grades.value?.data[studyID];
     if (degreeGrades == null) {
       return {};
     }
@@ -43,7 +51,7 @@ class GradeViewModel {
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
         chartData.update(
-          stringToDouble(grade.grade) ?? 0.0,
+          stringToDouble(grade.grade),
               (value) => ++value,
           ifAbsent: () => 1,
         );
