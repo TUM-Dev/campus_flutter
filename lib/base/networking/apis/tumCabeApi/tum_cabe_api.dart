@@ -1,5 +1,5 @@
 
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiService.dart';
+import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class TumCabeApi extends Api {

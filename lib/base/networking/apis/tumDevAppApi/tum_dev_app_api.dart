@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApiService.dart';
+import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tum_dev_app_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 // TODO: figure out errors
