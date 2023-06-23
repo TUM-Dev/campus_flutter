@@ -34,7 +34,7 @@ final profileViewModel = Provider.autoDispose((ref) {
   return profileViewModel;
 });
 final profileDetailsViewModel = Provider.autoDispose((ref) {
-  final profile = ref.watch(profileViewModel).profile.value?.$2;
+  final profile = ref.watch(profileViewModel).profile.value;
   final profileDetailsViewModel = PersonDetailsViewModel(profile);
   profileDetailsViewModel.fetch(false);
   ref.keepAlive();

@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/horizontalSlider.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/newsComponent/views/newsCardView.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -16,7 +17,7 @@ class NewsWidgetView extends ConsumerStatefulWidget {
 class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
   @override
   void initState() {
-    ref.read(newsViewModel).getNewsSources();
+    ref.read(newsViewModel).fetch(false);
     super.initState();
   }
 
@@ -28,13 +29,17 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
         builder: (context, snapshot) {
         if (snapshot.hasData) {
           final fiveNews = ref.watch(newsViewModel).latestFiveNews();
-          return HorizontalSlider(data: fiveNews, height: 300, child: (news) {
-            return NewsCardView(news: news);
-          });
+          if (fiveNews.isNotEmpty) {
+            return HorizontalSlider(data: fiveNews, height: 300, child: (news) {
+              return NewsCardView(news: news);
+            });
+          } else {
+            return const SizedBox(height: 300, child: Card(child: Center(child: Text("no news found"))));
+          }
         } else if (snapshot.hasError) {
-          return const SizedBox(height: 300, child: Card(child: Center(child: Text("Error"))));
+          return SizedBox(height: 300, child: Card(child: ErrorHandlingView(error: snapshot.error!, errorHandlingViewType: ErrorHandlingViewType.textOnly, retry: ref.read(newsViewModel).fetch)));
         } else {
-          return const DelayedLoadingIndicator(name: "News");
+          return const SizedBox(height: 300, child: Card(child: DelayedLoadingIndicator(name: "News")));
         }
         }
     ));

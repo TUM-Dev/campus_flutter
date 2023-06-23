@@ -15,12 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class DeparturesViewModel extends ViewModel {
-  BehaviorSubject<({DateTime? saved, List<Departure> departures})?> departures =
+  BehaviorSubject<List<Departure>?> departures =
       BehaviorSubject.seeded(null);
 
-  BehaviorSubject<Campus?> closestCampus = BehaviorSubject.seeded(null);
-  BehaviorSubject<int?> walkingDistance = BehaviorSubject.seeded(null);
-  BehaviorSubject<Station?> selectedStation = BehaviorSubject.seeded(null);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
+
+  final BehaviorSubject<Campus?> closestCampus = BehaviorSubject.seeded(null);
+  final BehaviorSubject<int?> walkingDistance = BehaviorSubject.seeded(null);
+  final BehaviorSubject<Station?> selectedStation = BehaviorSubject.seeded(null);
 
   Timer? timer;
 
@@ -109,6 +111,8 @@ class DeparturesViewModel extends ViewModel {
   }
 
   void sortDepartures(({DateTime? saved, MvvResponse data}) response) {
+    lastFetched.add(response.saved);
+
     response.data.departures.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
         return departure1.realDateTime!.compareTo(departure2.realDateTime!);
@@ -121,14 +125,14 @@ class DeparturesViewModel extends ViewModel {
       }
     });
 
-    departures.add((saved: response.saved, departures: response.data.departures));
+    departures.add(response.data.departures);
     setTimerForRefresh();
   }
 
   setTimerForRefresh() {
-    if ((departures.value?.departures.length ?? 0) > 0) {
-      if (departures.value!.departures[0].countdown > 0) {
-        timer = Timer(Duration(minutes: departures.value!.departures[0].countdown),
+    if ((departures.value?.length ?? 0) > 0) {
+      if (departures.value![0].countdown > 0) {
+        timer = Timer(Duration(minutes: departures.value![0].countdown),
             fetchDepartures);
         return;
       }

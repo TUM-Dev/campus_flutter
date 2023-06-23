@@ -9,7 +9,9 @@ import 'package:rxdart/rxdart.dart';
 class PersonDetailsViewModel implements ViewModel {
   final Profile? profile;
 
-  BehaviorSubject<(DateTime?, PersonDetails)?> personDetails = BehaviorSubject.seeded(null);
+  BehaviorSubject<PersonDetails?> personDetails = BehaviorSubject.seeded(null);
+
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   PersonDetailsViewModel(this.profile);
 
@@ -23,17 +25,20 @@ class PersonDetailsViewModel implements ViewModel {
       organisations: [],
       rooms: [],
       phoneExtensions: [],
-      imageData: ""
-  );
+      imageData: "");
 
   @override
   Future fetch(bool forcedRefresh) async {
     if (profile != null) {
-      PersonDetailsService.fetchPersonDetails(forcedRefresh, profile!.obfuscatedID ?? "")
-          .then((response) => personDetails.add(response), onError: (error) => personDetails.addError(error));
+      PersonDetailsService.fetchPersonDetails(
+              forcedRefresh, profile!.obfuscatedID ?? "")
+          .then((response) {
+        lastFetched.add(response.$1);
+        personDetails.add(response.$2);
+      }, onError: (error) => personDetails.addError(error));
     } else {
-      personDetails
-          .addError(TumOnlineApiException(tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound()));
+      personDetails.addError(TumOnlineApiException(
+          tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound()));
     }
   }
 }

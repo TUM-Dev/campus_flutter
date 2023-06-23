@@ -6,66 +6,66 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel implements ViewModel {
+  final BehaviorSubject<Map<String, List<Grade>>?> studyProgramGrades =
+      BehaviorSubject.seeded(null);
 
-  final BehaviorSubject<({DateTime? saved, Map<String, List<Grade>> data})?>
-  studyProgramGrades = BehaviorSubject.seeded(null);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   final BehaviorSubject<String?> selectedDegree = BehaviorSubject.seeded(null);
 
-  ({DateTime? saved, Map<String, Map<String, List<Grade>>> data})? allGrades;
+  Map<String, Map<String, List<Grade>>>? allGrades;
 
   setSelectedDegree(String studyID) {
-    studyProgramGrades.add(
-        (saved: allGrades?.saved, data: allGrades?.data[studyID] ?? {})
-    );
+    studyProgramGrades.add(allGrades?[studyID] ?? {});
   }
 
   @override
   Future fetch(bool forcedRefresh) async {
     GradeService.fetchGrades(forcedRefresh).then((response) {
-      _gradesByDegreeAndSemester(response);
+      lastFetched.add(response.saved);
+      _gradesByDegreeAndSemester(response.data);
     }, onError: (error) => studyProgramGrades.addError(error));
   }
 
-  _gradesByDegreeAndSemester(({DateTime? saved, List<Grade> data}) response) async {
-      if (response.data.isEmpty) {
-        studyProgramGrades.add((saved: response.saved, data: {}));
-      }
+  _gradesByDegreeAndSemester(List<Grade> response) async {
+    if (response.isEmpty) {
+      studyProgramGrades.add({});
+    }
 
-      Map<String, List<Grade>> gradesByDegree = {};
-      for (var grade in response.data) {
-        gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
-      }
+    Map<String, List<Grade>> gradesByDegree = {};
+    for (var grade in response) {
+      gradesByDegree.putIfAbsent(grade.studyID, () => []).add(grade);
+    }
 
-      Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
-      for (var entry in gradesByDegree.entries) {
-        for (var grade in entry.value) {
-          gradesByDegreeAndSemester
-              .putIfAbsent(entry.key, () => {})
-              .putIfAbsent(grade.semester, () => [])
-              .add(grade);
-        }
+    Map<String, Map<String, List<Grade>>> gradesByDegreeAndSemester = {};
+    for (var entry in gradesByDegree.entries) {
+      for (var grade in entry.value) {
+        gradesByDegreeAndSemester
+            .putIfAbsent(entry.key, () => {})
+            .putIfAbsent(grade.semester, () => [])
+            .add(grade);
       }
+    }
 
-      final firstDegree = gradesByDegreeAndSemester.values.firstOrNull ?? {};
-      studyProgramGrades.add((saved: response.saved, data: firstDegree));
-      allGrades = (saved: response.saved, data: gradesByDegreeAndSemester);
+    final firstDegree = gradesByDegreeAndSemester.values.firstOrNull ?? {};
+    studyProgramGrades.add(firstDegree);
+    allGrades = gradesByDegreeAndSemester;
   }
 
   List<PopupMenuEntry<String>> getMenuEntries() {
-    if (allGrades?.data.values != null) {
-      return allGrades!.data.values
-        .map((e) => PopupMenuItem(
-          value: e.values.first.first.studyID,
-          child: Text(e.values.first.first.studyDesignation)))
-        .toList();
+    if (allGrades?.values != null) {
+      return allGrades!.values
+          .map((e) => PopupMenuItem(
+              value: e.values.first.first.studyID,
+              child: Text(e.values.first.first.studyDesignation)))
+          .toList();
     } else {
       return [];
     }
   }
 
   Map<double, int> chartDataForDegree(String studyID) {
-    final degreeGrades = studyProgramGrades.value?.data;
+    final degreeGrades = studyProgramGrades.value;
     if (degreeGrades == null) {
       return {};
     }
@@ -75,7 +75,7 @@ class GradeViewModel implements ViewModel {
       for (var grade in semester) {
         chartData.update(
           stringToDouble(grade.grade),
-              (value) => ++value,
+          (value) => ++value,
           ifAbsent: () => 1,
         );
       }

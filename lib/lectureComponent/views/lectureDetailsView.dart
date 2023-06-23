@@ -31,7 +31,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericStreamBuilder<(DateTime?, LectureDetails)>(
+    return GenericStreamBuilder<LectureDetails>(
         stream: ref.watch(lectureDetailsViewModel).lectureDetails,
         dataBuilder: (context, data) => lectureDetailsView(data),
         errorBuilder: (context, error) => ErrorHandlingView(
@@ -57,23 +57,24 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
      */
   }
 
-  Widget lectureDetailsView((DateTime?, LectureDetails) lectureDetails) {
+  Widget lectureDetailsView(LectureDetails lectureDetails) {
+    final lastFetched = ref.read(lectureDetailsViewModel).lastFetched.value;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(lectureDetails.$2.title,
+                  Text(lectureDetails.title,
                       style: Theme
                           .of(context)
                           .textTheme
                           .headlineSmall,
                       textAlign: TextAlign.start),
-                  Text(lectureDetails.$2.eventType, textAlign: TextAlign.start),
+                  Text(lectureDetails.eventType, textAlign: TextAlign.start),
                 ])),
           const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
-          if (lectureDetails.$1 != null) LastUpdatedText(lectureDetails.$1!),
+          if (lastFetched != null) LastUpdatedText(lastFetched),
           Expanded(
               child: Scrollbar(
                   controller: widget.scrollController,
@@ -81,7 +82,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
                       controller: widget.scrollController,
                       child: SafeArea(
                           child: Column(
-                            children: _infoCards(lectureDetails.$2),
+                            children: _infoCards(lectureDetails),
                           )))))
         ]);
   }

@@ -46,8 +46,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
 class DeparturesDetailsView extends ConsumerStatefulWidget {
   const DeparturesDetailsView({super.key, required this.snapshot});
 
-  final AsyncSnapshot<({List<Departure> departures, DateTime? saved})?>
-      snapshot;
+  final AsyncSnapshot<List<Departure>?> snapshot;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -58,6 +57,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
   @override
   Widget build(BuildContext context) {
     if (widget.snapshot.hasData) {
+      final lastFetched = ref.read(departureViewModel).lastFetched.value;
       return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
@@ -109,8 +109,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                         iconData: Icons.open_in_new, label: "Show Directions"))
               ],
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-              if (widget.snapshot.data?.saved != null)
-                LastUpdatedText(widget.snapshot.data!.saved!),
+              if (lastFetched != null) LastUpdatedText(lastFetched),
               const Row(
                 children: [
                   SizedBox(
@@ -135,9 +134,9 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                           itemBuilder: (context, index) =>
                               DeparturesDetailsRowView(
                                   departure:
-                                      widget.snapshot.data!.departures[index]),
+                                      widget.snapshot.data![index]),
                           separatorBuilder: (context, index) => const Divider(),
-                          itemCount: widget.snapshot.data!.departures.length))),
+                          itemCount: widget.snapshot.data!.length))),
             ],
           ));
     } else if (widget.snapshot.hasError) {

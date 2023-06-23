@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +30,18 @@ class _ChartViewState extends ConsumerState<ChartView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("${widget.title} ${widget.studyID}",
-                  style: Theme.of(context).textTheme.bodyLarge),
-          PopupMenuButton<String>(
-            itemBuilder: (context) => ref.read(gradeViewModel).getMenuEntries(),
-            onSelected: (selected) {
-              ref.read(gradeViewModel).setSelectedDegree(selected);
-            },
-            icon: const Icon(Icons.keyboard_arrow_down),
-          )
-        ]),
+        PopupMenuButton<String>(
+          itemBuilder: (context) => ref.read(gradeViewModel).getMenuEntries(),
+          onSelected: (selected) {
+            ref.read(gradeViewModel).setSelectedDegree(selected);
+          },
+          child: IconText(
+              iconData: Icons.keyboard_arrow_down,
+              label: "${widget.title} ${widget.studyID}",
+              style: Theme.of(context).textTheme.bodyLarge,
+              mainAxisAlignment: MainAxisAlignment.center,
+              leadingIcon: false),
+        ),
         SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             primaryYAxis: NumericAxis(

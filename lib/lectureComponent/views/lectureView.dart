@@ -28,19 +28,20 @@ class _GradeViewState extends ConsumerState<LectureView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericStreamBuilder<(DateTime?, Map<String, List<Lecture>>)>(
+    return GenericStreamBuilder<Map<String, List<Lecture>>>(
         stream: ref.watch(lectureViewModel).lectures,
         dataBuilder: (context, data) {
-          if (data.$2.isEmpty) {
+          if (data.isEmpty) {
             return const Center(child: Text("no lectures found"));
           } else {
+            final lastFetched = ref.read(lectureViewModel).lastFetched.value;
             return RefreshIndicator(
                 onRefresh: () => ref.read(lectureViewModel).fetch(true),
                 child: Scrollbar(
                     child: SingleChildScrollView(
                         child: Column(children: [
-                          if (data.$1 != null) LastUpdatedText(data.$1!),
-                          for (var semester in data.$2.entries)
+                          if (lastFetched != null) LastUpdatedText(lastFetched),
+                          for (var semester in data.entries)
                             SemesterView(semester: semester),
                         ]))),
             );

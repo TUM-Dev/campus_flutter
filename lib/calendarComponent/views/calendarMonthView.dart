@@ -18,7 +18,7 @@ class CalendarMonthView extends ConsumerWidget {
           showAgenda: true,
           navigationDirection: MonthNavigationDirection.vertical),
       dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value?.$2 ?? [], context),
+          ref.read(calendarViewModel).events.value ?? [], context),
       firstDayOfWeek: 1,
       showDatePickerButton: true,
       showNavigationArrow: true,

@@ -21,7 +21,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         stream: ref.watch(profileDetailsViewModel).personDetails,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return contactInfo(snapshot.data?.$2);
+            return contactInfo(snapshot.data);
           } else {
             return const DelayedLoadingIndicator(
               alternativeLoadingIndicator: ContactCardLoadingView(),

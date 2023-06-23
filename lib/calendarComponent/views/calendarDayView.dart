@@ -18,7 +18,7 @@ class CalendarDayView extends ConsumerWidget {
       showDatePickerButton: true,
       view: CalendarView.day,
       dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value?.$2 ?? [], context),
+          ref.read(calendarViewModel).events.value ?? [], context),
       onTap: (details) {
         showModalSheet(details, null, context, ref);
       },

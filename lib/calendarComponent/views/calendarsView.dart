@@ -42,6 +42,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
         stream: ref.watch(calendarViewModel).events,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            final lastFetched = ref.read(calendarViewModel).lastFetched.value;
             return Column(children: [
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -68,7 +69,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               groupValue: _selectedCalendarTab))
                     ],
                   )),
-              if(snapshot.data?.$1 != null) LastUpdatedText(snapshot.data!.$1!),
+              if(lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: _calendarController),
                 const CalendarWeekView(),

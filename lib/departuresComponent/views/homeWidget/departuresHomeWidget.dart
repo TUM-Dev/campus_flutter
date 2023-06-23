@@ -66,7 +66,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
     }
   }
 
-  Widget _widgetContent(AsyncSnapshot<({List<Departure> departures, DateTime? saved})?> snapshot, Station station) {
+  Widget _widgetContent(AsyncSnapshot<List<Departure>?> snapshot, Station station) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       RichText(
           text:
@@ -75,7 +75,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
             text: station.name,
             style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))
       ])),
-      for (var departure in snapshot.data!.departures.getRange(0, 3)) ...[
+      for (var departure in snapshot.data!.getRange(0, 3)) ...[
         const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
         DeparturesDetailsRowView(departure: departure)
       ]

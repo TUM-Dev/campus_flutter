@@ -6,15 +6,17 @@ import '../model/profile.dart';
 import '../services/profileService.dart';
 
 class ProfileViewModel implements ViewModel {
-  BehaviorSubject<(DateTime?, Profile)?> profile = BehaviorSubject.seeded(null);
-  BehaviorSubject<(DateTime?, Tuition?)?> tuition = BehaviorSubject.seeded(null);
+  BehaviorSubject<Profile?> profile = BehaviorSubject.seeded(null);
+  BehaviorSubject<Tuition?> tuition = BehaviorSubject.seeded(null);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   @override
   Future fetch(bool forcedRefresh) async {
     ProfileService.fetchProfile(forcedRefresh).then((response) {
-      profile.add(response);
+      lastFetched.add(response.$1);
+      profile.add(response.$2);
       ProfileService.fetchTuition(forcedRefresh, response.$2.personGroup ?? "", response.$2.id ?? "")
-          .then((response) => tuition.add(response), onError: (error) => tuition.addError(error));
+          .then((response) => tuition.add(response.$2), onError: (error) => tuition.addError(error));
     }, onError: (error) => profile.addError(error));
   }
 }

@@ -33,20 +33,20 @@ class _GradesViewState extends ConsumerState<GradesView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericStreamBuilder<
-            ({DateTime? saved, Map<String, List<Grade>> data})>(
+    return GenericStreamBuilder<Map<String, List<Grade>>>(
         stream: gradeVM.studyProgramGrades,
         dataBuilder: (context, data) {
-          if (data.data.isEmpty) {
+          if (data.isEmpty) {
             return const Text("no grades found");
           } else {
+            final lastFetched = ref.read(gradeViewModel).lastFetched.value;
             return RefreshIndicator(
                 child: Scrollbar(
                     child: SingleChildScrollView(
                         clipBehavior: Clip.antiAlias,
                         child: Column(children: [
-                          if (data.saved != null) LastUpdatedText(data.saved!),
-                            DegreeView(degree: data.data),
+                          if (lastFetched != null) LastUpdatedText(lastFetched),
+                            DegreeView(degree: data),
                         ]))),
                 onRefresh: () async {
                   ref.read(gradeViewModel).fetch(true);

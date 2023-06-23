@@ -14,7 +14,7 @@ class CalendarWeekView extends ConsumerWidget {
         child: SfCalendar(
       view: CalendarView.week,
       dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value?.$2 ?? [], context),
+          ref.read(calendarViewModel).events.value ?? [], context),
       onTap: (details) {
         showModalSheet(details, null, context, ref);
       },

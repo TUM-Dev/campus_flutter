@@ -1,12 +1,13 @@
-import 'package:campus_flutter/base/helpers/stringParser.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
 import 'package:rxdart/rxdart.dart';
 import '../model/lecture.dart';
 
 class LectureViewModel implements ViewModel {
-  BehaviorSubject<(DateTime?, Map<String, List<Lecture>>)?> lectures =
+  BehaviorSubject<Map<String, List<Lecture>>?> lectures =
       BehaviorSubject.seeded(null);
+
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   @override
   Future fetch(bool forcedRefresh) async {
@@ -16,8 +17,10 @@ class LectureViewModel implements ViewModel {
   }
 
   _lecturesBySemester((DateTime?, List<Lecture>) response) async {
+    lastFetched.add(response.$1);
+
     if (response.$2.isEmpty) {
-      lectures.add((response.$1, {}));
+      lectures.add({});
     }
 
     Map<String, List<Lecture>> lecturesBySemester = {};
@@ -33,6 +36,6 @@ class LectureViewModel implements ViewModel {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    lectures.add((response.$1, sortedLecturesBySemester));
+    lectures.add(sortedLecturesBySemester);
   }
 }

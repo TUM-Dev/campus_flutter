@@ -15,7 +15,6 @@ class GradeRowAlt extends StatelessWidget {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
         title: Text(grade.title),
-        //titleTextStyle: Theme.of(context).textTheme.bodyMedium,
         subtitle: Column(
           children: [
             Row(children: [

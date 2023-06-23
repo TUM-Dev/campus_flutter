@@ -18,7 +18,7 @@ class TuitionView extends ConsumerWidget {
           return Card(
             child: TextButton(
                 onPressed: () {
-                  (snapshot.hasData && snapshot.data?.$2 != null)
+                  (snapshot.hasData && snapshot.data != null)
                       ? showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -32,7 +32,7 @@ class TuitionView extends ConsumerWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        snapshot.data!.$2!.semester,
+                                        snapshot.data!.semester,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -45,12 +45,12 @@ class TuitionView extends ConsumerWidget {
                                       _infoRow(
                                           "Due Date:",
                                           DateFormat("dd.MM.yyyy")
-                                              .format(snapshot.data!.$2!.deadline)),
+                                              .format(snapshot.data!.deadline)),
                                       _infoRow(
                                           "Open Amount:",
                                           NumberFormat.currency(
                                                   locale: "de_DE", symbol: '€')
-                                              .format(snapshot.data!.$2!.amount))
+                                              .format(snapshot.data!.amount))
                                     ]),
                                 actions: [
                                   ElevatedButton(
@@ -84,9 +84,9 @@ class TuitionView extends ConsumerWidget {
   }
 
   Widget _tuitionStatus(
-      BuildContext context, AsyncSnapshot<(DateTime?, Tuition?)?> snapshot) {
+      BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
     if (snapshot.hasData) {
-      if (snapshot.data?.$2?.amount == 0.0) {
+      if (snapshot.data?.amount == 0.0) {
         return const IconText(
           iconData: Icons.check,
           label: "Tuition Paid",
@@ -96,7 +96,7 @@ class TuitionView extends ConsumerWidget {
       } else {
         final numberFormat =
             NumberFormat.currency(locale: "de_DE", symbol: "€");
-        return Text("${numberFormat.format(snapshot.data?.$2?.amount)} €",
+        return Text("${numberFormat.format(snapshot.data?.amount)} €",
             style: const TextStyle(color: Colors.red));
       }
     } else {
