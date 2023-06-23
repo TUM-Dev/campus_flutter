@@ -9,7 +9,7 @@ class GradeViewModel {
   BehaviorSubject.seeded(null);
 
   gradesByDegreeAndSemester() async {
-    GradeService.fetchGrades().then((grades) {
+    GradeService.fetchGrades(false).then((grades) {
       if (grades.isEmpty) {
         this.grades.add({});
       }

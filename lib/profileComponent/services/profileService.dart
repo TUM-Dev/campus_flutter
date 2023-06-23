@@ -7,25 +7,25 @@ import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class ProfileService {
-  static Future<Profile> fetchProfile() async {
+  static Future<Profile> fetchProfile(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<ProfileData, TumOnlineApi, TumOnlineApiError>(
         TumOnlineApi(TumOnlineServiceIdentify()),
         ProfileData.fromJson,
         TumOnlineApiError.fromJson,
-        false
+        forcedRefresh
     );
 
     return response.data.profilesAttribute.profile;
   }
 
-  static Future<Tuition?> fetchTuition(String personGroup, String id) async {
+  static Future<Tuition?> fetchTuition(bool forcedRefresh, String personGroup, String id) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<TuitionData, TumOnlineApi, TumOnlineApiError>(
         TumOnlineApi(TumOnlineServiceTuitionStatus()),
         TuitionData.fromJson,
         TumOnlineApiError.fromJson,
-        false
+        forcedRefresh
     );
 
     return response.data.profilesAttribute.tuition;

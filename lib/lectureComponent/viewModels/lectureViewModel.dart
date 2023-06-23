@@ -8,7 +8,7 @@ class LectureViewModel {
       BehaviorSubject.seeded(null);
 
   lecturesBySemester() async {
-    List<Lecture> lectures = await LectureService.fetchLecture();
+    List<Lecture> lectures = await LectureService.fetchLecture(false);
 
     if (lectures.isEmpty) {
       this.lectures.add({});

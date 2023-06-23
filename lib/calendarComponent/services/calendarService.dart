@@ -6,13 +6,13 @@ import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class CalendarService {
-  static Future<List<CalendarEvent>> fetchCalendar() async {
+  static Future<List<CalendarEvent>> fetchCalendar(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<CalendarEventsData, TumOnlineApi, TumOnlineApiError>(
         TumOnlineApi(TumOnlineServiceCalendar()),
         CalendarEventsData.fromJson,
         TumOnlineApiError.fromJson,
-        false
+        forcedRefresh
     );
 
     return response.data.events.event;

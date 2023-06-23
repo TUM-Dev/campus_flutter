@@ -42,8 +42,13 @@ ThemeData lightTheme(BuildContext context) {
       /// custom elevated button styling
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) => _primaryLightColor),
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return Colors.grey.shade300;
+                } else {
+                  return _primaryLightColor;
+                }
+              }),
               foregroundColor:
                   MaterialStateProperty.resolveWith((states) => Colors.white),
               shape: MaterialStateProperty.resolveWith((states) =>

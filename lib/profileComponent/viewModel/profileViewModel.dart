@@ -9,14 +9,14 @@ class ProfileViewModel {
   BehaviorSubject<Tuition?> tuition = BehaviorSubject();
 
   fetchProfile() async {
-    profile.add(await ProfileService.fetchProfile());
+    profile.add(await ProfileService.fetchProfile(false));
     fetchTuition();
   }
 
   fetchTuition() async {
     if (profile.hasValue) {
       tuition.add(await ProfileService.fetchTuition(
-          profile.value?.personGroup ?? "", profile.value?.id ?? ""
+          false, profile.value?.personGroup ?? "", profile.value?.id ?? ""
       ));
     }
   }

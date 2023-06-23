@@ -6,13 +6,13 @@ import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class GradeService {
-  static Future<List<Grade>> fetchGrades() async {
+  static Future<List<Grade>> fetchGrades(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<GradeData, TumOnlineApi, TumOnlineApiError>(
         TumOnlineApi(TumOnlineServicePersonalGrades()),
         GradeData.fromJson,
         TumOnlineApiError.fromJson,
-        false
+        forcedRefresh
     );
     return response.data.gradesAttribute.personalGrades;
   }

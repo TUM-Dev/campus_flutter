@@ -8,7 +8,7 @@ class CalendarViewModel {
   BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?> widgetEvents = BehaviorSubject.seeded(null);
 
   fetchEvents() async {
-    final events = await CalendarService.fetchCalendar();
+    final events = await CalendarService.fetchCalendar(false);
     this.events.add(events);
   }
 
