@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/base/helpers/stringToDouble.dart';
-import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
+import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../model/grade.dart';
@@ -15,7 +15,6 @@ class GradeRowAlt extends StatelessWidget {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
         title: Text(grade.title),
-        //titleTextStyle: Theme.of(context).textTheme.bodyMedium,
         subtitle: Column(
           children: [
             Row(children: [

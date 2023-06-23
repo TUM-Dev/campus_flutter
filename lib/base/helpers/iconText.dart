@@ -8,13 +8,15 @@ class IconText extends StatelessWidget {
     this.style,
     this.textColor,
     this.multipleLines = false,
-    this.leadingIcon = true
+    this.leadingIcon = true,
+    this.mainAxisAlignment = MainAxisAlignment.start
   });
 
   final IconData iconData;
   final String label;
   final TextStyle? style;
   final Color? textColor;
+  final MainAxisAlignment mainAxisAlignment;
   final bool multipleLines;
   final bool leadingIcon;
 
@@ -22,27 +24,25 @@ class IconText extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyle = style ?? TextStyle(color: textColor);
     var iconColor = style?.color ?? Theme.of(context).primaryColor;
-    var iconSize = style != null ? style?.fontSize : 20.0;
-    if (leadingIcon) {
-      return Row(
-        children: [
+    var iconSize = style?.fontSize != null ? style!.fontSize : 20.0;
+    return Row(
+      mainAxisAlignment: mainAxisAlignment,
+      children: [
+        if (leadingIcon) ...[
           Icon(iconData, color: iconColor, size: iconSize),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
           multipleLines
               ? Expanded(child: Text(label, style: textStyle))
               : Text(label, style: textStyle, maxLines: 1)
         ],
-      );
-    } else {
-      return Row(
-        children: [
+        if (!leadingIcon) ...[
           multipleLines
               ? Expanded(child: Text(label, style: textStyle))
               : Text(label, style: textStyle, maxLines: 1),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-          Icon(iconData, color: iconColor, size: iconSize),
-        ],
-      );
-    }
+          Icon(iconData, color: iconColor, size: iconSize)
+        ]
+      ],
+    );
   }
 }

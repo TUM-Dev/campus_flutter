@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendarHomeWidgetEventView.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -17,7 +18,7 @@ class CalendarHomeWidgetView extends ConsumerStatefulWidget {
 class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   @override
   void initState() {
-    ref.read(calendarViewModel).fetchEvents();
+    ref.read(calendarViewModel).fetch(false);
     super.initState();
   }
 
@@ -29,7 +30,12 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
           if (snapshot.hasData) {
             return _calendarWidgetCard(ref.read(calendarViewModel).getWidgetEvents());
           } else if (snapshot.hasError) {
-            return const Text("Error!");
+            return SizedBox(height: 200, child: Card(child:
+            ErrorHandlingView(
+                error: snapshot.error!,
+                errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                retry: ref.read(calendarViewModel).fetch
+            )));
           } else {
             return const DelayedLoadingIndicator(name: "Events");
           }

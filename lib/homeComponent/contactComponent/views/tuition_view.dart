@@ -18,7 +18,7 @@ class TuitionView extends ConsumerWidget {
           return Card(
             child: TextButton(
                 onPressed: () {
-                  snapshot.hasData
+                  (snapshot.hasData && snapshot.data != null)
                       ? showDialog(
                           context: context,
                           builder: (context) => AlertDialog(

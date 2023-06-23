@@ -28,7 +28,7 @@ class MovieCardView extends StatelessWidget {
                         fadeInDuration: Duration.zero,
                         placeholder: (context, string) {
                           return Image.asset(
-                              "assets/images/movie_placeholder.png",
+                              "assets/images/placeholders/movie_placeholder.png",
                               fit: BoxFit.cover);
                         },
                       ))),

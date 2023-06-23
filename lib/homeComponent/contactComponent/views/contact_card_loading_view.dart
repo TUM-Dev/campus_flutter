@@ -8,11 +8,11 @@ class ContactCardLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/portrait_placeholder.png'),
+              backgroundImage: AssetImage('assets/images/placeholders/portrait_placeholder.png'),
               radius: 50,
             ),
             const Padding(padding: EdgeInsets.only(left: 15)),

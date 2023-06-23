@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigaTumApiService.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class NavigaTumApi extends Api {

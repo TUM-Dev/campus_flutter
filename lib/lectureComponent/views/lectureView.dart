@@ -1,6 +1,11 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/semester_calculator.dart';
+import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -17,12 +22,41 @@ class LectureView extends ConsumerStatefulWidget {
 class _GradeViewState extends ConsumerState<LectureView> {
   @override
   void initState() {
-    ref.read(lectureViewModel).lecturesBySemester();
+    ref.read(lectureViewModel).fetch(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return GenericStreamBuilder<Map<String, List<Lecture>>>(
+        stream: ref.watch(lectureViewModel).lectures,
+        dataBuilder: (context, data) {
+          if (data.isEmpty) {
+            return const Center(child: Text("no lectures found"));
+          } else {
+            final lastFetched = ref.read(lectureViewModel).lastFetched.value;
+            return RefreshIndicator(
+                onRefresh: () => ref.read(lectureViewModel).fetch(true),
+                child: Scrollbar(
+                    child: SingleChildScrollView(
+                        child: Column(children: [
+                          if (lastFetched != null) LastUpdatedText(lastFetched),
+                          for (var semester in data.entries)
+                            SemesterView(semester: semester),
+                        ]))),
+            );
+          }
+        },
+        errorBuilder: (context, error) => ErrorHandlingView(
+            error: error,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(lectureViewModel).fetch
+        ),
+        loadingBuilder: (context) => const DelayedLoadingIndicator(
+            name: "Lectures"
+        )
+    );
+    /*
     return StreamBuilder(
         stream: ref.watch(lectureViewModel).lectures,
         builder: (context, snapshot) {
@@ -43,6 +77,7 @@ class _GradeViewState extends ConsumerState<LectureView> {
 
           return const DelayedLoadingIndicator(name: "Lectures");
         });
+     */
   }
 }
 
@@ -55,8 +90,8 @@ class SemesterView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
-      title: Text(semester.key),
-      initiallyExpanded: true,
+      title: Text(StringParser.toFullSemesterName(semester.key)),
+      initiallyExpanded: semester.key == SemesterCalculator.getCurrentSemester(),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [

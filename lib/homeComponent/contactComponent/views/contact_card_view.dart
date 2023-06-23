@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/extensions/base64+decodeImageData.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contactCardLoadingView.dart';
+import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -32,15 +32,14 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   }
 
   Widget contactInfo(PersonDetails? data) {
-    return Card(
-        child: Padding(
-            padding: const EdgeInsets.all(5.0),
+    return Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 CircleAvatar(
                   backgroundImage: data?.imageData != null
                       ? Image.memory(base64DecodeImageData(data!.imageData!)).image
-                      : const AssetImage('assets/images/portrait_placeholder.png'),
+                      : const AssetImage('assets/images/placeholders/portrait_placeholder.png'),
                   backgroundColor: Colors.white,
                   radius: 50,
                 ),
@@ -67,6 +66,6 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                   ],
                 )
               ],
-            )));
+            ));
   }
 }

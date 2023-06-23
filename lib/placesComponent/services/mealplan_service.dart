@@ -1,8 +1,7 @@
 import 'package:campus_flutter/base/extensions/dateTime+weekNumber.dart';
-import 'package:campus_flutter/base/networking/apis/eatApi/eatApi.dart';
-import 'package:campus_flutter/base/networking/apis/eatApi/eatApiError.dart';
-import 'package:campus_flutter/base/networking/apis/eatApi/eatApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
@@ -11,38 +10,36 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart'
 import 'package:campus_flutter/providers_get_it.dart';
 
 class MealPlanService {
-  static Future<List<CafeteriaMenu>> getCafeteriaMenu(
+  static Future<(DateTime?, List<CafeteriaMenu>)> getCafeteriaMenu(bool forcedRefresh,
       Cafeteria cafeteria) async {
     MainApi mainApi = getIt<MainApi>();
     final today = DateTime.now();
-    final response = await mainApi.makeRequest<MealPlan, EatApi, EatApiError>(
+    final response = await mainApi.makeRequest<MealPlan, EatApi>(
         EatApi(
             EatApiServiceMenu(location: cafeteria.id, year: today.year, week: today.weekNumber())),
         MealPlan.fromJson,
-        EatApiError.fromJson,
-        false);
+        forcedRefresh);
 
     final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
 
     try {
       final nextWeek = today.add(const Duration(days: 7));
 
-      final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi, EatApiError>(
+      final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
           EatApi(EatApiServiceMenu(
               location: cafeteria.id, year: nextWeek.year, week: nextWeek.weekNumber()
           )),
           MealPlan.fromJson,
-          EatApiError.fromJson,
-          false);
+          forcedRefresh);
 
       final List<CafeteriaMenu> nextWeekMenu =
       _filterNextWeekMenu(_getMenuPerDay(nextWeekResponse.data), thisWeekMenu);
 
       thisWeekMenu.addAll(nextWeekMenu);
 
-      return thisWeekMenu;
+      return (response.saved, thisWeekMenu);
     } catch (_) {
-      return thisWeekMenu;
+      return (response.saved, thisWeekMenu);
     }
   }
 

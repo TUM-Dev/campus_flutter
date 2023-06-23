@@ -1,21 +1,30 @@
-import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
 import 'package:rxdart/rxdart.dart';
 import '../model/lecture.dart';
 
-class LectureViewModel {
+class LectureViewModel implements ViewModel {
   BehaviorSubject<Map<String, List<Lecture>>?> lectures =
       BehaviorSubject.seeded(null);
 
-  lecturesBySemester() async {
-    List<Lecture> lectures = await LectureService.fetchLecture(false);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
-    if (lectures.isEmpty) {
-      this.lectures.add({});
+  @override
+  Future fetch(bool forcedRefresh) async {
+    LectureService.fetchLecture(forcedRefresh).then((response) {
+      _lecturesBySemester(response);
+    }, onError: (error) => lectures.addError(error));
+  }
+
+  _lecturesBySemester((DateTime?, List<Lecture>) response) async {
+    lastFetched.add(response.$1);
+
+    if (response.$2.isEmpty) {
+      lectures.add({});
     }
 
     Map<String, List<Lecture>> lecturesBySemester = {};
-    for (var element in lectures) {
+    for (var element in response.$2) {
       if (lecturesBySemester[element.semesterID] == null) {
         lecturesBySemester[element.semesterID] = [element];
       } else {
@@ -27,7 +36,6 @@ class LectureViewModel {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    this.lectures.add(sortedLecturesBySemester.map(
-        (key, value) => MapEntry(StringParser.toFullSemesterName(key), value)));
+    lectures.add(sortedLecturesBySemester);
   }
 }

@@ -1,21 +1,33 @@
-
-import 'package:campus_flutter/base/services/locationService.dart';
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomData.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
 import 'package:campus_flutter/placesComponent/services/studyrooms_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class StudyRoomWidgetViewModel {
+class StudyRoomWidgetViewModel implements ViewModel {
   BehaviorSubject<StudyRoomGroup?> studyRoomGroup = BehaviorSubject.seeded(null);
   BehaviorSubject<List<StudyRoom>?> rooms = BehaviorSubject.seeded(null);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
-  void getClosestRooms() async {
-    final response = await StudyRoomsService.fetchStudyRooms();
-    final location = await LocationService.getLastKnown();
+  @override
+  Future fetch(bool forcedRefresh) async {
+    StudyRoomsService.fetchStudyRooms(forcedRefresh).then((response) async {
+      final location = await LocationService.getLastKnown();
+      _getClosestRooms(response, location);
+    }, onError: (error) {
+      studyRoomGroup.addError(error);
+      rooms.addError(error);
+    });
+  }
 
-    if (response.groups != null && response.rooms != null && location != null) {
-      final group = response.groups?.reduce((currentGroup, nextGroup) {
+  _getClosestRooms((DateTime?, StudyRoomData) response, Position? location) {
+    lastFetched.add(response.$1);
+
+    if (response.$2.groups != null && response.$2.rooms != null && location != null) {
+      final group = response.$2.groups?.reduce((currentGroup, nextGroup) {
         final distanceCurrent = currentGroup.coordinate != null
             ? Geolocator.distanceBetween(currentGroup.coordinate!.latitude, currentGroup.coordinate!.longitude, location.latitude, location.longitude)
             : 0.0;
@@ -32,7 +44,7 @@ class StudyRoomWidgetViewModel {
       });
 
       studyRoomGroup.add(group);
-      final rooms = group?.getRooms(response.rooms!);
+      final rooms = group?.getRooms(response.$2.rooms!);
       rooms?.sort((room1, room2) {
         if (room1.localizedStatus == "Free" && room2.localizedStatus == "Free") {
           return 0;
@@ -40,12 +52,16 @@ class StudyRoomWidgetViewModel {
           return 1;
         } else if (room1.localizedStatus == "Free" && room2.localizedStatus != "Free") {
           return -1;
+        } else if (room1.localizedStatus != "Unkown" && room2.localizedStatus == "Unkown") {
+          return -1;
+        } else if (room1.localizedStatus == "Unkown" && room2.localizedStatus != "Unkown") {
+          return 1;
         } else {
           return 0;
         }
       });
 
-      this.rooms.add(rooms);
+      this.rooms.add(rooms ?? []);
     } else {
       return;
     }

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/loginComponent/views/login_view.dart';

@@ -1,19 +1,19 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class PersonDetailsService {
-  static Future<PersonDetails> fetchPersonDetails(String identNumber) async {
+  static Future<(DateTime?, PersonDetails)> fetchPersonDetails(bool forcedRefresh, String identNumber) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<PersonDetailsData, TumOnlineApi, TumOnlineApiError>(
-        TumOnlineApi(TumOnlineServicePersonDetails(identNumber: identNumber)),
-        PersonDetailsData.fromJson,
-        TumOnlineApiError.fromJson,
-        false
-    );
-    return response.data.person;
+    final response = await mainApi
+        .makeRequestWithException<PersonDetailsData, TumOnlineApi, TumOnlineApiException>(
+            TumOnlineApi(TumOnlineServicePersonDetails(identNumber: identNumber)),
+            PersonDetailsData.fromJson,
+            TumOnlineApiException.fromJson,
+            forcedRefresh);
+    return (response.saved, response.data.person);
   }
 }

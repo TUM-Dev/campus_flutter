@@ -1,5 +1,5 @@
 import 'package:campus_flutter/calendarComponent/services/calendarService.dart';
-import 'package:campus_flutter/gradeComponent/services/gradeService.dart';
+import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
 import 'package:campus_flutter/profileComponent/services/profileService.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
