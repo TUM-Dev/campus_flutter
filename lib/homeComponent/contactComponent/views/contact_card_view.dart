@@ -32,14 +32,13 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   }
 
   Widget contactInfo(PersonDetails? data) {
-    return /*Card(
-        child:*/ Padding(
+    return Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: data != null
-                      ? Image.memory(base64DecodeImageData(data.imageData)).image
+                  backgroundImage: data?.imageData != null
+                      ? Image.memory(base64DecodeImageData(data!.imageData!)).image
                       : const AssetImage('assets/images/placeholders/portrait_placeholder.png'),
                   backgroundColor: Colors.white,
                   radius: 50,
@@ -67,6 +66,6 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                   ],
                 )
               ],
-            ))/*)*/;
+            ));
   }
 }

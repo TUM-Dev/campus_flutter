@@ -1,4 +1,3 @@
-import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
@@ -25,7 +24,7 @@ class IconText extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyle = style ?? TextStyle(color: textColor);
     var iconColor = style?.color ?? Theme.of(context).primaryColor;
-    var iconSize = style?.fontSize != null ? style!.fontSize!+2.0 : 20.0;
+    var iconSize = style?.fontSize != null ? style!.fontSize : 20.0;
     return Row(
       mainAxisAlignment: mainAxisAlignment,
       children: [
