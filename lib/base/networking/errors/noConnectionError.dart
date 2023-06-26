@@ -1,1 +1,0 @@
-class NoConnectionError extends Error {}

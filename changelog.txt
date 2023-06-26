@@ -1,10 +1,6 @@
 This version provides the following updates:
-- Home screen with widgets: We've added a customizable home screen with widgets to provide you with quick access to important information. Stay up-to-date with the latest departures, news, movies, calendar events, meal plans of cafeterias, and find the nearest available study rooms effortlessly.
-
-- Enhanced caching: We've improved the caching mechanism to ensure faster loading times and a smoother experience.
-
-- Bug fixes: We've addressed several bugs and issues to enhance app stability and reliability.
-
-- Design tweaks and improvements: We've made design enhancements throughout the app to create a more visually pleasing and intuitive user interface.
-
-- General performance optimizations: We've fine-tuned various aspects of the app to boost overall performance and responsiveness.
+- Error Handling with improved error messages
+- Last Updated Texts
+- Redesigned Login UI
+- Bug fixes that broke the contact card
+- Design tweaks and improvements

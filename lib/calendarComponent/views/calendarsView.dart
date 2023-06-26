@@ -1,3 +1,6 @@
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarDayView.dart';
 import 'package:campus_flutter/calendarComponent/views/calendarMonthView.dart';
@@ -29,52 +32,68 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
 
   @override
   void initState() {
-    ref.read(calendarViewModel).fetchEvents();
+    ref.read(calendarViewModel).fetch(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedCalendarTab = 0;
-                      _calendarController.displayDate = DateTime.now();
-                    });
-                  },
-                  child: Text("Today",
-                      style: Theme.of(context).textTheme.titleMedium)),
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-              Expanded(
-                  child: CupertinoSlidingSegmentedControl(
-                      children: calendarTabs,
-                      onValueChanged: (i) {
-                        setState(() {
-                          _selectedCalendarTab = i ?? 0;
-                        });
-                      },
-                      groupValue: _selectedCalendarTab))
-            ],
-          )),
-      <Widget>[
-        CalendarDayView(calendarController: _calendarController),
-        const CalendarWeekView(),
-        const CalendarMonthView()
-      ][_selectedCalendarTab]
-    ]);
+    return StreamBuilder(
+        stream: ref.watch(calendarViewModel).events,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final lastFetched = ref.read(calendarViewModel).lastFetched.value;
+            return Column(children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedCalendarTab = 0;
+                              _calendarController.displayDate = DateTime.now();
+                            });
+                          },
+                          child: Text("Today",
+                              style: Theme.of(context).textTheme.titleMedium)),
+                      const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
+                      Expanded(
+                          child: CupertinoSlidingSegmentedControl(
+                              children: calendarTabs,
+                              onValueChanged: (i) {
+                                setState(() {
+                                  _selectedCalendarTab = i ?? 0;
+                                });
+                              },
+                              groupValue: _selectedCalendarTab))
+                    ],
+                  )),
+              if(lastFetched != null) LastUpdatedText(lastFetched),
+              <Widget>[
+                CalendarDayView(calendarController: _calendarController),
+                const CalendarWeekView(),
+                const CalendarMonthView()
+              ][_selectedCalendarTab]
+            ]);
+          } else if (snapshot.hasError) {
+            return ErrorHandlingView(
+                error: snapshot.error!,
+                errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+                retry: ref.read(calendarViewModel).fetch);
+          } else {
+            return const DelayedLoadingIndicator(name: "Calendar");
+          }
+    });
   }
 }
 
-showModalSheet(
-    CalendarTapDetails? details, CalendarEvent? event, BuildContext context, WidgetRef ref) {
+showModalSheet(CalendarTapDetails? details, CalendarEvent? event,
+    BuildContext context, WidgetRef ref) {
   CalendarEvent? calendarEvent;
   if (details != null) {
-    if (details.targetElement == CalendarElement.appointment && details.appointments!.isNotEmpty) {
+    if (details.targetElement == CalendarElement.appointment &&
+        details.appointments!.isNotEmpty) {
       calendarEvent = details.appointments?.first as CalendarEvent;
     }
   } else if (event != null) {

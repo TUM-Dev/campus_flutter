@@ -1,5 +1,5 @@
 /*import 'dart:async';
-import 'package:campus_flutter/base/services/locationService.dart';
+import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

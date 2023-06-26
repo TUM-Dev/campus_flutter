@@ -1,5 +1,9 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
+import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lectureDetails.dart';
 import 'package:campus_flutter/lectureComponent/views/basicLectureInfoRowView.dart';
 import 'package:campus_flutter/lectureComponent/views/basicLectureInfoView.dart';
@@ -21,12 +25,25 @@ class LectureDetailsView extends ConsumerStatefulWidget {
 class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   @override
   void initState() {
-    ref.read(lectureDetailsViewModel).fetchLectureDetails();
+    ref.read(lectureDetailsViewModel).fetch(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return GenericStreamBuilder<LectureDetails>(
+        stream: ref.watch(lectureDetailsViewModel).lectureDetails,
+        dataBuilder: (context, data) => lectureDetailsView(data),
+        errorBuilder: (context, error) => ErrorHandlingView(
+            error: error,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(lectureDetailsViewModel).fetch
+        ),
+        loadingBuilder: (context) => const DelayedLoadingIndicator(
+            name: "Lecture Details"
+        )
+    );
+    /*
     return StreamBuilder(
       stream: ref.watch(lectureDetailsViewModel).lectureDetails,
       builder: (context, snapshot) {
@@ -37,9 +54,11 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         }
       },
     );
+     */
   }
 
   Widget lectureDetailsView(LectureDetails lectureDetails) {
+    final lastFetched = ref.read(lectureDetailsViewModel).lastFetched.value;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -55,6 +74,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
                   Text(lectureDetails.eventType, textAlign: TextAlign.start),
                 ])),
           const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
+          if (lastFetched != null) LastUpdatedText(lastFetched),
           Expanded(
               child: Scrollbar(
                   controller: widget.scrollController,

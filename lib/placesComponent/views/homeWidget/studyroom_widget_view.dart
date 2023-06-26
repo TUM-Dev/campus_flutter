@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -17,7 +17,7 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
 class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   void initState() {
-    ref.read(studyRoomWidgetViewModel).getClosestRooms();
+    ref.read(studyRoomWidgetViewModel).fetch(false);
     super.initState();
   }
 
@@ -28,9 +28,8 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
         builder: (context, snapshot) {
           return GestureDetector(
               onTap: () {
-                if (snapshot.hasData) {
-                  _onPressed(context, snapshot.data!,
-                      ref.read(studyRoomWidgetViewModel).rooms.value ?? []);
+                if (snapshot.hasData && snapshot.data != null) {
+                  _onPressed(context);
                 }
               },
               child: CardWithPadding(height: 60, child: _widgetLabel(snapshot, context)));
@@ -39,18 +38,26 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _widgetLabel(AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
     if (snapshot.hasData) {
-      return _buttonLabel(context, snapshot);
+      if (snapshot.data != null) {
+        return _buttonLabel(context, snapshot);
+      } else {
+        return const Center(child: Text("no study rooms near you found"));
+      }
     } else if (snapshot.hasError) {
-      return const Center(child: Text("no study rooms near you found"));
+      return ErrorHandlingView(
+          error: snapshot.error!,
+          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+          retry: ref.read(studyRoomWidgetViewModel).fetch
+      );
     } else {
       return const DelayedLoadingIndicator(name: "Closest Study Room");
     }
   }
 
-  _onPressed(BuildContext context, StudyRoomGroup studyRoomGroup, List<StudyRoom> studyRooms) {
+  _onPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
-            StudyRoomGroupScaffold(studyRoomGroup: studyRoomGroup, studyRooms: studyRooms)));
+            const StudyRoomGroupScaffold()));
   }
 
   Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {

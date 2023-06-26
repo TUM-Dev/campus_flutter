@@ -14,7 +14,11 @@ const Color _almostWhite = Color(0xffe3e2e6);
 /// light theme
 ThemeData lightTheme(BuildContext context) {
   return ThemeData(
+
+      /// for light mode
       brightness: Brightness.light,
+
+      /// basic color scheme
       colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: _primaryLightColor,
@@ -27,44 +31,77 @@ ThemeData lightTheme(BuildContext context) {
           onBackground: _lightGray,
           surface: _lightBackground,
           onSurface: _almostBlack),
+
+      /// ensures Theme.of(context).primaryColor is usable
       primaryColor: _primaryLightColor,
+
+      /// remove splash effect on e.g. IconButtons
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      dialogTheme:
-          const DialogTheme(backgroundColor: Colors.white, surfaceTintColor: Colors.transparent),
-      bottomSheetTheme: const BottomSheetThemeData(surfaceTintColor: Colors.transparent),
-      textTheme: const TextTheme(titleMedium: TextStyle(color: _primaryLightColor)),
-      appBarTheme:
-          const AppBarTheme(surfaceTintColor: _lightBackground, backgroundColor: _lightBackground),
+
+      /// custom elevated button styling
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return Colors.grey.shade300;
+                } else {
+                  return _primaryLightColor;
+                }
+              }),
+              foregroundColor:
+                  MaterialStateProperty.resolveWith((states) => Colors.white),
+              shape: MaterialStateProperty.resolveWith((states) =>
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0))))),
+
+      /// remove tint of dialogs
+      dialogTheme: const DialogTheme(
+          backgroundColor: Colors.white, surfaceTintColor: Colors.transparent),
+
+      /// remove tint of sheets
+      bottomSheetTheme:
+          const BottomSheetThemeData(surfaceTintColor: Colors.transparent),
+
+      /// adjust some text colors
+      textTheme: const TextTheme(
+          labelLarge: TextStyle(color: _primaryLightColor),
+          titleMedium: TextStyle(color: _primaryLightColor)),
+
+      /// remove change of color if scrollView is behind
+      appBarTheme: const AppBarTheme(
+          surfaceTintColor: _lightBackground,
+          backgroundColor: _lightBackground),
+
+      /// remove colored tint and shadow of card, add margin
       cardTheme: const CardTheme(
           color: Colors.white,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+
+      /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
           collapsedTextColor: _primaryLightColor,
           collapsedIconColor: _primaryLightColor,
           textColor: _primaryLightColor,
           iconColor: _primaryLightColor),
-      buttonTheme: const ButtonThemeData(
-          padding: EdgeInsets.zero,
-          minWidth: 0,
-          layoutBehavior: ButtonBarLayoutBehavior.constrained,
-          highlightColor: Colors.transparent),
+
+      /// use material 3 widgets
       useMaterial3: true,
+
+      /// use Material 3 Widgets
       dividerColor: Colors.transparent,
+
+      /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.selected)) {
-              return Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500);
+              return Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: _primaryLightColor, fontWeight: FontWeight.w500);
             } else {
-              return Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: _navigationIconGrayLight, fontWeight: FontWeight.w500);
+              return Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: _navigationIconGrayLight, fontWeight: FontWeight.w500);
             }
           }),
           iconTheme: MaterialStateProperty.resolveWith((states) {
@@ -77,13 +114,28 @@ ThemeData lightTheme(BuildContext context) {
           indicatorColor: Colors.transparent,
           backgroundColor: const Color(0xF0F8F9F8),
           surfaceTintColor: Colors.transparent,
-          elevation: 50.0));
+          elevation: 50.0),
+
+      /// style pop up menu
+      popupMenuTheme: PopupMenuThemeData(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          surfaceTintColor: Colors.transparent),
+
+      /// style snackbar
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.redAccent
+      ));
 }
 
 /// dark theme
 ThemeData darkTheme(BuildContext context) {
   return ThemeData(
+
+      /// for dark mode
       brightness: Brightness.dark,
+
+      /// basic color scheme
       colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: _primaryDarkColor,
@@ -96,45 +148,73 @@ ThemeData darkTheme(BuildContext context) {
           onBackground: _almostWhite,
           surface: _darkBackground,
           onSurface: _almostWhite),
+
+      /// ensures Theme.of(context).primaryColor is usable
       primaryColor: _primaryDarkColor,
+
+      /// remove splash effect on e.g. IconButtons
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
+
+      /// custom elevated button styling
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith(
+                  (states) => _primaryDarkColor),
+              foregroundColor:
+                  MaterialStateProperty.resolveWith((states) => Colors.white),
+              shape: MaterialStateProperty.resolveWith((states) =>
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0))))),
+
+      /// remove tint of dialogs
       dialogTheme: const DialogTheme(
-          backgroundColor: Color(0xff252525), surfaceTintColor: Colors.transparent),
-      bottomSheetTheme: const BottomSheetThemeData(surfaceTintColor: Colors.transparent),
-      textTheme: const TextTheme(titleMedium: TextStyle(color: _primaryDarkColor)),
-      appBarTheme:
-          const AppBarTheme(surfaceTintColor: _darkBackground, backgroundColor: _darkBackground),
+          backgroundColor: Color(0xff252525),
+          surfaceTintColor: Colors.transparent),
+
+      /// remove tint of sheets
+      bottomSheetTheme:
+          const BottomSheetThemeData(surfaceTintColor: Colors.transparent),
+
+      /// adjust some text colors
+      textTheme: const TextTheme(
+          labelLarge: TextStyle(color: _primaryDarkColor),
+          titleMedium: TextStyle(color: _primaryDarkColor)),
+
+      /// remove change of color if scrollView is behind
+      appBarTheme: const AppBarTheme(
+          surfaceTintColor: _darkBackground, backgroundColor: _darkBackground),
+
+      /// remove colored tint and shadow of card, add margin
       cardTheme: const CardTheme(
           color: Color(0xff252525),
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+
+      /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
         collapsedTextColor: _primaryDarkColor,
         collapsedIconColor: _primaryDarkColor,
         textColor: _primaryDarkColor,
         iconColor: _primaryDarkColor,
       ),
-      buttonTheme: const ButtonThemeData(
-          padding: EdgeInsets.zero,
-          minWidth: 0,
-          layoutBehavior: ButtonBarLayoutBehavior.constrained,
-          highlightColor: Colors.transparent),
+
+      /// use Material 3 Widgets
       useMaterial3: true,
+
+      ///
       dividerColor: Colors.transparent,
+
+      /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.selected)) {
-              return Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: _primaryDarkColor, fontWeight: FontWeight.w500);
+              return Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: _primaryDarkColor, fontWeight: FontWeight.w500);
             } else {
-              return Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: _navigationIconGrayDark, fontWeight: FontWeight.w500);
+              return Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: _navigationIconGrayDark, fontWeight: FontWeight.w500);
             }
           }),
           iconTheme: MaterialStateProperty.resolveWith((states) {
@@ -147,5 +227,16 @@ ThemeData darkTheme(BuildContext context) {
           indicatorColor: Colors.transparent,
           backgroundColor: const Color(0xF01D1D1D),
           surfaceTintColor: Colors.transparent,
-          elevation: 50.0));
+          elevation: 50.0),
+
+      /// style pop up menu
+      popupMenuTheme: PopupMenuThemeData(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          surfaceTintColor: Colors.transparent),
+
+      /// style snackbar
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.redAccent
+      ));
 }

@@ -1,36 +1,32 @@
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApi.dart';
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiError.dart';
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tumCabeApiService.dart';
-import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApi.dart';
-import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApiError.dart';
-import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tumDevAppApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api.dart';
+import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tum_dev_app_api.dart';
+import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tum_dev_app_api_service.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomData.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomImageMapping.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class StudyRoomsService {
-  static Future<StudyRoomData> fetchStudyRooms() async {
+  static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<StudyRoomData, TumDevAppApi, TumDevAppApiError>(
+    final response = await mainApi.makeRequest<StudyRoomData, TumDevAppApi>(
         TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
         StudyRoomData.fromJson,
-        TumDevAppApiError.fromJson,
-        false
+        forcedRefresh
     );
 
-    return response.data;
+    return (response.saved, response.data);
   }
 
-  static Future<StudyRoomImageMapping> fetchMap(String room) async {
+  static Future<(DateTime?, StudyRoomImageMapping)> fetchMap(bool forcedRefresh, String room) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<StudyRoomImageMapping, TumCabeApi, TumCabeApiError>(
+    final response = await mainApi.makeRequest<StudyRoomImageMapping, TumCabeApi>(
         TumCabeApi(tumCabeService: TumCabeServiceRoomMaps(room: room)),
         StudyRoomImageMapping.fromJson,
-        TumCabeApiError.fromJson,
-        false
+        forcedRefresh
     );
 
-    return response.data;
+    return (response.saved, response.data);
   }
 }

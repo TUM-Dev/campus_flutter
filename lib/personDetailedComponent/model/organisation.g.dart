@@ -11,7 +11,7 @@ Organisation _$OrganisationFromJson(Map<String, dynamic> json) => Organisation(
       id: json['kennung'] as String,
       number: json['org_nr'] as String,
       title: json['titel'] as String,
-      description: json['beschreibung'] as String,
+      description: json['beschreibung'] as String?,
     );
 
 Map<String, dynamic> _$OrganisationToJson(Organisation instance) =>
