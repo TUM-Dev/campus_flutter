@@ -1,10 +1,15 @@
 import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 
 class ConfirmView extends ConsumerStatefulWidget {
@@ -45,18 +50,24 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
   void setText() {
     _videoPlayerController.position.then((value) async {
       if (value != null) {
-        if (value.compareTo(const Duration(seconds: 5, milliseconds: 16)) == 1
-            && value.compareTo(const Duration(seconds: 9, milliseconds: 2)) == -1) {
+        if (value.compareTo(const Duration(seconds: 5, milliseconds: 16)) ==
+                1 &&
+            value.compareTo(const Duration(seconds: 9, milliseconds: 2)) ==
+                -1) {
           setState(() {
             currentText = 1;
           });
-        } else if (value.compareTo(const Duration(seconds: 9, milliseconds: 3)) == 1
-            && value.compareTo(const Duration(seconds: 16, milliseconds: 24)) == -1) {
+        } else if (value
+                    .compareTo(const Duration(seconds: 9, milliseconds: 3)) ==
+                1 &&
+            value.compareTo(const Duration(seconds: 16, milliseconds: 24)) ==
+                -1) {
           setState(() {
             currentText = 2;
           });
-        } else if (value.compareTo(Duration.zero) == 1
-            && value.compareTo(const Duration(seconds: 5, milliseconds: 16)) == -1) {
+        } else if (value.compareTo(Duration.zero) == 1 &&
+            value.compareTo(const Duration(seconds: 5, milliseconds: 16)) ==
+                -1) {
           setState(() {
             currentText = 0;
           });
@@ -72,27 +83,50 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         appBar: AppBar(
             leading: const BackButton(),
             backgroundColor: Colors.white,
-            title: Text("Check Token")),
+            title: const Text("Check Token")),
         body: Column(children: [
           Text(texts[currentText], textAlign: TextAlign.center),
           const Spacer(),
           SizedBox(
               height: 500,
               width: 230,
-              child: VideoPlayer(_videoPlayerController)
-          ),
+              child: VideoPlayer(_videoPlayerController)),
           const Spacer(flex: 2),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final url = Uri.parse("https://campus.tum.de");
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                },
                 child: const IconText(
                     iconData: Icons.language,
                     label: "TUMOnline",
                     style: TextStyle(color: Colors.white))),
             ElevatedButton(
                 onPressed: () {
-                  //ref.read(loginViewModel).confirmLogin().then((value) =>
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PermissionCheckView()));//);
+                  ref.read(loginViewModel).confirmLogin().then(
+                      (value) {
+                        if (value.confirmed) {
+                          Navigator
+                              .of(context)
+                              .popUntil((route) => route.isFirst);
+                        } else {
+                          throw TumOnlineApiException(tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed());
+                        }
+                      },
+                      onError: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(seconds: 10),
+                                  content: ErrorHandlingView(error: error, errorHandlingViewType: ErrorHandlingViewType.textOnly, titleColor: Colors.white,)));
+                      }).catchError((error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            duration: const Duration(seconds: 10),
+                            content: ErrorHandlingView(error: error, errorHandlingViewType: ErrorHandlingViewType.textOnly, titleColor: Colors.white)));
+                  });
                 },
                 child: const IconText(
                   iconData: Icons.arrow_forward,
@@ -105,7 +139,14 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           Center(
               child: MaterialButton(
                   onPressed: () async {
-                    // TODO:
+                    final Uri emailUri = Uri(
+                      scheme: 'mailto',
+                      path: "test@gmx.de",
+                    );
+
+                    if (await canLaunchUrl(emailUri)) {
+                      await launchUrl(emailUri);
+                    }
                   },
                   child: Text("Contact Support",
                       style:

@@ -17,18 +17,20 @@ class LoginService {
                 tumId: name, deviceName: "TCA - ${io.Platform.localHostname}")),
             Token.fromJson,
             TumOnlineApiException.fromJson,
-            false);
+            forcedRefresh);
     return response.data;
   }
   
   static Future<Confirm> confirmToken(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi
-        .makeRequestWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
-            TumOnlineApi(TumOnlineServiceTokenConfirmation()),
-            Confirm.fromJson,
-            TumOnlineApiException.fromJson,
-            false);
+        .makeRequestWithException<Confirm,
+        TumOnlineApi,
+        TumOnlineApiException>(
+        TumOnlineApi(TumOnlineServiceTokenConfirmation()),
+        Confirm.fromJson,
+        TumOnlineApiException.fromJson,
+        forcedRefresh);
 
     return response.data;
   }

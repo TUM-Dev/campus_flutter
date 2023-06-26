@@ -1,15 +1,27 @@
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 
-class LoginView extends ConsumerWidget {
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends ConsumerState<LoginView> {
+
+  @override
+  void initState() {
+    ref.read(loginViewModel).clearTextFields();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -54,7 +66,6 @@ class LoginView extends ConsumerWidget {
           onChanged: (text) {
             ref.read(loginViewModel).checkTumId();
             if (text.length == 2) {
-              //ref.read(loginViewModel).checkTumId();
               FocusScope.of(context).nextFocus();
             }
           },
@@ -104,22 +115,25 @@ class LoginView extends ConsumerWidget {
         builder: (context, snapshot) {
           return Column(
             children: [
-              if (snapshot.hasError) Text(
-                  snapshot.error.toString(),
-                  style: const TextStyle(color: Colors.red)
-              ),
+              if (snapshot.hasError) _textFieldError(snapshot.error!),
               ElevatedButton(
                   onPressed: (snapshot.data != null && snapshot.data!)
                       ? () {
-                          /*ref
-              .read(loginViewModel)
-              .requestLogin(
-                  "${textFieldController1.text}${textFieldController2.text}${textFieldController3.text}")
-              .then((value) =>*/
-                          //Provider.of<LoginViewModel>(context, listen: false).requestLogin("${textFieldController1.text}${textFieldController2.text}${textFieldController3.text}").then((value) =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ConfirmView()));/*//)); //);
-        },*/
+                          ref.read(loginViewModel).requestLogin().then(
+                              (value) => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ConfirmView())),
+                              onError: (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                duration: const Duration(seconds: 10),
+                                content: ErrorHandlingView(
+                                  error: error,
+                                  errorHandlingViewType:
+                                      ErrorHandlingViewType.textOnly,
+                                  titleColor: Colors.white,
+                                )));
+                          });
                         }
                       : null,
                   child: Text("Log in",
@@ -130,6 +144,10 @@ class LoginView extends ConsumerWidget {
             ],
           );
         });
+  }
+
+  Widget _textFieldError(Object error) {
+    return Text(error.toString(), style: const TextStyle(color: Colors.red));
   }
 
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {

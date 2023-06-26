@@ -61,10 +61,10 @@ class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
             if(snapshot.data == Credentials.tumId || snapshot.data == Credentials.noTumId) {
               return const Navigation();
             } else {
-              return LoginView();
+              return const LoginView();
             }
           } else {
-            return LoginView();
+            return const LoginView();
           }
         });
   }

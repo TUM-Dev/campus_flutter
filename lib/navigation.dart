@@ -1,24 +1,32 @@
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io' show Platform;
 
 import 'lectureComponent/views/lectureView.dart';
 
 const settings = '/settings';
 
-class Navigation extends StatefulWidget {
+class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
 
   @override
-  State<Navigation> createState() => _NavigationState();
+  ConsumerState<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
+class _NavigationState extends ConsumerState<Navigation> {
   int currentPageIndex = 0;
+
+  @override
+  void initState() {
+    ref.read(profileViewModel).fetch(true);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

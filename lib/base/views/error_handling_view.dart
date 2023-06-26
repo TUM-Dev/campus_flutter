@@ -7,11 +7,15 @@ class ErrorHandlingView extends StatelessWidget {
       {super.key,
       required this.error,
       required this.errorHandlingViewType,
-      required this.retry});
+      this.retry,
+      this.titleColor,
+      this.bodyColor});
 
   final Object error;
   final ErrorHandlingViewType errorHandlingViewType;
-  final Future<dynamic> Function(bool) retry;
+  final Future<dynamic> Function(bool)? retry;
+  final Color? titleColor;
+  final Color? bodyColor;
 
   @override
   Widget build(BuildContext context) {
@@ -70,41 +74,45 @@ class ErrorHandlingView extends StatelessWidget {
               flex: 0,
               child: Column(children: [
                 Text(errorMessage,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: Theme.of(context).primaryColor),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: titleColor ?? Theme.of(context).primaryColor),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis),
                 if (fixMessage != null)
                   Text(fixMessage,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(color: bodyColor),
                       textAlign: TextAlign.center,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis)
               ])),
           const Spacer(),
-          ElevatedButton(
-              onPressed: () => retry(true), child: const Text("Try Again")),
-          const Spacer()
+          if (retry != null) ...[
+            ElevatedButton(
+                onPressed: () => retry!(true), child: const Text("Try Again")),
+            const Spacer()
+          ]
         ]));
       case ErrorHandlingViewType.textOnly:
         return Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
               errorMessage,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: titleColor ?? Theme.of(context).primaryColor),
               textAlign: TextAlign.center,
             ),
             if (fixMessage != null)
-              Text(fixMessage, textAlign: TextAlign.center)
+              Text(fixMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: bodyColor))
           ]),
         );
       case ErrorHandlingViewType.descriptionOnly:
-        return Center(child: Text(errorMessage));
+        return Center(
+            child: Text(errorMessage, style: TextStyle(color: bodyColor)));
       case ErrorHandlingViewType.redDescriptionOnly:
         return Center(
             child:
