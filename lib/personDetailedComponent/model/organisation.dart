@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'organisation.g.dart';
@@ -13,7 +15,7 @@ class Organisation {
   @JsonKey(name: "titel")
   final String title;
   @JsonKey(name: "beschreibung")
-  final String description;
+  final String? description;
 
   Organisation({
     required this.name,

@@ -16,13 +16,9 @@ PersonDetails _$PersonDetailsFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       gender: PersonDetails._stringToGender(json['geschlecht'] as String),
       officeHours: json['sprechstunde'] as String?,
-      imageData: json['image_data'] as String,
-      organisations: (json['gruppen'] as List<dynamic>?)
-          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rooms: (json['raeume'] as List<dynamic>?)
-          ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      imageData: json['image_data'] as String?,
+      organisations: PersonDetails._jsonToOrganisationList(json['gruppen']),
+      rooms: PersonDetails._jsonToRoomList(json['raeume']),
       phoneExtensions: (json['telefon_nebenstellen'] as List<dynamic>?)
           ?.map((e) => PhoneExtension.fromJson(e as Map<String, dynamic>))
           .toList(),

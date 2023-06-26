@@ -96,7 +96,7 @@ class TuitionView extends ConsumerWidget {
       } else {
         final numberFormat =
             NumberFormat.currency(locale: "de_DE", symbol: "€");
-        return Text("${numberFormat.format(snapshot.data?.amount)} €",
+        return Text(numberFormat.format(snapshot.data?.amount),
             style: const TextStyle(color: Colors.red));
       }
     } else {
