@@ -1,15 +1,13 @@
+import 'dart:io';
+
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
-import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 
 class ConfirmView extends ConsumerStatefulWidget {
@@ -139,10 +137,17 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           Center(
               child: MaterialButton(
                   onPressed: () async {
+                    final info = await PackageInfo.fromPlatform();
+                    final operatingSystem = Platform.operatingSystem;
+                    final osVersion = Platform.operatingSystemVersion;
+
                     final Uri emailUri = Uri(
-                      scheme: 'mailto',
-                      path: "test@gmx.de",
-                    );
+                        scheme: 'mailto',
+                        path: "app@tum.de",
+                        queryParameters: {
+                          "subject": "[$operatingSystem - Token]",
+                          "body": "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail."
+                        });
 
                     if (await canLaunchUrl(emailUri)) {
                       await launchUrl(emailUri);

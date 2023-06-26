@@ -9,6 +9,7 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:xml2json/xml2json.dart';
 
 class MainApi {
   late Dio dio;
@@ -24,12 +25,28 @@ class MainApi {
         hitCacheOnErrorExcept: [401, 404]
     );
 
+    /// add custom cache interceptor to dio
     final dio = Dio()
       ..interceptors
           .add(CustomCacheInterceptor(cacheStore: cacheStore, cacheOptions: cacheOptions));
+
+    /// convert xml to json first - needs to happen here to
+    /// avoid conversion everytime it's loaded out of cache
+    dio.options = BaseOptions(responseDecoder: (data, options, body) {
+      final decoded = utf8.decoder.convert(data);
+      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+        final transformer = Xml2Json();
+        transformer.parse(decoded);
+        return transformer.toParker();
+      } else {
+        return decoded;
+      }
+    });
+
     this.dio = dio;
   }
 
+  /// with possible error in response body
   Future<ApiResponse<T>> makeRequestWithException<T, S extends Api, U extends ApiException>(
       S endpoint,
       dynamic Function(Map<String, dynamic>) createObject,
@@ -37,6 +54,7 @@ class MainApi {
       bool forcedRefresh) async {
     Response<String> response;
 
+    /// add forcedRefresh flag to temporary options
     if (forcedRefresh) {
       Dio noCacheDio = Dio()
         ..interceptors.addAll(dio.interceptors);
@@ -65,6 +83,7 @@ class MainApi {
     }
   }
 
+  /// without possible error in response body
   Future<ApiResponse<T>> makeRequest<T, S extends Api>(
       S endpoint,
       dynamic Function(Map<String, dynamic>) createObject,
