@@ -2,6 +2,7 @@ import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/studentCardComponent/views/studentCardView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
 import 'package:flutter/material.dart';
@@ -41,17 +42,13 @@ class _NavigationState extends ConsumerState<Navigation> {
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
               case 1:
-                return Text("Grades",
-                    style: Theme.of(context).textTheme.titleLarge);
+                return Text("Grades", style: Theme.of(context).textTheme.titleLarge);
               case 2:
-                return Text("Lectures",
-                    style: Theme.of(context).textTheme.titleLarge);
+                return Text("Lectures", style: Theme.of(context).textTheme.titleLarge);
               case 3:
-                return Text("Calendar",
-                    style: Theme.of(context).textTheme.titleLarge);
+                return Text("Calendar", style: Theme.of(context).textTheme.titleLarge);
               case 4:
-                return Text("Places",
-                    style: Theme.of(context).textTheme.titleLarge);
+                return Text("Places", style: Theme.of(context).textTheme.titleLarge);
               default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
@@ -59,9 +56,11 @@ class _NavigationState extends ConsumerState<Navigation> {
           }()),
           actions: <Widget>[
             IconButton(
+                onPressed: () => _openStudentCardSheet(), icon: const Icon(Icons.credit_card)),
+            IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SettingsView()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => const SettingsView()));
                 },
                 icon: const Icon(Icons.settings)),
           ],
@@ -125,10 +124,35 @@ class _NavigationState extends ConsumerState<Navigation> {
             const Text("Coming Soon")
           ][currentPageIndex],
         ),
-    );
+        floatingActionButton: /*FloatingActionButton.extended(
+-          onPressed: () => _openStudentCardSheet(),
+-          label: const IconText(
+-              iconData: Icons.credit_card,
+-              label: "StudentCard",
+-              style: TextStyle(color: Colors.white),
+-          ),
+-      ),*/
+            FloatingActionButton(
+                onPressed: () => _openStudentCardSheet(), child: const Icon(Icons.credit_card)));
   }
-}
 
-extension ModifiedNavigationDestination on NavigationDestination {
+  void _openStudentCardSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: const StudentCardView());
 
+          /// leave here for now, enables height adjusted to content
+          /*return const SafeArea(child:
+                         //Wrap(children: [
+                          //StudentCardView()
+                       ]));*/
+        });
+  }
 }

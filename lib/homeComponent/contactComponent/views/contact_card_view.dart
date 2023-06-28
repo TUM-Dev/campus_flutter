@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/extensions/base64+decodeImageData.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
@@ -15,6 +16,12 @@ class ContactCardView extends ConsumerStatefulWidget {
 }
 
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
+  @override
+  void initState() {
+    ref.read(studentCardViewModel);
+    super.initState();
+  }
+
   @override
   build(BuildContext context) {
     return StreamBuilder(
@@ -32,11 +39,13 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   }
 
   Widget contactInfo(PersonDetails? data) {
+    final studentCard = ref.read(studentCardViewModel).studentCard.value;
+    final studies = studentCard?.studies?.study;
     return Row(
       children: [
         CircleAvatar(
-          backgroundImage: data?.imageData != null
-              ? Image.memory(base64DecodeImageData(data!.imageData!)).image
+          backgroundImage: studentCard?.image != null
+              ? Image.memory(base64DecodeImageData(studentCard!.image)).image
               : const AssetImage('assets/images/placeholders/portrait_placeholder.png'),
           backgroundColor: Colors.white,
           radius: 50,
@@ -45,6 +54,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
                 data != null
@@ -54,9 +64,12 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             Text(ref.watch(profileDetailsViewModel).profile != null
                 ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "go42tum"
                 : "go42tum"),
-            Text(data != null ? data.email : PersonDetailsViewModel.defaultPersonDetails.email),
-            // TODO: solve with tumCard api?
-            const Text("coming soon")
+    Text(data != null
+    ? data.email
+    : PersonDetailsViewModel.defaultPersonDetails.email),
+    for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? []) ...[
+    Text("${StringParser.degreeShort(studyProgram.degree)} ${studyProgram.name}")
+    ]
           ],
         ))
       ],

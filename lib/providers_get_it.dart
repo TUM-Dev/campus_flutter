@@ -13,6 +13,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewm
 import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
+import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
@@ -27,6 +28,12 @@ final selectedProfile = StateProvider<Profile?>((ref) => null);
 /// viewModels for RiverPod - state is uninitialized at first
 final loginViewModel = Provider((ref) => LoginViewModel());
 final departureViewModel = Provider((ref) => DeparturesViewModel());
+final studentCardViewModel = Provider.autoDispose((ref) {
+  StudentCardViewModel studentCardViewModel = StudentCardViewModel();
+  studentCardViewModel.fetch(false);
+  ref.keepAlive();
+  return studentCardViewModel;
+});
 final profileViewModel = Provider.autoDispose((ref) {
   final profileViewModel = ProfileViewModel();
   profileViewModel.fetch(false);
