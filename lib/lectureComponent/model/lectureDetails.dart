@@ -1,11 +1,10 @@
 import 'package:campus_flutter/base/helpers/stringToInt.dart';
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lectureDetails.g.dart';
 
 @JsonSerializable()
-class LectureDetails implements Serializable {
+class LectureDetails {
   @JsonKey(name: "stp_sp_nr", fromJson: stringToInt)
   final int id;
   @JsonKey(name: "stp_lv_nr", fromJson: stringToInt)
@@ -106,12 +105,11 @@ class LectureDetails implements Serializable {
 
   factory LectureDetails.fromJson(Map<String, dynamic> json) => _$LectureDetailsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LectureDetailsToJson(this);
 }
 
 @JsonSerializable()
-class LectureDetailsData implements Serializable {
+class LectureDetailsData {
   @JsonKey(name: "rowset")
   LectureDetailsElement lectureDetailsAttribute;
 
@@ -119,12 +117,11 @@ class LectureDetailsData implements Serializable {
 
   factory LectureDetailsData.fromJson(Map<String, dynamic> json) => _$LectureDetailsDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LectureDetailsDataToJson(this);
 }
 
 @JsonSerializable()
-class LectureDetailsElement implements Serializable {
+class LectureDetailsElement {
   @JsonKey(name: "row")
   final LectureDetails lectureDetails;
 
@@ -132,6 +129,5 @@ class LectureDetailsElement implements Serializable {
 
   factory LectureDetailsElement.fromJson(Map<String, dynamic> json) => _$LectureDetailsElementFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LectureDetailsElementToJson(this);
 }

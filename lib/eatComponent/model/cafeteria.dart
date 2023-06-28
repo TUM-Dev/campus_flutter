@@ -1,11 +1,10 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
 
 @JsonSerializable()
-class Location implements Serializable {
+class Location {
   final double latitude;
   final double longitude;
   final String address;
@@ -14,12 +13,11 @@ class Location implements Serializable {
 
   factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
 
 @JsonSerializable()
-class Queue implements Serializable {
+class Queue {
   final int current;
   final int percent;
 
@@ -27,12 +25,11 @@ class Queue implements Serializable {
 
   factory Queue.fromJson(Map<String, dynamic> json) => _$QueueFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$QueueToJson(this);
 }
 
 @JsonSerializable()
-class Cafeteria implements Serializable {
+class Cafeteria {
   final Location location;
   String name;
   @JsonKey(name: "canteen_id")
@@ -48,7 +45,6 @@ class Cafeteria implements Serializable {
 
   factory Cafeteria.fromJson(Map<String, dynamic> json) => _$CafeteriaFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$CafeteriaToJson(this);
 }
 

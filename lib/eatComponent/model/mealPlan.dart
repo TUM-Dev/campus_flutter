@@ -1,12 +1,10 @@
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
+import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import 'mensaMenu.dart';
 
 part 'mealPlan.g.dart';
 
 @JsonSerializable()
-class MealPlan implements Serializable {
+class MealPlan {
   @JsonKey(name: "number")
   final int week;
   final int year;
@@ -16,6 +14,5 @@ class MealPlan implements Serializable {
 
   factory MealPlan.fromJson(Map<String, dynamic> json) => _$MealPlanFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$MealPlanToJson(this);
 }

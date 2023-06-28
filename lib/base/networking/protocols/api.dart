@@ -1,20 +1,19 @@
-import 'dart:developer';
+import 'dart:convert';
 
-import 'package:campus_flutter/base/networking/protocols/apiError.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as dio;
+import 'package:xml2json/xml2json.dart';
 
-part 'api.freezed.dart';
+abstract class Api {
 
-abstract class API {
+  static String tumToken = "";
 
   String get baseURL;
 
   String get path;
 
-  List<String> get baseHeaders;
+  Map<String, String> get baseHeaders { return {}; }
 
-  APIError get error;
+  //Type get error;
 
   String get paths;
 
@@ -22,39 +21,34 @@ abstract class API {
 
   bool get needsAuth;
 
-  Future<http.Response> asResponse({String? token}) async {
+  Future<dio.Response<String>> asResponse({required dio.Dio dio}) async {
     if (needsAuth) {
       var finalParameters = parameters;
-      finalParameters.addAll({"pToken": token ?? ""});
+      // TODO: figure out token sharing
+      finalParameters.addAll({"pToken": tumToken});
       final uri = Uri.https(baseURL, paths, finalParameters);
-      log(uri.toString());
-      return http.get(uri);
+      return dio.getUri(uri, options: _customDecodingOptions(baseHeaders));
     } else {
-      final uri = Uri(scheme: "https",
-          host: baseURL,
-          path: paths,
-          queryParameters: parameters);
-      log(uri.toString());
-      return http.get(uri);
+      final uri = Uri.https(baseURL, paths, parameters);
+      return dio.getUri(uri, options: _customDecodingOptions(baseHeaders));
     }
   }
 
-  // TODO: fix caching for endpoints which use multiple params
-  String requestURL() {
-    return Uri.https(baseURL, paths, parameters).toString();
+  dio.Options _customDecodingOptions(Map<String, String> headers) {
+    return dio.Options(responseDecoder: (data, options, body) {
+      final decoded = utf8.decoder.convert(data);
+      if (body.headers["content-type"]?.first.contains("json") ?? false) {
+        return decoded;
+      } else {
+        final transformer = Xml2Json();
+        transformer.parse(decoded);
+        return transformer.toParker();
+      }
+    }, headers: headers);
   }
 
   @override
   String toString() {
-    return baseURL + paths;
+    return baseURL + path + paths;
   }
-}
-
-
-@freezed
-class APIState<T> with _$APIState {
-  const factory APIState.na() = na;
-  const factory APIState.loading() = loading;
-  const factory APIState.success(T data) = success;
-  const factory APIState.error(Error error) = loadingError;
 }

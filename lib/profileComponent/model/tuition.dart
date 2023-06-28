@@ -1,11 +1,10 @@
 import 'package:campus_flutter/base/helpers/stringToDouble.dart';
-import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tuition.g.dart';
 
 @JsonSerializable()
-class Tuition implements Serializable {
+class Tuition {
   @JsonKey(name: "soll", fromJson: stringToDouble)
   final double? amount;
   @JsonKey(name: "frist")
@@ -24,12 +23,11 @@ class Tuition implements Serializable {
 
   factory Tuition.fromJson(Map<String, dynamic> json) => _$TuitionFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$TuitionToJson(this);
 }
 
 @JsonSerializable()
-class TuitionData implements Serializable {
+class TuitionData {
   @JsonKey(name: "rowset")
   Tuitions profilesAttribute;
 
@@ -37,12 +35,11 @@ class TuitionData implements Serializable {
 
   factory TuitionData.fromJson(Map<String, dynamic> json) => _$TuitionDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$TuitionDataToJson(this);
 }
 
 @JsonSerializable()
-class Tuitions implements Serializable {
+class Tuitions {
   @JsonKey(name: "row")
   final Tuition tuition;
 
@@ -50,6 +47,5 @@ class Tuitions implements Serializable {
 
   factory Tuitions.fromJson(Map<String, dynamic> json) => _$TuitionsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$TuitionsToJson(this);
 }
