@@ -22,10 +22,12 @@ class BasicLectureInfo extends StatelessWidget {
         BasicLectureInfoRow(
             information: lectureDetails.organisation,
             iconData: Icons.import_contacts),
-        const Divider(),
         // TODO: person finder
-        BasicLectureInfoRow(
-            information: lectureDetails.speaker, iconData: Icons.person),
+        if (lectureDetails.speaker != null) ...[
+          const Divider(),
+          BasicLectureInfoRow(
+            information: lectureDetails.speaker!, iconData: Icons.person),
+        ],
         if (lectureDetails.firstScheduledDate != null) ...[
           const Divider(),
           BasicLectureInfoRow(information: lectureDetails.firstScheduledDate!, iconData: Icons.watch_later)
