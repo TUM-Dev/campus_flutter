@@ -1,13 +1,13 @@
-import 'package:campus_flutter/base/helpers/stringToInt.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lectureDetails.g.dart';
 
 @JsonSerializable()
 class LectureDetails {
-  @JsonKey(name: "stp_sp_nr", fromJson: stringToInt)
+  @JsonKey(name: "stp_sp_nr", fromJson: StringParser.stringToInt)
   final int id;
-  @JsonKey(name: "stp_lv_nr", fromJson: stringToInt)
+  @JsonKey(name: "stp_lv_nr", fromJson: StringParser.stringToInt)
   final int lvNumber;
   @JsonKey(name: "stp_sp_titel")
   final String title;
@@ -27,14 +27,14 @@ class LectureDetails {
   final String semesterID;
   @JsonKey(name: "sj_name")
   final String semesterYear;
-  @JsonKey(name: "org_nr_betreut", fromJson: stringToInt)
+  @JsonKey(name: "org_nr_betreut", fromJson: StringParser.stringToInt)
   final int organisationNumber;
   @JsonKey(name: "org_name_betreut")
   final String organisation;
   @JsonKey(name: "org_kennung_betreut")
   final String organisationTag;
   @JsonKey(name: "vortragende_mitwirkende")
-  final String speaker;
+  final String? speaker;
   @JsonKey(name: "lehrinhalt")
   final String? courseContents;
   @JsonKey(name: "voraussetzung_lv")

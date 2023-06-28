@@ -1,9 +1,9 @@
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/base/helpers/paddedDivider.dart';
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
-import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
@@ -46,7 +46,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
                         clipBehavior: Clip.antiAlias,
                         child: Column(children: [
                           if (lastFetched != null) LastUpdatedText(lastFetched),
-                            DegreeView(degree: data),
+                          DegreeView(degree: data),
                         ]))),
                 onRefresh: () async {
                   ref.read(gradeViewModel).fetch(true);
@@ -58,8 +58,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
               retry: ref.read(gradeViewModel).fetch,
             ),
-        loadingBuilder: (context) =>
-            const DelayedLoadingIndicator(name: "Grades"));
+        loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Grades"));
   }
 }
 
@@ -76,8 +75,7 @@ class DegreeView extends StatelessWidget {
             child: ChartView(
                 studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
                 title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown")),
-        for (var semester in degree.entries)
-          SemesterView(semester: semester),
+        for (var semester in degree.entries) SemesterView(semester: semester),
       ],
     );
   }
@@ -93,16 +91,13 @@ class SemesterView extends StatelessWidget {
     return Card(
         child: ExpansionTile(
       title: Text(StringParser.toFullSemesterName(semester.key)),
-      initiallyExpanded:
-          (semester.key == SemesterCalculator.getCurrentSemester() ||
-              semester.key == SemesterCalculator.getPriorSemester()),
+      initiallyExpanded: (semester.key == SemesterCalculator.getCurrentSemester() ||
+          semester.key == SemesterCalculator.getPriorSemester()),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [
             GradeRowAlt(grade: semester.value[index]),
-            (index != semester.value.length - 1
-                ? const PaddedDivider()
-                : const SizedBox.shrink())
+            (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
           ])
       ],
     ));

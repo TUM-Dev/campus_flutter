@@ -1,6 +1,4 @@
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
 import 'package:flutter/material.dart';
-import '../../routes.dart';
 
 class LoginViewAlt extends StatelessWidget {
   LoginViewAlt({super.key});

@@ -8,8 +8,8 @@ part of 'lectureDetails.dart';
 
 LectureDetails _$LectureDetailsFromJson(Map<String, dynamic> json) =>
     LectureDetails(
-      id: stringToInt(json['stp_sp_nr'] as String?),
-      lvNumber: stringToInt(json['stp_lv_nr'] as String?),
+      id: StringParser.stringToInt(json['stp_sp_nr'] as String?),
+      lvNumber: StringParser.stringToInt(json['stp_lv_nr'] as String?),
       title: json['stp_sp_titel'] as String,
       duration: json['dauer_info'] as String,
       stp_sp_sst: json['stp_sp_sst'] as String,
@@ -19,10 +19,11 @@ LectureDetails _$LectureDetailsFromJson(Map<String, dynamic> json) =>
       semesterType: json['semester'] as String,
       semesterID: json['semester_id'] as String,
       semesterYear: json['sj_name'] as String,
-      organisationNumber: stringToInt(json['org_nr_betreut'] as String?),
+      organisationNumber:
+          StringParser.stringToInt(json['org_nr_betreut'] as String?),
       organisation: json['org_name_betreut'] as String,
       organisationTag: json['org_kennung_betreut'] as String,
-      speaker: json['vortragende_mitwirkende'] as String,
+      speaker: json['vortragende_mitwirkende'] as String?,
       courseContents: json['lehrinhalt'] as String?,
       requirements: json['voraussetzung_lv'] as String?,
       courseObjective: json['lehrziel'] as String?,

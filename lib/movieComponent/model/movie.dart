@@ -1,5 +1,4 @@
-
-import 'package:campus_flutter/base/helpers/stringToDouble.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
@@ -16,7 +15,7 @@ class Movie {
   final String genre;
   final String director;
   final String actors;
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(fromJson: StringParser.stringToDouble)
   final double? rating;
   final String description;
   final Uri cover;

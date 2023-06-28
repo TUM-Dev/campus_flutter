@@ -1,9 +1,9 @@
-import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/helpers/paddedDivider.dart';
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
-import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
@@ -100,12 +100,14 @@ class SemesterView extends ConsumerWidget {
               //titleTextStyle: Theme.of(context).textTheme.bodyMedium,
               trailing: const Icon(Icons.arrow_forward_ios, size: 15),
               subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(children: [
                     Expanded(
                         child: IconText(
                       iconData: Icons.edit,
                       label: semester.value[index].eventType,
+                      iconColor: Theme.of(context).primaryColor,
                       textColor: Theme.of(context).colorScheme.secondary,
                       multipleLines: true,
                     )),
@@ -113,6 +115,7 @@ class SemesterView extends ConsumerWidget {
                         child: IconText(
                             iconData: Icons.access_time,
                             label: semester.value[index].sws,
+                            iconColor: Theme.of(context).primaryColor,
                             textColor:
                                 Theme.of(context).colorScheme.secondary)),
                   ]),
@@ -120,6 +123,7 @@ class SemesterView extends ConsumerWidget {
                   IconText(
                     iconData: Icons.person,
                     label: semester.value[index].speaker,
+                    iconColor: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).colorScheme.secondary,
                     multipleLines: true,
                   ),

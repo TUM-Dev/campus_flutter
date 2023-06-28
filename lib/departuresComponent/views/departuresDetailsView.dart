@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
-import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
@@ -18,9 +18,13 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
+          final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
+              ? Theme.of(context).canvasColor
+              : Colors.white;
           return Scaffold(
               appBar: AppBar(
                 leading: const BackButton(),
+                backgroundColor: backgroundColor,
                 title: Text(
                     ref.watch(departureViewModel).selectedStation.value?.name ??
                         "Departures"),
@@ -38,6 +42,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                   )
                 ],
               ),
+              backgroundColor: backgroundColor,
               body: DeparturesDetailsView(snapshot: snapshot));
         });
   }
