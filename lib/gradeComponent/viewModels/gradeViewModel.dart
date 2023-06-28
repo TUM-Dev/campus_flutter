@@ -9,8 +9,8 @@ class GradeViewModel {
   APIState<List<Grade>> state = const APIState.na();
   bool hasError = false;
   //final ValueNotifier<Map<String, Map<String, List<Grade>>>> _grades = ValueNotifier({});
-  BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
-  new BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
+  final BehaviorSubject<Map<String, Map<String, List<Grade>>>> _grades =
+  BehaviorSubject<Map<String, Map<String, List<Grade>>>>.seeded({});
 
   Future<Map<String, Map<String, List<Grade>>>>
   gradesByDegreeAndSemester() async {

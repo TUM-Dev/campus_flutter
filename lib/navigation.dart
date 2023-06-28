@@ -1,3 +1,5 @@
+import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
+import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/gradesView.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
 import 'package:campus_flutter/homeComponent/homeScreen.dart';
@@ -37,16 +39,16 @@ class _NavigationState extends State<Navigation> {
                     fit: BoxFit.contain, height: 20);
               case 1:
                 return Text("Grades",
-                    style: Theme.of(context).textTheme.titleMedium);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 2:
                 return Text("Lectures",
-                    style: Theme.of(context).textTheme.titleMedium);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 3:
                 return Text("Calendar",
-                    style: Theme.of(context).textTheme.titleMedium);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 4:
                 return Text("Places",
-                    style: Theme.of(context).textTheme.titleMedium);
+                    style: Theme.of(context).textTheme.titleLarge);
               default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
@@ -75,7 +77,7 @@ class _NavigationState extends State<Navigation> {
             child: NavigationBar(
               onDestinationSelected: (int index) {
                 setState(() {
-                  if (index != 3 && index != 4) {
+                  if (index != 4) {
                     currentPageIndex = index;
                   }
                 });
@@ -115,7 +117,7 @@ class _NavigationState extends State<Navigation> {
             const HomeScreen(),
             Provider(create: (context) => GradeViewModel(), child: const GradesView()),
             const LectureView(),
-            const Text("Coming Soon"),
+            Provider(create: (context) => CalendarViewModel(), child: const CalendarsView()),
             const PlacesWidget()
           ][currentPageIndex],
         ));
