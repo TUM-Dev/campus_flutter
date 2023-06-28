@@ -1,6 +1,6 @@
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/base/helpers/stringToDouble.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -74,7 +74,7 @@ class GradeViewModel implements ViewModel {
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
         chartData.update(
-          stringToDouble(grade.grade),
+          StringParser.stringToDouble(grade.grade),
           (value) => ++value,
           ifAbsent: () => 1,
         );
