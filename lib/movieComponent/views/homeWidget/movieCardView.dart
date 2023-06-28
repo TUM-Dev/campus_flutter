@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

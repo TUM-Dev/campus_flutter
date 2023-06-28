@@ -7,7 +7,7 @@ part of 'newsSource.dart';
 // **************************************************************************
 
 NewsSource _$NewsSourceFromJson(Map<String, dynamic> json) => NewsSource(
-      id: stringToInt(json['source'] as String?),
+      id: StringParser.stringToInt(json['source'] as String?),
       title: json['title'] as String?,
       icon: json['icon'] == null ? null : Uri.parse(json['icon'] as String),
     );

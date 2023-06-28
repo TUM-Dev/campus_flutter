@@ -58,6 +58,7 @@ class MainApi {
     if (forcedRefresh) {
       Dio noCacheDio = Dio()
         ..interceptors.addAll(dio.interceptors);
+      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
       response = await endpoint.asResponse(dioClient: noCacheDio);
     } else {
@@ -93,6 +94,7 @@ class MainApi {
     if (forcedRefresh) {
       Dio noCacheDio = Dio()
         ..interceptors.addAll(dio.interceptors);
+      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
       response = await endpoint.asResponse(dioClient: noCacheDio);
     } else {

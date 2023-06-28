@@ -28,7 +28,7 @@ class TuitionView extends ConsumerWidget {
                     child: Row(mainAxisSize: MainAxisSize.min, children: [
                   const Padding(
                     padding: EdgeInsets.only(right: 10.0),
-                    child: FaIcon(FontAwesomeIcons.euroSign),
+                    child: Icon(Icons.euro),
                   ),
                   const Text("Tuition fees"),
                   const Spacer(),

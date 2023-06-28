@@ -2,7 +2,15 @@ import 'package:intl/intl.dart';
 
 class StringParser {
   static String degreeShortFromID(String studyID) {
-    switch (studyID) {
+    final splitDegreeNumbers = studyID.split(" ");
+
+    if (splitDegreeNumbers.length != 3) {
+      return "Unknown";
+    }
+
+    final academicDegreeNumber = splitDegreeNumbers[1];
+
+    switch (academicDegreeNumber) {
       case "04":
       case "05":
       case "06":
@@ -38,7 +46,7 @@ class StringParser {
       // TODO: what does it stand for?
         return "BEEDE";
       default:
-        return "unknown";
+        return "Unknown";
     }
   }
 
@@ -80,5 +88,31 @@ class StringParser {
 
   static String dateFormatter(DateTime dateTime) {
     return DateFormat(DateFormat.YEAR_MONTH_DAY).format(dateTime);
+  }
+
+  static double stringToDouble(String? number) {
+    if (number != null) {
+      number = number.replaceAll(",", ".");
+      return double.tryParse(number) ?? 0.0;
+    } else {
+      return 0.0;
+    }
+  }
+
+  static double? optStringToOptDouble(String? number) {
+    return number != null ? double.tryParse(number) : null;
+  }
+
+  static int stringToInt(String? number) {
+    if (number != null) {
+      return int.tryParse(number) ?? 0;
+    } else {
+      return 0;
+    }
+
+  }
+
+  static int? optStringToOptInt(String? number) {
+    return number != null ? int.tryParse(number) : null;
   }
 }

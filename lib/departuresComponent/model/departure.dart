@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/stringToInt.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,9 +6,9 @@ part 'departure.g.dart';
 
 @JsonSerializable()
 class Departure {
-  @JsonKey(name: "stopID", fromJson: stringToInt)
+  @JsonKey(name: "stopID", fromJson: StringParser.stringToInt)
   final int stopId;
-  @JsonKey(fromJson: stringToInt)
+  @JsonKey(fromJson: StringParser.stringToInt)
   final int countdown;
   @JsonKey(fromJson: plannedDate)
   final DateTime dateTime;
@@ -57,7 +57,7 @@ class Departure {
 
 @JsonSerializable()
 class DepartureDateTime {
-  @JsonKey(fromJson: stringToInt)
+  @JsonKey(fromJson: StringParser.stringToInt)
   final int year, month, day, weekday, hour, minute;
 
   DepartureDateTime(this.year, this.month, this.day, this.weekday, this.hour, this.minute);
@@ -69,10 +69,10 @@ class DepartureDateTime {
 
 @JsonSerializable()
 class ServingLine {
-  @JsonKey(fromJson: stringToInt)
+  @JsonKey(fromJson: StringParser.stringToInt)
   final int key, code;
   final String number, symbol, direction, name;
-  @JsonKey(fromJson: optStringToOptInt)
+  @JsonKey(fromJson: StringParser.optStringToOptInt)
   final int? delay;
 
   ServingLine({

@@ -16,7 +16,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       genre: json['genre'] as String,
       director: json['director'] as String,
       actors: json['actors'] as String,
-      rating: stringToDouble(json['rating'] as String?),
+      rating: StringParser.stringToDouble(json['rating'] as String?),
       description: json['description'] as String,
       cover: Uri.parse(json['cover'] as String),
       trailer:

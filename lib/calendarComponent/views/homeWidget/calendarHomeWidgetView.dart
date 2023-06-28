@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendarHomeWidgetEventView.dart';
@@ -46,10 +46,10 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
     final today = DateTime.now();
 
     return SizedBox(
-      height: 200,
-      width: double.infinity,
+      height: MediaQuery.sizeOf(context).height * 0.25,
       child: CardWithPadding(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

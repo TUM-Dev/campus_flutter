@@ -10,11 +10,11 @@ class CardWithPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        margin: margin,
-        color: color,
-        child: SizedBox(
-          height: height,
+    return SizedBox(
+        height: height,
+        child: Card(
+          margin: margin,
+          color: color,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: child,

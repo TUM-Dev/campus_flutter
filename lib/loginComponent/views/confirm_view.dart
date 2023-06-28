@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';

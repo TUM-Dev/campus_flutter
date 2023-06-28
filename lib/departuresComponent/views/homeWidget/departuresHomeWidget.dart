@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
@@ -30,32 +30,30 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
           return WidgetFrameView(
-              title:  _titleBuilder(),
+              title: _titleBuilder(),
               child: GestureDetector(
                   onTap: () => _onWidgetPressed(context),
-                  child: CardWithPadding(
-                      height: MediaQuery.of(context).size.height * 0.21,
-                      child: StreamBuilder(
-                          stream: ref.watch(departureViewModel).departures,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final station =
-                                  ref.watch(departureViewModel).selectedStation.value!;
-                              return _widgetContent(snapshot, station);
-                            } else if (snapshot.hasError) {
-                              return ErrorHandlingView(
-                                  error: snapshot.error!,
-                                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                                  retry: ref.read(departureViewModel).fetch
-                              );
-                            } else {
-                              return const DelayedLoadingIndicator(name: "Departures");
-                            }
-                          }))
-              )
-          );
-        }
-    );
+                  child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.225),
+                      child: CardWithPadding(
+                          child: StreamBuilder(
+                              stream: ref.watch(departureViewModel).departures,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final station =
+                                      ref.watch(departureViewModel).selectedStation.value!;
+                                  return _widgetContent(snapshot, station);
+                                } else if (snapshot.hasError) {
+                                  return ErrorHandlingView(
+                                      error: snapshot.error!,
+                                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                                      retry: ref.read(departureViewModel).fetch);
+                                } else {
+                                  return const DelayedLoadingIndicator(name: "Departures");
+                                }
+                              })))));
+        });
   }
 
   String _titleBuilder() {
@@ -67,24 +65,29 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   }
 
   Widget _widgetContent(AsyncSnapshot<List<Departure>?> snapshot, Station station) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      RichText(
-          text:
-              TextSpan(text: "Station: ", style: Theme.of(context).textTheme.bodyMedium, children: [
-        TextSpan(
-            text: station.name,
-            style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))
-      ])),
-      for (var departure in snapshot.data!.getRange(0, 3)) ...[
-        const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-        DeparturesDetailsRowView(departure: departure)
-      ]
-    ]);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RichText(
+              text: TextSpan(
+                  text: "Station: ",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  children: [
+                TextSpan(
+                    text: station.name,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))
+              ])),
+          for (var departure in snapshot.data!.getRange(0, 3)) ...[
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            DeparturesDetailsRowView(departure: departure)
+          ]
+        ]);
   }
 
   _onWidgetPressed(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DeparturesDetailsScaffold()
-        ));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const DeparturesDetailsScaffold()));
   }
 }
