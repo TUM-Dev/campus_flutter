@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
@@ -10,8 +11,6 @@ class GradeViewModel implements ViewModel {
       BehaviorSubject.seeded(null);
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
-
-  final BehaviorSubject<String?> selectedDegree = BehaviorSubject.seeded(null);
 
   Map<String, Map<String, List<Grade>>>? allGrades;
 
@@ -57,7 +56,13 @@ class GradeViewModel implements ViewModel {
       return allGrades!.values
           .map((e) => PopupMenuItem(
               value: e.values.first.first.studyID,
-              child: Text(e.values.first.first.studyDesignation)))
+              child: studyProgramGrades.value?.values.first.first.studyID ==
+                      e.values.first.first.studyID
+                  ? IconText(
+                      iconData: Icons.check,
+                      label: e.values.first.first.studyDesignation,
+                      leadingIcon: false)
+                  : Text(e.values.first.first.studyDesignation)))
           .toList();
     } else {
       return [];
@@ -81,8 +86,7 @@ class GradeViewModel implements ViewModel {
       }
     }
 
-    return Map.fromEntries(
-        chartData.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+    return Map.fromEntries(chartData.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
   }
 
   static Color getColor(double? grade) {

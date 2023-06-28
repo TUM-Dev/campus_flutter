@@ -2,8 +2,6 @@ import 'package:campus_flutter/calendarComponent/services/calendarService.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:campus_flutter/lectureComponent/services/lectureService.dart';
 import 'package:campus_flutter/profileComponent/services/profileService.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
