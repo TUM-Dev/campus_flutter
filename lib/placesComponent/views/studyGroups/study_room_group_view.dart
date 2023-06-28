@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/base/helpers/paddedDivider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
