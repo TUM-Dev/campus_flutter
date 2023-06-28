@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/Networking/Protocols/API.dart';
-import 'package:campus_flutter/base/Networking/Protocols/APIError.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/networking/protocols/apiError.dart';
 
 class TUMOnlineAPI extends API {
 

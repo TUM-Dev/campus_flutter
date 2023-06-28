@@ -22,6 +22,8 @@ dependencies:
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   provider: ^6.0.5
+  rxdart: ^0.27.7
+  shimmer: ^2.0.0
   syncfusion_flutter_charts: ^21.1.41
   table_calendar: ^3.0.9
   url_launcher: ^6.1.10

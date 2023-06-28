@@ -3,6 +3,29 @@ import 'package:flutter/material.dart';
 
 import '../model/grade.dart';
 
+class GradeRowAlt extends StatelessWidget {
+  const GradeRowAlt({super.key, required this.grade});
+
+  final Grade grade;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        leading: GradeRectangle(grade: grade.grade),
+        title: Text(grade.title),
+        subtitle: Column(children: [
+          Row(children: [
+            Expanded(
+                child: IconText(text: grade.modusShort, icon: Icons.edit)),
+            Expanded(
+                child: IconText(text: grade.lvNumber, icon: Icons.numbers)),
+          ]),
+          IconText(text: grade.examiner, icon: Icons.person),
+        ],)
+    );
+  }
+}
+
 class GradeRow extends StatelessWidget {
   const GradeRow({super.key, required this.grade});
 
@@ -10,37 +33,28 @@ class GradeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: GradeRectangle(grade: grade.grade),
-            ),
-            Expanded(
-                child: Column(
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: GradeRectangle(grade: grade.grade),
+        ),
+        Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   grade.title,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: IconText(
-                              text: grade.modusShort, icon: Icons.edit)),
-                      Expanded(
-                          child: IconText(
-                              text: grade.lvNumber, icon: Icons.numbers)),
-                    ]),
-                IconText(text: grade.examiner, icon: Icons.person)
+
               ],
             ))
-          ],
-        ));
+      ],
+    );
   }
 }
 

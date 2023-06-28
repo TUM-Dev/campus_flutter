@@ -1,4 +1,5 @@
-import 'package:campus_flutter/base/Networking/Protocols/apiResponse.dart';
+import 'package:campus_flutter/base/helpers/stringToDouble.dart';
+import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'grade.g.dart';
@@ -19,7 +20,7 @@ class Grade implements Serializable {
   String title;
   @JsonKey(name: "pruefer_nachname")
   final String examiner;
-  @JsonKey(name: "uninotenamekurz", fromJson: _stringToDouble)
+  @JsonKey(name: "uninotenamekurz", fromJson: stringToDouble)
   final double? grade;
   @JsonKey(name: "exam_typ_name")
   final String examType;
@@ -65,11 +66,6 @@ class Grade implements Serializable {
 
   @override
   Map<String, dynamic> toJson() => _$GradeToJson(this);
-
-  static double? _stringToDouble(String number) {
-    number = number.replaceAll(",", ".");
-    return double.tryParse(number);
-  }
 }
 
 @JsonSerializable()

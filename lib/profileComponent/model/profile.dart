@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/Networking/Protocols/apiResponse.dart';
+import 'package:campus_flutter/base/networking/protocols/apiResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../base/enums/role.dart';
@@ -80,9 +80,9 @@ class ProfileData implements Serializable {
 @JsonSerializable()
 class Profiles implements Serializable {
   @JsonKey(name: "row")
-  final List<Profile> profiles;
+  final Profile profile;
 
-  Profiles({required this.profiles});
+  Profiles({required this.profile});
 
   factory Profiles.fromJson(Map<String, dynamic> json) => _$ProfilesFromJson(json);
 

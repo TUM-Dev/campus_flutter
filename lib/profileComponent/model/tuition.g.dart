@@ -7,7 +7,7 @@ part of 'tuition.dart';
 // **************************************************************************
 
 Tuition _$TuitionFromJson(Map<String, dynamic> json) => Tuition(
-      amount: (json['soll'] as num?)?.toDouble(),
+      amount: stringToDouble(json['soll'] as String),
       deadline: json['frist'] == null
           ? null
           : DateTime.parse(json['frist'] as String),
@@ -33,11 +33,9 @@ Map<String, dynamic> _$TuitionDataToJson(TuitionData instance) =>
     };
 
 Tuitions _$TuitionsFromJson(Map<String, dynamic> json) => Tuitions(
-      tuitions: (json['row'] as List<dynamic>)
-          .map((e) => Tuition.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      tuition: Tuition.fromJson(json['row'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TuitionsToJson(Tuitions instance) => <String, dynamic>{
-      'row': instance.tuitions,
+      'row': instance.tuition,
     };

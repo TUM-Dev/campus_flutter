@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/Networking/APIs/TUMOnlineAPI.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineAPI.dart';
 import 'package:xml/xml.dart';
 import 'dart:io' as io;
 

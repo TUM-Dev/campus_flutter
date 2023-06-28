@@ -16,12 +16,17 @@ class LoginView extends StatelessWidget {
           children: [
             TextField(controller: textFieldController),
             ElevatedButton(
+                onPressed: () {
+                  Provider.of<LoginViewModel>(context, listen: false)
+                      .requestLogin(textFieldController.value.text)
+                      .then((value) => Navigator.of(context).pushNamed(confirm));
+                },
+                child: const Text("Login")),
+            ElevatedButton(
               onPressed: () {
-                Provider.of<LoginViewModel>(context, listen: false)
-                    .requestLogin(textFieldController.value.text)
-                    .then((value) => Navigator.of(context).pushNamed(confirm));
+                Provider.of<LoginViewModel>(context, listen: false).skip();
               },
-              child: const Text("Login"),
+              child: const Text("Skip"),
             ),
           ],
         ));

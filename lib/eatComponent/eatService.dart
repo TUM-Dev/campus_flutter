@@ -1,7 +1,7 @@
-import 'package:campus_flutter/base/Networking/APIs/EatAPI.dart';
 import 'package:campus_flutter/eatComponent/model/mensaMenu.dart';
-import 'package:campus_flutter/base/Extensions/dateTime+weekNumber.dart';
-import '../base/Networking/Protocols/mainApi.dart';
+import 'package:campus_flutter/base/extensions/dateTime+weekNumber.dart';
+import '../base/networking/protocols/mainApi.dart';
+import '../base/networking/apis/eatAPI.dart';
 import 'model/mealPlan.dart';
 
 class EatService {
