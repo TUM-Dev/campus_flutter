@@ -9,8 +9,6 @@ class LoginRepository {
         {TUMOnlineParameters.tumID: name, TUMOnlineParameters.tokenName : io.Platform.localHostname}
     ).asResponse();
 
-    print(response.body);
-
     if(response.statusCode == 200) {
       final document = XmlDocument.parse(response.body);
       try {

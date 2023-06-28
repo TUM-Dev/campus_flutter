@@ -75,7 +75,9 @@ class _NavigationState extends State<Navigation> {
             child: NavigationBar(
               onDestinationSelected: (int index) {
                 setState(() {
-                  currentPageIndex = index;
+                  if (index != 3 && index != 4) {
+                    currentPageIndex = index;
+                  }
                 });
               },
               height: Platform.isIOS ? 49 : null,
