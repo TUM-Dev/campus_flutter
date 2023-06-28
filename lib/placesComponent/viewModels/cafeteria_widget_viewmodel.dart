@@ -1,4 +1,5 @@
-import 'package:campus_flutter/base/services/locationService.dart';
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
@@ -9,16 +10,25 @@ import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CafeteriaWidgetViewModel {
+class CafeteriaWidgetViewModel implements ViewModel {
   BehaviorSubject<Cafeteria?> cafeteria = BehaviorSubject.seeded(null);
   BehaviorSubject<CafeteriaMenu?> cafeteriaMenu = BehaviorSubject.seeded(null);
 
-  getClosestCafeteria() async {
-    final response = await CafeteriasService.fetchCafeterias();
-    final location = await LocationService.getLastKnown();
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
+
+  @override
+  Future fetch(bool forcedRefresh) async {
+    CafeteriasService.fetchCafeterias(forcedRefresh).then((response) async {
+      final location = await LocationService.getLastKnown();
+      _getClosestCafeteria(forcedRefresh, response, location);
+    }, onError: (error) => cafeteria.addError(error));
+  }
+
+  _getClosestCafeteria(bool forcedRefresh, (DateTime?, List<Cafeteria>) response, Position? location) {
+    lastFetched.add(response.$1);
 
     if (location != null) {
-      final cafeteria = response.reduce((currentCafeteria, nextCafeteria) {
+      final cafeteria = response.$2.reduce((currentCafeteria, nextCafeteria) {
         final distanceCurrent = Geolocator.distanceBetween(
             currentCafeteria.location.latitude,
             currentCafeteria.location.longitude,
@@ -42,12 +52,9 @@ class CafeteriaWidgetViewModel {
 
       this.cafeteria.add(cafeteria);
 
-      try {
-        final menus = await MealPlanService.getCafeteriaMenu(cafeteria);
-        cafeteriaMenu.add(menus.firstOrNull);
-      } catch (error) {
-        cafeteriaMenu.addError(error);
-      }
+      MealPlanService.getCafeteriaMenu(forcedRefresh, cafeteria).then(
+          (response) => cafeteriaMenu.add(response.$2.firstOrNull),
+          onError: (error) => cafeteriaMenu.addError(error));
     } else {
       return;
     }
@@ -66,26 +73,40 @@ class CafeteriaWidgetViewModel {
   }
 
   String _getTypeLabel(String dishType) {
-    // TODO: add al dish types, enum?
     switch (dishType) {
       case "Wok":
         return "🥘";
+
       case "Pasta":
         return "🍝";
+
       case "Pizza":
         return "🍕";
+
+      case "Fleisch":
       case "DishType.MEAT":
         return "🥩";
+
       case "Grill":
         return "🍖";
+
+      case "Studitopf":
       case "DishType.VEGAN":
         return "🍲";
+
+      case "Beilagen":
       case "DishType.VEGETARIAN":
         return "🥗";
+
       case "Fisch":
         return "🐟";
+
       case "DishType.SOUP":
         return "🍜";
+
+      case "Süßspeise":
+        return "🍰";
+
       default:
         return " ";
     }

@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
 import 'package:campus_flutter/base/helpers/horizontalSlider.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
@@ -20,7 +21,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
 
   @override
   void initState() {
-    ref.read(cafeteriaWidgetViewModel).getClosestCafeteria();
+    ref.read(cafeteriaWidgetViewModel).fetch(false);
     super.initState();
   }
 
@@ -41,15 +42,25 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
   Widget _dynamicContent(AsyncSnapshot<CafeteriaMenu?> snapshot) {
     if (snapshot.hasData) {
       final dishes = ref.watch(cafeteriaWidgetViewModel).getTodayDishes();
-      return HorizontalSlider<(Dish, String)>(
-          data: dishes,
-          height: 160,
-          child: (dish) {
-            return _dishCard(dish);
-          });
+      if (dishes.isNotEmpty) {
+        return HorizontalSlider<(Dish, String)>(
+            data: dishes,
+            height: 160,
+            child: (dish) {
+              return _dishCard(dish);
+            });
+      } else {
+        return const Card(
+            child: SizedBox(height: 150, child: Center(child: Text("no meal plan found"))));
+      }
     } else if (snapshot.hasError) {
-      return const Card(
-          child: SizedBox(height: 150, child: Center(child: Text("no meal plan found"))));
+      // TODO: error handling if offline
+      return Card(child: SizedBox(height: 150, child:
+      ErrorHandlingView(
+          error: snapshot.error!,
+          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+          retry: ref.read(cafeteriaWidgetViewModel).fetch
+      )));
     } else {
       return const Card(
           child: SizedBox(height: 150, child: DelayedLoadingIndicator(name: "Mealplan")));
@@ -93,25 +104,20 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
         builder: (context) {
           return AlertDialog(
             title: Text(dish.name),
-            content: Text(dish.prices.toString()),
+            actionsAlignment: MainAxisAlignment.center,
+            content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var label in dish.labels) ...[
+                    Text(label)
+                  ],
+                  Text(CafeteriaWidgetViewModel.formatPrice(dish))
+            ]),
             actions: [
               TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Okay"))
             ],
           );
         }
     );
-    /*
-    showCupertinoDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text("Test"),
-            content: Text("Test"),
-            actions: [
-              Text("Got it")
-            ],
-          );
-        }
-    );*/
   }
 }

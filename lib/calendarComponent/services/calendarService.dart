@@ -1,20 +1,20 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class CalendarService {
-  static Future<List<CalendarEvent>> fetchCalendar() async {
+  static Future<(DateTime?, List<CalendarEvent>)> fetchCalendar(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<CalendarEventsData, TumOnlineApi, TumOnlineApiError>(
-        TumOnlineApi(TumOnlineServiceCalendar()),
-        CalendarEventsData.fromJson,
-        TumOnlineApiError.fromJson,
-        false
-    );
+    final response = await mainApi
+        .makeRequestWithException<CalendarEventsData, TumOnlineApi, TumOnlineApiException>(
+            TumOnlineApi(TumOnlineServiceCalendar()),
+            CalendarEventsData.fromJson,
+            TumOnlineApiException.fromJson,
+            forcedRefresh);
 
-    return response.data.events.event;
+    return (response.saved, response.data.events.event);
   }
 }

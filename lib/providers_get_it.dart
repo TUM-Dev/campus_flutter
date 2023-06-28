@@ -1,7 +1,7 @@
 import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departuresViewModel.dart';
-import 'package:campus_flutter/gradeComponent/viewModels/gradeViewModel.dart';
+import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
@@ -29,15 +29,14 @@ final loginViewModel = Provider((ref) => LoginViewModel());
 final departureViewModel = Provider((ref) => DeparturesViewModel());
 final profileViewModel = Provider.autoDispose((ref) {
   final profileViewModel = ProfileViewModel();
-  profileViewModel.fetchProfile();
-  profileViewModel.fetchTuition();
+  profileViewModel.fetch(false);
   ref.keepAlive();
   return profileViewModel;
 });
 final profileDetailsViewModel = Provider.autoDispose((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
   final profileDetailsViewModel = PersonDetailsViewModel(profile);
-  profileDetailsViewModel.fetchPersonDetails();
+  profileDetailsViewModel.fetch(false);
   ref.keepAlive();
   return profileDetailsViewModel;
 });

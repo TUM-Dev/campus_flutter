@@ -39,10 +39,10 @@ class PersonDetails {
   @JsonKey(name: "privat")
   final List<ContactInfo>  privateContact;*/
   @JsonKey(name: "image_data")
-  final String imageData;
-  @JsonKey(name: "gruppen")
+  final String? imageData;
+  @JsonKey(name: "gruppen", fromJson: PersonDetails._jsonToOrganisationList)
   final List<Organisation>? organisations;
-  @JsonKey(name: "raeume")
+  @JsonKey(name: "raeume", fromJson: PersonDetails._jsonToRoomList)
   final List<Room>? rooms;
   @JsonKey(name: "telefon_nebenstellen")
   final List<PhoneExtension>? phoneExtensions;
@@ -58,9 +58,9 @@ class PersonDetails {
     this.officeHours,
     //required this.officialContact,
     //required this.privateContact,
-    required this.imageData,
-    required this.organisations,
-    required this.rooms,
+    this.imageData,
+    this.organisations,
+    this.rooms,
     required this.phoneExtensions
   });
 
@@ -82,6 +82,40 @@ class PersonDetails {
         return Gender.female;
       default:
         return Gender.unknown;
+    }
+  }
+
+  static List<Room> _jsonToRoomList(dynamic json) {
+    try {
+      json = json["raum"];
+      if (json is List<dynamic>) {
+        return json
+            .map((e) => Room.fromJson(e))
+            .toList();
+      } else if (json is Map<String, dynamic>) {
+        return [Room.fromJson(json)];
+      } else {
+        return [];
+      }
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static List<Organisation> _jsonToOrganisationList(dynamic json) {
+    try {
+      json = json["gruppe"];
+      if (json is List<dynamic>) {
+        return json
+            .map((e) => Organisation.fromJson(e))
+            .toList();
+      } else if (json is Map<String, dynamic>) {
+        return [Organisation.fromJson(json)];
+      } else {
+        return [];
+      }
+    } catch (_) {
+      return [];
     }
   }
 }

@@ -14,7 +14,7 @@ class ContactCardLoadingView extends StatelessWidget {
                 children: [
                   const CircleAvatar(
                     backgroundImage:
-                    AssetImage('assets/images/Portrait_Placeholder.png'),
+                    AssetImage('assets/images/portrait_placeholder.png'),
                     radius: 50,
                   ),
                   const Padding(padding: EdgeInsets.only(left: 16)),

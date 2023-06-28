@@ -1,36 +1,36 @@
 import 'dart:io' as io;
 
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApi.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiError.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
-import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/model/token.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class LoginService {
-  static Future<Token> requestNewToken(String name) async {
+  static Future<Token> requestNewToken(bool forcedRefresh, String name) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<Token, TumOnlineApi, TumOnlineApiError>(
-        TumOnlineApi(TumOnlineServiceTokenRequest(
-            tumId: name,
-            deviceName: "TCA - ${io.Platform.localHostname}"
-        )),
-        Token.fromJson,
-        TumOnlineApiError.fromJson,
-        false
-    );
+    final response = await mainApi
+        .makeRequestWithException<Token, TumOnlineApi, TumOnlineApiException>(
+            TumOnlineApi(TumOnlineServiceTokenRequest(
+                tumId: name, deviceName: "TCA - ${io.Platform.localHostname}")),
+            Token.fromJson,
+            TumOnlineApiException.fromJson,
+            forcedRefresh);
     return response.data;
   }
   
-  static Future<Confirm> confirmToken() async {
+  static Future<Confirm> confirmToken(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<Confirm, TumOnlineApi, TumOnlineApiError>(
+    final response = await mainApi
+        .makeRequestWithException<Confirm,
+        TumOnlineApi,
+        TumOnlineApiException>(
         TumOnlineApi(TumOnlineServiceTokenConfirmation()),
         Confirm.fromJson,
-        TumOnlineApiError.fromJson,
-        false
-    );
+        TumOnlineApiException.fromJson,
+        forcedRefresh);
 
     return response.data;
   }

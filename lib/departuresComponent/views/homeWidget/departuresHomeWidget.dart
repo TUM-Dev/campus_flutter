@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/views/departuresDetailsRowView.dart';
@@ -42,7 +43,11 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                                   ref.watch(departureViewModel).selectedStation.value!;
                               return _widgetContent(snapshot, station);
                             } else if (snapshot.hasError) {
-                              return const Text("Error");
+                              return ErrorHandlingView(
+                                  error: snapshot.error!,
+                                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                                  retry: ref.read(departureViewModel).fetch
+                              );
                             } else {
                               return const DelayedLoadingIndicator(name: "Departures");
                             }

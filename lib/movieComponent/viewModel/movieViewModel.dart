@@ -1,19 +1,27 @@
+import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/movieComponent/service/movieService.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MovieViewModel {
-  BehaviorSubject<MoviesData?> movies = BehaviorSubject.seeded(null);
+class MovieViewModel implements ViewModel {
+  BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);
 
-  void getMovies() async {
-    final movies = await MovieService.fetchMovies();
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
-    if (movies.movies.isEmpty) {
-      this.movies.add(MoviesData(movies: []));
+  @override
+  Future fetch(bool forcedRefresh) async {
+    MovieService.fetchMovies(forcedRefresh)
+        .then((response) => _sortMovies(response), onError: (error) => movies.addError(error));
+  }
+
+  _sortMovies((DateTime?, List<Movie>) movies) {
+    lastFetched.add(movies.$1);
+    if (movies.$2.isEmpty) {
+      this.movies.add(movies.$2);
     } else {
-      movies.movies.removeWhere((element) => element.date.isBefore(DateTime.now()));
-      movies.movies.sort((a,b) => a.date.compareTo(b.date));
-      this.movies.add(movies);
+      movies.$2.removeWhere((element) => element.date.isBefore(DateTime.now()));
+      movies.$2.sort((a, b) => a.date.compareTo(b.date));
+      this.movies.add(movies.$2);
     }
   }
 }
