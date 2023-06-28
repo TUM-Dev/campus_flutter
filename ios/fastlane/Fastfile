@@ -54,7 +54,7 @@ platform :ios do
     )
 
     upload_to_testflight(
-      changelog: File.read(“../changelog.txt”),
+      changelog: File.read(“../../changelog.txt”),
       skip_waiting_for_build_processing: true
     )
 

@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,55 +10,41 @@ class LinkView extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            child: Card(
-          margin: const EdgeInsets.only(
-              right: 5.0, top: 5.0, bottom: 5.0, left: 10.0),
-          child: TextButton.icon(
-            onPressed: () async {
-              final url = Uri.parse("https://moodle.tum.de");
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url);
-              }
-            },
-            style: FilledButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
-              foregroundColor: Theme.of(context).textTheme.bodyMedium?.color,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            icon: const Padding(
-              padding: EdgeInsets.all(7.0),
-              child: Icon(Icons.school_outlined),
-            ),
-            label: const Text("Moodle"),
-          ),
-        )),
+            child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.075,
+                child: GestureDetector(
+                    onTap: () async {
+                      final url = Uri.parse("https://moodle.tum.de");
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url);
+                      }
+                    },
+                    child: const Card(
+                        margin: EdgeInsets.only(right: 5.0, top: 5.0, bottom: 5.0, left: 10.0),
+                        child: Center(
+                            child: IconText(
+                          iconData: Icons.school_outlined,
+                          label: "Moodle",
+                          iconSize: 24,
+                        )))))),
         Expanded(
-            child: Card(
-          margin: const EdgeInsets.only(
-              left: 5.0, top: 5.0, bottom: 5.0, right: 10.0),
-          child: TextButton.icon(
-            onPressed: () async {
-              final url = Uri.parse("https://campus.tum.de");
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url);
-              }
-            },
-            style: FilledButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
-              foregroundColor: Theme.of(context).textTheme.bodyMedium?.color,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            icon: const Padding(
-              padding: EdgeInsets.all(7.0),
-              child: Icon(Icons.language_outlined),
-            ),
-            label: const Text("TUMOnline"),
-          ),
-        )),
+            child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.075,
+                child: GestureDetector(
+                    onTap: () async {
+                      final url = Uri.parse("https://campus.tum.de");
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url);
+                      }
+                    },
+                    child: const Card(
+                        margin: EdgeInsets.only(right: 10.0, top: 5.0, bottom: 5.0, left: 5.0),
+                        child: Center(
+                            child: IconText(
+                          iconData: Icons.language_outlined,
+                          label: "TUMOnline",
+                          iconSize: 24,
+                        ))))))
       ],
     );
   }

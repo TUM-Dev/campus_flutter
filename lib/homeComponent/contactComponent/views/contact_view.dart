@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/link_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/tuition_view.dart';
@@ -19,16 +20,16 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
     return StreamBuilder(
         stream: ref.watch(profileViewModel).profile,
         builder: (context, snapshot) {
-          return Column(children: [
-            SizedBox(
-                height: 125,
-                child: Card(
+          return Column(mainAxisSize: MainAxisSize.min, children: [
+            ConstrainedBox(
+                constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height * 0.15),
+                child: CardWithPadding(
                     child: Center(
                         child: snapshot.hasData
                             ? const ContactCardView()
                             : snapshot.hasError
                                 ? const UnauthorizedView()
-                                : const SizedBox.expand()))),
+                                : Container()))),
             const TuitionView(),
             const LinkView()
           ]);

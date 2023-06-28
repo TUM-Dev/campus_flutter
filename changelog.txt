@@ -1,6 +1,5 @@
 This version provides the following updates:
-- Error Handling with improved error messages
-- Last Updated Texts
-- Redesigned Login UI
-- Bug fixes that broke the contact card
-- Design tweaks and improvements
+- fix text overflow bug on home screen and grades view
+- chart on grades view now refreshes if study program is switched
+- picker in departure details and grades now shows the selected item
+- general UI improvements regarding sizing

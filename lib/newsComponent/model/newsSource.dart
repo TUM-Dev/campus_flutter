@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/stringToInt.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,7 +6,7 @@ part 'newsSource.g.dart';
 
 @JsonSerializable()
 class NewsSource {
-  @JsonKey(name: "source", fromJson: stringToInt)
+  @JsonKey(name: "source", fromJson: StringParser.stringToInt)
   final int id;
   final String? title;
   final Uri? icon;

@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
-import 'package:campus_flutter/base/helpers/delayedLoadingIndicator.dart';
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
@@ -32,7 +32,10 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                   _onPressed(context);
                 }
               },
-              child: CardWithPadding(height: 60, child: _widgetLabel(snapshot, context)));
+              child: CardWithPadding(
+                  height: MediaQuery.sizeOf(context).height * 0.075,
+                  child: _widgetLabel(snapshot, context)
+              ));
         });
   }
 

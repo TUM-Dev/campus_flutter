@@ -1,11 +1,11 @@
-import 'package:campus_flutter/base/helpers/stringToDouble.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tuition.g.dart';
 
 @JsonSerializable()
 class Tuition {
-  @JsonKey(name: "soll", fromJson: stringToDouble)
+  @JsonKey(name: "soll", fromJson: StringParser.stringToDouble)
   final double? amount;
   @JsonKey(name: "frist")
   final DateTime deadline;

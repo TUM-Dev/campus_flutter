@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:campus_flutter/base/helpers/stringParser.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 

@@ -1,33 +1,22 @@
 import 'dart:math';
 
-import 'package:campus_flutter/base/helpers/iconText.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ChartView extends ConsumerStatefulWidget {
+class ChartView extends ConsumerWidget {
   const ChartView({super.key, required this.studyID, required this.title});
 
   final String title;
   final String studyID;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ChartViewState();
-}
-
-class _ChartViewState extends ConsumerState<ChartView> {
-  late Map<double, int> data;
-
-  @override
-  void initState() {
-    data = ref.read(gradeViewModel).chartDataForDegree(widget.studyID);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.read(gradeViewModel).chartDataForDegree(studyID);
     return Column(
       children: [
         PopupMenuButton<String>(
@@ -37,7 +26,7 @@ class _ChartViewState extends ConsumerState<ChartView> {
           },
           child: IconText(
               iconData: Icons.keyboard_arrow_down,
-              label: "${widget.title} ${widget.studyID}",
+              label: "${StringParser.degreeShortFromID(studyID)} $title",
               style: Theme.of(context).textTheme.bodyLarge,
               mainAxisAlignment: MainAxisAlignment.center,
               leadingIcon: false),

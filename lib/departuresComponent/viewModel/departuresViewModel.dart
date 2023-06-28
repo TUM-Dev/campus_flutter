@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
@@ -15,8 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class DeparturesViewModel extends ViewModel {
-  BehaviorSubject<List<Departure>?> departures =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<List<Departure>?> departures = BehaviorSubject.seeded(null);
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
@@ -42,17 +42,11 @@ class DeparturesViewModel extends ViewModel {
 
     if (location != null) {
       final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
-        final currentDistance = Geolocator.distanceBetween(
-            currentCampus.location.latitude,
-            currentCampus.location.longitude,
-            location.latitude,
-            location.longitude);
+        final currentDistance = Geolocator.distanceBetween(currentCampus.location.latitude,
+            currentCampus.location.longitude, location.latitude, location.longitude);
 
-        final nextDistance = Geolocator.distanceBetween(
-            nextCampus.location.latitude,
-            nextCampus.location.longitude,
-            location.latitude,
-            location.longitude);
+        final nextDistance = Geolocator.distanceBetween(nextCampus.location.latitude,
+            nextCampus.location.longitude, location.latitude, location.longitude);
 
         return currentDistance < nextDistance ? currentCampus : nextCampus;
       });
@@ -67,8 +61,7 @@ class DeparturesViewModel extends ViewModel {
 
   Future<void> assignSelectedStation() async {
     if (closestCampus.value != null) {
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
         final decoded = jsonDecode(data);
@@ -101,9 +94,7 @@ class DeparturesViewModel extends ViewModel {
                 onError: (error) => departures.addError(error));
       } else {
         DeparturesService.fetchDepartures(
-                true,
-                closestCampus.value!.defaultStation.apiName,
-                walkingDistance.value)
+                true, closestCampus.value!.defaultStation.apiName, walkingDistance.value)
             .then((response) => sortDepartures(response),
                 onError: (error) => departures.addError(error));
       }
@@ -132,8 +123,7 @@ class DeparturesViewModel extends ViewModel {
   setTimerForRefresh() {
     if ((departures.value?.length ?? 0) > 0) {
       if (departures.value![0].countdown > 0) {
-        timer = Timer(Duration(minutes: departures.value![0].countdown),
-            fetchDepartures);
+        timer = Timer(Duration(minutes: departures.value![0].countdown), fetchDepartures);
         return;
       }
     }
@@ -142,21 +132,19 @@ class DeparturesViewModel extends ViewModel {
   }
 
   void updatePreference() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     if (selectedStation.value != null && closestCampus.value != null) {
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
         final decodedData = jsonDecode(data);
-        DeparturesPreference preferences =
-            DeparturesPreference.fromJson(decodedData);
+        DeparturesPreference preferences = DeparturesPreference.fromJson(decodedData);
         preferences.preferences[closestCampus.value!] = selectedStation.value!;
         final json = jsonEncode(preferences.toJson());
         sharedPreferences.setString("departuresPreferences", json);
       } else {
-        final DeparturesPreference preferences = DeparturesPreference(
-            preferences: {closestCampus.value!: selectedStation.value!});
+        final DeparturesPreference preferences =
+            DeparturesPreference(preferences: {closestCampus.value!: selectedStation.value!});
         final json = jsonEncode(preferences.toJson());
         sharedPreferences.setString("departuresPreferences", json);
       }
@@ -166,7 +154,11 @@ class DeparturesViewModel extends ViewModel {
   List<PopupMenuEntry<Station>> getMenuEntries() {
     if (closestCampus.value != null) {
       return closestCampus.value!.allStations
-          .map((e) => PopupMenuItem(value: e, child: Text(e.name)))
+          .map((e) => PopupMenuItem(
+              value: e,
+              child: selectedStation.value?.name == e.name
+                  ? IconText(iconData: Icons.check, label: e.name, leadingIcon: false)
+                  : Text(e.name)))
           .toList();
     } else {
       return [];
