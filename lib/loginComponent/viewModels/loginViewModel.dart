@@ -4,7 +4,6 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/loginComponent/services/loginService.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,6 +18,8 @@ class LoginViewModel {
         await LoginService.confirmToken().then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) => _errorHandling(error));
+      } else {
+        credentials.add(Credentials.none);
       }
     }, onError: (error) => _errorHandling(error));
   }
@@ -31,7 +32,7 @@ class LoginViewModel {
   Future requestLogin(String name) async {
     final token = (await LoginService.requestNewToken(name)).content;
     _storage.write(key: "token", value: token);
-    Get.put(token, tag: "tumToken");
+    Api.tumToken = token;
   }
 
   Future confirmLogin() async {

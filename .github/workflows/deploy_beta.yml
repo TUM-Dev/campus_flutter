@@ -1,0 +1,45 @@
+name: deploy beta
+
+on:
+  push:
+    branches:
+      - 'development'
+
+jobs:
+  # lint_test_build:
+  # uses: ./.github/workflows/lint_test_build.yml
+
+  deploy:
+    # needs: lint_test_build
+    runs-on: [self-hosted, macOS, x64]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Bundle
+        run: cd ./ios && bundle install
+
+          # - name: Setup Flutter
+          # uses: subosito/flutter-action@v2
+          # with:
+        # channel: stable
+
+
+      - name: Install Flutter Packages and CocoaPods
+        run: |
+          flutter pub get
+          export LANG=en_US.UTF-8
+          cd ./ios && pod install
+      - name: Build and Deploy to TestFlight
+        run: |
+          cd ./ios
+          export LANG=en_US.UTF-8
+          bundle exec fastlane beta
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+          KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}

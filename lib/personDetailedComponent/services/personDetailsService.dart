@@ -3,11 +3,11 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiErr
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tumOnlineApiService.dart';
 import 'package:campus_flutter/base/networking/protocols/mainApi.dart';
 import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
-import 'package:get/get.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 
 class PersonDetailsService {
   static Future<PersonDetails> fetchPersonDetails(String identNumber) async {
-    MainApi mainApi = Get.find();
+    MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<PersonDetailsData, TumOnlineApi, TumOnlineApiError>(
         TumOnlineApi(TumOnlineServicePersonDetails(identNumber: identNumber)),
         PersonDetailsData.fromJson,

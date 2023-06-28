@@ -56,7 +56,7 @@ class GradeRectangle extends StatelessWidget {
             child: Center(
               child: Text(
                 grade,
-                style: Theme.of(context).textTheme.headlineSmall?.apply(
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [
                       const Shadow(color: Colors.black, blurRadius: 10.0)

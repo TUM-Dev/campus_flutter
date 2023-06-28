@@ -76,6 +76,8 @@ class TumOnlineServiceIdentify extends TumOnlineService {}
 
 class TumOnlineServiceSecretUpload extends TumOnlineService {}
 
+class TumOnlineServiceTumCard extends TumOnlineService {}
+
 class TumOnlineServiceProfileImage extends TumOnlineService {
   final String personGroup;
   final String id;

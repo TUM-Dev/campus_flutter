@@ -28,11 +28,9 @@ class CalendarEvent {
 
   // TODO: Mon, dd.mm.yyyy, hh:mm - hh:mm
   String get timeDatePeriod {
-    if (startDate.day == endDate.day) {
-      return "coming soon";
-    } else {
-      return "coming soon";
-    }
+    final start = DateFormat("EE, dd.MM.yyyy, HH:mm").format(startDate);
+    final end = DateFormat("HH:mm").format(endDate);
+    return "$start - $end";
   }
 
   CalendarEvent(

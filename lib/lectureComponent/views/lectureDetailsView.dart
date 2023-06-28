@@ -1,36 +1,34 @@
+import 'package:campus_flutter/base/helpers/cardWithPadding.dart';
 import 'package:campus_flutter/base/helpers/iconText.dart';
 import 'package:campus_flutter/lectureComponent/model/lectureDetails.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
 import 'package:campus_flutter/lectureComponent/views/basicLectureInfoRowView.dart';
 import 'package:campus_flutter/lectureComponent/views/basicLectureInfoView.dart';
 import 'package:campus_flutter/lectureComponent/views/detailedLectureInfoView.dart';
 import 'package:campus_flutter/lectureComponent/views/lectureLinksView.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LectureDetailsView extends StatefulWidget {
+class LectureDetailsView extends ConsumerStatefulWidget {
   const LectureDetailsView({super.key, this.scrollController});
 
   final ScrollController? scrollController;
 
   @override
-  State<StatefulWidget> createState() => _LectureDetailsViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LectureDetailsViewState();
 }
 
-class _LectureDetailsViewState extends State<LectureDetailsView> {
+class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   @override
   void initState() {
-    Provider.of<LectureDetailsViewModel>(context, listen: false)
-        .fetchLectureDetails();
+    ref.read(lectureDetailsViewModel).fetchLectureDetails();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Provider
-          .of<LectureDetailsViewModel>(context, listen: true)
-          .lectureDetails,
+      stream: ref.watch(lectureDetailsViewModel).lectureDetails,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return lectureDetailsView(snapshot.data!);
@@ -42,17 +40,21 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
   }
 
   Widget lectureDetailsView(LectureDetails lectureDetails) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(lectureDetails.title,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headlineSmall,
-              textAlign: TextAlign.start),
-          Text(lectureDetails.eventType, textAlign: TextAlign.start),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(lectureDetails.title,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headlineSmall,
+                      textAlign: TextAlign.start),
+                  Text(lectureDetails.eventType, textAlign: TextAlign.start),
+                ])),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
           Expanded(
               child: Scrollbar(
                   controller: widget.scrollController,
@@ -62,23 +64,23 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
                           child: Column(
                             children: _infoCards(lectureDetails),
                           )))))
-        ]));
+        ]);
   }
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {
     return [
-      if (Provider.of<LectureDetailsViewModel>(context, listen: false).event != null) ...[
+      if (ref.read(lectureDetailsViewModel).event != null) ...[
         _infoCard(Icons.calendar_month, "This Meeting",
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BasicLectureInfoRow(
-                  information: Provider.of<LectureDetailsViewModel>(context, listen: false).event!.timeDatePeriod,
+                  information: ref.read(lectureDetailsViewModel).event!.timeDatePeriod,
                   iconData: Icons.hourglass_top),
               const Divider(),
               // TODO: roomfinder
               BasicLectureInfoRow(
-                  information: Provider.of<LectureDetailsViewModel>(context, listen: false).event!.location,
+                  information: ref.read(lectureDetailsViewModel).event!.location,
                   iconData: Icons.location_on)
             ],
           )
@@ -94,20 +96,17 @@ class _LectureDetailsViewState extends State<LectureDetailsView> {
   }
 
   Widget _infoCard(IconData icon, String title, Widget child) {
-    return Card(
-        margin: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                IconText(
-                    iconData: icon,
-                    label: title,
-                    style: Theme.of(context).textTheme.titleMedium),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
-                child
-              ],
-            )));
+    return CardWithPadding(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        IconText(
+            iconData: icon,
+            label: title,
+            style: Theme.of(context).textTheme.titleMedium),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+        child
+      ],
+    ));
   }
 }

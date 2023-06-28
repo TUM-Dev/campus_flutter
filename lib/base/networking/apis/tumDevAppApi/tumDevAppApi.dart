@@ -9,7 +9,7 @@ class TumDevAppApi extends Api {
   TumDevAppApi({required this.tumDevAppService});
 
   @override
-  String get baseURL => "https://www.devapp.it.tum.de/";
+  String get baseURL => "www.devapp.it.tum.de";
 
   @override
   bool get needsAuth => false;
