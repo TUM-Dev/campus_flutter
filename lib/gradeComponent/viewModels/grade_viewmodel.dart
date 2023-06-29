@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+import 'package:campus_flutter/gradeComponent/model/averageGrade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,11 @@ class GradeViewModel implements ViewModel {
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
-  Map<String, Map<String, List<Grade>>>? allGrades;
+  Map<String, Map<String, List<Grade>>>? _allGrades;
+  List<AverageGrade> _averageGrades = [];
 
   setSelectedDegree(String studyID) {
-    studyProgramGrades.add(allGrades?[studyID] ?? {});
+    studyProgramGrades.add(_allGrades?[studyID] ?? {});
   }
 
   @override
@@ -24,6 +26,14 @@ class GradeViewModel implements ViewModel {
       lastFetched.add(response.saved);
       _gradesByDegreeAndSemester(response.data);
     }, onError: (error) => studyProgramGrades.addError(error));
+    GradeService.fetchAverageGrades(forcedRefresh).then((response) => _averageGrades = response.data);
+  }
+
+  AverageGrade? getAverageGrade() {
+    if (studyProgramGrades.hasValue) {
+      return _averageGrades.firstWhere((element) => element.id == studyProgramGrades.value?.values.first.first.studyID);
+    }
+    return null;
   }
 
   _gradesByDegreeAndSemester(List<Grade> response) async {
@@ -48,12 +58,12 @@ class GradeViewModel implements ViewModel {
 
     final firstDegree = gradesByDegreeAndSemester.values.firstOrNull ?? {};
     studyProgramGrades.add(firstDegree);
-    allGrades = gradesByDegreeAndSemester;
+    _allGrades = gradesByDegreeAndSemester;
   }
 
   List<PopupMenuEntry<String>> getMenuEntries() {
-    if (allGrades?.values != null) {
-      return allGrades!.values
+    if (_allGrades?.values != null) {
+      return _allGrades!.values
           .map((e) => PopupMenuItem(
               value: e.values.first.first.studyID,
               child: studyProgramGrades.value?.values.first.first.studyID ==
