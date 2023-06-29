@@ -13,6 +13,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// TODO: stateless?
 class LectureDetailsView extends ConsumerStatefulWidget {
   const LectureDetailsView({super.key, this.scrollController});
 
@@ -24,13 +25,30 @@ class LectureDetailsView extends ConsumerStatefulWidget {
 
 class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   @override
-  void initState() {
-    ref.read(lectureDetailsViewModel).fetch(false);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: ref
+          .watch(lectureDetailsViewModel)
+          .lectureDetails,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return lectureDetailsView(snapshot.data!);
+        } else if (snapshot.hasError) {
+          return ErrorHandlingView(
+              error: snapshot.error!,
+              errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+              retry: ref
+                  .read(lectureDetailsViewModel)
+                  .fetch
+          );
+        } else {
+          return const DelayedLoadingIndicator(
+              name: "Lecture Details"
+          );
+        }
+      },
+    );
+    /*
     return GenericStreamBuilder<LectureDetails>(
         stream: ref.watch(lectureDetailsViewModel).lectureDetails,
         dataBuilder: (context, data) => lectureDetailsView(data),
@@ -43,18 +61,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
             name: "Lecture Details"
         )
     );
-    /*
-    return StreamBuilder(
-      stream: ref.watch(lectureDetailsViewModel).lectureDetails,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return lectureDetailsView(snapshot.data!);
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
-    );
-     */
+    */
   }
 
   Widget lectureDetailsView(LectureDetails lectureDetails) {

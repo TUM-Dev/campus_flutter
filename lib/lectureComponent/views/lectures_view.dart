@@ -12,14 +12,16 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LectureView extends ConsumerStatefulWidget {
-  const LectureView({super.key});
+class LecturesView extends ConsumerStatefulWidget {
+  const LecturesView({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _GradeViewState();
 }
 
-class _GradeViewState extends ConsumerState<LectureView> {
+class _GradeViewState extends ConsumerState<LecturesView> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     ref.read(lectureViewModel).fetch(false);
@@ -35,49 +37,65 @@ class _GradeViewState extends ConsumerState<LectureView> {
             return const Center(child: Text("no lectures found"));
           } else {
             final lastFetched = ref.read(lectureViewModel).lastFetched.value;
-            return RefreshIndicator(
-                onRefresh: () => ref.read(lectureViewModel).fetch(true),
-                child: Scrollbar(
-                    child: SingleChildScrollView(
-                        child: Column(children: [
-                          if (lastFetched != null) LastUpdatedText(lastFetched),
-                          for (var semester in data.entries)
-                            SemesterView(semester: semester),
-                        ]))),
-            );
+            return OrientationBuilder(builder: (context, constraints) {
+              if (constraints == Orientation.portrait) {
+                return _semesterListView(false, lastFetched, data);
+              } else {
+                return _twoColumnView(lastFetched, data);
+              }
+            });
           }
         },
         errorBuilder: (context, error) => ErrorHandlingView(
             error: error,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(lectureViewModel).fetch
-        ),
-        loadingBuilder: (context) => const DelayedLoadingIndicator(
-            name: "Lectures"
-        )
-    );
-    /*
-    return StreamBuilder(
-        stream: ref.watch(lectureViewModel).lectures,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isEmpty) {
-              return const Center(child: Text("no lectures found"));
-            } else {
-              return Scrollbar(
-                  child: SingleChildScrollView(
-                      child: Column(children: [
-                        for (var semester in snapshot.data!.entries)
-                          SemesterView(semester: semester),
-                      ])));
-            }
-          } else if (snapshot.hasError) {
-            return const Center(child: Text("no lectures found"));
-          }
+            retry: ref.read(lectureViewModel).fetch),
+        loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Lectures"));
+  }
 
-          return const DelayedLoadingIndicator(name: "Lectures");
-        });
-     */
+  Widget _twoColumnView(DateTime? lastFetched, Map<String, List<Lecture>> data) {
+    return Column(
+      children: [
+        if (lastFetched != null) LastUpdatedText(lastFetched),
+        Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 2, child: _semesterListView(true, lastFetched, data)),
+                Expanded(flex: 3, child: StreamBuilder(
+                    stream: ref.read(lectureSplitViewModel).selectedWidget,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BackButton(onPressed: ()
+                            => ref.read(lectureSplitViewModel).selectedWidget.add(null)),
+                            Expanded(child: snapshot.data!)
+                          ],
+                        );
+                      } else {
+                        return const Center(child: Text("no lecture selected"));
+                      }
+                    }))
+              ],
+            ))
+      ],
+    );
+  }
+
+  Widget _semesterListView(bool landScape, DateTime? lastFetched, Map<String, List<Lecture>> data) {
+    return RefreshIndicator(
+      onRefresh: () => ref.read(lectureViewModel).fetch(true),
+      child: Scrollbar(
+          controller: scrollController,
+          child: SingleChildScrollView(
+              controller: scrollController,
+              child: Column(children: [
+                if (lastFetched != null && !landScape) LastUpdatedText(lastFetched),
+                for (var semester in data.entries) SemesterView(semester: semester),
+              ]))),
+    );
   }
 }
 
@@ -116,8 +134,7 @@ class SemesterView extends ConsumerWidget {
                             iconData: Icons.access_time,
                             label: semester.value[index].sws,
                             iconColor: Theme.of(context).primaryColor,
-                            textColor:
-                                Theme.of(context).colorScheme.secondary)),
+                            textColor: Theme.of(context).colorScheme.secondary)),
                   ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                   IconText(
@@ -132,17 +149,19 @@ class SemesterView extends ConsumerWidget {
               onTap: () {
                 ref.read(selectedLecture.notifier).state = semester.value[index];
                 ref.read(selectedEvent.notifier).state = null;
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                                appBar: AppBar(leading: const BackButton()),
-                                body: const LectureDetailsView())));
+                if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Scaffold(
+                              appBar: AppBar(leading: const BackButton()),
+                              body: const LectureDetailsView())));
+                } else {
+                  ref.read(lectureSplitViewModel).selectedWidget.add(const LectureDetailsView());
+                }
               },
             ),
-            (index != semester.value.length - 1
-                ? const PaddedDivider()
-                : const SizedBox.shrink())
+            (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
           ])
       ],
     ));
