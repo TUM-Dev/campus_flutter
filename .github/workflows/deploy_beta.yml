@@ -1,4 +1,4 @@
-name: deploy beta
+name: Deploy Beta to TestFlight and Play Store
 
 on:
   push:
@@ -35,21 +35,6 @@ jobs:
       - name: Install Flutter Packages
         run: flutter pub get
 
-      - if: matrix.platform == 'android'
-        name: Deserialize Keystore File
-        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
-        env:
-          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
-
-      - if: matrix.platform == 'android'
-        name: Build Android App
-        run: flutter build appbundle
-        env:
-          ANDROID_KEYSTORE_FILE: ./upload-keystore
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
         run: |
@@ -72,6 +57,12 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - if: matrix.platform == 'android'
+        name: Deserialize Keystore File
+        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+
+      - if: matrix.platform == 'android'
         name: Deploy to Google Play Store
         run: |
           cd ./android
@@ -79,3 +70,7 @@ jobs:
           bundle exec fastlane android_beta
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
+          ANDROID_KEYSTORE_FILE: ./upload-keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}

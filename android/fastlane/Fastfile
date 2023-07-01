@@ -3,11 +3,36 @@ default_platform(:android)
 platform :android do
   desc "Deploy a new version to the Google Play"
   lane :android_beta do
+    build_number = latest_googleplay_version_code
+
+    Dir.chdir "../.." do
+      sh("flutter", "build", "appbundle", "--build-number=#{build_number}")
+    end
+
     upload_to_play_store(
       json_key_data: Base64.strict_decode64(ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"]),
       aab: "../build/app/outputs/bundle/release/app-release.aab",
       track: "internal",
       release_status: "draft",
     )
+  end
+
+
+  def latest_googleplay_version_code
+    productionVersionCodes = google_play_track_version_codes(track: 'production')
+    betaVersionCodes = google_play_track_version_codes(track: 'beta')
+    alphaVersionCodes = google_play_track_version_codes(track: 'alpha')
+    internalVersionCodes = google_play_track_version_codes(track: 'internal')
+  
+    # puts version codes from all tracks into the same array
+    versionCodes = [
+      productionVersionCodes, 
+      betaVersionCodes, 
+      alphaVersionCodes, 
+      internalVersionCodes
+    ].reduce([], :concat)
+  
+    # returns the highest version code from array
+    return versionCodes.max
   end
 end
