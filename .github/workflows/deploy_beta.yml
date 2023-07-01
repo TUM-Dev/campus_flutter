@@ -6,31 +6,58 @@ on:
       - 'development'
 
 jobs:
-  # lint_test_build:
-  # uses: ./.github/workflows/lint_test_build.yml
-
   deploy:
-    # needs: lint_test_build
     runs-on: [self-hosted, macOS, x64]
+
+    strategy:
+      matrix:
+        platform: [ android ]
+        include:
+          - platform: android
+            # target: "appbundle"
+          - platform: ios
+            # target: "ipa --no-codesign --release"
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Bundle
+      - if: matrix.platform == 'ios'
+        name: Install Bundle
         run: cd ./ios && bundle install
 
-          # - name: Setup Flutter
-          # uses: subosito/flutter-action@v2
-          # with:
-        # channel: stable
+      - if: matrix.platform == 'android'
+        name: Install Bundle
+        run: cd ./android && bundle install
 
+      # - name: Setup Flutter
+        # uses: subosito/flutter-action@v2
+        # with:
+          # channel: stable
 
-      - name: Install Flutter Packages and CocoaPods
+      # - if: matrix.platform == 'android'
+        # uses: actions/setup-java@v3
+        # with:
+          # distribution: 'corretto'
+          # java-version: '17'
+
+      - if: matrix.platform == 'android'
+        name: Deserialize keystore file
+        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./keystore
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+
+      - name: Install Flutter Packages
+        run: flutter pub get
+
+      - if: matrix.platform == 'ios'
+        name: Install CocoaPods
         run: |
-          flutter pub get
           export LANG=en_US.UTF-8
           cd ./ios && pod install
-      - name: Build and Deploy to TestFlight
+
+      - if: matrix.platform == 'ios'
+        name: Build and Deploy to TestFlight
         run: |
           cd ./ios
           export LANG=en_US.UTF-8
@@ -43,3 +70,15 @@ jobs:
           GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - if: matrix.platform == 'android'
+        name: Build and Deploy to Google Play Store
+        run: |
+          cd ./android
+          bundle exec fastlane beta
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
+          ANDROID_KEYSTORE_FILE: ./keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}

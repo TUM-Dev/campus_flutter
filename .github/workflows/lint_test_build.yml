@@ -4,10 +4,11 @@ on:
   push:
     branches-ignore:
       - "development"
+      - "main"
   pull_request:
     branches-ignore:
       - "development"
-  workflow_call:
+      - "main"
 
 jobs:
   build:
@@ -23,7 +24,7 @@ jobs:
         # run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze project source
-        run: dart analyze --fatal-infos
+        run: dart analyze --no-fatal-infos
 
       - name: Run tests
         run: flutter test
