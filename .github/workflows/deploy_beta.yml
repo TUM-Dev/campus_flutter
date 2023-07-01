@@ -50,7 +50,7 @@ jobs:
 
       - if: matrix.platform == 'android'
         name: Flutter build Android
-        run: flutter build appbundle"
+        run: flutter build appbundle
         env:
           ANDROID_KEYSTORE_FILE: ./keystore
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
