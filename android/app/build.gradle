@@ -51,11 +51,13 @@ android {
         multiDexEnabled true
     }
 
+    println(System.getenv("ANDROID_KEY_ALIAS"))
+
     signingConfigs {
         release {
             keyAlias System.getenv("ANDROID_KEY_ALIAS")
             keyPassword System.getenv("ANDROID_KEY_PASSWORD")
-            storeFile System.getenv("ANDROID_KEYSTORE_FILE") ? file(System.getenv("ANDROID_KEYSTORE_FILE")) : null
+            storeFile file(System.getenv("ANDROID_KEYSTORE_FILE"))
             storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
         }
     }
