@@ -44,7 +44,7 @@ jobs:
 
       - if: matrix.platform == 'android'
         name: Deserialize keystore file
-        run: cd ./android/app && echo ANDROID_KEYSTORE_FILE | base64 --decode > ./upload-keystore
+        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
 
