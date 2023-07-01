@@ -16,7 +16,7 @@ jobs:
         include:
           - platform: android
             # target: "appbundle"
-          - platform: ios
+          # - platform: ios
             # target: "ipa --no-codesign --release"
       fail-fast: false
 

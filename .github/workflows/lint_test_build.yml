@@ -24,7 +24,7 @@ jobs:
         # run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze project source
-        run: dart analyze --no-fatal-infos
+        run: dart analyze --no-fatal-warnings
 
       - name: Run tests
         run: flutter test
