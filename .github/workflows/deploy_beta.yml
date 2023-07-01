@@ -76,6 +76,7 @@ jobs:
         name: Build and Deploy to Google Play Store
         run: |
           cd ./android
+          export LANG=en_US.UTF-8
           bundle exec fastlane beta
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}

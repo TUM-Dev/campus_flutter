@@ -2,7 +2,7 @@ default_platform(:android)
 
 platform :android do
   desc "Deploy a new version to the Google Play"
-  lane :deploy do
+  lane :beta do
     gradle(
       task: "bundle",
       build_type: 'Release'
