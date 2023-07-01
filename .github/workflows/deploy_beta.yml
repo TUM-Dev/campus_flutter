@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'development'
+      - 'ci_cd_updates'
 
 jobs:
   deploy:
