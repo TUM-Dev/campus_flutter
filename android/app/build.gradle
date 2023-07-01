@@ -51,8 +51,6 @@ android {
         multiDexEnabled true
     }
 
-    println(System.getenv("ANDROID_KEY_ALIAS"))
-
     signingConfigs {
         release {
             keyAlias System.getenv("ANDROID_KEY_ALIAS")

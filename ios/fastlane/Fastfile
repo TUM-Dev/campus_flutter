@@ -2,7 +2,7 @@ default_platform(:ios)
 
 platform :ios do
   desc "Build, Sign and Upload iOS application"
-  lane :beta do
+  lane :ios_beta do
     if is_ci
         create_keychain(
             name: ENV["KEYCHAIN_NAME"],

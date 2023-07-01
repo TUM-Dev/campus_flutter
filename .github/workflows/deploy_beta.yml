@@ -13,11 +13,6 @@ jobs:
     strategy:
       matrix:
         platform: [ android ]
-        include:
-          - platform: android
-            # target: "appbundle"
-          # - platform: ios
-            # target: "ipa --no-codesign --release"
       fail-fast: false
 
     steps:
@@ -37,23 +32,23 @@ jobs:
           # distribution: 'corretto'
           # java-version: '17'
 
+      - name: Install Flutter Packages
+        run: flutter pub get
+
       - if: matrix.platform == 'android'
-        name: Deserialize keystore file
+        name: Deserialize Keystore File
         run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
 
       - if: matrix.platform == 'android'
-        name: Flutter build Android
+        name: Build Android App
         run: flutter build appbundle
         env:
           ANDROID_KEYSTORE_FILE: ./upload-keystore
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - name: Install Flutter Packages
-        run: flutter pub get
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
@@ -66,7 +61,7 @@ jobs:
         run: |
           cd ./ios
           export LANG=en_US.UTF-8
-          bundle exec fastlane beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -77,14 +72,10 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - if: matrix.platform == 'android'
-        name: Build and Deploy to Google Play Store
+        name: Deploy to Google Play Store
         run: |
           cd ./android
           export LANG=en_US.UTF-8
-          bundle exec fastlane beta
+          bundle exec fastlane android_beta
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
-          #ANDROID_KEYSTORE_FILE: ./keystore
-          #ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          #ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          #ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
