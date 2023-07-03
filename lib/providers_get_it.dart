@@ -2,6 +2,7 @@ import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departuresViewModel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
@@ -13,6 +14,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewm
 import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
@@ -56,3 +58,5 @@ final lectureDetailsViewModel = Provider((ref) {
 });
 final gradeViewModel = Provider((ref) => GradeViewModel());
 final calendarViewModel = Provider((ref) => CalendarViewModel());
+final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
+final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());

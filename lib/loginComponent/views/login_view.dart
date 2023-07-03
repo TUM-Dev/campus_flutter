@@ -23,7 +23,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: MediaQuery.platformBrightnessOf(context) == Brightness.dark
+        ? Theme.of(context).canvasColor
+        : Colors.white,
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

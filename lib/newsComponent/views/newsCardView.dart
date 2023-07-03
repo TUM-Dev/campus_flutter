@@ -2,16 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewsCardView extends StatelessWidget {
-  const NewsCardView({super.key, required this.news});
+class NewsCardView extends ConsumerWidget {
+  const NewsCardView({super.key, required this.news, required this.width});
 
   final (String?, News) news;
+  final double width;
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () {
+        // TODO: with RSS feed we are able to link to TUM site
+      },
+      child: SizedBox(
+        width: width,
         child: Card(
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           child: Column(
@@ -52,6 +58,6 @@ class NewsCardView extends StatelessWidget {
                           ))))
             ],
           ),
-        ));
+        )));
   }
 }

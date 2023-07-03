@@ -58,9 +58,13 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   }
 
   _onPressed(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            const StudyRoomGroupScaffold()));
+    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+          const StudyRoomGroupScaffold()));
+    } else {
+      ref.read(homeSplitViewModel).selectedWidget.add(const StudyRoomGroupView());
+    }
   }
 
   Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {

@@ -30,8 +30,10 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
         if (snapshot.hasData) {
           final fiveNews = ref.watch(newsViewModel).latestFiveNews();
           if (fiveNews.isNotEmpty) {
-            return HorizontalSlider(data: fiveNews, height: 300, child: (news) {
-              return NewsCardView(news: news);
+            return LayoutBuilder(builder: (context, constraints) {
+              return HorizontalSlider(data: fiveNews, height: 300, child: (news) {
+                return NewsCardView(news: news, width: constraints.maxWidth * 0.8);
+              });
             });
           } else {
             return const SizedBox(height: 300, child: Card(child: Center(child: Text("no news found"))));

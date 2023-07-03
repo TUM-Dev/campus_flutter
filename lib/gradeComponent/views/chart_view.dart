@@ -30,7 +30,7 @@ class ChartView extends ConsumerWidget {
           },
           child: IconText(
               iconData: Icons.keyboard_arrow_down,
-              label: "${StringParser.degreeShortFromID(studyID)} $title",
+              label: "$title (${StringParser.degreeShortFromID(studyID)})",
               style: Theme.of(context).textTheme.bodyLarge,
               mainAxisAlignment: MainAxisAlignment.center,
               leadingIcon: false),
@@ -39,12 +39,12 @@ class ChartView extends ConsumerWidget {
             primaryXAxis: CategoryAxis(),
             primaryYAxis:
                 NumericAxis(minimum: 0, maximum: data.values.reduce(max).toDouble(), interval: 1),
-            series: <ChartSeries<MapEntry<double, int>, String>>[
-              ColumnSeries<MapEntry<double, int>, String>(
+            series: <ChartSeries<MapEntry<dynamic, int>, String>>[
+              ColumnSeries<MapEntry<dynamic, int>, String>(
                 dataSource: data.entries.toList(),
-                xValueMapper: (MapEntry<double, int> data, _) => data.key.toString(),
-                yValueMapper: (MapEntry<double, int> data, _) => data.value,
-                pointColorMapper: (MapEntry<double, int> data, _) =>
+                xValueMapper: (MapEntry<dynamic, int> data, _) => data.key.toString(),
+                yValueMapper: (MapEntry<dynamic, int> data, _) => data.value,
+                pointColorMapper: (MapEntry<dynamic, int> data, _) =>
                     GradeViewModel.getColor(data.key),
               )
             ]),

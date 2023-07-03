@@ -36,6 +36,11 @@ class _GradeViewState extends ConsumerState<LecturesView> {
           if (data.isEmpty) {
             return const Center(child: Text("no lectures found"));
           } else {
+            Future(() {
+              ref.read(selectedLecture.notifier).state = data.values.first.first;
+              ref.read(selectedEvent.notifier).state = null;
+              ref.read(lectureSplitViewModel).selectedWidget.add(const LectureDetailsView());
+            });
             final lastFetched = ref.read(lectureViewModel).lastFetched.value;
             return OrientationBuilder(builder: (context, constraints) {
               if (constraints == Orientation.portrait) {
@@ -66,16 +71,11 @@ class _GradeViewState extends ConsumerState<LecturesView> {
                     stream: ref.read(lectureSplitViewModel).selectedWidget,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            BackButton(onPressed: ()
-                            => ref.read(lectureSplitViewModel).selectedWidget.add(null)),
-                            Expanded(child: snapshot.data!)
-                          ],
-                        );
+                        return snapshot.data!;
                       } else {
-                        return const Center(child: Text("no lecture selected"));
+                        return const DelayedLoadingIndicator(
+                          alternativeLoadingIndicator: Center(child: Text("no lecture selected")),
+                        );
                       }
                     }))
               ],

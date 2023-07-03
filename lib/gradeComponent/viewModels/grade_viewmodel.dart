@@ -64,43 +64,62 @@ class GradeViewModel implements ViewModel {
   List<PopupMenuEntry<String>> getMenuEntries() {
     if (_allGrades?.values != null) {
       return _allGrades!.values
-          .map((e) => PopupMenuItem(
-              value: e.values.first.first.studyID,
-              child: studyProgramGrades.value?.values.first.first.studyID ==
-                      e.values.first.first.studyID
-                  ? IconText(
-                      iconData: Icons.check,
-                      label: e.values.first.first.studyDesignation,
-                      leadingIcon: false)
-                  : Text(e.values.first.first.studyDesignation)))
+          .map((e) {
+            final selectedStudyId = studyProgramGrades.value?.values.first.first.studyID;
+            final studyId = e.values.first.first.studyID;
+            final studyDesignation = e.values.first.first.studyDesignation;
+            final degree = StringParser.degreeShortFromID(studyId);
+            return PopupMenuItem(
+            value: studyId,
+            child: selectedStudyId == studyId
+                ? IconText(
+                iconData: Icons.check,
+                label: "$studyDesignation ($degree)",
+                leadingIcon: false)
+                : Text("$studyDesignation ($degree)"));
+      })
           .toList();
     } else {
       return [];
     }
   }
 
-  Map<double, int> chartDataForDegree(String studyID) {
+  Map<dynamic, int> chartDataForDegree(String studyID) {
     final degreeGrades = studyProgramGrades.value;
     if (degreeGrades == null) {
       return {};
     }
 
-    Map<double, int> chartData = {};
+    Map<dynamic, int> chartData = {};
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
         chartData.update(
-          StringParser.stringToDouble(grade.grade),
+          StringParser.optStringToOptDouble(grade.grade) ?? grade.grade,
           (value) => ++value,
           ifAbsent: () => 1,
         );
       }
     }
 
-    return Map.fromEntries(chartData.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+    return Map.fromEntries(chartData.entries.toList()..sort((a, b) {
+      if (a.key is double && b.key is double) {
+        final aKey = a.key as double;
+        final bKey = b.key as double;
+        return aKey.compareTo(bKey);
+      } else if (a.key is double) {
+        return a.key > 4 ? 1 : -1;
+      } else if (b.key is double) {
+        return b.key > 4 ? -1 : 1;
+      } else {
+        final aKey = a.key as String;
+        final bKey = b.key as String;
+        return aKey.compareTo(bKey);
+      }
+    }));
   }
 
-  static Color getColor(double? grade) {
-    if (grade != null) {
+  static Color getColor(dynamic grade) {
+    if (grade is double) {
       if (grade >= 1.0 && grade < 1.4) {
         return const Color.fromRGBO(87, 159, 43, 1.0);
       } else if (grade >= 1.4 && grade < 1.8) {

@@ -1,16 +1,13 @@
 import 'package:campus_flutter/calendarComponent/views/calendarsView.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
+import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io' show Platform;
-
-import 'lectureComponent/views/lectureView.dart';
-
-const settings = '/settings';
 
 class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
@@ -39,7 +36,7 @@ class _NavigationState extends ConsumerState<Navigation> {
             switch (currentPageIndex) {
               case 0:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
-                    fit: BoxFit.contain, height: 20);
+                    fit: BoxFit.cover, height: 20);
               case 1:
                 return Text("Grades",
                     style: Theme.of(context).textTheme.titleLarge);
@@ -117,9 +114,9 @@ class _NavigationState extends ConsumerState<Navigation> {
             )),
         body: SafeArea(
           child: <Widget>[
-            const HomeScreen(),
+            HomeScreen(),
             const GradesView(),
-            const LectureView(),
+            const LecturesView(),
             const CalendarsView(),
             // TODO: replace with places widget
             const Text("Coming Soon")

@@ -42,6 +42,7 @@ dependencies:
   collection: ^1.17.1
   map_launcher: ^2.5.0+1
   timeago: ^3.4.0
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

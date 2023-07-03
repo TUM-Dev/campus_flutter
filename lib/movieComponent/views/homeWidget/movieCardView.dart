@@ -4,31 +4,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieCardView extends StatelessWidget {
-  const MovieCardView({super.key, required this.movie});
+  const MovieCardView({super.key, required this.movie, required this.width});
 
   final Movie movie;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    final sizes = MediaQuery.of(context).size;
     return Card(
         margin: const EdgeInsets.all(0),
         child: SizedBox(
-            width: sizes.width * 0.4,
+            width: width,
             child: Column(children: [
               Expanded(
                   flex: 8,
                   child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(10)),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                       child: CachedNetworkImage(
                         imageUrl: movie.cover.toString(),
                         fit: BoxFit.fitWidth,
                         fadeOutDuration: Duration.zero,
                         fadeInDuration: Duration.zero,
                         placeholder: (context, string) {
-                          return Image.asset(
-                              "assets/images/placeholders/movie_placeholder.png",
+                          return Image.asset("assets/images/placeholders/movie_placeholder.png",
                               fit: BoxFit.cover);
                         },
                       ))),
@@ -38,27 +36,21 @@ class MovieCardView extends StatelessWidget {
                       padding: const EdgeInsets.all(5.0),
                       child: SizedBox(
                           width: double.infinity,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    child: Text(movie.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w500))),
-                                Expanded(
-                                    child: Text(
-                                        StringParser.dateFormatter(movie.date),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis))
-                              ]))))
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Expanded(
+                                child: Text(movie.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.w500))),
+                            Expanded(
+                                child: Text(StringParser.dateFormatter(movie.date),
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis))
+                          ]))))
             ])));
   }
 }

@@ -10,8 +10,11 @@ class HorizontalSlider<E> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.orientationOf(context);
     return SizedBox(
         height: height,
+        child: Padding(
+          padding: EdgeInsets.only(right: orientation == Orientation.landscape ? 10 : 0),
         child: ListView(scrollDirection: Axis.horizontal, children: [
           for (var indexAndValue in data.indexed) ...[
             if (indexAndValue.$1 == 0) ...[
@@ -21,13 +24,14 @@ class HorizontalSlider<E> extends StatelessWidget {
             if (indexAndValue.$1 == data.length - 1) ...[
               const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
               child(indexAndValue.$2),
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 5))
+              if (orientation != Orientation.landscape)
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 5))
             ],
             if (indexAndValue.$1 != 0 && indexAndValue.$1 != data.length - 1) ...[
               const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
               child(indexAndValue.$2)
             ]
           ]
-        ]));
+        ])));
   }
 }

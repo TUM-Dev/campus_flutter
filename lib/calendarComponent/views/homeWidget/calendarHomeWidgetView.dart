@@ -74,7 +74,9 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
           ])),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
           Expanded(
-              child: Column(children: [
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
             Expanded(child: CalendarHomeWidgetEventView(calendarEvent: events.$2.first)),
             Expanded(child: CalendarHomeWidgetEventView(calendarEvent: events.$2[1]))
           ]))

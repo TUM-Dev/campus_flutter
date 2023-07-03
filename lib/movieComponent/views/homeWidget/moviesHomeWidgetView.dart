@@ -37,12 +37,14 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                         height: MediaQuery.of(context).size.height * 0.34,
                         child: const Text("no movies found")));
               } else {
-                return HorizontalSlider<Movie>(
-                    data: data,
-                    height: MediaQuery.of(context).size.height * 0.34,
-                    child: (data) {
-                      return MovieCardView(movie: data);
-                    });
+                return LayoutBuilder(builder: (context, constraints) {
+                  return HorizontalSlider<Movie>(
+                      data: data,
+                      height: MediaQuery.of(context).size.height * 0.34,
+                      child: (data) {
+                        return MovieCardView(movie: data, width: constraints.maxWidth * 0.4);
+                      });
+                });
               }
             },
             errorBuilder: (context, error) => Card(

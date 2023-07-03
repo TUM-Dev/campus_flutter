@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/services/loginService.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -74,6 +76,7 @@ class LoginViewModel {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
         Api.tumToken = value;
+        //Api.tumToken = "E2313F253B3586FD486D1AF3659F01EA";
         await LoginService.confirmToken(false).then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) {
@@ -116,6 +119,9 @@ class LoginViewModel {
   }
 
   Future logout() async {
+    ProviderContainer()
+      ..invalidate(profileViewModel)
+      ..invalidate(personDetailsViewModel);
     credentials.add(Credentials.none);
     final directory = await getTemporaryDirectory();
     Api.tumToken = "";
