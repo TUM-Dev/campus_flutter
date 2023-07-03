@@ -85,7 +85,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                     onTap: () async {
                       Station? selectedStation =
                           ref.read(departureViewModel).selectedStation.value;
-                      if (selectedStation != null) {
+                      if (selectedStation != null && selectedStation.location != null) {
                         if (await MapLauncher.isMapAvailable(MapType.google) ??
                             false) {
                           await MapLauncher.showDirections(
@@ -93,8 +93,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                             directionsMode: DirectionsMode.walking,
                             destinationTitle: selectedStation.name,
                             destination: Coords(
-                                selectedStation.location.latitude,
-                                selectedStation.location.longitude),
+                                selectedStation.location!.latitude,
+                                selectedStation.location!.longitude),
                           );
                         } else if (await MapLauncher.isMapAvailable(
                                 MapType.apple) ??
@@ -104,8 +104,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                             directionsMode: DirectionsMode.walking,
                             destinationTitle: selectedStation.name,
                             destination: Coords(
-                                selectedStation.location.latitude,
-                                selectedStation.location.longitude),
+                                selectedStation.location!.latitude,
+                                selectedStation.location!.longitude),
                           );
                         }
                       }

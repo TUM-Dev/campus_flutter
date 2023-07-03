@@ -65,11 +65,15 @@ class DeparturesViewModel extends ViewModel {
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
         final decoded = jsonDecode(data);
-        final preferences = DeparturesPreference.fromJson(decoded);
-        final station = preferences.preferences[closestCampus.value];
-        if (station != null) {
-          setSelectedStation(station);
-          return;
+        try {
+          final preferences = DeparturesPreference.fromJson(decoded);
+          final station = preferences.preferences[closestCampus.value];
+          if (station != null) {
+            setSelectedStation(station);
+            return;
+          }
+        } catch (error) {
+          setSelectedStation(closestCampus.value?.defaultStation);
         }
       }
     }
@@ -138,10 +142,19 @@ class DeparturesViewModel extends ViewModel {
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
         final decodedData = jsonDecode(data);
-        DeparturesPreference preferences = DeparturesPreference.fromJson(decodedData);
-        preferences.preferences[closestCampus.value!] = selectedStation.value!;
-        final json = jsonEncode(preferences.toJson());
-        sharedPreferences.setString("departuresPreferences", json);
+        try {
+          DeparturesPreference preferences = DeparturesPreference.fromJson(
+              decodedData);
+          preferences.preferences[closestCampus.value!] =
+          selectedStation.value!;
+          final json = jsonEncode(preferences.toJson());
+          sharedPreferences.setString("departuresPreferences", json);
+        } catch (_) {
+          final DeparturesPreference preferences =
+          DeparturesPreference(preferences: {closestCampus.value!: selectedStation.value!});
+          final json = jsonEncode(preferences.toJson());
+          sharedPreferences.setString("departuresPreferences", json);
+        }
       } else {
         final DeparturesPreference preferences =
             DeparturesPreference(preferences: {closestCampus.value!: selectedStation.value!});
