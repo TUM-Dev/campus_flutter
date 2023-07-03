@@ -30,9 +30,9 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
           if (snapshot.hasData) {
             return contactInfo(snapshot.data);
           } else {
-            return DelayedLoadingIndicator(
-              alternativeLoadingIndicator: const ContactCardLoadingView(),
-              delayWidget: Container(),
+            return const DelayedLoadingIndicator(
+              alternativeLoadingIndicator: ContactCardLoadingView(),
+              delayWidget: SizedBox.expand(),
             );
           }
         });
@@ -41,38 +41,42 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   Widget contactInfo(PersonDetails? data) {
     final studentCard = ref.read(studentCardViewModel).studentCard.value;
     final studies = studentCard?.studies?.study;
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: studentCard?.image != null
-              ? Image.memory(base64DecodeImageData(studentCard!.image)).image
-              : const AssetImage('assets/images/placeholders/portrait_placeholder.png'),
-          backgroundColor: Colors.white,
-          radius: 50,
-        ),
-        const Padding(padding: EdgeInsets.only(left: 15)),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
           children: [
-            Text(
-                data != null
-                    ? data.fullName
-                    : PersonDetailsViewModel.defaultPersonDetails.fullName,
-                style: Theme.of(context).textTheme.headlineSmall),
-            Text(ref.watch(profileDetailsViewModel).profile != null
-                ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "go42tum"
-                : "go42tum"),
-    Text(data != null
-    ? data.email
-    : PersonDetailsViewModel.defaultPersonDetails.email),
-    for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? []) ...[
-    Text("${StringParser.degreeShort(studyProgram.degree)} ${studyProgram.name}")
-    ]
+            CircleAvatar(
+              backgroundImage: studentCard?.image != null
+                  ? Image.memory(base64DecodeImageData(studentCard!.image)).image
+                  : const AssetImage('assets/images/Portrait_Placeholder.png'),
+              backgroundColor: Theme.of(context).cardTheme.color,
+              radius: 50,
+            ),
+            const Padding(padding: EdgeInsets.only(left: 15)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    data != null
+                        ? data.fullName
+                        : PersonDetailsViewModel
+                        .defaultPersonDetails.fullName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(ref.watch(profileDetailsViewModel).profile != null
+                    ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "xy00abc"
+                    : "xy00abc"),
+                Text(data != null
+                    ? data.email
+                    : PersonDetailsViewModel.defaultPersonDetails.email),
+                for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? []) ...[
+                  Text("${StringParser.degreeShort(studyProgram.degree)} ${studyProgram.name}")
+                ]
+              ],
+            )
           ],
-        ))
-      ],
-    );
+        ));
   }
 }
