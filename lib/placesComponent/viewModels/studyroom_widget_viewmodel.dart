@@ -52,9 +52,9 @@ class StudyRoomWidgetViewModel implements ViewModel {
           return 1;
         } else if (room1.localizedStatus == "Free" && room2.localizedStatus != "Free") {
           return -1;
-        } else if (room1.localizedStatus != "Unkown" && room2.localizedStatus == "Unkown") {
+        } else if (room1.localizedStatus != "Unknown" && room2.localizedStatus == "Unknown") {
           return -1;
-        } else if (room1.localizedStatus == "Unkown" && room2.localizedStatus != "Unkown") {
+        } else if (room1.localizedStatus == "Unknown" && room2.localizedStatus != "Unknown") {
           return 1;
         } else {
           return 0;
@@ -65,5 +65,9 @@ class StudyRoomWidgetViewModel implements ViewModel {
     } else {
       return;
     }
+  }
+
+  int countAvailableRooms() {
+    return rooms.value?.where((element) => element.isAvailable).length ?? 0;
   }
 }

@@ -47,7 +47,7 @@ class StudyRoom {
           return "";
         }
       default:
-        return "Unkown";
+        return "Unknown";
     }
   }
 

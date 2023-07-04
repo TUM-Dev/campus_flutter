@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/averageGrade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -31,7 +32,7 @@ class GradeViewModel implements ViewModel {
 
   AverageGrade? getAverageGrade() {
     if (studyProgramGrades.hasValue) {
-      return _averageGrades.firstWhere((element) => element.id == studyProgramGrades.value?.values.first.first.studyID);
+      return _averageGrades.firstWhereOrNull((element) => element.id == studyProgramGrades.value?.values.first.first.studyID);
     }
     return null;
   }

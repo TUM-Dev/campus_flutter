@@ -62,6 +62,7 @@ flutter:
     - assets/images/logos/tum-logo-rainbow.png
     - assets/images/placeholders/portrait_placeholder.png
     - assets/images/placeholders/movie_placeholder.png
+    - assets/images/placeholders/news_placeholder.png
     - assets/images/errors/error.png
     - assets/images/errors/error_crop.png
     - assets/images/errors/error_square.png

@@ -13,8 +13,8 @@ class MovieCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         margin: const EdgeInsets.all(0),
-        child: SizedBox(
-            width: width,
+        child: AspectRatio(
+            aspectRatio: 250/470,
             child: Column(children: [
               Expanded(
                   flex: 8,

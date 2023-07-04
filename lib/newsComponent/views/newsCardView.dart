@@ -16,19 +16,23 @@ class NewsCardView extends ConsumerWidget {
       onTap: () {
         // TODO: with RSS feed we are able to link to TUM site
       },
-      child: SizedBox(
-        width: width,
+      child: AspectRatio(
+        aspectRatio: 1.1,
         child: Card(
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           child: Column(
             children: [
-              // TODO: placeholder image
               Expanded(
                   flex: 3,
                   child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(10.0)),
                       child: CachedNetworkImage(
-                          imageUrl: news.$2.image.toString(), fit: BoxFit.fill))),
+                          imageUrl: news.$2.image.toString(),
+                          fadeOutDuration: Duration.zero,
+                          fadeInDuration: Duration.zero,
+                          placeholder: (context, string) => Image.asset("assets/images/placeholders/news_placeholder.png", fit: BoxFit.fill),
+                          fit: BoxFit.fill
+                      ))),
               Expanded(
                   flex: 2,
                   child: Padding(

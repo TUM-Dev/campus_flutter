@@ -81,9 +81,10 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _freeRooms(AsyncSnapshot<StudyRoomGroup?> snapshot) {
     if (snapshot.data?.rooms != null) {
+      final freeRooms = ref.read(studyRoomWidgetViewModel).countAvailableRooms();
       return Text(
-          "${snapshot.data?.rooms?.length} room${snapshot.data!.rooms!.length > 1 ? "s" : ""} free",
-          style: const TextStyle(color: Colors.green));
+          "$freeRooms room${freeRooms > 1 ? "s" : ""} free",
+          style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red));
     } else {
       return const Text("no free rooms", style: TextStyle(color: Colors.red));
     }
