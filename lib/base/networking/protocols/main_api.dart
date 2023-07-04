@@ -14,6 +14,23 @@ import 'package:xml2json/xml2json.dart';
 class MainApi {
   late Dio dio;
 
+  MainApi.noCache() {
+    final dio = Dio();
+
+    dio.options = BaseOptions(responseDecoder: (data, options, body) {
+      final decoded = utf8.decoder.convert(data);
+      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+        final transformer = Xml2Json();
+        transformer.parse(decoded);
+        return transformer.toParker();
+      } else {
+        return decoded;
+      }
+    });
+
+    this.dio = dio;
+  }
+
   MainApi(Directory directory) {
     final cacheStore = HiveCacheStore(directory.path);
 

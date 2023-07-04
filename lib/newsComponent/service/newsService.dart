@@ -10,8 +10,8 @@ class NewsService {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<NewsSources, TumCabeApi>(
         TumCabeApi(tumCabeService: TumCabeServiceNewsSources()),
-            NewsSources.fromJson,
-            forcedRefresh
+        NewsSources.fromJson,
+        forcedRefresh
     );
 
     List<NewsSource> newsSources = response.data.newsSources;
@@ -19,7 +19,8 @@ class NewsService {
     for (var newsSource in newsSources.indexed) {
       try {
         final newsResponse = await mainApi.makeRequest<NewsData, TumCabeApi>(
-            TumCabeApi(tumCabeService: TumCabeServiceNews(source: newsSource.$2.id.toString())),
+            TumCabeApi(tumCabeService: TumCabeServiceNews(
+                source: newsSource.$2.id.toString())),
             NewsData.fromJson,
             forcedRefresh
         );
