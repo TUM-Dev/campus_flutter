@@ -40,6 +40,12 @@ jobs:
         run: cd ./ios && pod install
 
       - if: matrix.platform == 'ios'
+        name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
+
+      - if: matrix.platform == 'ios'
         name: Build and Deploy to TestFlight
         run: |
           cd ./ios
@@ -49,7 +55,7 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
+          # MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
