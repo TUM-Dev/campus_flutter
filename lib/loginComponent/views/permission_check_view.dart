@@ -30,7 +30,9 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
     fetchGrades = GradeService.fetchGrades(true);
     fetchProfile = ProfileService.fetchProfile(true).then((value) =>
         fetchTuition = ProfileService.fetchTuition(
-            true, value.$2.personGroup ?? "", value.$2.id ?? ""));
+            true, value.$2.personGroup ?? "", value.$2.id ?? ""),
+        onError: (error)
+        => fetchTuition = ProfileService.fetchTuition(true, "", "id"));
     super.initState();
   }
 

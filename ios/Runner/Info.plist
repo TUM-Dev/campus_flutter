@@ -32,8 +32,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To Provide You With the Closest Study Rooms, Cafeteria and Departures We Need to Access You Location</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>To Provide You With the Closest Study Rooms, Cafeteria and Departures We Need to Access Your Location While in Use</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -1,9 +1,10 @@
+import 'dart:core';
+
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:flutter/material.dart';
-
-import '../model/grade.dart';
 
 class GradeRowAlt extends StatelessWidget {
   const GradeRowAlt({super.key, required this.grade});
@@ -59,7 +60,7 @@ class GradeRectangle extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child: Text(
-                parsedGrade.toString(),
+                parsedGrade is double ? parsedGrade.toStringAsFixed(1) : grade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

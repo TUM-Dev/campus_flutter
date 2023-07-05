@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 class MovieCardView extends StatelessWidget {
@@ -21,7 +22,10 @@ class MovieCardView extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                       child: CachedNetworkImage(
-                        imageUrl: movie.cover.toString(),
+                        imageUrl: kIsWeb
+                            ? movie.cover.toString()
+                            .replaceAll("app.tum.de", "tum-proxy.resch.io")
+                            : movie.cover.toString(),
                         fit: BoxFit.fitWidth,
                         fadeOutDuration: Duration.zero,
                         fadeInDuration: Duration.zero,

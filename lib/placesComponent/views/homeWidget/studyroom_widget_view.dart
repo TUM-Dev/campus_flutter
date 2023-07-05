@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -23,20 +24,21 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
-        builder: (context, snapshot) {
-          return GestureDetector(
-              onTap: () {
-                if (snapshot.hasData && snapshot.data != null) {
-                  _onPressed(context);
-                }
-              },
-              child: CardWithPadding(
-                  height: MediaQuery.sizeOf(context).height * 0.075,
-                  child: _widgetLabel(snapshot, context)
-              ));
-        });
+    return WidgetFrameView(
+        title: "Nearest Study Rooms",
+        child: StreamBuilder(
+            stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
+            builder: (context, snapshot) {
+              return GestureDetector(
+                  onTap: () {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      _onPressed(context);
+                    }
+                  },
+                  child: CardWithPadding(
+                      height: MediaQuery.sizeOf(context).height * 0.075,
+                      child: _widgetLabel(snapshot, context)));
+            }));
   }
 
   Widget _widgetLabel(AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {

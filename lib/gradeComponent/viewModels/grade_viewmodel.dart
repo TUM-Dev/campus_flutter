@@ -23,11 +23,13 @@ class GradeViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    GradeService.fetchGrades(forcedRefresh).then((response) {
-      lastFetched.add(response.saved);
-      _gradesByDegreeAndSemester(response.data);
-    }, onError: (error) => studyProgramGrades.addError(error));
-    GradeService.fetchAverageGrades(forcedRefresh).then((response) => _averageGrades = response.data);
+    GradeService.fetchAverageGrades(forcedRefresh).then((response) {
+      _averageGrades = response.data;
+      GradeService.fetchGrades(forcedRefresh).then((response) {
+        lastFetched.add(response.saved);
+        _gradesByDegreeAndSemester(response.data);
+      }, onError: (error) => studyProgramGrades.addError(error));
+    });
   }
 
   AverageGrade? getAverageGrade() {

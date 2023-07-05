@@ -41,15 +41,11 @@ class _WidgetScreenState extends State<WidgetScreen> {
                         case HomeWidget.cafeteria:
                           return const CafeteriaWidgetView();
                         case HomeWidget.calendar:
-                          return const WidgetFrameView(
-                              title: "Calendar",
-                              child: CalendarHomeWidgetView());
+                          return const CalendarHomeWidgetView();
                         case HomeWidget.departures:
                           return const DeparturesHomeWidget();
                         case HomeWidget.studyRoom:
-                          return const WidgetFrameView(
-                              title: "Nearest Study Rooms",
-                              child: StudyRoomWidgetView());
+                          return const StudyRoomWidgetView();
                         default:
                           return const SizedBox.shrink();
                       }
