@@ -28,55 +28,80 @@ class _NavigationState extends ConsumerState<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        centerTitle: true,
-        leadingWidth: 80,
-        leading: !kIsWeb
-            ? IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-            : Padding(padding: const EdgeInsets.all(15), child: Image.asset('assets/images/logos/tum-logo-blue.png', fit: BoxFit.scaleDown)),
-        title: (() {
-          switch (currentPageIndex) {
-            case 0:
-              if (kIsWeb) {
-                return Text("Home",
-                    style: Theme.of(context).textTheme.titleLarge);
-              } else {
+    return OrientationBuilder(builder: (context, orientation) {
+      final isLandScape = orientation == Orientation.landscape;
+      return Scaffold(
+        extendBody: true,
+        appBar: AppBar(
+          centerTitle: true,
+          leadingWidth: 80,
+          leading: (kIsWeb && isLandScape)
+              ? Padding(padding: const EdgeInsets.all(15),
+              child: Image.asset('assets/images/logos/tum-logo-blue.png',
+                  fit: BoxFit.scaleDown))
+              : IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          title: (() {
+            switch (currentPageIndex) {
+              case 0:
+                if (kIsWeb && isLandScape) {
+                  return Text("Home",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleLarge);
+                } else {
+                  return Image.asset('assets/images/logos/tum-logo-blue.png',
+                      fit: BoxFit.cover, height: 20);
+                }
+              case 1:
+                return Text("Grades",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleLarge);
+              case 2:
+                return Text("Lectures",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleLarge);
+              case 3:
+                return Text("Calendar",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleLarge);
+              case 4:
+                return Text("Places",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleLarge);
+              default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
-                    fit: BoxFit.cover, height: 20);
-              }
-            case 1:
-              return Text("Grades",
-                  style: Theme.of(context).textTheme.titleLarge);
-            case 2:
-              return Text("Lectures",
-                  style: Theme.of(context).textTheme.titleLarge);
-            case 3:
-              return Text("Calendar",
-                  style: Theme.of(context).textTheme.titleLarge);
-            case 4:
-              return Text("Places",
-                  style: Theme.of(context).textTheme.titleLarge);
-            default:
-              return Image.asset('assets/images/logos/tum-logo-blue.png',
-                  fit: BoxFit.contain, height: 20);
-          }
-        }()),
-        actions: <Widget>[
-          if (kIsWeb)
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SettingsView()));
-              },
-              icon: const Icon(Icons.settings)),
-        ],
-      ), //: null,
-      bottomNavigationBar: !kIsWeb ? _bottomNavigationBar() : null,
-      body: SafeArea(child: kIsWeb ? _webNavigationRail() : _navigationBody()),
-    );
+                    fit: BoxFit.contain, height: 20);
+            }
+          }()),
+          actions: <Widget>[
+            if (kIsWeb && isLandScape)
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SettingsView()));
+                },
+                icon: const Icon(Icons.settings)),
+          ],
+        ), //: null,
+        bottomNavigationBar: (kIsWeb && isLandScape)
+            ? null
+            : _bottomNavigationBar(),
+        body: SafeArea(
+            child: (kIsWeb && isLandScape)
+                ? _webNavigationRail()
+                : _navigationBody()),
+      );
+    });
   }
 
   Widget _navigationBody() {
@@ -110,7 +135,12 @@ class _NavigationState extends ConsumerState<Navigation> {
               }
             });
           },
-          height: Platform.isIOS ? 49 : null,
+          /// Platform is not supported on web
+          height: !kIsWeb
+              ? Platform.isIOS
+                  ? 49
+                  : null
+              : null,
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(

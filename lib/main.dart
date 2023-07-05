@@ -18,9 +18,9 @@ main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
   if (kIsWeb) {
-    getIt.registerSingleton<MainApi>(MainApi.noCache());
+    getIt.registerSingleton<MainApi>(MainApi.webCache());
   } else {
-    getIt.registerSingleton<MainApi>(MainApi(await getTemporaryDirectory()));
+    getIt.registerSingleton<MainApi>(MainApi.mobileCache(await getTemporaryDirectory()));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }

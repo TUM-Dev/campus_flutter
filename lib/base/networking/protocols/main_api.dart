@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:campus_flutter/base/networking/custom_cache_interceptor.dart';
+import 'package:campus_flutter/base/networking/protocols/custom_cache_interceptor.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
 import 'package:campus_flutter/base/networking/protocols/api_response.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
@@ -14,8 +14,16 @@ import 'package:xml2json/xml2json.dart';
 class MainApi {
   late Dio dio;
 
-  MainApi.noCache() {
-    final dio = Dio();
+  MainApi.webCache() {
+    var cacheOptions = CacheOptions(
+        store: MemCacheStore(),
+        policy: CachePolicy.forceCache,
+        maxStale: const Duration(minutes: 10),
+        hitCacheOnErrorExcept: [401, 404]
+    );
+
+    final dio = Dio()
+      ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     dio.options = BaseOptions(responseDecoder: (data, options, body) {
       final decoded = utf8.decoder.convert(data);
@@ -31,7 +39,7 @@ class MainApi {
     this.dio = dio;
   }
 
-  MainApi(Directory directory) {
+  MainApi.mobileCache(Directory directory) {
     final cacheStore = HiveCacheStore(directory.path);
 
     /// cache duration is 30 days for offline mode
