@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - 'development'
-      - 'ci_cd_updates'
 
 jobs:
   deploy:
-    runs-on: [self-hosted, macOS, x64]
+    runs-on: macos-latest
 
     strategy:
       matrix:
@@ -21,31 +20,28 @@ jobs:
       - name: Install Bundle
         run: cd ./${{ matrix.platform }} && bundle install
 
-      # - name: Setup Flutter
-        # uses: subosito/flutter-action@v2
-        # with:
-          # channel: stable
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
-      # - if: matrix.platform == 'android'
-        # uses: actions/setup-java@v3
-        # with:
-          # distribution: 'corretto'
-          # java-version: '17'
+      - if: matrix.platform == 'android'
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
 
       - name: Install Flutter Packages
         run: flutter pub get
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
-        run: |
-          export LANG=en_US.UTF-8
-          cd ./ios && pod install
+        run: cd ./ios && pod install
 
       - if: matrix.platform == 'ios'
         name: Build and Deploy to TestFlight
         run: |
           cd ./ios
-          export LANG=en_US.UTF-8
           bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
@@ -66,7 +62,6 @@ jobs:
         name: Deploy to Google Play Store
         run: |
           cd ./android
-          export LANG=en_US.UTF-8
           bundle exec fastlane android_beta
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
