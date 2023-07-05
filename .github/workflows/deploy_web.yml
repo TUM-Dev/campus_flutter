@@ -2,7 +2,7 @@ name: Deploy Web Version
 
 on:
   push:
-    branches: ["development, feature/web-app"]
+    branches: ["development", "improvement/responsive-ui"]
 
 permissions:
   contents: read
