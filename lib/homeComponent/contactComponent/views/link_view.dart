@@ -3,7 +3,6 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LinkView extends ConsumerWidget {

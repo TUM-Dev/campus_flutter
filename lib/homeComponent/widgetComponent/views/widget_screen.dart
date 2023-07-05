@@ -3,7 +3,6 @@ import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widge
 import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/spatial_temporal_strategy.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
 import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
