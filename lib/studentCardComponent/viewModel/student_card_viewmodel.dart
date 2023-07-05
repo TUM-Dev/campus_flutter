@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
-import 'package:campus_flutter/studentCardComponent/model/studentCard.dart';
-import 'package:campus_flutter/studentCardComponent/services/studentCardService.dart';
+import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
+import 'package:campus_flutter/studentCardComponent/services/student_card_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class StudentCardViewModel implements ViewModel {

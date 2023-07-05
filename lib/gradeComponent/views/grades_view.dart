@@ -1,6 +1,5 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
@@ -40,17 +39,13 @@ class _GradesViewState extends ConsumerState<GradesView> {
             return const Text("no grades found");
           } else {
             final lastFetched = ref.read(gradeViewModel).lastFetched.value;
-            return RefreshIndicator(
-                child: Scrollbar(
-                    child: SingleChildScrollView(
-                        clipBehavior: Clip.antiAlias,
-                        child: Column(children: [
-                          if (lastFetched != null) LastUpdatedText(lastFetched),
-                          DegreeView(degree: data),
-                        ]))),
-                onRefresh: () async {
-                  ref.read(gradeViewModel).fetch(true);
-                });
+            return OrientationBuilder(builder: (context, constraints) {
+              if (constraints == Orientation.portrait) {
+                return _oneColumnView(data, lastFetched);
+              } else {
+                return _twoColumnView(data, lastFetched);
+              }
+            });
           }
         },
         errorBuilder: (context, error) => ErrorHandlingView(
@@ -59,6 +54,51 @@ class _GradesViewState extends ConsumerState<GradesView> {
               retry: ref.read(gradeViewModel).fetch,
             ),
         loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Grades"));
+  }
+
+  Widget _oneColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
+    return RefreshIndicator(
+        child: Scrollbar(
+            child: SingleChildScrollView(
+                clipBehavior: Clip.antiAlias,
+                child: Column(children: [
+                  if (lastFetched != null) LastUpdatedText(lastFetched),
+                  DegreeView(degree: data),
+                ]))),
+        onRefresh: () async {
+          ref.read(gradeViewModel).fetch(true);
+        });
+  }
+
+  Widget _twoColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
+    return Column(children: [
+      if (lastFetched != null) LastUpdatedText(lastFetched),
+      Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                  flex: 2,
+                  child: ChartView(
+                    studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
+                    title: data.values.first.firstOrNull?.studyDesignation ?? "Unknown",
+                  )),
+              Expanded(
+                  flex: 3,
+                  child: RefreshIndicator(
+                      child: Scrollbar(
+                          child: SingleChildScrollView(
+                              child: Column(children: [
+                                for (var semester in data.entries) ...[
+                                  SemesterView(semester: semester)
+                                ]
+                              ]))),
+                      onRefresh: () async {
+                        ref.read(gradeViewModel).fetch(true);
+                      }))
+            ],
+          ))
+    ]);
   }
 }
 
@@ -71,10 +111,9 @@ class DegreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CardWithPadding(
-            child: ChartView(
-                studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
-                title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown")),
+        ChartView(
+            studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
+            title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown"),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],
     );

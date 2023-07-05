@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PaddedDivider extends StatelessWidget {
-  const PaddedDivider({super.key});
+  const PaddedDivider({super.key, this.height});
+
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Divider(),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Divider(height: height,),
     );
   }
 }

@@ -101,7 +101,12 @@ class StringParser {
   }
 
   static double? optStringToOptDouble(String? number) {
-    return number != null ? double.tryParse(number) : null;
+    if (number != null) {
+      number = number.replaceAll(",", ".");
+      return double.tryParse(number);
+    } else {
+      return null;
+    }
   }
 
   static int stringToInt(String? number) {

@@ -41,6 +41,8 @@ class TumOnlineApi extends Api {
         return "${path}wbservicesbasic.secretUpload";
       case TumOnlineServiceProfileImage _:
         return "${path}visitenkarte.showImage";
+      case TumOnlineServiceAverageGrades _:
+        return "${path}wbservicesbasic.absNoten";
       case TumOnlineServiceTumCard _:
         return "${path}wbservicesbasic.tumCard";
     }
@@ -63,6 +65,7 @@ class TumOnlineApi extends Api {
       case TumOnlineServiceLectureDetails _:
       case TumOnlineServiceIdentify _:
       case TumOnlineServiceTumCard _:
+      case TumOnlineServiceAverageGrades _:
         return true;
       default:
         return false;

@@ -1,18 +1,19 @@
-import 'package:campus_flutter/calendarComponent/model/calendarEvent.dart';
-import 'package:campus_flutter/calendarComponent/viewModels/calendarViewModel.dart';
-import 'package:campus_flutter/departuresComponent/viewModel/departuresViewModel.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureDetailsViewModel.dart';
-import 'package:campus_flutter/lectureComponent/viewModels/lectureViewModel.dart';
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
-import 'package:campus_flutter/movieComponent/viewModel/movieViewModel.dart';
-import 'package:campus_flutter/newsComponent/viewModel/newsViewModel.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
+import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
+import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
+import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
+import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profileViewModel.dart';
+import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -24,6 +25,7 @@ final getIt = GetIt.instance;
 final selectedLecture = StateProvider<Lecture?>((ref) => null);
 final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
+final useWebView = StateProvider<bool>((ref) => true);
 
 /// viewModels for RiverPod - state is uninitialized at first
 final loginViewModel = Provider((ref) => LoginViewModel());
@@ -63,3 +65,5 @@ final lectureDetailsViewModel = Provider((ref) {
 });
 final gradeViewModel = Provider((ref) => GradeViewModel());
 final calendarViewModel = Provider((ref) => CalendarViewModel());
+final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
+final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());

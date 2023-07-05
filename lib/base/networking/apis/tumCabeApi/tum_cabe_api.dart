@@ -1,6 +1,6 @@
-
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TumCabeApi extends Api {
 
@@ -9,7 +9,7 @@ class TumCabeApi extends Api {
   TumCabeApi({required this.tumCabeService});
 
   @override
-  String get baseURL => "app.tum.de";
+  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "app.tum.de";
 
   @override
   Map<String, String> get baseHeaders {
@@ -64,12 +64,12 @@ class TumCabeApi extends Api {
         return "${path}news/sources";
       case TumCabeServiceNewsAlert _:
         return "${path}news/alert";
-      case TumCabeServiceRoomSearch roomSearch:
+      case TumCabeServiceRoomSearch _:
         // TODO:
         return path;
         /*return "roomfinder/room/search/${roomSearch.query.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TumCabeServiceRoomMaps roomMaps:
+      case TumCabeServiceRoomMaps _:
         // TODO:
         return path;
         /*return "roomfinder/room/availableMaps/${roomMaps.room.addingPercentEncoding(
