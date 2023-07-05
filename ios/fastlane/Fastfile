@@ -2,13 +2,13 @@ default_platform(:ios)
 
 platform :ios do
   desc "Build, Sign and Upload iOS application"
-  lane :beta do
+  lane :ios_beta do
     if is_ci
         create_keychain(
             name: ENV["KEYCHAIN_NAME"],
             password: ENV["KEYCHAIN_PASSWORD"],
             # require_create: true,
-            # default_keychain: true,
+            default_keychain: true,
             unlock: true,
             timeout: 3600,
             lock_when_sleeps: false
@@ -24,7 +24,7 @@ platform :ios do
 
     match(
       type: "appstore",
-      git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
+      # git_private_key: Base64.strict_encode64(ENV["MATCH_DEPLOY_KEY"]),
       readonly: true,
       keychain_name: ENV["KEYCHAIN_NAME"],
       keychain_password: ENV["KEYCHAIN_PASSWORD"]
