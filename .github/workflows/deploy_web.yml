@@ -34,7 +34,7 @@ jobs:
           channel: stable
 
       - name: Build Website
-        run: flutter build web
+        run: flutter build web --base-href /Campus-Flutter/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
