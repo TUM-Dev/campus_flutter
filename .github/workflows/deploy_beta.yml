@@ -1,45 +1,78 @@
-name: deploy beta
+name: Deploy Beta to TestFlight and Play Store
 
 on:
   push:
     branches:
       - 'development'
+      - 'ci_cd_updates'
 
 jobs:
-  # lint_test_build:
-  # uses: ./.github/workflows/lint_test_build.yml
-
   deploy:
-    # needs: lint_test_build
-    runs-on: [self-hosted, macOS, x64]
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        platform: [android, ios]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Install Bundle
-        run: cd ./ios && bundle install
+        run: cd ./${{ matrix.platform }} && bundle install
 
-          # - name: Setup Flutter
-          # uses: subosito/flutter-action@v2
-          # with:
-        # channel: stable
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
+      - if: matrix.platform == 'android'
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
 
-      - name: Install Flutter Packages and CocoaPods
-        run: |
-          flutter pub get
-          export LANG=en_US.UTF-8
-          cd ./ios && pod install
-      - name: Build and Deploy to TestFlight
+      - name: Install Flutter Packages
+        run: flutter pub get
+
+      - if: matrix.platform == 'ios'
+        name: Install CocoaPods
+        run: cd ./ios && pod install
+
+      - if: matrix.platform == 'ios'
+        name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
+
+      - if: matrix.platform == 'ios'
+        name: Build and Deploy to TestFlight
         run: |
           cd ./ios
-          export LANG=en_US.UTF-8
-          bundle exec fastlane beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+          # MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - if: matrix.platform == 'android'
+        name: Deserialize Keystore File
+        run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+
+      - if: matrix.platform == 'android'
+        name: Deploy to Google Play Store
+        run: |
+          cd ./android
+          bundle exec fastlane android_beta
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
+          ANDROID_KEYSTORE_FILE: ./upload-keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
