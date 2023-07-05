@@ -24,6 +24,7 @@ final getIt = GetIt.instance;
 final selectedLecture = StateProvider<Lecture?>((ref) => null);
 final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
+final useWebView = StateProvider<bool>((ref) => true);
 
 /// viewModels for RiverPod - state is uninitialized at first
 final loginViewModel = Provider((ref) => LoginViewModel());

@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -95,12 +97,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           const Spacer(flex: 2),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
-                onPressed: () async {
-                  final url = Uri.parse("https://campus.tum.de");
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  }
-                },
+                onPressed: () => UrlLauncher.urlString("https://campus.tum.de", ref),
                 child: const IconText(
                     iconData: Icons.language,
                     label: "TUMOnline",
@@ -112,7 +109,8 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                         if (value.confirmed) {
                           Navigator
                               .of(context)
-                              .popUntil((route) => route.isFirst);
+                              .push(MaterialPageRoute(
+                              builder: (context) => const PermissionCheckView()));
                         } else {
                           throw TumOnlineApiException(tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed());
                         }
@@ -149,7 +147,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                         path: "app@tum.de",
                         queryParameters: {
                           "subject": "[$operatingSystem - Token]",
-                          "body": "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail."
+                          "body": "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"
                         });
 
                     if (await canLaunchUrl(emailUri)) {
