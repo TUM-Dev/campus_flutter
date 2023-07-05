@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - 'development'
-      - 'ci_cd_updates'
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'android/**'
 
 jobs:
   deploy:

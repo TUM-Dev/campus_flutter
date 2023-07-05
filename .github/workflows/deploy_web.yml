@@ -3,6 +3,7 @@ name: Deploy Web Version
 on:
   push:
     branches: ["development"]
+    paths: ["lib/**", "web/**"]
 
 permissions:
   contents: read
