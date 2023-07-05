@@ -3,7 +3,7 @@ import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:campus_flutter/settingsComponent/views/settingsView.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io' show Platform;

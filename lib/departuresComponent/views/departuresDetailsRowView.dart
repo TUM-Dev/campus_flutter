@@ -1,18 +1,20 @@
+import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class DeparturesDetailsRowView extends StatelessWidget {
+class DeparturesDetailsRowView extends ConsumerWidget {
   const DeparturesDetailsRowView({super.key, required this.departure});
 
   final Departure departure;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        _lineNumberRectangle(context),
+        _lineNumberRectangle(context, ref),
         Expanded(
             child: Text(departure.servingLine.direction,
                 maxLines: 1, overflow: TextOverflow.ellipsis)),
@@ -23,20 +25,16 @@ class DeparturesDetailsRowView extends StatelessWidget {
     );
   }
 
-  Widget _lineNumberRectangle(BuildContext context) {
+  Widget _lineNumberRectangle(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () async {
           if (departure.lineInfos != null) {
             if (departure.lineInfos?.element != null) {
               final link = departure.lineInfos?.element?.lineInfo.additionalLinks?[0].linkURL ?? "";
-              if (await canLaunchUrlString(link)) {
-                launchUrlString(link);
-              }
+              UrlLauncher.urlString(link, ref);
             } else if (departure.lineInfos?.array != null) {
               final link = departure.lineInfos?.array?[0].additionalLinks?[0].linkURL ?? "";
-              if (await canLaunchUrlString(link)) {
-                launchUrlString(link);
-              }
+              UrlLauncher.urlString(link, ref);
             }
           }
         },
