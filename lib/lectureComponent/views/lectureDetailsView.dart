@@ -3,12 +3,11 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
-import 'package:campus_flutter/base/views/generic_stream_builder.dart';
-import 'package:campus_flutter/lectureComponent/model/lectureDetails.dart';
-import 'package:campus_flutter/lectureComponent/views/basicLectureInfoRowView.dart';
-import 'package:campus_flutter/lectureComponent/views/basicLectureInfoView.dart';
-import 'package:campus_flutter/lectureComponent/views/detailedLectureInfoView.dart';
-import 'package:campus_flutter/lectureComponent/views/lectureLinksView.dart';
+import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
+import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
+import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_view.dart';
+import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view.dart';
+import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,12 +100,12 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BasicLectureInfoRow(
+              BasicLectureInfoRowView(
                   information: ref.read(lectureDetailsViewModel).event!.timeDatePeriod,
                   iconData: Icons.hourglass_top),
               const Divider(),
               // TODO: roomfinder
-              BasicLectureInfoRow(
+              BasicLectureInfoRowView(
                   information: ref.read(lectureDetailsViewModel).event!.location,
                   iconData: Icons.location_on)
             ],
@@ -114,9 +113,9 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         )
       ],
       _infoCard(Icons.info_outline_rounded, "Basic Lecture Information",
-          BasicLectureInfo(lectureDetails: lectureDetails)),
+          BasicLectureInfoView(lectureDetails: lectureDetails)),
       _infoCard(Icons.folder, "Detailed Lecture Information",
-          DetailedLectureInfo(lectureDetails: lectureDetails)),
+          DetailedLectureInfoView(lectureDetails: lectureDetails)),
       _infoCard(Icons.link, "Lecture Links",
           LectureLinksView(lectureDetails: lectureDetails))
     ];

@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/gender.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
-import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
+import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/services/personDetailsService.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:rxdart/rxdart.dart';

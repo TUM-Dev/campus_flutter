@@ -1,7 +1,7 @@
-import 'package:campus_flutter/base/extensions/base64+decodeImageData.dart';
+import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
-import 'package:campus_flutter/personDetailedComponent/model/personDetails.dart';
+import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
