@@ -1,4 +1,4 @@
-git_url("https://github.com/jakobkoerber/campus-flutter-fastlane-match")
+git_url("https://github.com/TUM-Dev/Campus-Flutter-Match")
 storage_mode("git")
 type("appstore")
 app_identifier(["de.tum.tca-flutter"])

@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/loginComponent/viewModels/loginViewModel.dart';
+import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';

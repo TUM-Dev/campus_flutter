@@ -116,6 +116,26 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent,
           elevation: 50.0),
 
+      /// theme for navigation rail used on web
+      navigationRailTheme: NavigationRailThemeData(
+        selectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
+        unselectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(
+                /*color: _navigationIconGrayLight, */fontWeight: FontWeight.w500),
+        selectedIconTheme: const IconThemeData(color: _primaryLightColor),
+        /*unselectedIconTheme:
+            const IconThemeData(color: _navigationIconGrayLight),*/
+        //indicatorColor: Colors.transparent,
+        useIndicator: false,
+        backgroundColor: _lightBackground,
+        //surfaceTintColor: Colors.transparent
+      ),
+
       /// style pop up menu
       popupMenuTheme: PopupMenuThemeData(
           shape:
@@ -228,6 +248,26 @@ ThemeData darkTheme(BuildContext context) {
           backgroundColor: const Color(0xF01D1D1D),
           surfaceTintColor: Colors.transparent,
           elevation: 50.0),
+
+      /// theme for navigation rail used on web
+      navigationRailTheme: NavigationRailThemeData(
+        selectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
+        unselectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(
+            color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
+        selectedIconTheme: const IconThemeData(color: _primaryLightColor),
+        unselectedIconTheme:
+        const IconThemeData(color: _navigationIconGrayLight),
+        //indicatorColor: Colors.transparent,
+        useIndicator: false,
+        backgroundColor: _darkBackground,
+        //surfaceTintColor: Colors.transparent
+      ),
 
       /// style pop up menu
       popupMenuTheme: PopupMenuThemeData(

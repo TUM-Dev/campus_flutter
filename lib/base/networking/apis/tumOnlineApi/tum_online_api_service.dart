@@ -50,6 +50,8 @@ class TumOnlineServicePersonalLectures extends TumOnlineService {}
 
 class TumOnlineServicePersonalGrades extends TumOnlineService {}
 
+class TumOnlineServiceAverageGrades extends TumOnlineService {}
+
 class TumOnlineServiceLectureSearch extends TumOnlineService {
   final String search;
 

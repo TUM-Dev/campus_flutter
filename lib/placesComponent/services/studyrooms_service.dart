@@ -3,8 +3,8 @@ import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_serv
 import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tum_dev_app_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumDevAppApi/tum_dev_app_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomData.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomImageMapping.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_image_mapping.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class StudyRoomsService {

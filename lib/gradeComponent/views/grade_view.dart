@@ -50,15 +50,16 @@ class GradeRectangle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final parsedGrade = StringParser.optStringToOptDouble(grade) ?? grade;
     return AspectRatio(
         aspectRatio: 1.0,
         child: Container(
             decoration: BoxDecoration(
-                color: GradeViewModel.getColor(StringParser.stringToDouble(grade)),
+                color: GradeViewModel.getColor(parsedGrade),
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child: Text(
-                grade,
+                parsedGrade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

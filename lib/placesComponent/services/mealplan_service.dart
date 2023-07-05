@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/dateTime+weekNumber.dart';
+import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';

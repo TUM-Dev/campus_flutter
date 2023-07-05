@@ -8,12 +8,12 @@ part 'station.g.dart';
 class Station {
   final String name;
   final String apiName;
-  final Location location;
+  final Location? location;
 
   Station({
     required this.name,
     required this.apiName,
-    required this.location
+    this.location
   });
 
   factory Station.fromJson(Map<String, dynamic> json) => _$StationFromJson(json);

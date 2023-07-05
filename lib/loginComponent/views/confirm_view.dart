@@ -78,11 +78,14 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
+        ? Theme.of(context).canvasColor
+        : Colors.white;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         appBar: AppBar(
             leading: const BackButton(),
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             title: const Text("Check Token")),
         body: Column(children: [
           Text(texts[currentText], textAlign: TextAlign.center),
