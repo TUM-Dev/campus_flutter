@@ -15,6 +15,8 @@ dependencies:
   dio_cache_interceptor_hive_store: ^3.2.1
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   flutter_native_splash: ^2.2.19
   flutter_secure_storage: ^8.0.0
   geolocator: ^9.0.2

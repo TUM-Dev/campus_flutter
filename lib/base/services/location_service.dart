@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// Determine the current position of the device.
 ///
@@ -30,6 +31,10 @@ class LocationService {
   }
 
   static Future<Position?> getLastKnown() async {
-    return await Geolocator.getLastKnownPosition();
+    if (kIsWeb) {
+      return await determinePosition();
+    } else {
+      return await Geolocator.getLastKnownPosition();
+    }
   }
 }

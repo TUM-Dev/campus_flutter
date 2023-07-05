@@ -11,12 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
-  getIt.registerSingleton<MainApi>(MainApi(await getTemporaryDirectory()));
+  if (kIsWeb) {
+    getIt.registerSingleton<MainApi>(MainApi.webCache());
+  } else {
+    getIt.registerSingleton<MainApi>(MainApi.mobileCache(await getTemporaryDirectory()));
+  }
   runApp(const ProviderScope(child: CampusApp()));
 }
 
