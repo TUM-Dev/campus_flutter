@@ -3,7 +3,7 @@ default_platform(:android)
 platform :android do
   desc "Deploy a new version to the Google Play"
   lane :android_beta do
-    build_number = latest_googleplay_version_code
+    build_number = latest_google_play_version_code
 
     puts build_number
 
@@ -20,10 +20,10 @@ platform :android do
   end
 
   lane :test do
-    google_play_track_version_codes(track: 'internal', json_key_data: Base64.strict_decode64(ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"]))
+    latest_google_play_version_code
   end
 
-  def latest_googleplay_version_code
+  def latest_google_play_version_code
     json_key_data = Base64.strict_decode64(ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"])
     productionVersionCodes = google_play_track_version_codes(track: 'production', json_key_data: json_key_data)
     betaVersionCodes = google_play_track_version_codes(track: 'beta', json_key_data: json_key_data)
