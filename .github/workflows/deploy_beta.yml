@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [ android ]
+        platform: [android, ios]
       fail-fast: false
 
     steps:
@@ -48,7 +48,7 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+          MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 

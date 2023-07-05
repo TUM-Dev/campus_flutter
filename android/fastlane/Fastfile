@@ -19,10 +19,6 @@ platform :android do
     )
   end
 
-  lane :test do
-    latest_google_play_version_code
-  end
-
   def latest_google_play_version_code
     json_key_data = Base64.strict_decode64(ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"])
     # productionVersionCodes = google_play_track_version_codes(track: 'production', json_key_data: json_key_data)
