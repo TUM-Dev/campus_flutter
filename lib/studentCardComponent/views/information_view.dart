@@ -16,10 +16,11 @@ class InformationView extends StatelessWidget {
     return CardWithPadding(
         child: Column(children: [
       const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-      _tumLogo(),
+      //_tumLogo(),
+          _titleLogo(context),
       const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _profileImage(),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
@@ -28,9 +29,8 @@ class InformationView extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _title(context),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _name(context),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow("Birthday",
                         DateFormat.yMd().format(studentCard.birthday)),
                     _infoEntryRow("Study ID", studentCard.studyID),
@@ -49,6 +49,19 @@ class InformationView extends StatelessWidget {
         _validBadge(),
       ])
     ]));
+  }
+
+  Widget _titleLogo(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Spacer(flex: 2),
+        _tumLogo(),
+        const Spacer(),
+        _title(context),
+        const Spacer(flex: 2),
+      ],
+    );
   }
 
   Widget _tumLogo() {
@@ -78,8 +91,8 @@ class InformationView extends StatelessWidget {
     return Text(studentCard.name,
         style: Theme.of(context)
             .textTheme
-            .titleMedium
-            ?.copyWith(fontWeight: FontWeight.bold));
+            .titleLarge
+            ?.copyWith(color: Theme.of(context).primaryColor));
   }
 
   Widget _infoEntryRow(String title, String information) {
@@ -96,7 +109,7 @@ class InformationView extends StatelessWidget {
     final studies = studentCard.studies?.study;
     return [
       for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? [])
-        Text("${StringParser.degreeShort(studyProgram.degree)} ${studyProgram.name}")
+        Text("${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
     ];
   }
 

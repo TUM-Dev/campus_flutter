@@ -3,13 +3,12 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
-import 'package:campus_flutter/studentCardComponent/views/bar_code_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/snapping_slider.dart';
-import 'package:campus_flutter/studentCardComponent/views/verfication_code_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'bar_code_view.dart';
 
 class StudentCardView extends ConsumerWidget {
   const StudentCardView({super.key});
@@ -23,18 +22,14 @@ class StudentCardView extends ConsumerWidget {
             var data = snapshot.data!;
             final lastFetched =
                 ref.read(studentCardViewModel).lastFetched.value;
-            return RefreshIndicator(
-                onRefresh: () => ref.read(studentCardViewModel).fetch(true),
-                child: Column(
+            return Column(
                   children: [
                     if (lastFetched != null) LastUpdatedText(lastFetched),
                     _warningCard(),
                     InformationView(studentCard: data),
                     SnappingSlider(libraryID: data.libraryID),
-                    //const VerificationCodeView(),
-                    //BarCodeView(libraryID: data.libraryID),
                   ],
-                ));
+                );
           } else if (snapshot.hasError) {
             return ErrorHandlingView(
                 error: snapshot.error!,

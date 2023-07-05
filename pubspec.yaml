@@ -62,6 +62,7 @@ flutter:
     - assets/
     - assets/map_styles/
     - assets/images/logos/tum-logo-blue.png
+    - assets/images/logos/tum-logo-blue-text.png
     - assets/images/logos/tum-logo-rainbow.png
     - assets/images/placeholders/portrait_placeholder.png
     - assets/images/placeholders/movie_placeholder.png

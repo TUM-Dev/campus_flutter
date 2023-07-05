@@ -72,7 +72,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                     ? data.email
                     : PersonDetailsViewModel.defaultPersonDetails.email),
                 for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? []) ...[
-                  Text("${StringParser.degreeShort(studyProgram.degree)} ${studyProgram.name}")
+                  Text("${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
                 ]
               ],
             )

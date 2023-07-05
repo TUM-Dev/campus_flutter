@@ -8,6 +8,7 @@ class VerificationCodeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(child: ExpansionTile(
         title: const Text("Verification QR-Code"),
+        childrenPadding: const EdgeInsets.all(10),
         children: [
           BarcodeWidget(
               data: "https://www.tum.app",

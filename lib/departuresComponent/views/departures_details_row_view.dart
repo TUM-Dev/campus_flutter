@@ -3,7 +3,6 @@ import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class DeparturesDetailsRowView extends ConsumerWidget {
   const DeparturesDetailsRowView({super.key, required this.departure});
