@@ -8,7 +8,7 @@ platform :ios do
             name: ENV["KEYCHAIN_NAME"],
             password: ENV["KEYCHAIN_PASSWORD"],
             # require_create: true,
-            # default_keychain: true,
+            default_keychain: true,
             unlock: true,
             timeout: 3600,
             lock_when_sleeps: false
