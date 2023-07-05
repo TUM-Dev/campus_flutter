@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'studyRoomData.dart';
+part of 'study_room_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

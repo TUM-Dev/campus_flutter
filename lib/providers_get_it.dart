@@ -9,7 +9,7 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dar
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/personDetailsViewModel.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';

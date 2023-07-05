@@ -1,8 +1,5 @@
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
-import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
-import 'package:campus_flutter/providers_get_it.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import '../model/lecture.dart';
 
@@ -39,10 +36,6 @@ class LectureViewModel implements ViewModel {
         lecturesBySemester.entries.toList()
           ..sort((e1, e2) => e2.key.compareTo(e1.key)));
 
-    /*ProviderContainer()
-      ..read(selectedLecture.notifier).state = sortedLecturesBySemester.values.first.first
-      ..read(selectedEvent.notifier).state = null
-      ..read(lectureSplitViewModel).selectedWidget.add(const LectureDetailsView());*/
     lectures.add(sortedLecturesBySemester);
   }
 }

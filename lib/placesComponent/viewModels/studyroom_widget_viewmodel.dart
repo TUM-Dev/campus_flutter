@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoom.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomData.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomGroup.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/services/studyrooms_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';

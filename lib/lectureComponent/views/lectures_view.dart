@@ -7,7 +7,7 @@ import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/views/lectureDetailsView.dart';
+import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

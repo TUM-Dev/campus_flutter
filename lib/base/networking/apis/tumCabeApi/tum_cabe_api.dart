@@ -64,12 +64,12 @@ class TumCabeApi extends Api {
         return "${path}news/sources";
       case TumCabeServiceNewsAlert _:
         return "${path}news/alert";
-      case TumCabeServiceRoomSearch roomSearch:
+      case TumCabeServiceRoomSearch _:
         // TODO:
         return path;
         /*return "roomfinder/room/search/${roomSearch.query.addingPercentEncoding(
             withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TumCabeServiceRoomMaps roomMaps:
+      case TumCabeServiceRoomMaps _:
         // TODO:
         return path;
         /*return "roomfinder/room/availableMaps/${roomMaps.room.addingPercentEncoding(

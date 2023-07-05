@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'studyRoomImageMapping.g.dart';
+part 'study_room_image_mapping.g.dart';
 
 @JsonSerializable()
 class StudyRoomImageMapping {

@@ -1,8 +1,8 @@
-import 'package:campus_flutter/placesComponent/model/studyRooms/studyRoomAttribute.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'studyRoom.g.dart';
+part 'study_room.g.dart';
 
 @JsonSerializable()
 class StudyRoom {

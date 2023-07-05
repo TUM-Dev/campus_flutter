@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'studyRoomAttribute.g.dart';
+part 'study_room_attribute.g.dart';
 
 @JsonSerializable()
 class StudyRoomAttribute {
