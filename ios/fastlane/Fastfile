@@ -40,7 +40,7 @@ platform :ios do
     update_code_signing_settings(
       use_automatic_signing: false,
       targets: 'Runner',
-      profile_name: 'match AppStore de.tum.tca-flutter',
+      profile_name: 'match AppStore de.tum.tca-flutter 1688586317',
       code_sign_identity: "iPhone Distribution",
       sdk: "iphoneos*",
       team_id: "2J3C6P6X3N"
