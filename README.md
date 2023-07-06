@@ -1,7 +1,7 @@
 ![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
 ![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
 [![Discord Channel](https://img.shields.io/badge/Chat-on%20Discord-brightgreen)](https://discord.gg/k558T6ktuh)
-<a href="">
+<a href="https://testflight.apple.com/join/LnxaIfKi">
 <img src="https://developer.apple.com/assets/elements/icons/testflight/testflight-64x64_2x.png" height="42" align="right">
 </a>
 <!---
@@ -43,7 +43,7 @@ Check out our detailed information at [CONTRIBUTING.md](https://github.com/TCA-T
 -->
 
 ## Beta
-If you want to participate in the beta of this app, enter your details [here]() to get invited via TestFlight or [here]() to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
+If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/LnxaIfKi) to get invited via TestFlight or [here]() to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
 
 ## Policies
 [Privacy policy](https://app.tum.de/landing/privacy/)  
