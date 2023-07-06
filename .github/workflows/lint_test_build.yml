@@ -1,19 +1,30 @@
-name: lint test build
+name: Linting, Testing and Building
 
 on:
   push:
     branches-ignore:
       - "development"
+      - "main"
+    paths:
+      - 'lib/**'
   pull_request:
     branches-ignore:
       - "development"
+      - "main"
+    paths:
+      - 'lib/**'
 
 jobs:
   build:
-    runs-on: [self-hosted, macOS, x64]
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
       - name: Install Dependencies
         run: dart pub get
@@ -21,11 +32,11 @@ jobs:
         # - name: Verify formatting
         # run: dart format --output=none --set-exit-if-changed .
 
-      - name: Analyze project source
-        run: dart analyze --fatal-infos
+      - name: Analyze Project
+        run: dart analyze --fatal-warnings
 
-      - name: Run tests
+      - name: Run Tests
         run: flutter test
 
       - name: Build Project
-        run: flutter build
+        run: flutter build ipa --no-codesign
