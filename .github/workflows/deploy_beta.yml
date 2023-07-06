@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - 'development'
-      - 'improvement/responsive-ui'
-    # paths:
-      # - 'lib/**'
-      # - 'ios/**'
-      # - 'android/**'
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'android/**'
 
 jobs:
   deploy:
@@ -16,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [ios]
+        platform: [ios, android]
       fail-fast: false
 
     steps:
