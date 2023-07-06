@@ -105,15 +105,9 @@ class SettingsView extends ConsumerWidget {
 
   Uri _feedbackEmail() {
     final operatingSystem = kIsWeb ? "Web App" : Platform.operatingSystem;
-
-    final Uri emailUri = Uri(
-        scheme: 'mailto',
-        path: "app@tum.de",
-        queryParameters: {
-          "subject": "[$operatingSystem - Feedback]"
-        });
-
-    return emailUri;
+    String email = Uri.encodeComponent("app@tum.de");
+    String subject = Uri.encodeComponent("[$operatingSystem - Feedback]");
+    return Uri.parse("mailto:$email?subject=$subject");
   }
 
   Widget _authentication(BuildContext context, WidgetRef ref) {
@@ -122,7 +116,7 @@ class SettingsView extends ConsumerWidget {
         child: GestureDetector(
             onTap: () {
               if (login != Credentials.none) {
-                ref.read(loginViewModel).logout();
+                ref.read(loginViewModel).logout(ref);
               }
               Navigator.of(context).popUntil((route) => route.isFirst);
             },

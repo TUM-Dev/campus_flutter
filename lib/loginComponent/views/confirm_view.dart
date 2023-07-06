@@ -9,7 +9,6 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class ConfirmView extends ConsumerStatefulWidget {
@@ -142,17 +141,12 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                     final operatingSystem = Platform.operatingSystem;
                     final osVersion = Platform.operatingSystemVersion;
 
-                    final Uri emailUri = Uri(
-                        scheme: 'mailto',
-                        path: "app@tum.de",
-                        queryParameters: {
-                          "subject": "[$operatingSystem - Token]",
-                          "body": "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"
-                        });
+                    String email = Uri.encodeComponent("app@tum.de");
+                    String subject = Uri.encodeComponent("[$operatingSystem - Token]");
+                    String body = Uri.encodeComponent("Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"); //output: Hello%20Flutter
+                    Uri emailUri = Uri.parse("mailto:$email?subject=$subject&body=$body");
 
-                    if (await canLaunchUrl(emailUri)) {
-                      await launchUrl(emailUri);
-                    }
+                    UrlLauncher.url(emailUri, ref);
                   },
                   child: Text("Contact Support",
                       style:

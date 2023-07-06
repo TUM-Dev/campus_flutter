@@ -7,7 +7,9 @@ class UrlLauncher {
   static urlString(String urlString, WidgetRef ref) async {
     if (await canLaunchUrlString(urlString)) {
       if (ref.read(useWebView)) {
-        launchUrlString(urlString, mode: LaunchMode.inAppWebView);
+        launchUrlString(urlString, mode: LaunchMode.inAppWebView).onError(
+            (error, stackTrace) => launchUrlString(urlString,
+                mode: LaunchMode.externalApplication));
       } else {
         launchUrlString(urlString, mode: LaunchMode.externalApplication);
       }
@@ -17,7 +19,9 @@ class UrlLauncher {
   static url(Uri url, WidgetRef ref) async {
     if (await canLaunchUrl(url)) {
       if (ref.read(useWebView)) {
-        launchUrl(url, mode: LaunchMode.inAppWebView);
+        launchUrl(url, mode: LaunchMode.inAppWebView).onError(
+            (error, stackTrace) =>
+                launchUrl(url, mode: LaunchMode.externalApplication));
       } else {
         launchUrl(url, mode: LaunchMode.externalApplication);
       }

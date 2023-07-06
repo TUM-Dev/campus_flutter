@@ -28,12 +28,20 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '17'
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
 
       - name: Install Flutter Packages
         run: flutter pub get

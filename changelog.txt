@@ -3,3 +3,4 @@ This version provides the following updates:
 - A web app which offers all functionalities
 - Several bug fixes
 - general UI improvements
+- Temporarily the digital student card

@@ -8,21 +8,22 @@ import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.d
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/studyroom_widget_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WidgetScreen extends StatefulWidget {
+class WidgetScreen extends ConsumerStatefulWidget {
   const WidgetScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _WidgetScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WidgetScreenState();
 }
 
-class _WidgetScreenState extends State<WidgetScreen> {
+class _WidgetScreenState extends ConsumerState<WidgetScreen> {
   late Future<Map<HomeWidget, int>> recommendations;
 
   @override
   initState() {
     super.initState();
-    recommendations = WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations();
+    recommendations = WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
   }
 
   @override
