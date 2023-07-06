@@ -1,4 +1,5 @@
 ![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
+![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
 <a href="">
 <img src="https://developer.apple.com/assets/elements/icons/testflight/testflight-64x64_2x.png" height="42" align="right">
 </a>
@@ -10,7 +11,7 @@
 
 # Tum Campus App - An Unofficial Guide Through University Life
 
-The TUM Campus App (TCA) is an open source project, developed by volunteers and [available on the App Store](https://itunes.apple.com/app/id1217412716), [on the Play Store]() and as a [web app]().
+The TUM Campus App (TCA) is an open source project, developed by volunteers and [available on the App Store](https://itunes.apple.com/app/id1217412716), [on the Play Store]() and as a [web app](https://tum-dev.github.io/Campus-Flutter/).
 
 It mostly targets phones, but can also be used on tablets and in your browser.
 
