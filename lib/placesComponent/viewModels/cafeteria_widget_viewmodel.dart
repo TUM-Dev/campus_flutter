@@ -91,10 +91,12 @@ class CafeteriaWidgetViewModel implements ViewModel {
         return "🍖";
 
       case "Studitopf":
+      case var string when string.contains("HG"):
       case "DishType.VEGAN":
         return "🍲";
 
       case "Beilagen":
+      case var string when RegExp(r"B\d").hasMatch(string):
       case "DishType.VEGETARIAN":
         return "🥗";
 
@@ -102,9 +104,11 @@ class CafeteriaWidgetViewModel implements ViewModel {
         return "🐟";
 
       case "DishType.SOUP":
+      case "Suppe":
         return "🍜";
 
       case "Süßspeise":
+      case var string when RegExp(r"N\d").hasMatch(string):
         return "🍰";
 
       default:

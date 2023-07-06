@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - 'development'
-      - 'ci_cd_updates'
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'android/**'
 
 jobs:
   deploy:
@@ -12,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [android, ios]
+        platform: [ios, android]
       fail-fast: false
 
     steps:
@@ -41,9 +44,9 @@ jobs:
 
       - if: matrix.platform == 'ios'
         name: Add SSH Key
-        uses: webfactory/ssh-agent@v0.7.0
+        uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
+          ssh-private-key: ${{ secrets.MATCH_DEPLOY_KEY }}
 
       - if: matrix.platform == 'ios'
         name: Build and Deploy to TestFlight
@@ -55,7 +58,6 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          # MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY_NEW }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 

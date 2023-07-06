@@ -1,18 +1,20 @@
+import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HyperLinkText extends StatefulWidget {
-  const HyperLinkText({super.key, required this.link, required this.label});
+class HyperLinkText extends ConsumerStatefulWidget {
+  const HyperLinkText({super.key, this.link, this.uri, required this.label});
 
-  final String link;
+  final String? link;
+  final Uri? uri;
   final String label;
 
   @override
-  State<StatefulWidget> createState() => _HyperlinkTextState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HyperlinkTextState();
 }
 
-class _HyperlinkTextState extends State<HyperLinkText> {
+class _HyperlinkTextState extends ConsumerState<HyperLinkText> {
   late TapGestureRecognizer tapGestureRecognizer;
 
   @override
@@ -36,12 +38,13 @@ class _HyperlinkTextState extends State<HyperLinkText> {
                 text: widget.label,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyMedium /*?.copyWith(color: Colors.blue)*/,
+                    .bodyMedium,
                 recognizer: tapGestureRecognizer
-                  ..onTap = () async {
-                    final url = Uri.parse(widget.link);
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
+                  ..onTap = () {
+                    if (widget.link != null) {
+                      UrlLauncher.urlString(widget.link!, ref);
+                    } else if (widget.uri != null) {
+                      UrlLauncher.url(widget.uri!, ref);
                     }
                   })),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),

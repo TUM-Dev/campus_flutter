@@ -7,7 +7,6 @@ platform :ios do
         create_keychain(
             name: ENV["KEYCHAIN_NAME"],
             password: ENV["KEYCHAIN_PASSWORD"],
-            # require_create: true,
             default_keychain: true,
             unlock: true,
             timeout: 3600,
@@ -24,7 +23,7 @@ platform :ios do
 
     match(
       type: "appstore",
-      # git_private_key: Base64.strict_encode64(ENV["MATCH_DEPLOY_KEY"]),
+      # git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
       readonly: true,
       keychain_name: ENV["KEYCHAIN_NAME"],
       keychain_password: ENV["KEYCHAIN_PASSWORD"]
@@ -41,7 +40,7 @@ platform :ios do
     update_code_signing_settings(
       use_automatic_signing: false,
       targets: 'Runner',
-      profile_name: 'match AppStore de.tum.tca-flutter',
+      profile_name: 'match AppStore de.tum.tca-flutter 1688586317',
       code_sign_identity: "iPhone Distribution",
       sdk: "iphoneos*",
       team_id: "2J3C6P6X3N"

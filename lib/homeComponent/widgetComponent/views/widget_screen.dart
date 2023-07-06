@@ -1,11 +1,10 @@
-import 'package:campus_flutter/base/enums/homeWidget.dart';
-import 'package:campus_flutter/calendarComponent/views/homeWidget/calendarHomeWidgetView.dart';
-import 'package:campus_flutter/departuresComponent/views/homeWidget/departuresHomeWidget.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/recommender/SpatialTemporalStrategy.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widgetRecommender.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/movieComponent/views/homeWidget/moviesHomeWidgetView.dart';
-import 'package:campus_flutter/newsComponent/views/homeWidget/newsWidgetView.dart';
+import 'package:campus_flutter/base/enums/home_widget.dart';
+import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
+import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/recommender/spatial_temporal_strategy.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender.dart';
+import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
+import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/studyroom_widget_view.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +40,11 @@ class _WidgetScreenState extends State<WidgetScreen> {
                         case HomeWidget.cafeteria:
                           return const CafeteriaWidgetView();
                         case HomeWidget.calendar:
-                          return const WidgetFrameView(
-                              title: "Calendar",
-                              child: CalendarHomeWidgetView());
+                          return const CalendarHomeWidgetView();
                         case HomeWidget.departures:
                           return const DeparturesHomeWidget();
                         case HomeWidget.studyRoom:
-                          return const WidgetFrameView(
-                              title: "Nearest Study Rooms",
-                              child: StudyRoomWidgetView());
+                          return const StudyRoomWidgetView();
                         default:
                           return const SizedBox.shrink();
                       }

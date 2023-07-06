@@ -1,5 +1,5 @@
 This version provides the following updates:
-- fix text overflow bug on home screen and grades view
-- chart on grades view now refreshes if study program is switched
-- picker in departure details and grades now shows the selected item
-- general UI improvements regarding sizing
+- A responsive design for iPad, Tablets and Web App (more improvements coming soon)
+- A web app which offers all functionalities
+- Several bug fixes
+- general UI improvements

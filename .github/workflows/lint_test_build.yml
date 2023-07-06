@@ -5,10 +5,14 @@ on:
     branches-ignore:
       - "development"
       - "main"
+    paths:
+      - 'lib/**'
   pull_request:
     branches-ignore:
       - "development"
       - "main"
+    paths:
+      - 'lib/**'
 
 jobs:
   build:
@@ -16,6 +20,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
       - name: Install Dependencies
         run: dart pub get
