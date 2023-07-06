@@ -6,7 +6,7 @@ on:
       - "development"
       - "main"
     paths:
-      - 'lib/**'
+      # - 'lib/**'
   pull_request:
     branches-ignore:
       - "development"
@@ -25,9 +25,17 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
 
-      - name: Install Dependencies
-        run: dart pub get
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Install Flutter Packages
+        run: flutter pub get
 
         # - name: Verify formatting
         # run: dart format --output=none --set-exit-if-changed .
