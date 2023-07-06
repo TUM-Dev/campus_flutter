@@ -46,7 +46,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Website
-        run: flutter build web --base-href /Campus-Flutter/
+        run: flutter build web --base-href /
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
