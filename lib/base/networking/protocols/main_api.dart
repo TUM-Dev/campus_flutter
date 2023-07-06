@@ -9,14 +9,20 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:xml2json/xml2json.dart';
 
 class MainApi {
   late Dio dio;
+  late MemCacheStore memCacheStore;
+  late HiveCacheStore hiveCacheStore;
 
   MainApi.webCache() {
+    memCacheStore = MemCacheStore();
+
     var cacheOptions = CacheOptions(
-        store: MemCacheStore(),
+        store: memCacheStore,
         policy: CachePolicy.forceCache,
         maxStale: const Duration(minutes: 10),
         hitCacheOnErrorExcept: [401, 404]
@@ -40,11 +46,11 @@ class MainApi {
   }
 
   MainApi.mobileCache(Directory directory) {
-    final cacheStore = HiveCacheStore(directory.path);
+    hiveCacheStore = HiveCacheStore(directory.path);
 
     /// cache duration is 30 days for offline mode
     var cacheOptions = CacheOptions(
-        store: cacheStore,
+        store: hiveCacheStore,
         policy: CachePolicy.forceCache,
         maxStale: const Duration(days: 30),
         hitCacheOnErrorExcept: [401, 404]
@@ -53,7 +59,7 @@ class MainApi {
     /// add custom cache interceptor to dio
     final dio = Dio()
       ..interceptors
-          .add(CustomCacheInterceptor(cacheStore: cacheStore, cacheOptions: cacheOptions));
+          .add(CustomCacheInterceptor(cacheStore: hiveCacheStore, cacheOptions: cacheOptions));
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
@@ -132,5 +138,13 @@ class MainApi {
         response.headers,
         createObject
     );
+  }
+
+  clearCache() async {
+    if (kIsWeb) {
+      memCacheStore.clean();
+    } else {
+      hiveCacheStore.clean();
+    }
   }
 }
