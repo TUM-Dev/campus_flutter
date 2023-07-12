@@ -24,8 +24,7 @@ class MainApi {
         store: memCacheStore,
         policy: CachePolicy.forceCache,
         maxStale: const Duration(minutes: 10),
-        hitCacheOnErrorExcept: [401, 404]
-    );
+        hitCacheOnErrorExcept: [401, 404]);
 
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
@@ -35,7 +34,8 @@ class MainApi {
       if (body.headers["content-type"]?.first.contains("xml") ?? false) {
         final transformer = Xml2Json();
         transformer.parse(decoded);
-        return transformer.toParker();
+        return transformer
+            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
       } else {
         return decoded;
       }
@@ -52,13 +52,12 @@ class MainApi {
         store: hiveCacheStore,
         policy: CachePolicy.forceCache,
         maxStale: const Duration(days: 30),
-        hitCacheOnErrorExcept: [401, 404]
-    );
+        hitCacheOnErrorExcept: [401, 404]);
 
     /// add custom cache interceptor to dio
     final dio = Dio()
-      ..interceptors
-          .add(CustomCacheInterceptor(cacheStore: hiveCacheStore, cacheOptions: cacheOptions));
+      ..interceptors.add(CustomCacheInterceptor(
+          cacheStore: hiveCacheStore, cacheOptions: cacheOptions));
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
@@ -67,7 +66,8 @@ class MainApi {
       if (body.headers["content-type"]?.first.contains("xml") ?? false) {
         final transformer = Xml2Json();
         transformer.parse(decoded);
-        return transformer.toParker();
+        return transformer
+            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
       } else {
         return decoded;
       }
@@ -77,17 +77,17 @@ class MainApi {
   }
 
   /// with possible error in response body
-  Future<ApiResponse<T>> makeRequestWithException<T, S extends Api, U extends ApiException>(
-      S endpoint,
-      dynamic Function(Map<String, dynamic>) createObject,
-      dynamic Function(Map<String, dynamic>) createError,
-      bool forcedRefresh) async {
+  Future<ApiResponse<T>>
+      makeRequestWithException<T, S extends Api, U extends ApiException>(
+          S endpoint,
+          dynamic Function(Map<String, dynamic>) createObject,
+          dynamic Function(Map<String, dynamic>) createError,
+          bool forcedRefresh) async {
     Response<String> response;
 
     /// add forcedRefresh flag to temporary options
     if (forcedRefresh) {
-      Dio noCacheDio = Dio()
-        ..interceptors.addAll(dio.interceptors);
+      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
       noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
       response = await endpoint.asResponse(dioClient: noCacheDio);
@@ -98,9 +98,8 @@ class MainApi {
     log("${response.statusCode}: ${response.realUri}");
     try {
       /// check if response is error message by  attempting to decoding it
-      throw ApiResponse<U>.fromJson(
-          jsonDecode(response.data.toString()), response.headers,
-          createError)
+      throw ApiResponse<U>.fromJson(jsonDecode(response.data.toString()),
+              response.headers, createError)
           .data;
     } on U catch (e) {
       /// rethrow error if specified error U
@@ -109,8 +108,7 @@ class MainApi {
     } catch (_) {
       /// catch possible decoding error and return actual expected object
       return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()), response.headers,
-          createObject);
+          jsonDecode(response.data.toString()), response.headers, createObject);
     }
   }
 
@@ -122,8 +120,7 @@ class MainApi {
     Response<String> response;
 
     if (forcedRefresh) {
-      Dio noCacheDio = Dio()
-        ..interceptors.addAll(dio.interceptors);
+      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
       noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
       response = await endpoint.asResponse(dioClient: noCacheDio);
@@ -133,10 +130,7 @@ class MainApi {
 
     log("${response.statusCode}: ${response.realUri}");
     return ApiResponse<T>.fromJson(
-        jsonDecode(response.data.toString()),
-        response.headers,
-        createObject
-    );
+        jsonDecode(response.data.toString()), response.headers, createObject);
   }
 
   clearCache() async {

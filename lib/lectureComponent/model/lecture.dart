@@ -57,25 +57,25 @@ class Lecture {
     return "$duration SWS";
   }
 
-  Lecture({
-    required this.id,
-    required this.lvNumber,
-    required this.title,
-    required this.duration,
-    required this.stp_sp_sst,
-    required this.eventTypeDefault,
-    required this.eventTypeTag,
-    required this.semesterYear,
-    required this.semesterType,
-    required this.semester,
-    required this.semesterID,
-    required this.organisationNumber,
-    required this.organisation,
-    required this.organisationTag,
-    required this.speaker
-  });
+  Lecture(
+      {required this.id,
+      required this.lvNumber,
+      required this.title,
+      required this.duration,
+      required this.stp_sp_sst,
+      required this.eventTypeDefault,
+      required this.eventTypeTag,
+      required this.semesterYear,
+      required this.semesterType,
+      required this.semester,
+      required this.semesterID,
+      required this.organisationNumber,
+      required this.organisation,
+      required this.organisationTag,
+      required this.speaker});
 
-  factory Lecture.fromJson(Map<String, dynamic> json) => _$LectureFromJson(json);
+  factory Lecture.fromJson(Map<String, dynamic> json) =>
+      _$LectureFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 }
@@ -83,11 +83,12 @@ class Lecture {
 @JsonSerializable()
 class LectureData {
   @JsonKey(name: "rowset")
-  Lectures lecturesAttribute;
+  Lectures? lecturesAttribute;
 
   LectureData({required this.lecturesAttribute});
 
-  factory LectureData.fromJson(Map<String, dynamic> json) => _$LectureDataFromJson(json);
+  factory LectureData.fromJson(Map<String, dynamic> json) =>
+      _$LectureDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDataToJson(this);
 }
@@ -99,7 +100,8 @@ class Lectures {
 
   Lectures({required this.lectures});
 
-  factory Lectures.fromJson(Map<String, dynamic> json) => _$LecturesFromJson(json);
+  factory Lectures.fromJson(Map<String, dynamic> json) =>
+      _$LecturesFromJson(json);
 
   Map<String, dynamic> toJson() => _$LecturesToJson(this);
 }

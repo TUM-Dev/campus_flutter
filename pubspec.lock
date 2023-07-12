@@ -932,10 +932,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "0dc5c49ad8a05ed358b991b60c7b0ba1a14e16dae58af9b420d6b9e82dc024ab"
+      sha256: b046999bf0ff58f04c364491bb803dcfa8f42e47b19c75478f53d323684a8cc1
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -1121,34 +1121,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "0060cb4220d8ed585e52d251274db5e3ac198b7848164e30748de0e56fafd697"
+      sha256: "16cb06e72285c64e2c71de077d93212da5b1d881112b4f36467b21a7070938e0"
       url: "https://pub.dev"
     source: hosted
-    version: "22.1.37"
+    version: "22.1.38"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: "5177ac8fd2a171ed9ad3a48de1d715eb38271629d0f33a561eea85ff44f89c7e"
+      sha256: d0e89b194c6b3dcfe674128a6ad66ca1f5ca858a4e58cffb2e14246f815aaaf7
       url: "https://pub.dev"
     source: hosted
-    version: "22.1.37"
+    version: "22.1.38"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: e2b49a16805a54714ba0712d62e9f3c6311081ec2bec835529b778cc5349430a
+      sha256: a38808b2636bafc6466079668232eb228b85aa7c3d83545a15cc3b593d40b315
       url: "https://pub.dev"
     source: hosted
-    version: "22.1.37"
+    version: "22.1.38"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
-      sha256: e398ec1e7a0afa74f9a7c1fc62e245757f19cf564e51ea308d4f587a87ea4372
+      sha256: "8f88fff35280339b1cf03cd205d9804dd0496903f316862b0a393739fa2fd22e"
       url: "https://pub.dev"
     source: hosted
-    version: "22.1.37"
+    version: "22.1.38"
   synchronized:
     dependency: transitive
     description:
@@ -1233,10 +1233,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: eb1e00ab44303d50dd487aab67ebc575456c146c6af44422f9c13889984c00f3
+      sha256: "781bd58a1eb16069412365c98597726cd8810ae27435f04b3b4d3a470bacd61e"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.11"
+    version: "6.1.12"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1281,18 +1281,18 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_web
-      sha256: "6bb1e5d7fe53daf02a8fee85352432a40b1f868a81880e99ec7440113d5cfcab"
+      sha256: cc26720eefe98c1b71d85f9dc7ef0cada5132617046369d9dc296b3ecaa5cbb4
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.17"
+    version: "2.0.18"
   url_launcher_windows:
     dependency: transitive
     description:
       name: url_launcher_windows
-      sha256: "254708f17f7c20a9c8c471f67d86d76d4a3f9c1591aad1e15292008aceb82771"
+      sha256: "7967065dd2b5fccc18c653b97958fdf839c5478c28e767c61ee879f4e7882422"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.7"
   uuid:
     dependency: transitive
     description:
@@ -1393,10 +1393,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "69787707339e7588aad256386475c18223cc0da87d9812343bc27c33c01eeab4"
+      sha256: "1c93e96f3069bacdc734fad6b7e1d3a480fd516a3ae5b8858becf7f07515a2f3"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.1"
+    version: "3.8.2"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
@@ -1409,10 +1409,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_wkwebview
-      sha256: "7ae75a1a76b9463ae9278de7759ead68aa0eeb70f8d0175e3f9a6c43e911fe76"
+      sha256: "0ede6bafb857b7608e65f4ad7bcf67ad03375a02d038c59929898e514591faca"
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.1"
+    version: "3.6.3"
   win32:
     dependency: transitive
     description:
@@ -1448,10 +1448,11 @@ packages:
   xml2json:
     dependency: "direct main"
     description:
-      name: xml2json
-      sha256: "12ebc382f8684cafcc1e3ae5c982de82b5a52007a5d0ac79b22745d34f5ba975"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "8b3e01a9f0b9bcd0a588809212bf0d74ca83eb47"
+      url: "https://github.com/jakobkoerber/xml2json.git"
+    source: git
     version: "6.1.0"
   yaml:
     dependency: transitive

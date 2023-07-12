@@ -84,7 +84,7 @@ LectureDetailsElement _$LectureDetailsElementFromJson(
         Map<String, dynamic> json) =>
     LectureDetailsElement(
       lectureDetails:
-          LectureDetails.fromJson(json['row'] as Map<String, dynamic>),
+          LectureDetailsElement._lectureDetailsFromJson(json['row']),
     );
 
 Map<String, dynamic> _$LectureDetailsElementToJson(

@@ -18,22 +18,22 @@ class GradeService {
         forcedRefresh);
     return (
       saved: response.saved,
-      data: response.data.gradesAttribute.personalGrades
+      data: response.data.gradesAttribute?.personalGrades ?? []
     );
   }
 
-  static Future<({DateTime? saved, List<AverageGrade> data})> fetchAverageGrades(
-      bool forcedRefresh) async {
+  static Future<({DateTime? saved, List<AverageGrade> data})>
+      fetchAverageGrades(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequestWithException<AverageGradeResponse,
-        TumOnlineApi, TumOnlineApiException>(
+    final response = await mainApi.makeRequestWithException<
+            AverageGradeResponse, TumOnlineApi, TumOnlineApiException>(
         TumOnlineApi(TumOnlineServiceAverageGrades()),
         AverageGradeResponse.fromJson,
         TumOnlineApiException.fromJson,
         forcedRefresh);
     return (
-    saved: response.saved,
-    data: response.data.averageGradeData.averageGrades
+      saved: response.saved,
+      data: response.data.averageGradeData?.averageGrades ?? []
     );
   }
 }

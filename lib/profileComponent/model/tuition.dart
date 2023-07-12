@@ -14,14 +14,14 @@ class Tuition {
   @JsonKey(name: "semester_id")
   final String semesterID;
 
-  Tuition({
-    required this.amount,
-    required this.deadline,
-    required this.semester,
-    required this.semesterID
-  });
+  Tuition(
+      {required this.amount,
+      required this.deadline,
+      required this.semester,
+      required this.semesterID});
 
-  factory Tuition.fromJson(Map<String, dynamic> json) => _$TuitionFromJson(json);
+  factory Tuition.fromJson(Map<String, dynamic> json) =>
+      _$TuitionFromJson(json);
 
   Map<String, dynamic> toJson() => _$TuitionToJson(this);
 }
@@ -33,19 +33,29 @@ class TuitionData {
 
   TuitionData({required this.profilesAttribute});
 
-  factory TuitionData.fromJson(Map<String, dynamic> json) => _$TuitionDataFromJson(json);
+  factory TuitionData.fromJson(Map<String, dynamic> json) =>
+      _$TuitionDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TuitionDataToJson(this);
 }
 
 @JsonSerializable()
 class Tuitions {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", fromJson: _tuitionFromJson)
   final Tuition tuition;
 
   Tuitions({required this.tuition});
 
-  factory Tuitions.fromJson(Map<String, dynamic> json) => _$TuitionsFromJson(json);
+  factory Tuitions.fromJson(Map<String, dynamic> json) =>
+      _$TuitionsFromJson(json);
 
   Map<String, dynamic> toJson() => _$TuitionsToJson(this);
+
+  static Tuition _tuitionFromJson(dynamic data) {
+    if (data is List<dynamic>) {
+      return Tuition.fromJson(data.first);
+    } else {
+      return Tuition.fromJson(data);
+    }
+  }
 }

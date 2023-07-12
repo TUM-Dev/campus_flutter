@@ -46,19 +46,18 @@ class Grade {
     }
   }
 
-  Grade({
-    required this.date,
-    required this.lvNumber,
-    required this.semester,
-    required this.title,
-    required this.examiner,
-    required this.grade,
-    required this.examType,
-    required this.modus,
-    required this.studyID,
-    required this.studyDesignation,
-    required this.studyNumber
-  });
+  Grade(
+      {required this.date,
+      required this.lvNumber,
+      required this.semester,
+      required this.title,
+      required this.examiner,
+      required this.grade,
+      required this.examType,
+      required this.modus,
+      required this.studyID,
+      required this.studyDesignation,
+      required this.studyNumber});
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 
@@ -68,7 +67,7 @@ class Grade {
 @JsonSerializable()
 class GradeData {
   @JsonKey(name: "rowset")
-  Grades gradesAttribute;
+  Grades? gradesAttribute;
 
   GradeData({required this.gradesAttribute});
 

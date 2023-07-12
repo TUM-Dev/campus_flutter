@@ -47,6 +47,12 @@ dependencies:
   webview_flutter: ^4.2.2
   flutter_launcher_icons: ^0.13.1
 
+dependency_overrides:
+  xml2json:
+    git:
+      url: https://github.com/jakobkoerber/xml2json.git
+      ref: master
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

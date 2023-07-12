@@ -46,17 +46,17 @@ class Profile {
     return "$firstname $surname";
   }
 
-  Profile({
-    this.firstname,
-    this.obfuscatedID,
-    this.obfuscatedIDEmployee,
-    this.obfuscatedIDExtern,
-    this.obfuscatedIDStudent,
-    this.surname,
-    this.tumID
-  });
+  Profile(
+      {this.firstname,
+      this.obfuscatedID,
+      this.obfuscatedIDEmployee,
+      this.obfuscatedIDExtern,
+      this.obfuscatedIDStudent,
+      this.surname,
+      this.tumID});
 
-  factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
+  factory Profile.fromJson(Map<String, dynamic> json) =>
+      _$ProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
 }
@@ -68,19 +68,29 @@ class ProfileData {
 
   ProfileData({required this.profilesAttribute});
 
-  factory ProfileData.fromJson(Map<String, dynamic> json) => _$ProfileDataFromJson(json);
+  factory ProfileData.fromJson(Map<String, dynamic> json) =>
+      _$ProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileDataToJson(this);
 }
 
 @JsonSerializable()
 class Profiles {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", fromJson: _profileFromJson)
   final Profile profile;
 
   Profiles({required this.profile});
 
-  factory Profiles.fromJson(Map<String, dynamic> json) => _$ProfilesFromJson(json);
+  factory Profiles.fromJson(Map<String, dynamic> json) =>
+      _$ProfilesFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfilesToJson(this);
+
+  static Profile _profileFromJson(dynamic data) {
+    if (data is List<dynamic>) {
+      return Profile.fromJson(data.first);
+    } else {
+      return Profile.fromJson(data);
+    }
+  }
 }
