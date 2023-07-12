@@ -31,7 +31,7 @@ Map<String, dynamic> _$TuitionDataToJson(TuitionData instance) =>
     };
 
 Tuitions _$TuitionsFromJson(Map<String, dynamic> json) => Tuitions(
-      tuition: Tuition.fromJson(json['row'] as Map<String, dynamic>),
+      tuition: Tuitions._tuitionFromJson(json['row']),
     );
 
 Map<String, dynamic> _$TuitionsToJson(Tuitions instance) => <String, dynamic>{

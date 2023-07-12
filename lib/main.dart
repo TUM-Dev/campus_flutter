@@ -16,11 +16,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
+  getIt.registerSingleton<ConnectivityResult>(
+      await Connectivity().checkConnectivity());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
   } else {
-    getIt.registerSingleton<MainApi>(MainApi.mobileCache(await getTemporaryDirectory()));
+    getIt.registerSingleton<MainApi>(
+        MainApi.mobileCache(await getTemporaryDirectory()));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }
@@ -46,7 +48,8 @@ class AuthenticationRouter extends ConsumerStatefulWidget {
   const AuthenticationRouter({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AuthenticationRouterState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AuthenticationRouterState();
 }
 
 class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
@@ -61,9 +64,10 @@ class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
     return StreamBuilder(
         stream: ref.watch(loginViewModel).credentials,
         builder: (context, snapshot) {
-          if(snapshot.hasData) {
+          if (snapshot.hasData) {
             FlutterNativeSplash.remove();
-            if(snapshot.data == Credentials.tumId || snapshot.data == Credentials.noTumId) {
+            if (snapshot.data == Credentials.tumId ||
+                snapshot.data == Credentials.noTumId) {
               return const Navigation();
             } else {
               return const LoginView();

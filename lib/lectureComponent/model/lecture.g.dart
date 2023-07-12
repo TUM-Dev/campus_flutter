@@ -43,8 +43,9 @@ Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{
     };
 
 LectureData _$LectureDataFromJson(Map<String, dynamic> json) => LectureData(
-      lecturesAttribute:
-          Lectures.fromJson(json['rowset'] as Map<String, dynamic>),
+      lecturesAttribute: json['rowset'] == null
+          ? null
+          : Lectures.fromJson(json['rowset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LectureDataToJson(LectureData instance) =>

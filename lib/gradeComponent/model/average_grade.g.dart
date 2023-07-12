@@ -23,8 +23,9 @@ Map<String, dynamic> _$AverageGradeToJson(AverageGrade instance) =>
 AverageGradeResponse _$AverageGradeResponseFromJson(
         Map<String, dynamic> json) =>
     AverageGradeResponse(
-      averageGradeData:
-          AverageGrades.fromJson(json['studien'] as Map<String, dynamic>),
+      averageGradeData: json['studien'] == null
+          ? null
+          : AverageGrades.fromJson(json['studien'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AverageGradeResponseToJson(

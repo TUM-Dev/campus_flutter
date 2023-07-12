@@ -43,18 +43,20 @@ class CalendarEvent {
       required this.endDate,
       required this.location});
 
-  factory CalendarEvent.fromJson(Map<String, dynamic> json) => _$CalendarEventFromJson(json);
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
 
 @JsonSerializable()
 class CalendarEventsData {
-  final CalendarEvents events;
+  final CalendarEvents? events;
 
   CalendarEventsData({required this.events});
 
-  factory CalendarEventsData.fromJson(Map<String, dynamic> json) => _$CalendarEventsDataFromJson(json);
+  factory CalendarEventsData.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
 }
@@ -65,7 +67,8 @@ class CalendarEvents {
 
   CalendarEvents({required this.event});
 
-  factory CalendarEvents.fromJson(Map<String, dynamic> json) => _$CalendarEventsFromJson(json);
+  factory CalendarEvents.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventsFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventsToJson(this);
 }

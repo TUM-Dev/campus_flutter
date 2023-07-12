@@ -35,7 +35,9 @@ Map<String, dynamic> _$GradeToJson(Grade instance) => <String, dynamic>{
     };
 
 GradeData _$GradeDataFromJson(Map<String, dynamic> json) => GradeData(
-      gradesAttribute: Grades.fromJson(json['rowset'] as Map<String, dynamic>),
+      gradesAttribute: json['rowset'] == null
+          ? null
+          : Grades.fromJson(json['rowset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GradeDataToJson(GradeData instance) => <String, dynamic>{

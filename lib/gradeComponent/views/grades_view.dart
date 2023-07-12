@@ -36,7 +36,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
         stream: gradeVM.studyProgramGrades,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
-            return const Text("no grades found");
+            return const Center(child: Text("no grades found"));
           } else {
             final lastFetched = ref.read(gradeViewModel).lastFetched.value;
             return OrientationBuilder(builder: (context, constraints) {
@@ -53,7 +53,8 @@ class _GradesViewState extends ConsumerState<GradesView> {
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
               retry: ref.read(gradeViewModel).fetch,
             ),
-        loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Grades"));
+        loadingBuilder: (context) =>
+            const DelayedLoadingIndicator(name: "Grades"));
   }
 
   Widget _oneColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
@@ -75,29 +76,30 @@ class _GradesViewState extends ConsumerState<GradesView> {
       if (lastFetched != null) LastUpdatedText(lastFetched),
       Expanded(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: ChartView(
-                    studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
-                    title: data.values.first.firstOrNull?.studyDesignation ?? "Unknown",
-                  )),
-              Expanded(
-                  flex: 3,
-                  child: RefreshIndicator(
-                      child: Scrollbar(
-                          child: SingleChildScrollView(
-                              child: Column(children: [
-                                for (var semester in data.entries) ...[
-                                  SemesterView(semester: semester)
-                                ]
-                              ]))),
-                      onRefresh: () async {
-                        ref.read(gradeViewModel).fetch(true);
-                      }))
-            ],
-          ))
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+              flex: 2,
+              child: ChartView(
+                studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
+                title: data.values.first.firstOrNull?.studyDesignation ??
+                    "Unknown",
+              )),
+          Expanded(
+              flex: 3,
+              child: RefreshIndicator(
+                  child: Scrollbar(
+                      child: SingleChildScrollView(
+                          child: Column(children: [
+                    for (var semester in data.entries) ...[
+                      SemesterView(semester: semester)
+                    ]
+                  ]))),
+                  onRefresh: () async {
+                    ref.read(gradeViewModel).fetch(true);
+                  }))
+        ],
+      ))
     ]);
   }
 }
@@ -113,7 +115,8 @@ class DegreeView extends StatelessWidget {
       children: [
         ChartView(
             studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
-            title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown"),
+            title:
+                degree.values.first.firstOrNull?.studyDesignation ?? "Unknown"),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],
     );
@@ -130,13 +133,16 @@ class SemesterView extends StatelessWidget {
     return Card(
         child: ExpansionTile(
       title: Text(StringParser.toFullSemesterName(semester.key)),
-      initiallyExpanded: (semester.key == SemesterCalculator.getCurrentSemester() ||
-          semester.key == SemesterCalculator.getPriorSemester()),
+      initiallyExpanded:
+          (semester.key == SemesterCalculator.getCurrentSemester() ||
+              semester.key == SemesterCalculator.getPriorSemester()),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [
             GradeRowAlt(grade: semester.value[index]),
-            (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
+            (index != semester.value.length - 1
+                ? const PaddedDivider()
+                : const SizedBox.shrink())
           ])
       ],
     ));

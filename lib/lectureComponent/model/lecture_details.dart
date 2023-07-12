@@ -73,37 +73,37 @@ class LectureDetails {
     }
   }
 
-  LectureDetails({
-    required this.id,
-    required this.lvNumber,
-    required this.title,
-    required this.duration,
-    required this.stp_sp_sst,
-    required this.eventTypeDefault,
-    required this.eventTypeTag,
-    required this.semester,
-    required this.semesterType,
-    required this.semesterID,
-    required this.semesterYear,
-    required this.organisationNumber,
-    required this.organisation,
-    required this.organisationTag,
-    required this.speaker,
-    this.courseContents,
-    this.requirements,
-    this.courseObjective,
-    this.teachingMethod,
-    this.anmeld_lv,
-    this.firstScheduledDate,
-    this.examinationMode,
-    this.studienbehelfe,
-    this.note,
-    this.curriculumURL,
-    this.scheduledDatesURL,
-    this.examDateURL
-  });
+  LectureDetails(
+      {required this.id,
+      required this.lvNumber,
+      required this.title,
+      required this.duration,
+      required this.stp_sp_sst,
+      required this.eventTypeDefault,
+      required this.eventTypeTag,
+      required this.semester,
+      required this.semesterType,
+      required this.semesterID,
+      required this.semesterYear,
+      required this.organisationNumber,
+      required this.organisation,
+      required this.organisationTag,
+      required this.speaker,
+      this.courseContents,
+      this.requirements,
+      this.courseObjective,
+      this.teachingMethod,
+      this.anmeld_lv,
+      this.firstScheduledDate,
+      this.examinationMode,
+      this.studienbehelfe,
+      this.note,
+      this.curriculumURL,
+      this.scheduledDatesURL,
+      this.examDateURL});
 
-  factory LectureDetails.fromJson(Map<String, dynamic> json) => _$LectureDetailsFromJson(json);
+  factory LectureDetails.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsToJson(this);
 }
@@ -115,19 +115,29 @@ class LectureDetailsData {
 
   LectureDetailsData({required this.lectureDetailsAttribute});
 
-  factory LectureDetailsData.fromJson(Map<String, dynamic> json) => _$LectureDetailsDataFromJson(json);
+  factory LectureDetailsData.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsDataToJson(this);
 }
 
 @JsonSerializable()
 class LectureDetailsElement {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", fromJson: _lectureDetailsFromJson)
   final LectureDetails lectureDetails;
 
   LectureDetailsElement({required this.lectureDetails});
 
-  factory LectureDetailsElement.fromJson(Map<String, dynamic> json) => _$LectureDetailsElementFromJson(json);
+  factory LectureDetailsElement.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsElementFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsElementToJson(this);
+
+  static LectureDetails _lectureDetailsFromJson(dynamic data) {
+    if (data is List<dynamic>) {
+      return LectureDetails.fromJson(data.first);
+    } else {
+      return LectureDetails.fromJson(data);
+    }
+  }
 }

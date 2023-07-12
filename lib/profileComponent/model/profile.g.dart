@@ -37,7 +37,7 @@ Map<String, dynamic> _$ProfileDataToJson(ProfileData instance) =>
     };
 
 Profiles _$ProfilesFromJson(Map<String, dynamic> json) => Profiles(
-      profile: Profile.fromJson(json['row'] as Map<String, dynamic>),
+      profile: Profiles._profileFromJson(json['row']),
     );
 
 Map<String, dynamic> _$ProfilesToJson(Profiles instance) => <String, dynamic>{
