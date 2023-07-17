@@ -2,10 +2,9 @@ import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_s
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class NavigaTumApi extends Api {
+  final NavigaTumApiService navigaTumApiService;
 
-  final NavigaTumService navigaTumService;
-
-  NavigaTumApi({required this.navigaTumService});
+  NavigaTumApi({required this.navigaTumApiService});
 
   @override
   String get baseURL => "https://nav.tum.de/";
@@ -14,21 +13,21 @@ class NavigaTumApi extends Api {
   bool get needsAuth => false;
 
   @override
-  Map<String, String> get parameters => navigaTumService.getParameters();
+  Map<String, String> get parameters => navigaTumApiService.getParameters();
 
   @override
   String get path => "";
 
   @override
   String get paths {
-    switch (navigaTumService) {
-      case NavigaTumServiceSearch _:
+    switch (navigaTumApiService) {
+      case NavigaTumApiServiceSearch _:
         return "api/search";
-      case NavigaTumServiceDetails details:
+      case NavigaTumApiServiceDetails details:
         return "api/get/${details.id}";
-      case NavigaTumServiceImages images:
+      case NavigaTumApiServiceImages images:
         return "cdn/maps/roomfinder/${images.id}";
-      case NavigaTumServiceOverlayImages overlayImages:
+      case NavigaTumApiServiceOverlayImages overlayImages:
         return "cdn/maps/roomfinder/${overlayImages.id}";
     }
   }
