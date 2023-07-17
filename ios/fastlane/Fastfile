@@ -17,6 +17,7 @@ platform :ios do
     match(
       type: "appstore",
       readonly: true,
+      skip_certificate_matching: true
     )
 
     previous_build_number = latest_testflight_build_number

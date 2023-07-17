@@ -34,7 +34,7 @@ class SettingsView extends ConsumerWidget {
         title: "General Settings",
         child: Column(children: [
           _tokenPermission(context),
-          if (Platform.isIOS) _useWebView(context, ref)
+          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref)
         ]));
   }
 
