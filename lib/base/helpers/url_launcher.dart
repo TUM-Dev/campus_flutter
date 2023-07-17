@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,7 +8,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class UrlLauncher {
   static urlString(String urlString, WidgetRef ref) async {
     if (await canLaunchUrlString(urlString)) {
-      if (ref.read(useWebView)) {
+      if (ref.read(useWebView) && Platform.isIOS) {
         launchUrlString(urlString, mode: LaunchMode.inAppWebView).onError(
             (error, stackTrace) => launchUrlString(urlString,
                 mode: LaunchMode.externalApplication));
