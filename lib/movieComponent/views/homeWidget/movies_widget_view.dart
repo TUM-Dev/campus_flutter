@@ -35,14 +35,15 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                 return Card(
                     child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        child: const Text("no movies found")));
+                        child: const Center(child: Text("no movies found"))));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
                   return HorizontalSlider<Movie>(
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {
-                        return MovieCardView(movie: data, width: constraints.maxWidth * 0.4);
+                        return MovieCardView(
+                            movie: data, width: constraints.maxWidth * 0.4);
                       });
                 });
               }
@@ -52,8 +53,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                     height: MediaQuery.of(context).size.height * 0.34,
                     child: ErrorHandlingView(
                         error: error,
-                        errorHandlingViewType:
-                            ErrorHandlingViewType.textOnly,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: ref.read(movieViewModel).fetch))),
             loadingBuilder: (context) => Card(
                 child: SizedBox(
