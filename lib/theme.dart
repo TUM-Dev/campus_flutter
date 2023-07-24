@@ -11,6 +11,9 @@ const Color _darkGray = Color(0xff555555);
 const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
 
+const double smallPadding = 5;
+const double largePadding = 15;
+
 /// light theme
 ThemeData lightTheme(BuildContext context) {
   return ThemeData(
@@ -78,7 +81,8 @@ ThemeData lightTheme(BuildContext context) {
           color: Colors.white,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+          margin: EdgeInsets.symmetric(
+              vertical: smallPadding, horizontal: largePadding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -126,7 +130,8 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-                /*color: _navigationIconGrayLight, */fontWeight: FontWeight.w500),
+                /*color: _navigationIconGrayLight, */ fontWeight:
+                    FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         /*unselectedIconTheme:
             const IconThemeData(color: _navigationIconGrayLight),*/
@@ -143,9 +148,8 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }
 
 /// dark theme
@@ -210,7 +214,8 @@ ThemeData darkTheme(BuildContext context) {
           color: Color(0xff252525),
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+          margin: EdgeInsets.symmetric(
+              vertical: smallPadding, horizontal: largePadding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -259,10 +264,10 @@ ThemeData darkTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-            color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
+                color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         unselectedIconTheme:
-        const IconThemeData(color: _navigationIconGrayLight),
+            const IconThemeData(color: _navigationIconGrayLight),
         //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _darkBackground,
@@ -276,7 +281,6 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }

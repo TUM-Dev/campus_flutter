@@ -20,7 +20,7 @@ class UrlLauncher {
 
   static url(Uri url, WidgetRef ref) async {
     if (await canLaunchUrl(url)) {
-      if (ref.read(useWebView)) {
+      if (ref.read(useWebView) && Platform.isIOS) {
         launchUrl(url, mode: LaunchMode.inAppWebView).onError(
             (error, stackTrace) =>
                 launchUrl(url, mode: LaunchMode.externalApplication));

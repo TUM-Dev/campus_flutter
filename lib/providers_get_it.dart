@@ -8,10 +8,13 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewm
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
+import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,14 +30,18 @@ final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 
 /// viewModels for RiverPod - state is uninitialized at first
+/// view model for authentication handling
 final loginViewModel = Provider((ref) => LoginViewModel());
-final departureViewModel = Provider((ref) => DeparturesViewModel());
+
+/// view model for users profile
 final profileViewModel = Provider.autoDispose((ref) {
   final profileViewModel = ProfileViewModel();
   profileViewModel.fetch(false);
   ref.keepAlive();
   return profileViewModel;
 });
+
+/// view model for users details and person details
 final profileDetailsViewModel = Provider.autoDispose((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
   final profileDetailsViewModel = PersonDetailsViewModel(profile);
@@ -46,17 +53,39 @@ final personDetailsViewModel = Provider((ref) {
   final profile = ref.watch(selectedProfile);
   return PersonDetailsViewModel(profile);
 });
+
+/// view model for places
+final placesViewModel = Provider((ref) => PlacesViewModel());
+final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 final cafeteriaWidgetViewModel = Provider((ref) => CafeteriaWidgetViewModel());
-final studyRoomWidgetViewModel = Provider((ref) => StudyRoomWidgetViewModel());
+//final studyRoomWidgetViewModel = Provider((ref) => StudyRoomWidgetViewModel());
+final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
+
+/// view model for news
 final newsViewModel = Provider((ref) => NewsViewModel());
+
+/// view model for movies
 final movieViewModel = Provider((ref) => MovieViewModel());
+
+/// view model for lectures
 final lectureViewModel = Provider((ref) => LectureViewModel());
 final lectureDetailsViewModel = Provider((ref) {
   final event = ref.watch(selectedEvent);
   final lecture = ref.watch(selectedLecture);
   return LectureDetailsViewModel(event: event, lecture: lecture);
 });
+
+/// view model for grades
 final gradeViewModel = Provider((ref) => GradeViewModel());
+
+/// view model for calendar
 final calendarViewModel = Provider((ref) => CalendarViewModel());
+
+/// view model for departures
+final departureViewModel = Provider((ref) => DeparturesViewModel());
+
+/// view model for landscape mode
 final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
+
+/// view model for landscape mode of lectures
 final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());
