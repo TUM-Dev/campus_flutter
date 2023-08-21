@@ -14,15 +14,15 @@ class WidgetFrameView extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       if (title != null)
         Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: largePadding, vertical: smallPadding),
+            padding: EdgeInsets.symmetric(
+                horizontal: context.padding, vertical: context.halfPadding),
             child: Text(title!,
                 style: Theme.of(context).textTheme.titleMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis)),
       if (subtitle != null) subtitle!,
       child,
-      const Padding(padding: EdgeInsets.symmetric(vertical: smallPadding))
+      Padding(padding: EdgeInsets.symmetric(vertical: context.halfPadding))
     ]);
   }
 }

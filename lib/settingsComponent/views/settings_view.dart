@@ -23,6 +23,7 @@ class SettingsView extends ConsumerWidget {
         ),
         body: ListView(children: [
           _generalSettings(context, ref),
+          _appearance(context, ref),
           _contact(ref),
           _authentication(context, ref),
           _versionNumber()
@@ -64,6 +65,28 @@ class SettingsView extends ConsumerWidget {
           value: ref.watch(useWebView),
           onChanged: (showWebView) {
             ref.read(useWebView.notifier).state = showWebView;
+          }),
+    ));
+  }
+
+  Widget _appearance(BuildContext context, WidgetRef ref) {
+    return WidgetFrameView(
+        title: "Appearance",
+        child: Column(children: [
+          _hideFailedGrades(context, ref),
+        ]));
+  }
+
+  Widget _hideFailedGrades(BuildContext context, WidgetRef ref) {
+    return Card(
+        child: ListTile(
+      dense: true,
+      title: Text("Hide Failed Grades",
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(hideFailedGrades),
+          onChanged: (value) {
+            ref.read(hideFailedGrades.notifier).state = value;
           }),
     ));
   }

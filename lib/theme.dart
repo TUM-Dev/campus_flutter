@@ -11,8 +11,10 @@ const Color _darkGray = Color(0xff555555);
 const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
 
-const double smallPadding = 5;
-const double largePadding = 15;
+extension ContextTheme on BuildContext {
+  double get halfPadding => 5.0;
+  double get padding => 15.0;
+}
 
 /// light theme
 ThemeData lightTheme(BuildContext context) {
@@ -77,12 +79,12 @@ ThemeData lightTheme(BuildContext context) {
           backgroundColor: _lightBackground),
 
       /// remove colored tint and shadow of card, add margin
-      cardTheme: const CardTheme(
+      cardTheme: CardTheme(
           color: Colors.white,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           margin: EdgeInsets.symmetric(
-              vertical: smallPadding, horizontal: largePadding)),
+              vertical: context.halfPadding, horizontal: context.padding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -126,12 +128,10 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
-        unselectedLabelTextStyle: Theme.of(context)
-            .textTheme
-            .labelMedium
-            ?.copyWith(
-                /*color: _navigationIconGrayLight, */ fontWeight:
-                    FontWeight.w500),
+        unselectedLabelTextStyle:
+            Theme.of(context).textTheme.labelMedium?.copyWith(
+                /*color: _navigationIconGrayLight, */
+                fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         /*unselectedIconTheme:
             const IconThemeData(color: _navigationIconGrayLight),*/
@@ -148,8 +148,14 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme:
-          const SnackBarThemeData(backgroundColor: Colors.redAccent));
+      snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
+
+      /// style chip
+      chipTheme: const ChipThemeData(
+          backgroundColor: _darkGray,
+          labelStyle: TextStyle(color: Colors.white),
+          side: BorderSide.none,
+          selectedColor: _primaryLightColor));
 }
 
 /// dark theme
@@ -187,9 +193,8 @@ ThemeData darkTheme(BuildContext context) {
                   (states) => _primaryDarkColor),
               foregroundColor:
                   MaterialStateProperty.resolveWith((states) => Colors.white),
-              shape: MaterialStateProperty.resolveWith((states) =>
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0))))),
+              shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))))),
 
       /// remove tint of dialogs
       dialogTheme: const DialogTheme(
@@ -210,12 +215,12 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: _darkBackground, backgroundColor: _darkBackground),
 
       /// remove colored tint and shadow of card, add margin
-      cardTheme: const CardTheme(
-          color: Color(0xff252525),
+      cardTheme: CardTheme(
+          color: const Color(0xff252525),
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           margin: EdgeInsets.symmetric(
-              vertical: smallPadding, horizontal: largePadding)),
+              vertical: context.halfPadding, horizontal: context.padding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -281,6 +286,11 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme:
-          const SnackBarThemeData(backgroundColor: Colors.redAccent));
+      snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
+
+      /// style chip
+      chipTheme: const ChipThemeData(
+          backgroundColor: _primaryDarkColor,
+          labelStyle: TextStyle(color: Colors.white),
+          side: BorderSide.none));
 }

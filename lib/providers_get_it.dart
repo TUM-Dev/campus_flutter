@@ -11,12 +11,17 @@ import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/cafeteria_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_seach_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,6 +33,7 @@ final selectedLecture = StateProvider<Lecture?>((ref) => null);
 final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
+final hideFailedGrades = StateProvider<bool>((ref) => false);
 
 /// viewModels for RiverPod - state is uninitialized at first
 /// view model for authentication handling
@@ -55,7 +61,7 @@ final personDetailsViewModel = Provider((ref) {
 });
 
 /// view model for places
-final placesViewModel = Provider((ref) => PlacesViewModel());
+//final placesViewModel = Provider((ref) => PlacesViewModel());
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 final cafeteriaWidgetViewModel = Provider((ref) => CafeteriaWidgetViewModel());
 //final studyRoomWidgetViewModel = Provider((ref) => StudyRoomWidgetViewModel());
@@ -76,7 +82,7 @@ final lectureDetailsViewModel = Provider((ref) {
 });
 
 /// view model for grades
-final gradeViewModel = Provider((ref) => GradeViewModel());
+final gradeViewModel = Provider((ref) => GradeViewModel(ref));
 
 /// view model for calendar
 final calendarViewModel = Provider((ref) => CalendarViewModel());
@@ -89,3 +95,12 @@ final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
 
 /// view model for landscape mode of lectures
 final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());
+
+/// search view models
+final searchViewModel = Provider((ref) => SearchViewModel(ref));
+final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
+final lectureSearchViewModel = Provider((ref) => LectureSearchViewModel());
+final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
+final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
+final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
+final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());

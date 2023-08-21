@@ -1,10 +1,12 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_event.g.dart';
 
 @JsonSerializable()
-class CalendarEvent {
+class CalendarEvent extends Searchable {
   @JsonKey(name: "nr")
   final String id;
   final String status;
@@ -32,6 +34,13 @@ class CalendarEvent {
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
   }
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: location),
+      ];
 
   CalendarEvent(
       {required this.id,

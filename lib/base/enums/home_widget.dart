@@ -1,1 +1,1 @@
-enum HomeWidget { cafeteria, studyRoom, calendar, departures }
+enum HomeWidget { cafeteria, studyRoom, calendar, departures, movies }

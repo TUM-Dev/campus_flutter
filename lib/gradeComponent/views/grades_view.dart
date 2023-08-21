@@ -139,7 +139,7 @@ class SemesterView extends StatelessWidget {
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [
-            GradeRowAlt(grade: semester.value[index]),
+            GradeRow(grade: semester.value[index]),
             (index != semester.value.length - 1
                 ? const PaddedDivider()
                 : const SizedBox.shrink())

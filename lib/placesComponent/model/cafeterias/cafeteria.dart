@@ -1,3 +1,5 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
@@ -8,9 +10,11 @@ class Location {
   final double longitude;
   final String address;
 
-  Location({required this.latitude, required this.longitude, required this.address});
+  Location(
+      {required this.latitude, required this.longitude, required this.address});
 
-  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
@@ -28,7 +32,7 @@ class Queue {
 }
 
 @JsonSerializable()
-class Cafeteria {
+class Cafeteria extends Searchable {
   final Location location;
   String name;
   @JsonKey(name: "canteen_id")
@@ -41,9 +45,26 @@ class Cafeteria {
     return name;
   }
 
-  Cafeteria({required this.location, required this.name, required this.id, required this.queueStatusApi, required this.queue});
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: name),
+        ComparisonToken(value: location.address),
+        ComparisonToken(
+            value: location.latitude.toString(), type: ComparisonTokenType.raw),
+        ComparisonToken(
+            value: location.longitude.toString(), type: ComparisonTokenType.raw)
+      ];
 
-  factory Cafeteria.fromJson(Map<String, dynamic> json) => _$CafeteriaFromJson(json);
+  Cafeteria(
+      {required this.location,
+      required this.name,
+      required this.id,
+      required this.queueStatusApi,
+      required this.queue});
+
+  factory Cafeteria.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriaFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriaToJson(this);
 }
@@ -55,7 +76,8 @@ class Cafeterias {
 
   Cafeterias({required this.cafeterias});
 
-  factory Cafeterias.fromJson(Map<String, dynamic> json) => _$CafeteriasFromJson(json);
+  factory Cafeterias.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriasFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriasToJson(this);
 }
