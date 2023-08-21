@@ -6,8 +6,8 @@ import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class GradeRowAlt extends StatelessWidget {
-  const GradeRowAlt({super.key, required this.grade});
+class GradeRow extends StatelessWidget {
+  const GradeRow({super.key, required this.grade});
 
   final Grade grade;
 
@@ -47,11 +47,13 @@ class GradeRowAlt extends StatelessWidget {
 class GradeRectangle extends StatelessWidget {
   const GradeRectangle({super.key, required this.grade});
 
-  final String grade;
+  final String? grade;
 
   @override
   Widget build(BuildContext context) {
-    final parsedGrade = StringParser.optStringToOptDouble(grade) ?? grade;
+    final parsedGrade = grade != null
+        ? StringParser.optStringToOptDouble(grade) ?? grade
+        : "n/a";
     return AspectRatio(
         aspectRatio: 1.0,
         child: Container(
@@ -60,7 +62,9 @@ class GradeRectangle extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child: Text(
-                parsedGrade is double ? parsedGrade.toStringAsFixed(1) : grade.toString(),
+                parsedGrade is double
+                    ? parsedGrade.toStringAsFixed(1)
+                    : parsedGrade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

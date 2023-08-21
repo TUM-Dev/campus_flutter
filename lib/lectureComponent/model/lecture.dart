@@ -1,9 +1,11 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture.g.dart';
 
 @JsonSerializable()
-class Lecture {
+class Lecture extends Searchable {
   @JsonKey(name: "stp_sp_nr")
   final String id;
   @JsonKey(name: "stp_lv_nr")
@@ -57,25 +59,35 @@ class Lecture {
     return "$duration SWS";
   }
 
-  Lecture({
-    required this.id,
-    required this.lvNumber,
-    required this.title,
-    required this.duration,
-    required this.stp_sp_sst,
-    required this.eventTypeDefault,
-    required this.eventTypeTag,
-    required this.semesterYear,
-    required this.semesterType,
-    required this.semester,
-    required this.semesterID,
-    required this.organisationNumber,
-    required this.organisation,
-    required this.organisationTag,
-    required this.speaker
-  });
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: semesterID, type: ComparisonTokenType.raw),
+        ComparisonToken(value: organisation),
+        ComparisonToken(value: speaker),
+        ComparisonToken(value: semester),
+      ];
 
-  factory Lecture.fromJson(Map<String, dynamic> json) => _$LectureFromJson(json);
+  Lecture(
+      {required this.id,
+      required this.lvNumber,
+      required this.title,
+      required this.duration,
+      required this.stp_sp_sst,
+      required this.eventTypeDefault,
+      required this.eventTypeTag,
+      required this.semesterYear,
+      required this.semesterType,
+      required this.semester,
+      required this.semesterID,
+      required this.organisationNumber,
+      required this.organisation,
+      required this.organisationTag,
+      required this.speaker});
+
+  factory Lecture.fromJson(Map<String, dynamic> json) =>
+      _$LectureFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 }
@@ -87,7 +99,8 @@ class LectureData {
 
   LectureData({required this.lecturesAttribute});
 
-  factory LectureData.fromJson(Map<String, dynamic> json) => _$LectureDataFromJson(json);
+  factory LectureData.fromJson(Map<String, dynamic> json) =>
+      _$LectureDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDataToJson(this);
 }
@@ -99,7 +112,8 @@ class Lectures {
 
   Lectures({required this.lectures});
 
-  factory Lectures.fromJson(Map<String, dynamic> json) => _$LecturesFromJson(json);
+  factory Lectures.fromJson(Map<String, dynamic> json) =>
+      _$LecturesFromJson(json);
 
   Map<String, dynamic> toJson() => _$LecturesToJson(this);
 }

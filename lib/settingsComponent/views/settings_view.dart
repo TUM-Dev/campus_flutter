@@ -17,55 +17,76 @@ class SettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
-        title:  const Text("Settings"),
-      ),
-      body: ListView(children: [
-        _generalSettings(context, ref),
-        _contact(ref),
-        _authentication(context, ref),
-        _versionNumber()
-      ])
-    );
+        appBar: AppBar(
+          leading: const BackButton(),
+          title: const Text("Settings"),
+        ),
+        body: ListView(children: [
+          _generalSettings(context, ref),
+          _appearance(context, ref),
+          _contact(ref),
+          _authentication(context, ref),
+          _versionNumber()
+        ]));
   }
 
   Widget _generalSettings(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
         title: "General Settings",
         child: Column(
-            children: [_tokenPermission(context), _useWebView(context, ref)]
-        )
-    );
+            children: [_tokenPermission(context), _useWebView(context, ref)]));
   }
 
   Widget _tokenPermission(BuildContext context) {
     return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PermissionCheckView(isSettingsView: true))),
-            child: Card(
-                child: ListTile(
-              dense: true,
-              leading: Icon(Icons.key,
-                  size: 20, color: Theme.of(context).primaryColor),
-              title: Text("Token Permissions",
-                  style: Theme.of(context).textTheme.bodyMedium),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-            )));
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const PermissionCheckView(isSettingsView: true))),
+        child: Card(
+            child: ListTile(
+          dense: true,
+          leading:
+              Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
+          title: Text("Token Permissions",
+              style: Theme.of(context).textTheme.bodyMedium),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+        )));
   }
 
   Widget _useWebView(BuildContext context, WidgetRef ref) {
     return Card(
-            child: ListTile(
-              dense: true,
-              title: Text("Use Web View", style: Theme.of(context).textTheme.bodyMedium),
-              trailing: Switch(
-                  value: ref.watch(useWebView),
-                  onChanged: (showWebView) {
-                    ref.read(useWebView.notifier).state = showWebView;
-                  }
-              ),
-            ));
+        child: ListTile(
+      dense: true,
+      title:
+          Text("Use Web View", style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(useWebView),
+          onChanged: (showWebView) {
+            ref.read(useWebView.notifier).state = showWebView;
+          }),
+    ));
+  }
+
+  Widget _appearance(BuildContext context, WidgetRef ref) {
+    return WidgetFrameView(
+        title: "Appearance",
+        child: Column(children: [
+          _hideFailedGrades(context, ref),
+        ]));
+  }
+
+  Widget _hideFailedGrades(BuildContext context, WidgetRef ref) {
+    return Card(
+        child: ListTile(
+      dense: true,
+      title: Text("Hide Failed Grades",
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(hideFailedGrades),
+          onChanged: (value) {
+            ref.read(hideFailedGrades.notifier).state = value;
+          }),
+    ));
   }
 
   Widget _contact(WidgetRef ref) {
@@ -91,8 +112,7 @@ class SettingsView extends ConsumerWidget {
             const ListTile(
               dense: true,
               title: HyperLinkText(
-                  link: "https://app.tum.de",
-                  label: "TUM Dev Website"),
+                  link: "https://app.tum.de", label: "TUM Dev Website"),
             ),
             const PaddedDivider(height: 0),
             ListTile(
@@ -125,12 +145,12 @@ class SettingsView extends ConsumerWidget {
               dense: true,
               title: login != Credentials.tumId
                   ? Text("Login",
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.green, fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.green, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center)
                   : Text("Logout",
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.red, fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.red, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center),
             ))));
   }

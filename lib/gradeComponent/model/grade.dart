@@ -1,9 +1,11 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'grade.g.dart';
 
 @JsonSerializable()
-class Grade {
+class Grade extends Searchable {
   String get id {
     return "${date.toIso8601String()}-$lvNumber";
   }
@@ -19,7 +21,7 @@ class Grade {
   @JsonKey(name: "pruefer_nachname")
   final String examiner;
   @JsonKey(name: "uninotenamekurz")
-  final String grade;
+  final String? grade;
   @JsonKey(name: "exam_typ_name")
   final String examType;
   @JsonKey(name: "modus")
@@ -46,23 +48,34 @@ class Grade {
     }
   }
 
-  Grade({
-    required this.date,
-    required this.lvNumber,
-    required this.semester,
-    required this.title,
-    required this.examiner,
-    required this.grade,
-    required this.examType,
-    required this.modus,
-    required this.studyID,
-    required this.studyDesignation,
-    required this.studyNumber
-  });
+  Grade(
+      {required this.date,
+      required this.lvNumber,
+      required this.semester,
+      required this.title,
+      required this.examiner,
+      required this.grade,
+      required this.examType,
+      required this.modus,
+      required this.studyID,
+      required this.studyDesignation,
+      required this.studyNumber});
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeToJson(this);
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: examiner),
+        ComparisonToken(value: grade ?? "", type: ComparisonTokenType.raw),
+        ComparisonToken(value: lvNumber),
+        ComparisonToken(value: modus),
+        ComparisonToken(value: semester),
+        ComparisonToken(value: studyDesignation),
+      ];
 }
 
 @JsonSerializable()
@@ -72,7 +85,8 @@ class GradeData {
 
   GradeData({required this.gradesAttribute});
 
-  factory GradeData.fromJson(Map<String, dynamic> json) => _$GradeDataFromJson(json);
+  factory GradeData.fromJson(Map<String, dynamic> json) =>
+      _$GradeDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeDataToJson(this);
 }

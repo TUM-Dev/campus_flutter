@@ -1,11 +1,13 @@
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room.g.dart';
 
 @JsonSerializable()
-class StudyRoom {
+class StudyRoom extends Searchable {
   @JsonKey(name: "gebaeude_code")
   final String? buildingCode;
   @JsonKey(name: "gebaeude_name")
@@ -42,7 +44,7 @@ class StudyRoom {
         return "Free";
       case "belegt":
         if (occupiedUntil != null) {
-          return "Occupied until ${ DateFormat.yMd().format(occupiedUntil!)}";
+          return "Occupied until ${DateFormat.yMd().format(occupiedUntil!)}";
         } else {
           return "";
         }
@@ -55,9 +57,22 @@ class StudyRoom {
     return status == "frei";
   }
 
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: name ?? ""),
+        ComparisonToken(
+            value: buildingCode ?? "", type: ComparisonTokenType.raw),
+        ComparisonToken(value: buildingName ?? ""),
+        ComparisonToken(
+            value: buildingNumber.toString(), type: ComparisonTokenType.raw),
+        ComparisonToken(value: status ?? ""),
+        ComparisonToken(value: occupiedBy ?? ""),
+        ...?attributes?.expand((element) => element.comparisonTokens),
+      ];
 
-  StudyRoom({
-      this.buildingCode,
+  StudyRoom(
+      {this.buildingCode,
       this.buildingName,
       required this.buildingNumber,
       this.code,
@@ -72,10 +87,10 @@ class StudyRoom {
       this.raum_nr_architekt,
       required this.res_nr,
       this.status,
-      this.attributes
-  });
+      this.attributes});
 
-  factory StudyRoom.fromJson(Map<String, dynamic> json) => _$StudyRoomFromJson(json);
+  factory StudyRoom.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomToJson(this);
 }

@@ -14,6 +14,13 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewm
 import 'package:campus_flutter/placesComponent/viewModels/studyroom_widget_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/cafeteria_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_seach_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
@@ -25,6 +32,7 @@ final selectedLecture = StateProvider<Lecture?>((ref) => null);
 final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
+final hideFailedGrades = StateProvider<bool>((ref) => false);
 
 /// viewModels for RiverPod - state is uninitialized at first
 final loginViewModel = Provider((ref) => LoginViewModel());
@@ -56,7 +64,16 @@ final lectureDetailsViewModel = Provider((ref) {
   final lecture = ref.watch(selectedLecture);
   return LectureDetailsViewModel(event: event, lecture: lecture);
 });
-final gradeViewModel = Provider((ref) => GradeViewModel());
+final gradeViewModel = Provider((ref) => GradeViewModel(ref));
 final calendarViewModel = Provider((ref) => CalendarViewModel());
 final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
 final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());
+
+/// search view models
+final searchViewModel = Provider((ref) => SearchViewModel(ref));
+final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
+final lectureSearchViewModel = Provider((ref) => LectureSearchViewModel());
+final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
+final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
+final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
+final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());

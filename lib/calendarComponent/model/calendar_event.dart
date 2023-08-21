@@ -1,10 +1,12 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_event.g.dart';
 
 @JsonSerializable()
-class CalendarEvent {
+class CalendarEvent extends Searchable {
   @JsonKey(name: "nr")
   final String id;
   final String status;
@@ -33,6 +35,13 @@ class CalendarEvent {
     return "$start - $end";
   }
 
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: location),
+      ];
+
   CalendarEvent(
       {required this.id,
       required this.status,
@@ -43,7 +52,8 @@ class CalendarEvent {
       required this.endDate,
       required this.location});
 
-  factory CalendarEvent.fromJson(Map<String, dynamic> json) => _$CalendarEventFromJson(json);
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }
@@ -54,7 +64,8 @@ class CalendarEventsData {
 
   CalendarEventsData({required this.events});
 
-  factory CalendarEventsData.fromJson(Map<String, dynamic> json) => _$CalendarEventsDataFromJson(json);
+  factory CalendarEventsData.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
 }
@@ -65,7 +76,8 @@ class CalendarEvents {
 
   CalendarEvents({required this.event});
 
-  factory CalendarEvents.fromJson(Map<String, dynamic> json) => _$CalendarEventsFromJson(json);
+  factory CalendarEvents.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventsFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalendarEventsToJson(this);
 }

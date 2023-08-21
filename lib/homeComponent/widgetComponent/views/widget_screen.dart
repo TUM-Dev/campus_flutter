@@ -23,7 +23,8 @@ class _WidgetScreenState extends ConsumerState<WidgetScreen> {
   @override
   initState() {
     super.initState();
-    recommendations = WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
+    recommendations =
+        WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
   }
 
   @override
@@ -52,7 +53,7 @@ class _WidgetScreenState extends ConsumerState<WidgetScreen> {
                     },
                   ),
                 const MoviesHomeWidget(),
-                const NewsWidgetView()
+                //const NewsWidgetView()
               ],
             );
           } else {
