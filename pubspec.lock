@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  auto_size_text:
+    dependency: "direct main"
+    description:
+      name: auto_size_text
+      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   barcode:
     dependency: transitive
     description:
@@ -383,7 +391,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_blurhash:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_blurhash
       sha256: "05001537bd3fac7644fa6558b09ec8c0a3f2eba78c0765f88912882b1331a5c6"
@@ -1158,7 +1166,7 @@ packages:
     source: hosted
     version: "22.2.9"
   syncfusion_flutter_datepicker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
       sha256: fa67b98561c16ca9daf64ba7ac893eaf6794c143a9e0b46f9ba13768edbc55b7

@@ -84,11 +84,13 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
         Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-              child:
-                  CalendarHomeWidgetEventView(calendarEvent: events.$2.first)),
-          Expanded(
-              child: CalendarHomeWidgetEventView(calendarEvent: events.$2[1]))
+          if (events.$2.isNotEmpty)
+            Expanded(
+                child: CalendarHomeWidgetEventView(
+                    calendarEvent: events.$2.first)),
+          if (events.$2.length > 1)
+            Expanded(
+                child: CalendarHomeWidgetEventView(calendarEvent: events.$2[1]))
         ]))
       ],
     );

@@ -7,6 +7,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/routes.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,8 @@ main() async {
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
   } else {
+    final directory = await getTemporaryDirectory();
+    HiveCacheStore(directory.path).clean();
     getIt.registerSingleton<MainApi>(
         MainApi.mobileCache(await getTemporaryDirectory()));
   }

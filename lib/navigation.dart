@@ -2,13 +2,13 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/placesComponent/views/placesScreen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/search_body_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
 
@@ -57,7 +57,7 @@ class _NavigationState extends ConsumerState<Navigation> {
           extendBody: true,
           appBar: AppBar(
             centerTitle: true,
-            leadingWidth: kIsWeb ? 80 : null,
+            leadingWidth: (kIsWeb && isLandScape) ? 80 : null,
             leading: (kIsWeb && isLandScape)
                 ? Padding(
                     padding: const EdgeInsets.all(15),
@@ -141,7 +141,7 @@ class _NavigationState extends ConsumerState<Navigation> {
       case 3:
         return const CalendarsView();
       case 4:
-        return const Text("Coming Soon");
+        return const PlacesScreen();
       default:
         return HomeScreen();
     }
@@ -164,9 +164,7 @@ class _NavigationState extends ConsumerState<Navigation> {
             _closeSearch();
             ref.read(searchViewModel).clear();
             setState(() {
-              if (index != 4) {
-                currentPageIndex = index;
-              }
+              currentPageIndex = index;
             });
           },
 
@@ -215,9 +213,7 @@ class _NavigationState extends ConsumerState<Navigation> {
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
             setState(() {
-              if (index != 4) {
-                currentPageIndex = index;
-              }
+              currentPageIndex = index;
             });
           },
           labelType: NavigationRailLabelType.all,

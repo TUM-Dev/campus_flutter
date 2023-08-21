@@ -15,8 +15,8 @@ class TuitionView extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(profileViewModel).tuition,
         builder: (context, snapshot) {
-          return SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.075,
+          return AspectRatio(
+              aspectRatio: 6,
               child: GestureDetector(
                 onTap: () {
                   (snapshot.hasData && snapshot.data != null)
@@ -49,11 +49,14 @@ class TuitionView extends ConsumerWidget {
               content: Column(mainAxisSize: MainAxisSize.min, children: [
                 Text(
                   snapshot.data!.semester,
-                  style:
-                      Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _infoRow("Due Date:", DateFormat("dd.MM.yyyy").format(snapshot.data!.deadline)),
+                _infoRow("Due Date:",
+                    DateFormat("dd.MM.yyyy").format(snapshot.data!.deadline)),
                 _infoRow(
                     "Open Amount:",
                     NumberFormat.currency(locale: "de_DE", symbol: '€')
@@ -61,13 +64,15 @@ class TuitionView extends ConsumerWidget {
               ]),
               actions: [
                 ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(), child: const Text("OK"))
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("OK"))
               ],
               actionsAlignment: MainAxisAlignment.center,
             ));
   }
 
-  Widget _tuitionStatus(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
+  Widget _tuitionStatus(
+      BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
     if (snapshot.hasData) {
       if (snapshot.data?.amount == 0.0) {
         return const IconText(
@@ -77,20 +82,24 @@ class TuitionView extends ConsumerWidget {
           leadingIcon: false,
         );
       } else {
-        final numberFormat = NumberFormat.currency(locale: "de_DE", symbol: "€");
+        final numberFormat =
+            NumberFormat.currency(locale: "de_DE", symbol: "€");
         return Text(numberFormat.format(snapshot.data?.amount),
             style: const TextStyle(color: Colors.red));
       }
     } else {
       return const DelayedLoadingIndicator(
           name: "Tuition",
-          alternativeLoadingIndicator: Text("n/a", style: TextStyle(color: Colors.red)));
+          alternativeLoadingIndicator:
+              Text("n/a", style: TextStyle(color: Colors.red)));
     }
   }
 
   Widget _infoRow(String title, String info) {
     return Row(children: [
-      Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
+      Expanded(
+          child:
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
       Expanded(child: Text(info))
     ]);
   }

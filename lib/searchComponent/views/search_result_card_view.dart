@@ -1,9 +1,3 @@
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /*class SearchResultCardView<T extends SearchViewModel> extends ConsumerWidget {
   const SearchResultCardView(

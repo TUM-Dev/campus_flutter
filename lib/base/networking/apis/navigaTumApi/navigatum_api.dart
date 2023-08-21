@@ -7,7 +7,7 @@ class NavigaTumApi extends Api {
   NavigaTumApi({required this.navigaTumApiService});
 
   @override
-  String get baseURL => "https://nav.tum.de/";
+  String get baseURL => "nav.tum.de";
 
   @override
   bool get needsAuth => false;

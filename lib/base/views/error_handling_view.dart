@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
@@ -56,6 +57,9 @@ class ErrorHandlingView extends StatelessWidget {
     } else if (error is SearchException) {
       final searchError = error as SearchException;
       return _exceptionMessage(context, searchError.message, null);
+    } else if (error is CustomException) {
+      final exception = error as CustomException;
+      return _exceptionMessage(context, exception.message, null);
     } else {
       return _exceptionMessage(context, "Unknown Error",
           "Please report this is as a bug \nvia Email or on GitHub");

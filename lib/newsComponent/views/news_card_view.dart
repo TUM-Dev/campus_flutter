@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});

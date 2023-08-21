@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+/*import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
@@ -156,4 +156,4 @@ class CafeteriaWidgetViewModel implements ViewModel {
 
     return finalPrice;
   }
-}
+}*/

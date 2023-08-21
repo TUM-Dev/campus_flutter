@@ -11,7 +11,8 @@ import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
@@ -61,10 +62,11 @@ final personDetailsViewModel = Provider((ref) {
 });
 
 /// view model for places
-//final placesViewModel = Provider((ref) => PlacesViewModel());
+final placesViewModel = Provider((ref) => PlacesViewModel());
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
-final cafeteriaWidgetViewModel = Provider((ref) => CafeteriaWidgetViewModel());
+//final cafeteriaWidgetViewModel = Provider((ref) => CafeteriaWidgetViewModel());
 //final studyRoomWidgetViewModel = Provider((ref) => StudyRoomWidgetViewModel());
+final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 
 /// view model for news
