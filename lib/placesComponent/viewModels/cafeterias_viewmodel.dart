@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
@@ -7,6 +8,8 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,7 +21,13 @@ class CafeteriasViewModel {
   BehaviorSubject<(Cafeteria, CafeteriaMenu)?> closestCafeteria =
       BehaviorSubject.seeded(null);
 
+  setClosestCafeteria(String id) {
+    closestCafeteria.add(
+        closestCafeterias.firstWhereOrNull((element) => element.$1.id == id));
+  }
+
   List<Cafeteria> cafeterias = [];
+  List<(Cafeteria, CafeteriaMenu)> closestCafeterias = [];
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
@@ -60,38 +69,74 @@ class CafeteriasViewModel {
 
   _getClosestCafeteria(Position? position, List<Cafeteria> cafeterias) async {
     if (position != null) {
-      final cafeteria = cafeterias.reduce((currentCafeteria, nextCafeteria) {
-        final distanceCurrent = Geolocator.distanceBetween(
-            currentCafeteria.location.latitude,
-            currentCafeteria.location.longitude,
-            position.latitude,
-            position.longitude);
+      final cafeteriasInRadius = cafeterias.where((element) =>
+          Geolocator.distanceBetween(
+              element.location.latitude,
+              element.location.longitude,
+              position.latitude,
+              position.longitude) <
+          250);
 
-        final distanceNext = Geolocator.distanceBetween(
-            nextCafeteria.location.latitude,
-            nextCafeteria.location.longitude,
-            position.latitude,
-            position.longitude);
+      List<dynamic> errors = [];
+      List<(Cafeteria, CafeteriaMenu)> data = [];
+      for (final cafeteria in cafeteriasInRadius) {
+        await fetchCafeteriaMenu(false, cafeteria).then((value) {
+          print(value.toString());
+          if (value.isNotEmpty) {
+            data.add((cafeteria, value.first));
+          } else {
+            errors.add(Error());
+          }
+        }, onError: (error) => errors.add(error));
+      }
 
-        if (distanceCurrent < distanceNext) {
-          return currentCafeteria;
-        } else {
-          return nextCafeteria;
-        }
-      });
-
-      fetchCafeteriaMenu(false, cafeteria).then((value) {
-        final today = value.firstOrNull;
-        if (today == null) {
-          closestCafeteria.addError("Could not fetch closest cafeteria!");
-        } else {
-          closestCafeteria.add((cafeteria, today));
-        }
-      },
-          onError: (error) =>
-              closestCafeteria.addError("Could not fetch closest cafeteria!"));
+      if (data.isEmpty && errors.isNotEmpty) {
+        closestCafeteria.addError("Could not fetch closest cafeteria!");
+      } else {
+        closestCafeterias = data;
+        closestCafeteria.add(data.first);
+      }
+      /*fetchCafeteriaMenu(false, cafeteria).then((value) {
+          final today = value.firstOrNull;
+          if (today == null && closestCafeterias.value == null) {
+            closestCafeterias.addError("Could not fetch closest cafeteria!");
+          } else if (today != null) {
+            final currentValue = closestCafeterias.value;
+            if (currentValue == null) {
+              closestCafeterias.add([(cafeteria, today)]);
+            } else {
+              currentValue.add((cafeteria, today));
+              closestCafeterias.add(currentValue);
+            }
+          }
+        },
+            onError: (error) => closestCafeterias.value == null
+                ? closestCafeterias
+                    .addError("Could not fetch closest cafeteria!")
+                : null);
+      }*/
     } else {
       closestCafeteria.addError("Could not fetch closest cafeteria!");
+    }
+  }
+
+  List<PopupMenuEntry<String>> getMenuEntries() {
+    if (closestCafeterias.isNotEmpty) {
+      return closestCafeterias.map((e) {
+        final selectedCafeteriaId = closestCafeteria.value != null
+            ? closestCafeteria.value!.$1.id
+            : closestCafeterias.first.$1.id;
+        final name = e.$1.name;
+        final cafeteriaId = e.$1.id;
+        return PopupMenuItem(
+            value: cafeteriaId,
+            child: selectedCafeteriaId == cafeteriaId
+                ? IconText(
+                    iconData: Icons.check, label: name, leadingIcon: false)
+                : Text(name));
+      }).toList();
+    } else {
+      return [];
     }
   }
 

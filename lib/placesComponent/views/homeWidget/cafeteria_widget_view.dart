@@ -33,13 +33,30 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
         stream: ref.watch(cafeteriasViewModel).closestCafeteria,
         builder: (context, snapshot) {
           return WidgetFrameView(
-              title: ref
-                      .watch(cafeteriasViewModel)
-                      .closestCafeteria
-                      .value
-                      ?.$1
-                      .name ??
-                  "Cafeteria",
+              titleWidget: Row(
+                children: [
+                  Expanded(
+                      child: Text(snapshot.data?.$1.name ?? "Cafeteria",
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis)),
+                  if (ref.read(cafeteriasViewModel).closestCafeterias.length >
+                      1)
+                    PopupMenuButton<String>(
+                      itemBuilder: (context) =>
+                          ref.read(cafeteriasViewModel).getMenuEntries(),
+                      onSelected: (selected) {
+                        ref
+                            .read(cafeteriasViewModel)
+                            .setClosestCafeteria(selected);
+                      },
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                ],
+              ),
               child: _dynamicContent(snapshot));
         });
   }
