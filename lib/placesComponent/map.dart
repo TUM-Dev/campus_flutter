@@ -1,4 +1,4 @@
-/*import 'dart:async';
+import 'dart:async';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +21,8 @@ class PlacesWidget extends StatelessWidget {
     return ListTile(title: Text('Item $index'));
     },
     ),
-    ),*/const Text("Test"),
+    ),*/
+          const Text("Test"),
       body: const MapWidget(),
     );
     return Stack(children: [
@@ -58,7 +59,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
 
   static const CameraPosition _defaultCameraPosition = CameraPosition(
     target: LatLng(48.135666124, 11.571831046),
@@ -107,9 +108,9 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
 
   Future _loadMapStyles() async {
     _darkMapStyle =
-    await rootBundle.loadString('assets/map_styles/darkMapTheme.json');
+        await rootBundle.loadString('assets/map_styles/darkMapTheme.json');
     _lightMapStyle =
-    await rootBundle.loadString('assets/map_styles/lightMapTheme.json');
+        await rootBundle.loadString('assets/map_styles/lightMapTheme.json');
   }
 
   @override
@@ -136,4 +137,4 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       markers: _markers,
     );
   }
-}*/
+}

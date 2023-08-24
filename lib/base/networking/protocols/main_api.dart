@@ -29,17 +29,20 @@ class MainApi {
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
-    dio.options = BaseOptions(responseDecoder: (data, options, body) {
-      final decoded = utf8.decoder.convert(data);
-      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-        final transformer = Xml2Json();
-        transformer.parse(decoded);
-        return transformer
-            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
-      } else {
-        return decoded;
-      }
-    });
+    dio.options = BaseOptions(
+        responseDecoder: (data, options, body) {
+          final decoded = utf8.decoder.convert(data);
+          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+            final transformer = Xml2Json();
+            transformer.parse(decoded);
+            return transformer
+                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+          } else {
+            return decoded;
+          }
+        },
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10));
 
     this.dio = dio;
   }

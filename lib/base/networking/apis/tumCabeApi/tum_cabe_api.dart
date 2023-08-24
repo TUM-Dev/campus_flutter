@@ -8,7 +8,7 @@ class TumCabeApi extends Api {
   TumCabeApi({required this.tumCabeService});
 
   @override
-  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "www.app.tum.de";
+  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "app.tum.de";
 
   @override
   Map<String, String> get baseHeaders {

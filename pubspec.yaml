@@ -51,6 +51,7 @@ dependencies:
   flutter_blurhash: ^0.7.0
   auto_size_text: ^3.0.0
   syncfusion_flutter_datepicker: ^22.1.39
+  google_maps_flutter: ^2.4.0
 
 dependency_overrides:
   xml2json:
@@ -91,7 +92,6 @@ flutter:
     - assets/images/campus/campus-klinikum.jpg
     - assets/images/campus/campus-olympia.jpg
     - assets/images/campus/campus-stamm.jpeg
-    - assets/test.tflite
     - assets/models/english_bert_30.tflite
     - assets/models/english_bert_vocab.txt
     - assets/models/myfile.txt
