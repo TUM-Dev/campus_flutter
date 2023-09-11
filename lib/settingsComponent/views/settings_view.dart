@@ -5,11 +5,13 @@ import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
@@ -32,10 +34,14 @@ class SettingsView extends ConsumerWidget {
   Widget _generalSettings(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
         title: "General Settings",
-        child: Column(children: [
+        child: Card(
+            child: Column(children: [
           _tokenPermission(context),
-          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref)
-        ]));
+          const PaddedDivider(height: 0),
+          _localeSelection(context, ref),
+          if (!kIsWeb && Platform.isIOS) const PaddedDivider(height: 0),
+          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
+        ])));
   }
 
   Widget _tokenPermission(BuildContext context) {
@@ -43,15 +49,33 @@ class SettingsView extends ConsumerWidget {
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 const PermissionCheckView(isSettingsView: true))),
-        child: Card(
-            child: ListTile(
+        child: ListTile(
           dense: true,
           leading:
               Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
           title: Text("Token Permissions",
               style: Theme.of(context).textTheme.bodyMedium),
           trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-        )));
+        ));
+  }
+
+  Widget _localeSelection(BuildContext context,WidgetRef ref) {
+    return ListTile(
+        dense: true,
+        leading: Icon(Icons.language,
+            size: 20, color: Theme.of(context).primaryColor),
+        title: Text(AppLocalizations.of(context)!.language,
+            style: Theme.of(context).textTheme.bodyMedium),
+        trailing: DropdownButton(
+          onChanged: (Locale? newLocale) {
+            // TODO: set the global locale state
+          },
+          value: Localizations.localeOf(context)!,
+          items: AppLocalizations.supportedLocales
+              .map((e) => DropdownMenuItem(
+                  value: e, child: Text(e.fullName())))
+              .toList(),
+        ));
   }
 
   Widget _useWebView(BuildContext context, WidgetRef ref) {

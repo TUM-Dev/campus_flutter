@@ -81,3 +81,15 @@ class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
         });
   }
 }
+
+extension FullName on Locale {
+  String fullName() {
+    switch (languageCode) {
+      case 'en':
+        return 'English';
+      case 'de':
+        return 'Deutsch';
+    }
+    return 'fullName not defined';
+  }
+}
