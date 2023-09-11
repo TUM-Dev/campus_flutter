@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/networking/protocols/grpc/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
@@ -10,13 +11,18 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grpc/grpc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'base/networking/apis/campus_backend.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  getIt.registerSingleton<CampusClient>(CampusClient(ClientChannel(
+    "api.tum.app/v1",
+    port: 443,
+    options: const ChannelOptions(),
+  )));
   getIt.registerSingleton<ConnectivityResult>(
       await Connectivity().checkConnectivity());
   if (kIsWeb) {
@@ -25,7 +31,6 @@ main() async {
     getIt.registerSingleton<MainApi>(
         MainApi.mobileCache(await getTemporaryDirectory()));
   }
-  CampusService().init();
   runApp(const ProviderScope(child: CampusApp()));
 }
 
