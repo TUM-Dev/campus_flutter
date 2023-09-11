@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
@@ -44,7 +45,7 @@ class _NavigationState extends ConsumerState<Navigation> {
             switch (currentPageIndex) {
               case 0:
                 if (kIsWeb && isLandScape) {
-                  return Text("Home",
+                  return Text(AppLocalizations.of(context)!.home,
                       style: Theme
                           .of(context)
                           .textTheme
@@ -54,7 +55,7 @@ class _NavigationState extends ConsumerState<Navigation> {
                       fit: BoxFit.cover, height: 20);
                 }
               case 1:
-                return Text("Grades",
+                return Text(AppLocalizations.of(context)!.grades,
                     style: Theme
                         .of(context)
                         .textTheme
@@ -98,7 +99,7 @@ class _NavigationState extends ConsumerState<Navigation> {
             : _bottomNavigationBar(),
         body: SafeArea(
             child: (kIsWeb && isLandScape)
-                ? _webNavigationRail()
+                ? _webNavigationRail(context)
                 : _navigationBody()),
       );
     });
@@ -172,7 +173,7 @@ class _NavigationState extends ConsumerState<Navigation> {
         ));
   }
 
-  Widget _webNavigationRail() {
+  Widget _webNavigationRail(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -186,31 +187,31 @@ class _NavigationState extends ConsumerState<Navigation> {
             });
           },
           labelType: NavigationRailLabelType.all,
-          destinations: const <NavigationRailDestination>[
+          destinations: <NavigationRailDestination>[
             NavigationRailDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: Text('Home'),
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: Text(AppLocalizations.of(context)!.home),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: Text('Grades'),
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: Text(AppLocalizations.of(context)!.grades),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.class_outlined),
               selectedIcon: Icon(Icons.class_),
-              label: Text('Lectures'),
+              label: Text(AppLocalizations.of(context)!.lectures),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.calendar_month_outlined),
               selectedIcon: Icon(Icons.calendar_month),
-              label: Text('Calendar'),
+              label: Text(AppLocalizations.of(context)!.calendar),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.place_outlined),
               selectedIcon: Icon(Icons.place),
-              label: Text('Places'),
+              label: Text(AppLocalizations.of(context)!.places),
             ),
           ],
         ),
