@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,7 @@ class SettingsView extends ConsumerWidget {
         ));
   }
 
-  Widget _localeSelection(BuildContext context,WidgetRef ref) {
+  Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
         dense: true,
         leading: Icon(Icons.language,
@@ -72,8 +72,7 @@ class SettingsView extends ConsumerWidget {
           },
           value: Localizations.localeOf(context),
           items: AppLocalizations.supportedLocales
-              .map((e) => DropdownMenuItem(
-                  value: e, child: Text(e.fullName())))
+              .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
               .toList(),
         ));
   }
