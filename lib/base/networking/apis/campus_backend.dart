@@ -1,6 +1,6 @@
 import 'package:grpc/grpc.dart';
 
-import '../protocols/grpc/campus.pbgrpc.dart';
+import '../protocols/grpc/tumdev/campus_backend.pbgrpc.dart';
 
 
 class CampusService {

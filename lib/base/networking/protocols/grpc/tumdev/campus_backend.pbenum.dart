@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: campus.proto
+//  source: tumdev/campus_backend.proto
 //
 // @dart = 2.12
 

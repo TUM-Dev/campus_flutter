@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: campus.proto
+//  source: tumdev/campus_backend.proto
 //
 // @dart = 2.12
 
@@ -14,10 +14,10 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'campus.pbenum.dart';
-import 'google/protobuf/timestamp.pb.dart' as $2;
+import '../google/protobuf/timestamp.pb.dart' as $2;
+import 'campus_backend.pbenum.dart';
 
-export 'campus.pbenum.dart';
+export 'campus_backend.pbenum.dart';
 
 class RegisterDeviceRequest extends $pb.GeneratedMessage {
   factory RegisterDeviceRequest({

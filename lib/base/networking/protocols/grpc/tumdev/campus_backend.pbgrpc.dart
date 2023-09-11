@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: campus.proto
+//  source: tumdev/campus_backend.proto
 //
 // @dart = 2.12
 
@@ -15,10 +15,10 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'campus.pb.dart' as $1;
-import 'google/protobuf/empty.pb.dart' as $0;
+import '../google/protobuf/empty.pb.dart' as $0;
+import 'campus_backend.pb.dart' as $1;
 
-export 'campus.pb.dart';
+export 'campus_backend.pb.dart';
 
 @$pb.GrpcServiceName('api.Campus')
 class CampusClient extends $grpc.Client {

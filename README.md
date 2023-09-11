@@ -67,8 +67,8 @@ To update the generated stubs for the Campus, you need protoc installed, then ac
 ```bash
 dart pub global activate protoc_plugin
 export PATH="$PATH:$HOME/.pub-cache/bin"
-curl -o protos/campus.proto https://raw.githubusercontent.com/TUM-Dev/Campus-Backend/main/server/api/CampusService.proto
-protoc --dart_out=grpc:lib/base/networking/protocols/grpc -I./protos google/protobuf/timestamp.proto google/protobuf/any.proto google/protobuf/empty.proto protos/campus.proto
+curl -o protos/tumdev/campus_backend.proto https://raw.githubusercontent.com/TUM-Dev/Campus-Backend/main/server/api/CampusService.proto
+protoc --dart_out=grpc:lib/base/networking/protocols/grpc -I./protos google/protobuf/timestamp.proto google/protobuf/empty.proto protos/campus_backend.proto 
 ```
 
 
