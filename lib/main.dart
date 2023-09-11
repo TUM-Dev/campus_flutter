@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/protocols/grpc/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
@@ -19,7 +19,7 @@ main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   getIt.registerSingleton<CampusClient>(CampusClient(ClientChannel(
-    "api.tum.app/v1",
+    "api.tum.app",
     port: 443,
     options: const ChannelOptions(),
   )));
