@@ -12,6 +12,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'base/networking/apis/campus_backend.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ main() async {
     getIt.registerSingleton<MainApi>(
         MainApi.mobileCache(await getTemporaryDirectory()));
   }
+  CampusService().init();
   runApp(const ProviderScope(child: CampusApp()));
 }
 
