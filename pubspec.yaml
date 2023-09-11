@@ -18,7 +18,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   flutter_native_splash: ^2.2.19
-  flutter_secure_storage: ^8.0.0
+  flutter_secure_storage: ^9.0.0
   geolocator: ^10.0.0
   hive: ^2.2.3
   http: ^0.13.5
@@ -58,6 +58,11 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/xml2json.git
       ref: master
+  google_maps_flutter_ios:
+    git:
+      url: https://github.com/jakobkoerber/packages.git
+      path: packages/google_maps_flutter/google_maps_flutter_ios
+      ref: main
 
 dev_dependencies:
   flutter_test:
