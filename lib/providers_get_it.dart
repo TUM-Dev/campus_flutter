@@ -17,7 +17,6 @@ import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 
 /// get_it instance for singleton services
 final getIt = GetIt.instance;
