@@ -70,7 +70,7 @@ class SettingsView extends ConsumerWidget {
           onChanged: (Locale? newLocale) {
             // TODO: set the global locale state
           },
-          value: Localizations.localeOf(context)!,
+          value: Localizations.localeOf(context),
           items: AppLocalizations.supportedLocales
               .map((e) => DropdownMenuItem(
                   value: e, child: Text(e.fullName())))
