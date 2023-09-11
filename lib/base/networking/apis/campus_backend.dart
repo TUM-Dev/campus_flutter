@@ -1,6 +1,7 @@
 import 'package:grpc/grpc.dart';
 
-import '../../../generated/campus.pbgrpc.dart';
+import '../protocols/grpc/campus.pbgrpc.dart';
+
 
 class CampusService {
   CampusService._internal();
