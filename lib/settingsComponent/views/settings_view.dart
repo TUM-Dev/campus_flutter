@@ -68,9 +68,11 @@ class SettingsView extends ConsumerWidget {
             style: Theme.of(context).textTheme.bodyMedium),
         trailing: DropdownButton(
           onChanged: (Locale? newLocale) {
-            // TODO: set the global locale state
+            if (newLocale != null) {
+              ref.read(locale.notifier).state = newLocale;
+            }
           },
-          value: Localizations.localeOf(context),
+          value: ref.watch(locale),
           items: AppLocalizations.supportedLocales
               .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
               .toList(),

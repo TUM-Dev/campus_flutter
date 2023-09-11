@@ -28,16 +28,17 @@ main() async {
   runApp(const ProviderScope(child: CampusApp()));
 }
 
-class CampusApp extends StatelessWidget {
+class CampusApp extends ConsumerWidget {
   const CampusApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
         title: "TUM Campus App",
         debugShowCheckedModeBanner: false,
         theme: lightTheme(context),
         darkTheme: darkTheme(context),
+        locale: ref.watch(locale),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routes: {

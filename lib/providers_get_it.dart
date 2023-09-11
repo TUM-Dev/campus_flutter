@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
@@ -16,6 +17,7 @@ import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 
 /// get_it instance for singleton services
 final getIt = GetIt.instance;
@@ -25,6 +27,7 @@ final selectedLecture = StateProvider<Lecture?>((ref) => null);
 final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
+final locale = StateProvider<Locale>((ref) => const Locale("de"));
 
 /// viewModels for RiverPod - state is uninitialized at first
 final loginViewModel = Provider((ref) => LoginViewModel());
