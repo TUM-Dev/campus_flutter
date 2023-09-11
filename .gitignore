@@ -1,0 +1,4 @@
+/.flutter-plugins*
+/build/
+.idea
+.dart_tool
