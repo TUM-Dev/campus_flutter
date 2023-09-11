@@ -61,19 +61,19 @@ class _NavigationState extends ConsumerState<Navigation> {
                         .textTheme
                         .titleLarge);
               case 2:
-                return Text("Lectures",
+                return Text(AppLocalizations.of(context)!.lectures,
                     style: Theme
                         .of(context)
                         .textTheme
                         .titleLarge);
               case 3:
-                return Text("Calendar",
+                return Text(AppLocalizations.of(context)!.calendar,
                     style: Theme
                         .of(context)
                         .textTheme
                         .titleLarge);
               case 4:
-                return Text("Places",
+                return Text(AppLocalizations.of(context)!.places,
                     style: Theme
                         .of(context)
                         .textTheme
@@ -111,8 +111,7 @@ class _NavigationState extends ConsumerState<Navigation> {
       const GradesView(),
       const LecturesView(),
       const CalendarsView(),
-      // TODO: replace with places widget
-      const Text("Coming Soon")
+      Text(AppLocalizations.of(context)!.comingSoon), // TODO: replace with places widget
     ][currentPageIndex];
   }
 
@@ -143,31 +142,31 @@ class _NavigationState extends ConsumerState<Navigation> {
                   : null
               : null,
           selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.house_outlined),
-              selectedIcon: Icon(Icons.house),
-              label: 'Home',
+              icon: const Icon(Icons.house_outlined),
+              selectedIcon: const Icon(Icons.house),
+              label: AppLocalizations.of(context)!.home,
             ),
             NavigationDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: 'Grades',
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: AppLocalizations.of(context)!.grades,
             ),
             NavigationDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: 'Lectures',
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: AppLocalizations.of(context)!.lectures,
             ),
             NavigationDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: 'Calendar',
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: AppLocalizations.of(context)!.calendar,
             ),
             NavigationDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: 'Places',
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: AppLocalizations.of(context)!.places,
             ),
           ],
         ));
@@ -199,18 +198,18 @@ class _NavigationState extends ConsumerState<Navigation> {
               label: Text(AppLocalizations.of(context)!.grades),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
               label: Text(AppLocalizations.of(context)!.lectures),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
               label: Text(AppLocalizations.of(context)!.calendar),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
               label: Text(AppLocalizations.of(context)!.places),
             ),
           ],

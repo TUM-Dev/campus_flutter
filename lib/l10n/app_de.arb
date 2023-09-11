@@ -1,7 +1,8 @@
 {
   "home": "Home",
-  "grades": "Grades",
-  "lectures": "Lectures",
-  "calendar": "Calendar",
-  "places": "Places"
+  "grades": "Noten",
+  "lectures": "Vorlesungen",
+  "calendar": "Kalender",
+  "places": "Orte",
+  "comingSoon": "Demnächst verfügbar"
 }
