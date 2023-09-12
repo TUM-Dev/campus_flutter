@@ -10,6 +10,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -69,6 +70,8 @@ class SettingsView extends ConsumerWidget {
         trailing: DropdownButton(
           onChanged: (Locale? newLocale) {
             if (newLocale != null) {
+              var settings = Hive.box('settings');
+              settings.put("languageCode", newLocale.languageCode);
               ref.read(locale.notifier).state = newLocale;
             }
           },
