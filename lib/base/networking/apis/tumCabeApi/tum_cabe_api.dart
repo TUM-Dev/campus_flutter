@@ -64,40 +64,8 @@ class TumCabeApi extends Api {
         return "${path}news/sources";
       case TumCabeServiceNewsAlert _:
         return "${path}news/alert";
-      case TumCabeServiceRoomSearch _:
-        // TODO:
-        return path;
-        /*return "roomfinder/room/search/${roomSearch.query.addingPercentEncoding(
-            withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TumCabeServiceRoomMaps _:
-        // TODO:
-        return path;
-        /*return "roomfinder/room/availableMaps/${roomMaps.room.addingPercentEncoding(
-            withAllowedCharacters: .afURLQueryAllowed) ?? ""}";*/
-      case TumCabeServiceRoomCoordinates roomCoordinates:
-        return "${path}roomfinder/room/coordinates/${roomCoordinates.room}";
-      case TumCabeServiceDefaultMap defaultMap:
-        return "${path}roomfinder/room/defaultMap/${defaultMap.room}";
-      case TumCabeServiceMapImage mapImage:
-        return "${path}roomfinder/room/map/${mapImage.room}/${mapImage.id}";
       case TumCabeServiceRegisterDevice registerDevice:
         return "${path}device/register/${registerDevice.publicKey}";
-      case TumCabeServiceEvents _:
-        return "${path}event/list";
-      case TumCabeServiceMyEvents _:
-        return "${path}event/ticket/my";
-      case TumCabeServiceTicketTypes ticketTypes:
-        return "${path}event/ticket/type/${ticketTypes.event}";
-      case TumCabeServiceTicketStats ticketStats:
-        return "${path}event/ticket/type/${ticketStats.event}";
-      case TumCabeServiceTicketReservation _:
-        return "${path}event/ticket/reserve";
-      case TumCabeServiceTicketReservationCancellation _:
-        return "${path}event/ticket/reserve/cancel";
-      case TumCabeServiceTicketPurchase _:
-        return "${path}event/ticket/payment/stripe/purchase";
-      case TumCabeServiceStripeKey _:
-        return "${path}event/ticket/payment/stripe/ephemeralkey";
     }
   }
 
