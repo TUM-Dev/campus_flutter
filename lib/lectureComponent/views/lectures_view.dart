@@ -11,6 +11,7 @@ import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart'
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LecturesView extends ConsumerStatefulWidget {
   const LecturesView({super.key});
@@ -34,7 +35,7 @@ class _GradeViewState extends ConsumerState<LecturesView> {
         stream: ref.watch(lectureViewModel).lectures,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
-            return const Center(child: Text("no lectures found"));
+            return Center(child: Text(AppLocalizations.of(context)!.noLecturesFound));
           } else {
             Future(() {
               ref.read(selectedLecture.notifier).state = data.values.first.first;
@@ -73,8 +74,9 @@ class _GradeViewState extends ConsumerState<LecturesView> {
                       if (snapshot.hasData) {
                         return snapshot.data!;
                       } else {
-                        return const DelayedLoadingIndicator(
-                          alternativeLoadingIndicator: Center(child: Text("no lecture selected")),
+                        return DelayedLoadingIndicator(
+                            name: AppLocalizations.of(context)!.lecture,
+                            alternativeLoadingIndicator: Center(child: Text(AppLocalizations.of(context)!.noLecturesSelected)),
                         );
                       }
                     }))
@@ -108,7 +110,7 @@ class SemesterView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
-      title: Text(StringParser.toFullSemesterName(semester.key)),
+      title: Text(StringParser.toFullSemesterName(context,semester.key)),
       initiallyExpanded: semester.key == SemesterCalculator.getCurrentSemester(),
       children: [
         for (var index = 0; index < semester.value.length; index++)
@@ -124,7 +126,7 @@ class SemesterView extends ConsumerWidget {
                     Expanded(
                         child: IconText(
                       iconData: Icons.edit,
-                      label: semester.value[index].eventType,
+                      label: semester.value[index].eventType(context),
                       iconColor: Theme.of(context).primaryColor,
                       textColor: Theme.of(context).colorScheme.secondary,
                       multipleLines: true,

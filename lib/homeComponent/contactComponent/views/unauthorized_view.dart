@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UnauthorizedView extends StatelessWidget {
   const UnauthorizedView({super.key});
@@ -12,7 +13,7 @@ class UnauthorizedView extends StatelessWidget {
           radius: 50,
         ),
         const Spacer(),
-        Text("Not Logged In", style: Theme.of(context).textTheme.titleLarge),
+        Text(AppLocalizations.of(context)!.notLoggedIn, style: Theme.of(context).textTheme.titleLarge),
         const Spacer(flex: 2)
       ],
     );

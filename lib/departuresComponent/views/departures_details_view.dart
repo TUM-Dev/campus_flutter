@@ -9,6 +9,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeparturesDetailsScaffold extends ConsumerWidget {
   const DeparturesDetailsScaffold({super.key});
@@ -27,7 +28,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                 backgroundColor: backgroundColor,
                 title: Text(
                     ref.watch(departureViewModel).selectedStation.value?.name ??
-                        "Departures"),
+                        AppLocalizations.of(context)!.departures),
                 actions: [
                   PopupMenuButton<Station>(
                     initialValue:
@@ -70,7 +71,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
             children: [
               if (ref.watch(departureViewModel).selectedStation.value !=
                   null) ...[
-                Text.rich(TextSpan(text: "Station: ", children: [
+                Text.rich(TextSpan(text: AppLocalizations.of(context)!.station, children: [
                   TextSpan(
                       text: ref
                           .watch(departureViewModel)
@@ -110,23 +111,23 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                         }
                       }
                     },
-                    child: const IconText(
-                        iconData: Icons.open_in_new, label: "Show Directions"))
+                    child: IconText(
+                        iconData: Icons.open_in_new, label: AppLocalizations.of(context)!.showDirections))
               ],
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               if (lastFetched != null) LastUpdatedText(lastFetched),
-              const Row(
+              Row(
                 children: [
                   SizedBox(
                       width: 50,
-                      child: Text("Line",
-                          style: TextStyle(fontWeight: FontWeight.w500))),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
-                  Text("Direction",
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                  Spacer(),
-                  Text("Departure",
-                      style: TextStyle(fontWeight: FontWeight.w500))
+                      child: Text(AppLocalizations.of(context)!.line,
+                          style: const TextStyle(fontWeight: FontWeight.w500))),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
+                  Text(AppLocalizations.of(context)!.direction,
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                  const Spacer(),
+                  Text(AppLocalizations.of(context)!.departure,
+                      style: const TextStyle(fontWeight: FontWeight.w500))
                 ],
               ),
               const Divider(),
@@ -151,7 +152,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
           retry: ref.read(departureViewModel).fetch
       );
     } else {
-      return const DelayedLoadingIndicator(name: "Departures");
+      return DelayedLoadingIndicator(name: AppLocalizations.of(context)!.departures);
     }
   }
 }

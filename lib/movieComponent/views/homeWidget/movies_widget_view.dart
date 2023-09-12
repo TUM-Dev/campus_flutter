@@ -8,6 +8,7 @@ import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.d
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});
@@ -35,7 +36,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                 return Card(
                     child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        child: const Text("no movies found")));
+                        child: Text(AppLocalizations.of(context)!.noMoviesFound)));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
                   return HorizontalSlider<Movie>(
@@ -58,6 +59,6 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
             loadingBuilder: (context) => Card(
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.34,
-                    child: const DelayedLoadingIndicator(name: "Movies")))));
+                    child: DelayedLoadingIndicator(name: AppLocalizations.of(context)!.movies)))));
   }
 }

@@ -12,6 +12,7 @@ import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GradesView extends ConsumerStatefulWidget {
   const GradesView({super.key});
@@ -36,7 +37,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
         stream: gradeVM.studyProgramGrades,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
-            return const Center(child: Text("no grades found"));
+            return Center(child: Text(AppLocalizations.of(context)!.noGradesFound));
           } else {
             final lastFetched = ref.read(gradeViewModel).lastFetched.value;
             return OrientationBuilder(builder: (context, constraints) {
@@ -53,8 +54,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
               retry: ref.read(gradeViewModel).fetch,
             ),
-        loadingBuilder: (context) =>
-            const DelayedLoadingIndicator(name: "Grades"));
+        loadingBuilder: (context) => DelayedLoadingIndicator(name: AppLocalizations.of(context)!.grades));
   }
 
   Widget _oneColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
@@ -132,7 +132,7 @@ class SemesterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: ExpansionTile(
-      title: Text(StringParser.toFullSemesterName(semester.key)),
+      title: Text(StringParser.toFullSemesterName(context,semester.key)),
       initiallyExpanded:
           (semester.key == SemesterCalculator.getCurrentSemester() ||
               semester.key == SemesterCalculator.getPriorSemester()),

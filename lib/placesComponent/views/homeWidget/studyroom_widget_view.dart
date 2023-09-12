@@ -7,6 +7,7 @@ import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_grou
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StudyRoomWidgetView extends ConsumerStatefulWidget {
   const StudyRoomWidgetView({super.key});
@@ -25,7 +26,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-        title: "Nearest Study Rooms",
+        title: AppLocalizations.of(context)!.nearestStudyRooms,
         child: StreamBuilder(
             stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
             builder: (context, snapshot) {
@@ -46,7 +47,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
       if (snapshot.data != null) {
         return _buttonLabel(context, snapshot);
       } else {
-        return const Center(child: Text("no study rooms near you found"));
+        return Center(child: Text(AppLocalizations.of(context)!.noNearFreeStudyRoomsFound));
       }
     } else if (snapshot.hasError) {
       return ErrorHandlingView(
@@ -72,7 +73,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
     return Row(
       children: [
-        Text(snapshot.data?.name ?? "Unkown"),
+        Text(snapshot.data?.name ?? AppLocalizations.of(context)!.unknown),
         const Spacer(),
         _freeRooms(snapshot),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
@@ -85,10 +86,10 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
     if (snapshot.data?.rooms != null) {
       final freeRooms = ref.read(studyRoomWidgetViewModel).countAvailableRooms();
       return Text(
-          "$freeRooms room${freeRooms > 1 ? "s" : ""} free",
+          AppLocalizations.of(context)!.nfreeRooms(freeRooms),
           style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red));
     } else {
-      return const Text("no free rooms", style: TextStyle(color: Colors.red));
+      return Text(AppLocalizations.of(context)!.nfreeRooms(0), style: const TextStyle(color: Colors.red));
     }
   }
 }

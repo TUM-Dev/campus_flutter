@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
   const DelayedLoadingIndicator({
     super.key,
-    this.name,
-    this.alternativeLoadingIndicator, this.delayWidget = const SizedBox.shrink()
+    required this.name,
+    this.alternativeLoadingIndicator,
+    this.delayWidget = const SizedBox.shrink(),
   });
 
-  final String? name;
+  final String name;
   final Widget? alternativeLoadingIndicator;
   final Widget delayWidget;
 
@@ -22,18 +24,15 @@ class DelayedLoadingIndicator extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CircularProgressIndicator.adaptive(),
-                        Text(name != null ? "Loading $name" : "Loading")
-                      ]
-                  )
-              );
+                    const CircularProgressIndicator.adaptive(),
+                    Text(AppLocalizations.of(context)!.loading(name))
+                  ]));
             } else {
               return alternativeLoadingIndicator!;
             }
           } else {
             return delayWidget;
           }
-        }
-    );
+        });
   }
 }

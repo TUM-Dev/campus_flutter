@@ -6,6 +6,7 @@ import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
@@ -24,6 +25,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             return contactInfo(snapshot.data);
           } else {
             return DelayedLoadingIndicator(
+              name: AppLocalizations.of(context)!.personalData,
               alternativeLoadingIndicator: const ContactCardLoadingView(),
               delayWidget: Container(),
             );
@@ -56,7 +58,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                 : "go42tum"),
             Text(data != null ? data.email : PersonDetailsViewModel.defaultPersonDetails.email),
             // TODO: solve with tumCard api?
-            const Text("coming soon")
+            Text(AppLocalizations.of(context)!.comingSoon)
           ],
         ))
       ],

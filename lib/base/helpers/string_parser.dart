@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StringParser {
   static String degreeShortFromID(String studyID) {
@@ -58,32 +60,14 @@ class StringParser {
     }
   }
 
-  static String toFullSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
-
-    switch (semester.substring(2)) {
-      case "W":
-        return "Wintersemester" " $year/$nextYearShort";
-      case "S":
-        return "Summersemester" " $year";
-      default:
-        return "Unknown";
-    }
+  static String toFullSemesterName(BuildContext context, String semester) {
+    final yearOffset = int.parse(semester.substring(0, 2));
+    return AppLocalizations.of(context)!.fullSemesterName(semester.substring(2), 2000+yearOffset,yearOffset + 1);
   }
 
-  static String toShortSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
-
-    switch (semester.substring(2)) {
-      case "W":
-        return "WiSe" " $year/$nextYearShort";
-      case "S":
-        return "SoSe" " $year";
-      default:
-        return "Unknown";
-    }
+  static String toShortSemesterName(BuildContext context, String semester) {
+    final yearOffset = int.parse(semester.substring(0, 2));
+    return AppLocalizations.of(context)!.shortSemesterName(semester.substring(2), 2000+yearOffset,yearOffset + 1);
   }
 
   static String dateFormatter(DateTime dateTime) {

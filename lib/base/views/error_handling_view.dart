@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorHandlingView extends StatelessWidget {
   const ErrorHandlingView(
@@ -91,7 +92,7 @@ class ErrorHandlingView extends StatelessWidget {
           const Spacer(),
           if (retry != null) ...[
             ElevatedButton(
-                onPressed: () => retry!(true), child: const Text("Try Again")),
+                onPressed: () => retry!(true), child: Text(AppLocalizations.of(context)!.tryAgain)),
             const Spacer()
           ]
         ]));

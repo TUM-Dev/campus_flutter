@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfirmView extends ConsumerStatefulWidget {
   const ConfirmView({super.key});
@@ -85,7 +86,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         appBar: AppBar(
             leading: const BackButton(),
             backgroundColor: backgroundColor,
-            title: const Text("Check Token")),
+            title: Text(AppLocalizations.of(context)!.checkToken)),
         body: Column(children: [
           Text(texts[currentText], textAlign: TextAlign.center),
           const Spacer(),
@@ -126,10 +127,10 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                             content: ErrorHandlingView(error: error, errorHandlingViewType: ErrorHandlingViewType.textOnly, titleColor: Colors.white)));
                   });
                 },
-                child: const IconText(
+                child: IconText(
                   iconData: Icons.arrow_forward,
-                  label: "Check Token",
-                  style: TextStyle(color: Colors.white),
+                  label: AppLocalizations.of(context)!.checkToken,
+                  style: const TextStyle(color: Colors.white),
                   leadingIcon: false,
                 )),
           ]),
@@ -143,12 +144,12 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
 
                     String email = Uri.encodeComponent("app@tum.de");
                     String subject = Uri.encodeComponent("[$operatingSystem - Token]");
-                    String body = Uri.encodeComponent("Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"); //output: Hello%20Flutter
+                    String body = Uri.encodeComponent("Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n");
                     Uri emailUri = Uri.parse("mailto:$email?subject=$subject&body=$body");
 
                     UrlLauncher.url(emailUri, ref);
                   },
-                  child: Text("Contact Support",
+                  child: Text(AppLocalizations.of(context)!.contactSupport,
                       style:
                           TextStyle(color: Theme.of(context).primaryColor)))),
           const Spacer(flex: 2)
