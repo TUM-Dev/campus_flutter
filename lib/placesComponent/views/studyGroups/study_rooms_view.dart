@@ -1,7 +1,13 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
+import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,15 +46,39 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
         stream: ref.watch(studyRoomsViewModel).studyRooms,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
-              children: [
-                for (var studyRoomGroup in snapshot.data!.keys)
-                  Card(
-                      child: StudyRoomWidgetView(
-                    studyRoomGroup,
-                  ))
-              ],
-            );
+            return OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.landscape) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: MapWidget.customPadding(
+                          padding: EdgeInsets.only(
+                              left: context.padding,
+                              right: context.padding,
+                              top: context.halfPadding,
+                              bottom: context.padding),
+                          markers:
+                              ref.read(studyRoomsViewModel).mapMakers(context)),
+                    ),
+                    Expanded(
+                        child:
+                            _studyRoomList(snapshot.data!.keys.toList(), false))
+                  ],
+                );
+              } else {
+                return SingleChildScrollView(
+                    child: Column(
+                  children: [
+                    MapWidget.horizontalPadding(
+                      markers: ref.read(studyRoomsViewModel).mapMakers(context),
+                    ),
+                    const PaddedDivider(),
+                    _studyRoomList(snapshot.data!.keys.toList(), true)
+                  ],
+                ));
+              }
+            });
           } else if (snapshot.hasError) {
             return ErrorHandlingView(
               error: snapshot.error!,
@@ -61,5 +91,20 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
             );
           }
         });
+  }
+
+  Widget _studyRoomList(List<StudyRoomGroup> studyRoomGroups, bool portrait) {
+    return WidgetFrameView(
+        title: portrait ? "Study Rooms" : null,
+        child: Column(
+          children: [
+            Card(
+                child: SeparatedList(
+              data: studyRoomGroups,
+              tile: (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
+              padded: true,
+            ))
+          ],
+        ));
   }
 }

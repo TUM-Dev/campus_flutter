@@ -8,11 +8,14 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
+import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 class CafeteriasViewModel {
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
@@ -81,7 +84,6 @@ class CafeteriasViewModel {
       List<(Cafeteria, CafeteriaMenu)> data = [];
       for (final cafeteria in cafeteriasInRadius) {
         await fetchCafeteriaMenu(false, cafeteria).then((value) {
-          print(value.toString());
           if (value.isNotEmpty) {
             data.add((cafeteria, value.first));
           } else {
@@ -186,6 +188,7 @@ class CafeteriasViewModel {
 
       case "Beilagen":
       case var string when RegExp(r"B\d").hasMatch(string):
+      case "Vegetarisch/fleischlos":
       case "DishType.VEGETARIAN":
         return "🥗";
 
@@ -199,6 +202,9 @@ class CafeteriasViewModel {
       case "Süßspeise":
       case var string when RegExp(r"N\d").hasMatch(string):
         return "🍰";
+
+      case "Aktion":
+        return "🏷️";
 
       default:
         return " ";
@@ -241,5 +247,43 @@ class CafeteriasViewModel {
         (basePriceString ?? '') + divider + (unitPriceString ?? '');
 
     return finalPrice;
+  }
+
+  Set<Marker> mapMakers(BuildContext context) {
+    if (cafeterias.isNotEmpty) {
+      return cafeterias
+          .map((e) => Marker(
+              markerId: MarkerId(const Uuid().v4()),
+              position: LatLng(e.location.latitude, e.location.longitude),
+              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              infoWindow: InfoWindow(
+                  title: e.name,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CafeteriaScaffold(
+                            cafeteria: e,
+                          ))))))
+          .toSet();
+    } else {
+      return {};
+    }
+  }
+
+  Set<Marker> mapMakersCampus(BuildContext context, Campus campus) {
+    if (campusCafeterias.value != null) {
+      return (campusCafeterias.value![campus] ?? [])
+          .map((e) => Marker(
+              markerId: MarkerId(e.id.toString()),
+              position: LatLng(e.location.latitude, e.location.longitude),
+              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              infoWindow: InfoWindow(
+                  title: e.name,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CafeteriaScaffold(
+                            cafeteria: e,
+                          ))))))
+          .toSet();
+    } else {
+      return {};
+    }
   }
 }

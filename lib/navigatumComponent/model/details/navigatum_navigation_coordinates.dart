@@ -1,14 +1,13 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_navigation_coordinates.g.dart';
 
 @JsonSerializable()
 class NavigaTumNavigationCoordinates {
-  @JsonKey(name: "lat", fromJson: StringParser.stringToDouble)
-  final double latitude;
-  @JsonKey(name: "long", fromJson: StringParser.stringToDouble)
-  final double longitude;
+  @JsonKey(name: "lat")
+  final double? latitude;
+  @JsonKey(name: "long")
+  final double? longitude;
 
   NavigaTumNavigationCoordinates(this.latitude, this.longitude);
 

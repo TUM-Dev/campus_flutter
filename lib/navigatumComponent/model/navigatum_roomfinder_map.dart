@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_roomfinder_map.g.dart';
@@ -9,13 +8,9 @@ class NavigaTumRoomFinderMap {
   final String name;
   @JsonKey(name: "file")
   final String imageUrl;
-  @JsonKey(fromJson: StringParser.stringToInt)
   final int height;
-  @JsonKey(fromJson: StringParser.stringToInt)
   final int width;
-  @JsonKey(fromJson: StringParser.stringToInt)
   final int x;
-  @JsonKey(fromJson: StringParser.stringToInt)
   final int y;
   final String scale;
 

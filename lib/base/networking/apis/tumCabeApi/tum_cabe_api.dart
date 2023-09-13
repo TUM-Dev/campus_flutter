@@ -8,7 +8,7 @@ class TumCabeApi extends Api {
   TumCabeApi({required this.tumCabeService});
 
   @override
-  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "app.tum.de";
+  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "app.tum.app";
 
   @override
   Map<String, String> get baseHeaders {
@@ -18,9 +18,7 @@ class TumCabeApi extends Api {
       "x-device-id": "not available",
       "x-os-version": "16.4.1"
     };
-
     // TODO:
-
     /*Map<String, String> headerEntries = {};
 
     PackageInfo.fromPlatform().then((value) { headerEntries
@@ -97,6 +95,8 @@ class TumCabeApi extends Api {
         return "${path}event/ticket/payment/stripe/purchase";
       case TumCabeServiceStripeKey _:
         return "${path}event/ticket/payment/stripe/ephemeralkey";
+      case TumCabeServiceOpeningTimes openingTimes:
+        return "${path}openingtimes/${openingTimes.language}";
     }
   }
 

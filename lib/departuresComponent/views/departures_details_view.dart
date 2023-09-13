@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/directions_launcher.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
@@ -8,7 +9,6 @@ import 'package:campus_flutter/departuresComponent/views/departures_details_row_
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 class DeparturesDetailsScaffold extends ConsumerWidget {
   const DeparturesDetailsScaffold({super.key});
@@ -18,9 +18,10 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
-          final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-              ? Theme.of(context).canvasColor
-              : Colors.white;
+          final backgroundColor =
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? Theme.of(context).canvasColor
+                  : Colors.white;
           return Scaffold(
               appBar: AppBar(
                 leading: const BackButton(),
@@ -85,29 +86,10 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                     onTap: () async {
                       Station? selectedStation =
                           ref.read(departureViewModel).selectedStation.value;
-                      if (selectedStation != null && selectedStation.location != null) {
-                        if (await MapLauncher.isMapAvailable(MapType.google) ??
-                            false) {
-                          await MapLauncher.showDirections(
-                            mapType: MapType.google,
-                            directionsMode: DirectionsMode.walking,
-                            destinationTitle: selectedStation.name,
-                            destination: Coords(
-                                selectedStation.location!.latitude,
-                                selectedStation.location!.longitude),
-                          );
-                        } else if (await MapLauncher.isMapAvailable(
-                                MapType.apple) ??
-                            false) {
-                          await MapLauncher.showDirections(
-                            mapType: MapType.apple,
-                            directionsMode: DirectionsMode.walking,
-                            destinationTitle: selectedStation.name,
-                            destination: Coords(
-                                selectedStation.location!.latitude,
-                                selectedStation.location!.longitude),
-                          );
-                        }
+                      if (selectedStation != null &&
+                          selectedStation.location != null) {
+                        launchDirections(selectedStation.location!,
+                            selectedStation.name, ref);
                       }
                     },
                     child: const IconText(
@@ -138,8 +120,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       child: ListView.separated(
                           itemBuilder: (context, index) =>
                               DeparturesDetailsRowView(
-                                  departure:
-                                      widget.snapshot.data![index]),
+                                  departure: widget.snapshot.data![index]),
                           separatorBuilder: (context, index) => const Divider(),
                           itemCount: widget.snapshot.data!.length))),
             ],
@@ -148,8 +129,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
       return ErrorHandlingView(
           error: widget.snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-          retry: ref.read(departureViewModel).fetch
-      );
+          retry: ref.read(departureViewModel).fetch);
     } else {
       return const DelayedLoadingIndicator(name: "Departures");
     }

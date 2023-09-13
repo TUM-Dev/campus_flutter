@@ -78,7 +78,7 @@ class TimeStrategy implements WidgetRecommenderStrategy {
         }
 
       case HomeWidget.movies:
-        await MovieService.fetchMovies(false).then((value) {
+        await MovieService.fetchMovies(false).then<void>((value) {
           if (value.$2
               .where((element) => element.date.isAfter(DateTime.now()))
               .isEmpty) {

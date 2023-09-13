@@ -1,14 +1,18 @@
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
+import 'package:campus_flutter/placesComponent/views/directions_button.dart';
+import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class StudyRoomGroupScaffold extends ConsumerWidget {
   factory StudyRoomGroupScaffold(StudyRoomGroup? studyRoomGroup) {
@@ -22,6 +26,7 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
   }
 
   const StudyRoomGroupScaffold.closest({super.key, this.studyRoomGroup});
+
   const StudyRoomGroupScaffold.group({super.key, required this.studyRoomGroup});
 
   final StudyRoomGroup? studyRoomGroup;
@@ -49,6 +54,7 @@ class StudyRoomGroupView extends ConsumerWidget {
   }
 
   const StudyRoomGroupView.closest({super.key, this.studyRoomGroup});
+
   const StudyRoomGroupView.group({super.key, required this.studyRoomGroup});
 
   final StudyRoomGroup? studyRoomGroup;
@@ -64,43 +70,153 @@ class StudyRoomGroupView extends ConsumerWidget {
             final studyRooms =
                 ref.read(studyRoomsViewModel).studyRooms.value?[studyRoomGroup];
             final lastFetched = ref.read(studyRoomsViewModel).lastFetched;
-            return RefreshIndicator(
-                onRefresh: () => ref.read(studyRoomsViewModel).fetch(true),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(studyRoomGroup?.name ?? "Unknown",
-                              style: Theme.of(context).textTheme.titleLarge)),
-                      //const PaddedDivider(),
-                      WidgetFrameView(
-                          title: "Rooms",
-                          subtitle: lastFetched != null
-                              ? LastUpdatedText(lastFetched)
-                              : null,
-                          child: CardWithPadding(
+            return OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.landscape) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: Column(
+                      children: [
+                        MapWidget.horizontalPadding(
+                          markers: {
+                            Marker(
+                                markerId: const MarkerId("studyRoomMarker"),
+                                icon:
+                                    BitmapDescriptor.defaultMarkerWithHue(208),
+                                position: LatLng(
+                                    studyRoomGroup!.coordinate!.latitude,
+                                    studyRoomGroup.coordinate!.longitude),
+                                infoWindow: InfoWindow(
+                                    title: studyRoomGroup.name ?? "Unknown")),
+                          },
+                          latLng: LatLng(
+                              studyRoomGroup.coordinate?.latitude ?? 0.0,
+                              studyRoomGroup.coordinate?.longitude ?? 0.0),
+                          zoom: 15,
+                          aspectRatio: 2,
+                        ),
+                        if (studyRoomGroup.coordinate != null)
+                          DirectionsButton.latLng(
+                            latitude: studyRoomGroup.coordinate!.latitude,
+                            longitude: studyRoomGroup.coordinate!.longitude,
+                            name: studyRoomGroup.name,
+                          ),
+                      ],
+                    )),
+                    Expanded(
+                        child: RefreshIndicator(
+                            onRefresh: () =>
+                                ref.read(studyRoomsViewModel).fetch(true),
+                            child: SingleChildScrollView(
                               child: Column(
-                            children: [
-                              for (var studyRoom
-                                  in (studyRooms ?? []).indexed) ...[
-                                GestureDetector(
-                                    onTap: () {
-                                      // TODO:
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
-                                    },
-                                    child: StudyRoomRowView(
-                                        studyRoom: studyRoom.$2)),
-                                if (studyRoom.$1 !=
-                                    (studyRooms?.length ?? 0) - 1)
-                                  const Divider()
-                              ]
-                            ],
-                          )))
-                    ],
-                  ),
-                ));
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text(
+                                          studyRoomGroup.name ?? "Unknown",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge)),
+                                  WidgetFrameView(
+                                      title: "Rooms",
+                                      subtitle: lastFetched != null
+                                          ? LastUpdatedText(lastFetched)
+                                          : null,
+                                      child: CardWithPadding(
+                                          child: Column(
+                                        children: [
+                                          for (var studyRoom
+                                              in (studyRooms ?? [])
+                                                  .indexed) ...[
+                                            GestureDetector(
+                                                onTap: () {
+                                                  // TODO:
+                                                  //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
+                                                },
+                                                child: StudyRoomRowView(
+                                                    studyRoom: studyRoom.$2)),
+                                            if (studyRoom.$1 !=
+                                                (studyRooms?.length ?? 0) - 1)
+                                              const Divider()
+                                          ]
+                                        ],
+                                      )))
+                                ],
+                              ),
+                            )))
+                  ],
+                );
+              } else {
+                return RefreshIndicator(
+                    onRefresh: () => ref.read(studyRoomsViewModel).fetch(true),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(studyRoomGroup?.name ?? "Unknown",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge)),
+                          if (studyRoomGroup?.coordinate != null)
+                            MapWidget.fullPadding(
+                              markers: {
+                                Marker(
+                                    markerId: const MarkerId("studyRoomMarker"),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                                        208),
+                                    position: LatLng(
+                                        studyRoomGroup!.coordinate!.latitude,
+                                        studyRoomGroup.coordinate!.longitude),
+                                    infoWindow: InfoWindow(
+                                        title:
+                                            studyRoomGroup.name ?? "Unknown")),
+                              },
+                              latLng: LatLng(
+                                  studyRoomGroup.coordinate?.latitude ?? 0.0,
+                                  studyRoomGroup.coordinate?.longitude ?? 0.0),
+                              zoom: 15,
+                              aspectRatio: 2,
+                            ),
+                          if (studyRoomGroup?.coordinate != null)
+                            DirectionsButton.latLng(
+                              latitude: studyRoomGroup!.coordinate!.latitude,
+                              longitude: studyRoomGroup.coordinate!.longitude,
+                              name: studyRoomGroup.name,
+                            ),
+                          const PaddedDivider(),
+                          WidgetFrameView(
+                              title: "Rooms",
+                              subtitle: lastFetched != null
+                                  ? LastUpdatedText(lastFetched)
+                                  : null,
+                              child: CardWithPadding(
+                                  child: Column(
+                                children: [
+                                  for (var studyRoom
+                                      in (studyRooms ?? []).indexed) ...[
+                                    GestureDetector(
+                                        onTap: () {
+                                          // TODO:
+                                          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
+                                        },
+                                        child: StudyRoomRowView(
+                                            studyRoom: studyRoom.$2)),
+                                    if (studyRoom.$1 !=
+                                        (studyRooms?.length ?? 0) - 1)
+                                      const Divider()
+                                  ]
+                                ],
+                              )))
+                        ],
+                      ),
+                    ));
+              }
+            });
           } else if (snapshot.hasError) {
             return ErrorHandlingView(
               error: snapshot.error!,

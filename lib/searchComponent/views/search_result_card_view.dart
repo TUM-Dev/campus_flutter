@@ -1,4 +1,3 @@
-
 /*class SearchResultCardView<T extends SearchViewModel> extends ConsumerWidget {
   const SearchResultCardView(
       {super.key,

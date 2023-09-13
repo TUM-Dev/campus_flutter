@@ -15,7 +15,7 @@ class MovieSearchViewModel {
     if (movieData.isEmpty) {
       return MovieService.fetchMovies(forcedRefresh).then((value) {
         movieData = value.$2
-            .where((element) => element.date.isAfter(DateTime.now()))
+            //.where((element) => element.date.isAfter(DateTime.now()))
             .toList();
         _search(query);
       }, onError: (error) => searchResults.addError(error));

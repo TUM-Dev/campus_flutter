@@ -45,14 +45,29 @@ class SearchView extends ConsumerWidget {
               if (!snapshot.hasData && textEditingController.text.isEmpty) {
                 return const Center(child: Text("Enter a Query to Start"));
               } else {
-                return Scrollbar(
-                    child: SingleChildScrollView(
-                        child:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
-                  for (var result in snapshot.data ??
-                      const Iterable<SearchCategory>.empty())
-                    _searchResultViewBuilder(result),
-                ])));
+                return OrientationBuilder(builder: (context, orientation) {
+                  if (orientation == Orientation.landscape) {
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      children: [
+                        for (var result in snapshot.data ??
+                            const Iterable<SearchCategory>.empty())
+                          _searchResultViewBuilder(result),
+                      ],
+                    );
+                  } else {
+                    return Scrollbar(
+                        child: SingleChildScrollView(
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                          for (var result in snapshot.data ??
+                              const Iterable<SearchCategory>.empty())
+                            _searchResultViewBuilder(result),
+                        ])));
+                  }
+                });
               }
             }));
   }
@@ -68,7 +83,7 @@ class SearchView extends ConsumerWidget {
                       .where((element) => element != SearchCategory.unknown)
                       .toList(),
                   height: 40,
-                  child: (searchCategory) => FilterChip.elevated(
+                  child: (searchCategory) => FilterChip(
                         label: Text(searchCategory.title),
                         onSelected: (selected) {
                           if (snapshot.data?.contains(searchCategory) ??

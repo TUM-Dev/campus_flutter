@@ -123,7 +123,8 @@ class SemesterView extends ConsumerWidget {
         child: ExpansionTile(
       title: Text(StringParser.toFullSemesterName(semester.key)),
       initiallyExpanded:
-          semester.key == SemesterCalculator.getCurrentSemester(),
+          semester.key == SemesterCalculator.getCurrentSemester() ||
+              semester.key == SemesterCalculator.getPriorSemester(),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [

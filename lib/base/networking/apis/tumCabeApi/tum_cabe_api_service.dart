@@ -76,3 +76,9 @@ class TumCabeServiceTicketReservationCancellation extends TumCabeService {}
 class TumCabeServiceTicketPurchase extends TumCabeService {}
 
 class TumCabeServiceStripeKey extends TumCabeService {}
+
+class TumCabeServiceOpeningTimes extends TumCabeService {
+  final String language;
+
+  TumCabeServiceOpeningTimes({required this.language});
+}

@@ -9,8 +9,8 @@ part of 'navigatum_navigation_coordinates.dart';
 NavigaTumNavigationCoordinates _$NavigaTumNavigationCoordinatesFromJson(
         Map<String, dynamic> json) =>
     NavigaTumNavigationCoordinates(
-      StringParser.stringToDouble(json['lat'] as String?),
-      StringParser.stringToDouble(json['long'] as String?),
+      (json['lat'] as num?)?.toDouble(),
+      (json['long'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$NavigaTumNavigationCoordinatesToJson(

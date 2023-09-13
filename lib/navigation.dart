@@ -2,7 +2,7 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
-import 'package:campus_flutter/placesComponent/views/placesScreen.dart';
+import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/search_body_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,6 +46,7 @@ class _NavigationState extends ConsumerState<Navigation> {
   @override
   void initState() {
     ref.read(profileViewModel).fetch(true);
+    ref.read(userPreferencesViewModel).loadUserPreferences();
     super.initState();
   }
 

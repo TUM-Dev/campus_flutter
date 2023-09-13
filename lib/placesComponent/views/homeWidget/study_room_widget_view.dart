@@ -70,8 +70,9 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                       context);
                 }
               },
-              child: CardWithPadding(
-                  height: MediaQuery.sizeOf(context).height * 0.075,
+              child: CardWithPadding.constrained(
+                  boxConstraints: BoxConstraints(
+                      minHeight: MediaQuery.sizeOf(context).height * 0.075),
                   child: _widgetLabel(snapshot, context)));
         });
   }
@@ -102,7 +103,8 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   }
 
   _onPressed(StudyRoomGroup studyRoomGroup, BuildContext context) async {
-    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+    if (MediaQuery.orientationOf(context) == Orientation.portrait ||
+        widget.studyRoomGroup != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => StudyRoomGroupScaffold(studyRoomGroup)));
     } else {

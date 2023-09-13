@@ -1,30 +1,26 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
-import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
+import 'package:campus_flutter/providers_get_it.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PlacesViewModel implements ViewModel {
-  BehaviorSubject<bool?> status = BehaviorSubject.seeded(null);
   List<Campus> campuses = [];
-  List<Cafeteria> cafeterias = [];
 
   StudyRoomData? studyRoomData;
+  final Ref ref;
+
+  PlacesViewModel(this.ref);
 
   @override
   Future fetch(bool forcedRefresh) {
-    return Future.wait([
-      //StudyRoomsService.fetchStudyRooms(forcedRefresh),
-      //CafeteriasService.fetchCafeterias(forcedRefresh),
-      _getCampusByLocation()
-    ]).then((value) {
-      //studyRoomData = (value[0] as (DateTime?, StudyRoomData)).$2;
-      //cafeterias = (value[1] as (DateTime?, List<Cafeteria>)).$2;
-      campuses = value[0];
-      status.add(true);
-    }, onError: (error) => status.addError(error));
+    return _getCampusByLocation().then((value) {
+      campuses = value;
+    });
   }
 
   Future<List<Campus>> _getCampusByLocation() {
@@ -59,65 +55,11 @@ class PlacesViewModel implements ViewModel {
     }, onError: (error) => defaultOrder);
   }
 
-  /*List<Cafeteria> getCampusCafeterias(Campus campus) {
-    return cafeterias
-        .where((element) =>
-            Geolocator.distanceBetween(
-                campus.location.latitude,
-                campus.location.longitude,
-                element.location.latitude,
-                element.location.longitude) <=
-            1000)
-        .toList();
+  Set<Marker> getCampusMarkers(BuildContext context, Campus campus) {
+    final studyRoomMarkers =
+        ref.read(studyRoomsViewModel).mapMakersCampus(context, campus);
+    final cafeteriaMarkers =
+        ref.read(cafeteriasViewModel).mapMakersCampus(context, campus);
+    return studyRoomMarkers.union(cafeteriaMarkers);
   }
-
-  List<StudyRoomGroup> getCampusStudyRooms(Campus campus) {
-    if (studyRoomData?.groups != null) {
-      final groups = studyRoomData!.groups!;
-      return groups.where((element) {
-        if (element.coordinate != null) {
-          return Geolocator.distanceBetween(
-                  campus.location.latitude,
-                  campus.location.longitude,
-                  element.coordinate!.latitude,
-                  element.coordinate!.longitude) <=
-              1000;
-        } else {
-          return false;
-        }
-      })
-          //.map((e) => (e, getStudyRoom(e)))
-          .toList();
-    } else {
-      return [];
-    }
-  }*/
-
-  /*List<StudyRoom> getStudyRoom(StudyRoomGroup studyRoomGroup) {
-    final rooms = studyRoomGroup.getRooms(studyRoomData?.rooms ?? []);
-    rooms.sort((room1, room2) {
-      if (room1.localizedStatus == "Free" && room2.localizedStatus == "Free") {
-        return 0;
-      } else if (room1.localizedStatus != "Free" &&
-          room2.localizedStatus == "Free") {
-        return 1;
-      } else if (room1.localizedStatus == "Free" &&
-          room2.localizedStatus != "Free") {
-        return -1;
-      } else if (room1.localizedStatus != "Unknown" &&
-          room2.localizedStatus == "Unknown") {
-        return -1;
-      } else if (room1.localizedStatus == "Unknown" &&
-          room2.localizedStatus != "Unknown") {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-    return rooms;
-  }
-
-  int countFreeRooms(List<StudyRoom> studyRooms) {
-    return studyRooms.where((element) => element.isAvailable).length;
-  }*/
 }

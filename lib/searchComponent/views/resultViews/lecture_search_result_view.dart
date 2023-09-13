@@ -19,21 +19,16 @@ class LectureSearchResultView extends ConsumerWidget {
           stream: ref.watch(lectureSearchViewModel).personalSearchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final length = snapshot.data!.length >= 3
-                  ? 3 //+ 1
-                  : snapshot.data!.length; // + 1;
               return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (context, index) => //index == length - 1
-                      //? const Text("Show More")
-                      /*:*/ LectureView(lecture: snapshot.data![index].$1),
+                  itemBuilder: (context, index) =>
+                      LectureView(lecture: snapshot.data![index].$1),
                   separatorBuilder: (context, index) => const PaddedDivider(
                         height: 0,
                       ),
-                  itemCount: snapshot.data!.length >= 3
-                      ? 3 // + 1
-                      : snapshot.data!.length /* + 1*/);
+                  itemCount:
+                      snapshot.data!.length >= 3 ? 3 : snapshot.data!.length);
             } else if (snapshot.hasError) {
               return ErrorHandlingView(
                   error: snapshot.error!,

@@ -40,10 +40,10 @@ class StringParser {
         // TODO: what does it stand for?
         return "MBD";
       case "60":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BECE";
       case "61":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BEEDE";
       default:
         return "Unknown";
@@ -53,8 +53,10 @@ class StringParser {
   static String degreeShort(String degree) {
     // TODO:
     switch (degree) {
-      case "Bachelor of Science": return "B.Sc.";
-      default: return "unknown";
+      case "Bachelor of Science":
+        return "B.Sc.";
+      default:
+        return "unknown";
     }
   }
 
@@ -114,7 +116,6 @@ class StringParser {
     } else {
       return 0;
     }
-
   }
 
   static int? optStringToOptInt(String? number) {

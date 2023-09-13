@@ -6,9 +6,12 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsView extends ConsumerWidget {
@@ -35,7 +38,6 @@ class SettingsView extends ConsumerWidget {
         title: "General Settings",
         child: Column(children: [
           _tokenPermission(context),
-          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref)
         ]));
   }
 
@@ -64,6 +66,9 @@ class SettingsView extends ConsumerWidget {
       trailing: Switch(
           value: ref.watch(useWebView),
           onChanged: (showWebView) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.webView, showWebView);
             ref.read(useWebView.notifier).state = showWebView;
           }),
     ));
@@ -73,7 +78,10 @@ class SettingsView extends ConsumerWidget {
     return WidgetFrameView(
         title: "Appearance",
         child: Column(children: [
+          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
           _hideFailedGrades(context, ref),
+          if (getIt.get<List<AvailableMap>>().isNotEmpty)
+            const DefaultMapsPickerView()
         ]));
   }
 
@@ -86,7 +94,11 @@ class SettingsView extends ConsumerWidget {
       trailing: Switch(
           value: ref.watch(hideFailedGrades),
           onChanged: (value) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.hideFailedGrades, value);
             ref.read(hideFailedGrades.notifier).state = value;
+            ref.read(gradeViewModel).fetch(false);
           }),
     ));
   }

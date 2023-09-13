@@ -10,7 +10,7 @@ class NavigaTumDetailsViewModel {
 
   NavigaTumDetailsViewModel(this.id);
 
-  Future fetchDetails(String searchString, bool forcedRefresh) async {
+  Future fetchDetails(bool forcedRefresh) async {
     if (id.isEmpty) {
       details.addError("Unable to fetch room details");
       return;

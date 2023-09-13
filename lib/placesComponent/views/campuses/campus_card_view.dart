@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CampusCardView extends ConsumerWidget {
-  const CampusCardView({super.key, required this.campus});
+  const CampusCardView({super.key, required this.campus, this.margin});
 
   final Campus campus;
+  final EdgeInsets? margin;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,44 +16,45 @@ class CampusCardView extends ConsumerWidget {
         child: AspectRatio(
             aspectRatio: 1.75,
             child: Card(
+                margin: margin,
                 child: Column(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: SizedBox.expand(
-                        child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(10)),
-                            child: Image.asset(
-                              campus.image ?? "",
-                              fit: BoxFit.cover,
-                            )))),
-                Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              campus.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: SizedBox.expand(
+                            child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(10)),
+                                child: Image.asset(
+                                  campus.image ?? "",
+                                  fit: BoxFit.cover,
+                                )))),
+                    Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  campus.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.w500),
+                                ),
+                                const Spacer(),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.place,
                                       color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.w500),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.place,
-                                  color: Theme.of(context).primaryColor,
-                                ))
-                          ],
-                        )))
-              ],
-            ))),
+                                    ))
+                              ],
+                            )))
+                  ],
+                ))),
         action: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => CampusScaffold(campus: campus)));

@@ -17,15 +17,15 @@ class PhoneExtension {
   @JsonKey(name: "tum_nebenstelle")
   final String branchNumber;
 
-  PhoneExtension({
-    required this.phoneNumber,
-    required this.countryCode,
-    required this.areaCode,
-    required this.equipmentNumber,
-    required this.branchNumber
-  });
+  PhoneExtension(
+      {required this.phoneNumber,
+      required this.countryCode,
+      required this.areaCode,
+      required this.equipmentNumber,
+      required this.branchNumber});
 
-  factory PhoneExtension.fromJson(Map<String, dynamic> json) => _$PhoneExtensionFromJson(json);
+  factory PhoneExtension.fromJson(Map<String, dynamic> json) =>
+      _$PhoneExtensionFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhoneExtensionToJson(this);
 }

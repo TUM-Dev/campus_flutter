@@ -25,31 +25,40 @@ class _CampusScaffoldState extends ConsumerState<CampusScaffold> {
           title: Text(widget.campus.name),
           titleSpacing: 0,
         ),
-        body: CustomScrollView(slivers: [
-          SliverLayoutBuilder(builder: (context, constraints) {
-            final progress = constraints.scrollOffset > fractionalHeight
-                ? (constraints.scrollOffset - fractionalHeight) /
-                    (_height - 0 - fractionalHeight)
-                : 0.0;
-            return SliverAppBar(
-              expandedHeight: _height,
-              toolbarHeight: 0,
-              collapsedHeight: 0,
-              pinned: true,
-              automaticallyImplyLeading: false,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Opacity(
-                    opacity: progress <= 1 ? 1 - progress : 0,
-                    child: Image.asset(
-                      widget.campus.image ?? "",
-                      fit: BoxFit.cover,
-                    )),
-                centerTitle: true,
-                expandedTitleScale: 1,
-              ),
+        body: OrientationBuilder(builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            return CustomScrollView(slivers: [
+              SliverLayoutBuilder(builder: (context, constraints) {
+                final progress = constraints.scrollOffset > fractionalHeight
+                    ? (constraints.scrollOffset - fractionalHeight) /
+                        (_height - 0 - fractionalHeight)
+                    : 0.0;
+                return SliverAppBar(
+                  expandedHeight: _height,
+                  toolbarHeight: 0,
+                  collapsedHeight: 0,
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Opacity(
+                        opacity: progress <= 1 ? 1 - progress : 0,
+                        child: Image.asset(
+                          widget.campus.image ?? "",
+                          fit: BoxFit.cover,
+                        )),
+                    centerTitle: true,
+                    expandedTitleScale: 1,
+                  ),
+                );
+              }),
+              AdaptedCampusView(campus: widget.campus, orientation: orientation)
+            ]);
+          } else {
+            return CampusView(
+              campus: widget.campus,
+              orientation: orientation,
             );
-          }),
-          CampusView(campus: widget.campus)
-        ]));
+          }
+        }));
   }
 }

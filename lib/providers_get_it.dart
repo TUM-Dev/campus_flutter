@@ -8,6 +8,7 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewm
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
+import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_details_viewmodel.dart';
 import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
@@ -23,8 +24,11 @@ import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/g
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 /// get_it instance for singleton services
 final getIt = GetIt.instance;
@@ -35,6 +39,7 @@ final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
+final selectedMapsApp = StateProvider<AvailableMap?>((ref) => null);
 
 /// viewModels for RiverPod - state is uninitialized at first
 /// view model for authentication handling
@@ -62,10 +67,11 @@ final personDetailsViewModel = Provider((ref) {
 });
 
 /// view model for places
-final placesViewModel = Provider((ref) => PlacesViewModel());
+final placesViewModel = Provider((ref) => PlacesViewModel(ref));
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
-//final cafeteriaWidgetViewModel = Provider((ref) => CafeteriaWidgetViewModel());
-//final studyRoomWidgetViewModel = Provider((ref) => StudyRoomWidgetViewModel());
+final navigaTumDetailsViewModel =
+    Provider.family<NavigaTumDetailsViewModel, String>(
+        (ref, id) => NavigaTumDetailsViewModel(id));
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 
@@ -97,6 +103,11 @@ final homeSplitViewModel = Provider((ref) => SplitViewViewModel());
 
 /// view model for landscape mode of lectures
 final lectureSplitViewModel = Provider((ref) => SplitViewViewModel());
+
+/// view models for settings
+final settingsViewModel = Provider((ref) => SettingsViewModel(ref));
+final userPreferencesViewModel =
+    Provider((ref) => UserPreferencesViewModel(ref));
 
 /// search view models
 final searchViewModel = Provider((ref) => SearchViewModel(ref));

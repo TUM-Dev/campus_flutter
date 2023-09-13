@@ -4,8 +4,12 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart'
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
+import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 class StudyRoomsViewModel {
   BehaviorSubject<Map<Campus, List<StudyRoomGroup>>?> campusStudyRooms =
@@ -135,5 +139,43 @@ class StudyRoomsViewModel {
   int freeRooms(StudyRoomGroup studyRoomGroup) {
     List<StudyRoom> data = studyRooms.value?[studyRoomGroup] ?? [];
     return data.where((element) => element.localizedStatus == "Free").length;
+  }
+
+  Set<Marker> mapMakers(BuildContext context) {
+    if (studyRoomData?.groups != null && studyRoomData!.groups!.isNotEmpty) {
+      return studyRoomData!.groups!
+          .where((element) => element.coordinate != null)
+          .map((e) => Marker(
+              markerId: MarkerId(const Uuid().v4()),
+              position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
+              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              infoWindow: InfoWindow(
+                  title: e.name ?? "Unknown",
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => StudyRoomGroupScaffold(e)));
+                  })))
+          .toSet();
+    } else {
+      return {};
+    }
+  }
+
+  Set<Marker> mapMakersCampus(BuildContext context, Campus campus) {
+    if (campusStudyRooms.value != null) {
+      return (campusStudyRooms.value![campus] ?? [])
+          .where((element) => element.coordinate != null)
+          .map((e) => Marker(
+              markerId: MarkerId(e.id.toString()),
+              position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
+              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              infoWindow: InfoWindow(
+                  title: e.name,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => StudyRoomGroupScaffold(e))))))
+          .toSet();
+    } else {
+      return {};
+    }
   }
 }

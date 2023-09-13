@@ -7,7 +7,8 @@ import 'package:campus_flutter/searchComponent/model/vocab.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'
+    if (dart.library.io) 'package:tflite_flutter/tflite_flutter.dart';
 
 class SearchViewModel {
   BehaviorSubject<List<SearchCategory>?> result = BehaviorSubject.seeded(null);

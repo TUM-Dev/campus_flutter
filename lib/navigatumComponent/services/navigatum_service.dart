@@ -27,7 +27,7 @@ class NavigaTumService {
             NavigaTumApi(
                 navigaTumApiService:
                     NavigaTumApiServiceDetails(id: id, language: "en")),
-            (p0) => null,
+            NavigaTumNavigationDetails.fromJson,
             forcedRefresh);
 
     return response.data;

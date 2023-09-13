@@ -96,8 +96,11 @@ ThemeData lightTheme(BuildContext context) {
       /// use material 3 widgets
       useMaterial3: true,
 
-      /// use Material 3 Widgets
+      ///
       dividerColor: Colors.transparent,
+
+      ///
+      dividerTheme: const DividerThemeData(color: Color(0xffE3E3E4)),
 
       /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(
@@ -217,6 +220,7 @@ ThemeData darkTheme(BuildContext context) {
       /// remove colored tint and shadow of card, add margin
       cardTheme: CardTheme(
           color: const Color(0xff252525),
+          elevation: 0,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           margin: EdgeInsets.symmetric(
@@ -235,6 +239,9 @@ ThemeData darkTheme(BuildContext context) {
 
       ///
       dividerColor: Colors.transparent,
+
+      ///
+      dividerTheme: const DividerThemeData(color: Color(0xff323234)),
 
       /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(

@@ -8,7 +8,8 @@ class UnauthorizedView extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/placeholders/portrait_placeholder.png'),
+          backgroundImage:
+              AssetImage('assets/images/placeholders/portrait_placeholder.png'),
           radius: 50,
         ),
         const Spacer(),

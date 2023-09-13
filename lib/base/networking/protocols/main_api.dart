@@ -41,8 +41,8 @@ class MainApi {
             return decoded;
           }
         },
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10));
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5));
 
     this.dio = dio;
   }
@@ -64,17 +64,20 @@ class MainApi {
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
-    dio.options = BaseOptions(responseDecoder: (data, options, body) {
-      final decoded = utf8.decoder.convert(data);
-      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-        final transformer = Xml2Json();
-        transformer.parse(decoded);
-        return transformer
-            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
-      } else {
-        return decoded;
-      }
-    });
+    dio.options = BaseOptions(
+        responseDecoder: (data, options, body) {
+          final decoded = utf8.decoder.convert(data);
+          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+            final transformer = Xml2Json();
+            transformer.parse(decoded);
+            return transformer
+                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+          } else {
+            return decoded;
+          }
+        },
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5));
 
     this.dio = dio;
   }
@@ -110,8 +113,13 @@ class MainApi {
       rethrow;
     } catch (_) {
       /// catch possible decoding error and return actual expected object
-      return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()), response.headers, createObject);
+      try {
+        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
+            response.headers, createObject);
+      } catch (e) {
+        log(e.toString());
+        rethrow;
+      }
     }
   }
 
@@ -132,8 +140,13 @@ class MainApi {
     }
 
     log("${response.statusCode}: ${response.realUri}");
-    return ApiResponse<T>.fromJson(
-        jsonDecode(response.data.toString()), response.headers, createObject);
+    try {
+      return ApiResponse<T>.fromJson(
+          jsonDecode(response.data.toString()), response.headers, createObject);
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
   clearCache() async {
