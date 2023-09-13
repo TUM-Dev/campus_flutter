@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class CalendarsView extends ConsumerStatefulWidget {
   const CalendarsView({super.key});
@@ -50,16 +50,17 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               _calendarController.displayDate = DateTime.now();
                             });
                           },
-                          child: Text(AppLocalizations.of(context)!.calendarViewToday,
+                          child: Text(context.localizations.calendarViewToday,
                               style: Theme.of(context).textTheme.titleMedium)),
-                      const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.0)),
                       Expanded(
                           child: CupertinoSlidingSegmentedControl(
                               children: {
-                                0: Text(AppLocalizations.of(context)!.calendarViewDay),
-                                1: Text(AppLocalizations.of(context)!.calendarViewWeek),
-                                2: Text(AppLocalizations.of(context)!.calendarViewMonth)
-                              },
+                            0: Text(context.localizations.calendarViewDay),
+                            1: Text(context.localizations.calendarViewWeek),
+                            2: Text(context.localizations.calendarViewMonth)
+                          },
                               onValueChanged: (i) {
                                 setState(() {
                                   _selectedCalendarTab = i ?? 0;
@@ -68,7 +69,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               groupValue: _selectedCalendarTab))
                     ],
                   )),
-              if(lastFetched != null) LastUpdatedText(lastFetched),
+              if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: _calendarController),
                 const CalendarWeekView(),
@@ -81,9 +82,10 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                 errorHandlingViewType: ErrorHandlingViewType.fullScreen,
                 retry: ref.read(calendarViewModel).fetch);
           } else {
-            return DelayedLoadingIndicator(name: AppLocalizations.of(context)!.calendar);
+            return DelayedLoadingIndicator(
+                name: context.localizations.calendar);
           }
-    });
+        });
   }
 }
 

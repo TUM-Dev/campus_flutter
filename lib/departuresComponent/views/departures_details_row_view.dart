@@ -3,7 +3,7 @@ import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class DeparturesDetailsRowView extends ConsumerWidget {
   const DeparturesDetailsRowView({super.key, required this.departure});
@@ -30,10 +30,14 @@ class DeparturesDetailsRowView extends ConsumerWidget {
         onTap: () async {
           if (departure.lineInfos != null) {
             if (departure.lineInfos?.element != null) {
-              final link = departure.lineInfos?.element?.lineInfo.additionalLinks?[0].linkURL ?? "";
+              final link = departure.lineInfos?.element?.lineInfo
+                      .additionalLinks?[0].linkURL ??
+                  "";
               UrlLauncher.urlString(link, ref);
             } else if (departure.lineInfos?.array != null) {
-              final link = departure.lineInfos?.array?[0].additionalLinks?[0].linkURL ?? "";
+              final link =
+                  departure.lineInfos?.array?[0].additionalLinks?[0].linkURL ??
+                      "";
               UrlLauncher.urlString(link, ref);
             }
           }
@@ -45,7 +49,8 @@ class DeparturesDetailsRowView extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 15),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5), color: departure.servingLine.color),
+                      borderRadius: BorderRadius.circular(5),
+                      color: departure.servingLine.color),
                   width: 55,
                   height: 35,
                   child: Center(
@@ -53,7 +58,9 @@ class DeparturesDetailsRowView extends ConsumerWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
-                              ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold))),
+                              ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
                 )),
             if (departure.lineInfos != null) _warningOverlay
           ],
@@ -64,7 +71,8 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     return const Positioned(
         width: 53 * 2,
         bottom: 22,
-        child: Icon(Icons.warning_outlined, color: Color(0xffFFCC01), size: 20));
+        child:
+            Icon(Icons.warning_outlined, color: Color(0xffFFCC01), size: 20));
   }
 
   Widget get _delayText {
@@ -82,23 +90,25 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     if (departure.realDateTime != null) {
       final realDateTime = departure.realDateTime!;
       if ((departure.servingLine.delay ?? 0) > 0) {
-        return timeBuilder(context,realDateTime, Colors.red);
+        return timeBuilder(context, realDateTime, Colors.red);
       } else {
-        return timeBuilder(context,realDateTime, Colors.green);
+        return timeBuilder(context, realDateTime, Colors.green);
       }
     } else {
-      return timeBuilder(context,departure.dateTime, null);
+      return timeBuilder(context, departure.dateTime, null);
     }
   }
 
-  Widget timeBuilder(BuildContext context,DateTime dateTime, Color? color) {
+  Widget timeBuilder(BuildContext context, DateTime dateTime, Color? color) {
     // TODO: walking distance
     if (departure.countdown < 1) {
-      return Text(AppLocalizations.of(context)!.now, style: TextStyle(color: color, fontWeight: FontWeight.w500));
+      return Text(context.localizations.now,
+          style: TextStyle(color: color, fontWeight: FontWeight.w500));
     } else {
       final hour = NumberFormat("00").format(dateTime.hour);
       final minute = NumberFormat("00").format(dateTime.minute);
-      return Text("$hour:$minute", style: TextStyle(color: color, fontWeight: FontWeight.w500));
+      return Text("$hour:$minute",
+          style: TextStyle(color: color, fontWeight: FontWeight.w500));
     }
   }
 }

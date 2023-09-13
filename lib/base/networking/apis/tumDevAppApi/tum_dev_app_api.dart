@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 // TODO: figure out errors
 class TumDevAppApi extends Api {
-
   final TumDevAppService tumDevAppService;
 
   TumDevAppApi({required this.tumDevAppService});

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 part 'grade.g.dart';
 
@@ -36,13 +36,13 @@ class Grade {
   String modusShort(BuildContext context) {
     switch (modus) {
       case "Schriftlich":
-        return          AppLocalizations.of(context)!.written;
+        return context.localizations.written;
       case "Beurteilt/immanenter Prüfungscharakter":
-        return          AppLocalizations.of(context)!.graded;
+        return context.localizations.graded;
       case "Schriftlich und Mündlich":
-        return          AppLocalizations.of(context)!.writtenAndOral;
+        return context.localizations.writtenAndOral;
       case "Mündlich":
-        return    AppLocalizations.of(context)!.oral;
+        return context.localizations.oral;
       default:
         return modus;
     }
@@ -73,7 +73,8 @@ class GradeData {
 
   GradeData({required this.gradesAttribute});
 
-  factory GradeData.fromJson(Map<String, dynamic> json) => _$GradeDataFromJson(json);
+  factory GradeData.fromJson(Map<String, dynamic> json) =>
+      _$GradeDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeDataToJson(this);
 }

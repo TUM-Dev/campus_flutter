@@ -8,9 +8,7 @@ class NavigaTumServiceSearch extends NavigaTumService {
   NavigaTumServiceSearch({required this.query});
 
   @override
-  Map<String, String> getParameters() => {
-    "q": query
-  };
+  Map<String, String> getParameters() => {"q": query};
 }
 
 class NavigaTumServiceDetails extends NavigaTumService {
@@ -20,9 +18,7 @@ class NavigaTumServiceDetails extends NavigaTumService {
   NavigaTumServiceDetails({required this.id, required this.language});
 
   @override
-  Map<String, String> getParameters() => {
-    "lang": language
-  };
+  Map<String, String> getParameters() => {"lang": language};
 }
 
 class NavigaTumServiceImages extends NavigaTumService {

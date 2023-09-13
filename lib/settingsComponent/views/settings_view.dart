@@ -7,10 +7,10 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,7 +22,7 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(),
-          title: Text(AppLocalizations.of(context)!.settings),
+          title: Text(context.localizations.settings),
         ),
         body: ListView(children: [
           _generalSettings(context, ref),
@@ -34,7 +34,7 @@ class SettingsView extends ConsumerWidget {
 
   Widget _generalSettings(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "General Settings",
+        title: context.localizations.generalSettings,
         child: Card(
             child: Column(children: [
           _tokenPermission(context),
@@ -46,32 +46,26 @@ class SettingsView extends ConsumerWidget {
   }
 
   Widget _tokenPermission(BuildContext context) {
-    return GestureDetector(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                const PermissionCheckView(isSettingsView: true))),
-        child: ListTile(
-          dense: true,
-          leading:
-              Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
-          title: Text(AppLocalizations.of(context)!.tokenPermissions,
-              style: Theme.of(context).textTheme.bodyMedium),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-        ));
+    return ListTile(
+      leading: Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
+      title: Text(context.localizations.tokenPermissions,
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              const PermissionCheckView(isSettingsView: true))),
+    );
   }
 
   Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
-        dense: true,
         leading: Icon(Icons.language,
             size: 20, color: Theme.of(context).primaryColor),
-        title: Text(AppLocalizations.of(context)!.language,
+        title: Text(context.localizations.language,
             style: Theme.of(context).textTheme.bodyMedium),
         trailing: DropdownButton(
           onChanged: (Locale? newLocale) {
             if (newLocale != null) {
-              var settings = Hive.box('settings');
-              settings.put("languageCode", newLocale.languageCode);
               ref.read(locale.notifier).state = newLocale;
             }
           },
@@ -83,22 +77,20 @@ class SettingsView extends ConsumerWidget {
   }
 
   Widget _useWebView(BuildContext context, WidgetRef ref) {
-    return Card(
-        child: ListTile(
-      dense: true,
-      title:
-          Text(AppLocalizations.of(context)!.useWebView, style: Theme.of(context).textTheme.bodyMedium),
+    return ListTile(
+      title: Text(context.localizations.useWebView,
+          style: Theme.of(context).textTheme.bodyMedium),
       trailing: Switch(
           value: ref.watch(useWebView),
           onChanged: (showWebView) {
             ref.read(useWebView.notifier).state = showWebView;
           }),
-    ));
+    );
   }
 
   Widget _contact(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: AppLocalizations.of(context)!.contactUs,
+        title: context.localizations.contactUs,
         child: Card(
             child: Column(
           children: [
@@ -106,14 +98,14 @@ class SettingsView extends ConsumerWidget {
               dense: true,
               title: HyperLinkText(
                   link: "https://testflight.apple.com/join/4Ddi6f2f",
-                  label: AppLocalizations.of(context)!.becomeABetaTester),
+                  label: context.localizations.becomeABetaTester),
             ),
             const PaddedDivider(height: 0),
             ListTile(
               dense: true,
               title: HyperLinkText(
                   link: "https://github.com/TUM-Dev",
-                  label: AppLocalizations.of(context)!.usOnGitHub),
+                  label: context.localizations.usOnGitHub),
             ),
             const PaddedDivider(height: 0),
             const ListTile(
@@ -151,11 +143,11 @@ class SettingsView extends ConsumerWidget {
                 child: ListTile(
               dense: true,
               title: login != Credentials.tumId
-                  ? Text(AppLocalizations.of(context)!.login,
+                  ? Text(context.localizations.login,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.green, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center)
-                  : Text(AppLocalizations.of(context)!.logout,
+                  : Text(context.localizations.logout,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.red, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center),
@@ -168,9 +160,10 @@ class SettingsView extends ConsumerWidget {
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(AppLocalizations.of(context)!.versionNumber(snapshot.data!.version));
+                return Text(context.localizations
+                    .versionNumber(snapshot.data!.version));
               } else {
-                return Text(AppLocalizations.of(context)!.versionNumber("-.-.-"));
+                return Text(context.localizations.versionNumber("-.-.-"));
               }
             }));
   }

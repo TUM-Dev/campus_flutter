@@ -1,5 +1,6 @@
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
-import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room.g.dart';
@@ -36,18 +37,18 @@ class StudyRoom {
   @JsonKey(name: "attribute")
   final List<StudyRoomAttribute>? attributes;
 
-  String get localizedStatus {
+  String localizedStatus(BuildContext context) {
     switch (status) {
       case "frei":
-        return "Free";
+        return context.localizations.free;
       case "belegt":
         if (occupiedUntil != null) {
-          return "Occupied until ${ DateFormat.yMd().format(occupiedUntil!)}";
+          return context.localizations.occupiedUntil(occupiedUntil!);
         } else {
-          return "";
+          return context.localizations.unknown;
         }
       default:
-        return "Unknown";
+        return context.localizations.unknown;
     }
   }
 
@@ -55,9 +56,8 @@ class StudyRoom {
     return status == "frei";
   }
 
-
-  StudyRoom({
-      this.buildingCode,
+  StudyRoom(
+      {this.buildingCode,
       this.buildingName,
       required this.buildingNumber,
       this.code,
@@ -72,10 +72,10 @@ class StudyRoom {
       this.raum_nr_architekt,
       required this.res_nr,
       this.status,
-      this.attributes
-  });
+      this.attributes});
 
-  factory StudyRoom.fromJson(Map<String, dynamic> json) => _$StudyRoomFromJson(json);
+  factory StudyRoom.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomToJson(this);
 }

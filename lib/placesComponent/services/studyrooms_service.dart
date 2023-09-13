@@ -8,24 +8,25 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_image
 import 'package:campus_flutter/providers_get_it.dart';
 
 class StudyRoomsService {
-  static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(bool forcedRefresh) async {
+  static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(
+      bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<StudyRoomData, TumDevAppApi>(
         TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
         StudyRoomData.fromJson,
-        forcedRefresh
-    );
+        forcedRefresh);
 
     return (response.saved, response.data);
   }
 
-  static Future<(DateTime?, StudyRoomImageMapping)> fetchMap(bool forcedRefresh, String room) async {
+  static Future<(DateTime?, StudyRoomImageMapping)> fetchMap(
+      bool forcedRefresh, String room) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<StudyRoomImageMapping, TumCabeApi>(
-        TumCabeApi(tumCabeService: TumCabeServiceRoomMaps(room: room)),
-        StudyRoomImageMapping.fromJson,
-        forcedRefresh
-    );
+    final response =
+        await mainApi.makeRequest<StudyRoomImageMapping, TumCabeApi>(
+            TumCabeApi(tumCabeService: TumCabeServiceRoomMaps(room: room)),
+            StudyRoomImageMapping.fromJson,
+            forcedRefresh);
 
     return (response.saved, response.data);
   }

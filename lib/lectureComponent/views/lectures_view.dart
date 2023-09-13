@@ -11,7 +11,7 @@ import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart'
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class LecturesView extends ConsumerStatefulWidget {
   const LecturesView({super.key});
@@ -35,12 +35,16 @@ class _GradeViewState extends ConsumerState<LecturesView> {
         stream: ref.watch(lectureViewModel).lectures,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
-            return Center(child: Text(AppLocalizations.of(context)!.noLecturesFound));
+            return Center(child: Text(context.localizations.noLecturesFound));
           } else {
             Future(() {
-              ref.read(selectedLecture.notifier).state = data.values.first.first;
+              ref.read(selectedLecture.notifier).state =
+                  data.values.first.first;
               ref.read(selectedEvent.notifier).state = null;
-              ref.read(lectureSplitViewModel).selectedWidget.add(const LectureDetailsView());
+              ref
+                  .read(lectureSplitViewModel)
+                  .selectedWidget
+                  .add(const LectureDetailsView());
             });
             final lastFetched = ref.read(lectureViewModel).lastFetched.value;
             return OrientationBuilder(builder: (context, constraints) {
@@ -56,37 +60,45 @@ class _GradeViewState extends ConsumerState<LecturesView> {
             error: error,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: ref.read(lectureViewModel).fetch),
-        loadingBuilder: (context) => const DelayedLoadingIndicator(name: "Lectures"));
+        loadingBuilder: (context) =>
+            const DelayedLoadingIndicator(name: "Lectures"));
   }
 
-  Widget _twoColumnView(DateTime? lastFetched, Map<String, List<Lecture>> data) {
+  Widget _twoColumnView(
+      DateTime? lastFetched, Map<String, List<Lecture>> data) {
     return Column(
       children: [
         if (lastFetched != null) LastUpdatedText(lastFetched),
         Expanded(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(flex: 2, child: _semesterListView(true, lastFetched, data)),
-                Expanded(flex: 3, child: StreamBuilder(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                flex: 2, child: _semesterListView(true, lastFetched, data)),
+            Expanded(
+                flex: 3,
+                child: StreamBuilder(
                     stream: ref.read(lectureSplitViewModel).selectedWidget,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return snapshot.data!;
                       } else {
                         return DelayedLoadingIndicator(
-                            name: AppLocalizations.of(context)!.lecture,
-                            alternativeLoadingIndicator: Center(child: Text(AppLocalizations.of(context)!.noLecturesSelected)),
+                          name: context.localizations.lecture,
+                          alternativeLoadingIndicator: Center(
+                              child: Text(
+                                  context.localizations.noLecturesSelected)),
                         );
                       }
                     }))
-              ],
-            ))
+          ],
+        ))
       ],
     );
   }
 
-  Widget _semesterListView(bool landScape, DateTime? lastFetched, Map<String, List<Lecture>> data) {
+  Widget _semesterListView(
+      bool landScape, DateTime? lastFetched, Map<String, List<Lecture>> data) {
     return RefreshIndicator(
       onRefresh: () => ref.read(lectureViewModel).fetch(true),
       child: Scrollbar(
@@ -94,8 +106,10 @@ class _GradeViewState extends ConsumerState<LecturesView> {
           child: SingleChildScrollView(
               controller: scrollController,
               child: Column(children: [
-                if (lastFetched != null && !landScape) LastUpdatedText(lastFetched),
-                for (var semester in data.entries) SemesterView(semester: semester),
+                if (lastFetched != null && !landScape)
+                  LastUpdatedText(lastFetched),
+                for (var semester in data.entries)
+                  SemesterView(semester: semester),
               ]))),
     );
   }
@@ -110,8 +124,9 @@ class SemesterView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
-      title: Text(StringParser.toFullSemesterName(context,semester.key)),
-      initiallyExpanded: semester.key == SemesterCalculator.getCurrentSemester(),
+      title: Text(StringParser.toFullSemesterName(context, semester.key)),
+      initiallyExpanded:
+          semester.key == SemesterCalculator.getCurrentSemester(),
       children: [
         for (var index = 0; index < semester.value.length; index++)
           Column(children: [
@@ -136,7 +151,8 @@ class SemesterView extends ConsumerWidget {
                             iconData: Icons.access_time,
                             label: semester.value[index].sws,
                             iconColor: Theme.of(context).primaryColor,
-                            textColor: Theme.of(context).colorScheme.secondary)),
+                            textColor:
+                                Theme.of(context).colorScheme.secondary)),
                   ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                   IconText(
@@ -149,7 +165,8 @@ class SemesterView extends ConsumerWidget {
                 ],
               ),
               onTap: () {
-                ref.read(selectedLecture.notifier).state = semester.value[index];
+                ref.read(selectedLecture.notifier).state =
+                    semester.value[index];
                 ref.read(selectedEvent.notifier).state = null;
                 if (MediaQuery.orientationOf(context) == Orientation.portrait) {
                   Navigator.push(
@@ -159,11 +176,16 @@ class SemesterView extends ConsumerWidget {
                               appBar: AppBar(leading: const BackButton()),
                               body: const LectureDetailsView())));
                 } else {
-                  ref.read(lectureSplitViewModel).selectedWidget.add(const LectureDetailsView());
+                  ref
+                      .read(lectureSplitViewModel)
+                      .selectedWidget
+                      .add(const LectureDetailsView());
                 }
               },
             ),
-            (index != semester.value.length - 1 ? const PaddedDivider() : const SizedBox.shrink())
+            (index != semester.value.length - 1
+                ? const PaddedDivider()
+                : const SizedBox.shrink())
           ])
       ],
     ));

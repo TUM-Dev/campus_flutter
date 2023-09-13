@@ -7,12 +7,10 @@ class StudyRoomAttribute {
   final String? detail;
   final String? name;
 
-  StudyRoomAttribute({
-    this.detail,
-    this.name
-  });
+  StudyRoomAttribute({this.detail, this.name});
 
-  factory StudyRoomAttribute.fromJson(Map<String, dynamic> json) => _$StudyRoomAttributeFromJson(json);
+  factory StudyRoomAttribute.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomAttributeFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomAttributeToJson(this);
 }

@@ -10,7 +10,8 @@ class ContactCardLoadingView extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/placeholders/portrait_placeholder.png'),
+          backgroundImage:
+              AssetImage('assets/images/placeholders/portrait_placeholder.png'),
           radius: 50,
         ),
         const Padding(padding: EdgeInsets.only(left: 15)),
@@ -23,7 +24,8 @@ class ContactCardLoadingView extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall,
             )),
             const ShimmerView(child: PlaceholderText(text: "go43hum")),
-            const ShimmerView(child: PlaceholderText(text: "max.mustermann@tum.de")),
+            const ShimmerView(
+                child: PlaceholderText(text: "max.mustermann@tum.de")),
             const ShimmerView(child: PlaceholderText(text: "Informatik B.Sc.")),
           ],
         )

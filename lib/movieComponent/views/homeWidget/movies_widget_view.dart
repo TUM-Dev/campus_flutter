@@ -8,7 +8,7 @@ import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.d
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});
@@ -36,14 +36,15 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                 return Card(
                     child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        child: Text(AppLocalizations.of(context)!.noMoviesFound)));
+                        child: Text(context.localizations.noMoviesFound)));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
                   return HorizontalSlider<Movie>(
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {
-                        return MovieCardView(movie: data, width: constraints.maxWidth * 0.4);
+                        return MovieCardView(
+                            movie: data, width: constraints.maxWidth * 0.4);
                       });
                 });
               }
@@ -53,12 +54,12 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                     height: MediaQuery.of(context).size.height * 0.34,
                     child: ErrorHandlingView(
                         error: error,
-                        errorHandlingViewType:
-                            ErrorHandlingViewType.textOnly,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: ref.read(movieViewModel).fetch))),
             loadingBuilder: (context) => Card(
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.34,
-                    child: DelayedLoadingIndicator(name: AppLocalizations.of(context)!.movies)))));
+                    child: DelayedLoadingIndicator(
+                        name: context.localizations.movies)))));
   }
 }

@@ -4,7 +4,7 @@ import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
 import 'package:campus_flutter/profileComponent/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class PermissionCheckView extends ConsumerStatefulWidget {
   const PermissionCheckView({super.key, this.isSettingsView = false});
@@ -29,11 +29,11 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
     fetchCalendar = CalendarService.fetchCalendar(true);
     fetchLecture = LectureService.fetchLecture(true);
     fetchGrades = GradeService.fetchGrades(true);
-    fetchProfile = ProfileService.fetchProfile(true).then((value) =>
-        fetchTuition = ProfileService.fetchTuition(
+    fetchProfile = ProfileService.fetchProfile(true).then(
+        (value) => fetchTuition = ProfileService.fetchTuition(
             true, value.$2.personGroup ?? "", value.$2.id ?? ""),
-        onError: (error)
-        => fetchTuition = ProfileService.fetchTuition(true, "", "id"));
+        onError: (error) =>
+            fetchTuition = ProfileService.fetchTuition(true, "", "id"));
     super.initState();
   }
 
@@ -43,7 +43,7 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           leading: const BackButton(),
-          title: Text(AppLocalizations.of(context)!.checkPermissions),
+          title: Text(context.localizations.checkPermissions),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,20 +51,21 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
             Expanded(
                 flex: 0,
                 child: Text(
-                  AppLocalizations.of(context)!.permissionChangePossibleInTUMonline,
+                  context.localizations.permissionChangePossibleInTUMonline,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 )),
             const Spacer(),
-            _permissionCheck(AppLocalizations.of(context)!.calendar, fetchCalendar),
+            _permissionCheck(context.localizations.calendar, fetchCalendar),
             const Spacer(),
-            _permissionCheck(AppLocalizations.of(context)!.lectures, fetchLecture),
+            _permissionCheck(context.localizations.lectures, fetchLecture),
             const Spacer(),
-            _permissionCheck(AppLocalizations.of(context)!.grades, fetchGrades),
+            _permissionCheck(context.localizations.grades, fetchGrades),
             const Spacer(),
-            _permissionCheck(AppLocalizations.of(context)!.tuition, fetchTuition),
+            _permissionCheck(context.localizations.tuition, fetchTuition),
             const Spacer(),
-            _permissionCheck(AppLocalizations.of(context)!.identification, fetchProfile),
+            _permissionCheck(
+                context.localizations.identification, fetchProfile),
             const Spacer(flex: 3),
             Visibility(
                 visible: confirmedPermissions.keys.length == 5,
@@ -76,10 +77,11 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
                       if (widget.isSettingsView) {
                         Navigator.of(context).pop();
                       } else {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       }
                     },
-                    child: Text(AppLocalizations.of(context)!.done))),
+                    child: Text(context.localizations.done))),
             const Spacer(flex: 3)
           ]),
         ));

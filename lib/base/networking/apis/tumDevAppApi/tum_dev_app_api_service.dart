@@ -8,15 +8,11 @@ class TumDevAppServiceRoom extends TumDevAppService {
   TumDevAppServiceRoom({required this.roomNr});
 
   @override
-  Map<String, String> getParameters() => {
-    "format": "json",
-    "raum": roomNr.toString()
-  };
+  Map<String, String> getParameters() =>
+      {"format": "json", "raum": roomNr.toString()};
 }
 
 class TumDevAppServiceRooms extends TumDevAppService {
   @override
-  Map<String, String> getParameters() => {
-    "format": "json"
-  };
+  Map<String, String> getParameters() => {"format": "json"};
 }

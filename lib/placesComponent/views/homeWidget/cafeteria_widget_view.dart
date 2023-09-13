@@ -7,9 +7,9 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.d
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeteria_widget_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CafeteriaWidgetView extends ConsumerStatefulWidget {
   const CafeteriaWidgetView({super.key});
@@ -35,7 +35,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           return WidgetFrameView(
               title:
                   ref.watch(cafeteriaWidgetViewModel).cafeteria.value?.name ??
-                      AppLocalizations.of(context)!.cafeteria,
+                      context.localizations.cafeteria,
               child: _dynamicContent(snapshot));
         });
   }
@@ -54,7 +54,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       } else {
         return Card(
             child: SizedBox(
-                height: 150, child: Center(child: Text(AppLocalizations.of(context)!.noMealPlanFound))));
+                height: 150,
+                child: Center(
+                    child: Text(context.localizations.noMealPlanFound))));
       }
     } else if (snapshot.hasError) {
       // TODO: error handling if offline
@@ -128,7 +130,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
             ]),
             actions: [
               TextButton(
-                  child: const Text("ok"),
+                  child: const Text("Okay"),
                   onPressed: () => Navigator.of(context).pop())
             ],
           );

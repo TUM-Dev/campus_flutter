@@ -8,7 +8,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 class CalendarHomeWidgetView extends ConsumerStatefulWidget {
   const CalendarHomeWidgetView({super.key});
@@ -79,7 +79,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
           Expanded(
               child: (events.$1 != null)
                   ? CalendarHomeWidgetEventView(calendarEvent: events.$1!)
-                  : Center(child: Text(AppLocalizations.of(context)!.noEventsToday)))
+                  : Center(child: Text(context.localizations.noEventsToday)))
         ])),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
         Expanded(

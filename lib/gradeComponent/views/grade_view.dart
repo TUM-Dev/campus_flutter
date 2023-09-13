@@ -60,7 +60,9 @@ class GradeRectangle extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child: Text(
-                parsedGrade is double ? parsedGrade.toStringAsFixed(1) : grade.toString(),
+                parsedGrade is double
+                    ? parsedGrade.toStringAsFixed(1)
+                    : grade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

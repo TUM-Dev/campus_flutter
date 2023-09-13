@@ -3,13 +3,13 @@ import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
@@ -37,47 +37,33 @@ class _NavigationState extends ConsumerState<Navigation> {
           centerTitle: true,
           leadingWidth: 80,
           leading: (kIsWeb && isLandScape)
-              ? Padding(padding: const EdgeInsets.all(15),
-              child: Image.asset('assets/images/logos/tum-logo-blue.png',
-                  fit: BoxFit.scaleDown))
+              ? Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Image.asset('assets/images/logos/tum-logo-blue.png',
+                      fit: BoxFit.scaleDown))
               : IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
           title: (() {
             switch (currentPageIndex) {
               case 0:
                 if (kIsWeb && isLandScape) {
-                  return Text(AppLocalizations.of(context)!.home,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleLarge);
+                  return Text(context.localizations.home,
+                      style: Theme.of(context).textTheme.titleLarge);
                 } else {
                   return Image.asset('assets/images/logos/tum-logo-blue.png',
                       fit: BoxFit.cover, height: 20);
                 }
               case 1:
-                return Text(AppLocalizations.of(context)!.grades,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.grades,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 2:
-                return Text(AppLocalizations.of(context)!.lectures,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.lectures,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 3:
-                return Text(AppLocalizations.of(context)!.calendar,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.calendar,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 4:
-                return Text(AppLocalizations.of(context)!.places,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.places,
+                    style: Theme.of(context).textTheme.titleLarge);
               default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
@@ -94,9 +80,8 @@ class _NavigationState extends ConsumerState<Navigation> {
                 icon: const Icon(Icons.settings)),
           ],
         ), //: null,
-        bottomNavigationBar: (kIsWeb && isLandScape)
-            ? null
-            : _bottomNavigationBar(),
+        bottomNavigationBar:
+            (kIsWeb && isLandScape) ? null : _bottomNavigationBar(),
         body: SafeArea(
             child: (kIsWeb && isLandScape)
                 ? _webNavigationRail(context)
@@ -111,7 +96,8 @@ class _NavigationState extends ConsumerState<Navigation> {
       const GradesView(),
       const LecturesView(),
       const CalendarsView(),
-      Text(AppLocalizations.of(context)!.comingSoon), // TODO: replace with places widget
+      Text(
+          context.localizations.comingSoon), // TODO: replace with places widget
     ][currentPageIndex];
   }
 
@@ -135,6 +121,7 @@ class _NavigationState extends ConsumerState<Navigation> {
               }
             });
           },
+
           /// Platform is not supported on web
           height: !kIsWeb
               ? Platform.isIOS
@@ -146,27 +133,27 @@ class _NavigationState extends ConsumerState<Navigation> {
             NavigationDestination(
               icon: const Icon(Icons.house_outlined),
               selectedIcon: const Icon(Icons.house),
-              label: AppLocalizations.of(context)!.home,
+              label: context.localizations.home,
             ),
             NavigationDestination(
               icon: const Icon(Icons.school_outlined),
               selectedIcon: const Icon(Icons.school),
-              label: AppLocalizations.of(context)!.grades,
+              label: context.localizations.grades,
             ),
             NavigationDestination(
               icon: const Icon(Icons.class_outlined),
               selectedIcon: const Icon(Icons.class_),
-              label: AppLocalizations.of(context)!.lectures,
+              label: context.localizations.lectures,
             ),
             NavigationDestination(
               icon: const Icon(Icons.calendar_month_outlined),
               selectedIcon: const Icon(Icons.calendar_month),
-              label: AppLocalizations.of(context)!.calendar,
+              label: context.localizations.calendar,
             ),
             NavigationDestination(
               icon: const Icon(Icons.place_outlined),
               selectedIcon: const Icon(Icons.place),
-              label: AppLocalizations.of(context)!.places,
+              label: context.localizations.places,
             ),
           ],
         ));
@@ -187,30 +174,30 @@ class _NavigationState extends ConsumerState<Navigation> {
           },
           labelType: NavigationRailLabelType.all,
           destinations: <NavigationRailDestination>[
-             NavigationRailDestination(
+            NavigationRailDestination(
               icon: const Icon(Icons.home_outlined),
               selectedIcon: const Icon(Icons.home),
-              label: Text(AppLocalizations.of(context)!.home),
+              label: Text(context.localizations.home),
             ),
             NavigationRailDestination(
               icon: const Icon(Icons.school_outlined),
               selectedIcon: const Icon(Icons.school),
-              label: Text(AppLocalizations.of(context)!.grades),
+              label: Text(context.localizations.grades),
             ),
             NavigationRailDestination(
               icon: const Icon(Icons.class_outlined),
               selectedIcon: const Icon(Icons.class_),
-              label: Text(AppLocalizations.of(context)!.lectures),
+              label: Text(context.localizations.lectures),
             ),
             NavigationRailDestination(
               icon: const Icon(Icons.calendar_month_outlined),
               selectedIcon: const Icon(Icons.calendar_month),
-              label: Text(AppLocalizations.of(context)!.calendar),
+              label: Text(context.localizations.calendar),
             ),
             NavigationRailDestination(
               icon: const Icon(Icons.place_outlined),
               selectedIcon: const Icon(Icons.place),
-              label: Text(AppLocalizations.of(context)!.places),
+              label: Text(context.localizations.places),
             ),
           ],
         ),

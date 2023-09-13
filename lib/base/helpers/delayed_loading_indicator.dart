@@ -1,5 +1,5 @@
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
   const DelayedLoadingIndicator({
@@ -25,7 +25,7 @@ class DelayedLoadingIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                     const CircularProgressIndicator.adaptive(),
-                    Text(AppLocalizations.of(context)!.loading(name))
+                    Text(context.localizations.loading(name))
                   ]));
             } else {
               return alternativeLoadingIndicator!;

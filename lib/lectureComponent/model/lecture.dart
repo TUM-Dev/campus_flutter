@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:campus_flutter/theme.dart';
 
 part 'lecture.g.dart';
 
@@ -40,17 +40,17 @@ class Lecture {
   String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return AppLocalizations.of(context)!.lecture;
+        return context.localizations.lecture;
       case "Tutorium":
-        return AppLocalizations.of(context)!.tutorial;
+        return context.localizations.tutorial;
       case "Übung":
-        return AppLocalizations.of(context)!.exercise;
+        return context.localizations.exercise;
       case "Praktikum":
-        return AppLocalizations.of(context)!.practicalCourse;
+        return context.localizations.practicalCourse;
       case "Seminar":
-        return AppLocalizations.of(context)!.seminar;
+        return context.localizations.seminar;
       case "Vorlesung mit integrierten Übungen":
-        return AppLocalizations.of(context)!.lectureWithIntegratedExcercises;
+        return context.localizations.lectureWithIntegratedExcercises;
       default:
         return eventTypeDefault;
     }

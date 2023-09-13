@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StringParser {
   static String degreeShortFromID(String studyID) {
@@ -42,10 +42,10 @@ class StringParser {
         // TODO: what does it stand for?
         return "MBD";
       case "60":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BECE";
       case "61":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BEEDE";
       default:
         return "Unknown";
@@ -55,19 +55,23 @@ class StringParser {
   static String degreeShort(String degree) {
     // TODO:
     switch (degree) {
-      case "Bachelor of Science": return "B.Sc.";
-      default: return "unknown";
+      case "Bachelor of Science":
+        return "B.Sc.";
+      default:
+        return "unknown";
     }
   }
 
   static String toFullSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
-    return AppLocalizations.of(context)!.fullSemesterName(semester.substring(2), 2000+yearOffset,yearOffset + 1);
+    return context.localizations.fullSemesterName(
+        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
   }
 
   static String toShortSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
-    return AppLocalizations.of(context)!.shortSemesterName(semester.substring(2), 2000+yearOffset,yearOffset + 1);
+    return context.localizations.shortSemesterName(
+        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
   }
 
   static String dateFormatter(DateTime dateTime) {
@@ -98,7 +102,6 @@ class StringParser {
     } else {
       return 0;
     }
-
   }
 
   static int? optStringToOptInt(String? number) {

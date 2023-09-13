@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MeetingDataSource extends CalendarDataSource {
-
   final BuildContext context;
 
   MeetingDataSource(List<CalendarEvent> source, this.context) {

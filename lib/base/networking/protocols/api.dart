@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart' as dio;
 
 abstract class Api {
-
   static String tumToken = "";
 
   String get baseURL;
 
   String get path;
 
-  Map<String, String> get baseHeaders { return {}; }
+  Map<String, String> get baseHeaders {
+    return {};
+  }
 
   String get paths;
 
@@ -22,10 +23,12 @@ abstract class Api {
       // TODO: figure out token sharing
       finalParameters.addAll({"pToken": tumToken});
       final uri = Uri.https(baseURL, paths, finalParameters);
-      return dioClient.getUri(uri, options: _customDecodingOptions(baseHeaders));
+      return dioClient.getUri(uri,
+          options: _customDecodingOptions(baseHeaders));
     } else {
       final uri = Uri.https(baseURL, paths, parameters);
-      return dioClient.getUri(uri, options: _customDecodingOptions(baseHeaders));
+      return dioClient.getUri(uri,
+          options: _customDecodingOptions(baseHeaders));
     }
   }
 
