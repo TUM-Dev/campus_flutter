@@ -187,7 +187,7 @@ class _NavigationState extends ConsumerState<Navigation> {
           },
           labelType: NavigationRailLabelType.all,
           destinations: <NavigationRailDestination>[
-            NavigationRailDestination(
+             NavigationRailDestination(
               icon: const Icon(Icons.home_outlined),
               selectedIcon: const Icon(Icons.home),
               label: Text(AppLocalizations.of(context)!.home),

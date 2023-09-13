@@ -4,6 +4,7 @@ import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
@@ -58,7 +59,7 @@ class NewsCardView extends ConsumerWidget {
                                   child: Text(StringParser.dateFormatter(news.$2.created),
                                       style: Theme.of(context).textTheme.bodySmall)),
                               Expanded(
-                                  child: Text("Source: ${news.$1}",
+                                  child: Text(AppLocalizations.of(context)!.source(news.$1),
                                       style: Theme.of(context).textTheme.bodySmall,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis))

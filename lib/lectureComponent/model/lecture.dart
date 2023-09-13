@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'lecture.g.dart';
 
@@ -35,21 +37,22 @@ class Lecture {
   @JsonKey(name: "vortragende_mitwirkende")
   final String speaker;
 
-  String get eventType {
+  String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return "Lecture";
+        return AppLocalizations.of(context)!.lecture;
       case "Tutorium":
+        return AppLocalizations.of(context)!.tutorial;
       case "Übung":
-        return "Exercise";
+        return AppLocalizations.of(context)!.exercise;
       case "Praktikum":
-        return "Practical course";
+        return AppLocalizations.of(context)!.practicalCourse;
       case "Seminar":
-        return "Seminar";
+        return AppLocalizations.of(context)!.seminar;
       case "Vorlesung mit integrierten Übungen":
-        return "Lecture with integrated Exercises";
+        return AppLocalizations.of(context)!.lectureWithIntegratedExcercises;
       default:
-        return "";
+        return eventTypeDefault;
     }
   }
 

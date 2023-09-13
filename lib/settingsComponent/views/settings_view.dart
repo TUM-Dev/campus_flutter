@@ -22,11 +22,11 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(),
-          title: const Text("Settings"),
+          title: Text(AppLocalizations.of(context)!.settings),
         ),
         body: ListView(children: [
           _generalSettings(context, ref),
-          _contact(ref),
+          _contact(context, ref),
           _authentication(context, ref),
           _versionNumber()
         ]));
@@ -54,7 +54,7 @@ class SettingsView extends ConsumerWidget {
           dense: true,
           leading:
               Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
-          title: Text("Token Permissions",
+          title: Text(AppLocalizations.of(context)!.tokenPermissions,
               style: Theme.of(context).textTheme.bodyMedium),
           trailing: const Icon(Icons.arrow_forward_ios, size: 15),
         ));
@@ -87,7 +87,7 @@ class SettingsView extends ConsumerWidget {
         child: ListTile(
       dense: true,
       title:
-          Text("Use Web View", style: Theme.of(context).textTheme.bodyMedium),
+          Text(AppLocalizations.of(context)!.useWebView, style: Theme.of(context).textTheme.bodyMedium),
       trailing: Switch(
           value: ref.watch(useWebView),
           onChanged: (showWebView) {
@@ -96,24 +96,24 @@ class SettingsView extends ConsumerWidget {
     ));
   }
 
-  Widget _contact(WidgetRef ref) {
+  Widget _contact(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "Contact Us",
+        title: AppLocalizations.of(context)!.contactUs,
         child: Card(
             child: Column(
           children: [
-            const ListTile(
+            ListTile(
               dense: true,
               title: HyperLinkText(
                   link: "https://testflight.apple.com/join/4Ddi6f2f",
-                  label: "Become a Beta Tester"),
+                  label: AppLocalizations.of(context)!.becomeABetaTester),
             ),
             const PaddedDivider(height: 0),
-            const ListTile(
+            ListTile(
               dense: true,
               title: HyperLinkText(
                   link: "https://github.com/TUM-Dev",
-                  label: "TUM Dev on GitHub"),
+                  label: AppLocalizations.of(context)!.usOnGitHub),
             ),
             const PaddedDivider(height: 0),
             const ListTile(
@@ -151,11 +151,11 @@ class SettingsView extends ConsumerWidget {
                 child: ListTile(
               dense: true,
               title: login != Credentials.tumId
-                  ? Text("Login",
+                  ? Text(AppLocalizations.of(context)!.login,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.green, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center)
-                  : Text("Logout",
+                  : Text(AppLocalizations.of(context)!.logout,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.red, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center),
@@ -168,9 +168,9 @@ class SettingsView extends ConsumerWidget {
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text("Version ${snapshot.data!.version}");
+                return Text(AppLocalizations.of(context)!.versionNumber(snapshot.data!.version));
               } else {
-                return const Text("Version -.-.-");
+                return Text(AppLocalizations.of(context)!.versionNumber("-.-.-"));
               }
             }));
   }

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarsView extends ConsumerStatefulWidget {
   const CalendarsView({super.key});
@@ -23,12 +24,6 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
   int _selectedCalendarTab = 0;
 
   final CalendarController _calendarController = CalendarController();
-
-  final Map<int, Widget> calendarTabs = const {
-    0: Text("Day"),
-    1: Text("Week"),
-    2: Text("Month")
-  };
 
   @override
   void initState() {
@@ -55,12 +50,16 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               _calendarController.displayDate = DateTime.now();
                             });
                           },
-                          child: Text("Today",
+                          child: Text(AppLocalizations.of(context)!.calendarViewToday,
                               style: Theme.of(context).textTheme.titleMedium)),
                       const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
                       Expanded(
                           child: CupertinoSlidingSegmentedControl(
-                              children: calendarTabs,
+                              children: {
+                                0: Text(AppLocalizations.of(context)!.calendarViewDay),
+                                1: Text(AppLocalizations.of(context)!.calendarViewWeek),
+                                2: Text(AppLocalizations.of(context)!.calendarViewMonth)
+                              },
                               onValueChanged: (i) {
                                 setState(() {
                                   _selectedCalendarTab = i ?? 0;
@@ -82,7 +81,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                 errorHandlingViewType: ErrorHandlingViewType.fullScreen,
                 retry: ref.read(calendarViewModel).fetch);
           } else {
-            return const DelayedLoadingIndicator(name: "Calendar");
+            return DelayedLoadingIndicator(name: AppLocalizations.of(context)!.calendar);
           }
     });
   }

@@ -11,6 +11,7 @@ import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // TODO: stateless?
 class LectureDetailsView extends ConsumerStatefulWidget {
@@ -41,8 +42,8 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
                   .fetch
           );
         } else {
-          return const DelayedLoadingIndicator(
-              name: "Lecture Details"
+          return DelayedLoadingIndicator(
+              name: AppLocalizations.of(context)!.lectureDetails
           );
         }
       },
@@ -77,7 +78,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
                           .textTheme
                           .headlineSmall,
                       textAlign: TextAlign.start),
-                  Text(lectureDetails.eventType, textAlign: TextAlign.start),
+                  Text(lectureDetails.eventType(context), textAlign: TextAlign.start),
                 ])),
           const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
           if (lastFetched != null) LastUpdatedText(lastFetched),
@@ -96,7 +97,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
   List<Widget> _infoCards(LectureDetails lectureDetails) {
     return [
       if (ref.read(lectureDetailsViewModel).event != null) ...[
-        _infoCard(Icons.calendar_month, "This Meeting",
+        _infoCard(Icons.calendar_month, AppLocalizations.of(context)!.thisMeeting,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -112,11 +113,11 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
           )
         )
       ],
-      _infoCard(Icons.info_outline_rounded, "Basic Lecture Information",
+      _infoCard(Icons.info_outline_rounded, AppLocalizations.of(context)!.basicLectureInformation,
           BasicLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.folder, "Detailed Lecture Information",
+      _infoCard(Icons.folder, AppLocalizations.of(context)!.detailedLectureInformation,
           DetailedLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.link, "Lecture Links",
+      _infoCard(Icons.link, AppLocalizations.of(context)!.lectureLinks,
           LectureLinksView(lectureDetails: lectureDetails))
     ];
   }

@@ -1,5 +1,7 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'lecture_details.g.dart';
 
@@ -58,18 +60,22 @@ class LectureDetails {
   @JsonKey(name: "pruef_termine_url")
   final String? examDateURL;
 
-  String get eventType {
+  String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return "Lecture";
+        return AppLocalizations.of(context)!.lecture;
       case "Tutorium":
-        return "Exercise";
+        return AppLocalizations.of(context)!.tutorial;
+      case "Übung":
+        return AppLocalizations.of(context)!.exercise;
       case "Praktikum":
-        return "Practice";
+        return AppLocalizations.of(context)!.practicalCourse;
+      case "Seminar":
+        return AppLocalizations.of(context)!.seminar;
       case "Vorlesung mit integrierten Übungen":
-        return "Lecture with integrated Exercises";
+        return AppLocalizations.of(context)!.lectureWithIntegratedExcercises;
       default:
-        return "";
+        return eventTypeDefault;
     }
   }
 

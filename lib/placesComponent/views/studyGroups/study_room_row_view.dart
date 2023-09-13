@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StudyRoomRowView extends ConsumerWidget {
   const StudyRoomRowView({super.key, required this.studyRoom});
@@ -16,12 +17,12 @@ class StudyRoomRowView extends ConsumerWidget {
           children: [
             Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(studyRoom.name ?? "Unknown",
+              Text(studyRoom.name ?? AppLocalizations.of(context)!.unknown,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style:
                       Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500)),
-              IconText(iconData: Icons.numbers, label: studyRoom.code ?? "Unkown")
+              IconText(iconData: Icons.numbers, label: studyRoom.code ?? AppLocalizations.of(context)!.unknown)
             ])),
             Expanded(
                 child: Text(

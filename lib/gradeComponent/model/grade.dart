@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'grade.g.dart';
 
@@ -31,18 +33,18 @@ class Grade {
   @JsonKey(name: "st_studium_nr")
   final String studyNumber;
 
-  String get modusShort {
+  String modusShort(BuildContext context) {
     switch (modus) {
       case "Schriftlich":
-        return "Written";
+        return          AppLocalizations.of(context)!.written;
       case "Beurteilt/immanenter Prüfungscharakter":
-        return "Graded";
+        return          AppLocalizations.of(context)!.graded;
       case "Schriftlich und Mündlich":
-        return "Written/Oral";
+        return          AppLocalizations.of(context)!.writtenAndOral;
       case "Mündlich":
-        return "Oral";
+        return    AppLocalizations.of(context)!.oral;
       default:
-        return "Unknown";
+        return modus;
     }
   }
 
