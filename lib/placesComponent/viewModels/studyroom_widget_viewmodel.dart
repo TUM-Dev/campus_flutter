@@ -8,7 +8,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
 
 class StudyRoomWidgetViewModel implements ViewModel {
-  BehaviorSubject<StudyRoomGroup?> studyRoomGroup = BehaviorSubject.seeded(null);
+  BehaviorSubject<StudyRoomGroup?> studyRoomGroup =
+      BehaviorSubject.seeded(null);
   BehaviorSubject<List<StudyRoom>?> rooms = BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
@@ -26,14 +27,24 @@ class StudyRoomWidgetViewModel implements ViewModel {
   _getClosestRooms((DateTime?, StudyRoomData) response, Position? location) {
     lastFetched.add(response.$1);
 
-    if (response.$2.groups != null && response.$2.rooms != null && location != null) {
+    if (response.$2.groups != null &&
+        response.$2.rooms != null &&
+        location != null) {
       final group = response.$2.groups?.reduce((currentGroup, nextGroup) {
         final distanceCurrent = currentGroup.coordinate != null
-            ? Geolocator.distanceBetween(currentGroup.coordinate!.latitude, currentGroup.coordinate!.longitude, location.latitude, location.longitude)
+            ? Geolocator.distanceBetween(
+                currentGroup.coordinate!.latitude,
+                currentGroup.coordinate!.longitude,
+                location.latitude,
+                location.longitude)
             : 0.0;
 
         final distanceNext = nextGroup.coordinate != null
-            ? Geolocator.distanceBetween(nextGroup.coordinate!.latitude, nextGroup.coordinate!.longitude, location.latitude, location.longitude)
+            ? Geolocator.distanceBetween(
+                nextGroup.coordinate!.latitude,
+                nextGroup.coordinate!.longitude,
+                location.latitude,
+                location.longitude)
             : 0.0;
 
         if (distanceCurrent < distanceNext) {
@@ -46,19 +57,14 @@ class StudyRoomWidgetViewModel implements ViewModel {
       studyRoomGroup.add(group);
       final rooms = group?.getRooms(response.$2.rooms!);
       rooms?.sort((room1, room2) {
-        if (room1.localizedStatus == "Free" && room2.localizedStatus == "Free") {
-          return 0;
-        } else if (room1.localizedStatus != "Free" && room2.localizedStatus == "Free") {
-          return 1;
-        } else if (room1.localizedStatus == "Free" && room2.localizedStatus != "Free") {
-          return -1;
-        } else if (room1.localizedStatus != "Unknown" && room2.localizedStatus == "Unknown") {
-          return -1;
-        } else if (room1.localizedStatus == "Unknown" && room2.localizedStatus != "Unknown") {
-          return 1;
-        } else {
-          return 0;
-        }
+        Map<String, int> statusOrder = {
+          "frei": 0,
+          "belegt": 1,
+          "unbekannt": 2,
+        };
+        int statusValue1 = statusOrder[room1.status] ?? 3;
+        int statusValue2 = statusOrder[room2.status] ?? 3;
+        return statusValue1.compareTo(statusValue2);
       });
 
       this.rooms.add(rooms ?? []);

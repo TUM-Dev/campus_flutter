@@ -22,22 +22,22 @@ class Movie {
   final Uri? trailer;
   final Uri link;
 
-  Movie({
-    required this.id,
-    required this.date,
-    required this.created,
-    required String title,
-    required this.year,
-    this.runTime,
-    required this.genre,
-    required this.director,
-    required this.actors,
-    this.rating,
-    required this.description,
-    required this.cover,
-    required this.trailer,
-    required this.link
-  }) : title = title.split(":")[1].trim();
+  Movie(
+      {required this.id,
+      required this.date,
+      required this.created,
+      required String title,
+      required this.year,
+      this.runTime,
+      required this.genre,
+      required this.director,
+      required this.actors,
+      this.rating,
+      required this.description,
+      required this.cover,
+      required this.trailer,
+      required this.link})
+      : title = title.split(":")[1].trim();
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
@@ -51,7 +51,8 @@ class MoviesData {
 
   MoviesData({required this.movies});
 
-  factory MoviesData.fromJson(Map<String, dynamic> json) => _$MoviesDataFromJson(json);
+  factory MoviesData.fromJson(Map<String, dynamic> json) =>
+      _$MoviesDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$MoviesDataToJson(this);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _primaryLightColor = Color(0xff0064BC);
 const Color _primaryDarkColor = Color(0xff3070B3);
@@ -10,6 +11,10 @@ const Color _navigationIconGrayDark = Color(0xff808080);
 const Color _darkGray = Color(0xff555555);
 const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
+
+extension Localization on BuildContext {
+  AppLocalizations get localizations => AppLocalizations.of(this)!;
+}
 
 /// light theme
 ThemeData lightTheme(BuildContext context) {
@@ -126,7 +131,8 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-                /*color: _navigationIconGrayLight, */fontWeight: FontWeight.w500),
+                /*color: _navigationIconGrayLight, */ fontWeight:
+                    FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         /*unselectedIconTheme:
             const IconThemeData(color: _navigationIconGrayLight),*/
@@ -143,9 +149,8 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }
 
 /// dark theme
@@ -259,10 +264,10 @@ ThemeData darkTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-            color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
+                color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         unselectedIconTheme:
-        const IconThemeData(color: _navigationIconGrayLight),
+            const IconThemeData(color: _navigationIconGrayLight),
         //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _darkBackground,
@@ -276,7 +281,6 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }

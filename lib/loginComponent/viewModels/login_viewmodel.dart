@@ -94,14 +94,13 @@ class LoginViewModel {
   }
 
   Future requestLogin() async {
-    return LoginService.requestNewToken(
-        true,
-        "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
+    return LoginService.requestNewToken(true,
+            "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
         .then((value) {
-          final token = value.content;
-          _storage.write(key: "token", value: token);
-          Api.tumToken = token;
-        });
+      final token = value.content;
+      _storage.write(key: "token", value: token);
+      Api.tumToken = token;
+    });
   }
 
   Future<Confirm> confirmLogin() async {

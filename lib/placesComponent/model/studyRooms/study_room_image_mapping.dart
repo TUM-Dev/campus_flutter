@@ -11,16 +11,15 @@ class StudyRoomImageMapping {
   final int width;
   final int heigth;
 
+  StudyRoomImageMapping(
+      {required this.id,
+      required this.description,
+      required this.scale,
+      required this.width,
+      required this.heigth});
 
-  StudyRoomImageMapping({
-    required this.id,
-    required this.description,
-    required this.scale,
-    required this.width,
-    required this.heigth
-  });
-
-  factory StudyRoomImageMapping.fromJson(Map<String, dynamic> json) => _$StudyRoomImageMappingFromJson(json);
+  factory StudyRoomImageMapping.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomImageMappingFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomImageMappingToJson(this);
 }

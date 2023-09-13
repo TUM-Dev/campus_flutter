@@ -9,7 +9,8 @@ class Confirm {
 
   Confirm({required this.confirmed});
 
-  factory Confirm.fromJson(Map<String, dynamic> json) => _$ConfirmFromJson(json);
+  factory Confirm.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmFromJson(json);
 
   Map<String, dynamic> toJson() => _$ConfirmToJson(this);
 }

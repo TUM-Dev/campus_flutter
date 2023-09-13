@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TumCabeApi extends Api {
-
   final TumCabeService tumCabeService;
 
   TumCabeApi({required this.tumCabeService});

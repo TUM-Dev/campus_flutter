@@ -9,10 +9,11 @@ class MealPlan {
   final int week;
   final int year;
   final List<MensaMenu> days;
-  
+
   MealPlan({required this.week, required this.year, required this.days});
 
-  factory MealPlan.fromJson(Map<String, dynamic> json) => _$MealPlanFromJson(json);
+  factory MealPlan.fromJson(Map<String, dynamic> json) =>
+      _$MealPlanFromJson(json);
 
   Map<String, dynamic> toJson() => _$MealPlanToJson(this);
 }

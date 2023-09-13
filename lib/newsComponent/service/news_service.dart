@@ -6,24 +6,24 @@ import 'package:campus_flutter/newsComponent/model/news_source.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class NewsService {
-  static Future<(DateTime?, List<NewsSource>)> fetchNews(bool forcedRefresh) async {
+  static Future<(DateTime?, List<NewsSource>)> fetchNews(
+      bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<NewsSources, TumCabeApi>(
         TumCabeApi(tumCabeService: TumCabeServiceNewsSources()),
         NewsSources.fromJson,
-        forcedRefresh
-    );
+        forcedRefresh);
 
     List<NewsSource> newsSources = response.data.newsSources;
 
     for (var newsSource in newsSources.indexed) {
       try {
         final newsResponse = await mainApi.makeRequest<NewsData, TumCabeApi>(
-            TumCabeApi(tumCabeService: TumCabeServiceNews(
-                source: newsSource.$2.id.toString())),
+            TumCabeApi(
+                tumCabeService:
+                    TumCabeServiceNews(source: newsSource.$2.id.toString())),
             NewsData.fromJson,
-            forcedRefresh
-        );
+            forcedRefresh);
 
         newsSources[newsSource.$2.id].news.addAll(newsResponse.data.news);
       } catch (_) {}

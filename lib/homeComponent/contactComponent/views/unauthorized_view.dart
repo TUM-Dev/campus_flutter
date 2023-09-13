@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:campus_flutter/theme.dart';
 
 class UnauthorizedView extends StatelessWidget {
   const UnauthorizedView({super.key});
@@ -8,11 +9,13 @@ class UnauthorizedView extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/placeholders/portrait_placeholder.png'),
+          backgroundImage:
+              AssetImage('assets/images/placeholders/portrait_placeholder.png'),
           radius: 50,
         ),
         const Spacer(),
-        Text("Not Logged In", style: Theme.of(context).textTheme.titleLarge),
+        Text(context.localizations.notLoggedIn,
+            style: Theme.of(context).textTheme.titleLarge),
         const Spacer(flex: 2)
       ],
     );
