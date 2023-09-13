@@ -10,6 +10,7 @@ import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -88,7 +89,8 @@ class StudyRoomGroupView extends ConsumerWidget {
                                     studyRoomGroup!.coordinate!.latitude,
                                     studyRoomGroup.coordinate!.longitude),
                                 infoWindow: InfoWindow(
-                                    title: studyRoomGroup.name ?? "Unknown")),
+                                    title: studyRoomGroup.name ??
+                                        context.localizations.unknown)),
                           },
                           latLng: LatLng(
                               studyRoomGroup.coordinate?.latitude ?? 0.0,
@@ -116,12 +118,13 @@ class StudyRoomGroupView extends ConsumerWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10),
                                       child: Text(
-                                          studyRoomGroup.name ?? "Unknown",
+                                          studyRoomGroup.name ??
+                                              context.localizations.unknown,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge)),
                                   WidgetFrameView(
-                                      title: "Rooms",
+                                      title: context.localizations.rooms,
                                       subtitle: lastFetched != null
                                           ? LastUpdatedText(lastFetched)
                                           : null,
@@ -159,7 +162,9 @@ class StudyRoomGroupView extends ConsumerWidget {
                           Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(studyRoomGroup?.name ?? "Unknown",
+                              child: Text(
+                                  studyRoomGroup?.name ??
+                                      context.localizations.unknown,
                                   style:
                                       Theme.of(context).textTheme.titleLarge)),
                           if (studyRoomGroup?.coordinate != null)
@@ -173,8 +178,8 @@ class StudyRoomGroupView extends ConsumerWidget {
                                         studyRoomGroup!.coordinate!.latitude,
                                         studyRoomGroup.coordinate!.longitude),
                                     infoWindow: InfoWindow(
-                                        title:
-                                            studyRoomGroup.name ?? "Unknown")),
+                                        title: studyRoomGroup.name ??
+                                            context.localizations.unknown)),
                               },
                               latLng: LatLng(
                                   studyRoomGroup.coordinate?.latitude ?? 0.0,
@@ -190,7 +195,7 @@ class StudyRoomGroupView extends ConsumerWidget {
                             ),
                           const PaddedDivider(),
                           WidgetFrameView(
-                              title: "Rooms",
+                              title: context.localizations.rooms,
                               subtitle: lastFetched != null
                                   ? LastUpdatedText(lastFetched)
                                   : null,

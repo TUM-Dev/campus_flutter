@@ -6,6 +6,7 @@ import 'package:campus_flutter/newsComponent/views/news_card_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/theme.dart';
 
 class NewsWidgetView extends ConsumerStatefulWidget {
   const NewsWidgetView({super.key});
@@ -24,7 +25,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-        title: "Latest News",
+        title: context.localizations.latestNews,
         child: StreamBuilder(
             stream: ref.watch(newsViewModel).newsSources,
             builder: (context, snapshot) {
@@ -41,9 +42,11 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                         });
                   });
                 } else {
-                  return const SizedBox(
+                  return SizedBox(
                       height: 300,
-                      child: Card(child: Center(child: Text("no news found"))));
+                      child: Card(
+                          child: Center(
+                              child: Text(context.localizations.noNewsFound))));
                 }
               } else if (snapshot.hasError) {
                 return SizedBox(
@@ -55,9 +58,11 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                                 ErrorHandlingViewType.textOnly,
                             retry: ref.read(newsViewModel).fetch)));
               } else {
-                return const SizedBox(
+                return SizedBox(
                     height: 300,
-                    child: Card(child: DelayedLoadingIndicator(name: "News")));
+                    child: Card(
+                        child: DelayedLoadingIndicator(
+                            name: context.localizations.news)));
               }
             }));
   }

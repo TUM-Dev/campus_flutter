@@ -23,7 +23,7 @@ class LectureView extends ConsumerWidget {
             Expanded(
                 child: IconText(
               iconData: Icons.edit,
-              label: lecture.eventType,
+              label: lecture.eventType(context),
               iconColor: Theme.of(context).primaryColor,
               textColor: Theme.of(context).colorScheme.secondary,
               multipleLines: true,

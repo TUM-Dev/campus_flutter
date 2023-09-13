@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class LectureLinksView extends StatelessWidget {
@@ -14,16 +15,20 @@ class LectureLinksView extends StatelessWidget {
       children: [
         if (lectureDetails.curriculumURL != null) ...[
           HyperLinkText(
-              link: lectureDetails.curriculumURL ?? "", label: "Curriculum")
+              link: lectureDetails.curriculumURL ?? "",
+              label: context.localizations.lectureCurriculum)
         ],
         if (lectureDetails.scheduledDatesURL != null) ...[
           const Divider(),
           HyperLinkText(
-              link: lectureDetails.scheduledDatesURL ?? "", label: "Dates")
+              link: lectureDetails.scheduledDatesURL ?? "",
+              label: context.localizations.scheduledLectureDates)
         ],
         if (lectureDetails.examDateURL != null) ...[
           const Divider(),
-          HyperLinkText(link: lectureDetails.examDateURL ?? "", label: "Exam")
+          HyperLinkText(
+              link: lectureDetails.examDateURL ?? "",
+              label: context.localizations.lectureExamDate)
         ],
       ],
     );

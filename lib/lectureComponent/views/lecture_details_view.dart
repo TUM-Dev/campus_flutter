@@ -8,6 +8,7 @@ import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_vie
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_view.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +38,8 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
               retry: ref.read(lectureDetailsViewModel).fetch);
         } else {
-          return const DelayedLoadingIndicator(name: "Lecture Details");
+          return DelayedLoadingIndicator(
+              name: context.localizations.lectureDetails);
         }
       },
     );
@@ -67,7 +69,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
             Text(lectureDetails.title,
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.start),
-            Text(lectureDetails.eventType, textAlign: TextAlign.start),
+            Text(lectureDetails.eventType(context), textAlign: TextAlign.start),
           ])),
       const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
       if (lastFetched != null) LastUpdatedText(lastFetched),
@@ -88,7 +90,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
       if (ref.read(lectureDetailsViewModel).event != null) ...[
         _infoCard(
             Icons.calendar_month,
-            "This Meeting",
+            context.localizations.thisMeeting,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -105,11 +107,13 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
               ],
             ))
       ],
-      _infoCard(Icons.info_outline_rounded, "Basic Lecture Information",
+      _infoCard(
+          Icons.info_outline_rounded,
+          context.localizations.basicLectureInformation,
           BasicLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.folder, "Detailed Lecture Information",
+      _infoCard(Icons.folder, context.localizations.detailedLectureInformation,
           DetailedLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.link, "Lecture Links",
+      _infoCard(Icons.link, context.localizations.lectureLinks,
           LectureLinksView(lectureDetails: lectureDetails))
     ];
   }

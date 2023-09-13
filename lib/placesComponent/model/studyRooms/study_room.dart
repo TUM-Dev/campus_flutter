@@ -1,7 +1,8 @@
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room.g.dart';
@@ -38,18 +39,18 @@ class StudyRoom extends Searchable {
   @JsonKey(name: "attribute")
   final List<StudyRoomAttribute>? attributes;
 
-  String get localizedStatus {
+  String localizedStatus(BuildContext context) {
     switch (status) {
       case "frei":
-        return "Free";
+        return context.localizations.free;
       case "belegt":
         if (occupiedUntil != null) {
-          return "Occupied until ${DateFormat.Hm().format(occupiedUntil!)}";
+          return context.localizations.occupiedUntil(occupiedUntil!);
         } else {
-          return "";
+          return context.localizations.unknown;
         }
       default:
-        return "Unknown";
+        return context.localizations.unknown;
     }
   }
 

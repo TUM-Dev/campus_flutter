@@ -133,7 +133,6 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.aspectRatioNeeded);
     return Padding(
       padding: widget.padding ?? EdgeInsets.all(context.padding),
       child: ClipRRect(

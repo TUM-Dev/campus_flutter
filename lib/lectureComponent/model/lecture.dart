@@ -1,6 +1,8 @@
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:campus_flutter/theme.dart';
 
 part 'lecture.g.dart';
 
@@ -37,21 +39,22 @@ class Lecture extends Searchable {
   @JsonKey(name: "vortragende_mitwirkende")
   final String speaker;
 
-  String get eventType {
+  String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return "Lecture";
+        return context.localizations.lecture;
       case "Tutorium":
+        return context.localizations.tutorial;
       case "Übung":
-        return "Exercise";
+        return context.localizations.exercise;
       case "Praktikum":
-        return "Practical course";
+        return context.localizations.practicalCourse;
       case "Seminar":
-        return "Seminar";
+        return context.localizations.seminar;
       case "Vorlesung mit integrierten Übungen":
-        return "Lecture with integrated Exercises";
+        return context.localizations.lectureWithIntegratedExcercises;
       default:
-        return "";
+        return eventTypeDefault;
     }
   }
 

@@ -88,24 +88,14 @@ class StudyRoomsViewModel {
     for (var group in studyRoomData?.groups ?? []) {
       final rooms = group.getRooms(studyRoomData?.rooms ?? []);
       rooms.sort((room1, room2) {
-        if (room1.localizedStatus == "Free" &&
-            room2.localizedStatus == "Free") {
-          return 0;
-        } else if (room1.localizedStatus != "Free" &&
-            room2.localizedStatus == "Free") {
-          return 1;
-        } else if (room1.localizedStatus == "Free" &&
-            room2.localizedStatus != "Free") {
-          return -1;
-        } else if (room1.localizedStatus != "Unknown" &&
-            room2.localizedStatus == "Unknown") {
-          return -1;
-        } else if (room1.localizedStatus == "Unknown" &&
-            room2.localizedStatus != "Unknown") {
-          return 1;
-        } else {
-          return 0;
-        }
+        Map<String, int> statusOrder = {
+          "frei": 0,
+          "belegt": 1,
+          "unbekannt": 2,
+        };
+        int statusValue1 = statusOrder[room1.status] ?? 3;
+        int statusValue2 = statusOrder[room2.status] ?? 3;
+        return statusValue1.compareTo(statusValue2);
       });
       studyRooms[group] = rooms;
     }
@@ -138,7 +128,7 @@ class StudyRoomsViewModel {
 
   int freeRooms(StudyRoomGroup studyRoomGroup) {
     List<StudyRoom> data = studyRooms.value?[studyRoomGroup] ?? [];
-    return data.where((element) => element.localizedStatus == "Free").length;
+    return data.where((element) => element.status == "frei").length;
   }
 
   Set<Marker> mapMakers(BuildContext context) {

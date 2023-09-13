@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class ErrorHandlingView extends StatelessWidget {
@@ -99,7 +100,8 @@ class ErrorHandlingView extends StatelessWidget {
           const Spacer(),
           if (retry != null) ...[
             ElevatedButton(
-                onPressed: () => retry!(true), child: const Text("Try Again")),
+                onPressed: () => retry!(true),
+                child: Text(context.localizations.tryAgain)),
             const Spacer()
           ]
         ]));

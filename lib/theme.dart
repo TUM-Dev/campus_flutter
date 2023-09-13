@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _primaryLightColor = Color(0xff0064BC);
 const Color _primaryDarkColor = Color(0xff3070B3);
@@ -14,6 +15,10 @@ const Color _almostWhite = Color(0xffe3e2e6);
 extension ContextTheme on BuildContext {
   double get halfPadding => 5.0;
   double get padding => 15.0;
+}
+
+extension Localization on BuildContext {
+  AppLocalizations get localizations => AppLocalizations.of(this)!;
 }
 
 /// light theme

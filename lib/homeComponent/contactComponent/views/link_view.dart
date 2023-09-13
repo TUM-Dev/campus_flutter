@@ -13,36 +13,38 @@ class LinkView extends ConsumerWidget {
     return Row(
       children: [
         Expanded(
-            child: AspectRatio(
-                aspectRatio: 3,
-                child: GestureDetector(
-                    onTap: () async {
-                      if (MediaQuery.orientationOf(context) ==
-                          Orientation.portrait) {
-                        UrlLauncher.urlString("https://moodle.tum.de", ref);
-                      } else {
-                        final controller = WebViewController()
-                          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                          ..setBackgroundColor(const Color(0x00000000))
-                          ..setNavigationDelegate(NavigationDelegate(
-                              onNavigationRequest: (request) =>
-                                  NavigationDecision.navigate))
-                          ..loadRequest(Uri.parse("https://moodle.tum.de"));
-                        ref
-                            .read(homeSplitViewModel)
-                            .selectedWidget
-                            .add(WebViewWidget(controller: controller));
-                      }
-                    },
-                    child: const Card(
-                        margin: EdgeInsets.only(
-                            right: 5.0, top: 5.0, bottom: 5.0, left: 15.0),
-                        child: Center(
-                            child: IconText(
-                          iconData: Icons.school_outlined,
-                          label: "Moodle",
-                          iconSize: 24,
-                        )))))),
+            child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.075,
+                child: AspectRatio(
+                    aspectRatio: 3,
+                    child: GestureDetector(
+                        onTap: () async {
+                          if (MediaQuery.orientationOf(context) ==
+                              Orientation.portrait) {
+                            UrlLauncher.urlString("https://moodle.tum.de", ref);
+                          } else {
+                            final controller = WebViewController()
+                              ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                              ..setBackgroundColor(const Color(0x00000000))
+                              ..setNavigationDelegate(NavigationDelegate(
+                                  onNavigationRequest: (request) =>
+                                      NavigationDecision.navigate))
+                              ..loadRequest(Uri.parse("https://moodle.tum.de"));
+                            ref
+                                .read(homeSplitViewModel)
+                                .selectedWidget
+                                .add(WebViewWidget(controller: controller));
+                          }
+                        },
+                        child: const Card(
+                            margin: EdgeInsets.only(
+                                right: 5.0, top: 5.0, bottom: 5.0, left: 15.0),
+                            child: Center(
+                                child: IconText(
+                              iconData: Icons.school_outlined,
+                              label: "Moodle",
+                              iconSize: 24,
+                            ))))))),
         Expanded(
             child: AspectRatio(
                 aspectRatio: 3,

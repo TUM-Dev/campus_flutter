@@ -23,7 +23,7 @@ class GradeRow extends StatelessWidget {
               Expanded(
                   child: IconText(
                       iconData: Icons.edit,
-                      label: grade.modusShort,
+                      label: grade.modusShort(context),
                       iconColor: Theme.of(context).primaryColor,
                       textColor: Theme.of(context).colorScheme.secondary)),
               Expanded(

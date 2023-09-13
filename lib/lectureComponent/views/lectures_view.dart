@@ -11,6 +11,7 @@ import 'package:campus_flutter/lectureComponent/views/lecture_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/theme.dart';
 
 class LecturesView extends ConsumerStatefulWidget {
   const LecturesView({super.key});
@@ -34,7 +35,7 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
         stream: ref.watch(lectureViewModel).lectures,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
-            return const Center(child: Text("no lectures found"));
+            return Center(child: Text(context.localizations.noLecturesFound));
           } else {
             Future(() {
               ref.read(selectedLecture.notifier).state =
@@ -82,9 +83,11 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
                       if (snapshot.hasData) {
                         return snapshot.data!;
                       } else {
-                        return const DelayedLoadingIndicator(
-                          alternativeLoadingIndicator:
-                              Center(child: Text("no lecture selected")),
+                        return DelayedLoadingIndicator(
+                          name: context.localizations.lecture,
+                          alternativeLoadingIndicator: Center(
+                              child: Text(
+                                  context.localizations.noLecturesSelected)),
                         );
                       }
                     }))
@@ -121,7 +124,7 @@ class SemesterView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
         child: ExpansionTile(
-      title: Text(StringParser.toFullSemesterName(semester.key)),
+      title: Text(StringParser.toFullSemesterName(context, semester.key)),
       initiallyExpanded:
           semester.key == SemesterCalculator.getCurrentSemester() ||
               semester.key == SemesterCalculator.getPriorSemester(),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +35,9 @@ class UserPreferencesViewModel {
           } else {
             ref.read(selectedMapsApp.notifier).state = installedMaps.first;
           }
+        case UserPreference.locale:
+          final savedLocale = data != null ? data as String : "en";
+          ref.read(locale.notifier).state = Locale(savedLocale);
       }
     }
   }
@@ -40,11 +45,15 @@ class UserPreferencesViewModel {
   void saveUserPreference(
       UserPreference userPreference, dynamic newValue) async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    if (userPreference == UserPreference.defaultMapsApplication) {
-      await sharedPreferences.setString(
-          userPreference.name, (newValue as MapType).name);
-    } else {
-      await sharedPreferences.setBool(userPreference.name, newValue as bool);
+    switch (userPreference) {
+      case UserPreference.defaultMapsApplication:
+        await sharedPreferences.setString(
+            userPreference.name, (newValue as MapType).name);
+      case UserPreference.locale:
+        await sharedPreferences.setString(
+            userPreference.name, (newValue as Locale).languageCode);
+      default:
+        await sharedPreferences.setBool(userPreference.name, newValue as bool);
     }
   }
 }
@@ -52,5 +61,6 @@ class UserPreferencesViewModel {
 enum UserPreference {
   webView,
   hideFailedGrades,
-  defaultMapsApplication;
+  defaultMapsApplication,
+  locale;
 }

@@ -5,6 +5,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +47,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   Widget build(BuildContext context) {
     if (widget.closestStudyRoom) {
       return WidgetFrameView(
-        title: "Closest Study Rooms",
+        title: context.localizations.nearestStudyRooms,
         child: _streamBuilder(context),
       );
     } else {
@@ -91,14 +92,16 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                         (element) => element.id == widget.studyRoomGroup!.id),
             context);
       } else {
-        return const Center(child: Text("no study rooms near you found"));
+        return Center(
+            child: Text(context.localizations.noNearFreeStudyRoomsFound));
       }
     } else if (snapshot.hasError) {
       return ErrorHandlingView(
           error: snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.descriptionOnly);
     } else {
-      return const DelayedLoadingIndicator(name: "Closest Study Room");
+      return DelayedLoadingIndicator(
+          name: context.localizations.nearestStudyRooms);
     }
   }
 
@@ -118,7 +121,8 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   Widget _buttonLabel(StudyRoomGroup studyRoomGroup, BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Text(studyRoomGroup.name ?? "Unknown")),
+        Expanded(
+            child: Text(studyRoomGroup.name ?? context.localizations.unknown)),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
         _freeRooms(studyRoomGroup),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
@@ -129,7 +133,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _freeRooms(StudyRoomGroup studyRoomGroup) {
     final freeRooms = ref.read(studyRoomsViewModel).freeRooms(studyRoomGroup);
-    return Text("$freeRooms room${freeRooms > 1 ? "s" : ""} free",
+    return Text(context.localizations.nfreeRooms(freeRooms),
         style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,10 +17,9 @@ class DefaultMapsPickerView extends ConsumerStatefulWidget {
 class _DefaultMapsPickerViewState extends ConsumerState<DefaultMapsPickerView> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: ListTile(
+    return ListTile(
       dense: true,
-      title: Text("Default Maps Application",
+      title: Text(context.localizations.defaultMapsApplication,
           style: Theme.of(context).textTheme.bodyMedium),
       trailing: PopupMenuButton<AvailableMap>(
         icon: ref.read(selectedMapsApp)?.icon != null
@@ -41,6 +41,6 @@ class _DefaultMapsPickerViewState extends ConsumerState<DefaultMapsPickerView> {
           setState(() {});
         },
       ),
-    ));
+    );
   }
 }

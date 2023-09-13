@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/theme.dart';
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
@@ -72,7 +73,8 @@ class NewsCardView extends ConsumerWidget {
                                               .textTheme
                                               .bodySmall)),
                                   Expanded(
-                                      child: Text("Source: ${news.$1}",
+                                      child: Text(
+                                          context.localizations.source(news.$1),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,

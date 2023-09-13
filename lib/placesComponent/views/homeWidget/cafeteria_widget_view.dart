@@ -8,6 +8,7 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.d
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,7 +37,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               titleWidget: Row(
                 children: [
                   Expanded(
-                      child: Text(snapshot.data?.$1.name ?? "Cafeteria",
+                      child: Text(
+                          snapshot.data?.$1.name ??
+                              context.localizations.cafeteria,
                           style: Theme.of(context).textTheme.titleMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis)),
@@ -69,9 +72,11 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       if (dishes.isNotEmpty) {
         return DishSlider(dishes: dishes);
       } else {
-        return const Card(
+        return Card(
             child: SizedBox(
-                height: 150, child: Center(child: Text("no meal plan found"))));
+                height: 150,
+                child: Center(
+                    child: Text(context.localizations.noMealPlanFound))));
       }
     } else if (snapshot.hasError) {
       // TODO: error handling if offline

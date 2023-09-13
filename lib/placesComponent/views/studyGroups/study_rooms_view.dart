@@ -19,7 +19,7 @@ class StudyRoomsScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Study Rooms"),
+        title: Text(context.localizations.studyRooms),
       ),
       body: const StudyRoomsView(),
     );
@@ -86,8 +86,8 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
               retry: ref.read(studyRoomsViewModel).fetch,
             );
           } else {
-            return const DelayedLoadingIndicator(
-              name: "Study Rooms",
+            return DelayedLoadingIndicator(
+              name: context.localizations.studyRooms,
             );
           }
         });
@@ -95,14 +95,13 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
 
   Widget _studyRoomList(List<StudyRoomGroup> studyRoomGroups, bool portrait) {
     return WidgetFrameView(
-        title: portrait ? "Study Rooms" : null,
+        title: portrait ? context.localizations.studyRooms : null,
         child: Column(
           children: [
             Card(
-                child: SeparatedList(
+                child: SeparatedList.list(
               data: studyRoomGroups,
               tile: (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
-              padded: true,
             ))
           ],
         ));

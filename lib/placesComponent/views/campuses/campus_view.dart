@@ -9,6 +9,7 @@ import 'package:campus_flutter/placesComponent/views/campuses/campus_most_search
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -74,7 +75,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
       children: [
         Expanded(
           child: WidgetFrameView(
-              title: "Map",
+              title: context.localizations.map,
               child: Expanded(
                   child: MapWidget.horizontalPadding(
                 aspectRatioNeeded: false,
@@ -99,7 +100,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
       children: [
         const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
         WidgetFrameView(
-            title: "Map",
+            title: context.localizations.map,
             child: MapWidget.horizontalPadding(
               markers: ref
                   .read(placesViewModel)
@@ -120,19 +121,18 @@ class _CampusViewState extends ConsumerState<CampusView> {
           children: [
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
-                  title: "Cafeterias",
+                  title: context.localizations.cafeterias,
                   child: CardWithPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: SeparatedList(
+                      child: SeparatedList.list(
                           data: cafeterias,
                           tile: (cafeteria) =>
                               CafeteriaRowView(cafeteria: cafeteria)))),
             if (studyRooms.isNotEmpty)
               WidgetFrameView(
-                  title: "Study Rooms",
+                  title: context.localizations.studyRooms,
                   child: Card(
-                      child: SeparatedList(
-                    padded: true,
+                      child: SeparatedList.list(
                     data: studyRooms,
                     tile: (studyRoomGroup) =>
                         StudyRoomWidgetView(studyRoomGroup),

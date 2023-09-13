@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:ui';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
@@ -40,6 +42,16 @@ final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
 final selectedMapsApp = StateProvider<AvailableMap?>((ref) => null);
+final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
+
+Locale _getDeviceLocale() {
+  final deviceLocal = Platform.localeName;
+  if (deviceLocal.contains("de")) {
+    return const Locale("de");
+  } else {
+    return const Locale("en");
+  }
+}
 
 /// viewModels for RiverPod - state is uninitialized at first
 /// view model for authentication handling
@@ -71,7 +83,7 @@ final placesViewModel = Provider((ref) => PlacesViewModel(ref));
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 final navigaTumDetailsViewModel =
     Provider.family<NavigaTumDetailsViewModel, String>(
-        (ref, id) => NavigaTumDetailsViewModel(id));
+        (ref, id) => NavigaTumDetailsViewModel(id, ref));
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 

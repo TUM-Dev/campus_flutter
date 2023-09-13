@@ -39,7 +39,8 @@ class DirectionsButton extends ConsumerWidget {
                         longitude: location?.longitude ?? longitude!),
                     name ?? "Destination",
                     ref),
-                child: const IconText(
-                    iconData: Icons.directions, label: "Show Directions"))));
+                child: IconText(
+                    iconData: Icons.directions,
+                    label: context.localizations.showDirections))));
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
+import 'package:campus_flutter/theme.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -43,11 +44,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                         ),
                         const Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        Text("Welcome to the TUM Campus App",
+                        Text(context.localizations.welcomeToTheApp,
                             style: Theme.of(context).textTheme.titleLarge),
                         const Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        Text("Enter your TUM ID to get started",
+                        Text(context.localizations.enterYourIDToStart,
                             style: Theme.of(context).textTheme.titleMedium),
                         const Padding(
                             padding: EdgeInsets.symmetric(vertical: 5.0)),
@@ -74,10 +75,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   height: 60,
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                Text("Welcome to the TUM Campus App",
+                Text(context.localizations.welcomeToTheApp,
                     style: Theme.of(context).textTheme.titleLarge),
                 const Spacer(),
-                Text("Enter your TUM ID to get started",
+                Text(context.localizations.enterYourIDToStart,
                     style: Theme.of(context).textTheme.titleMedium),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                 _tumIdTextFields(context, ref),
@@ -177,7 +178,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           });
                         }
                       : null,
-                  child: Text("Log in",
+                  child: Text(context.localizations.login,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
@@ -194,7 +195,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => ref.read(loginViewModel).skip(),
-      child: Text("Continue without TUM ID",
+      child: Text(context.localizations.continueWithoutID,
           style: Theme.of(context)
               .textTheme
               .bodySmall

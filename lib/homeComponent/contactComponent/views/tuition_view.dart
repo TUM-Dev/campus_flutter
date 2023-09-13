@@ -6,6 +6,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
 
 class TuitionView extends ConsumerWidget {
   const TuitionView({super.key});
@@ -29,7 +30,7 @@ class TuitionView extends ConsumerWidget {
                     padding: EdgeInsets.only(right: 10.0),
                     child: Icon(Icons.euro),
                   ),
-                  const Text("Tuition fees"),
+                  Text(context.localizations.tuitionFees),
                   const Spacer(),
                   _tuitionStatus(context, snapshot)
                 ])),
@@ -42,7 +43,7 @@ class TuitionView extends ConsumerWidget {
         context: context,
         builder: (context) => AlertDialog(
               title: Text(
-                "Tuition Fees",
+                context.localizations.tuitionFees,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -55,17 +56,17 @@ class TuitionView extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _infoRow("Due Date:",
-                    DateFormat("dd.MM.yyyy").format(snapshot.data!.deadline)),
+                _infoRow(context.localizations.tuitionDueDate,
+                    DateFormat.yMd().format(snapshot.data!.deadline)),
                 _infoRow(
-                    "Open Amount:",
+                    context.localizations.tuitionOpenAmount,
                     NumberFormat.currency(locale: "de_DE", symbol: '€')
                         .format(snapshot.data!.amount))
               ]),
               actions: [
                 ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text("OK"))
+                    child: const Text("Okay"))
               ],
               actionsAlignment: MainAxisAlignment.center,
             ));
@@ -75,10 +76,10 @@ class TuitionView extends ConsumerWidget {
       BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
     if (snapshot.hasData) {
       if (snapshot.data?.amount == 0.0) {
-        return const IconText(
+        return IconText(
           iconData: Icons.check,
-          label: "Tuition Paid",
-          style: TextStyle(color: Colors.green),
+          label: context.localizations.tuitionPaid,
+          style: const TextStyle(color: Colors.green),
           leadingIcon: false,
         );
       } else {
@@ -88,10 +89,11 @@ class TuitionView extends ConsumerWidget {
             style: const TextStyle(color: Colors.red));
       }
     } else {
-      return const DelayedLoadingIndicator(
-          name: "Tuition",
-          alternativeLoadingIndicator:
-              Text("n/a", style: TextStyle(color: Colors.red)));
+      return DelayedLoadingIndicator(
+          name: context.localizations.tuition,
+          alternativeLoadingIndicator: Text(
+              context.localizations.notAvailableAbbrev,
+              style: const TextStyle(color: Colors.red)));
     }
   }
 

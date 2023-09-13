@@ -19,7 +19,7 @@ class CafeteriasScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Cafeterias"),
+        title: Text(context.localizations.cafeterias),
       ),
       body: const CafeteriasView(),
     );
@@ -88,8 +88,8 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
               retry: ref.read(studyRoomsViewModel).fetch,
             );
           } else {
-            return const DelayedLoadingIndicator(
-              name: "Cafeteria",
+            return DelayedLoadingIndicator(
+              name: context.localizations.cafeterias,
             );
           }
         });
@@ -97,10 +97,9 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
 
   Widget _cafeteriaList(List<Cafeteria> cafeterias, bool portrait) {
     return WidgetFrameView(
-        title: portrait ? "Study Rooms" : null,
+        title: portrait ? context.localizations.cafeterias : null,
         child: Card(
-            child: SeparatedList(
-                padded: true,
+            child: SeparatedList.list(
                 data: cafeterias,
                 tile: (cafeteria) => CafeteriaRowView(cafeteria: cafeteria))));
   }

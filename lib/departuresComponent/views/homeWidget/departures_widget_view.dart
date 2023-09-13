@@ -7,6 +7,7 @@ import 'package:campus_flutter/departuresComponent/views/departures_details_row_
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,8 +57,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                                       retry:
                                           ref.read(departureViewModel).fetch);
                                 } else {
-                                  return const DelayedLoadingIndicator(
-                                      name: "Departures");
+                                  return DelayedLoadingIndicator(
+                                      name: context.localizations.departures);
                                 }
                               })))));
         });
@@ -65,9 +66,9 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   String _titleBuilder() {
     if (ref.watch(departureViewModel).closestCampus.value?.name != null) {
-      return "Departures @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
+      return "${context.localizations.departures} @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
     } else {
-      return "Departures";
+      return context.localizations.departures;
     }
   }
 
@@ -79,7 +80,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
         children: [
           RichText(
               text: TextSpan(
-                  text: "Station: ",
+                  text: "${context.localizations.station} ",
                   style: Theme.of(context).textTheme.bodyMedium,
                   children: [
                 TextSpan(

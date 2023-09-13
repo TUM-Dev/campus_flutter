@@ -46,8 +46,7 @@ Check out our detailed information at [CONTRIBUTING.md](https://github.com/TCA-T
 If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/LnxaIfKi) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
 
 ## Policies
-[Privacy policy](https://app.tum.de/landing/privacy/)  
-[T&Cs of the lecture chat](https://app.tum.de/landing/chatterms/)
+- [Privacy policy](https://app.tum.de/landing/privacy/)  
 
 ## Support
 You can reach us on [Discord](https://discord.gg/k558T6ktuh), [GitHub](https://github.com/TUM-Dev/Campus-Flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)

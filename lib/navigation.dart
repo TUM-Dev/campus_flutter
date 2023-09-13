@@ -5,6 +5,7 @@ import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/search_body_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
@@ -71,23 +72,23 @@ class _NavigationState extends ConsumerState<Navigation> {
               switch (currentPageIndex) {
                 case 0:
                   if (kIsWeb && isLandScape) {
-                    return Text("Home",
+                    return Text(context.localizations.home,
                         style: Theme.of(context).textTheme.titleLarge);
                   } else {
                     return Image.asset('assets/images/logos/tum-logo-blue.png',
                         fit: BoxFit.cover, height: 20);
                   }
                 case 1:
-                  return Text("Grades",
+                  return Text(context.localizations.grades,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 2:
-                  return Text("Lectures",
+                  return Text(context.localizations.lectures,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 3:
-                  return Text("Calendar",
+                  return Text(context.localizations.calendar,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 4:
-                  return Text("Places",
+                  return Text(context.localizations.places,
                       style: Theme.of(context).textTheme.titleLarge);
                 default:
                   return Image.asset('assets/images/logos/tum-logo-blue.png',
@@ -111,7 +112,7 @@ class _NavigationState extends ConsumerState<Navigation> {
             children: [
               SafeArea(
                   child: (kIsWeb && isLandScape)
-                      ? _webNavigationRail()
+                      ? _webNavigationRail(context)
                       : _navigationBody()),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
@@ -176,37 +177,37 @@ class _NavigationState extends ConsumerState<Navigation> {
                   : null
               : null,
           selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.house_outlined),
-              selectedIcon: Icon(Icons.house),
-              label: 'Home',
+              icon: const Icon(Icons.house_outlined),
+              selectedIcon: const Icon(Icons.house),
+              label: context.localizations.home,
             ),
             NavigationDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: 'Grades',
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: context.localizations.grades,
             ),
             NavigationDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: 'Lectures',
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: context.localizations.lectures,
             ),
             NavigationDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: 'Calendar',
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: context.localizations.calendar,
             ),
             NavigationDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: 'Places',
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: context.localizations.places,
             ),
           ],
         ));
   }
 
-  Widget _webNavigationRail() {
+  Widget _webNavigationRail(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -218,31 +219,31 @@ class _NavigationState extends ConsumerState<Navigation> {
             });
           },
           labelType: NavigationRailLabelType.all,
-          destinations: const <NavigationRailDestination>[
+          destinations: <NavigationRailDestination>[
             NavigationRailDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: Text('Home'),
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: Text(context.localizations.home),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: Text('Grades'),
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: Text(context.localizations.grades),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: Text('Lectures'),
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: Text(context.localizations.lectures),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: Text('Calendar'),
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: Text(context.localizations.calendar),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: Text('Places'),
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: Text(context.localizations.places),
             ),
           ],
         ),

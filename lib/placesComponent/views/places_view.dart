@@ -41,14 +41,15 @@ class PlacesView extends ConsumerWidget {
                                     left: context.padding,
                                     right: context.padding / 2,
                                     bottom: context.halfPadding),
-                                child: const Row(
+                                child: Row(
                                   children: [
                                     IconText(
                                         iconData: Icons.school,
-                                        label: "Study Rooms",
+                                        label: context.localizations.studyRooms,
                                         iconSize: 24),
-                                    Spacer(),
-                                    Icon(Icons.arrow_forward_ios, size: 15)
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_forward_ios,
+                                        size: 15)
                                   ],
                                 ))),
                         action: () => Navigator.of(context).push(
@@ -64,14 +65,15 @@ class PlacesView extends ConsumerWidget {
                                     right: context.padding,
                                     left: context.padding / 2,
                                     bottom: context.halfPadding),
-                                child: const Row(
+                                child: Row(
                                   children: [
                                     IconText(
                                         iconData: Icons.restaurant,
-                                        label: "Cafeterias",
+                                        label: context.localizations.cafeterias,
                                         iconSize: 24),
-                                    Spacer(),
-                                    Icon(Icons.arrow_forward_ios, size: 15)
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_forward_ios,
+                                        size: 15)
                                   ],
                                 ))),
                         action: () => Navigator.of(context).push(
@@ -107,33 +109,33 @@ class PlacesView extends ConsumerWidget {
         child: Column(
       children: [
         Tapable(
-            child: const AspectRatio(
+            child: AspectRatio(
                 aspectRatio: 6,
                 child: CardWithPadding(
                     child: Row(
                   children: [
                     IconText(
                         iconData: Icons.school,
-                        label: "Study Rooms",
+                        label: context.localizations.studyRooms,
                         iconSize: 24),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios, size: 15)
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios, size: 15)
                   ],
                 ))),
             action: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const StudyRoomsScaffold()))),
         Tapable(
-            child: const AspectRatio(
+            child: AspectRatio(
                 aspectRatio: 6,
                 child: CardWithPadding(
                     child: Row(
                   children: [
                     IconText(
                         iconData: Icons.restaurant,
-                        label: "Cafeterias",
+                        label: context.localizations.cafeterias,
                         iconSize: 24),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios, size: 15)
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios, size: 15)
                   ],
                 ))),
             action: () => Navigator.of(context).push(MaterialPageRoute(

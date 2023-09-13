@@ -1,6 +1,8 @@
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:campus_flutter/theme.dart';
 
 part 'grade.g.dart';
 
@@ -33,18 +35,18 @@ class Grade extends Searchable {
   @JsonKey(name: "st_studium_nr")
   final String studyNumber;
 
-  String get modusShort {
+  String modusShort(BuildContext context) {
     switch (modus) {
       case "Schriftlich":
-        return "Written";
+        return context.localizations.written;
       case "Beurteilt/immanenter Prüfungscharakter":
-        return "Graded";
+        return context.localizations.graded;
       case "Schriftlich und Mündlich":
-        return "Written/Oral";
+        return context.localizations.writtenAndOral;
       case "Mündlich":
-        return "Oral";
+        return context.localizations.oral;
       default:
-        return "Unknown";
+        return modus;
     }
   }
 

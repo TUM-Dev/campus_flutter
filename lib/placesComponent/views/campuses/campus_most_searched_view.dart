@@ -14,7 +14,7 @@ class CampusMostSearchedView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "Most Searched Rooms",
+        title: context.localizations.mostSearchedRooms,
         child: Card(
             child: StreamBuilder(
                 stream: ref.watch(navigaTumViewModel).mostSearchedResults,
