@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,11 +23,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       backgroundColor: MediaQuery.platformBrightnessOf(context) == Brightness.dark
         ? Theme.of(context).canvasColor
         : Colors.white,
+      resizeToAvoidBottomInset: orientation != Orientation.portrait && !kIsWeb,
       body: SafeArea(
+          maintainBottomViewPadding: true,
           child: OrientationBuilder(
               builder: (context, orientation) {
                 if (orientation == Orientation.landscape) {
