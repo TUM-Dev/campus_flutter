@@ -13,18 +13,20 @@ class DetailedLectureInfoView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (lectureDetails.courseContents != null) ...[
-          DetailedLectureInfoRowView(title: "Course Contents",
+          DetailedLectureInfoRowView(
+              title: "Course Contents",
               information: lectureDetails.courseContents!)
         ],
         if (lectureDetails.courseObjective != null) ...[
           const Divider(),
-          DetailedLectureInfoRowView(title: "Course Objective",
+          DetailedLectureInfoRowView(
+              title: "Course Objective",
               information: lectureDetails.courseObjective!)
         ],
         if (lectureDetails.note != null) ...[
           const Divider(),
-          DetailedLectureInfoRowView(title: "Note",
-              information: lectureDetails.note!)
+          DetailedLectureInfoRowView(
+              title: "Note", information: lectureDetails.note!)
         ],
       ],
     );

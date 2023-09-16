@@ -11,12 +11,10 @@ class StudyRoomData {
   @JsonKey(name: "gruppen")
   final List<StudyRoomGroup>? groups;
 
-  StudyRoomData({
-    this.rooms,
-    this.groups
-  });
+  StudyRoomData({this.rooms, this.groups});
 
-  factory StudyRoomData.fromJson(Map<String, dynamic> json) => _$StudyRoomDataFromJson(json);
+  factory StudyRoomData.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomDataToJson(this);
 }

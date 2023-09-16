@@ -23,7 +23,7 @@ class GradeRowAlt extends StatelessWidget {
               Expanded(
                   child: IconText(
                       iconData: Icons.edit,
-                      label: grade.modusShort,
+                      label: grade.modusShort(context),
                       iconColor: Theme.of(context).primaryColor,
                       textColor: Theme.of(context).colorScheme.secondary)),
               Expanded(
@@ -60,7 +60,9 @@ class GradeRectangle extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4)),
             child: Center(
               child: Text(
-                parsedGrade is double ? parsedGrade.toStringAsFixed(1) : grade.toString(),
+                parsedGrade is double
+                    ? parsedGrade.toStringAsFixed(1)
+                    : grade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

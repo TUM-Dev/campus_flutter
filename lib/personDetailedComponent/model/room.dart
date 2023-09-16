@@ -23,17 +23,16 @@ class Room {
   @JsonKey(name: "lang")
   final String longLocationDescription;
 
-  Room({
-    required this.number,
-    required this.buildingName,
-    required this.buildingNumber,
-    required this.floorName,
-    required this.floorNumber,
-    required this.id,
-    required this.locationDescription,
-    required this.shortLocationDescription,
-    required this.longLocationDescription
-  });
+  Room(
+      {required this.number,
+      required this.buildingName,
+      required this.buildingNumber,
+      required this.floorName,
+      required this.floorNumber,
+      required this.id,
+      required this.locationDescription,
+      required this.shortLocationDescription,
+      required this.longLocationDescription});
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 

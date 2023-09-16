@@ -10,7 +10,8 @@ class MvvResponse {
 
   MvvResponse({required this.departures});
 
-  factory MvvResponse.fromJson(Map<String, dynamic> json) => _$MvvResponseFromJson(json);
+  factory MvvResponse.fromJson(Map<String, dynamic> json) =>
+      _$MvvResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$MvvResponseToJson(this);
 }

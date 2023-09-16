@@ -14,15 +14,14 @@ class News {
   final Uri link;
   final Uri image;
 
-  News({
-    required this.id,
-    required this.source,
-    required this.date,
-    required this.created,
-    required this.title,
-    required this.link,
-    required this.image
-  });
+  News(
+      {required this.id,
+      required this.source,
+      required this.date,
+      required this.created,
+      required this.title,
+      required this.link,
+      required this.image});
 
   factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 
@@ -36,7 +35,8 @@ class NewsData {
 
   NewsData({required this.news});
 
-  factory NewsData.fromJson(Map<String, dynamic> json) => _$NewsDataFromJson(json);
+  factory NewsData.fromJson(Map<String, dynamic> json) =>
+      _$NewsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewsDataToJson(this);
 }

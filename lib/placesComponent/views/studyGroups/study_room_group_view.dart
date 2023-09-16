@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,9 +31,9 @@ class StudyRoomGroupView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             final studyRoomGroup = snapshot.data!;
-            final studyRooms =
-                ref.read(studyRoomWidgetViewModel).rooms.value!;
-            final lastFetched = ref.read(studyRoomWidgetViewModel).lastFetched.value;
+            final studyRooms = ref.read(studyRoomWidgetViewModel).rooms.value!;
+            final lastFetched =
+                ref.read(studyRoomWidgetViewModel).lastFetched.value;
             return RefreshIndicator(
                 onRefresh: () => ref.read(studyRoomWidgetViewModel).fetch(true),
                 child: SingleChildScrollView(
@@ -45,8 +46,10 @@ class StudyRoomGroupView extends ConsumerWidget {
                               style: Theme.of(context).textTheme.titleLarge)),
                       //const PaddedDivider(),
                       WidgetFrameView(
-                          title: "Rooms",
-                          subtitle: lastFetched != null ? LastUpdatedText(lastFetched) : null,
+                          title: context.localizations.rooms,
+                          subtitle: lastFetched != null
+                              ? LastUpdatedText(lastFetched)
+                              : null,
                           child: CardWithPadding(
                               child: Column(
                             children: [

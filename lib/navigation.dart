@@ -3,6 +3,7 @@ import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
@@ -36,47 +37,33 @@ class _NavigationState extends ConsumerState<Navigation> {
           centerTitle: true,
           leadingWidth: 80,
           leading: (kIsWeb && isLandScape)
-              ? Padding(padding: const EdgeInsets.all(15),
-              child: Image.asset('assets/images/logos/tum-logo-blue.png',
-                  fit: BoxFit.scaleDown))
+              ? Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Image.asset('assets/images/logos/tum-logo-blue.png',
+                      fit: BoxFit.scaleDown))
               : IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
           title: (() {
             switch (currentPageIndex) {
               case 0:
                 if (kIsWeb && isLandScape) {
-                  return Text("Home",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleLarge);
+                  return Text(context.localizations.home,
+                      style: Theme.of(context).textTheme.titleLarge);
                 } else {
                   return Image.asset('assets/images/logos/tum-logo-blue.png',
                       fit: BoxFit.cover, height: 20);
                 }
               case 1:
-                return Text("Grades",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.grades,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 2:
-                return Text("Lectures",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.lectures,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 3:
-                return Text("Calendar",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.calendar,
+                    style: Theme.of(context).textTheme.titleLarge);
               case 4:
-                return Text("Places",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                return Text(context.localizations.places,
+                    style: Theme.of(context).textTheme.titleLarge);
               default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
@@ -93,12 +80,11 @@ class _NavigationState extends ConsumerState<Navigation> {
                 icon: const Icon(Icons.settings)),
           ],
         ), //: null,
-        bottomNavigationBar: (kIsWeb && isLandScape)
-            ? null
-            : _bottomNavigationBar(),
+        bottomNavigationBar:
+            (kIsWeb && isLandScape) ? null : _bottomNavigationBar(),
         body: SafeArea(
             child: (kIsWeb && isLandScape)
-                ? _webNavigationRail()
+                ? _webNavigationRail(context)
                 : _navigationBody()),
       );
     });
@@ -110,8 +96,8 @@ class _NavigationState extends ConsumerState<Navigation> {
       const GradesView(),
       const LecturesView(),
       const CalendarsView(),
-      // TODO: replace with places widget
-      const Text("Coming Soon")
+      Text(
+          context.localizations.comingSoon), // TODO: replace with places widget
     ][currentPageIndex];
   }
 
@@ -135,6 +121,7 @@ class _NavigationState extends ConsumerState<Navigation> {
               }
             });
           },
+
           /// Platform is not supported on web
           height: !kIsWeb
               ? Platform.isIOS
@@ -142,37 +129,37 @@ class _NavigationState extends ConsumerState<Navigation> {
                   : null
               : null,
           selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.house_outlined),
-              selectedIcon: Icon(Icons.house),
-              label: 'Home',
+              icon: const Icon(Icons.house_outlined),
+              selectedIcon: const Icon(Icons.house),
+              label: context.localizations.home,
             ),
             NavigationDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: 'Grades',
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: context.localizations.grades,
             ),
             NavigationDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: 'Lectures',
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: context.localizations.lectures,
             ),
             NavigationDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: 'Calendar',
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: context.localizations.calendar,
             ),
             NavigationDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: 'Places',
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: context.localizations.places,
             ),
           ],
         ));
   }
 
-  Widget _webNavigationRail() {
+  Widget _webNavigationRail(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -186,31 +173,31 @@ class _NavigationState extends ConsumerState<Navigation> {
             });
           },
           labelType: NavigationRailLabelType.all,
-          destinations: const <NavigationRailDestination>[
+          destinations: <NavigationRailDestination>[
             NavigationRailDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: Text('Home'),
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: Text(context.localizations.home),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: Text('Grades'),
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: Text(context.localizations.grades),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: Text('Lectures'),
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: Text(context.localizations.lectures),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: Text('Calendar'),
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: Text(context.localizations.calendar),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: Text('Places'),
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: Text(context.localizations.places),
             ),
           ],
         ),

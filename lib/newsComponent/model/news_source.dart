@@ -12,13 +12,10 @@ class NewsSource {
   final Uri? icon;
   final List<News> news = [];
 
-  NewsSource({
-    required this.id,
-    this.title,
-    this.icon
-  });
+  NewsSource({required this.id, this.title, this.icon});
 
-  factory NewsSource.fromJson(Map<String, dynamic> json) => _$NewsSourceFromJson(json);
+  factory NewsSource.fromJson(Map<String, dynamic> json) =>
+      _$NewsSourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewsSourceToJson(this);
 }
@@ -30,7 +27,8 @@ class NewsSources {
 
   NewsSources({required this.newsSources});
 
-  factory NewsSources.fromJson(Map<String, dynamic> json) => _$NewsSourcesFromJson(json);
+  factory NewsSources.fromJson(Map<String, dynamic> json) =>
+      _$NewsSourcesFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewsSourcesToJson(this);
 }
