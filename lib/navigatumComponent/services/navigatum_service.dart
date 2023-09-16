@@ -25,8 +25,8 @@ class NavigaTumService {
     final response = await getIt<MainApi>()
         .makeRequest<NavigaTumNavigationDetails, NavigaTumApi>(
             NavigaTumApi(
-                navigaTumApiService:
-                    NavigaTumApiServiceDetails(id: id, language: ref.read(locale).languageCode)),
+                navigaTumApiService: NavigaTumApiServiceDetails(
+                    id: id, language: ref.read(locale).languageCode)),
             NavigaTumNavigationDetails.fromJson,
             forcedRefresh);
 

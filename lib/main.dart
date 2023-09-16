@@ -48,6 +48,7 @@ class CampusApp extends ConsumerWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme(context),
         darkTheme: darkTheme(context),
+        themeMode: ref.watch(appearance).themeMode,
         navigatorKey: navigatorKey,
         locale: ref.watch(locale),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -80,6 +81,7 @@ class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
         stream: ref.watch(loginViewModel).credentials,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            ref.read(userPreferencesViewModel).loadUserPreferences();
             FlutterNativeSplash.remove();
             if (snapshot.data == Credentials.tumId ||
                 snapshot.data == Credentials.noTumId) {

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
@@ -43,6 +44,7 @@ final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
 final selectedMapsApp = StateProvider<AvailableMap?>((ref) => null);
 final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
+final appearance = StateProvider<Appearance>((ref) => Appearance.system);
 
 Locale _getDeviceLocale() {
   final deviceLocal = Platform.localeName;

@@ -28,7 +28,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-        title: "Calendar",
+        title: context.localizations.calendar,
         child: SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.25,
             child: CardWithPadding(
@@ -48,14 +48,14 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                                         ErrorHandlingViewType.textOnly,
                                     retry: ref.read(calendarViewModel).fetch)));
                       } else {
-                        return const DelayedLoadingIndicator(name: "Events");
+                        return DelayedLoadingIndicator(
+                            name: context.localizations.events);
                       }
                     }))));
   }
 
   Widget _calendarWidgetCard((CalendarEvent?, List<CalendarEvent>) events) {
     final today = DateTime.now();
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -70,7 +70,8 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               Text(DateFormat.EEEE().format(today),
                   style: TextStyle(color: Theme.of(context).primaryColor)),
               Text(
-                DateFormat(DateFormat.DAY).format(today),
+                DateFormat(DateFormat.DAY, ref.read(locale).languageCode)
+                    .format(today),
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               const Spacer()

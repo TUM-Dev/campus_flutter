@@ -47,7 +47,6 @@ class _NavigationState extends ConsumerState<Navigation> {
   @override
   void initState() {
     ref.read(profileViewModel).fetch(true);
-    ref.read(userPreferencesViewModel).loadUserPreferences();
     super.initState();
   }
 

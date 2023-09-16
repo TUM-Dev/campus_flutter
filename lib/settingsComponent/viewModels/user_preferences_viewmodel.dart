@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,13 @@ class UserPreferencesViewModel {
         case UserPreference.locale:
           final savedLocale = data != null ? data as String : "en";
           ref.read(locale.notifier).state = Locale(savedLocale);
+        case UserPreference.theme:
+          if (data != null) {
+            final theme = Appearance.values
+                .firstWhere((element) => element.name == (data as String));
+            ref.read(appearance.notifier).state = theme;
+          }
+        //
       }
     }
   }
@@ -52,6 +60,9 @@ class UserPreferencesViewModel {
       case UserPreference.locale:
         await sharedPreferences.setString(
             userPreference.name, (newValue as Locale).languageCode);
+      case UserPreference.theme:
+        await sharedPreferences.setString(
+            userPreference.name, (newValue as Appearance).name);
       default:
         await sharedPreferences.setBool(userPreference.name, newValue as bool);
     }
@@ -62,5 +73,6 @@ enum UserPreference {
   webView,
   hideFailedGrades,
   defaultMapsApplication,
-  locale;
+  locale,
+  theme;
 }
