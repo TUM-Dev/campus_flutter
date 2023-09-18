@@ -101,6 +101,8 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
+  bool isMapVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -146,7 +148,38 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   }
 
   Widget _mapWidget() {
-    return GoogleMap(
+    return AnimatedOpacity(
+        curve: Curves.fastOutSlowIn,
+        opacity: isMapVisible ? 1.0 : 0.01,
+        duration: const Duration(milliseconds: 200),
+        child: GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: CameraPosition(
+              target: widget.latLng ??
+                  const LatLng(48.26307794976663, 11.668018668778569),
+              zoom: widget.zoom ?? 10),
+          gestureRecognizers: {
+            Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer())
+          },
+          rotateGesturesEnabled: false,
+          compassEnabled: false,
+          mapToolbarEnabled: false,
+          tiltGesturesEnabled: false,
+          zoomControlsEnabled: true,
+          myLocationEnabled: true,
+          myLocationButtonEnabled: false,
+          markers: widget.markers,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+            Future.delayed(
+                const Duration(milliseconds: 250),
+                () => setState(() {
+                      isMapVisible = true;
+                    }));
+          },
+        ));
+    /*return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
           target: widget.latLng ??
@@ -166,6 +199,6 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
         _controller.complete(controller);
       },
       markers: widget.markers,
-    );
+    );*/
   }
 }
