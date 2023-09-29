@@ -14,7 +14,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../google/protobuf/timestamp.pb.dart' as $2;
+import '../google/protobuf/timestamp.pb.dart' as $1;
 import 'campus_backend.pbenum.dart';
 
 export 'campus_backend.pbenum.dart';
@@ -42,9 +42,9 @@ class RegisterDeviceRequest extends $pb.GeneratedMessage {
   factory RegisterDeviceRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterDeviceRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'deviceId', protoName: 'deviceId')
-    ..aOS(2, _omitFieldNames ? '' : 'publicKey', protoName: 'publicKey')
-    ..e<DeviceType>(3, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE, protoName: 'deviceType', defaultOrMaker: DeviceType.IOS, valueOf: DeviceType.valueOf, enumValues: DeviceType.values)
+    ..aOS(1, _omitFieldNames ? '' : 'deviceId')
+    ..aOS(2, _omitFieldNames ? '' : 'publicKey')
+    ..e<DeviceType>(3, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE, defaultOrMaker: DeviceType.IOS, valueOf: DeviceType.valueOf, enumValues: DeviceType.values)
     ..hasRequiredFields = false
   ;
 
@@ -112,7 +112,7 @@ class RegisterDeviceReply extends $pb.GeneratedMessage {
   factory RegisterDeviceReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterDeviceReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'deviceId', protoName: 'deviceId')
+    ..aOS(1, _omitFieldNames ? '' : 'deviceId')
     ..hasRequiredFields = false
   ;
 
@@ -166,8 +166,8 @@ class RemoveDeviceRequest extends $pb.GeneratedMessage {
   factory RemoveDeviceRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RemoveDeviceRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'deviceId', protoName: 'deviceId')
-    ..e<DeviceType>(2, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE, protoName: 'deviceType', defaultOrMaker: DeviceType.IOS, valueOf: DeviceType.valueOf, enumValues: DeviceType.values)
+    ..aOS(1, _omitFieldNames ? '' : 'deviceId')
+    ..e<DeviceType>(2, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE, defaultOrMaker: DeviceType.IOS, valueOf: DeviceType.valueOf, enumValues: DeviceType.values)
     ..hasRequiredFields = false
   ;
 
@@ -226,7 +226,7 @@ class RemoveDeviceReply extends $pb.GeneratedMessage {
   factory RemoveDeviceReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RemoveDeviceReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'deviceId', protoName: 'deviceId')
+    ..aOS(1, _omitFieldNames ? '' : 'deviceId')
     ..hasRequiredFields = false
   ;
 
@@ -280,7 +280,7 @@ class IOSDeviceRequestResponseRequest extends $pb.GeneratedMessage {
   factory IOSDeviceRequestResponseRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'IOSDeviceRequestResponseRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'requestId', protoName: 'requestId')
+    ..aOS(1, _omitFieldNames ? '' : 'requestId')
     ..aOS(2, _omitFieldNames ? '' : 'payload')
     ..hasRequiredFields = false
   ;
@@ -373,770 +373,6 @@ class IOSDeviceRequestResponseReply extends $pb.GeneratedMessage {
   $core.bool hasMessage() => $_has(0);
   @$pb.TagNumber(1)
   void clearMessage() => clearField(1);
-}
-
-class GetRoomScheduleRequest extends $pb.GeneratedMessage {
-  factory GetRoomScheduleRequest({
-    $core.int? room,
-    $2.Timestamp? start,
-    $2.Timestamp? end,
-  }) {
-    final $result = create();
-    if (room != null) {
-      $result.room = room;
-    }
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    return $result;
-  }
-  GetRoomScheduleRequest._() : super();
-  factory GetRoomScheduleRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomScheduleRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomScheduleRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'room', $pb.PbFieldType.O3)
-    ..aOM<$2.Timestamp>(2, _omitFieldNames ? '' : 'start', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(3, _omitFieldNames ? '' : 'end', subBuilder: $2.Timestamp.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleRequest clone() => GetRoomScheduleRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleRequest copyWith(void Function(GetRoomScheduleRequest) updates) => super.copyWith((message) => updates(message as GetRoomScheduleRequest)) as GetRoomScheduleRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleRequest create() => GetRoomScheduleRequest._();
-  GetRoomScheduleRequest createEmptyInstance() => create();
-  static $pb.PbList<GetRoomScheduleRequest> createRepeated() => $pb.PbList<GetRoomScheduleRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomScheduleRequest>(create);
-  static GetRoomScheduleRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.int get room => $_getIZ(0);
-  @$pb.TagNumber(1)
-  set room($core.int v) { $_setSignedInt32(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasRoom() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearRoom() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $2.Timestamp get start => $_getN(1);
-  @$pb.TagNumber(2)
-  set start($2.Timestamp v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasStart() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearStart() => clearField(2);
-  @$pb.TagNumber(2)
-  $2.Timestamp ensureStart() => $_ensure(1);
-
-  @$pb.TagNumber(3)
-  $2.Timestamp get end => $_getN(2);
-  @$pb.TagNumber(3)
-  set end($2.Timestamp v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasEnd() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearEnd() => clearField(3);
-  @$pb.TagNumber(3)
-  $2.Timestamp ensureEnd() => $_ensure(2);
-}
-
-class GetRoomScheduleReply_RoomScheduleEvent extends $pb.GeneratedMessage {
-  factory GetRoomScheduleReply_RoomScheduleEvent({
-    $2.Timestamp? start,
-    $2.Timestamp? end,
-    $core.String? title,
-    $core.int? eventId,
-    $core.String? courseCode,
-  }) {
-    final $result = create();
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    if (title != null) {
-      $result.title = title;
-    }
-    if (eventId != null) {
-      $result.eventId = eventId;
-    }
-    if (courseCode != null) {
-      $result.courseCode = courseCode;
-    }
-    return $result;
-  }
-  GetRoomScheduleReply_RoomScheduleEvent._() : super();
-  factory GetRoomScheduleReply_RoomScheduleEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomScheduleReply_RoomScheduleEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomScheduleReply.RoomScheduleEvent', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOM<$2.Timestamp>(1, _omitFieldNames ? '' : 'start', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(2, _omitFieldNames ? '' : 'end', subBuilder: $2.Timestamp.create)
-    ..aOS(3, _omitFieldNames ? '' : 'title')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'eventId', $pb.PbFieldType.O3)
-    ..aOS(5, _omitFieldNames ? '' : 'courseCode')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleReply_RoomScheduleEvent clone() => GetRoomScheduleReply_RoomScheduleEvent()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleReply_RoomScheduleEvent copyWith(void Function(GetRoomScheduleReply_RoomScheduleEvent) updates) => super.copyWith((message) => updates(message as GetRoomScheduleReply_RoomScheduleEvent)) as GetRoomScheduleReply_RoomScheduleEvent;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleReply_RoomScheduleEvent create() => GetRoomScheduleReply_RoomScheduleEvent._();
-  GetRoomScheduleReply_RoomScheduleEvent createEmptyInstance() => create();
-  static $pb.PbList<GetRoomScheduleReply_RoomScheduleEvent> createRepeated() => $pb.PbList<GetRoomScheduleReply_RoomScheduleEvent>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleReply_RoomScheduleEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomScheduleReply_RoomScheduleEvent>(create);
-  static GetRoomScheduleReply_RoomScheduleEvent? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $2.Timestamp get start => $_getN(0);
-  @$pb.TagNumber(1)
-  set start($2.Timestamp v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasStart() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearStart() => clearField(1);
-  @$pb.TagNumber(1)
-  $2.Timestamp ensureStart() => $_ensure(0);
-
-  @$pb.TagNumber(2)
-  $2.Timestamp get end => $_getN(1);
-  @$pb.TagNumber(2)
-  set end($2.Timestamp v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasEnd() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearEnd() => clearField(2);
-  @$pb.TagNumber(2)
-  $2.Timestamp ensureEnd() => $_ensure(1);
-
-  @$pb.TagNumber(3)
-  $core.String get title => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set title($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasTitle() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearTitle() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.int get eventId => $_getIZ(3);
-  @$pb.TagNumber(4)
-  set eventId($core.int v) { $_setSignedInt32(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasEventId() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearEventId() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get courseCode => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set courseCode($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasCourseCode() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearCourseCode() => clearField(5);
-}
-
-class GetRoomScheduleReply extends $pb.GeneratedMessage {
-  factory GetRoomScheduleReply({
-    $core.Iterable<GetRoomScheduleReply_RoomScheduleEvent>? events,
-  }) {
-    final $result = create();
-    if (events != null) {
-      $result.events.addAll(events);
-    }
-    return $result;
-  }
-  GetRoomScheduleReply._() : super();
-  factory GetRoomScheduleReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomScheduleReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomScheduleReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<GetRoomScheduleReply_RoomScheduleEvent>(1, _omitFieldNames ? '' : 'events', $pb.PbFieldType.PM, subBuilder: GetRoomScheduleReply_RoomScheduleEvent.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleReply clone() => GetRoomScheduleReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomScheduleReply copyWith(void Function(GetRoomScheduleReply) updates) => super.copyWith((message) => updates(message as GetRoomScheduleReply)) as GetRoomScheduleReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleReply create() => GetRoomScheduleReply._();
-  GetRoomScheduleReply createEmptyInstance() => create();
-  static $pb.PbList<GetRoomScheduleReply> createRepeated() => $pb.PbList<GetRoomScheduleReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomScheduleReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomScheduleReply>(create);
-  static GetRoomScheduleReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<GetRoomScheduleReply_RoomScheduleEvent> get events => $_getList(0);
-}
-
-class GetRoomCoordinatesRequest extends $pb.GeneratedMessage {
-  factory GetRoomCoordinatesRequest({
-    $core.String? archId,
-  }) {
-    final $result = create();
-    if (archId != null) {
-      $result.archId = archId;
-    }
-    return $result;
-  }
-  GetRoomCoordinatesRequest._() : super();
-  factory GetRoomCoordinatesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomCoordinatesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomCoordinatesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'archId')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomCoordinatesRequest clone() => GetRoomCoordinatesRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomCoordinatesRequest copyWith(void Function(GetRoomCoordinatesRequest) updates) => super.copyWith((message) => updates(message as GetRoomCoordinatesRequest)) as GetRoomCoordinatesRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomCoordinatesRequest create() => GetRoomCoordinatesRequest._();
-  GetRoomCoordinatesRequest createEmptyInstance() => create();
-  static $pb.PbList<GetRoomCoordinatesRequest> createRepeated() => $pb.PbList<GetRoomCoordinatesRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomCoordinatesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomCoordinatesRequest>(create);
-  static GetRoomCoordinatesRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get archId => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set archId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasArchId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearArchId() => clearField(1);
-}
-
-class GetRoomCoordinatesReply extends $pb.GeneratedMessage {
-  factory GetRoomCoordinatesReply({
-    $core.String? utmZone,
-    $core.double? utmEasting,
-    $core.double? utmNorthing,
-  }) {
-    final $result = create();
-    if (utmZone != null) {
-      $result.utmZone = utmZone;
-    }
-    if (utmEasting != null) {
-      $result.utmEasting = utmEasting;
-    }
-    if (utmNorthing != null) {
-      $result.utmNorthing = utmNorthing;
-    }
-    return $result;
-  }
-  GetRoomCoordinatesReply._() : super();
-  factory GetRoomCoordinatesReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomCoordinatesReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomCoordinatesReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'utmZone')
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'utmEasting', $pb.PbFieldType.OF)
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'utmNorthing', $pb.PbFieldType.OF)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomCoordinatesReply clone() => GetRoomCoordinatesReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomCoordinatesReply copyWith(void Function(GetRoomCoordinatesReply) updates) => super.copyWith((message) => updates(message as GetRoomCoordinatesReply)) as GetRoomCoordinatesReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomCoordinatesReply create() => GetRoomCoordinatesReply._();
-  GetRoomCoordinatesReply createEmptyInstance() => create();
-  static $pb.PbList<GetRoomCoordinatesReply> createRepeated() => $pb.PbList<GetRoomCoordinatesReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomCoordinatesReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomCoordinatesReply>(create);
-  static GetRoomCoordinatesReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get utmZone => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set utmZone($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUtmZone() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUtmZone() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.double get utmEasting => $_getN(1);
-  @$pb.TagNumber(2)
-  set utmEasting($core.double v) { $_setFloat(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasUtmEasting() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearUtmEasting() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.double get utmNorthing => $_getN(2);
-  @$pb.TagNumber(3)
-  set utmNorthing($core.double v) { $_setFloat(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasUtmNorthing() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearUtmNorthing() => clearField(3);
-}
-
-class GetRoomMapsRequest extends $pb.GeneratedMessage {
-  factory GetRoomMapsRequest({
-    $core.String? archId,
-  }) {
-    final $result = create();
-    if (archId != null) {
-      $result.archId = archId;
-    }
-    return $result;
-  }
-  GetRoomMapsRequest._() : super();
-  factory GetRoomMapsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomMapsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomMapsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'archId')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsRequest clone() => GetRoomMapsRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsRequest copyWith(void Function(GetRoomMapsRequest) updates) => super.copyWith((message) => updates(message as GetRoomMapsRequest)) as GetRoomMapsRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsRequest create() => GetRoomMapsRequest._();
-  GetRoomMapsRequest createEmptyInstance() => create();
-  static $pb.PbList<GetRoomMapsRequest> createRepeated() => $pb.PbList<GetRoomMapsRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomMapsRequest>(create);
-  static GetRoomMapsRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get archId => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set archId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasArchId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearArchId() => clearField(1);
-}
-
-class GetRoomMapsReply_Map extends $pb.GeneratedMessage {
-  factory GetRoomMapsReply_Map({
-    $fixnum.Int64? mapId,
-    $core.String? description,
-    $fixnum.Int64? scale,
-    $fixnum.Int64? width,
-    $fixnum.Int64? height,
-  }) {
-    final $result = create();
-    if (mapId != null) {
-      $result.mapId = mapId;
-    }
-    if (description != null) {
-      $result.description = description;
-    }
-    if (scale != null) {
-      $result.scale = scale;
-    }
-    if (width != null) {
-      $result.width = width;
-    }
-    if (height != null) {
-      $result.height = height;
-    }
-    return $result;
-  }
-  GetRoomMapsReply_Map._() : super();
-  factory GetRoomMapsReply_Map.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomMapsReply_Map.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomMapsReply.Map', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aInt64(1, _omitFieldNames ? '' : 'mapId')
-    ..aOS(2, _omitFieldNames ? '' : 'description')
-    ..aInt64(3, _omitFieldNames ? '' : 'scale')
-    ..aInt64(4, _omitFieldNames ? '' : 'width')
-    ..aInt64(5, _omitFieldNames ? '' : 'height')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsReply_Map clone() => GetRoomMapsReply_Map()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsReply_Map copyWith(void Function(GetRoomMapsReply_Map) updates) => super.copyWith((message) => updates(message as GetRoomMapsReply_Map)) as GetRoomMapsReply_Map;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsReply_Map create() => GetRoomMapsReply_Map._();
-  GetRoomMapsReply_Map createEmptyInstance() => create();
-  static $pb.PbList<GetRoomMapsReply_Map> createRepeated() => $pb.PbList<GetRoomMapsReply_Map>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsReply_Map getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomMapsReply_Map>(create);
-  static GetRoomMapsReply_Map? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $fixnum.Int64 get mapId => $_getI64(0);
-  @$pb.TagNumber(1)
-  set mapId($fixnum.Int64 v) { $_setInt64(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasMapId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearMapId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get description => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set description($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasDescription() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearDescription() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $fixnum.Int64 get scale => $_getI64(2);
-  @$pb.TagNumber(3)
-  set scale($fixnum.Int64 v) { $_setInt64(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasScale() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearScale() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $fixnum.Int64 get width => $_getI64(3);
-  @$pb.TagNumber(4)
-  set width($fixnum.Int64 v) { $_setInt64(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasWidth() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearWidth() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $fixnum.Int64 get height => $_getI64(4);
-  @$pb.TagNumber(5)
-  set height($fixnum.Int64 v) { $_setInt64(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasHeight() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearHeight() => clearField(5);
-}
-
-class GetRoomMapsReply extends $pb.GeneratedMessage {
-  factory GetRoomMapsReply({
-    $core.Iterable<GetRoomMapsReply_Map>? maps,
-  }) {
-    final $result = create();
-    if (maps != null) {
-      $result.maps.addAll(maps);
-    }
-    return $result;
-  }
-  GetRoomMapsReply._() : super();
-  factory GetRoomMapsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetRoomMapsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRoomMapsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<GetRoomMapsReply_Map>(1, _omitFieldNames ? '' : 'maps', $pb.PbFieldType.PM, subBuilder: GetRoomMapsReply_Map.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsReply clone() => GetRoomMapsReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetRoomMapsReply copyWith(void Function(GetRoomMapsReply) updates) => super.copyWith((message) => updates(message as GetRoomMapsReply)) as GetRoomMapsReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsReply create() => GetRoomMapsReply._();
-  GetRoomMapsReply createEmptyInstance() => create();
-  static $pb.PbList<GetRoomMapsReply> createRepeated() => $pb.PbList<GetRoomMapsReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetRoomMapsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRoomMapsReply>(create);
-  static GetRoomMapsReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<GetRoomMapsReply_Map> get maps => $_getList(0);
-}
-
-class GetLocationsRequest extends $pb.GeneratedMessage {
-  factory GetLocationsRequest({
-    $core.String? location,
-  }) {
-    final $result = create();
-    if (location != null) {
-      $result.location = location;
-    }
-    return $result;
-  }
-  GetLocationsRequest._() : super();
-  factory GetLocationsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetLocationsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetLocationsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'location')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetLocationsRequest clone() => GetLocationsRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetLocationsRequest copyWith(void Function(GetLocationsRequest) updates) => super.copyWith((message) => updates(message as GetLocationsRequest)) as GetLocationsRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsRequest create() => GetLocationsRequest._();
-  GetLocationsRequest createEmptyInstance() => create();
-  static $pb.PbList<GetLocationsRequest> createRepeated() => $pb.PbList<GetLocationsRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetLocationsRequest>(create);
-  static GetLocationsRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get location => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set location($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasLocation() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearLocation() => clearField(1);
-}
-
-class GetLocationsReply_Location extends $pb.GeneratedMessage {
-  factory GetLocationsReply_Location({
-    $core.String? location,
-    $core.String? name,
-    $core.String? lon,
-    $core.String? lat,
-    $core.String? radius,
-  }) {
-    final $result = create();
-    if (location != null) {
-      $result.location = location;
-    }
-    if (name != null) {
-      $result.name = name;
-    }
-    if (lon != null) {
-      $result.lon = lon;
-    }
-    if (lat != null) {
-      $result.lat = lat;
-    }
-    if (radius != null) {
-      $result.radius = radius;
-    }
-    return $result;
-  }
-  GetLocationsReply_Location._() : super();
-  factory GetLocationsReply_Location.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetLocationsReply_Location.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetLocationsReply.Location', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'location')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'lon')
-    ..aOS(4, _omitFieldNames ? '' : 'lat')
-    ..aOS(5, _omitFieldNames ? '' : 'radius')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetLocationsReply_Location clone() => GetLocationsReply_Location()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetLocationsReply_Location copyWith(void Function(GetLocationsReply_Location) updates) => super.copyWith((message) => updates(message as GetLocationsReply_Location)) as GetLocationsReply_Location;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsReply_Location create() => GetLocationsReply_Location._();
-  GetLocationsReply_Location createEmptyInstance() => create();
-  static $pb.PbList<GetLocationsReply_Location> createRepeated() => $pb.PbList<GetLocationsReply_Location>();
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsReply_Location getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetLocationsReply_Location>(create);
-  static GetLocationsReply_Location? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get location => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set location($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasLocation() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearLocation() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get name => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set name($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasName() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearName() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get lon => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set lon($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasLon() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearLon() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.String get lat => $_getSZ(3);
-  @$pb.TagNumber(4)
-  set lat($core.String v) { $_setString(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasLat() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearLat() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get radius => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set radius($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasRadius() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearRadius() => clearField(5);
-}
-
-class GetLocationsReply extends $pb.GeneratedMessage {
-  factory GetLocationsReply({
-    $core.Iterable<GetLocationsReply_Location>? locations,
-  }) {
-    final $result = create();
-    if (locations != null) {
-      $result.locations.addAll(locations);
-    }
-    return $result;
-  }
-  GetLocationsReply._() : super();
-  factory GetLocationsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetLocationsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetLocationsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<GetLocationsReply_Location>(1, _omitFieldNames ? '' : 'locations', $pb.PbFieldType.PM, subBuilder: GetLocationsReply_Location.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetLocationsReply clone() => GetLocationsReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetLocationsReply copyWith(void Function(GetLocationsReply) updates) => super.copyWith((message) => updates(message as GetLocationsReply)) as GetLocationsReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsReply create() => GetLocationsReply._();
-  GetLocationsReply createEmptyInstance() => create();
-  static $pb.PbList<GetLocationsReply> createRepeated() => $pb.PbList<GetLocationsReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetLocationsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetLocationsReply>(create);
-  static GetLocationsReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<GetLocationsReply_Location> get locations => $_getList(0);
 }
 
 class SearchRoomsRequest extends $pb.GeneratedMessage {
@@ -1235,7 +471,7 @@ class SearchRoomsReply extends $pb.GeneratedMessage {
 
 class Room extends $pb.GeneratedMessage {
   factory Room({
-    $core.int? roomId,
+    $fixnum.Int64? roomId,
     $core.String? roomCode,
     $core.String? buildingNr,
     $core.String? archId,
@@ -1280,7 +516,7 @@ class Room extends $pb.GeneratedMessage {
   factory Room.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Room', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3, protoName: 'roomId')
+    ..aInt64(1, _omitFieldNames ? '' : 'roomId')
     ..aOS(2, _omitFieldNames ? '' : 'roomCode')
     ..aOS(3, _omitFieldNames ? '' : 'buildingNr')
     ..aOS(4, _omitFieldNames ? '' : 'archId')
@@ -1314,9 +550,9 @@ class Room extends $pb.GeneratedMessage {
   static Room? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get roomId => $_getIZ(0);
+  $fixnum.Int64 get roomId => $_getI64(0);
   @$pb.TagNumber(1)
-  set roomId($core.int v) { $_setSignedInt32(0, v); }
+  set roomId($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasRoomId() => $_has(0);
   @$pb.TagNumber(1)
@@ -1395,8 +631,302 @@ class Room extends $pb.GeneratedMessage {
   void clearName() => clearField(9);
 }
 
-class NewsSourceArray extends $pb.GeneratedMessage {
-  factory NewsSourceArray({
+class News extends $pb.GeneratedMessage {
+  factory News({
+    $fixnum.Int64? id,
+    $core.String? title,
+    $core.String? text,
+    $core.String? link,
+    $core.String? imageUrl,
+    $core.String? source,
+    $1.Timestamp? created,
+    $1.Timestamp? date,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (title != null) {
+      $result.title = title;
+    }
+    if (text != null) {
+      $result.text = text;
+    }
+    if (link != null) {
+      $result.link = link;
+    }
+    if (imageUrl != null) {
+      $result.imageUrl = imageUrl;
+    }
+    if (source != null) {
+      $result.source = source;
+    }
+    if (created != null) {
+      $result.created = created;
+    }
+    if (date != null) {
+      $result.date = date;
+    }
+    return $result;
+  }
+  News._() : super();
+  factory News.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory News.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'News', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aInt64(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'title')
+    ..aOS(3, _omitFieldNames ? '' : 'text')
+    ..aOS(4, _omitFieldNames ? '' : 'link')
+    ..aOS(5, _omitFieldNames ? '' : 'imageUrl')
+    ..aOS(6, _omitFieldNames ? '' : 'source')
+    ..aOM<$1.Timestamp>(7, _omitFieldNames ? '' : 'created', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(8, _omitFieldNames ? '' : 'date', subBuilder: $1.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  News clone() => News()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  News copyWith(void Function(News) updates) => super.copyWith((message) => updates(message as News)) as News;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static News create() => News._();
+  News createEmptyInstance() => create();
+  static $pb.PbList<News> createRepeated() => $pb.PbList<News>();
+  @$core.pragma('dart2js:noInline')
+  static News getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<News>(create);
+  static News? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get id => $_getI64(0);
+  @$pb.TagNumber(1)
+  set id($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get title => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set title($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTitle() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTitle() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get text => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set text($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasText() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearText() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get link => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set link($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLink() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLink() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get imageUrl => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set imageUrl($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasImageUrl() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearImageUrl() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get source => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set source($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasSource() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearSource() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $1.Timestamp get created => $_getN(6);
+  @$pb.TagNumber(7)
+  set created($1.Timestamp v) { setField(7, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasCreated() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearCreated() => clearField(7);
+  @$pb.TagNumber(7)
+  $1.Timestamp ensureCreated() => $_ensure(6);
+
+  @$pb.TagNumber(8)
+  $1.Timestamp get date => $_getN(7);
+  @$pb.TagNumber(8)
+  set date($1.Timestamp v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasDate() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearDate() => clearField(8);
+  @$pb.TagNumber(8)
+  $1.Timestamp ensureDate() => $_ensure(7);
+}
+
+class GetNewsReply extends $pb.GeneratedMessage {
+  factory GetNewsReply({
+    $core.Iterable<News>? news,
+  }) {
+    final $result = create();
+    if (news != null) {
+      $result.news.addAll(news);
+    }
+    return $result;
+  }
+  GetNewsReply._() : super();
+  factory GetNewsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNewsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNewsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<News>(1, _omitFieldNames ? '' : 'news', $pb.PbFieldType.PM, subBuilder: News.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNewsReply clone() => GetNewsReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNewsReply copyWith(void Function(GetNewsReply) updates) => super.copyWith((message) => updates(message as GetNewsReply)) as GetNewsReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNewsReply create() => GetNewsReply._();
+  GetNewsReply createEmptyInstance() => create();
+  static $pb.PbList<GetNewsReply> createRepeated() => $pb.PbList<GetNewsReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetNewsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNewsReply>(create);
+  static GetNewsReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<News> get news => $_getList(0);
+}
+
+class GetNewsRequest extends $pb.GeneratedMessage {
+  factory GetNewsRequest({
+    $core.int? lastNewsId,
+    $core.int? newsSource,
+  }) {
+    final $result = create();
+    if (lastNewsId != null) {
+      $result.lastNewsId = lastNewsId;
+    }
+    if (newsSource != null) {
+      $result.newsSource = newsSource;
+    }
+    return $result;
+  }
+  GetNewsRequest._() : super();
+  factory GetNewsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNewsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNewsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'lastNewsId', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'newsSource', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNewsRequest clone() => GetNewsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNewsRequest copyWith(void Function(GetNewsRequest) updates) => super.copyWith((message) => updates(message as GetNewsRequest)) as GetNewsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNewsRequest create() => GetNewsRequest._();
+  GetNewsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetNewsRequest> createRepeated() => $pb.PbList<GetNewsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetNewsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNewsRequest>(create);
+  static GetNewsRequest? _defaultInstance;
+
+  /// the last id of the news item received. 0 to get all news items
+  @$pb.TagNumber(1)
+  $core.int get lastNewsId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set lastNewsId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasLastNewsId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLastNewsId() => clearField(1);
+
+  /// filter by news source id. 0 to get all news items
+  @$pb.TagNumber(2)
+  $core.int get newsSource => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set newsSource($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNewsSource() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNewsSource() => clearField(2);
+}
+
+class GetNewsSourcesRequest extends $pb.GeneratedMessage {
+  factory GetNewsSourcesRequest() => create();
+  GetNewsSourcesRequest._() : super();
+  factory GetNewsSourcesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNewsSourcesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNewsSourcesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNewsSourcesRequest clone() => GetNewsSourcesRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNewsSourcesRequest copyWith(void Function(GetNewsSourcesRequest) updates) => super.copyWith((message) => updates(message as GetNewsSourcesRequest)) as GetNewsSourcesRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNewsSourcesRequest create() => GetNewsSourcesRequest._();
+  GetNewsSourcesRequest createEmptyInstance() => create();
+  static $pb.PbList<GetNewsSourcesRequest> createRepeated() => $pb.PbList<GetNewsSourcesRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetNewsSourcesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNewsSourcesRequest>(create);
+  static GetNewsSourcesRequest? _defaultInstance;
+}
+
+class GetNewsSourcesReply extends $pb.GeneratedMessage {
+  factory GetNewsSourcesReply({
     $core.Iterable<NewsSource>? sources,
   }) {
     final $result = create();
@@ -1405,11 +935,11 @@ class NewsSourceArray extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  NewsSourceArray._() : super();
-  factory NewsSourceArray.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory NewsSourceArray.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetNewsSourcesReply._() : super();
+  factory GetNewsSourcesReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNewsSourcesReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewsSourceArray', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNewsSourcesReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..pc<NewsSource>(1, _omitFieldNames ? '' : 'sources', $pb.PbFieldType.PM, subBuilder: NewsSource.create)
     ..hasRequiredFields = false
   ;
@@ -1418,22 +948,22 @@ class NewsSourceArray extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  NewsSourceArray clone() => NewsSourceArray()..mergeFromMessage(this);
+  GetNewsSourcesReply clone() => GetNewsSourcesReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  NewsSourceArray copyWith(void Function(NewsSourceArray) updates) => super.copyWith((message) => updates(message as NewsSourceArray)) as NewsSourceArray;
+  GetNewsSourcesReply copyWith(void Function(GetNewsSourcesReply) updates) => super.copyWith((message) => updates(message as GetNewsSourcesReply)) as GetNewsSourcesReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static NewsSourceArray create() => NewsSourceArray._();
-  NewsSourceArray createEmptyInstance() => create();
-  static $pb.PbList<NewsSourceArray> createRepeated() => $pb.PbList<NewsSourceArray>();
+  static GetNewsSourcesReply create() => GetNewsSourcesReply._();
+  GetNewsSourcesReply createEmptyInstance() => create();
+  static $pb.PbList<GetNewsSourcesReply> createRepeated() => $pb.PbList<GetNewsSourcesReply>();
   @$core.pragma('dart2js:noInline')
-  static NewsSourceArray getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewsSourceArray>(create);
-  static NewsSourceArray? _defaultInstance;
+  static GetNewsSourcesReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNewsSourcesReply>(create);
+  static GetNewsSourcesReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<NewsSource> get sources => $_getList(0);
@@ -1517,13 +1047,45 @@ class NewsSource extends $pb.GeneratedMessage {
   void clearIcon() => clearField(3);
 }
 
+class GetTopNewsRequest extends $pb.GeneratedMessage {
+  factory GetTopNewsRequest() => create();
+  GetTopNewsRequest._() : super();
+  factory GetTopNewsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetTopNewsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTopNewsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetTopNewsRequest clone() => GetTopNewsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetTopNewsRequest copyWith(void Function(GetTopNewsRequest) updates) => super.copyWith((message) => updates(message as GetTopNewsRequest)) as GetTopNewsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetTopNewsRequest create() => GetTopNewsRequest._();
+  GetTopNewsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetTopNewsRequest> createRepeated() => $pb.PbList<GetTopNewsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetTopNewsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTopNewsRequest>(create);
+  static GetTopNewsRequest? _defaultInstance;
+}
+
 class GetTopNewsReply extends $pb.GeneratedMessage {
   factory GetTopNewsReply({
     $core.String? imageUrl,
     $core.String? link,
-    $2.Timestamp? created,
-    $2.Timestamp? from,
-    $2.Timestamp? to,
+    $1.Timestamp? created,
+    $1.Timestamp? from,
+    $1.Timestamp? to,
   }) {
     final $result = create();
     if (imageUrl != null) {
@@ -1550,9 +1112,9 @@ class GetTopNewsReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTopNewsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'imageUrl')
     ..aOS(2, _omitFieldNames ? '' : 'link')
-    ..aOM<$2.Timestamp>(3, _omitFieldNames ? '' : 'created', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(4, _omitFieldNames ? '' : 'from', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(5, _omitFieldNames ? '' : 'to', subBuilder: $2.Timestamp.create)
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'created', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'from', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'to', subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -1596,49 +1158,49 @@ class GetTopNewsReply extends $pb.GeneratedMessage {
   void clearLink() => clearField(2);
 
   @$pb.TagNumber(3)
-  $2.Timestamp get created => $_getN(2);
+  $1.Timestamp get created => $_getN(2);
   @$pb.TagNumber(3)
-  set created($2.Timestamp v) { setField(3, v); }
+  set created($1.Timestamp v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasCreated() => $_has(2);
   @$pb.TagNumber(3)
   void clearCreated() => clearField(3);
   @$pb.TagNumber(3)
-  $2.Timestamp ensureCreated() => $_ensure(2);
+  $1.Timestamp ensureCreated() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $2.Timestamp get from => $_getN(3);
+  $1.Timestamp get from => $_getN(3);
   @$pb.TagNumber(4)
-  set from($2.Timestamp v) { setField(4, v); }
+  set from($1.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
   $core.bool hasFrom() => $_has(3);
   @$pb.TagNumber(4)
   void clearFrom() => clearField(4);
   @$pb.TagNumber(4)
-  $2.Timestamp ensureFrom() => $_ensure(3);
+  $1.Timestamp ensureFrom() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $2.Timestamp get to => $_getN(4);
+  $1.Timestamp get to => $_getN(4);
   @$pb.TagNumber(5)
-  set to($2.Timestamp v) { setField(5, v); }
+  set to($1.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
   $core.bool hasTo() => $_has(4);
   @$pb.TagNumber(5)
   void clearTo() => clearField(5);
   @$pb.TagNumber(5)
-  $2.Timestamp ensureTo() => $_ensure(4);
+  $1.Timestamp ensureTo() => $_ensure(4);
 }
 
-class CafeteriaRatingRequest extends $pb.GeneratedMessage {
-  factory CafeteriaRatingRequest({
-    $core.String? cafeteriaId,
-    $2.Timestamp? from,
-    $2.Timestamp? to,
+class GetCanteenRatingsRequest extends $pb.GeneratedMessage {
+  factory GetCanteenRatingsRequest({
+    $core.String? canteenId,
+    $1.Timestamp? from,
+    $1.Timestamp? to,
     $core.int? limit,
   }) {
     final $result = create();
-    if (cafeteriaId != null) {
-      $result.cafeteriaId = cafeteriaId;
+    if (canteenId != null) {
+      $result.canteenId = canteenId;
     }
     if (from != null) {
       $result.from = from;
@@ -1651,14 +1213,14 @@ class CafeteriaRatingRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  CafeteriaRatingRequest._() : super();
-  factory CafeteriaRatingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CafeteriaRatingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetCanteenRatingsRequest._() : super();
+  factory GetCanteenRatingsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCanteenRatingsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CafeteriaRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'cafeteriaId', protoName: 'cafeteriaId')
-    ..aOM<$2.Timestamp>(2, _omitFieldNames ? '' : 'from', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(3, _omitFieldNames ? '' : 'to', subBuilder: $2.Timestamp.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteenRatingsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'canteenId')
+    ..aOM<$1.Timestamp>(2, _omitFieldNames ? '' : 'from', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'to', subBuilder: $1.Timestamp.create)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
@@ -1667,56 +1229,56 @@ class CafeteriaRatingRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  CafeteriaRatingRequest clone() => CafeteriaRatingRequest()..mergeFromMessage(this);
+  GetCanteenRatingsRequest clone() => GetCanteenRatingsRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CafeteriaRatingRequest copyWith(void Function(CafeteriaRatingRequest) updates) => super.copyWith((message) => updates(message as CafeteriaRatingRequest)) as CafeteriaRatingRequest;
+  GetCanteenRatingsRequest copyWith(void Function(GetCanteenRatingsRequest) updates) => super.copyWith((message) => updates(message as GetCanteenRatingsRequest)) as GetCanteenRatingsRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CafeteriaRatingRequest create() => CafeteriaRatingRequest._();
-  CafeteriaRatingRequest createEmptyInstance() => create();
-  static $pb.PbList<CafeteriaRatingRequest> createRepeated() => $pb.PbList<CafeteriaRatingRequest>();
+  static GetCanteenRatingsRequest create() => GetCanteenRatingsRequest._();
+  GetCanteenRatingsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetCanteenRatingsRequest> createRepeated() => $pb.PbList<GetCanteenRatingsRequest>();
   @$core.pragma('dart2js:noInline')
-  static CafeteriaRatingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CafeteriaRatingRequest>(create);
-  static CafeteriaRatingRequest? _defaultInstance;
+  static GetCanteenRatingsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCanteenRatingsRequest>(create);
+  static GetCanteenRatingsRequest? _defaultInstance;
 
-  /// cafeteriaId Mandatory Name of the cafeteria (EAT-API naming scheme "MENSA_GARCHING")
+  /// canteenId Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
   @$pb.TagNumber(1)
-  $core.String get cafeteriaId => $_getSZ(0);
+  $core.String get canteenId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set cafeteriaId($core.String v) { $_setString(0, v); }
+  set canteenId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasCafeteriaId() => $_has(0);
+  $core.bool hasCanteenId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCafeteriaId() => clearField(1);
+  void clearCanteenId() => clearField(1);
 
   /// Optional Parameter to define an interval for the ratings (Lower bound)
   @$pb.TagNumber(2)
-  $2.Timestamp get from => $_getN(1);
+  $1.Timestamp get from => $_getN(1);
   @$pb.TagNumber(2)
-  set from($2.Timestamp v) { setField(2, v); }
+  set from($1.Timestamp v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasFrom() => $_has(1);
   @$pb.TagNumber(2)
   void clearFrom() => clearField(2);
   @$pb.TagNumber(2)
-  $2.Timestamp ensureFrom() => $_ensure(1);
+  $1.Timestamp ensureFrom() => $_ensure(1);
 
   /// Optional Parameter to define an interval for the ratings (Upper bound)
   @$pb.TagNumber(3)
-  $2.Timestamp get to => $_getN(2);
+  $1.Timestamp get to => $_getN(2);
   @$pb.TagNumber(3)
-  set to($2.Timestamp v) { setField(3, v); }
+  set to($1.Timestamp v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasTo() => $_has(2);
   @$pb.TagNumber(3)
   void clearTo() => clearField(3);
   @$pb.TagNumber(3)
-  $2.Timestamp ensureTo() => $_ensure(2);
+  $1.Timestamp ensureTo() => $_ensure(2);
 
   /// Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
   @$pb.TagNumber(4)
@@ -1729,123 +1291,8 @@ class CafeteriaRatingRequest extends $pb.GeneratedMessage {
   void clearLimit() => clearField(4);
 }
 
-class DishRatingRequest extends $pb.GeneratedMessage {
-  factory DishRatingRequest({
-    $core.String? cafeteriaId,
-    $core.String? dish,
-    $2.Timestamp? from,
-    $2.Timestamp? to,
-    $core.int? limit,
-  }) {
-    final $result = create();
-    if (cafeteriaId != null) {
-      $result.cafeteriaId = cafeteriaId;
-    }
-    if (dish != null) {
-      $result.dish = dish;
-    }
-    if (from != null) {
-      $result.from = from;
-    }
-    if (to != null) {
-      $result.to = to;
-    }
-    if (limit != null) {
-      $result.limit = limit;
-    }
-    return $result;
-  }
-  DishRatingRequest._() : super();
-  factory DishRatingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory DishRatingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DishRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'cafeteriaId', protoName: 'cafeteriaId')
-    ..aOS(2, _omitFieldNames ? '' : 'dish')
-    ..aOM<$2.Timestamp>(3, _omitFieldNames ? '' : 'from', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(4, _omitFieldNames ? '' : 'to', subBuilder: $2.Timestamp.create)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  DishRatingRequest clone() => DishRatingRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  DishRatingRequest copyWith(void Function(DishRatingRequest) updates) => super.copyWith((message) => updates(message as DishRatingRequest)) as DishRatingRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static DishRatingRequest create() => DishRatingRequest._();
-  DishRatingRequest createEmptyInstance() => create();
-  static $pb.PbList<DishRatingRequest> createRepeated() => $pb.PbList<DishRatingRequest>();
-  @$core.pragma('dart2js:noInline')
-  static DishRatingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DishRatingRequest>(create);
-  static DishRatingRequest? _defaultInstance;
-
-  /// Mandatory Name of the cafeteria (EAT-API naming scheme "MENSA_GARCHING")
-  @$pb.TagNumber(1)
-  $core.String get cafeteriaId => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set cafeteriaId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasCafeteriaId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearCafeteriaId() => clearField(1);
-
-  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
-  @$pb.TagNumber(2)
-  $core.String get dish => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set dish($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasDish() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearDish() => clearField(2);
-
-  /// Optional Parameter to define an interval for the ratings (Lower bound)
-  @$pb.TagNumber(3)
-  $2.Timestamp get from => $_getN(2);
-  @$pb.TagNumber(3)
-  set from($2.Timestamp v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasFrom() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearFrom() => clearField(3);
-  @$pb.TagNumber(3)
-  $2.Timestamp ensureFrom() => $_ensure(2);
-
-  /// Optional Parameter to define an interval for the ratings (Upper bound)
-  @$pb.TagNumber(4)
-  $2.Timestamp get to => $_getN(3);
-  @$pb.TagNumber(4)
-  set to($2.Timestamp v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasTo() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearTo() => clearField(4);
-  @$pb.TagNumber(4)
-  $2.Timestamp ensureTo() => $_ensure(3);
-
-  /// Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
-  @$pb.TagNumber(5)
-  $core.int get limit => $_getIZ(4);
-  @$pb.TagNumber(5)
-  set limit($core.int v) { $_setSignedInt32(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasLimit() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearLimit() => clearField(5);
-}
-
-class CafeteriaRatingReply extends $pb.GeneratedMessage {
-  factory CafeteriaRatingReply({
+class GetCanteenRatingsReply extends $pb.GeneratedMessage {
+  factory GetCanteenRatingsReply({
     $core.Iterable<SingleRatingReply>? rating,
     $core.double? avg,
     $core.double? std,
@@ -1874,17 +1321,17 @@ class CafeteriaRatingReply extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  CafeteriaRatingReply._() : super();
-  factory CafeteriaRatingReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CafeteriaRatingReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetCanteenRatingsReply._() : super();
+  factory GetCanteenRatingsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCanteenRatingsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CafeteriaRatingReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteenRatingsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..pc<SingleRatingReply>(1, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.PM, subBuilder: SingleRatingReply.create)
     ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
     ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
     ..a<$core.int>(5, _omitFieldNames ? '' : 'max', $pb.PbFieldType.O3)
-    ..pc<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: RatingTagResult.create)
+    ..pc<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: RatingTagResult.create)
     ..hasRequiredFields = false
   ;
 
@@ -1892,22 +1339,22 @@ class CafeteriaRatingReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  CafeteriaRatingReply clone() => CafeteriaRatingReply()..mergeFromMessage(this);
+  GetCanteenRatingsReply clone() => GetCanteenRatingsReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CafeteriaRatingReply copyWith(void Function(CafeteriaRatingReply) updates) => super.copyWith((message) => updates(message as CafeteriaRatingReply)) as CafeteriaRatingReply;
+  GetCanteenRatingsReply copyWith(void Function(GetCanteenRatingsReply) updates) => super.copyWith((message) => updates(message as GetCanteenRatingsReply)) as GetCanteenRatingsReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CafeteriaRatingReply create() => CafeteriaRatingReply._();
-  CafeteriaRatingReply createEmptyInstance() => create();
-  static $pb.PbList<CafeteriaRatingReply> createRepeated() => $pb.PbList<CafeteriaRatingReply>();
+  static GetCanteenRatingsReply create() => GetCanteenRatingsReply._();
+  GetCanteenRatingsReply createEmptyInstance() => create();
+  static $pb.PbList<GetCanteenRatingsReply> createRepeated() => $pb.PbList<GetCanteenRatingsReply>();
   @$core.pragma('dart2js:noInline')
-  static CafeteriaRatingReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CafeteriaRatingReply>(create);
-  static CafeteriaRatingReply? _defaultInstance;
+  static GetCanteenRatingsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCanteenRatingsReply>(create);
+  static GetCanteenRatingsReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<SingleRatingReply> get rating => $_getList(0);
@@ -1952,8 +1399,123 @@ class CafeteriaRatingReply extends $pb.GeneratedMessage {
   $core.List<RatingTagResult> get ratingTags => $_getList(5);
 }
 
-class DishRatingReply extends $pb.GeneratedMessage {
-  factory DishRatingReply({
+class GetDishRatingsRequest extends $pb.GeneratedMessage {
+  factory GetDishRatingsRequest({
+    $core.String? canteenId,
+    $core.String? dish,
+    $1.Timestamp? from,
+    $1.Timestamp? to,
+    $core.int? limit,
+  }) {
+    final $result = create();
+    if (canteenId != null) {
+      $result.canteenId = canteenId;
+    }
+    if (dish != null) {
+      $result.dish = dish;
+    }
+    if (from != null) {
+      $result.from = from;
+    }
+    if (to != null) {
+      $result.to = to;
+    }
+    if (limit != null) {
+      $result.limit = limit;
+    }
+    return $result;
+  }
+  GetDishRatingsRequest._() : super();
+  factory GetDishRatingsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetDishRatingsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetDishRatingsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'canteenId')
+    ..aOS(2, _omitFieldNames ? '' : 'dish')
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'from', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'to', subBuilder: $1.Timestamp.create)
+    ..a<$core.int>(5, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetDishRatingsRequest clone() => GetDishRatingsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetDishRatingsRequest copyWith(void Function(GetDishRatingsRequest) updates) => super.copyWith((message) => updates(message as GetDishRatingsRequest)) as GetDishRatingsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetDishRatingsRequest create() => GetDishRatingsRequest._();
+  GetDishRatingsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetDishRatingsRequest> createRepeated() => $pb.PbList<GetDishRatingsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetDishRatingsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetDishRatingsRequest>(create);
+  static GetDishRatingsRequest? _defaultInstance;
+
+  /// Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
+  @$pb.TagNumber(1)
+  $core.String get canteenId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set canteenId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasCanteenId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearCanteenId() => clearField(1);
+
+  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  @$pb.TagNumber(2)
+  $core.String get dish => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set dish($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDish() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDish() => clearField(2);
+
+  /// Optional Parameter to define an interval for the ratings (Lower bound)
+  @$pb.TagNumber(3)
+  $1.Timestamp get from => $_getN(2);
+  @$pb.TagNumber(3)
+  set from($1.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasFrom() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearFrom() => clearField(3);
+  @$pb.TagNumber(3)
+  $1.Timestamp ensureFrom() => $_ensure(2);
+
+  /// Optional Parameter to define an interval for the ratings (Upper bound)
+  @$pb.TagNumber(4)
+  $1.Timestamp get to => $_getN(3);
+  @$pb.TagNumber(4)
+  set to($1.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasTo() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTo() => clearField(4);
+  @$pb.TagNumber(4)
+  $1.Timestamp ensureTo() => $_ensure(3);
+
+  /// Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
+  @$pb.TagNumber(5)
+  $core.int get limit => $_getIZ(4);
+  @$pb.TagNumber(5)
+  set limit($core.int v) { $_setSignedInt32(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasLimit() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearLimit() => clearField(5);
+}
+
+class GetDishRatingsReply extends $pb.GeneratedMessage {
+  factory GetDishRatingsReply({
     $core.Iterable<SingleRatingReply>? rating,
     $core.double? avg,
     $core.double? std,
@@ -1986,18 +1548,18 @@ class DishRatingReply extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  DishRatingReply._() : super();
-  factory DishRatingReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory DishRatingReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetDishRatingsReply._() : super();
+  factory GetDishRatingsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetDishRatingsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DishRatingReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetDishRatingsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..pc<SingleRatingReply>(1, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.PM, subBuilder: SingleRatingReply.create)
     ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
     ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
     ..a<$core.int>(5, _omitFieldNames ? '' : 'max', $pb.PbFieldType.O3)
-    ..pc<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: RatingTagResult.create)
-    ..pc<RatingTagResult>(7, _omitFieldNames ? '' : 'nameTags', $pb.PbFieldType.PM, protoName: 'nameTags', subBuilder: RatingTagResult.create)
+    ..pc<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: RatingTagResult.create)
+    ..pc<RatingTagResult>(7, _omitFieldNames ? '' : 'nameTags', $pb.PbFieldType.PM, subBuilder: RatingTagResult.create)
     ..hasRequiredFields = false
   ;
 
@@ -2005,22 +1567,22 @@ class DishRatingReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  DishRatingReply clone() => DishRatingReply()..mergeFromMessage(this);
+  GetDishRatingsReply clone() => GetDishRatingsReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  DishRatingReply copyWith(void Function(DishRatingReply) updates) => super.copyWith((message) => updates(message as DishRatingReply)) as DishRatingReply;
+  GetDishRatingsReply copyWith(void Function(GetDishRatingsReply) updates) => super.copyWith((message) => updates(message as GetDishRatingsReply)) as GetDishRatingsReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static DishRatingReply create() => DishRatingReply._();
-  DishRatingReply createEmptyInstance() => create();
-  static $pb.PbList<DishRatingReply> createRepeated() => $pb.PbList<DishRatingReply>();
+  static GetDishRatingsReply create() => GetDishRatingsReply._();
+  GetDishRatingsReply createEmptyInstance() => create();
+  static $pb.PbList<GetDishRatingsReply> createRepeated() => $pb.PbList<GetDishRatingsReply>();
   @$core.pragma('dart2js:noInline')
-  static DishRatingReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DishRatingReply>(create);
-  static DishRatingReply? _defaultInstance;
+  static GetDishRatingsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetDishRatingsReply>(create);
+  static GetDishRatingsReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<SingleRatingReply> get rating => $_getList(0);
@@ -2074,7 +1636,7 @@ class SingleRatingReply extends $pb.GeneratedMessage {
     $core.List<$core.int>? image,
     $core.String? comment,
     $core.Iterable<RatingTagNewRequest>? ratingTags,
-    $2.Timestamp? visited,
+    $1.Timestamp? visited,
   }) {
     final $result = create();
     if (points != null) {
@@ -2102,8 +1664,8 @@ class SingleRatingReply extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
     ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
     ..aOS(3, _omitFieldNames ? '' : 'comment')
-    ..pc<RatingTagNewRequest>(4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: RatingTagNewRequest.create)
-    ..aOM<$2.Timestamp>(5, _omitFieldNames ? '' : 'visited', subBuilder: $2.Timestamp.create)
+    ..pc<RatingTagNewRequest>(4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: RatingTagNewRequest.create)
+    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'visited', subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -2162,21 +1724,53 @@ class SingleRatingReply extends $pb.GeneratedMessage {
   $core.List<RatingTagNewRequest> get ratingTags => $_getList(3);
 
   @$pb.TagNumber(5)
-  $2.Timestamp get visited => $_getN(4);
+  $1.Timestamp get visited => $_getN(4);
   @$pb.TagNumber(5)
-  set visited($2.Timestamp v) { setField(5, v); }
+  set visited($1.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
   $core.bool hasVisited() => $_has(4);
   @$pb.TagNumber(5)
   void clearVisited() => clearField(5);
   @$pb.TagNumber(5)
-  $2.Timestamp ensureVisited() => $_ensure(4);
+  $1.Timestamp ensureVisited() => $_ensure(4);
 }
 
-class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
-  factory NewCafeteriaRatingRequest({
+class NewCanteenRatingReply extends $pb.GeneratedMessage {
+  factory NewCanteenRatingReply() => create();
+  NewCanteenRatingReply._() : super();
+  factory NewCanteenRatingReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NewCanteenRatingReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewCanteenRatingReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  NewCanteenRatingReply clone() => NewCanteenRatingReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  NewCanteenRatingReply copyWith(void Function(NewCanteenRatingReply) updates) => super.copyWith((message) => updates(message as NewCanteenRatingReply)) as NewCanteenRatingReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static NewCanteenRatingReply create() => NewCanteenRatingReply._();
+  NewCanteenRatingReply createEmptyInstance() => create();
+  static $pb.PbList<NewCanteenRatingReply> createRepeated() => $pb.PbList<NewCanteenRatingReply>();
+  @$core.pragma('dart2js:noInline')
+  static NewCanteenRatingReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewCanteenRatingReply>(create);
+  static NewCanteenRatingReply? _defaultInstance;
+}
+
+class NewCanteenRatingRequest extends $pb.GeneratedMessage {
+  factory NewCanteenRatingRequest({
     $core.int? points,
-    $core.String? cafeteriaId,
+    $core.String? canteenId,
     $core.List<$core.int>? image,
     $core.Iterable<RatingTag>? ratingTags,
     $core.String? comment,
@@ -2185,8 +1779,8 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
     if (points != null) {
       $result.points = points;
     }
-    if (cafeteriaId != null) {
-      $result.cafeteriaId = cafeteriaId;
+    if (canteenId != null) {
+      $result.canteenId = canteenId;
     }
     if (image != null) {
       $result.image = image;
@@ -2199,15 +1793,15 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  NewCafeteriaRatingRequest._() : super();
-  factory NewCafeteriaRatingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory NewCafeteriaRatingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  NewCanteenRatingRequest._() : super();
+  factory NewCanteenRatingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NewCanteenRatingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewCafeteriaRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewCanteenRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
-    ..aOS(2, _omitFieldNames ? '' : 'cafeteriaId', protoName: 'cafeteriaId')
+    ..aOS(2, _omitFieldNames ? '' : 'canteenId')
     ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
-    ..pc<RatingTag>(4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: RatingTag.create)
+    ..pc<RatingTag>(4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: RatingTag.create)
     ..aOS(6, _omitFieldNames ? '' : 'comment')
     ..hasRequiredFields = false
   ;
@@ -2216,22 +1810,22 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  NewCafeteriaRatingRequest clone() => NewCafeteriaRatingRequest()..mergeFromMessage(this);
+  NewCanteenRatingRequest clone() => NewCanteenRatingRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  NewCafeteriaRatingRequest copyWith(void Function(NewCafeteriaRatingRequest) updates) => super.copyWith((message) => updates(message as NewCafeteriaRatingRequest)) as NewCafeteriaRatingRequest;
+  NewCanteenRatingRequest copyWith(void Function(NewCanteenRatingRequest) updates) => super.copyWith((message) => updates(message as NewCanteenRatingRequest)) as NewCanteenRatingRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static NewCafeteriaRatingRequest create() => NewCafeteriaRatingRequest._();
-  NewCafeteriaRatingRequest createEmptyInstance() => create();
-  static $pb.PbList<NewCafeteriaRatingRequest> createRepeated() => $pb.PbList<NewCafeteriaRatingRequest>();
+  static NewCanteenRatingRequest create() => NewCanteenRatingRequest._();
+  NewCanteenRatingRequest createEmptyInstance() => create();
+  static $pb.PbList<NewCanteenRatingRequest> createRepeated() => $pb.PbList<NewCanteenRatingRequest>();
   @$core.pragma('dart2js:noInline')
-  static NewCafeteriaRatingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewCafeteriaRatingRequest>(create);
-  static NewCafeteriaRatingRequest? _defaultInstance;
+  static NewCanteenRatingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewCanteenRatingRequest>(create);
+  static NewCanteenRatingRequest? _defaultInstance;
 
   /// number in the range 1-5
   @$pb.TagNumber(1)
@@ -2244,13 +1838,13 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
   void clearPoints() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get cafeteriaId => $_getSZ(1);
+  $core.String get canteenId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set cafeteriaId($core.String v) { $_setString(1, v); }
+  set canteenId($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasCafeteriaId() => $_has(1);
+  $core.bool hasCanteenId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearCafeteriaId() => clearField(2);
+  void clearCanteenId() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.List<$core.int> get image => $_getN(2);
@@ -2261,7 +1855,7 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearImage() => clearField(3);
 
-  /// Optional list of tag ratings add as many tags with a rating (1-5) of the list of cafeteriaRatingTags
+  /// Optional list of tag ratings add as many tags with a rating (1-5) of the list of canteenRatingTags
   @$pb.TagNumber(4)
   $core.List<RatingTag> get ratingTags => $_getList(3);
 
@@ -2276,10 +1870,42 @@ class NewCafeteriaRatingRequest extends $pb.GeneratedMessage {
   void clearComment() => clearField(6);
 }
 
+class NewDishRatingReply extends $pb.GeneratedMessage {
+  factory NewDishRatingReply() => create();
+  NewDishRatingReply._() : super();
+  factory NewDishRatingReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NewDishRatingReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewDishRatingReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  NewDishRatingReply clone() => NewDishRatingReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  NewDishRatingReply copyWith(void Function(NewDishRatingReply) updates) => super.copyWith((message) => updates(message as NewDishRatingReply)) as NewDishRatingReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static NewDishRatingReply create() => NewDishRatingReply._();
+  NewDishRatingReply createEmptyInstance() => create();
+  static $pb.PbList<NewDishRatingReply> createRepeated() => $pb.PbList<NewDishRatingReply>();
+  @$core.pragma('dart2js:noInline')
+  static NewDishRatingReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewDishRatingReply>(create);
+  static NewDishRatingReply? _defaultInstance;
+}
+
 class NewDishRatingRequest extends $pb.GeneratedMessage {
   factory NewDishRatingRequest({
     $core.int? points,
-    $core.String? cafeteriaId,
+    $core.String? canteenId,
     $core.String? dish,
     $core.List<$core.int>? image,
     $core.Iterable<RatingTag>? ratingTags,
@@ -2289,8 +1915,8 @@ class NewDishRatingRequest extends $pb.GeneratedMessage {
     if (points != null) {
       $result.points = points;
     }
-    if (cafeteriaId != null) {
-      $result.cafeteriaId = cafeteriaId;
+    if (canteenId != null) {
+      $result.canteenId = canteenId;
     }
     if (dish != null) {
       $result.dish = dish;
@@ -2312,10 +1938,10 @@ class NewDishRatingRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NewDishRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
-    ..aOS(2, _omitFieldNames ? '' : 'cafeteriaId', protoName: 'cafeteriaId')
+    ..aOS(2, _omitFieldNames ? '' : 'canteenId')
     ..aOS(3, _omitFieldNames ? '' : 'dish')
     ..a<$core.List<$core.int>>(4, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
-    ..pc<RatingTag>(5, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: RatingTag.create)
+    ..pc<RatingTag>(5, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: RatingTag.create)
     ..aOS(7, _omitFieldNames ? '' : 'comment')
     ..hasRequiredFields = false
   ;
@@ -2353,13 +1979,13 @@ class NewDishRatingRequest extends $pb.GeneratedMessage {
 
   /// Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
   @$pb.TagNumber(2)
-  $core.String get cafeteriaId => $_getSZ(1);
+  $core.String get canteenId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set cafeteriaId($core.String v) { $_setString(1, v); }
+  set canteenId($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasCafeteriaId() => $_has(1);
+  $core.bool hasCanteenId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearCafeteriaId() => clearField(2);
+  void clearCanteenId() => clearField(2);
 
   /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
   @$pb.TagNumber(3)
@@ -2396,8 +2022,40 @@ class NewDishRatingRequest extends $pb.GeneratedMessage {
   void clearComment() => clearField(7);
 }
 
-class GetTagsReply extends $pb.GeneratedMessage {
-  factory GetTagsReply({
+class GetAvailableDishTagsRequest extends $pb.GeneratedMessage {
+  factory GetAvailableDishTagsRequest() => create();
+  GetAvailableDishTagsRequest._() : super();
+  factory GetAvailableDishTagsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableDishTagsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableDishTagsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetAvailableDishTagsRequest clone() => GetAvailableDishTagsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetAvailableDishTagsRequest copyWith(void Function(GetAvailableDishTagsRequest) updates) => super.copyWith((message) => updates(message as GetAvailableDishTagsRequest)) as GetAvailableDishTagsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableDishTagsRequest create() => GetAvailableDishTagsRequest._();
+  GetAvailableDishTagsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableDishTagsRequest> createRepeated() => $pb.PbList<GetAvailableDishTagsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableDishTagsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableDishTagsRequest>(create);
+  static GetAvailableDishTagsRequest? _defaultInstance;
+}
+
+class GetAvailableDishTagsReply extends $pb.GeneratedMessage {
+  factory GetAvailableDishTagsReply({
     $core.Iterable<TagsOverview>? ratingTags,
   }) {
     final $result = create();
@@ -2406,12 +2064,12 @@ class GetTagsReply extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  GetTagsReply._() : super();
-  factory GetTagsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetTagsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetAvailableDishTagsReply._() : super();
+  factory GetAvailableDishTagsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableDishTagsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTagsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, protoName: 'ratingTags', subBuilder: TagsOverview.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableDishTagsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: TagsOverview.create)
     ..hasRequiredFields = false
   ;
 
@@ -2419,22 +2077,174 @@ class GetTagsReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetTagsReply clone() => GetTagsReply()..mergeFromMessage(this);
+  GetAvailableDishTagsReply clone() => GetAvailableDishTagsReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetTagsReply copyWith(void Function(GetTagsReply) updates) => super.copyWith((message) => updates(message as GetTagsReply)) as GetTagsReply;
+  GetAvailableDishTagsReply copyWith(void Function(GetAvailableDishTagsReply) updates) => super.copyWith((message) => updates(message as GetAvailableDishTagsReply)) as GetAvailableDishTagsReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetTagsReply create() => GetTagsReply._();
-  GetTagsReply createEmptyInstance() => create();
-  static $pb.PbList<GetTagsReply> createRepeated() => $pb.PbList<GetTagsReply>();
+  static GetAvailableDishTagsReply create() => GetAvailableDishTagsReply._();
+  GetAvailableDishTagsReply createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableDishTagsReply> createRepeated() => $pb.PbList<GetAvailableDishTagsReply>();
   @$core.pragma('dart2js:noInline')
-  static GetTagsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTagsReply>(create);
-  static GetTagsReply? _defaultInstance;
+  static GetAvailableDishTagsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableDishTagsReply>(create);
+  static GetAvailableDishTagsReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<TagsOverview> get ratingTags => $_getList(0);
+}
+
+class GetNameTagsRequest extends $pb.GeneratedMessage {
+  factory GetNameTagsRequest() => create();
+  GetNameTagsRequest._() : super();
+  factory GetNameTagsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNameTagsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNameTagsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNameTagsRequest clone() => GetNameTagsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNameTagsRequest copyWith(void Function(GetNameTagsRequest) updates) => super.copyWith((message) => updates(message as GetNameTagsRequest)) as GetNameTagsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNameTagsRequest create() => GetNameTagsRequest._();
+  GetNameTagsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetNameTagsRequest> createRepeated() => $pb.PbList<GetNameTagsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetNameTagsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNameTagsRequest>(create);
+  static GetNameTagsRequest? _defaultInstance;
+}
+
+class GetNameTagsReply extends $pb.GeneratedMessage {
+  factory GetNameTagsReply({
+    $core.Iterable<TagsOverview>? ratingTags,
+  }) {
+    final $result = create();
+    if (ratingTags != null) {
+      $result.ratingTags.addAll(ratingTags);
+    }
+    return $result;
+  }
+  GetNameTagsReply._() : super();
+  factory GetNameTagsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNameTagsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNameTagsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: TagsOverview.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNameTagsReply clone() => GetNameTagsReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNameTagsReply copyWith(void Function(GetNameTagsReply) updates) => super.copyWith((message) => updates(message as GetNameTagsReply)) as GetNameTagsReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNameTagsReply create() => GetNameTagsReply._();
+  GetNameTagsReply createEmptyInstance() => create();
+  static $pb.PbList<GetNameTagsReply> createRepeated() => $pb.PbList<GetNameTagsReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetNameTagsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNameTagsReply>(create);
+  static GetNameTagsReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<TagsOverview> get ratingTags => $_getList(0);
+}
+
+class GetAvailableCanteenTagsRequest extends $pb.GeneratedMessage {
+  factory GetAvailableCanteenTagsRequest() => create();
+  GetAvailableCanteenTagsRequest._() : super();
+  factory GetAvailableCanteenTagsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableCanteenTagsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableCanteenTagsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetAvailableCanteenTagsRequest clone() => GetAvailableCanteenTagsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetAvailableCanteenTagsRequest copyWith(void Function(GetAvailableCanteenTagsRequest) updates) => super.copyWith((message) => updates(message as GetAvailableCanteenTagsRequest)) as GetAvailableCanteenTagsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableCanteenTagsRequest create() => GetAvailableCanteenTagsRequest._();
+  GetAvailableCanteenTagsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableCanteenTagsRequest> createRepeated() => $pb.PbList<GetAvailableCanteenTagsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableCanteenTagsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableCanteenTagsRequest>(create);
+  static GetAvailableCanteenTagsRequest? _defaultInstance;
+}
+
+class GetAvailableCanteenTagsReply extends $pb.GeneratedMessage {
+  factory GetAvailableCanteenTagsReply({
+    $core.Iterable<TagsOverview>? ratingTags,
+  }) {
+    final $result = create();
+    if (ratingTags != null) {
+      $result.ratingTags.addAll(ratingTags);
+    }
+    return $result;
+  }
+  GetAvailableCanteenTagsReply._() : super();
+  factory GetAvailableCanteenTagsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableCanteenTagsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableCanteenTagsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM, subBuilder: TagsOverview.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetAvailableCanteenTagsReply clone() => GetAvailableCanteenTagsReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetAvailableCanteenTagsReply copyWith(void Function(GetAvailableCanteenTagsReply) updates) => super.copyWith((message) => updates(message as GetAvailableCanteenTagsReply)) as GetAvailableCanteenTagsReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableCanteenTagsReply create() => GetAvailableCanteenTagsReply._();
+  GetAvailableCanteenTagsReply createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableCanteenTagsReply> createRepeated() => $pb.PbList<GetAvailableCanteenTagsReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableCanteenTagsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableCanteenTagsReply>(create);
+  static GetAvailableCanteenTagsReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<TagsOverview> get ratingTags => $_getList(0);
@@ -2463,7 +2273,7 @@ class TagsOverview extends $pb.GeneratedMessage {
   factory TagsOverview.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TagsOverview', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3, protoName: 'tagId')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'de')
     ..aOS(3, _omitFieldNames ? '' : 'en')
     ..hasRequiredFields = false
@@ -2520,7 +2330,7 @@ class TagsOverview extends $pb.GeneratedMessage {
 
 class RatingTag extends $pb.GeneratedMessage {
   factory RatingTag({
-    $core.int? tagId,
+    $fixnum.Int64? tagId,
     $core.double? points,
   }) {
     final $result = create();
@@ -2537,7 +2347,7 @@ class RatingTag extends $pb.GeneratedMessage {
   factory RatingTag.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RatingTag', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3, protoName: 'tagId')
+    ..aInt64(1, _omitFieldNames ? '' : 'tagId')
     ..a<$core.double>(2, _omitFieldNames ? '' : 'points', $pb.PbFieldType.OD)
     ..hasRequiredFields = false
   ;
@@ -2564,9 +2374,9 @@ class RatingTag extends $pb.GeneratedMessage {
   static RatingTag? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get tagId => $_getIZ(0);
+  $fixnum.Int64 get tagId => $_getI64(0);
   @$pb.TagNumber(1)
-  set tagId($core.int v) { $_setSignedInt32(0, v); }
+  set tagId($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasTagId() => $_has(0);
   @$pb.TagNumber(1)
@@ -2601,7 +2411,7 @@ class RatingTagNewRequest extends $pb.GeneratedMessage {
   factory RatingTagNewRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RatingTagNewRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3, protoName: 'tagId')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
@@ -2677,7 +2487,7 @@ class RatingTagResult extends $pb.GeneratedMessage {
   factory RatingTagResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RatingTagResult', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3, protoName: 'tagId')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
     ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
     ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
@@ -2752,22 +2562,13 @@ class RatingTagResult extends $pb.GeneratedMessage {
   void clearMax() => clearField(5);
 }
 
-class GetCafeteriaReply extends $pb.GeneratedMessage {
-  factory GetCafeteriaReply({
-    $core.Iterable<Cafeteria>? cafeteria,
-  }) {
-    final $result = create();
-    if (cafeteria != null) {
-      $result.cafeteria.addAll(cafeteria);
-    }
-    return $result;
-  }
-  GetCafeteriaReply._() : super();
-  factory GetCafeteriaReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetCafeteriaReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class GetCanteensRequest extends $pb.GeneratedMessage {
+  factory GetCanteensRequest() => create();
+  GetCanteensRequest._() : super();
+  factory GetCanteensRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCanteensRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCafeteriaReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<Cafeteria>(1, _omitFieldNames ? '' : 'cafeteria', $pb.PbFieldType.PM, subBuilder: Cafeteria.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteensRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -2775,29 +2576,70 @@ class GetCafeteriaReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetCafeteriaReply clone() => GetCafeteriaReply()..mergeFromMessage(this);
+  GetCanteensRequest clone() => GetCanteensRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetCafeteriaReply copyWith(void Function(GetCafeteriaReply) updates) => super.copyWith((message) => updates(message as GetCafeteriaReply)) as GetCafeteriaReply;
+  GetCanteensRequest copyWith(void Function(GetCanteensRequest) updates) => super.copyWith((message) => updates(message as GetCanteensRequest)) as GetCanteensRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetCafeteriaReply create() => GetCafeteriaReply._();
-  GetCafeteriaReply createEmptyInstance() => create();
-  static $pb.PbList<GetCafeteriaReply> createRepeated() => $pb.PbList<GetCafeteriaReply>();
+  static GetCanteensRequest create() => GetCanteensRequest._();
+  GetCanteensRequest createEmptyInstance() => create();
+  static $pb.PbList<GetCanteensRequest> createRepeated() => $pb.PbList<GetCanteensRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetCafeteriaReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCafeteriaReply>(create);
-  static GetCafeteriaReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<Cafeteria> get cafeteria => $_getList(0);
+  static GetCanteensRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCanteensRequest>(create);
+  static GetCanteensRequest? _defaultInstance;
 }
 
-class Cafeteria extends $pb.GeneratedMessage {
-  factory Cafeteria({
+class GetCanteensReply extends $pb.GeneratedMessage {
+  factory GetCanteensReply({
+    $core.Iterable<Canteen>? canteen,
+  }) {
+    final $result = create();
+    if (canteen != null) {
+      $result.canteen.addAll(canteen);
+    }
+    return $result;
+  }
+  GetCanteensReply._() : super();
+  factory GetCanteensReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCanteensReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteensReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<Canteen>(1, _omitFieldNames ? '' : 'canteen', $pb.PbFieldType.PM, subBuilder: Canteen.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCanteensReply clone() => GetCanteensReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCanteensReply copyWith(void Function(GetCanteensReply) updates) => super.copyWith((message) => updates(message as GetCanteensReply)) as GetCanteensReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetCanteensReply create() => GetCanteensReply._();
+  GetCanteensReply createEmptyInstance() => create();
+  static $pb.PbList<GetCanteensReply> createRepeated() => $pb.PbList<GetCanteensReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetCanteensReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCanteensReply>(create);
+  static GetCanteensReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Canteen> get canteen => $_getList(0);
+}
+
+class Canteen extends $pb.GeneratedMessage {
+  factory Canteen({
     $core.String? id,
     $core.String? address,
     $core.double? longitude,
@@ -2818,11 +2660,11 @@ class Cafeteria extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  Cafeteria._() : super();
-  factory Cafeteria.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Cafeteria.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Canteen._() : super();
+  factory Canteen.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Canteen.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Cafeteria', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Canteen', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'address')
     ..a<$core.double>(3, _omitFieldNames ? '' : 'longitude', $pb.PbFieldType.OD)
@@ -2834,22 +2676,22 @@ class Cafeteria extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  Cafeteria clone() => Cafeteria()..mergeFromMessage(this);
+  Canteen clone() => Canteen()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Cafeteria copyWith(void Function(Cafeteria) updates) => super.copyWith((message) => updates(message as Cafeteria)) as Cafeteria;
+  Canteen copyWith(void Function(Canteen) updates) => super.copyWith((message) => updates(message as Canteen)) as Canteen;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Cafeteria create() => Cafeteria._();
-  Cafeteria createEmptyInstance() => create();
-  static $pb.PbList<Cafeteria> createRepeated() => $pb.PbList<Cafeteria>();
+  static Canteen create() => Canteen._();
+  Canteen createEmptyInstance() => create();
+  static $pb.PbList<Canteen> createRepeated() => $pb.PbList<Canteen>();
   @$core.pragma('dart2js:noInline')
-  static Cafeteria getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Cafeteria>(create);
-  static Cafeteria? _defaultInstance;
+  static Canteen getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Canteen>(create);
+  static Canteen? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
@@ -2890,14 +2732,14 @@ class Cafeteria extends $pb.GeneratedMessage {
 
 class GetDishesRequest extends $pb.GeneratedMessage {
   factory GetDishesRequest({
-    $core.String? cafeteriaId,
+    $core.String? canteenId,
     $core.int? year,
     $core.int? week,
     $core.int? day,
   }) {
     final $result = create();
-    if (cafeteriaId != null) {
-      $result.cafeteriaId = cafeteriaId;
+    if (canteenId != null) {
+      $result.canteenId = canteenId;
     }
     if (year != null) {
       $result.year = year;
@@ -2915,7 +2757,7 @@ class GetDishesRequest extends $pb.GeneratedMessage {
   factory GetDishesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetDishesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'cafeteriaId', protoName: 'cafeteriaId')
+    ..aOS(1, _omitFieldNames ? '' : 'canteenId')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'week', $pb.PbFieldType.O3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'day', $pb.PbFieldType.O3)
@@ -2944,13 +2786,13 @@ class GetDishesRequest extends $pb.GeneratedMessage {
   static GetDishesRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get cafeteriaId => $_getSZ(0);
+  $core.String get canteenId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set cafeteriaId($core.String v) { $_setString(0, v); }
+  set canteenId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasCafeteriaId() => $_has(0);
+  $core.bool hasCanteenId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCafeteriaId() => clearField(1);
+  void clearCanteenId() => clearField(1);
 
   /// >=2022 until the current year
   @$pb.TagNumber(2)
@@ -3027,9 +2869,41 @@ class GetDishesReply extends $pb.GeneratedMessage {
   $core.List<$core.String> get dish => $_getList(0);
 }
 
+class GetResponsiblePersonRequest extends $pb.GeneratedMessage {
+  factory GetResponsiblePersonRequest() => create();
+  GetResponsiblePersonRequest._() : super();
+  factory GetResponsiblePersonRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetResponsiblePersonRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetResponsiblePersonRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetResponsiblePersonRequest clone() => GetResponsiblePersonRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetResponsiblePersonRequest copyWith(void Function(GetResponsiblePersonRequest) updates) => super.copyWith((message) => updates(message as GetResponsiblePersonRequest)) as GetResponsiblePersonRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetResponsiblePersonRequest create() => GetResponsiblePersonRequest._();
+  GetResponsiblePersonRequest createEmptyInstance() => create();
+  static $pb.PbList<GetResponsiblePersonRequest> createRepeated() => $pb.PbList<GetResponsiblePersonRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetResponsiblePersonRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetResponsiblePersonRequest>(create);
+  static GetResponsiblePersonRequest? _defaultInstance;
+}
+
 class GetResponsiblePersonReply extends $pb.GeneratedMessage {
   factory GetResponsiblePersonReply({
-    $core.Iterable<ResponsiblePersonElement>? responsiblePerson,
+    $core.Iterable<ResponsiblePerson>? responsiblePerson,
   }) {
     final $result = create();
     if (responsiblePerson != null) {
@@ -3042,7 +2916,7 @@ class GetResponsiblePersonReply extends $pb.GeneratedMessage {
   factory GetResponsiblePersonReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetResponsiblePersonReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<ResponsiblePersonElement>(1, _omitFieldNames ? '' : 'responsiblePerson', $pb.PbFieldType.PM, protoName: 'responsiblePerson', subBuilder: ResponsiblePersonElement.create)
+    ..pc<ResponsiblePerson>(1, _omitFieldNames ? '' : 'responsiblePerson', $pb.PbFieldType.PM, subBuilder: ResponsiblePerson.create)
     ..hasRequiredFields = false
   ;
 
@@ -3068,16 +2942,16 @@ class GetResponsiblePersonReply extends $pb.GeneratedMessage {
   static GetResponsiblePersonReply? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<ResponsiblePersonElement> get responsiblePerson => $_getList(0);
+  $core.List<ResponsiblePerson> get responsiblePerson => $_getList(0);
 }
 
-class ResponsiblePersonElement extends $pb.GeneratedMessage {
-  factory ResponsiblePersonElement({
+class ResponsiblePerson extends $pb.GeneratedMessage {
+  factory ResponsiblePerson({
     $core.String? name,
     $core.String? telephone,
     $core.String? email,
     $core.String? faculty,
-    $core.String? tumID,
+    $core.String? tumId,
   }) {
     final $result = create();
     if (name != null) {
@@ -3092,21 +2966,21 @@ class ResponsiblePersonElement extends $pb.GeneratedMessage {
     if (faculty != null) {
       $result.faculty = faculty;
     }
-    if (tumID != null) {
-      $result.tumID = tumID;
+    if (tumId != null) {
+      $result.tumId = tumId;
     }
     return $result;
   }
-  ResponsiblePersonElement._() : super();
-  factory ResponsiblePersonElement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ResponsiblePersonElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ResponsiblePerson._() : super();
+  factory ResponsiblePerson.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ResponsiblePerson.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ResponsiblePersonElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ResponsiblePerson', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'telephone')
     ..aOS(3, _omitFieldNames ? '' : 'email')
     ..aOS(4, _omitFieldNames ? '' : 'faculty')
-    ..aOS(5, _omitFieldNames ? '' : 'tumID', protoName: 'tumID')
+    ..aOS(5, _omitFieldNames ? '' : 'tumId')
     ..hasRequiredFields = false
   ;
 
@@ -3114,22 +2988,22 @@ class ResponsiblePersonElement extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ResponsiblePersonElement clone() => ResponsiblePersonElement()..mergeFromMessage(this);
+  ResponsiblePerson clone() => ResponsiblePerson()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ResponsiblePersonElement copyWith(void Function(ResponsiblePersonElement) updates) => super.copyWith((message) => updates(message as ResponsiblePersonElement)) as ResponsiblePersonElement;
+  ResponsiblePerson copyWith(void Function(ResponsiblePerson) updates) => super.copyWith((message) => updates(message as ResponsiblePerson)) as ResponsiblePerson;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ResponsiblePersonElement create() => ResponsiblePersonElement._();
-  ResponsiblePersonElement createEmptyInstance() => create();
-  static $pb.PbList<ResponsiblePersonElement> createRepeated() => $pb.PbList<ResponsiblePersonElement>();
+  static ResponsiblePerson create() => ResponsiblePerson._();
+  ResponsiblePerson createEmptyInstance() => create();
+  static $pb.PbList<ResponsiblePerson> createRepeated() => $pb.PbList<ResponsiblePerson>();
   @$core.pragma('dart2js:noInline')
-  static ResponsiblePersonElement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ResponsiblePersonElement>(create);
-  static ResponsiblePersonElement? _defaultInstance;
+  static ResponsiblePerson getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ResponsiblePerson>(create);
+  static ResponsiblePerson? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -3168,273 +3042,13 @@ class ResponsiblePersonElement extends $pb.GeneratedMessage {
   void clearFaculty() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get tumID => $_getSZ(4);
+  $core.String get tumId => $_getSZ(4);
   @$pb.TagNumber(5)
-  set tumID($core.String v) { $_setString(4, v); }
+  set tumId($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasTumID() => $_has(4);
+  $core.bool hasTumId() => $_has(4);
   @$pb.TagNumber(5)
-  void clearTumID() => clearField(5);
-}
-
-class GetBuilding2GpsReply extends $pb.GeneratedMessage {
-  factory GetBuilding2GpsReply({
-    $core.Iterable<Building2GpsElement>? building2Gps,
-  }) {
-    final $result = create();
-    if (building2Gps != null) {
-      $result.building2Gps.addAll(building2Gps);
-    }
-    return $result;
-  }
-  GetBuilding2GpsReply._() : super();
-  factory GetBuilding2GpsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetBuilding2GpsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBuilding2GpsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<Building2GpsElement>(1, _omitFieldNames ? '' : 'building2Gps', $pb.PbFieldType.PM, protoName: 'building2Gps', subBuilder: Building2GpsElement.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetBuilding2GpsReply clone() => GetBuilding2GpsReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetBuilding2GpsReply copyWith(void Function(GetBuilding2GpsReply) updates) => super.copyWith((message) => updates(message as GetBuilding2GpsReply)) as GetBuilding2GpsReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetBuilding2GpsReply create() => GetBuilding2GpsReply._();
-  GetBuilding2GpsReply createEmptyInstance() => create();
-  static $pb.PbList<GetBuilding2GpsReply> createRepeated() => $pb.PbList<GetBuilding2GpsReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetBuilding2GpsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBuilding2GpsReply>(create);
-  static GetBuilding2GpsReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<Building2GpsElement> get building2Gps => $_getList(0);
-}
-
-class Building2GpsElement extends $pb.GeneratedMessage {
-  factory Building2GpsElement({
-    $core.String? id,
-    $core.String? latitude,
-    $core.String? longitude,
-  }) {
-    final $result = create();
-    if (id != null) {
-      $result.id = id;
-    }
-    if (latitude != null) {
-      $result.latitude = latitude;
-    }
-    if (longitude != null) {
-      $result.longitude = longitude;
-    }
-    return $result;
-  }
-  Building2GpsElement._() : super();
-  factory Building2GpsElement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Building2GpsElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Building2GpsElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..aOS(2, _omitFieldNames ? '' : 'latitude')
-    ..aOS(3, _omitFieldNames ? '' : 'longitude')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  Building2GpsElement clone() => Building2GpsElement()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  Building2GpsElement copyWith(void Function(Building2GpsElement) updates) => super.copyWith((message) => updates(message as Building2GpsElement)) as Building2GpsElement;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static Building2GpsElement create() => Building2GpsElement._();
-  Building2GpsElement createEmptyInstance() => create();
-  static $pb.PbList<Building2GpsElement> createRepeated() => $pb.PbList<Building2GpsElement>();
-  @$core.pragma('dart2js:noInline')
-  static Building2GpsElement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Building2GpsElement>(create);
-  static Building2GpsElement? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get latitude => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set latitude($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasLatitude() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearLatitude() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get longitude => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set longitude($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasLongitude() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearLongitude() => clearField(3);
-}
-
-class GetAreaFacilitiesByBuildingNrReply extends $pb.GeneratedMessage {
-  factory GetAreaFacilitiesByBuildingNrReply({
-    $core.Iterable<RoomInformationElement>? areaFacilitiesByBuildingNr,
-  }) {
-    final $result = create();
-    if (areaFacilitiesByBuildingNr != null) {
-      $result.areaFacilitiesByBuildingNr.addAll(areaFacilitiesByBuildingNr);
-    }
-    return $result;
-  }
-  GetAreaFacilitiesByBuildingNrReply._() : super();
-  factory GetAreaFacilitiesByBuildingNrReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetAreaFacilitiesByBuildingNrReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAreaFacilitiesByBuildingNrReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<RoomInformationElement>(1, _omitFieldNames ? '' : 'areaFacilitiesByBuildingNr', $pb.PbFieldType.PM, protoName: 'areaFacilitiesByBuildingNr', subBuilder: RoomInformationElement.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetAreaFacilitiesByBuildingNrReply clone() => GetAreaFacilitiesByBuildingNrReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetAreaFacilitiesByBuildingNrReply copyWith(void Function(GetAreaFacilitiesByBuildingNrReply) updates) => super.copyWith((message) => updates(message as GetAreaFacilitiesByBuildingNrReply)) as GetAreaFacilitiesByBuildingNrReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetAreaFacilitiesByBuildingNrReply create() => GetAreaFacilitiesByBuildingNrReply._();
-  GetAreaFacilitiesByBuildingNrReply createEmptyInstance() => create();
-  static $pb.PbList<GetAreaFacilitiesByBuildingNrReply> createRepeated() => $pb.PbList<GetAreaFacilitiesByBuildingNrReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetAreaFacilitiesByBuildingNrReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAreaFacilitiesByBuildingNrReply>(create);
-  static GetAreaFacilitiesByBuildingNrReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<RoomInformationElement> get areaFacilitiesByBuildingNr => $_getList(0);
-}
-
-class GetAreaFacilitiesByBuildingNrRequest extends $pb.GeneratedMessage {
-  factory GetAreaFacilitiesByBuildingNrRequest({
-    $core.String? buildingNr,
-  }) {
-    final $result = create();
-    if (buildingNr != null) {
-      $result.buildingNr = buildingNr;
-    }
-    return $result;
-  }
-  GetAreaFacilitiesByBuildingNrRequest._() : super();
-  factory GetAreaFacilitiesByBuildingNrRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetAreaFacilitiesByBuildingNrRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAreaFacilitiesByBuildingNrRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'buildingNr')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetAreaFacilitiesByBuildingNrRequest clone() => GetAreaFacilitiesByBuildingNrRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetAreaFacilitiesByBuildingNrRequest copyWith(void Function(GetAreaFacilitiesByBuildingNrRequest) updates) => super.copyWith((message) => updates(message as GetAreaFacilitiesByBuildingNrRequest)) as GetAreaFacilitiesByBuildingNrRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetAreaFacilitiesByBuildingNrRequest create() => GetAreaFacilitiesByBuildingNrRequest._();
-  GetAreaFacilitiesByBuildingNrRequest createEmptyInstance() => create();
-  static $pb.PbList<GetAreaFacilitiesByBuildingNrRequest> createRepeated() => $pb.PbList<GetAreaFacilitiesByBuildingNrRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetAreaFacilitiesByBuildingNrRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAreaFacilitiesByBuildingNrRequest>(create);
-  static GetAreaFacilitiesByBuildingNrRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get buildingNr => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set buildingNr($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasBuildingNr() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearBuildingNr() => clearField(1);
-}
-
-class GetListOfToiletsReply extends $pb.GeneratedMessage {
-  factory GetListOfToiletsReply({
-    $core.Iterable<RoomInformationElement>? listOfToilets,
-  }) {
-    final $result = create();
-    if (listOfToilets != null) {
-      $result.listOfToilets.addAll(listOfToilets);
-    }
-    return $result;
-  }
-  GetListOfToiletsReply._() : super();
-  factory GetListOfToiletsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetListOfToiletsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetListOfToiletsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<RoomInformationElement>(1, _omitFieldNames ? '' : 'listOfToilets', $pb.PbFieldType.PM, protoName: 'listOfToilets', subBuilder: RoomInformationElement.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetListOfToiletsReply clone() => GetListOfToiletsReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetListOfToiletsReply copyWith(void Function(GetListOfToiletsReply) updates) => super.copyWith((message) => updates(message as GetListOfToiletsReply)) as GetListOfToiletsReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetListOfToiletsReply create() => GetListOfToiletsReply._();
-  GetListOfToiletsReply createEmptyInstance() => create();
-  static $pb.PbList<GetListOfToiletsReply> createRepeated() => $pb.PbList<GetListOfToiletsReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetListOfToiletsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetListOfToiletsReply>(create);
-  static GetListOfToiletsReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<RoomInformationElement> get listOfToilets => $_getList(0);
+  void clearTumId() => clearField(5);
 }
 
 class RoomInformationElement extends $pb.GeneratedMessage {
@@ -3484,7 +3098,7 @@ class RoomInformationElement extends $pb.GeneratedMessage {
   factory RoomInformationElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RoomInformationElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3, protoName: 'roomId')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'roomCode')
     ..aOS(3, _omitFieldNames ? '' : 'buildingNr')
     ..aOS(4, _omitFieldNames ? '' : 'archId')
@@ -3599,22 +3213,13 @@ class RoomInformationElement extends $pb.GeneratedMessage {
   void clearName() => clearField(9);
 }
 
-class GetListOfElevatorsReply extends $pb.GeneratedMessage {
-  factory GetListOfElevatorsReply({
-    $core.Iterable<RoomInformationElement>? listOfElevators,
-  }) {
-    final $result = create();
-    if (listOfElevators != null) {
-      $result.listOfElevators.addAll(listOfElevators);
-    }
-    return $result;
-  }
-  GetListOfElevatorsReply._() : super();
-  factory GetListOfElevatorsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetListOfElevatorsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class GetMoreInformationRequest extends $pb.GeneratedMessage {
+  factory GetMoreInformationRequest() => create();
+  GetMoreInformationRequest._() : super();
+  factory GetMoreInformationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMoreInformationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetListOfElevatorsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<RoomInformationElement>(1, _omitFieldNames ? '' : 'listOfElevators', $pb.PbFieldType.PM, protoName: 'listOfElevators', subBuilder: RoomInformationElement.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoreInformationRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -3622,73 +3227,26 @@ class GetListOfElevatorsReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetListOfElevatorsReply clone() => GetListOfElevatorsReply()..mergeFromMessage(this);
+  GetMoreInformationRequest clone() => GetMoreInformationRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetListOfElevatorsReply copyWith(void Function(GetListOfElevatorsReply) updates) => super.copyWith((message) => updates(message as GetListOfElevatorsReply)) as GetListOfElevatorsReply;
+  GetMoreInformationRequest copyWith(void Function(GetMoreInformationRequest) updates) => super.copyWith((message) => updates(message as GetMoreInformationRequest)) as GetMoreInformationRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetListOfElevatorsReply create() => GetListOfElevatorsReply._();
-  GetListOfElevatorsReply createEmptyInstance() => create();
-  static $pb.PbList<GetListOfElevatorsReply> createRepeated() => $pb.PbList<GetListOfElevatorsReply>();
+  static GetMoreInformationRequest create() => GetMoreInformationRequest._();
+  GetMoreInformationRequest createEmptyInstance() => create();
+  static $pb.PbList<GetMoreInformationRequest> createRepeated() => $pb.PbList<GetMoreInformationRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetListOfElevatorsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetListOfElevatorsReply>(create);
-  static GetListOfElevatorsReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<RoomInformationElement> get listOfElevators => $_getList(0);
+  static GetMoreInformationRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoreInformationRequest>(create);
+  static GetMoreInformationRequest? _defaultInstance;
 }
 
-class GetMoreInformationReply extends $pb.GeneratedMessage {
-  factory GetMoreInformationReply({
-    $core.Iterable<MoreInformationElement>? information,
-  }) {
-    final $result = create();
-    if (information != null) {
-      $result.information.addAll(information);
-    }
-    return $result;
-  }
-  GetMoreInformationReply._() : super();
-  factory GetMoreInformationReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetMoreInformationReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoreInformationReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<MoreInformationElement>(1, _omitFieldNames ? '' : 'information', $pb.PbFieldType.PM, subBuilder: MoreInformationElement.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetMoreInformationReply clone() => GetMoreInformationReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetMoreInformationReply copyWith(void Function(GetMoreInformationReply) updates) => super.copyWith((message) => updates(message as GetMoreInformationReply)) as GetMoreInformationReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetMoreInformationReply create() => GetMoreInformationReply._();
-  GetMoreInformationReply createEmptyInstance() => create();
-  static $pb.PbList<GetMoreInformationReply> createRepeated() => $pb.PbList<GetMoreInformationReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetMoreInformationReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoreInformationReply>(create);
-  static GetMoreInformationReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<MoreInformationElement> get information => $_getList(0);
-}
-
-class MoreInformationElement extends $pb.GeneratedMessage {
-  factory MoreInformationElement({
+class GetMoreInformationReply_MoreInformation extends $pb.GeneratedMessage {
+  factory GetMoreInformationReply_MoreInformation({
     $core.String? title,
     $core.String? category,
     $core.String? url,
@@ -3705,11 +3263,11 @@ class MoreInformationElement extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  MoreInformationElement._() : super();
-  factory MoreInformationElement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory MoreInformationElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetMoreInformationReply_MoreInformation._() : super();
+  factory GetMoreInformationReply_MoreInformation.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMoreInformationReply_MoreInformation.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MoreInformationElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoreInformationReply.MoreInformation', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'title')
     ..aOS(2, _omitFieldNames ? '' : 'category')
     ..aOS(3, _omitFieldNames ? '' : 'url')
@@ -3720,22 +3278,22 @@ class MoreInformationElement extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  MoreInformationElement clone() => MoreInformationElement()..mergeFromMessage(this);
+  GetMoreInformationReply_MoreInformation clone() => GetMoreInformationReply_MoreInformation()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  MoreInformationElement copyWith(void Function(MoreInformationElement) updates) => super.copyWith((message) => updates(message as MoreInformationElement)) as MoreInformationElement;
+  GetMoreInformationReply_MoreInformation copyWith(void Function(GetMoreInformationReply_MoreInformation) updates) => super.copyWith((message) => updates(message as GetMoreInformationReply_MoreInformation)) as GetMoreInformationReply_MoreInformation;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MoreInformationElement create() => MoreInformationElement._();
-  MoreInformationElement createEmptyInstance() => create();
-  static $pb.PbList<MoreInformationElement> createRepeated() => $pb.PbList<MoreInformationElement>();
+  static GetMoreInformationReply_MoreInformation create() => GetMoreInformationReply_MoreInformation._();
+  GetMoreInformationReply_MoreInformation createEmptyInstance() => create();
+  static $pb.PbList<GetMoreInformationReply_MoreInformation> createRepeated() => $pb.PbList<GetMoreInformationReply_MoreInformation>();
   @$core.pragma('dart2js:noInline')
-  static MoreInformationElement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoreInformationElement>(create);
-  static MoreInformationElement? _defaultInstance;
+  static GetMoreInformationReply_MoreInformation getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoreInformationReply_MoreInformation>(create);
+  static GetMoreInformationReply_MoreInformation? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get title => $_getSZ(0);
@@ -3763,6 +3321,50 @@ class MoreInformationElement extends $pb.GeneratedMessage {
   $core.bool hasUrl() => $_has(2);
   @$pb.TagNumber(3)
   void clearUrl() => clearField(3);
+}
+
+class GetMoreInformationReply extends $pb.GeneratedMessage {
+  factory GetMoreInformationReply({
+    $core.Iterable<GetMoreInformationReply_MoreInformation>? infos,
+  }) {
+    final $result = create();
+    if (infos != null) {
+      $result.infos.addAll(infos);
+    }
+    return $result;
+  }
+  GetMoreInformationReply._() : super();
+  factory GetMoreInformationReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMoreInformationReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoreInformationReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<GetMoreInformationReply_MoreInformation>(1, _omitFieldNames ? '' : 'infos', $pb.PbFieldType.PM, subBuilder: GetMoreInformationReply_MoreInformation.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetMoreInformationReply clone() => GetMoreInformationReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetMoreInformationReply copyWith(void Function(GetMoreInformationReply) updates) => super.copyWith((message) => updates(message as GetMoreInformationReply)) as GetMoreInformationReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetMoreInformationReply create() => GetMoreInformationReply._();
+  GetMoreInformationReply createEmptyInstance() => create();
+  static $pb.PbList<GetMoreInformationReply> createRepeated() => $pb.PbList<GetMoreInformationReply>();
+  @$core.pragma('dart2js:noInline')
+  static GetMoreInformationReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoreInformationReply>(create);
+  static GetMoreInformationReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<GetMoreInformationReply_MoreInformation> get infos => $_getList(0);
 }
 
 class GetOpeningTimesRequest extends $pb.GeneratedMessage {
@@ -4051,7 +3653,7 @@ class OpeningTimesMsgElement extends $pb.GeneratedMessage {
 
 class GetUpdateNoteRequest extends $pb.GeneratedMessage {
   factory GetUpdateNoteRequest({
-    $core.int? version,
+    $fixnum.Int64? version,
   }) {
     final $result = create();
     if (version != null) {
@@ -4064,7 +3666,7 @@ class GetUpdateNoteRequest extends $pb.GeneratedMessage {
   factory GetUpdateNoteRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUpdateNoteRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
+    ..aInt64(1, _omitFieldNames ? '' : 'version')
     ..hasRequiredFields = false
   ;
 
@@ -4090,9 +3692,9 @@ class GetUpdateNoteRequest extends $pb.GeneratedMessage {
   static GetUpdateNoteRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get version => $_getIZ(0);
+  $fixnum.Int64 get version => $_getI64(0);
   @$pb.TagNumber(1)
-  set version($core.int v) { $_setSignedInt32(0, v); }
+  set version($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasVersion() => $_has(0);
   @$pb.TagNumber(1)
@@ -4102,10 +3704,14 @@ class GetUpdateNoteRequest extends $pb.GeneratedMessage {
 class GetUpdateNoteReply extends $pb.GeneratedMessage {
   factory GetUpdateNoteReply({
     $core.String? message,
+    $core.String? versionName,
   }) {
     final $result = create();
     if (message != null) {
       $result.message = message;
+    }
+    if (versionName != null) {
+      $result.versionName = versionName;
     }
     return $result;
   }
@@ -4115,6 +3721,7 @@ class GetUpdateNoteReply extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUpdateNoteReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
+    ..aOS(2, _omitFieldNames ? '' : 'versionName')
     ..hasRequiredFields = false
   ;
 
@@ -4147,6 +3754,47 @@ class GetUpdateNoteReply extends $pb.GeneratedMessage {
   $core.bool hasMessage() => $_has(0);
   @$pb.TagNumber(1)
   void clearMessage() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get versionName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set versionName($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVersionName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVersionName() => clearField(2);
+}
+
+class GetStudyRoomListRequest extends $pb.GeneratedMessage {
+  factory GetStudyRoomListRequest() => create();
+  GetStudyRoomListRequest._() : super();
+  factory GetStudyRoomListRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStudyRoomListRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStudyRoomListRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetStudyRoomListRequest clone() => GetStudyRoomListRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetStudyRoomListRequest copyWith(void Function(GetStudyRoomListRequest) updates) => super.copyWith((message) => updates(message as GetStudyRoomListRequest)) as GetStudyRoomListRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetStudyRoomListRequest create() => GetStudyRoomListRequest._();
+  GetStudyRoomListRequest createEmptyInstance() => create();
+  static $pb.PbList<GetStudyRoomListRequest> createRepeated() => $pb.PbList<GetStudyRoomListRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetStudyRoomListRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStudyRoomListRequest>(create);
+  static GetStudyRoomListRequest? _defaultInstance;
 }
 
 class GetStudyRoomListReply extends $pb.GeneratedMessage {
@@ -4311,7 +3959,7 @@ class StudyRoom extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StudyRoom', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'groupId', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3, protoName: 'roomId')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3)
     ..aOS(3, _omitFieldNames ? '' : 'roomCode')
     ..aOS(4, _omitFieldNames ? '' : 'roomName')
     ..aOS(5, _omitFieldNames ? '' : 'buildingName')
@@ -4385,325 +4033,8 @@ class StudyRoom extends $pb.GeneratedMessage {
   void clearBuildingName() => clearField(5);
 }
 
-class GetEventListRequest extends $pb.GeneratedMessage {
-  factory GetEventListRequest({
-    $core.int? eventId,
-  }) {
-    final $result = create();
-    if (eventId != null) {
-      $result.eventId = eventId;
-    }
-    return $result;
-  }
-  GetEventListRequest._() : super();
-  factory GetEventListRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetEventListRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetEventListRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'eventId', $pb.PbFieldType.O3, protoName: 'eventId')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetEventListRequest clone() => GetEventListRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetEventListRequest copyWith(void Function(GetEventListRequest) updates) => super.copyWith((message) => updates(message as GetEventListRequest)) as GetEventListRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetEventListRequest create() => GetEventListRequest._();
-  GetEventListRequest createEmptyInstance() => create();
-  static $pb.PbList<GetEventListRequest> createRepeated() => $pb.PbList<GetEventListRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetEventListRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetEventListRequest>(create);
-  static GetEventListRequest? _defaultInstance;
-
-  /// optional parameter, will return all events if no id is specified
-  @$pb.TagNumber(1)
-  $core.int get eventId => $_getIZ(0);
-  @$pb.TagNumber(1)
-  set eventId($core.int v) { $_setSignedInt32(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasEventId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearEventId() => clearField(1);
-}
-
-class GetEventListReply extends $pb.GeneratedMessage {
-  factory GetEventListReply({
-    $core.Iterable<EventListMsgElement>? events,
-  }) {
-    final $result = create();
-    if (events != null) {
-      $result.events.addAll(events);
-    }
-    return $result;
-  }
-  GetEventListReply._() : super();
-  factory GetEventListReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetEventListReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetEventListReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<EventListMsgElement>(1, _omitFieldNames ? '' : 'events', $pb.PbFieldType.PM, subBuilder: EventListMsgElement.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetEventListReply clone() => GetEventListReply()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetEventListReply copyWith(void Function(GetEventListReply) updates) => super.copyWith((message) => updates(message as GetEventListReply)) as GetEventListReply;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetEventListReply create() => GetEventListReply._();
-  GetEventListReply createEmptyInstance() => create();
-  static $pb.PbList<GetEventListReply> createRepeated() => $pb.PbList<GetEventListReply>();
-  @$core.pragma('dart2js:noInline')
-  static GetEventListReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetEventListReply>(create);
-  static GetEventListReply? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<EventListMsgElement> get events => $_getList(0);
-}
-
-class EventListMsgElement extends $pb.GeneratedMessage {
-  factory EventListMsgElement({
-    $core.String? name,
-    $core.String? path,
-    $core.int? event,
-    $core.int? news,
-    $core.int? kino,
-    $core.int? file,
-    $core.String? title,
-    $core.String? description,
-    $core.String? locality,
-    $core.String? link,
-    $2.Timestamp? start,
-    $2.Timestamp? end,
-    $core.int? ticketGroup,
-  }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (path != null) {
-      $result.path = path;
-    }
-    if (event != null) {
-      $result.event = event;
-    }
-    if (news != null) {
-      $result.news = news;
-    }
-    if (kino != null) {
-      $result.kino = kino;
-    }
-    if (file != null) {
-      $result.file = file;
-    }
-    if (title != null) {
-      $result.title = title;
-    }
-    if (description != null) {
-      $result.description = description;
-    }
-    if (locality != null) {
-      $result.locality = locality;
-    }
-    if (link != null) {
-      $result.link = link;
-    }
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    if (ticketGroup != null) {
-      $result.ticketGroup = ticketGroup;
-    }
-    return $result;
-  }
-  EventListMsgElement._() : super();
-  factory EventListMsgElement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory EventListMsgElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'EventListMsgElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..aOS(2, _omitFieldNames ? '' : 'path')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'event', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'news', $pb.PbFieldType.O3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'kino', $pb.PbFieldType.O3)
-    ..a<$core.int>(6, _omitFieldNames ? '' : 'file', $pb.PbFieldType.O3)
-    ..aOS(7, _omitFieldNames ? '' : 'title')
-    ..aOS(8, _omitFieldNames ? '' : 'description')
-    ..aOS(9, _omitFieldNames ? '' : 'locality')
-    ..aOS(10, _omitFieldNames ? '' : 'link')
-    ..aOM<$2.Timestamp>(11, _omitFieldNames ? '' : 'start', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(12, _omitFieldNames ? '' : 'end', subBuilder: $2.Timestamp.create)
-    ..a<$core.int>(13, _omitFieldNames ? '' : 'ticketGroup', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  EventListMsgElement clone() => EventListMsgElement()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  EventListMsgElement copyWith(void Function(EventListMsgElement) updates) => super.copyWith((message) => updates(message as EventListMsgElement)) as EventListMsgElement;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static EventListMsgElement create() => EventListMsgElement._();
-  EventListMsgElement createEmptyInstance() => create();
-  static $pb.PbList<EventListMsgElement> createRepeated() => $pb.PbList<EventListMsgElement>();
-  @$core.pragma('dart2js:noInline')
-  static EventListMsgElement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EventListMsgElement>(create);
-  static EventListMsgElement? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearName() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get path => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set path($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasPath() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearPath() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.int get event => $_getIZ(2);
-  @$pb.TagNumber(3)
-  set event($core.int v) { $_setSignedInt32(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasEvent() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearEvent() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.int get news => $_getIZ(3);
-  @$pb.TagNumber(4)
-  set news($core.int v) { $_setSignedInt32(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasNews() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearNews() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.int get kino => $_getIZ(4);
-  @$pb.TagNumber(5)
-  set kino($core.int v) { $_setSignedInt32(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasKino() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearKino() => clearField(5);
-
-  @$pb.TagNumber(6)
-  $core.int get file => $_getIZ(5);
-  @$pb.TagNumber(6)
-  set file($core.int v) { $_setSignedInt32(5, v); }
-  @$pb.TagNumber(6)
-  $core.bool hasFile() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearFile() => clearField(6);
-
-  @$pb.TagNumber(7)
-  $core.String get title => $_getSZ(6);
-  @$pb.TagNumber(7)
-  set title($core.String v) { $_setString(6, v); }
-  @$pb.TagNumber(7)
-  $core.bool hasTitle() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearTitle() => clearField(7);
-
-  @$pb.TagNumber(8)
-  $core.String get description => $_getSZ(7);
-  @$pb.TagNumber(8)
-  set description($core.String v) { $_setString(7, v); }
-  @$pb.TagNumber(8)
-  $core.bool hasDescription() => $_has(7);
-  @$pb.TagNumber(8)
-  void clearDescription() => clearField(8);
-
-  @$pb.TagNumber(9)
-  $core.String get locality => $_getSZ(8);
-  @$pb.TagNumber(9)
-  set locality($core.String v) { $_setString(8, v); }
-  @$pb.TagNumber(9)
-  $core.bool hasLocality() => $_has(8);
-  @$pb.TagNumber(9)
-  void clearLocality() => clearField(9);
-
-  @$pb.TagNumber(10)
-  $core.String get link => $_getSZ(9);
-  @$pb.TagNumber(10)
-  set link($core.String v) { $_setString(9, v); }
-  @$pb.TagNumber(10)
-  $core.bool hasLink() => $_has(9);
-  @$pb.TagNumber(10)
-  void clearLink() => clearField(10);
-
-  @$pb.TagNumber(11)
-  $2.Timestamp get start => $_getN(10);
-  @$pb.TagNumber(11)
-  set start($2.Timestamp v) { setField(11, v); }
-  @$pb.TagNumber(11)
-  $core.bool hasStart() => $_has(10);
-  @$pb.TagNumber(11)
-  void clearStart() => clearField(11);
-  @$pb.TagNumber(11)
-  $2.Timestamp ensureStart() => $_ensure(10);
-
-  @$pb.TagNumber(12)
-  $2.Timestamp get end => $_getN(11);
-  @$pb.TagNumber(12)
-  set end($2.Timestamp v) { setField(12, v); }
-  @$pb.TagNumber(12)
-  $core.bool hasEnd() => $_has(11);
-  @$pb.TagNumber(12)
-  void clearEnd() => clearField(12);
-  @$pb.TagNumber(12)
-  $2.Timestamp ensureEnd() => $_ensure(11);
-
-  @$pb.TagNumber(13)
-  $core.int get ticketGroup => $_getIZ(12);
-  @$pb.TagNumber(13)
-  set ticketGroup($core.int v) { $_setSignedInt32(12, v); }
-  @$pb.TagNumber(13)
-  $core.bool hasTicketGroup() => $_has(12);
-  @$pb.TagNumber(13)
-  void clearTicketGroup() => clearField(13);
-}
-
-class GetKinoRequest extends $pb.GeneratedMessage {
-  factory GetKinoRequest({
+class GetMoviesRequest extends $pb.GeneratedMessage {
+  factory GetMoviesRequest({
     $core.int? lastId,
   }) {
     final $result = create();
@@ -4712,12 +4043,12 @@ class GetKinoRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  GetKinoRequest._() : super();
-  factory GetKinoRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetKinoRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetMoviesRequest._() : super();
+  factory GetMoviesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMoviesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetKinoRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'lastId', $pb.PbFieldType.O3, protoName: 'lastId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoviesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'lastId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -4725,23 +4056,24 @@ class GetKinoRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetKinoRequest clone() => GetKinoRequest()..mergeFromMessage(this);
+  GetMoviesRequest clone() => GetMoviesRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetKinoRequest copyWith(void Function(GetKinoRequest) updates) => super.copyWith((message) => updates(message as GetKinoRequest)) as GetKinoRequest;
+  GetMoviesRequest copyWith(void Function(GetMoviesRequest) updates) => super.copyWith((message) => updates(message as GetMoviesRequest)) as GetMoviesRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetKinoRequest create() => GetKinoRequest._();
-  GetKinoRequest createEmptyInstance() => create();
-  static $pb.PbList<GetKinoRequest> createRepeated() => $pb.PbList<GetKinoRequest>();
+  static GetMoviesRequest create() => GetMoviesRequest._();
+  GetMoviesRequest createEmptyInstance() => create();
+  static $pb.PbList<GetMoviesRequest> createRepeated() => $pb.PbList<GetMoviesRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetKinoRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetKinoRequest>(create);
-  static GetKinoRequest? _defaultInstance;
+  static GetMoviesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoviesRequest>(create);
+  static GetMoviesRequest? _defaultInstance;
 
+  /// the last Id you have requested. Use -1 to get all movies
   @$pb.TagNumber(1)
   $core.int get lastId => $_getIZ(0);
   @$pb.TagNumber(1)
@@ -4752,22 +4084,22 @@ class GetKinoRequest extends $pb.GeneratedMessage {
   void clearLastId() => clearField(1);
 }
 
-class GetKinoReply extends $pb.GeneratedMessage {
-  factory GetKinoReply({
-    $core.Iterable<KinoMsgElement>? kinos,
+class GetMoviesReply extends $pb.GeneratedMessage {
+  factory GetMoviesReply({
+    $core.Iterable<Movie>? movies,
   }) {
     final $result = create();
-    if (kinos != null) {
-      $result.kinos.addAll(kinos);
+    if (movies != null) {
+      $result.movies.addAll(movies);
     }
     return $result;
   }
-  GetKinoReply._() : super();
-  factory GetKinoReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetKinoReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetMoviesReply._() : super();
+  factory GetMoviesReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMoviesReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetKinoReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..pc<KinoMsgElement>(1, _omitFieldNames ? '' : 'kinos', $pb.PbFieldType.PM, subBuilder: KinoMsgElement.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMoviesReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<Movie>(1, _omitFieldNames ? '' : 'movies', $pb.PbFieldType.PM, subBuilder: Movie.create)
     ..hasRequiredFields = false
   ;
 
@@ -4775,55 +4107,54 @@ class GetKinoReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetKinoReply clone() => GetKinoReply()..mergeFromMessage(this);
+  GetMoviesReply clone() => GetMoviesReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetKinoReply copyWith(void Function(GetKinoReply) updates) => super.copyWith((message) => updates(message as GetKinoReply)) as GetKinoReply;
+  GetMoviesReply copyWith(void Function(GetMoviesReply) updates) => super.copyWith((message) => updates(message as GetMoviesReply)) as GetMoviesReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetKinoReply create() => GetKinoReply._();
-  GetKinoReply createEmptyInstance() => create();
-  static $pb.PbList<GetKinoReply> createRepeated() => $pb.PbList<GetKinoReply>();
+  static GetMoviesReply create() => GetMoviesReply._();
+  GetMoviesReply createEmptyInstance() => create();
+  static $pb.PbList<GetMoviesReply> createRepeated() => $pb.PbList<GetMoviesReply>();
   @$core.pragma('dart2js:noInline')
-  static GetKinoReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetKinoReply>(create);
-  static GetKinoReply? _defaultInstance;
+  static GetMoviesReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMoviesReply>(create);
+  static GetMoviesReply? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<KinoMsgElement> get kinos => $_getList(0);
+  $core.List<Movie> get movies => $_getList(0);
 }
 
-class KinoMsgElement extends $pb.GeneratedMessage {
-  factory KinoMsgElement({
-    $core.String? name,
-    $core.String? path,
-    $core.int? kino,
-    $2.Timestamp? date,
-    $2.Timestamp? created,
+class Movie extends $pb.GeneratedMessage {
+  factory Movie({
+    $core.String? coverName,
+    $core.String? coverPath,
+    $fixnum.Int64? movieId,
+    $1.Timestamp? date,
+    $1.Timestamp? created,
     $core.String? title,
-    $core.String? year,
+    $core.String? releaseYear,
     $core.String? runtime,
     $core.String? genre,
     $core.String? director,
     $core.String? actors,
-    $core.String? rating,
+    $core.String? imdbRating,
     $core.String? description,
-    $core.int? cover,
-    $core.String? trailer,
+    $fixnum.Int64? coverId,
     $core.String? link,
   }) {
     final $result = create();
-    if (name != null) {
-      $result.name = name;
+    if (coverName != null) {
+      $result.coverName = coverName;
     }
-    if (path != null) {
-      $result.path = path;
+    if (coverPath != null) {
+      $result.coverPath = coverPath;
     }
-    if (kino != null) {
-      $result.kino = kino;
+    if (movieId != null) {
+      $result.movieId = movieId;
     }
     if (date != null) {
       $result.date = date;
@@ -4834,8 +4165,8 @@ class KinoMsgElement extends $pb.GeneratedMessage {
     if (title != null) {
       $result.title = title;
     }
-    if (year != null) {
-      $result.year = year;
+    if (releaseYear != null) {
+      $result.releaseYear = releaseYear;
     }
     if (runtime != null) {
       $result.runtime = runtime;
@@ -4849,43 +4180,39 @@ class KinoMsgElement extends $pb.GeneratedMessage {
     if (actors != null) {
       $result.actors = actors;
     }
-    if (rating != null) {
-      $result.rating = rating;
+    if (imdbRating != null) {
+      $result.imdbRating = imdbRating;
     }
     if (description != null) {
       $result.description = description;
     }
-    if (cover != null) {
-      $result.cover = cover;
-    }
-    if (trailer != null) {
-      $result.trailer = trailer;
+    if (coverId != null) {
+      $result.coverId = coverId;
     }
     if (link != null) {
       $result.link = link;
     }
     return $result;
   }
-  KinoMsgElement._() : super();
-  factory KinoMsgElement.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory KinoMsgElement.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Movie._() : super();
+  factory Movie.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Movie.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'KinoMsgElement', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..aOS(2, _omitFieldNames ? '' : 'path')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'kino', $pb.PbFieldType.O3)
-    ..aOM<$2.Timestamp>(4, _omitFieldNames ? '' : 'date', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(5, _omitFieldNames ? '' : 'created', subBuilder: $2.Timestamp.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Movie', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'coverName')
+    ..aOS(2, _omitFieldNames ? '' : 'coverPath')
+    ..aInt64(3, _omitFieldNames ? '' : 'movieId')
+    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'date', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'created', subBuilder: $1.Timestamp.create)
     ..aOS(6, _omitFieldNames ? '' : 'title')
-    ..aOS(7, _omitFieldNames ? '' : 'year')
+    ..aOS(7, _omitFieldNames ? '' : 'releaseYear')
     ..aOS(8, _omitFieldNames ? '' : 'runtime')
     ..aOS(9, _omitFieldNames ? '' : 'genre')
     ..aOS(10, _omitFieldNames ? '' : 'director')
     ..aOS(11, _omitFieldNames ? '' : 'actors')
-    ..aOS(12, _omitFieldNames ? '' : 'rating')
+    ..aOS(12, _omitFieldNames ? '' : 'imdbRating')
     ..aOS(13, _omitFieldNames ? '' : 'description')
-    ..a<$core.int>(14, _omitFieldNames ? '' : 'cover', $pb.PbFieldType.O3)
-    ..aOS(15, _omitFieldNames ? '' : 'trailer')
+    ..aInt64(14, _omitFieldNames ? '' : 'coverId')
     ..aOS(16, _omitFieldNames ? '' : 'link')
     ..hasRequiredFields = false
   ;
@@ -4894,71 +4221,71 @@ class KinoMsgElement extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  KinoMsgElement clone() => KinoMsgElement()..mergeFromMessage(this);
+  Movie clone() => Movie()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  KinoMsgElement copyWith(void Function(KinoMsgElement) updates) => super.copyWith((message) => updates(message as KinoMsgElement)) as KinoMsgElement;
+  Movie copyWith(void Function(Movie) updates) => super.copyWith((message) => updates(message as Movie)) as Movie;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KinoMsgElement create() => KinoMsgElement._();
-  KinoMsgElement createEmptyInstance() => create();
-  static $pb.PbList<KinoMsgElement> createRepeated() => $pb.PbList<KinoMsgElement>();
+  static Movie create() => Movie._();
+  Movie createEmptyInstance() => create();
+  static $pb.PbList<Movie> createRepeated() => $pb.PbList<Movie>();
   @$core.pragma('dart2js:noInline')
-  static KinoMsgElement getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<KinoMsgElement>(create);
-  static KinoMsgElement? _defaultInstance;
+  static Movie getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Movie>(create);
+  static Movie? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
+  $core.String get coverName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set coverName($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
+  $core.bool hasCoverName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearCoverName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get path => $_getSZ(1);
+  $core.String get coverPath => $_getSZ(1);
   @$pb.TagNumber(2)
-  set path($core.String v) { $_setString(1, v); }
+  set coverPath($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPath() => $_has(1);
+  $core.bool hasCoverPath() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPath() => clearField(2);
+  void clearCoverPath() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get kino => $_getIZ(2);
+  $fixnum.Int64 get movieId => $_getI64(2);
   @$pb.TagNumber(3)
-  set kino($core.int v) { $_setSignedInt32(2, v); }
+  set movieId($fixnum.Int64 v) { $_setInt64(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasKino() => $_has(2);
+  $core.bool hasMovieId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearKino() => clearField(3);
+  void clearMovieId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $2.Timestamp get date => $_getN(3);
+  $1.Timestamp get date => $_getN(3);
   @$pb.TagNumber(4)
-  set date($2.Timestamp v) { setField(4, v); }
+  set date($1.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
   $core.bool hasDate() => $_has(3);
   @$pb.TagNumber(4)
   void clearDate() => clearField(4);
   @$pb.TagNumber(4)
-  $2.Timestamp ensureDate() => $_ensure(3);
+  $1.Timestamp ensureDate() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $2.Timestamp get created => $_getN(4);
+  $1.Timestamp get created => $_getN(4);
   @$pb.TagNumber(5)
-  set created($2.Timestamp v) { setField(5, v); }
+  set created($1.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
   $core.bool hasCreated() => $_has(4);
   @$pb.TagNumber(5)
   void clearCreated() => clearField(5);
   @$pb.TagNumber(5)
-  $2.Timestamp ensureCreated() => $_ensure(4);
+  $1.Timestamp ensureCreated() => $_ensure(4);
 
   @$pb.TagNumber(6)
   $core.String get title => $_getSZ(5);
@@ -4969,14 +4296,15 @@ class KinoMsgElement extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   void clearTitle() => clearField(6);
 
+  /// release year of the movie
   @$pb.TagNumber(7)
-  $core.String get year => $_getSZ(6);
+  $core.String get releaseYear => $_getSZ(6);
   @$pb.TagNumber(7)
-  set year($core.String v) { $_setString(6, v); }
+  set releaseYear($core.String v) { $_setString(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasYear() => $_has(6);
+  $core.bool hasReleaseYear() => $_has(6);
   @$pb.TagNumber(7)
-  void clearYear() => clearField(7);
+  void clearReleaseYear() => clearField(7);
 
   @$pb.TagNumber(8)
   $core.String get runtime => $_getSZ(7);
@@ -5014,14 +4342,15 @@ class KinoMsgElement extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   void clearActors() => clearField(11);
 
+  /// imdb rating
   @$pb.TagNumber(12)
-  $core.String get rating => $_getSZ(11);
+  $core.String get imdbRating => $_getSZ(11);
   @$pb.TagNumber(12)
-  set rating($core.String v) { $_setString(11, v); }
+  set imdbRating($core.String v) { $_setString(11, v); }
   @$pb.TagNumber(12)
-  $core.bool hasRating() => $_has(11);
+  $core.bool hasImdbRating() => $_has(11);
   @$pb.TagNumber(12)
-  void clearRating() => clearField(12);
+  void clearImdbRating() => clearField(12);
 
   @$pb.TagNumber(13)
   $core.String get description => $_getSZ(12);
@@ -5033,31 +4362,55 @@ class KinoMsgElement extends $pb.GeneratedMessage {
   void clearDescription() => clearField(13);
 
   @$pb.TagNumber(14)
-  $core.int get cover => $_getIZ(13);
+  $fixnum.Int64 get coverId => $_getI64(13);
   @$pb.TagNumber(14)
-  set cover($core.int v) { $_setSignedInt32(13, v); }
+  set coverId($fixnum.Int64 v) { $_setInt64(13, v); }
   @$pb.TagNumber(14)
-  $core.bool hasCover() => $_has(13);
+  $core.bool hasCoverId() => $_has(13);
   @$pb.TagNumber(14)
-  void clearCover() => clearField(14);
+  void clearCoverId() => clearField(14);
 
-  @$pb.TagNumber(15)
-  $core.String get trailer => $_getSZ(14);
-  @$pb.TagNumber(15)
-  set trailer($core.String v) { $_setString(14, v); }
-  @$pb.TagNumber(15)
-  $core.bool hasTrailer() => $_has(14);
-  @$pb.TagNumber(15)
-  void clearTrailer() => clearField(15);
-
+  /// Where to find additional information about this movie
   @$pb.TagNumber(16)
-  $core.String get link => $_getSZ(15);
+  $core.String get link => $_getSZ(14);
   @$pb.TagNumber(16)
-  set link($core.String v) { $_setString(15, v); }
+  set link($core.String v) { $_setString(14, v); }
   @$pb.TagNumber(16)
-  $core.bool hasLink() => $_has(15);
+  $core.bool hasLink() => $_has(14);
   @$pb.TagNumber(16)
   void clearLink() => clearField(16);
+}
+
+class SendFeedbackReply extends $pb.GeneratedMessage {
+  factory SendFeedbackReply() => create();
+  SendFeedbackReply._() : super();
+  factory SendFeedbackReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SendFeedbackReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SendFeedbackReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SendFeedbackReply clone() => SendFeedbackReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SendFeedbackReply copyWith(void Function(SendFeedbackReply) updates) => super.copyWith((message) => updates(message as SendFeedbackReply)) as SendFeedbackReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SendFeedbackReply create() => SendFeedbackReply._();
+  SendFeedbackReply createEmptyInstance() => create();
+  static $pb.PbList<SendFeedbackReply> createRepeated() => $pb.PbList<SendFeedbackReply>();
+  @$core.pragma('dart2js:noInline')
+  static SendFeedbackReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SendFeedbackReply>(create);
+  static SendFeedbackReply? _defaultInstance;
 }
 
 class SendFeedbackRequest extends $pb.GeneratedMessage {
@@ -5109,13 +4462,13 @@ class SendFeedbackRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SendFeedbackRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'topic')
     ..aOS(2, _omitFieldNames ? '' : 'email')
-    ..aOS(3, _omitFieldNames ? '' : 'emailId', protoName: 'emailId')
+    ..aOS(3, _omitFieldNames ? '' : 'emailId')
     ..aOS(4, _omitFieldNames ? '' : 'message')
     ..a<$core.int>(5, _omitFieldNames ? '' : 'imageCount', $pb.PbFieldType.O3)
     ..a<$core.double>(6, _omitFieldNames ? '' : 'latitude', $pb.PbFieldType.OD)
     ..a<$core.double>(7, _omitFieldNames ? '' : 'longitude', $pb.PbFieldType.OD)
-    ..aOS(8, _omitFieldNames ? '' : 'osVersion', protoName: 'osVersion')
-    ..aOS(9, _omitFieldNames ? '' : 'appVersion', protoName: 'appVersion')
+    ..aOS(8, _omitFieldNames ? '' : 'osVersion')
+    ..aOS(9, _omitFieldNames ? '' : 'appVersion')
     ..hasRequiredFields = false
   ;
 
@@ -5292,7 +4645,7 @@ class SendFeedbackImageRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SendFeedbackImageRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'imageNr', $pb.PbFieldType.O3, protoName: 'imageNr')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'imageNr', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -5351,7 +4704,7 @@ class GetMembersRequest extends $pb.GeneratedMessage {
   factory GetMembersRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMembersRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'lrzId', protoName: 'lrzId')
+    ..aOS(1, _omitFieldNames ? '' : 'lrzId')
     ..hasRequiredFields = false
   ;
 
@@ -5409,9 +4762,9 @@ class GetMembersReply extends $pb.GeneratedMessage {
   factory GetMembersReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMembersReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'lrzId', protoName: 'lrzId')
+    ..aOS(1, _omitFieldNames ? '' : 'lrzId')
     ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'memberId', $pb.PbFieldType.O3, protoName: 'memberId')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'memberId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -5479,7 +4832,7 @@ class GetUploadStatusRequest extends $pb.GeneratedMessage {
   factory GetUploadStatusRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUploadStatusRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'lrzId', protoName: 'lrzId')
+    ..aOS(1, _omitFieldNames ? '' : 'lrzId')
     ..hasRequiredFields = false
   ;
 
@@ -5620,8 +4973,58 @@ class GetUploadStatusReply extends $pb.GeneratedMessage {
   void clearExternalId() => clearField(5);
 }
 
-class GetNotificationsReply extends $pb.GeneratedMessage {
-  factory GetNotificationsReply({
+class GetNotificationRequest extends $pb.GeneratedMessage {
+  factory GetNotificationRequest({
+    $core.int? notificationId,
+  }) {
+    final $result = create();
+    if (notificationId != null) {
+      $result.notificationId = notificationId;
+    }
+    return $result;
+  }
+  GetNotificationRequest._() : super();
+  factory GetNotificationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNotificationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'notificationId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetNotificationRequest clone() => GetNotificationRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetNotificationRequest copyWith(void Function(GetNotificationRequest) updates) => super.copyWith((message) => updates(message as GetNotificationRequest)) as GetNotificationRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetNotificationRequest create() => GetNotificationRequest._();
+  GetNotificationRequest createEmptyInstance() => create();
+  static $pb.PbList<GetNotificationRequest> createRepeated() => $pb.PbList<GetNotificationRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetNotificationRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationRequest>(create);
+  static GetNotificationRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get notificationId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set notificationId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasNotificationId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearNotificationId() => clearField(1);
+}
+
+class GetNotificationReply extends $pb.GeneratedMessage {
+  factory GetNotificationReply({
     $core.int? notificationId,
     $core.int? type,
     $core.String? title,
@@ -5646,12 +5049,12 @@ class GetNotificationsReply extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  GetNotificationsReply._() : super();
-  factory GetNotificationsReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetNotificationsReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetNotificationReply._() : super();
+  factory GetNotificationReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNotificationReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationsReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'notificationId', $pb.PbFieldType.O3, protoName: 'notificationId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'notificationId', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.O3)
     ..aOS(3, _omitFieldNames ? '' : 'title')
     ..aOS(4, _omitFieldNames ? '' : 'description')
@@ -5663,22 +5066,22 @@ class GetNotificationsReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetNotificationsReply clone() => GetNotificationsReply()..mergeFromMessage(this);
+  GetNotificationReply clone() => GetNotificationReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetNotificationsReply copyWith(void Function(GetNotificationsReply) updates) => super.copyWith((message) => updates(message as GetNotificationsReply)) as GetNotificationsReply;
+  GetNotificationReply copyWith(void Function(GetNotificationReply) updates) => super.copyWith((message) => updates(message as GetNotificationReply)) as GetNotificationReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetNotificationsReply create() => GetNotificationsReply._();
-  GetNotificationsReply createEmptyInstance() => create();
-  static $pb.PbList<GetNotificationsReply> createRepeated() => $pb.PbList<GetNotificationsReply>();
+  static GetNotificationReply create() => GetNotificationReply._();
+  GetNotificationReply createEmptyInstance() => create();
+  static $pb.PbList<GetNotificationReply> createRepeated() => $pb.PbList<GetNotificationReply>();
   @$core.pragma('dart2js:noInline')
-  static GetNotificationsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationsReply>(create);
-  static GetNotificationsReply? _defaultInstance;
+  static GetNotificationReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationReply>(create);
+  static GetNotificationReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get notificationId => $_getIZ(0);
@@ -5726,8 +5129,8 @@ class GetNotificationsReply extends $pb.GeneratedMessage {
   void clearSignature() => clearField(5);
 }
 
-class NotificationsRequest extends $pb.GeneratedMessage {
-  factory NotificationsRequest({
+class GetNotificationConfirmRequest extends $pb.GeneratedMessage {
+  factory GetNotificationConfirmRequest({
     $core.int? notificationId,
   }) {
     final $result = create();
@@ -5736,12 +5139,12 @@ class NotificationsRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  NotificationsRequest._() : super();
-  factory NotificationsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory NotificationsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetNotificationConfirmRequest._() : super();
+  factory GetNotificationConfirmRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNotificationConfirmRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'NotificationsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'notificationId', $pb.PbFieldType.O3, protoName: 'notificationId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationConfirmRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'notificationId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -5749,22 +5152,22 @@ class NotificationsRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  NotificationsRequest clone() => NotificationsRequest()..mergeFromMessage(this);
+  GetNotificationConfirmRequest clone() => GetNotificationConfirmRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  NotificationsRequest copyWith(void Function(NotificationsRequest) updates) => super.copyWith((message) => updates(message as NotificationsRequest)) as NotificationsRequest;
+  GetNotificationConfirmRequest copyWith(void Function(GetNotificationConfirmRequest) updates) => super.copyWith((message) => updates(message as GetNotificationConfirmRequest)) as GetNotificationConfirmRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static NotificationsRequest create() => NotificationsRequest._();
-  NotificationsRequest createEmptyInstance() => create();
-  static $pb.PbList<NotificationsRequest> createRepeated() => $pb.PbList<NotificationsRequest>();
+  static GetNotificationConfirmRequest create() => GetNotificationConfirmRequest._();
+  GetNotificationConfirmRequest createEmptyInstance() => create();
+  static $pb.PbList<GetNotificationConfirmRequest> createRepeated() => $pb.PbList<GetNotificationConfirmRequest>();
   @$core.pragma('dart2js:noInline')
-  static NotificationsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NotificationsRequest>(create);
-  static NotificationsRequest? _defaultInstance;
+  static GetNotificationConfirmRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationConfirmRequest>(create);
+  static GetNotificationConfirmRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get notificationId => $_getIZ(0);
@@ -5776,8 +5179,8 @@ class NotificationsRequest extends $pb.GeneratedMessage {
   void clearNotificationId() => clearField(1);
 }
 
-class GetNotificationsConfirmReply extends $pb.GeneratedMessage {
-  factory GetNotificationsConfirmReply({
+class GetNotificationConfirmReply extends $pb.GeneratedMessage {
+  factory GetNotificationConfirmReply({
     $core.String? status,
   }) {
     final $result = create();
@@ -5786,11 +5189,11 @@ class GetNotificationsConfirmReply extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  GetNotificationsConfirmReply._() : super();
-  factory GetNotificationsConfirmReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetNotificationsConfirmReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetNotificationConfirmReply._() : super();
+  factory GetNotificationConfirmReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetNotificationConfirmReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationsConfirmReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetNotificationConfirmReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'status')
     ..hasRequiredFields = false
   ;
@@ -5799,22 +5202,22 @@ class GetNotificationsConfirmReply extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetNotificationsConfirmReply clone() => GetNotificationsConfirmReply()..mergeFromMessage(this);
+  GetNotificationConfirmReply clone() => GetNotificationConfirmReply()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetNotificationsConfirmReply copyWith(void Function(GetNotificationsConfirmReply) updates) => super.copyWith((message) => updates(message as GetNotificationsConfirmReply)) as GetNotificationsConfirmReply;
+  GetNotificationConfirmReply copyWith(void Function(GetNotificationConfirmReply) updates) => super.copyWith((message) => updates(message as GetNotificationConfirmReply)) as GetNotificationConfirmReply;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetNotificationsConfirmReply create() => GetNotificationsConfirmReply._();
-  GetNotificationsConfirmReply createEmptyInstance() => create();
-  static $pb.PbList<GetNotificationsConfirmReply> createRepeated() => $pb.PbList<GetNotificationsConfirmReply>();
+  static GetNotificationConfirmReply create() => GetNotificationConfirmReply._();
+  GetNotificationConfirmReply createEmptyInstance() => create();
+  static $pb.PbList<GetNotificationConfirmReply> createRepeated() => $pb.PbList<GetNotificationConfirmReply>();
   @$core.pragma('dart2js:noInline')
-  static GetNotificationsConfirmReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationsConfirmReply>(create);
-  static GetNotificationsConfirmReply? _defaultInstance;
+  static GetNotificationConfirmReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetNotificationConfirmReply>(create);
+  static GetNotificationConfirmReply? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get status => $_getSZ(0);
@@ -5841,7 +5244,7 @@ class GetCanteenHeadCountRequest extends $pb.GeneratedMessage {
   factory GetCanteenHeadCountRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteenHeadCountRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'canteenId', protoName: 'canteenId')
+    ..aOS(1, _omitFieldNames ? '' : 'canteenId')
     ..hasRequiredFields = false
   ;
 
@@ -5882,7 +5285,7 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
     $core.int? count,
     $core.int? maxCount,
     $core.double? percent,
-    $2.Timestamp? timestamp,
+    $1.Timestamp? timestamp,
   }) {
     final $result = create();
     if (count != null) {
@@ -5905,9 +5308,9 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCanteenHeadCountReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'count', $pb.PbFieldType.OU3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'maxCount', $pb.PbFieldType.OU3, protoName: 'maxCount')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'maxCount', $pb.PbFieldType.OU3)
     ..a<$core.double>(3, _omitFieldNames ? '' : 'percent', $pb.PbFieldType.OF)
-    ..aOM<$2.Timestamp>(4, _omitFieldNames ? '' : 'timestamp', subBuilder: $2.Timestamp.create)
+    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'timestamp', subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -5964,15 +5367,15 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
 
   /// A time stamp indicating how up to date the response is. Only valid in case percent != -1.
   @$pb.TagNumber(4)
-  $2.Timestamp get timestamp => $_getN(3);
+  $1.Timestamp get timestamp => $_getN(3);
   @$pb.TagNumber(4)
-  set timestamp($2.Timestamp v) { setField(4, v); }
+  set timestamp($1.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
   $core.bool hasTimestamp() => $_has(3);
   @$pb.TagNumber(4)
   void clearTimestamp() => clearField(4);
   @$pb.TagNumber(4)
-  $2.Timestamp ensureTimestamp() => $_ensure(3);
+  $1.Timestamp ensureTimestamp() => $_ensure(3);
 }
 
 
