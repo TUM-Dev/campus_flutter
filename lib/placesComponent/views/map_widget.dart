@@ -112,8 +112,12 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
 
   Future _setMapStyle() async {
     final controller = await _controller.future;
-    final theme = WidgetsBinding.instance.platformDispatcher.platformBrightness;
-    if (theme == Brightness.dark) {
+    setBrightness(controller);
+  }
+
+  void setBrightness(GoogleMapController controller) {
+    final brightness = Theme.of(context).brightness;
+    if (brightness == Brightness.dark) {
       controller.setMapStyle(getIt.get<MapThemeService>().darkTheme);
     } else {
       controller.setMapStyle(getIt.get<MapThemeService>().lightTheme);
@@ -179,26 +183,5 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
                     }));
           },
         ));
-    /*return GoogleMap(
-      mapType: MapType.normal,
-      initialCameraPosition: CameraPosition(
-          target: widget.latLng ??
-              const LatLng(48.26307794976663, 11.668018668778569),
-          zoom: widget.zoom ?? 10),
-      gestureRecognizers: {
-        Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())
-      },
-      rotateGesturesEnabled: false,
-      compassEnabled: false,
-      mapToolbarEnabled: false,
-      tiltGesturesEnabled: false,
-      zoomControlsEnabled: true,
-      myLocationEnabled: true,
-      myLocationButtonEnabled: false,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-      markers: widget.markers,
-    );*/
   }
 }

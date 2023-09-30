@@ -16,8 +16,8 @@ class TuitionView extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(profileViewModel).tuition,
         builder: (context, snapshot) {
-          return AspectRatio(
-              aspectRatio: 6,
+          return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.08,
               child: GestureDetector(
                 onTap: () {
                   (snapshot.hasData && snapshot.data != null)
@@ -34,7 +34,7 @@ class TuitionView extends ConsumerWidget {
                   const Spacer(),
                   _tuitionStatus(context, snapshot)
                 ])),
-              ));
+              )); //);
         });
   }
 

@@ -14,6 +14,7 @@ const Color _almostWhite = Color(0xffe3e2e6);
 
 extension ContextTheme on BuildContext {
   double get halfPadding => 5.0;
+
   double get padding => 15.0;
 }
 
@@ -159,11 +160,17 @@ ThemeData lightTheme(BuildContext context) {
       snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
 
       /// style chip
-      chipTheme: const ChipThemeData(
-          backgroundColor: _darkGray,
-          labelStyle: TextStyle(color: Colors.white),
+      chipTheme: ChipThemeData(
+          showCheckmark: false,
+          labelStyle: const TextStyle(color: Colors.white),
           side: BorderSide.none,
-          selectedColor: _primaryLightColor));
+          color: MaterialStateColor.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return _primaryLightColor;
+            } else {
+              return _lightGray;
+            }
+          })));
 }
 
 /// dark theme
@@ -201,8 +208,9 @@ ThemeData darkTheme(BuildContext context) {
                   (states) => _primaryDarkColor),
               foregroundColor:
                   MaterialStateProperty.resolveWith((states) => Colors.white),
-              shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0))))),
+              shape: MaterialStateProperty.resolveWith((states) =>
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0))))),
 
       /// remove tint of dialogs
       dialogTheme: const DialogTheme(
@@ -301,8 +309,15 @@ ThemeData darkTheme(BuildContext context) {
       snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
 
       /// style chip
-      chipTheme: const ChipThemeData(
-          backgroundColor: _primaryDarkColor,
-          labelStyle: TextStyle(color: Colors.white),
-          side: BorderSide.none));
+      chipTheme: ChipThemeData(
+          showCheckmark: false,
+          labelStyle: const TextStyle(color: Colors.white),
+          side: BorderSide.none,
+          color: MaterialStateColor.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return _primaryDarkColor;
+            } else {
+              return _darkGray;
+            }
+          })));
 }

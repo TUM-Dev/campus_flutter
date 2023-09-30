@@ -73,7 +73,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
               },
               child: CardWithPadding.constrained(
                   boxConstraints: BoxConstraints(
-                      minHeight: MediaQuery.sizeOf(context).height * 0.075),
+                      minHeight: MediaQuery.sizeOf(context).height * 0.08),
                   child: _widgetLabel(snapshot, context)));
         });
   }

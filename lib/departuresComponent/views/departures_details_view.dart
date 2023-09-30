@@ -20,7 +20,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
           final backgroundColor =
-              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+              Theme.of(context).brightness == Brightness.dark
                   ? Theme.of(context).canvasColor
                   : Colors.white;
           return Scaffold(
