@@ -12,17 +12,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_web.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  getIt.registerSingleton<CampusClient>(CampusClient(ClientChannel(
-    "api.tum.app",
-    port: 443,
-    options: const ChannelOptions(),
-  )));
+  if (kIsWeb){
+    getIt.registerSingleton<CampusClient>(CampusClient(GrpcWebClientChannel.xhr(Uri.parse('https://api-grpc.tum.app'))));
+  } else {
+    getIt.registerSingleton<CampusClient>(CampusClient(ClientChannel(
+      "api.tum.app",
+      port: 443,
+      options: const ChannelOptions(),
+    )));
+  }
   getIt.registerSingleton<ConnectivityResult>(
       await Connectivity().checkConnectivity());
   if (kIsWeb) {
