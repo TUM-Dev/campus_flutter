@@ -24,8 +24,10 @@ import 'package:campus_flutter/searchComponent/viewmodels/search_viewmodel.dart'
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/cafeteria_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_seach_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
+import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
@@ -127,7 +129,10 @@ final userPreferencesViewModel =
 final searchViewModel = Provider((ref) => SearchViewModel(ref));
 final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
 final lectureSearchViewModel = Provider((ref) => LectureSearchViewModel());
+final personalLectureSearchViewModel =
+    Provider((ref) => PersonalLectureSearchViewModel());
 final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
+final personSearchViewModel = Provider((ref) => PersonSearchViewModel());

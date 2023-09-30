@@ -7,16 +7,17 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LectureSearchResultView extends ConsumerWidget {
-  const LectureSearchResultView({super.key});
+class PersonalLectureSearchResultView extends ConsumerWidget {
+  const PersonalLectureSearchResultView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "Lectures",
+        title: "Personal Lectures",
         child: Card(
             child: StreamBuilder(
-          stream: ref.watch(lectureSearchViewModel).searchResults,
+          stream:
+              ref.watch(personalLectureSearchViewModel).personalSearchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.separated(

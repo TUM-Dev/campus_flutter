@@ -6,10 +6,14 @@ import 'package:campus_flutter/searchComponent/views/resultViews/calendar_search
 import 'package:campus_flutter/searchComponent/views/resultViews/grade_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/resultViews/lecture_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/resultViews/movie_search_result_view.dart';
+import 'package:campus_flutter/searchComponent/views/resultViews/person_search_result_view.dart';
+import 'package:campus_flutter/searchComponent/views/resultViews/personal_lecture_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/resultViews/study_room_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/search_textfield_view.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SearchView extends ConsumerWidget {
   SearchView({super.key, required this.index, required this.showContent});
@@ -45,33 +49,28 @@ class SearchView extends ConsumerWidget {
               if (!snapshot.hasData && textEditingController.text.isEmpty) {
                 return const Center(child: Text("Enter a Query to Start"));
               } else {
-                return OrientationBuilder(builder: (context, orientation) {
-                  if (orientation == Orientation.landscape) {
-                    return GridView.count(
+                final orientation = MediaQuery.orientationOf(context);
+                if (orientation == Orientation.landscape) {
+                  return MasonryGridView.count(
                       crossAxisCount: 2,
-                      childAspectRatio: 1.5,
-                      children: [
-                        for (var result in snapshot.data ??
-                            const Iterable<SearchCategory>.empty())
-                          _searchResultViewBuilder(result),
-                      ],
-                    );
-                  } else {
-                    return Scrollbar(
-                        child: SingleChildScrollView(
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                          for (var result in snapshot.data ??
-                              const Iterable<SearchCategory>.empty())
-                            _searchResultViewBuilder(result),
-                        ])));
-                  }
-                });
+                      itemCount: snapshot.data?.length ?? 0,
+                      itemBuilder: (context, index) =>
+                          _searchResultViewBuilder(snapshot.data![index]));
+                } else {
+                  return Scrollbar(
+                      child: SingleChildScrollView(
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                    for (var result in snapshot.data ??
+                        const Iterable<SearchCategory>.empty())
+                      _searchResultViewBuilder(result),
+                  ])));
+                }
               }
             }));
   }
 
+  // TODO: add search category chooser for lectures
   Widget _categoryChooser(WidgetRef ref) {
     return StreamBuilder(
         stream: ref.watch(searchViewModel).selectedCategories,
@@ -81,7 +80,16 @@ class SearchView extends ConsumerWidget {
               child: HorizontalSlider(
                   data: SearchCategory.values
                       .where((element) => element != SearchCategory.unknown)
-                      .toList(),
+                      .sorted((a, b) {
+                    final data = snapshot.data ?? [];
+                    return data.contains(a) && data.contains(b)
+                        ? 0
+                        : data.contains(a)
+                            ? -1
+                            : data.contains(b)
+                                ? 1
+                                : 0;
+                  }).toList(),
                   height: 40,
                   child: (searchCategory) => FilterChip(
                         label: Text(searchCategory.title),
@@ -125,9 +133,10 @@ Widget _searchResultViewBuilder(SearchCategory searchCategory) {
       return const StudyRoomSearchResultView();
     case SearchCategory.lectures:
       return const LectureSearchResultView();
+    case SearchCategory.personalLectures:
+      return const PersonalLectureSearchResultView();
     case SearchCategory.persons:
-      // TODO:
-      return Container();
+      return const PersonSearchResultView();
     default:
       return Container();
   }

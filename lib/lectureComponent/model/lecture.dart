@@ -37,7 +37,7 @@ class Lecture extends Searchable {
   @JsonKey(name: "org_kennung_betreut")
   final String organisationTag;
   @JsonKey(name: "vortragende_mitwirkende")
-  final String speaker;
+  final String? speaker;
 
   String eventType(BuildContext context) {
     switch (eventTypeDefault) {
@@ -68,7 +68,7 @@ class Lecture extends Searchable {
         ComparisonToken(value: title),
         ComparisonToken(value: semesterID, type: ComparisonTokenType.raw),
         ComparisonToken(value: organisation),
-        ComparisonToken(value: speaker),
+        ComparisonToken(value: speaker ?? ""),
         ComparisonToken(value: semester),
       ];
 

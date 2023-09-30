@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LectureView extends ConsumerWidget {
-  const LectureView({super.key, required this.lecture});
+  const LectureView({super.key, required this.lecture, this.isSearch = false});
 
   final Lecture lecture;
+  final bool isSearch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,19 +37,21 @@ class LectureView extends ConsumerWidget {
                     textColor: Theme.of(context).colorScheme.secondary)),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          IconText(
-            iconData: Icons.person,
-            label: lecture.speaker,
-            iconColor: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).colorScheme.secondary,
-            multipleLines: true,
-          ),
+          if (lecture.speaker != null)
+            IconText(
+              iconData: Icons.person,
+              label: lecture.speaker!,
+              iconColor: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).colorScheme.secondary,
+              multipleLines: true,
+            ),
         ],
       ),
       onTap: () {
         ref.read(selectedLecture.notifier).state = lecture;
         ref.read(selectedEvent.notifier).state = null;
-        if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+        if (MediaQuery.orientationOf(context) == Orientation.portrait ||
+            isSearch) {
           Navigator.push(
               context,
               MaterialPageRoute(

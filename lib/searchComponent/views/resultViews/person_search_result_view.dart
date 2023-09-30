@@ -6,18 +6,17 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
-class MovieSearchResultView extends ConsumerWidget {
-  const MovieSearchResultView({super.key});
+class PersonSearchResultView extends ConsumerWidget {
+  const PersonSearchResultView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "Movies",
+        title: "Person Search",
         child: Card(
             child: StreamBuilder(
-          stream: ref.watch(movieSearchViewModel).searchResults,
+          stream: ref.watch(personSearchViewModel).searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isNotEmpty) {
@@ -25,9 +24,7 @@ class MovieSearchResultView extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => ListTile(
-                          title: Text(snapshot.data![index].$1.title),
-                          subtitle: Text(DateFormat.yMd()
-                              .format(snapshot.data![index].$1.date)),
+                          title: Text(snapshot.data![index].fullName),
                         ),
                     separatorBuilder: (context, index) => const PaddedDivider(
                           height: 0,
@@ -38,7 +35,7 @@ class MovieSearchResultView extends ConsumerWidget {
                 return Padding(
                     padding: EdgeInsets.all(context.padding),
                     child: const Center(
-                      child: Text("No Movies Found"),
+                      child: Text("No Person Found"),
                     ));
               }
             } else if (snapshot.hasError) {

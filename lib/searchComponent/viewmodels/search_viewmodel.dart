@@ -85,7 +85,8 @@ class SearchViewModel {
           case 1:
             result.add([SearchCategory.grade]);
           case 2:
-            result.add([SearchCategory.lectures]);
+            result.add(
+                [SearchCategory.personalLectures, SearchCategory.lectures]);
           case 3:
             result.add([SearchCategory.calendar]);
           case 4:
@@ -173,8 +174,11 @@ class SearchViewModel {
         ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
       case 2:
         ref
-            .read(lectureSearchViewModel)
+            .read(personalLectureSearchViewModel)
             .personalLectureSearch(query: this.searchString);
+        ref
+            .read(lectureSearchViewModel)
+            .lectureSearch(query: this.searchString);
       case 3:
         ref
             .read(calendarSearchViewModel)
@@ -189,7 +193,7 @@ class SearchViewModel {
       default:
         ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
         ref
-            .read(lectureSearchViewModel)
+            .read(personalLectureSearchViewModel)
             .personalLectureSearch(query: this.searchString);
         ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
         ref
@@ -201,6 +205,10 @@ class SearchViewModel {
         ref
             .read(studyRoomSearchViewModel)
             .studyRoomSearch(query: this.searchString);
+        ref.read(personSearchViewModel).personSearch(query: this.searchString);
+        ref
+            .read(lectureSearchViewModel)
+            .lectureSearch(query: this.searchString);
     }
   }
 }
@@ -217,6 +225,7 @@ enum SearchCategory {
 
   /// enums that are not classified but shown in searches
   lectures("Lectures"),
+  personalLectures("Personal Lectures"),
   persons("Persons");
 
   final String title;
