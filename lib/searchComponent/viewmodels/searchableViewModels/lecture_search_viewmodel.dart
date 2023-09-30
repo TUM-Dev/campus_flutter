@@ -1,6 +1,5 @@
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_search_service.dart';
-import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
 import 'package:rxdart/rxdart.dart';
