@@ -3,11 +3,12 @@ import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../base/networking/apis/tumdev/campus_backend.pb.dart';
 
 class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});

@@ -1,10 +1,11 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../base/networking/apis/tumdev/campus_backend.pb.dart';
 
 class MovieCardView extends ConsumerWidget {
   const MovieCardView({super.key, required this.movie, required this.width});
@@ -16,7 +17,7 @@ class MovieCardView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () {
-          UrlLauncher.url(movie.link, ref);
+          UrlLauncher.url(Uri.parse(movie.link), ref);
         },
         child: Card(
             margin: const EdgeInsets.all(0),
@@ -30,9 +31,9 @@ class MovieCardView extends ConsumerWidget {
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
                             imageUrl: kIsWeb
-                                ? movie.cover.toString().replaceAll(
+                                ? movie.coverName.toString().replaceAll(
                                     "app.tum.de", "tum-proxy.resch.io")
-                                : movie.cover.toString(),
+                                : movie.coverName.toString(),
                             fit: BoxFit.fitWidth,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,
@@ -64,7 +65,7 @@ class MovieCardView extends ConsumerWidget {
                                     Expanded(
                                         child: Text(
                                             StringParser.dateFormatter(
-                                                movie.date),
+                                                movie.date.toDateTime()),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall,
