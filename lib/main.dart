@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
@@ -13,19 +12,16 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:grpc/grpc_or_grpcweb.dart';
+import 'base/networking/apis/tumdev/cached_client.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  getIt.registerSingleton<CampusClient>(CampusClient(
-      GrpcOrGrpcWebClientChannel.toSeparateEndpoints(
-          grpcHost: "api.tum.app",
-          grpcPort: 443,
-          grpcTransportSecure: true,
-          grpcWebHost: "api-grpc.tum.app",
-          grpcWebPort: 443,
-          grpcWebTransportSecure: true)));
+  if (kIsWeb) {
+    getIt.registerSingleton<CachedCampusClient>(CachedCampusClient.webCache());
+  } else {
+    getIt.registerSingleton<CachedCampusClient>(CachedCampusClient.mobileCache(await getTemporaryDirectory()));
+  }
   getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
