@@ -38,7 +38,7 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To Provide You With the Closest Study Rooms, Cafeteria and Departures We Need to Access Your Location While in Use</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
