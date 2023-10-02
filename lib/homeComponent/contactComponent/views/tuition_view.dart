@@ -34,7 +34,7 @@ class TuitionView extends ConsumerWidget {
                   const Spacer(),
                   _tuitionStatus(context, snapshot)
                 ])),
-              )); //);
+              ));
         });
   }
 

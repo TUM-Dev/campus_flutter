@@ -17,8 +17,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -49,7 +47,6 @@ class CampusApp extends ConsumerWidget {
         theme: lightTheme(context),
         darkTheme: darkTheme(context),
         themeMode: ref.watch(appearance).themeMode,
-        navigatorKey: navigatorKey,
         locale: ref.watch(locale),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

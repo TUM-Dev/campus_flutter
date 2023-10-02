@@ -14,7 +14,6 @@ const Color _almostWhite = Color(0xffe3e2e6);
 
 extension ContextTheme on BuildContext {
   double get halfPadding => 5.0;
-
   double get padding => 15.0;
 }
 
