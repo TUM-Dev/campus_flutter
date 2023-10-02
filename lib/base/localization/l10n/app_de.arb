@@ -76,10 +76,10 @@
    "@lectureCurriculum":{
       "description":"Link-Text in der Ansicht der Vorlesungslinks"
    },
-   "basicLectureInformation":"Grundlegende Vorlesungsinformation",
-   "detailedLectureInformation":"Detaillierte Vorlesungsinformation",
-   "lectureLinks":"Vorlesungslinks",
-   "thisMeeting":"Dieses Treffen",
+   "basicLectureInformation":"Grundlegende Informationen",
+   "detailedLectureInformation":"Detaillierte Informationen",
+   "lectureLinks":"Veranstaltungslinks",
+   "thisMeeting":"Dieser Termin",
    "lectureDetails":"Vorlesungsdetails",
    "noLecturesSelected":"keine vorlesungen ausgewählt",
    "noLecturesFound":"keine vorlesungen gefunden",
@@ -135,6 +135,9 @@
       }
    },
    "lecture":"Vorlesung",
+   "courseContents":"Inhalte der Veranstaltung",
+   "courseObjective":"Ziel der Veranstaltung",
+   "note":"Anmerkung",
    "exercise":"Tutorium",
    "seminar":"Übung",
    "tutorial":"Praktikum",
@@ -164,6 +167,7 @@
    "calendarViewWeek":"Woche",
    "calendarViewMonth":"Monat",
    "events":"Veranstaltungen",
+   "noUpcomingEvents":"Keine Anstehenden Ereignisse",
    "noEventsToday":"Keine Ereignisse heute",
    "departures":"Abfahrten",
    "departure":"Abfahrt",

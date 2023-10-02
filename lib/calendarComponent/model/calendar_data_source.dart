@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/calendar_event_type.dart';
 import 'package:campus_flutter/base/extensions/cast.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class MeetingDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int index) {
-    return Theme.of(context).primaryColor;
+    final appointment = appointments![index]! as CalendarEvent;
+    return appointment.getEventColor(context);
   }
 }

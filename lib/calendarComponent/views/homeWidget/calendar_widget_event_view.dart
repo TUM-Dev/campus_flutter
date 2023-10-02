@@ -2,6 +2,7 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -39,8 +40,9 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
+            //const Spacer(),
             Text(
                 startDate.isAtSameMomentAs(todayDate)
                     ? "Today"
@@ -50,12 +52,13 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                             .format(calendarEvent.startDate),
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.secondary)),
-            const Spacer(),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
             Container(
                 decoration: BoxDecoration(
                     border: Border(
                         left: BorderSide(
-                            color: Theme.of(context).primaryColor,
+                            color: calendarEvent.getEventColor(context),
                             width: 2.0))),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5.0),
@@ -77,7 +80,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                     ],
                   ),
                 )),
-            const Spacer()
+            //const Spacer()
           ],
         ));
   }
