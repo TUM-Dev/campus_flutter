@@ -1,6 +1,3 @@
 This version provides the following updates:
-- A responsive design for iPad, Tablets and Web App (more improvements coming soon)
-- A web app which offers all functionalities
-- Several bug fixes
-- general UI improvements
-- Temporarily the digital student card
+- Add Localisation which enables German and English
+- Bugfix where users were not able to enter their TUM id while logging in
