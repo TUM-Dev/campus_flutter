@@ -44,7 +44,7 @@ platform :ios do
     )
 
     upload_to_testflight(
-      changelog: File.read(“../../changelog.txt”),
+      changelog: ENV["RELEASE_NOTES"],
       skip_waiting_for_build_processing: true
     )
   end
