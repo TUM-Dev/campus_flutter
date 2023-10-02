@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:campus_flutter/theme.dart';
 
 part 'grade.g.dart';
 
@@ -31,18 +33,18 @@ class Grade {
   @JsonKey(name: "st_studium_nr")
   final String studyNumber;
 
-  String get modusShort {
+  String modusShort(BuildContext context) {
     switch (modus) {
       case "Schriftlich":
-        return "Written";
+        return context.localizations.written;
       case "Beurteilt/immanenter Prüfungscharakter":
-        return "Graded";
+        return context.localizations.graded;
       case "Schriftlich und Mündlich":
-        return "Written/Oral";
+        return context.localizations.writtenAndOral;
       case "Mündlich":
-        return "Oral";
+        return context.localizations.oral;
       default:
-        return "Unknown";
+        return modus;
     }
   }
 
@@ -71,7 +73,8 @@ class GradeData {
 
   GradeData({required this.gradesAttribute});
 
-  factory GradeData.fromJson(Map<String, dynamic> json) => _$GradeDataFromJson(json);
+  factory GradeData.fromJson(Map<String, dynamic> json) =>
+      _$GradeDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeDataToJson(this);
 }

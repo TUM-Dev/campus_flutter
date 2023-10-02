@@ -5,6 +5,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,7 +13,8 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
   const StudyRoomWidgetView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _StudyRoomWidgetViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _StudyRoomWidgetViewState();
 }
 
 class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
@@ -25,7 +27,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-        title: "Nearest Study Rooms",
+        title: context.localizations.nearestStudyRooms,
         child: StreamBuilder(
             stream: ref.watch(studyRoomWidgetViewModel).studyRoomGroup,
             builder: (context, snapshot) {
@@ -41,19 +43,20 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
             }));
   }
 
-  Widget _widgetLabel(AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
+  Widget _widgetLabel(
+      AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
     if (snapshot.hasData) {
       if (snapshot.data != null) {
         return _buttonLabel(context, snapshot);
       } else {
-        return const Center(child: Text("no study rooms near you found"));
+        return Center(
+            child: Text(context.localizations.noNearFreeStudyRoomsFound));
       }
     } else if (snapshot.hasError) {
       return ErrorHandlingView(
           error: snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-          retry: ref.read(studyRoomWidgetViewModel).fetch
-      );
+          retry: ref.read(studyRoomWidgetViewModel).fetch);
     } else {
       return const DelayedLoadingIndicator(name: "Closest Study Room");
     }
@@ -62,17 +65,20 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   _onPressed(BuildContext context) {
     if (MediaQuery.orientationOf(context) == Orientation.portrait) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-          const StudyRoomGroupScaffold()));
+          builder: (context) => const StudyRoomGroupScaffold()));
     } else {
-      ref.read(homeSplitViewModel).selectedWidget.add(const StudyRoomGroupView());
+      ref
+          .read(homeSplitViewModel)
+          .selectedWidget
+          .add(const StudyRoomGroupView());
     }
   }
 
-  Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
+  Widget _buttonLabel(
+      BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
     return Row(
       children: [
-        Text(snapshot.data?.name ?? "Unkown"),
+        Text(snapshot.data?.name ?? context.localizations.unknown),
         const Spacer(),
         _freeRooms(snapshot),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
@@ -83,12 +89,13 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _freeRooms(AsyncSnapshot<StudyRoomGroup?> snapshot) {
     if (snapshot.data?.rooms != null) {
-      final freeRooms = ref.read(studyRoomWidgetViewModel).countAvailableRooms();
-      return Text(
-          "$freeRooms room${freeRooms > 1 ? "s" : ""} free",
+      final freeRooms =
+          ref.read(studyRoomWidgetViewModel).countAvailableRooms();
+      return Text(context.localizations.nfreeRooms(freeRooms),
           style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red));
     } else {
-      return const Text("no free rooms", style: TextStyle(color: Colors.red));
+      return Text(context.localizations.nfreeRooms(0),
+          style: const TextStyle(color: Colors.red));
     }
   }
 }

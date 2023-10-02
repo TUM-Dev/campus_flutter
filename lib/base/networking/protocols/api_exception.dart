@@ -14,7 +14,8 @@ class ExceptionBody {
 
   ExceptionBody({required this.exceptionMessage});
 
-  factory ExceptionBody.fromJson(Map<String, dynamic> json) => _$ExceptionBodyFromJson(json);
+  factory ExceptionBody.fromJson(Map<String, dynamic> json) =>
+      _$ExceptionBodyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExceptionBodyToJson(this);
 }
@@ -25,7 +26,8 @@ class ExceptionMessage {
 
   ExceptionMessage({required this.message});
 
-  factory ExceptionMessage.fromJson(Map<String, dynamic> json) => _$ExceptionMessageFromJson(json);
+  factory ExceptionMessage.fromJson(Map<String, dynamic> json) =>
+      _$ExceptionMessageFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExceptionMessageToJson(this);
 }

@@ -14,9 +14,7 @@ class LinkView extends ConsumerWidget {
       children: [
         Expanded(
             child: SizedBox(
-                height: MediaQuery
-                    .sizeOf(context)
-                    .height * 0.075,
+                height: MediaQuery.sizeOf(context).height * 0.075,
                 child: GestureDetector(
                     onTap: () async {
                       if (MediaQuery.orientationOf(context) ==
@@ -27,9 +25,8 @@ class LinkView extends ConsumerWidget {
                           ..setJavaScriptMode(JavaScriptMode.unrestricted)
                           ..setBackgroundColor(const Color(0x00000000))
                           ..setNavigationDelegate(NavigationDelegate(
-                              onNavigationRequest: (
-                                  request) => NavigationDecision.navigate
-                          ))
+                              onNavigationRequest: (request) =>
+                                  NavigationDecision.navigate))
                           ..loadRequest(Uri.parse("https://moodle.tum.de"));
                         ref
                             .read(homeSplitViewModel)
@@ -42,15 +39,13 @@ class LinkView extends ConsumerWidget {
                             right: 5.0, top: 5.0, bottom: 5.0, left: 10.0),
                         child: Center(
                             child: IconText(
-                              iconData: Icons.school_outlined,
-                              label: "Moodle",
-                              iconSize: 24,
-                            )))))),
+                          iconData: Icons.school_outlined,
+                          label: "Moodle",
+                          iconSize: 24,
+                        )))))),
         Expanded(
             child: SizedBox(
-                height: MediaQuery
-                    .sizeOf(context)
-                    .height * 0.075,
+                height: MediaQuery.sizeOf(context).height * 0.075,
                 child: GestureDetector(
                     onTap: () async {
                       if (MediaQuery.orientationOf(context) ==
@@ -61,9 +56,8 @@ class LinkView extends ConsumerWidget {
                           ..setJavaScriptMode(JavaScriptMode.unrestricted)
                           ..setBackgroundColor(const Color(0x00000000))
                           ..setNavigationDelegate(NavigationDelegate(
-                              onNavigationRequest: (
-                                  request) => NavigationDecision.navigate
-                          ))
+                              onNavigationRequest: (request) =>
+                                  NavigationDecision.navigate))
                           ..loadRequest(Uri.parse("https://campus.tum.de"));
                         ref
                             .read(homeSplitViewModel)
@@ -76,10 +70,10 @@ class LinkView extends ConsumerWidget {
                             right: 10.0, top: 5.0, bottom: 5.0, left: 5.0),
                         child: Center(
                             child: IconText(
-                              iconData: Icons.language_outlined,
-                              label: "TUMOnline",
-                              iconSize: 24,
-                            ))))))
+                          iconData: Icons.language_outlined,
+                          label: "TUMOnline",
+                          iconSize: 24,
+                        ))))))
       ],
     );
   }

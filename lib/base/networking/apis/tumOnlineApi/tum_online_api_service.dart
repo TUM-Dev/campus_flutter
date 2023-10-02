@@ -6,16 +6,11 @@ class TumOnlineServiceTokenRequest extends TumOnlineService {
   final String tumId;
   final String deviceName;
 
-  TumOnlineServiceTokenRequest({
-    required this.tumId,
-    required this.deviceName
-  });
+  TumOnlineServiceTokenRequest({required this.tumId, required this.deviceName});
 
   @override
-  Map<String, String> getParameters() => {
-    "pUsername": tumId,
-    "pTokenName": deviceName
-  };
+  Map<String, String> getParameters() =>
+      {"pUsername": tumId, "pTokenName": deviceName};
 }
 
 class TumOnlineServiceTokenConfirmation extends TumOnlineService {}
@@ -30,9 +25,7 @@ class TumOnlineServicePersonSearch extends TumOnlineService {
   TumOnlineServicePersonSearch({required this.search});
 
   @override
-  Map<String, String> getParameters() => {
-    "pSuche": search
-  };
+  Map<String, String> getParameters() => {"pSuche": search};
 }
 
 class TumOnlineServicePersonDetails extends TumOnlineService {
@@ -41,9 +34,7 @@ class TumOnlineServicePersonDetails extends TumOnlineService {
   TumOnlineServicePersonDetails({required this.identNumber});
 
   @override
-  Map<String, String> getParameters() => {
-    "pIdentNr": identNumber
-  };
+  Map<String, String> getParameters() => {"pIdentNr": identNumber};
 }
 
 class TumOnlineServicePersonalLectures extends TumOnlineService {}
@@ -58,9 +49,7 @@ class TumOnlineServiceLectureSearch extends TumOnlineService {
   TumOnlineServiceLectureSearch({required this.search});
 
   @override
-  Map<String, String> getParameters() => {
-    "pSuche": search
-  };
+  Map<String, String> getParameters() => {"pSuche": search};
 }
 
 class TumOnlineServiceLectureDetails extends TumOnlineService {
@@ -69,9 +58,7 @@ class TumOnlineServiceLectureDetails extends TumOnlineService {
   TumOnlineServiceLectureDetails({required this.lvNr});
 
   @override
-  Map<String, String> getParameters() => {
-    "pLVNr": lvNr
-  };
+  Map<String, String> getParameters() => {"pLVNr": lvNr};
 }
 
 class TumOnlineServiceIdentify extends TumOnlineService {}
@@ -87,8 +74,6 @@ class TumOnlineServiceProfileImage extends TumOnlineService {
   TumOnlineServiceProfileImage({required this.personGroup, required this.id});
 
   @override
-  Map<String, String> getParameters() => {
-    "pPersonenGruppe": personGroup,
-    "pPersonenId": id
-  };
+  Map<String, String> getParameters() =>
+      {"pPersonenGruppe": personGroup, "pPersonenId": id};
 }

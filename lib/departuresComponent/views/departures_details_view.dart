@@ -9,6 +9,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:campus_flutter/theme.dart';
 
 class DeparturesDetailsScaffold extends ConsumerWidget {
   const DeparturesDetailsScaffold({super.key});
@@ -18,16 +19,17 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
-          final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-              ? Theme.of(context).canvasColor
-              : Colors.white;
+          final backgroundColor =
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? Theme.of(context).canvasColor
+                  : Colors.white;
           return Scaffold(
               appBar: AppBar(
                 leading: const BackButton(),
                 backgroundColor: backgroundColor,
                 title: Text(
                     ref.watch(departureViewModel).selectedStation.value?.name ??
-                        "Departures"),
+                        context.localizations.departures),
                 actions: [
                   PopupMenuButton<Station>(
                     initialValue:
@@ -70,7 +72,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
             children: [
               if (ref.watch(departureViewModel).selectedStation.value !=
                   null) ...[
-                Text.rich(TextSpan(text: "Station: ", children: [
+                Text.rich(
+                    TextSpan(text: context.localizations.station, children: [
                   TextSpan(
                       text: ref
                           .watch(departureViewModel)
@@ -85,7 +88,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                     onTap: () async {
                       Station? selectedStation =
                           ref.read(departureViewModel).selectedStation.value;
-                      if (selectedStation != null && selectedStation.location != null) {
+                      if (selectedStation != null &&
+                          selectedStation.location != null) {
                         if (await MapLauncher.isMapAvailable(MapType.google) ??
                             false) {
                           await MapLauncher.showDirections(
@@ -110,23 +114,24 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                         }
                       }
                     },
-                    child: const IconText(
-                        iconData: Icons.open_in_new, label: "Show Directions"))
+                    child: IconText(
+                        iconData: Icons.open_in_new,
+                        label: context.localizations.showDirections))
               ],
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               if (lastFetched != null) LastUpdatedText(lastFetched),
-              const Row(
+              Row(
                 children: [
                   SizedBox(
                       width: 50,
-                      child: Text("Line",
-                          style: TextStyle(fontWeight: FontWeight.w500))),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
-                  Text("Direction",
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                  Spacer(),
-                  Text("Departure",
-                      style: TextStyle(fontWeight: FontWeight.w500))
+                      child: Text(context.localizations.line,
+                          style: const TextStyle(fontWeight: FontWeight.w500))),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
+                  Text(context.localizations.direction,
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                  const Spacer(),
+                  Text(context.localizations.departure,
+                      style: const TextStyle(fontWeight: FontWeight.w500))
                 ],
               ),
               const Divider(),
@@ -138,8 +143,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       child: ListView.separated(
                           itemBuilder: (context, index) =>
                               DeparturesDetailsRowView(
-                                  departure:
-                                      widget.snapshot.data![index]),
+                                  departure: widget.snapshot.data![index]),
                           separatorBuilder: (context, index) => const Divider(),
                           itemCount: widget.snapshot.data!.length))),
             ],
@@ -148,10 +152,9 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
       return ErrorHandlingView(
           error: widget.snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-          retry: ref.read(departureViewModel).fetch
-      );
+          retry: ref.read(departureViewModel).fetch);
     } else {
-      return const DelayedLoadingIndicator(name: "Departures");
+      return DelayedLoadingIndicator(name: context.localizations.departures);
     }
   }
 }

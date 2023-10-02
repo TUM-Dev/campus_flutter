@@ -22,7 +22,8 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
         builder: (context, snapshot) {
           return Column(mainAxisSize: MainAxisSize.min, children: [
             ConstrainedBox(
-                constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height * 0.15),
+                constraints: BoxConstraints(
+                    minHeight: MediaQuery.sizeOf(context).height * 0.15),
                 child: CardWithPadding(
                     child: Center(
                         child: snapshot.hasData

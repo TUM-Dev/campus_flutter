@@ -36,9 +36,7 @@ class _HyperlinkTextState extends ConsumerState<HyperLinkText> {
         RichText(
             text: TextSpan(
                 text: widget.label,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 recognizer: tapGestureRecognizer
                   ..onTap = () {
                     if (widget.link != null) {
