@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/navigatumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
