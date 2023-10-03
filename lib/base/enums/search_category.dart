@@ -41,4 +41,13 @@ extension SearchCategoryExtension on SearchCategory {
   static List<SearchCategory> lectureSearch() {
     return [SearchCategory.personalLectures, SearchCategory.lectures];
   }
+
+  static List<SearchCategory> unAuthorizedSearch() {
+    return [
+      SearchCategory.studyRoom,
+      SearchCategory.cafeterias,
+      SearchCategory.movie,
+      SearchCategory.news
+    ];
+  }
 }

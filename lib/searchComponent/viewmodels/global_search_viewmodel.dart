@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/model/vocab.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
@@ -24,8 +25,10 @@ class GlobalSearchViewModel {
   late HashMap vocab2;
 
   GlobalSearchViewModel(this.ref) {
-    loadVocabulary();
-    initializeNaturalLanguageModel();
+    if (!kIsWeb) {
+      loadVocabulary();
+      initializeNaturalLanguageModel();
+    }
   }
 
   Future initializeNaturalLanguageModel() async {
@@ -50,37 +53,11 @@ class GlobalSearchViewModel {
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
       if (index == 0) {
-        final tokens = await tokenizeBert(searchString);
-        var output = List.filled(1 * 6, 0).reshape([1, 6]);
-        interpreter.run(tokens, output);
-        final probabilities = output.first as List<double>;
-        final List<String> categoryNames = [
-          "cafeterias",
-          "calendar",
-          "grade",
-          "movie",
-          "news",
-          "studyroom"
-        ];
-        final categories = Map.fromIterables(categoryNames, probabilities);
-        if (ref.read(loginViewModel).credentials.value != Credentials.tumId) {
-          categories
-              .removeWhere((key, value) => ["calendar, grade"].contains(key));
+        if (!kIsWeb) {
+          _textClassificationModel(searchString);
+        } else {
+          _webSearch(searchString);
         }
-        List<MapEntry<String, double>> sortedEntries = categories.entries
-            .toList()
-          ..sort((a, b) => b.value.compareTo(a.value));
-        final sortedCategories = Map.fromEntries(sortedEntries)
-            .keys
-            .map((key) => SearchCategory.fromString(key))
-            .toList();
-
-        /// if authenticated add lecture and person search
-        if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
-          sortedCategories
-              .addAll([SearchCategory.lectures, SearchCategory.persons]);
-        }
-        result.add(sortedCategories);
       } else {
         switch (index) {
           case 1:
@@ -97,6 +74,46 @@ class GlobalSearchViewModel {
     } else {
       result.add(selectedCategories.value);
     }
+  }
+
+  void _webSearch(String searchString) async {
+    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+      result.add(SearchCategory.values);
+    } else {
+      result.add(SearchCategoryExtension.unAuthorizedSearch());
+    }
+  }
+
+  Future<void> _textClassificationModel(String searchString) async {
+    final tokens = await tokenizeBert(searchString);
+    var output = List.filled(1 * 6, 0).reshape([1, 6]);
+    interpreter.run(tokens, output);
+    final probabilities = output.first as List<double>;
+    final List<String> categoryNames = [
+      "cafeterias",
+      "calendar",
+      "grade",
+      "movie",
+      "news",
+      "studyroom"
+    ];
+    final categories = Map.fromIterables(categoryNames, probabilities);
+    if (ref.read(loginViewModel).credentials.value != Credentials.tumId) {
+      categories.removeWhere((key, value) => ["calendar, grade"].contains(key));
+    }
+    List<MapEntry<String, double>> sortedEntries = categories.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    final sortedCategories = Map.fromEntries(sortedEntries)
+        .keys
+        .map((key) => SearchCategory.fromString(key))
+        .toList();
+
+    /// if authenticated add lecture and person search
+    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+      sortedCategories
+          .addAll([SearchCategory.lectures, SearchCategory.persons]);
+    }
+    result.add(sortedCategories);
   }
 
   Future<List<int>> tokenizeBert(String input) async {
@@ -137,26 +154,14 @@ class GlobalSearchViewModel {
     return tokenized;
   }
 
-  void addCategory(SearchCategory searchCategory) {
-    if (!selectedCategories.value.contains(searchCategory)) {
-      final categories = selectedCategories.value;
-      categories.add(searchCategory);
-      if (searchString.isEmpty) {
-        search(index, searchString);
-      }
-      selectedCategories.add(categories);
-    }
-  }
-
-  void removeCategory(SearchCategory searchCategory) {
+  void updateCategory(SearchCategory searchCategory) {
+    final categories = selectedCategories.value;
     if (selectedCategories.value.contains(searchCategory)) {
-      final categories = selectedCategories.value;
       categories.remove(searchCategory);
-      if (searchString.isEmpty) {
-        search(index, searchString);
-      }
-      selectedCategories.add(categories);
+    } else {
+      categories.add(searchCategory);
     }
+    selectedCategories.add(categories);
   }
 
   void clear() {
