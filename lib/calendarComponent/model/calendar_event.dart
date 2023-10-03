@@ -4,6 +4,7 @@ import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'calendar_event.g.dart';
 
@@ -21,6 +22,10 @@ class CalendarEvent extends Searchable {
   @JsonKey(name: "dtend")
   final DateTime endDate;
   final String location;
+
+  Duration get duration {
+    return endDate.difference(startDate);
+  }
 
   String? get lvNr {
     return url.split("LvNr=").last;
