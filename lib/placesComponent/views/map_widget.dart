@@ -172,7 +172,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
           tiltGesturesEnabled: false,
           zoomControlsEnabled: true,
           myLocationEnabled: true,
-          myLocationButtonEnabled: false,
+          myLocationButtonEnabled: true,
           markers: widget.markers,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
