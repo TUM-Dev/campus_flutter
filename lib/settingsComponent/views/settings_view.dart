@@ -168,12 +168,13 @@ class SettingsView extends ConsumerWidget {
         child: Card(
             child: Column(
           children: [
-            ListTile(
-              dense: true,
-              title: HyperLinkText(
-                  link: "https://testflight.apple.com/join/4Ddi6f2f",
-                  label: context.localizations.becomeABetaTester),
-            ),
+            if (!kIsWeb)
+              ListTile(
+                dense: true,
+                title: HyperLinkText(
+                    link: _betaTester(),
+                    label: context.localizations.becomeABetaTester),
+              ),
             const PaddedDivider(height: 0),
             ListTile(
               dense: true,
@@ -194,6 +195,14 @@ class SettingsView extends ConsumerWidget {
             ),
           ],
         )));
+  }
+
+  String _betaTester() {
+    if (Platform.isAndroid) {
+      return "https://play.google.com/store/apps/details?id=de.tum.tca_flutter";
+    } else {
+      return "https://testflight.apple.com/join/4Ddi6f2f";
+    }
   }
 
   Uri _feedbackEmail() {
