@@ -34,27 +34,40 @@ class CalendarSearchResultView extends ConsumerWidget {
                               IconText(
                                 iconData: Icons.hourglass_top,
                                 label: snapshot.data![index].$1.timeDatePeriod,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
                                 iconColor: Theme.of(context).primaryColor,
                               ),
                               IconText(
                                 iconData: Icons.location_pin,
                                 label: snapshot.data![index].$1.location,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
                                 iconColor: Theme.of(context).primaryColor,
                               )
                             ],
                           ),
                         ),
                         onTap: () {
-                          ref.read(selectedEvent.notifier).state =
-                              snapshot.data![index].$1;
-                          ref.read(selectedLecture.notifier).state = null;
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => Scaffold(
                                   appBar: AppBar(
                                     leading: const BackButton(),
                                   ),
-                                  body: const SafeArea(
-                                      child: LectureDetailsView()))));
+                                  body: SafeArea(
+                                      child: LectureDetailsView(
+                                    event: snapshot.data![index].$1,
+                                  )))));
                         }),
                     separatorBuilder: (context, index) => const PaddedDivider(
                           height: 0,

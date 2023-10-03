@@ -15,7 +15,9 @@ class GradeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
-        title: Text(grade.title),
+        title: Text(
+          grade.title,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,21 +26,26 @@ class GradeRow extends StatelessWidget {
                   child: IconText(
                       iconData: Icons.edit,
                       label: grade.modusShort(context),
-                      iconColor: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).colorScheme.secondary)),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
+                      iconColor: Theme.of(context).primaryColor)),
               Expanded(
                   child: IconText(
                       iconData: Icons.numbers,
                       label: grade.lvNumber,
-                      iconColor: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).colorScheme.secondary)),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
+                      iconColor: Theme.of(context).primaryColor)),
             ]),
             const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
             IconText(
                 iconData: Icons.person,
                 label: grade.examiner,
-                iconColor: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).colorScheme.secondary),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                iconColor: Theme.of(context).primaryColor),
           ],
         ));
   }

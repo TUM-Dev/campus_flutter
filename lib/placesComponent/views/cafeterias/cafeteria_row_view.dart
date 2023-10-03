@@ -29,7 +29,6 @@ class CafeteriaRowView extends ConsumerWidget {
     return ListTile(
       title: Text(
         cafeteria.name,
-        style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: const Icon(
         Icons.arrow_forward_ios,

@@ -15,7 +15,6 @@ class LectureView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(lecture.title),
-      //titleTextStyle: Theme.of(context).textTheme.bodyMedium,
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,31 +24,36 @@ class LectureView extends ConsumerWidget {
                 child: IconText(
               iconData: Icons.edit,
               label: lecture.eventType(context),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               iconColor: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).colorScheme.secondary,
               multipleLines: true,
             )),
             Expanded(
                 child: IconText(
                     iconData: Icons.access_time,
                     label: lecture.sws,
-                    iconColor: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).colorScheme.secondary)),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.secondary),
+                    iconColor: Theme.of(context).primaryColor)),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           if (lecture.speaker != null)
             IconText(
               iconData: Icons.person,
               label: lecture.speaker!,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               iconColor: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).colorScheme.secondary,
               multipleLines: true,
             ),
         ],
       ),
       onTap: () {
-        ref.read(selectedLecture.notifier).state = lecture;
-        ref.read(selectedEvent.notifier).state = null;
         if (MediaQuery.orientationOf(context) == Orientation.portrait ||
             isSearch) {
           Navigator.push(
@@ -57,12 +61,14 @@ class LectureView extends ConsumerWidget {
               MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: AppBar(leading: const BackButton()),
-                      body: const LectureDetailsView())));
+                      body: LectureDetailsView(
+                        lecture: lecture,
+                      ))));
         } else {
-          ref
-              .read(lectureSplitViewModel)
-              .selectedWidget
-              .add(const LectureDetailsView());
+          ref.read(lectureSplitViewModel).selectedWidget.add(LectureDetailsView(
+                key: Key(lecture.title),
+                lecture: lecture,
+              ));
         }
       },
     );

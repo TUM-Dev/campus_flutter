@@ -38,13 +38,13 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
             return Center(child: Text(context.localizations.noLecturesFound));
           } else {
             Future(() {
-              ref.read(selectedLecture.notifier).state =
-                  data.values.first.first;
-              ref.read(selectedEvent.notifier).state = null;
               ref
                   .read(lectureSplitViewModel)
                   .selectedWidget
-                  .add(const LectureDetailsView());
+                  .add(LectureDetailsView(
+                    key: Key(data.values.first.first.title),
+                    lecture: data.values.first.first,
+                  ));
             });
             final lastFetched = ref.read(lectureViewModel).lastFetched.value;
             return OrientationBuilder(builder: (context, constraints) {

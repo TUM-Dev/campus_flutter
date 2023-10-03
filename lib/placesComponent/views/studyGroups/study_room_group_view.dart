@@ -26,39 +26,46 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
     }
   }
 
-  const StudyRoomGroupScaffold.closest({super.key, this.studyRoomGroup});
+  const StudyRoomGroupScaffold.closest(
+      {super.key, this.studyRoomGroup, this.isSplitView = false});
 
-  const StudyRoomGroupScaffold.group({super.key, required this.studyRoomGroup});
+  const StudyRoomGroupScaffold.group(
+      {super.key, required this.studyRoomGroup, this.isSplitView = false});
 
   final StudyRoomGroup? studyRoomGroup;
+  final bool isSplitView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(leading: const BackButton()),
       body: studyRoomGroup != null
-          ? StudyRoomGroupView(studyRoomGroup)
-          : const StudyRoomGroupView.closest(),
+          ? StudyRoomGroupView(studyRoomGroup, isSplitView)
+          : StudyRoomGroupView(null, isSplitView),
     );
   }
 }
 
 class StudyRoomGroupView extends ConsumerWidget {
-  factory StudyRoomGroupView(StudyRoomGroup? studyRoomGroup) {
+  factory StudyRoomGroupView(StudyRoomGroup? studyRoomGroup, bool isSplitView) {
     if (studyRoomGroup == null) {
-      return const StudyRoomGroupView.closest();
+      return StudyRoomGroupView.closest(isSplitView: isSplitView);
     } else {
       return StudyRoomGroupView.group(
         studyRoomGroup: studyRoomGroup,
+        isSplitView: isSplitView,
       );
     }
   }
 
-  const StudyRoomGroupView.closest({super.key, this.studyRoomGroup});
+  const StudyRoomGroupView.closest(
+      {super.key, this.studyRoomGroup, required this.isSplitView});
 
-  const StudyRoomGroupView.group({super.key, required this.studyRoomGroup});
+  const StudyRoomGroupView.group(
+      {super.key, required this.studyRoomGroup, required this.isSplitView});
 
   final StudyRoomGroup? studyRoomGroup;
+  final bool isSplitView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,7 +79,7 @@ class StudyRoomGroupView extends ConsumerWidget {
                 ref.read(studyRoomsViewModel).studyRooms.value?[studyRoomGroup];
             final lastFetched = ref.read(studyRoomsViewModel).lastFetched;
             return OrientationBuilder(builder: (context, orientation) {
-              if (orientation == Orientation.landscape) {
+              if (orientation == Orientation.landscape && !isSplitView) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

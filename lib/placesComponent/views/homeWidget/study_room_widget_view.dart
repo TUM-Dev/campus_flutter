@@ -114,7 +114,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
       ref
           .read(homeSplitViewModel)
           .selectedWidget
-          .add(StudyRoomGroupView(studyRoomGroup));
+          .add(StudyRoomGroupView(studyRoomGroup, true));
     }
   }
 

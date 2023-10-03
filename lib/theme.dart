@@ -14,6 +14,7 @@ const Color _almostWhite = Color(0xffe3e2e6);
 
 extension ContextTheme on BuildContext {
   double get halfPadding => 5.0;
+
   double get padding => 15.0;
 }
 
@@ -169,7 +170,16 @@ ThemeData lightTheme(BuildContext context) {
             } else {
               return _lightGray;
             }
-          })));
+          })),
+
+      /// style list tiles
+      listTileTheme: ListTileThemeData(
+          dense: false,
+          titleTextStyle: Theme.of(context).textTheme.bodyMedium,
+          subtitleTextStyle: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary)));
 }
 
 /// dark theme
@@ -318,5 +328,9 @@ ThemeData darkTheme(BuildContext context) {
             } else {
               return _darkGray;
             }
-          })));
+          })),
+
+      /// style list tiles
+      listTileTheme:
+          ListTileThemeData(titleTextStyle: Theme.of(context).textTheme.bodyMedium));
 }

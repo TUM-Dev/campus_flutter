@@ -30,7 +30,7 @@ class CafeteriasSearchResultView extends ConsumerWidget {
                         ),
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => CafeteriaView(
+                                builder: (context) => CafeteriaScaffold(
                                     cafeteria: snapshot.data![index].$1))),
                       ),
                   separatorBuilder: (context, index) => const PaddedDivider(

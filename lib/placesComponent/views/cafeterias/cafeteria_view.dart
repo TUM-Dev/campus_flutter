@@ -108,8 +108,9 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final menu = snapshot.data!;
             final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
-                menu.firstWhereOrNull(
-                    (element) => element.date.isAtSameMomentAs(selectedDate)));
+                menu.firstWhereOrNull((element) =>
+                    element.date.isAtSameMomentAs(selectedDate) ||
+                    element.date.isAfter(selectedDate)));
             return Column(
               children: [
                 Padding(
