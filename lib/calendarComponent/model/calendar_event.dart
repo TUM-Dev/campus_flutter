@@ -4,7 +4,6 @@ import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'calendar_event.g.dart';
 
