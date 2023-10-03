@@ -17,7 +17,7 @@ class TuitionView extends ConsumerWidget {
         stream: ref.watch(profileViewModel).tuition,
         builder: (context, snapshot) {
           return SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.075,
+              height: MediaQuery.sizeOf(context).height * 0.08,
               child: GestureDetector(
                 onTap: () {
                   (snapshot.hasData && snapshot.data != null)
@@ -66,7 +66,7 @@ class TuitionView extends ConsumerWidget {
               actions: [
                 ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text("ok"))
+                    child: const Text("Okay"))
               ],
               actionsAlignment: MainAxisAlignment.center,
             ));

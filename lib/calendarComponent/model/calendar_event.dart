@@ -1,10 +1,14 @@
+import 'package:campus_flutter/base/enums/calendar_event_type.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_event.g.dart';
 
 @JsonSerializable()
-class CalendarEvent {
+class CalendarEvent extends Searchable {
   @JsonKey(name: "nr")
   final String id;
   final String status;
@@ -32,6 +36,44 @@ class CalendarEvent {
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
   }
+
+  bool get isCanceled {
+    return status == "CANCEL";
+  }
+
+  CalendarEventType get type {
+    if (isCanceled) {
+      return CalendarEventType.canceled;
+    } else if (title.endsWith("VO") ||
+        title.endsWith("VU") ||
+        title.endsWith("VI")) {
+      return CalendarEventType.lecture;
+    } else if (title.endsWith("UE")) {
+      return CalendarEventType.exercise;
+    } else {
+      return CalendarEventType.other;
+    }
+  }
+
+  Color getEventColor(BuildContext context) {
+    switch (type) {
+      case CalendarEventType.canceled:
+        return Colors.red;
+      case CalendarEventType.lecture:
+        return Colors.green;
+      case CalendarEventType.exercise:
+        return Colors.orange;
+      default:
+        return Theme.of(context).primaryColor;
+    }
+  }
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: location),
+      ];
 
   CalendarEvent(
       {required this.id,

@@ -14,7 +14,7 @@ class LinkView extends ConsumerWidget {
       children: [
         Expanded(
             child: SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.075,
+                height: MediaQuery.sizeOf(context).height * 0.08,
                 child: GestureDetector(
                     onTap: () async {
                       if (MediaQuery.orientationOf(context) ==
@@ -36,7 +36,7 @@ class LinkView extends ConsumerWidget {
                     },
                     child: const Card(
                         margin: EdgeInsets.only(
-                            right: 5.0, top: 5.0, bottom: 5.0, left: 10.0),
+                            right: 5.0, top: 5.0, bottom: 5.0, left: 15.0),
                         child: Center(
                             child: IconText(
                           iconData: Icons.school_outlined,
@@ -45,7 +45,7 @@ class LinkView extends ConsumerWidget {
                         )))))),
         Expanded(
             child: SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.075,
+                height: MediaQuery.sizeOf(context).height * 0.08,
                 child: GestureDetector(
                     onTap: () async {
                       if (MediaQuery.orientationOf(context) ==
@@ -67,7 +67,7 @@ class LinkView extends ConsumerWidget {
                     },
                     child: const Card(
                         margin: EdgeInsets.only(
-                            right: 10.0, top: 5.0, bottom: 5.0, left: 5.0),
+                            right: 15.0, top: 5.0, bottom: 5.0, left: 5.0),
                         child: Center(
                             child: IconText(
                           iconData: Icons.language_outlined,

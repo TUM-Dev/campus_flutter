@@ -2,14 +2,13 @@ import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
-  const DelayedLoadingIndicator({
-    super.key,
-    required this.name,
-    this.alternativeLoadingIndicator,
-    this.delayWidget = const SizedBox.shrink(),
-  });
+  const DelayedLoadingIndicator(
+      {super.key,
+      this.name,
+      this.alternativeLoadingIndicator,
+      this.delayWidget = const SizedBox.shrink()});
 
-  final String name;
+  final String? name;
   final Widget? alternativeLoadingIndicator;
   final Widget delayWidget;
 
@@ -25,7 +24,10 @@ class DelayedLoadingIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                     const CircularProgressIndicator.adaptive(),
-                    Text(context.localizations.loading(name))
+                    // TODO:
+                    Text(name != null
+                        ? context.localizations.loading(name!)
+                        : "Loading")
                   ]));
             } else {
               return alternativeLoadingIndicator!;

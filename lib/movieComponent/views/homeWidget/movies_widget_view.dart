@@ -36,7 +36,8 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                 return Card(
                     child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        child: Text(context.localizations.noMoviesFound)));
+                        child: Center(
+                            child: Text(context.localizations.noMoviesFound))));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
                   return HorizontalSlider<Movie>(

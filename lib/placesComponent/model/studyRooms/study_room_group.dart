@@ -1,11 +1,13 @@
 import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room_group.g.dart';
 
 @JsonSerializable()
-class StudyRoomGroup {
+class StudyRoomGroup extends Searchable {
   final String? detail;
   @JsonKey(name: "nr")
   final int id;
@@ -40,9 +42,17 @@ class StudyRoomGroup {
   }
 
   List<StudyRoom> getRooms(List<StudyRoom> allRooms) {
-    allRooms.removeWhere((element) => !(rooms?.contains(element.id) ?? false));
-    return allRooms;
+    return allRooms
+        .where((element) => rooms?.contains(element.id) ?? false)
+        .toList();
   }
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: name ?? ""),
+        ComparisonToken(value: detail ?? ""),
+      ];
 
   StudyRoomGroup(
       {this.detail,

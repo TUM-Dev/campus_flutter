@@ -101,9 +101,6 @@ showModalSheet(CalendarTapDetails? details, CalendarEvent? event,
     calendarEvent = event;
   }
 
-  ref.read(selectedEvent.notifier).state = calendarEvent;
-  ref.read(selectedLecture.notifier).state = null;
-
   if (calendarEvent != null) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -115,7 +112,8 @@ showModalSheet(CalendarTapDetails? details, CalendarEvent? event,
               initialChildSize: 1,
               minChildSize: 1,
               builder: (context, scrollController) {
-                return LectureDetailsView(scrollController: scrollController);
+                return LectureDetailsView(
+                    event: calendarEvent, scrollController: scrollController);
               });
         });
   }

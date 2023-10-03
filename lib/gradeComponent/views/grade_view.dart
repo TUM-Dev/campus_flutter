@@ -6,8 +6,8 @@ import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class GradeRowAlt extends StatelessWidget {
-  const GradeRowAlt({super.key, required this.grade});
+class GradeRow extends StatelessWidget {
+  const GradeRow({super.key, required this.grade});
 
   final Grade grade;
 
@@ -15,7 +15,9 @@ class GradeRowAlt extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         leading: GradeRectangle(grade: grade.grade),
-        title: Text(grade.title),
+        title: Text(
+          grade.title,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,21 +26,26 @@ class GradeRowAlt extends StatelessWidget {
                   child: IconText(
                       iconData: Icons.edit,
                       label: grade.modusShort(context),
-                      iconColor: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).colorScheme.secondary)),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
+                      iconColor: Theme.of(context).primaryColor)),
               Expanded(
                   child: IconText(
                       iconData: Icons.numbers,
                       label: grade.lvNumber,
-                      iconColor: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).colorScheme.secondary)),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
+                      iconColor: Theme.of(context).primaryColor)),
             ]),
             const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
             IconText(
                 iconData: Icons.person,
                 label: grade.examiner,
-                iconColor: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).colorScheme.secondary),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                iconColor: Theme.of(context).primaryColor),
           ],
         ));
   }
@@ -47,11 +54,13 @@ class GradeRowAlt extends StatelessWidget {
 class GradeRectangle extends StatelessWidget {
   const GradeRectangle({super.key, required this.grade});
 
-  final String grade;
+  final String? grade;
 
   @override
   Widget build(BuildContext context) {
-    final parsedGrade = StringParser.optStringToOptDouble(grade) ?? grade;
+    final parsedGrade = grade != null
+        ? StringParser.optStringToOptDouble(grade) ?? grade
+        : "n/a";
     return AspectRatio(
         aspectRatio: 1.0,
         child: Container(
@@ -62,7 +71,7 @@ class GradeRectangle extends StatelessWidget {
               child: Text(
                 parsedGrade is double
                     ? parsedGrade.toStringAsFixed(1)
-                    : grade.toString(),
+                    : parsedGrade.toString(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     shadows: [

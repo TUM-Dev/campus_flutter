@@ -21,7 +21,7 @@ Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
       organisationNumber: json['org_nr_betreut'] as String,
       organisation: json['org_name_betreut'] as String,
       organisationTag: json['org_kennung_betreut'] as String,
-      speaker: json['vortragende_mitwirkende'] as String,
+      speaker: json['vortragende_mitwirkende'] as String?,
     );
 
 Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{

@@ -152,7 +152,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                     String subject =
                         Uri.encodeComponent("[$operatingSystem - Token]");
                     String body = Uri.encodeComponent(
-                        "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n");
+                        "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"); //output: Hello%20Flutter
                     Uri emailUri =
                         Uri.parse("mailto:$email?subject=$subject&body=$body");
 

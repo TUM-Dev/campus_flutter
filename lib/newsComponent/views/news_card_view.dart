@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:campus_flutter/theme.dart';
 
 class NewsCardView extends ConsumerWidget {
@@ -30,13 +29,17 @@ class NewsCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                              imageUrl: kIsWeb
+                              imageUrl: /*kIsWeb
                                   ? news.$2.image.toString().replaceAll(
                                       "app.tum.de", "tum-proxy.resch.io")
-                                  : news.$2.image.toString(),
+                                  : */
+                                  news.$2.image.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
                               placeholder: (context, string) => Image.asset(
+                                  "assets/images/placeholders/news_placeholder.png",
+                                  fit: BoxFit.fill),
+                              errorWidget: (context, url, error) => Image.asset(
                                   "assets/images/placeholders/news_placeholder.png",
                                   fit: BoxFit.fill),
                               fit: BoxFit.fill))),

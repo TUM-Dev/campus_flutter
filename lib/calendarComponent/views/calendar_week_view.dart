@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'appointment_view.dart';
+
 class CalendarWeekView extends ConsumerWidget {
   const CalendarWeekView({super.key});
 
@@ -23,6 +25,9 @@ class CalendarWeekView extends ConsumerWidget {
       headerDateFormat: "",
       showWeekNumber: true,
       showNavigationArrow: true,
+      timeSlotViewSettings: const TimeSlotViewSettings(
+          startHour: 7, endHour: 22, timeFormat: "HH:mm"),
+      appointmentBuilder: (context, details) => AppointmentView(details),
     ));
   }
 }

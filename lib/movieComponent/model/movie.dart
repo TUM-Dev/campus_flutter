@@ -1,10 +1,12 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
 
 @JsonSerializable()
-class Movie {
+class Movie extends Searchable {
   @JsonKey(name: "kino")
   final String id;
   final DateTime date;
@@ -21,6 +23,11 @@ class Movie {
   final Uri cover;
   final Uri? trailer;
   final Uri link;
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens =>
+      [ComparisonToken(value: title), ComparisonToken(value: genre)];
 
   Movie(
       {required this.id,

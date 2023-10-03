@@ -1,3 +1,5 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:campus_flutter/theme.dart';
@@ -5,7 +7,7 @@ import 'package:campus_flutter/theme.dart';
 part 'grade.g.dart';
 
 @JsonSerializable()
-class Grade {
+class Grade extends Searchable {
   String get id {
     return "${date.toIso8601String()}-$lvNumber";
   }
@@ -21,7 +23,7 @@ class Grade {
   @JsonKey(name: "pruefer_nachname")
   final String examiner;
   @JsonKey(name: "uninotenamekurz")
-  final String grade;
+  final String? grade;
   @JsonKey(name: "exam_typ_name")
   final String examType;
   @JsonKey(name: "modus")
@@ -64,6 +66,18 @@ class Grade {
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeToJson(this);
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: examiner),
+        ComparisonToken(value: grade ?? "", type: ComparisonTokenType.raw),
+        ComparisonToken(value: lvNumber),
+        ComparisonToken(value: modus),
+        ComparisonToken(value: semester),
+        ComparisonToken(value: studyDesignation),
+      ];
 }
 
 @JsonSerializable()

@@ -1,13 +1,14 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender_strategy.dart';
+import 'package:campus_flutter/movieComponent/service/movie_service.dart';
 
 class TimeStrategy implements WidgetRecommenderStrategy {
   @override
-  Future<Map<HomeWidget, int>> getRecommendations() {
-    return Future(() => {for (var e in HomeWidget.values) e: _priority(e)});
+  Future<Map<HomeWidget, int>> getRecommendations() async {
+    return {for (var e in HomeWidget.values) e: await _priority(e)};
   }
 
-  int _priority(HomeWidget homeWidget) {
+  Future<int> _priority(HomeWidget homeWidget) async {
     int priority = 1;
 
     final currentDate = DateTime.now();
@@ -75,6 +76,15 @@ class TimeStrategy implements WidgetRecommenderStrategy {
         if (currentDate.hour >= 9 && currentDate.hour <= 20) {
           priority += 1;
         }
+
+      case HomeWidget.movies:
+        await MovieService.fetchMovies(false).then<void>((value) {
+          if (value.$2
+              .where((element) => element.date.isAfter(DateTime.now()))
+              .isEmpty) {
+            priority = 0;
+          }
+        }, onError: (_) => priority = 0);
     }
 
     return priority;

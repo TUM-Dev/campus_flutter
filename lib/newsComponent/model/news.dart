@@ -1,9 +1,11 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'news.g.dart';
 
 @JsonSerializable()
-class News {
+class News extends Searchable {
   @JsonKey(name: "news")
   final String id;
   @JsonKey(name: "src")
@@ -13,6 +15,12 @@ class News {
   final String title;
   final Uri link;
   final Uri image;
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+      ];
 
   News(
       {required this.id,

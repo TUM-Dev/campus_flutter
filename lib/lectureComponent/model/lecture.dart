@@ -1,3 +1,5 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:campus_flutter/theme.dart';
@@ -5,7 +7,7 @@ import 'package:campus_flutter/theme.dart';
 part 'lecture.g.dart';
 
 @JsonSerializable()
-class Lecture {
+class Lecture extends Searchable {
   @JsonKey(name: "stp_sp_nr")
   final String id;
   @JsonKey(name: "stp_lv_nr")
@@ -35,7 +37,7 @@ class Lecture {
   @JsonKey(name: "org_kennung_betreut")
   final String organisationTag;
   @JsonKey(name: "vortragende_mitwirkende")
-  final String speaker;
+  final String? speaker;
 
   String eventType(BuildContext context) {
     switch (eventTypeDefault) {
@@ -59,6 +61,16 @@ class Lecture {
   String get sws {
     return "$duration SWS";
   }
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: title),
+        ComparisonToken(value: semesterID, type: ComparisonTokenType.raw),
+        ComparisonToken(value: organisation),
+        ComparisonToken(value: speaker ?? ""),
+        ComparisonToken(value: semester),
+      ];
 
   Lecture(
       {required this.id,

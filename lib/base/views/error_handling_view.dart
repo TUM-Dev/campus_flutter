@@ -1,4 +1,6 @@
+import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,12 @@ class ErrorHandlingView extends StatelessWidget {
       final tumOnlineApiException = error as TumOnlineApiException;
       return _exceptionMessage(context, tumOnlineApiException.errorDescription,
           tumOnlineApiException.recoverySuggestion);
+    } else if (error is SearchException) {
+      final searchError = error as SearchException;
+      return _exceptionMessage(context, searchError.message, null);
+    } else if (error is CustomException) {
+      final exception = error as CustomException;
+      return _exceptionMessage(context, exception.message, null);
     } else {
       return _exceptionMessage(context, "Unknown Error",
           "Please report this is as a bug \nvia Email or on GitHub");

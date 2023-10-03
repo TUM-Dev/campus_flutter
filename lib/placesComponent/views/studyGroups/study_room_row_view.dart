@@ -40,8 +40,6 @@ class StudyRoomRowView extends ConsumerWidget {
                   color: _statusColor(
                       studyRoom.localizedStatus(context), context)),
             )),
-            //const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-            //const Icon(Icons.arrow_forward_ios, size: 15)
           ],
         ));
   }

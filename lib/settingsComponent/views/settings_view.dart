@@ -1,16 +1,22 @@
 import 'dart:io';
 
+import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,6 +32,7 @@ class SettingsView extends ConsumerWidget {
         ),
         body: ListView(children: [
           _generalSettings(context, ref),
+          _appearance(context, ref),
           _contact(context, ref),
           _authentication(context, ref),
           _versionNumber()
@@ -36,17 +43,17 @@ class SettingsView extends ConsumerWidget {
     return WidgetFrameView(
         title: context.localizations.generalSettings,
         child: Card(
-            child: Column(children: [
-          _tokenPermission(context),
-          const PaddedDivider(height: 0),
-          _localeSelection(context, ref),
-          if (!kIsWeb && Platform.isIOS) const PaddedDivider(height: 0),
-          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
-        ])));
+            child: SeparatedList.widgets(
+          widgets: [
+            _tokenPermission(context),
+            _localeSelection(context, ref),
+          ],
+        )));
   }
 
   Widget _tokenPermission(BuildContext context) {
     return ListTile(
+      dense: true,
       leading: Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
       title: Text(context.localizations.tokenPermissions,
           style: Theme.of(context).textTheme.bodyMedium),
@@ -59,6 +66,7 @@ class SettingsView extends ConsumerWidget {
 
   Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
+        dense: true,
         leading: Icon(Icons.language,
             size: 20, color: Theme.of(context).primaryColor),
         title: Text(context.localizations.language,
@@ -66,6 +74,9 @@ class SettingsView extends ConsumerWidget {
         trailing: DropdownButton(
           onChanged: (Locale? newLocale) {
             if (newLocale != null) {
+              ref
+                  .read(userPreferencesViewModel)
+                  .saveUserPreference(UserPreference.locale, newLocale);
               ref.read(locale.notifier).state = newLocale;
             }
           },
@@ -76,14 +87,77 @@ class SettingsView extends ConsumerWidget {
         ));
   }
 
+  Widget _appearance(BuildContext context, WidgetRef ref) {
+    return WidgetFrameView(
+        title: context.localizations.appearance,
+        child: Card(
+            child: SeparatedList.widgets(widgets: [
+          _appearanceSelection(context, ref),
+          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
+          _hideFailedGrades(context, ref),
+          if (!kIsWeb && getIt.get<List<AvailableMap>>().isNotEmpty)
+            const DefaultMapsPickerView()
+        ])));
+  }
+
+  Widget _appearanceSelection(BuildContext context, WidgetRef ref) {
+    return ListTile(
+        dense: true,
+        title: Text(context.localizations.brightness,
+            style: Theme.of(context).textTheme.bodyMedium),
+        trailing: DropdownButton(
+          onChanged: (Appearance? newAppearance) {
+            if (newAppearance != null) {
+              ref.read(appearance.notifier).state = newAppearance;
+              ref
+                  .read(userPreferencesViewModel)
+                  .saveUserPreference(UserPreference.theme, newAppearance);
+            }
+          },
+          value: ref.watch(appearance),
+          items: Appearance.values
+              .map((e) => DropdownMenuItem(
+                  value: e,
+                  child: IconText(
+                    iconData: e.icon,
+                    iconColor: Theme.of(context).primaryColor,
+                    label: ref.read(locale).languageCode == "de"
+                        ? e.german
+                        : e.english,
+                  )))
+              .toList(),
+        ));
+  }
+
   Widget _useWebView(BuildContext context, WidgetRef ref) {
     return ListTile(
+      dense: true,
       title: Text(context.localizations.useWebView,
           style: Theme.of(context).textTheme.bodyMedium),
       trailing: Switch(
           value: ref.watch(useWebView),
           onChanged: (showWebView) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.webView, showWebView);
             ref.read(useWebView.notifier).state = showWebView;
+          }),
+    );
+  }
+
+  Widget _hideFailedGrades(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(context.localizations.hideFailedGrades,
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(hideFailedGrades),
+          onChanged: (value) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.hideFailedGrades, value);
+            ref.read(hideFailedGrades.notifier).state = value;
+            ref.read(gradeViewModel).fetch(false);
           }),
     );
   }

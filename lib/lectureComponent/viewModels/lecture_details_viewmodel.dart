@@ -14,9 +14,7 @@ class LectureDetailsViewModel implements ViewModel {
   final CalendarEvent? event;
   final Lecture? lecture;
 
-  LectureDetailsViewModel({this.event, this.lecture}) {
-    fetch(false);
-  }
+  LectureDetailsViewModel({this.event, this.lecture});
 
   @override
   Future fetch(bool forcedRefresh) async {

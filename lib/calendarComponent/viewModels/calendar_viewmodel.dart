@@ -37,7 +37,7 @@ class CalendarViewModel implements ViewModel {
           event.startDate.year, event.startDate.month, event.startDate.day);
       if (dateToCheck == currentDay && leftColumn == null) {
         leftColumn = event;
-      } else if (rightColumn.length <= 2 &&
+      } else if (rightColumn.length < 2 &&
           (rightColumn.firstOrNull == null ||
               rightColumn.first.startDate.isBefore(event.startDate))) {
         rightColumn.add(event);

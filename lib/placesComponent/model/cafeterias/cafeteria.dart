@@ -1,3 +1,5 @@
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
@@ -30,7 +32,7 @@ class Queue {
 }
 
 @JsonSerializable()
-class Cafeteria {
+class Cafeteria extends Searchable {
   final Location location;
   String name;
   @JsonKey(name: "canteen_id")
@@ -42,6 +44,17 @@ class Cafeteria {
   String? get title {
     return name;
   }
+
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: name),
+        ComparisonToken(value: location.address),
+        ComparisonToken(
+            value: location.latitude.toString(), type: ComparisonTokenType.raw),
+        ComparisonToken(
+            value: location.longitude.toString(), type: ComparisonTokenType.raw)
+      ];
 
   Cafeteria(
       {required this.location,

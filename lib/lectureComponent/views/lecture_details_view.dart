@@ -3,7 +3,10 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
+import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_view.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view.dart';
@@ -15,8 +18,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // TODO: stateless?
 class LectureDetailsView extends ConsumerStatefulWidget {
-  const LectureDetailsView({super.key, this.scrollController});
+  const LectureDetailsView(
+      {super.key, this.scrollController, this.event, this.lecture});
 
+  final CalendarEvent? event;
+  final Lecture? lecture;
   final ScrollController? scrollController;
 
   @override
@@ -25,10 +31,19 @@ class LectureDetailsView extends ConsumerStatefulWidget {
 }
 
 class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
+  late Provider<LectureDetailsViewModel> viewModel;
+
+  @override
+  void initState() {
+    viewModel = lectureDetailsViewModel((widget.event, widget.lecture));
+    ref.read(viewModel).fetch(false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: ref.watch(lectureDetailsViewModel).lectureDetails,
+      stream: ref.watch(viewModel).lectureDetails,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return lectureDetailsView(snapshot.data!);
@@ -36,31 +51,17 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
           return ErrorHandlingView(
               error: snapshot.error!,
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-              retry: ref.read(lectureDetailsViewModel).fetch);
+              retry: ref.read(viewModel).fetch);
         } else {
           return DelayedLoadingIndicator(
               name: context.localizations.lectureDetails);
         }
       },
     );
-    /*
-    return GenericStreamBuilder<LectureDetails>(
-        stream: ref.watch(lectureDetailsViewModel).lectureDetails,
-        dataBuilder: (context, data) => lectureDetailsView(data),
-        errorBuilder: (context, error) => ErrorHandlingView(
-            error: error,
-            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(lectureDetailsViewModel).fetch
-        ),
-        loadingBuilder: (context) => const DelayedLoadingIndicator(
-            name: "Lecture Details"
-        )
-    );
-    */
   }
 
   Widget lectureDetailsView(LectureDetails lectureDetails) {
-    final lastFetched = ref.read(lectureDetailsViewModel).lastFetched.value;
+    final lastFetched = ref.read(viewModel).lastFetched.value;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -87,7 +88,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {
     return [
-      if (ref.read(lectureDetailsViewModel).event != null) ...[
+      if (ref.read(viewModel).event != null) ...[
         _infoCard(
             Icons.calendar_month,
             context.localizations.thisMeeting,
@@ -95,14 +96,12 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BasicLectureInfoRowView(
-                    information:
-                        ref.read(lectureDetailsViewModel).event!.timeDatePeriod,
+                    information: ref.read(viewModel).event!.timeDatePeriod,
                     iconData: Icons.hourglass_top),
                 const Divider(),
-                // TODO: roomfinder
+                // TODO: NavigaTUM Integration
                 BasicLectureInfoRowView(
-                    information:
-                        ref.read(lectureDetailsViewModel).event!.location,
+                    information: ref.read(viewModel).event!.location,
                     iconData: Icons.location_on)
               ],
             ))

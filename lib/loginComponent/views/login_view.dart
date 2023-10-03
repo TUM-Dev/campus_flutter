@@ -89,10 +89,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.0)),
                     Text(context.localizations.welcomeToTheApp,
-                        style: Theme.of(context).textTheme.titleLarge),
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center),
                     const Spacer(),
                     Text(context.localizations.enterYourIDToStart,
-                        style: Theme.of(context).textTheme.titleMedium),
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _tumIdTextFields(context, ref),
                     const Padding(
