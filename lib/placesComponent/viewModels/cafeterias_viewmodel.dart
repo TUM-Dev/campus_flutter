@@ -98,25 +98,6 @@ class CafeteriasViewModel {
         closestCafeterias = data;
         closestCafeteria.add(data.first);
       }
-      /*fetchCafeteriaMenu(false, cafeteria).then((value) {
-          final today = value.firstOrNull;
-          if (today == null && closestCafeterias.value == null) {
-            closestCafeterias.addError("Could not fetch closest cafeteria!");
-          } else if (today != null) {
-            final currentValue = closestCafeterias.value;
-            if (currentValue == null) {
-              closestCafeterias.add([(cafeteria, today)]);
-            } else {
-              currentValue.add((cafeteria, today));
-              closestCafeterias.add(currentValue);
-            }
-          }
-        },
-            onError: (error) => closestCafeterias.value == null
-                ? closestCafeterias
-                    .addError("Could not fetch closest cafeteria!")
-                : null);
-      }*/
     } else {
       closestCafeteria.addError("Could not fetch closest cafeteria!");
     }

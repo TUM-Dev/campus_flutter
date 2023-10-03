@@ -2,11 +2,12 @@ import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PersonalLectureSearchViewModel {
-  BehaviorSubject<List<(Lecture, Distances)>?> personalSearchResults =
-      BehaviorSubject.seeded(null);
+class PersonalLectureSearchViewModel implements SearchViewModel<Lecture> {
+  @override
+  BehaviorSubject<List<Lecture>?> searchResults = BehaviorSubject.seeded(null);
 
   List<Lecture> _personalLectureData = [];
 
@@ -16,7 +17,7 @@ class PersonalLectureSearchViewModel {
       return LectureService.fetchLecture(forcedRefresh).then((value) {
         _personalLectureData = value.$2;
         _search(query);
-      }, onError: (error) => personalSearchResults.addError(error));
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -25,9 +26,9 @@ class PersonalLectureSearchViewModel {
   void _search(String query) {
     final results = GlobalSearch.tokenSearch(query, _personalLectureData);
     if (results == null) {
-      personalSearchResults.addError(SearchException.empty(searchQuery: query));
+      searchResults.addError(SearchException.empty(searchQuery: query));
     } else {
-      personalSearchResults.add(results);
+      searchResults.add(results);
     }
   }
 }

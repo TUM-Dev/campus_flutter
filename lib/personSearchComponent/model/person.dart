@@ -1,9 +1,10 @@
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'person.g.dart';
 
 @JsonSerializable()
-class Person {
+class Person extends Searchable {
   @JsonKey(name: "vorname")
   final String firstname;
   @JsonKey(name: "familienname")

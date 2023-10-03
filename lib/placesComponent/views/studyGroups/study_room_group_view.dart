@@ -143,8 +143,7 @@ class StudyRoomGroupView extends ConsumerWidget {
                                                   .indexed) ...[
                                             GestureDetector(
                                                 onTap: () {
-                                                  // TODO:
-                                                  //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
+                                                  // TODO(Jakob): NavigaTum Integration
                                                 },
                                                 child: StudyRoomRowView(
                                                     studyRoom: studyRoom.$2)),
@@ -213,8 +212,7 @@ class StudyRoomGroupView extends ConsumerWidget {
                                       in (studyRooms ?? []).indexed) ...[
                                     GestureDetector(
                                         onTap: () {
-                                          // TODO:
-                                          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
+                                          // TODO(Jakob): NavigaTUM Integration
                                         },
                                         child: StudyRoomRowView(
                                             studyRoom: studyRoom.$2)),

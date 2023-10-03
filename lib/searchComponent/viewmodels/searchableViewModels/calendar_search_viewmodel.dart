@@ -2,10 +2,12 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CalendarSearchViewModel {
-  BehaviorSubject<List<(CalendarEvent, Distances)>?> searchResults =
+class CalendarSearchViewModel implements SearchViewModel<CalendarEvent> {
+  @override
+  BehaviorSubject<List<CalendarEvent>?> searchResults =
       BehaviorSubject.seeded(null);
 
   List<CalendarEvent> calendarData = [];

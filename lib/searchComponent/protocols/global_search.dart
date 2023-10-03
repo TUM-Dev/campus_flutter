@@ -7,7 +7,7 @@ import 'package:collection/collection.dart';
 typedef Distances = List<int>;
 
 class GlobalSearch {
-  static List<(T, Distances)>? tokenSearch<T extends Searchable>(
+  static List<T>? tokenSearch<T extends Searchable>(
       String query, List<T> searchables) {
     final tokens = tokenize(query);
 
@@ -36,7 +36,7 @@ class GlobalSearch {
         .map((e) => (e.key, e.value))
         .toList();
 
-    return results;
+    return results.map((e) => e.$1).toList();
   }
 
   static int? bestRelativeLevenshtein<T extends Searchable>(

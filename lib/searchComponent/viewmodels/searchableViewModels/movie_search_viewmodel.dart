@@ -2,11 +2,12 @@ import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/movieComponent/service/movie_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MovieSearchViewModel {
-  BehaviorSubject<List<(Movie, Distances)>?> searchResults =
-      BehaviorSubject.seeded(null);
+class MovieSearchViewModel implements SearchViewModel<Movie> {
+  @override
+  BehaviorSubject<List<Movie>?> searchResults = BehaviorSubject.seeded(null);
 
   List<Movie> movieData = [];
 

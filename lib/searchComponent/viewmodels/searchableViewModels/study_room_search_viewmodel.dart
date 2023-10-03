@@ -5,12 +5,15 @@ import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
-class StudyRoomSearchViewModel {
-  BehaviorSubject<List<(StudyRoomSearchResult, Distances)>?> searchResults =
+class StudyRoomSearchViewModel
+    implements SearchViewModel<StudyRoomSearchResult> {
+  @override
+  BehaviorSubject<List<StudyRoomSearchResult>?> searchResults =
       BehaviorSubject.seeded(null);
 
   StudyRoomData? studyRoomData;

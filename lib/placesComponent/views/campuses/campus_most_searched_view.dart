@@ -36,10 +36,11 @@ class CampusMostSearchedView extends ConsumerWidget {
                               Icons.arrow_forward_ios,
                               size: 15,
                             ),
-                            onTap: () => Navigator.of(context).push(
+                            // TODO(Jakob): NavigaTum Integration
+                            /*onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => NavigaTumRoomScaffold(
-                                        navigationEntity: entity.$2))),
+                                        navigationEntity: entity.$2))),*/
                           ),
                           if (entity.$1 < snapshot.data!.length - 1)
                             const PaddedDivider(

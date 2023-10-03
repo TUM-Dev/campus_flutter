@@ -27,7 +27,6 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
     super.initState();
   }
 
-  // TODO: make nice
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -64,7 +63,6 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
         });
   }
 
-  // TODO: change to adaptive
   Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu)?> snapshot) {
     if (snapshot.hasData) {
       final dishes =
@@ -79,7 +77,6 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     child: Text(context.localizations.noMealPlanFound))));
       }
     } else if (snapshot.hasError) {
-      // TODO: error handling if offline
       return Card(
           child: SizedBox(
               height: 150,

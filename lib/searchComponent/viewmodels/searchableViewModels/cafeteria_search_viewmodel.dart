@@ -2,10 +2,12 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CafeteriaSearchViewModel {
-  BehaviorSubject<List<(Cafeteria, Distances)>?> searchResults =
+class CafeteriaSearchViewModel implements SearchViewModel<Cafeteria> {
+  @override
+  BehaviorSubject<List<Cafeteria>?> searchResults =
       BehaviorSubject.seeded(null);
 
   List<Cafeteria> cafeteriaData = [];

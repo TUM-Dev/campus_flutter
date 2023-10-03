@@ -20,7 +20,7 @@ import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart'
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/viewmodels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/cafeteria_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
@@ -128,7 +128,7 @@ final userPreferencesViewModel =
     Provider((ref) => UserPreferencesViewModel(ref));
 
 /// search view models
-final searchViewModel = Provider((ref) => SearchViewModel(ref));
+final searchViewModel = Provider((ref) => GlobalSearchViewModel(ref));
 final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
 final lectureSearchViewModel = Provider((ref) => LectureSearchViewModel());
 final personalLectureSearchViewModel =

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';

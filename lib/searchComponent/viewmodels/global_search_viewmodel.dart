@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/model/vocab.dart';
@@ -10,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'
     if (dart.library.io) 'package:tflite_flutter/tflite_flutter.dart';
 
-class SearchViewModel {
+class GlobalSearchViewModel {
   BehaviorSubject<List<SearchCategory>?> result = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SearchCategory>> selectedCategories =
       BehaviorSubject.seeded([]);
@@ -22,7 +23,7 @@ class SearchViewModel {
   late Interpreter interpreter;
   late HashMap vocab2;
 
-  SearchViewModel(this.ref) {
+  GlobalSearchViewModel(this.ref) {
     loadVocabulary();
     initializeNaturalLanguageModel();
   }
@@ -209,45 +210,6 @@ class SearchViewModel {
         ref
             .read(lectureSearchViewModel)
             .lectureSearch(query: this.searchString);
-    }
-  }
-}
-
-enum SearchCategory {
-  /// enums that exist in the Text Classification Model
-  cafeterias("Cafeterias"),
-  calendar("Calendar"),
-  grade("Grades"),
-  movie("Movies"),
-  news("News"),
-  studyRoom("Study Rooms"),
-  unknown("Unknown"),
-
-  /// enums that are not classified but shown in searches
-  lectures("Lectures"),
-  personalLectures("Personal Lectures"),
-  persons("Persons");
-
-  final String title;
-
-  const SearchCategory(this.title);
-
-  factory SearchCategory.fromString(String category) {
-    switch (category) {
-      case "cafeterias":
-        return SearchCategory.cafeterias;
-      case "calendar":
-        return SearchCategory.calendar;
-      case "grade":
-        return SearchCategory.grade;
-      case "movie":
-        return SearchCategory.movie;
-      case "news":
-        return SearchCategory.news;
-      case "studyroom":
-        return SearchCategory.studyRoom;
-      default:
-        return SearchCategory.unknown;
     }
   }
 }
