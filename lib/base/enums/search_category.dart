@@ -43,8 +43,8 @@ extension SearchCategoryExtension on SearchCategory {
   }
 
   static List<SearchCategory> authorizedSearch() {
-    //const all = SearchCategory.values;
-    //all.remove(SearchCategory.unknown);
+    const all = SearchCategory.values;
+    all.remove(SearchCategory.unknown);
     return SearchCategory.values;
   }
 
