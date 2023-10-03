@@ -96,7 +96,9 @@ class _NavigationState extends ConsumerState<Navigation> {
             }()),
             actions: <Widget>[
               if (kIsWeb && isLandScape)
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                IconButton(
+                    onPressed: () => _toggleSearch(),
+                    icon: const Icon(Icons.search)),
               IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(

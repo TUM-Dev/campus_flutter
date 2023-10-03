@@ -39,6 +39,7 @@ class SearchView extends ConsumerWidget {
         child: StreamBuilder(
             stream: ref.watch(searchViewModel).result,
             builder: (context, snapshot) {
+              print(snapshot);
               if (!snapshot.hasData && textEditingController.text.isEmpty) {
                 return const Center(child: Text("Enter a Query to Start"));
               } else {

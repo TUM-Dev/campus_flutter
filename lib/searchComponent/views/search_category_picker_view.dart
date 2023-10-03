@@ -22,7 +22,7 @@ class SearchCategoryPickerView extends ConsumerWidget {
                   child: (searchCategory) => FilterChip(
                         label: Text(searchCategory.title),
                         onSelected: (selected) {
-                          if (snapshot.data?.contains(searchCategory) ??
+                          /*if (snapshot.data?.contains(searchCategory) ??
                               false) {
                             ref
                                 .read(searchViewModel)
@@ -31,7 +31,10 @@ class SearchCategoryPickerView extends ConsumerWidget {
                             ref
                                 .read(searchViewModel)
                                 .addCategory(searchCategory);
-                          }
+                          }*/
+                          ref
+                              .read(searchViewModel)
+                              .updateCategory(searchCategory);
                           ref
                               .read(searchViewModel)
                               .triggerSearchAfterUpdate(null, null);
