@@ -1,9 +1,8 @@
 name: Deploy Web Version
 
 on:
-  push:
-    branches: ["development"]
-    paths: ["lib/**", "web/**"]
+  release:
+    types: [ published ]
 
 permissions:
   contents: read
@@ -33,9 +32,20 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
+
+      - name: Cache Pub Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Install Flutter Packages
+        run: flutter pub get
 
       - name: Build Website
-        run: flutter build web --base-href /Campus-Flutter/
+        run: flutter build web --base-href /
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

@@ -12,8 +12,7 @@ class NewsViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    NewsService.fetchNews(false)
-        .then((value) {
+    NewsService.fetchNews(false).then((value) {
       lastFetched.add(value.$1);
       newsSources.add(value.$2);
     }, onError: (error) => newsSources.addError(error));
@@ -21,7 +20,8 @@ class NewsViewModel implements ViewModel {
 
   List<(String?, News)> latestFiveNews() {
     if (newsSources.value != null) {
-     final news = newsSources.value!.expand((element) => element.news).toList();
+      final news =
+          newsSources.value!.expand((element) => element.news).toList();
 
       news.removeWhere((element) => (element.source == "2"));
 
@@ -30,7 +30,13 @@ class NewsViewModel implements ViewModel {
       List<News> fiveNews = news.sublist(0, 5);
 
       return fiveNews
-          .map((e) => (newsSources.value!.firstWhereOrNull((element) => e.source == element.id.toString())?.title, e))
+          .map((e) => (
+                newsSources.value!
+                    .firstWhereOrNull(
+                        (element) => e.source == element.id.toString())
+                    ?.title,
+                e
+              ))
           .toList();
     } else {
       return [];

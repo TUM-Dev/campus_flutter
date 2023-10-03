@@ -31,11 +31,10 @@ class _SnappingSliderState extends State<SnappingSlider> {
                 child: PageView.builder(
                   itemCount: _numPages,
                   itemBuilder: (BuildContext context, int index) {
-                    return CardWithPadding(child:
-                        index == 1
+                    return CardWithPadding(
+                        child: index == 1
                             ? _barcodeView(context)
-                            : _verificationView(context)
-                    );
+                            : _verificationView(context));
                   },
                   onPageChanged: (index) {
                     DefaultTabController.of(context).index = index;
@@ -51,20 +50,20 @@ class _SnappingSliderState extends State<SnappingSlider> {
   // TODO: beautify ;)
   Widget _verificationView(BuildContext context) {
     return Column(children: [
-      Text("Verification QR-Code", style: Theme.of(context).textTheme.titleMedium),
+      Text("Verification QR-Code",
+          style: Theme.of(context).textTheme.titleMedium),
       const Spacer(),
       BarcodeWidget(
           data: "https://www.tum.app",
           barcode: Barcode.qrCode(),
           color: Theme.of(context).colorScheme.onSurface,
           drawText: false,
-          height: 150
-      ),
+          height: 150),
       const Text("demo purposes only"),
       const Spacer()
     ]);
   }
-  
+
   Widget _barcodeView(BuildContext context) {
     return Column(children: [
       Text("Library Barcode", style: Theme.of(context).textTheme.titleMedium),
@@ -75,8 +74,7 @@ class _SnappingSliderState extends State<SnappingSlider> {
           drawText: false,
           color: Theme.of(context).colorScheme.onSurface,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          height: 100
-      ),
+          height: 100),
       Text("Library Number: ${widget.libraryID}"),
       const Spacer()
     ]);

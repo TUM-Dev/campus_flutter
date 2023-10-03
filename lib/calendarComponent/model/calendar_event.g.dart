@@ -32,7 +32,9 @@ Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>
 
 CalendarEventsData _$CalendarEventsDataFromJson(Map<String, dynamic> json) =>
     CalendarEventsData(
-      events: CalendarEvents.fromJson(json['events'] as Map<String, dynamic>),
+      events: json['events'] == null
+          ? null
+          : CalendarEvents.fromJson(json['events'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CalendarEventsDataToJson(CalendarEventsData instance) =>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _primaryLightColor = Color(0xff0064BC);
 const Color _primaryDarkColor = Color(0xff3070B3);
@@ -10,6 +11,16 @@ const Color _navigationIconGrayDark = Color(0xff808080);
 const Color _darkGray = Color(0xff555555);
 const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
+
+extension ContextTheme on BuildContext {
+  double get halfPadding => 5.0;
+
+  double get padding => 15.0;
+}
+
+extension Localization on BuildContext {
+  AppLocalizations get localizations => AppLocalizations.of(this)!;
+}
 
 /// light theme
 ThemeData lightTheme(BuildContext context) {
@@ -74,11 +85,12 @@ ThemeData lightTheme(BuildContext context) {
           backgroundColor: _lightBackground),
 
       /// remove colored tint and shadow of card, add margin
-      cardTheme: const CardTheme(
+      cardTheme: CardTheme(
           color: Colors.white,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+          margin: EdgeInsets.symmetric(
+              vertical: context.halfPadding, horizontal: context.padding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -90,8 +102,11 @@ ThemeData lightTheme(BuildContext context) {
       /// use material 3 widgets
       useMaterial3: true,
 
-      /// use Material 3 Widgets
+      ///
       dividerColor: Colors.transparent,
+
+      ///
+      dividerTheme: const DividerThemeData(color: Color(0xffE3E3E4)),
 
       /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(
@@ -122,11 +137,10 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
-        unselectedLabelTextStyle: Theme.of(context)
-            .textTheme
-            .labelMedium
-            ?.copyWith(
-                /*color: _navigationIconGrayLight, */fontWeight: FontWeight.w500),
+        unselectedLabelTextStyle:
+            Theme.of(context).textTheme.labelMedium?.copyWith(
+                /*color: _navigationIconGrayLight, */
+                fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         /*unselectedIconTheme:
             const IconThemeData(color: _navigationIconGrayLight),*/
@@ -143,9 +157,29 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
+
+      /// style chip
+      chipTheme: ChipThemeData(
+          showCheckmark: false,
+          labelStyle: const TextStyle(color: Colors.white),
+          side: BorderSide.none,
+          color: MaterialStateColor.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return _primaryLightColor;
+            } else {
+              return _lightGray;
+            }
+          })),
+
+      /// style list tiles
+      listTileTheme: ListTileThemeData(
+          dense: false,
+          titleTextStyle: Theme.of(context).textTheme.bodyMedium,
+          subtitleTextStyle: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary)));
 }
 
 /// dark theme
@@ -206,11 +240,13 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: _darkBackground, backgroundColor: _darkBackground),
 
       /// remove colored tint and shadow of card, add margin
-      cardTheme: const CardTheme(
-          color: Color(0xff252525),
+      cardTheme: CardTheme(
+          color: const Color(0xff252525),
+          elevation: 0,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)),
+          margin: EdgeInsets.symmetric(
+              vertical: context.halfPadding, horizontal: context.padding)),
 
       /// set all title colors of expansion tile to the same color
       expansionTileTheme: const ExpansionTileThemeData(
@@ -225,6 +261,9 @@ ThemeData darkTheme(BuildContext context) {
 
       ///
       dividerColor: Colors.transparent,
+
+      ///
+      dividerTheme: const DividerThemeData(color: Color(0xff323234)),
 
       /// remove indicator and tint, color selected icon + label
       navigationBarTheme: NavigationBarThemeData(
@@ -259,10 +298,10 @@ ThemeData darkTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-            color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
+                color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         unselectedIconTheme:
-        const IconThemeData(color: _navigationIconGrayLight),
+            const IconThemeData(color: _navigationIconGrayLight),
         //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _darkBackground,
@@ -276,7 +315,22 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
+
+      /// style chip
+      chipTheme: ChipThemeData(
+          showCheckmark: false,
+          labelStyle: const TextStyle(color: Colors.white),
+          side: BorderSide.none,
+          color: MaterialStateColor.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return _primaryDarkColor;
+            } else {
+              return _darkGray;
+            }
+          })),
+
+      /// style list tiles
+      listTileTheme:
+          ListTileThemeData(titleTextStyle: Theme.of(context).textTheme.bodyMedium));
 }

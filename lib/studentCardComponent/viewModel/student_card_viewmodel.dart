@@ -9,8 +9,7 @@ class StudentCardViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    StudentCardService.fetchStudentCard(forcedRefresh)
-        .then((response) {
+    StudentCardService.fetchStudentCard(forcedRefresh).then((response) {
       studentCard.add(response.$2);
       lastFetched.add(response.$1);
     }, onError: (error) => studentCard.addError(error));

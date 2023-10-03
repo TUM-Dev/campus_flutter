@@ -1,21 +1,17 @@
 name: Deploy Beta to TestFlight and Play Store
 
 on:
-  push:
-    branches:
-      - 'development'
-    paths:
-      - 'lib/**'
-      - 'ios/**'
-      - 'android/**'
+  release:
+    types: [ published ]
 
 jobs:
   deploy:
+    if: "github.event.release.prerelease"
     runs-on: macos-latest
 
     strategy:
       matrix:
-        platform: [ios, android]
+        platform: [ ios, android ]
       fail-fast: false
 
     steps:
@@ -28,12 +24,20 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '17'
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
 
       - name: Install Flutter Packages
         run: flutter pub get
@@ -60,6 +64,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          RELEASE_NOTES: ${{ github.event.release.body }}
 
       - if: matrix.platform == 'android'
         name: Deserialize Keystore File
@@ -78,3 +83,4 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          # RELEASE_NOTES: ${{ github.event.release.body }}

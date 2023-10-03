@@ -12,7 +12,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) => Grade(
       semester: json['lv_semester'] as String,
       title: json['lv_titel'] as String,
       examiner: json['pruefer_nachname'] as String,
-      grade: json['uninotenamekurz'] as String,
+      grade: json['uninotenamekurz'] as String?,
       examType: json['exam_typ_name'] as String,
       modus: json['modus'] as String,
       studyID: json['studienidentifikator'] as String,
@@ -35,7 +35,9 @@ Map<String, dynamic> _$GradeToJson(Grade instance) => <String, dynamic>{
     };
 
 GradeData _$GradeDataFromJson(Map<String, dynamic> json) => GradeData(
-      gradesAttribute: Grades.fromJson(json['rowset'] as Map<String, dynamic>),
+      gradesAttribute: json['rowset'] == null
+          ? null
+          : Grades.fromJson(json['rowset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GradeDataToJson(GradeData instance) => <String, dynamic>{

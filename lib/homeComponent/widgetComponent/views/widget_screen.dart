@@ -6,23 +6,25 @@ import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_
 import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
 import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
-import 'package:campus_flutter/placesComponent/views/homeWidget/studyroom_widget_view.dart';
+import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WidgetScreen extends StatefulWidget {
+class WidgetScreen extends ConsumerStatefulWidget {
   const WidgetScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _WidgetScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WidgetScreenState();
 }
 
-class _WidgetScreenState extends State<WidgetScreen> {
+class _WidgetScreenState extends ConsumerState<WidgetScreen> {
   late Future<Map<HomeWidget, int>> recommendations;
 
   @override
   initState() {
     super.initState();
-    recommendations = WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations();
+    recommendations =
+        WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
   }
 
   @override
@@ -44,13 +46,14 @@ class _WidgetScreenState extends State<WidgetScreen> {
                         case HomeWidget.departures:
                           return const DeparturesHomeWidget();
                         case HomeWidget.studyRoom:
-                          return const StudyRoomWidgetView();
+                          return const StudyRoomWidgetView.closest();
+                        case HomeWidget.movies:
+                          return const MoviesHomeWidget();
                         default:
                           return const SizedBox.shrink();
                       }
                     },
                   ),
-                const MoviesHomeWidget(),
                 const NewsWidgetView()
               ],
             );
@@ -58,10 +61,7 @@ class _WidgetScreenState extends State<WidgetScreen> {
             // TODO: better error handling?
             if (snapshot.hasError) {
               return const Column(
-                children: [
-                  const MoviesHomeWidget(),
-                  const NewsWidgetView()
-                ],
+                children: [MoviesHomeWidget(), NewsWidgetView()],
               );
             } else {
               return Container();

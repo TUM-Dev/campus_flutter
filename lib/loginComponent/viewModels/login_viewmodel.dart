@@ -1,14 +1,13 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/services/login_service.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel {
@@ -95,14 +94,13 @@ class LoginViewModel {
   }
 
   Future requestLogin() async {
-    return LoginService.requestNewToken(
-        true,
-        "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
+    return LoginService.requestNewToken(true,
+            "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
         .then((value) {
-          final token = value.content;
-          _storage.write(key: "token", value: token);
-          Api.tumToken = token;
-        });
+      final token = value.content;
+      _storage.write(key: "token", value: token);
+      Api.tumToken = token;
+    });
   }
 
   Future<Confirm> confirmLogin() async {
@@ -118,15 +116,14 @@ class LoginViewModel {
     credentials.add(Credentials.noTumId);
   }
 
-  Future logout() async {
-    ProviderContainer()
-      ..invalidate(profileViewModel)
-      ..invalidate(personDetailsViewModel);
-    credentials.add(Credentials.none);
-    final directory = await getTemporaryDirectory();
+  Future logout(WidgetRef ref) async {
+    ref.invalidate(profileViewModel);
+    ref.invalidate(personDetailsViewModel);
+    ref.invalidate(studentCardViewModel);
+    await getIt<MainApi>().clearCache();
+    await _storage.delete(key: "token");
     Api.tumToken = "";
-    HiveCacheStore(directory.path).close();
-    _storage.delete(key: "token");
+    credentials.add(Credentials.none);
   }
 }
 

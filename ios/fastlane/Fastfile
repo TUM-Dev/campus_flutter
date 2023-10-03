@@ -4,14 +4,7 @@ platform :ios do
   desc "Build, Sign and Upload iOS application"
   lane :ios_beta do
     if is_ci
-        create_keychain(
-            name: ENV["KEYCHAIN_NAME"],
-            password: ENV["KEYCHAIN_PASSWORD"],
-            default_keychain: true,
-            unlock: true,
-            timeout: 3600,
-            lock_when_sleeps: false
-        )
+      setup_ci
     end
 
     app_store_connect_api_key(
@@ -23,10 +16,8 @@ platform :ios do
 
     match(
       type: "appstore",
-      # git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
       readonly: true,
-      keychain_name: ENV["KEYCHAIN_NAME"],
-      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+      skip_certificate_matching: true
     )
 
     previous_build_number = latest_testflight_build_number
@@ -53,10 +44,8 @@ platform :ios do
     )
 
     upload_to_testflight(
-      changelog: File.read(“../../changelog.txt”),
+      changelog: ENV["RELEASE_NOTES"],
       skip_waiting_for_build_processing: true
     )
-
-    delete_keychain(name: ENV["KEYCHAIN_NAME"])
   end
 end

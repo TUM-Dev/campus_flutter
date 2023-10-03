@@ -5,14 +5,18 @@ import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/theme.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ContactCardViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ContactCardViewState();
 }
 
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
@@ -25,12 +29,15 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(profileDetailsViewModel).personDetails,
+        stream: ref.watch(profileDetailsViewModel).personDetails.withLatestFrom(
+            ref.watch(studentCardViewModel).studentCard,
+            (personDetails, studentCard) => (personDetails, studentCard)),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return contactInfo(snapshot.data);
+            return contactInfo(snapshot.data?.$1, snapshot.data?.$2);
           } else {
             return DelayedLoadingIndicator(
+              name: context.localizations.personalData,
               alternativeLoadingIndicator: const ContactCardLoadingView(),
               delayWidget: Container(),
             );
@@ -38,44 +45,48 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         });
   }
 
-  Widget contactInfo(PersonDetails? data) {
-    final studentCard = ref.read(studentCardViewModel).studentCard.value;
+  Widget contactInfo(PersonDetails? data, StudentCard? studentCard) {
     final studies = studentCard?.studies?.study;
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundImage: studentCard?.image != null
-                  ? Image.memory(base64DecodeImageData(studentCard!.image)).image
-                  : const AssetImage('assets/images/Portrait_Placeholder.png'),
+              backgroundImage: data?.imageData != null
+                  ? Image.memory(base64DecodeImageData(data!.imageData!)).image
+                  : const AssetImage(
+                      'assets/images/placeholders/portrait_placeholder.png'),
               backgroundColor: Theme.of(context).cardTheme.color,
               radius: 50,
             ),
             const Padding(padding: EdgeInsets.only(left: 15)),
-            Column(
+            Expanded(
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                     data != null
                         ? data.fullName
-                        : PersonDetailsViewModel
-                        .defaultPersonDetails.fullName,
+                        : PersonDetailsViewModel.defaultPersonDetails.fullName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall),
                 Text(ref.watch(profileDetailsViewModel).profile != null
-                    ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "xy00abc"
+                    ? ref.watch(profileDetailsViewModel).profile?.tumID ??
+                        "xy00abc"
                     : "xy00abc"),
                 Text(data != null
                     ? data.email
                     : PersonDetailsViewModel.defaultPersonDetails.email),
-                for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? []) ...[
-                  Text("${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
+                for (var studyProgram in studies?.sublist(
+                        0, studies.length >= 2 ? 2 : studies.length) ??
+                    []) ...[
+                  Text(
+                      "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
                 ]
               ],
-            )
+            ))
           ],
         ));
   }

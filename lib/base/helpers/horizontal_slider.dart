@@ -1,12 +1,18 @@
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalSlider<E> extends StatelessWidget {
   const HorizontalSlider(
-      {super.key, required this.data, required this.height, required this.child});
+      {super.key,
+      required this.data,
+      required this.height,
+      required this.child,
+      this.leadingTrailingPadding = true});
 
   final List<E> data;
   final Widget Function(E data) child;
   final double height;
+  final bool leadingTrailingPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -14,24 +20,32 @@ class HorizontalSlider<E> extends StatelessWidget {
     return SizedBox(
         height: height,
         child: Padding(
-          padding: EdgeInsets.only(right: orientation == Orientation.landscape ? 10 : 0),
-        child: ListView(scrollDirection: Axis.horizontal, children: [
-          for (var indexAndValue in data.indexed) ...[
-            if (indexAndValue.$1 == 0) ...[
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-              child(indexAndValue.$2)
-            ],
-            if (indexAndValue.$1 == data.length - 1) ...[
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-              child(indexAndValue.$2),
-              if (orientation != Orientation.landscape)
-                const Padding(padding: EdgeInsets.symmetric(horizontal: 5))
-            ],
-            if (indexAndValue.$1 != 0 && indexAndValue.$1 != data.length - 1) ...[
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-              child(indexAndValue.$2)
-            ]
-          ]
-        ])));
+            padding: EdgeInsets.only(
+                right:
+                    orientation == Orientation.landscape ? context.padding : 0),
+            child: ListView(scrollDirection: Axis.horizontal, children: [
+              for (var indexAndValue in data.indexed) ...[
+                if (indexAndValue.$1 == 0) ...[
+                  if (leadingTrailingPadding)
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 7.5)),
+                  child(indexAndValue.$2)
+                ],
+                if (indexAndValue.$1 != 0 &&
+                    indexAndValue.$1 == data.length - 1) ...[
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+                  child(indexAndValue.$2),
+                  if (orientation != Orientation.landscape &&
+                      leadingTrailingPadding)
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 7.5))
+                ],
+                if (indexAndValue.$1 != 0 &&
+                    indexAndValue.$1 != data.length - 1) ...[
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+                  child(indexAndValue.$2)
+                ]
+              ]
+            ])));
   }
 }

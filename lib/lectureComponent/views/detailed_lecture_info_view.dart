@@ -1,5 +1,6 @@
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_row_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoView extends StatelessWidget {
@@ -13,17 +14,20 @@ class DetailedLectureInfoView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (lectureDetails.courseContents != null) ...[
-          DetailedLectureInfoRowView(title: "Course Contents",
+          DetailedLectureInfoRowView(
+              title: context.localizations.courseContents,
               information: lectureDetails.courseContents!)
         ],
         if (lectureDetails.courseObjective != null) ...[
           const Divider(),
-          DetailedLectureInfoRowView(title: "Course Objective",
+          DetailedLectureInfoRowView(
+              title: context.localizations.courseObjective,
               information: lectureDetails.courseObjective!)
         ],
         if (lectureDetails.note != null) ...[
           const Divider(),
-          DetailedLectureInfoRowView(title: "Note",
+          DetailedLectureInfoRowView(
+              title: context.localizations.note,
               information: lectureDetails.note!)
         ],
       ],

@@ -8,7 +8,6 @@ import 'package:campus_flutter/studentCardComponent/views/snapping_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'bar_code_view.dart';
 
 class StudentCardView extends ConsumerWidget {
   const StudentCardView({super.key});
@@ -23,13 +22,13 @@ class StudentCardView extends ConsumerWidget {
             final lastFetched =
                 ref.read(studentCardViewModel).lastFetched.value;
             return Column(
-                  children: [
-                    if (lastFetched != null) LastUpdatedText(lastFetched),
-                    _warningCard(),
-                    InformationView(studentCard: data),
-                    SnappingSlider(libraryID: data.libraryID),
-                  ],
-                );
+              children: [
+                if (lastFetched != null) LastUpdatedText(lastFetched),
+                _warningCard(),
+                InformationView(studentCard: data),
+                SnappingSlider(libraryID: data.libraryID),
+              ],
+            );
           } else if (snapshot.hasError) {
             return ErrorHandlingView(
                 error: snapshot.error!,

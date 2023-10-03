@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart'
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class EatApi extends Api {
-
   final EatApiService eatApiService;
 
   EatApi(this.eatApiService);

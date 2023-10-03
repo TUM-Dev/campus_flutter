@@ -1,4 +1,6 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:flutter/widgets.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture_details.g.dart';
@@ -58,52 +60,56 @@ class LectureDetails {
   @JsonKey(name: "pruef_termine_url")
   final String? examDateURL;
 
-  String get eventType {
+  String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return "Lecture";
+        return context.localizations.lecture;
       case "Tutorium":
-        return "Exercise";
+        return context.localizations.tutorial;
+      case "Übung":
+        return context.localizations.exercise;
       case "Praktikum":
-        return "Practice";
+        return context.localizations.practicalCourse;
+      case "Seminar":
+        return context.localizations.seminar;
       case "Vorlesung mit integrierten Übungen":
-        return "Lecture with integrated Exercises";
+        return context.localizations.lectureWithIntegratedExcercises;
       default:
-        return "";
+        return eventTypeDefault;
     }
   }
 
-  LectureDetails({
-    required this.id,
-    required this.lvNumber,
-    required this.title,
-    required this.duration,
-    required this.stp_sp_sst,
-    required this.eventTypeDefault,
-    required this.eventTypeTag,
-    required this.semester,
-    required this.semesterType,
-    required this.semesterID,
-    required this.semesterYear,
-    required this.organisationNumber,
-    required this.organisation,
-    required this.organisationTag,
-    required this.speaker,
-    this.courseContents,
-    this.requirements,
-    this.courseObjective,
-    this.teachingMethod,
-    this.anmeld_lv,
-    this.firstScheduledDate,
-    this.examinationMode,
-    this.studienbehelfe,
-    this.note,
-    this.curriculumURL,
-    this.scheduledDatesURL,
-    this.examDateURL
-  });
+  LectureDetails(
+      {required this.id,
+      required this.lvNumber,
+      required this.title,
+      required this.duration,
+      required this.stp_sp_sst,
+      required this.eventTypeDefault,
+      required this.eventTypeTag,
+      required this.semester,
+      required this.semesterType,
+      required this.semesterID,
+      required this.semesterYear,
+      required this.organisationNumber,
+      required this.organisation,
+      required this.organisationTag,
+      required this.speaker,
+      this.courseContents,
+      this.requirements,
+      this.courseObjective,
+      this.teachingMethod,
+      this.anmeld_lv,
+      this.firstScheduledDate,
+      this.examinationMode,
+      this.studienbehelfe,
+      this.note,
+      this.curriculumURL,
+      this.scheduledDatesURL,
+      this.examDateURL});
 
-  factory LectureDetails.fromJson(Map<String, dynamic> json) => _$LectureDetailsFromJson(json);
+  factory LectureDetails.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsToJson(this);
 }
@@ -115,19 +121,29 @@ class LectureDetailsData {
 
   LectureDetailsData({required this.lectureDetailsAttribute});
 
-  factory LectureDetailsData.fromJson(Map<String, dynamic> json) => _$LectureDetailsDataFromJson(json);
+  factory LectureDetailsData.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsDataToJson(this);
 }
 
 @JsonSerializable()
 class LectureDetailsElement {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", fromJson: _lectureDetailsFromJson)
   final LectureDetails lectureDetails;
 
   LectureDetailsElement({required this.lectureDetails});
 
-  factory LectureDetailsElement.fromJson(Map<String, dynamic> json) => _$LectureDetailsElementFromJson(json);
+  factory LectureDetailsElement.fromJson(Map<String, dynamic> json) =>
+      _$LectureDetailsElementFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsElementToJson(this);
+
+  static LectureDetails _lectureDetailsFromJson(dynamic data) {
+    if (data is List<dynamic>) {
+      return LectureDetails.fromJson(data.first);
+    } else {
+      return LectureDetails.fromJson(data);
+    }
+  }
 }

@@ -6,6 +6,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
 
 class TuitionView extends ConsumerWidget {
   const TuitionView({super.key});
@@ -16,7 +17,7 @@ class TuitionView extends ConsumerWidget {
         stream: ref.watch(profileViewModel).tuition,
         builder: (context, snapshot) {
           return SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.075,
+              height: MediaQuery.sizeOf(context).height * 0.08,
               child: GestureDetector(
                 onTap: () {
                   (snapshot.hasData && snapshot.data != null)
@@ -29,7 +30,7 @@ class TuitionView extends ConsumerWidget {
                     padding: EdgeInsets.only(right: 10.0),
                     child: Icon(Icons.euro),
                   ),
-                  const Text("Tuition fees"),
+                  Text(context.localizations.tuitionFees),
                   const Spacer(),
                   _tuitionStatus(context, snapshot)
                 ])),
@@ -42,55 +43,65 @@ class TuitionView extends ConsumerWidget {
         context: context,
         builder: (context) => AlertDialog(
               title: Text(
-                "Tuition Fees",
+                context.localizations.tuitionFees,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
               content: Column(mainAxisSize: MainAxisSize.min, children: [
                 Text(
                   snapshot.data!.semester,
-                  style:
-                      Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _infoRow("Due Date:", DateFormat("dd.MM.yyyy").format(snapshot.data!.deadline)),
+                _infoRow(context.localizations.tuitionDueDate,
+                    DateFormat.yMd().format(snapshot.data!.deadline)),
                 _infoRow(
-                    "Open Amount:",
+                    context.localizations.tuitionOpenAmount,
                     NumberFormat.currency(locale: "de_DE", symbol: '€')
                         .format(snapshot.data!.amount))
               ]),
               actions: [
                 ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(), child: const Text("OK"))
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Okay"))
               ],
               actionsAlignment: MainAxisAlignment.center,
             ));
   }
 
-  Widget _tuitionStatus(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
+  Widget _tuitionStatus(
+      BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
     if (snapshot.hasData) {
       if (snapshot.data?.amount == 0.0) {
-        return const IconText(
+        return IconText(
           iconData: Icons.check,
-          label: "Tuition Paid",
-          style: TextStyle(color: Colors.green),
+          label: context.localizations.tuitionPaid,
+          style: const TextStyle(color: Colors.green),
           leadingIcon: false,
         );
       } else {
-        final numberFormat = NumberFormat.currency(locale: "de_DE", symbol: "€");
+        final numberFormat =
+            NumberFormat.currency(locale: "de_DE", symbol: "€");
         return Text(numberFormat.format(snapshot.data?.amount),
             style: const TextStyle(color: Colors.red));
       }
     } else {
-      return const DelayedLoadingIndicator(
-          name: "Tuition",
-          alternativeLoadingIndicator: Text("n/a", style: TextStyle(color: Colors.red)));
+      return DelayedLoadingIndicator(
+          name: context.localizations.tuition,
+          alternativeLoadingIndicator: Text(
+              context.localizations.notAvailableAbbrev,
+              style: const TextStyle(color: Colors.red)));
     }
   }
 
   Widget _infoRow(String title, String info) {
     return Row(children: [
-      Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
+      Expanded(
+          child:
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
       Expanded(child: Text(info))
     ]);
   }

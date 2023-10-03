@@ -1,15 +1,24 @@
 import 'dart:io';
 
+import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
@@ -17,82 +26,166 @@ class SettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
-        title:  const Text("Settings"),
-      ),
-      body: ListView(children: [
-        _generalSettings(context, ref),
-        _contact(ref),
-        _authentication(context, ref),
-        _versionNumber()
-      ])
-    );
+        appBar: AppBar(
+          leading: const BackButton(),
+          title: Text(context.localizations.settings),
+        ),
+        body: ListView(children: [
+          _generalSettings(context, ref),
+          _appearance(context, ref),
+          _contact(context, ref),
+          _authentication(context, ref),
+          _versionNumber()
+        ]));
   }
 
   Widget _generalSettings(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "General Settings",
-        child: Column(
-            children: [_tokenPermission(context), _useWebView(context, ref)]
-        )
-    );
+        title: context.localizations.generalSettings,
+        child: Card(
+            child: SeparatedList.widgets(
+          widgets: [
+            _tokenPermission(context),
+            _localeSelection(context, ref),
+          ],
+        )));
   }
 
   Widget _tokenPermission(BuildContext context) {
-    return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PermissionCheckView(isSettingsView: true))),
-            child: Card(
-                child: ListTile(
-              dense: true,
-              leading: Icon(Icons.key,
-                  size: 20, color: Theme.of(context).primaryColor),
-              title: Text("Token Permissions",
-                  style: Theme.of(context).textTheme.bodyMedium),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-            )));
+    return ListTile(
+      dense: true,
+      leading: Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
+      title: Text(context.localizations.tokenPermissions,
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              const PermissionCheckView(isSettingsView: true))),
+    );
+  }
+
+  Widget _localeSelection(BuildContext context, WidgetRef ref) {
+    return ListTile(
+        dense: true,
+        leading: Icon(Icons.language,
+            size: 20, color: Theme.of(context).primaryColor),
+        title: Text(context.localizations.language,
+            style: Theme.of(context).textTheme.bodyMedium),
+        trailing: DropdownButton(
+          onChanged: (Locale? newLocale) {
+            if (newLocale != null) {
+              ref
+                  .read(userPreferencesViewModel)
+                  .saveUserPreference(UserPreference.locale, newLocale);
+              ref.read(locale.notifier).state = newLocale;
+            }
+          },
+          value: ref.watch(locale),
+          items: AppLocalizations.supportedLocales
+              .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
+              .toList(),
+        ));
+  }
+
+  Widget _appearance(BuildContext context, WidgetRef ref) {
+    return WidgetFrameView(
+        title: context.localizations.appearance,
+        child: Card(
+            child: SeparatedList.widgets(widgets: [
+          _appearanceSelection(context, ref),
+          if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
+          _hideFailedGrades(context, ref),
+          if (!kIsWeb && getIt.get<List<AvailableMap>>().isNotEmpty)
+            const DefaultMapsPickerView()
+        ])));
+  }
+
+  Widget _appearanceSelection(BuildContext context, WidgetRef ref) {
+    return ListTile(
+        dense: true,
+        title: Text(context.localizations.brightness,
+            style: Theme.of(context).textTheme.bodyMedium),
+        trailing: DropdownButton(
+          onChanged: (Appearance? newAppearance) {
+            if (newAppearance != null) {
+              ref.read(appearance.notifier).state = newAppearance;
+              ref
+                  .read(userPreferencesViewModel)
+                  .saveUserPreference(UserPreference.theme, newAppearance);
+            }
+          },
+          value: ref.watch(appearance),
+          items: Appearance.values
+              .map((e) => DropdownMenuItem(
+                  value: e,
+                  child: IconText(
+                    iconData: e.icon,
+                    iconColor: Theme.of(context).primaryColor,
+                    label: ref.read(locale).languageCode == "de"
+                        ? e.german
+                        : e.english,
+                  )))
+              .toList(),
+        ));
   }
 
   Widget _useWebView(BuildContext context, WidgetRef ref) {
-    return Card(
-            child: ListTile(
-              dense: true,
-              title: Text("Use Web View", style: Theme.of(context).textTheme.bodyMedium),
-              trailing: Switch(
-                  value: ref.watch(useWebView),
-                  onChanged: (showWebView) {
-                    ref.read(useWebView.notifier).state = showWebView;
-                  }
-              ),
-            ));
+    return ListTile(
+      dense: true,
+      title: Text(context.localizations.useWebView,
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(useWebView),
+          onChanged: (showWebView) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.webView, showWebView);
+            ref.read(useWebView.notifier).state = showWebView;
+          }),
+    );
   }
 
-  Widget _contact(WidgetRef ref) {
+  Widget _hideFailedGrades(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(context.localizations.hideFailedGrades,
+          style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Switch(
+          value: ref.watch(hideFailedGrades),
+          onChanged: (value) {
+            ref
+                .read(userPreferencesViewModel)
+                .saveUserPreference(UserPreference.hideFailedGrades, value);
+            ref.read(hideFailedGrades.notifier).state = value;
+            ref.read(gradeViewModel).fetch(false);
+          }),
+    );
+  }
+
+  Widget _contact(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: "Contact Us",
+        title: context.localizations.contactUs,
         child: Card(
             child: Column(
           children: [
-            const ListTile(
+            ListTile(
               dense: true,
               title: HyperLinkText(
                   link: "https://testflight.apple.com/join/4Ddi6f2f",
-                  label: "Become a Beta Tester"),
+                  label: context.localizations.becomeABetaTester),
             ),
             const PaddedDivider(height: 0),
-            const ListTile(
+            ListTile(
               dense: true,
               title: HyperLinkText(
                   link: "https://github.com/TUM-Dev",
-                  label: "TUM Dev on GitHub"),
+                  label: context.localizations.usOnGitHub),
             ),
             const PaddedDivider(height: 0),
             const ListTile(
               dense: true,
               title: HyperLinkText(
-                  link: "https://app.tum.de",
-                  label: "TUM Dev Website"),
+                  link: "https://app.tum.de", label: "TUM Dev Website"),
             ),
             const PaddedDivider(height: 0),
             ListTile(
@@ -105,15 +198,9 @@ class SettingsView extends ConsumerWidget {
 
   Uri _feedbackEmail() {
     final operatingSystem = kIsWeb ? "Web App" : Platform.operatingSystem;
-
-    final Uri emailUri = Uri(
-        scheme: 'mailto',
-        path: "app@tum.de",
-        queryParameters: {
-          "subject": "[$operatingSystem - Feedback]"
-        });
-
-    return emailUri;
+    String email = Uri.encodeComponent("app@tum.de");
+    String subject = Uri.encodeComponent("[$operatingSystem - Feedback]");
+    return Uri.parse("mailto:$email?subject=$subject");
   }
 
   Widget _authentication(BuildContext context, WidgetRef ref) {
@@ -122,7 +209,7 @@ class SettingsView extends ConsumerWidget {
         child: GestureDetector(
             onTap: () {
               if (login != Credentials.none) {
-                ref.read(loginViewModel).logout();
+                ref.read(loginViewModel).logout(ref);
               }
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
@@ -130,13 +217,13 @@ class SettingsView extends ConsumerWidget {
                 child: ListTile(
               dense: true,
               title: login != Credentials.tumId
-                  ? Text("Login",
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.green, fontWeight: FontWeight.w500),
+                  ? Text(context.localizations.login,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.green, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center)
-                  : Text("Logout",
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.red, fontWeight: FontWeight.w500),
+                  : Text(context.localizations.logout,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.red, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center),
             ))));
   }
@@ -147,9 +234,10 @@ class SettingsView extends ConsumerWidget {
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text("Version ${snapshot.data!.version}");
+                return Text(context.localizations
+                    .versionNumber(snapshot.data!.version));
               } else {
-                return const Text("Version -.-.-");
+                return Text(context.localizations.versionNumber("-.-.-"));
               }
             }));
   }

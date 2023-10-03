@@ -6,16 +6,16 @@ class VerificationCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(child: ExpansionTile(
-        title: const Text("Verification QR-Code"),
-        childrenPadding: const EdgeInsets.all(10),
-        children: [
+    return Card(
+        child: ExpansionTile(
+            title: const Text("Verification QR-Code"),
+            childrenPadding: const EdgeInsets.all(10),
+            children: [
           BarcodeWidget(
               data: "https://www.tum.app",
               barcode: Barcode.qrCode(),
               drawText: false,
-              height: 150
-          ),
+              height: 150),
           const Text("currently for demo reasons only")
         ]));
   }

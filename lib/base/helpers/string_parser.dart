@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:intl/intl.dart';
 
 class StringParser {
@@ -40,10 +42,10 @@ class StringParser {
         // TODO: what does it stand for?
         return "MBD";
       case "60":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BECE";
       case "61":
-      // TODO: what does it stand for?
+        // TODO: what does it stand for?
         return "BEEDE";
       default:
         return "Unknown";
@@ -53,38 +55,25 @@ class StringParser {
   static String degreeShort(String degree) {
     // TODO:
     switch (degree) {
-      case "Bachelor of Science": return "B.Sc.";
-      case "Master of Science": return "M.Sc.";
-      default: return "Unknown";
-    }
-  }
-
-  static String toFullSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
-
-    switch (semester.substring(2)) {
-      case "W":
-        return "Wintersemester" " $year/$nextYearShort";
-      case "S":
-        return "Summersemester" " $year";
+      case "Bachelor of Science":
+        return "B.Sc.";
+      case "Master of Science":
+        return "M.Sc.";
       default:
         return "Unknown";
     }
   }
 
-  static String toShortSemesterName(String semester) {
-    final year = "20${semester.substring(0, 2)}";
-    final nextYearShort = (int.parse(year) + 1).toString().substring(2, 4);
+  static String toFullSemesterName(BuildContext context, String semester) {
+    final yearOffset = int.parse(semester.substring(0, 2));
+    return context.localizations.fullSemesterName(
+        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
+  }
 
-    switch (semester.substring(2)) {
-      case "W":
-        return "WiSe" " $year/$nextYearShort";
-      case "S":
-        return "SoSe" " $year";
-      default:
-        return "Unknown";
-    }
+  static String toShortSemesterName(BuildContext context, String semester) {
+    final yearOffset = int.parse(semester.substring(0, 2));
+    return context.localizations.shortSemesterName(
+        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
   }
 
   static String dateFormatter(DateTime dateTime) {
@@ -115,7 +104,6 @@ class StringParser {
     } else {
       return 0;
     }
-
   }
 
   static int? optStringToOptInt(String? number) {

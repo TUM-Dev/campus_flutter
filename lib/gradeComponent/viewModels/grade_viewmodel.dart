@@ -4,8 +4,10 @@ import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GradeViewModel implements ViewModel {
@@ -16,25 +18,33 @@ class GradeViewModel implements ViewModel {
 
   Map<String, Map<String, List<Grade>>>? _allGrades;
   List<AverageGrade> _averageGrades = [];
+  final Ref ref;
 
   setSelectedDegree(String studyID) {
     studyProgramGrades.add(_allGrades?[studyID] ?? {});
   }
 
+  GradeViewModel(this.ref);
+
   @override
   Future fetch(bool forcedRefresh) async {
     GradeService.fetchAverageGrades(forcedRefresh).then((response) {
       _averageGrades = response.data;
-      GradeService.fetchGrades(forcedRefresh).then((response) {
-        lastFetched.add(response.saved);
-        _gradesByDegreeAndSemester(response.data);
-      }, onError: (error) => studyProgramGrades.addError(error));
-    });
+      return _fetchGrades(forcedRefresh);
+    }, onError: (error) => _fetchGrades(forcedRefresh));
+  }
+
+  _fetchGrades(bool forcedRefresh) async {
+    return GradeService.fetchGrades(forcedRefresh).then((response) {
+      lastFetched.add(response.saved);
+      _gradesByDegreeAndSemester(response.data);
+    }, onError: (error) => studyProgramGrades.addError(error));
   }
 
   AverageGrade? getAverageGrade() {
     if (studyProgramGrades.hasValue) {
-      return _averageGrades.firstWhereOrNull((element) => element.id == studyProgramGrades.value?.values.first.first.studyID);
+      return _averageGrades.firstWhereOrNull((element) =>
+          element.id == studyProgramGrades.value?.values.first.first.studyID);
     }
     return null;
   }
@@ -42,6 +52,11 @@ class GradeViewModel implements ViewModel {
   _gradesByDegreeAndSemester(List<Grade> response) async {
     if (response.isEmpty) {
       studyProgramGrades.add({});
+    }
+
+    if (ref.read(hideFailedGrades)) {
+      response.removeWhere((element) =>
+          (StringParser.optStringToOptDouble(element.grade) ?? 5) >= 4.0);
     }
 
     Map<String, List<Grade>> gradesByDegree = {};
@@ -66,22 +81,21 @@ class GradeViewModel implements ViewModel {
 
   List<PopupMenuEntry<String>> getMenuEntries() {
     if (_allGrades?.values != null) {
-      return _allGrades!.values
-          .map((e) {
-            final selectedStudyId = studyProgramGrades.value?.values.first.first.studyID;
-            final studyId = e.values.first.first.studyID;
-            final studyDesignation = e.values.first.first.studyDesignation;
-            final degree = StringParser.degreeShortFromID(studyId);
-            return PopupMenuItem(
+      return _allGrades!.values.map((e) {
+        final selectedStudyId =
+            studyProgramGrades.value?.values.first.first.studyID;
+        final studyId = e.values.first.first.studyID;
+        final studyDesignation = e.values.first.first.studyDesignation;
+        final degree = StringParser.degreeShortFromID(studyId);
+        return PopupMenuItem(
             value: studyId,
             child: selectedStudyId == studyId
                 ? IconText(
-                iconData: Icons.check,
-                label: "$studyDesignation ($degree)",
-                leadingIcon: false)
+                    iconData: Icons.check,
+                    label: "$studyDesignation ($degree)",
+                    leadingIcon: false)
                 : Text("$studyDesignation ($degree)"));
-      })
-          .toList();
+      }).toList();
     } else {
       return [];
     }
@@ -97,28 +111,35 @@ class GradeViewModel implements ViewModel {
     for (var semester in degreeGrades.values) {
       for (var grade in semester) {
         chartData.update(
-          StringParser.optStringToOptDouble(grade.grade) ?? grade.grade,
+          grade.grade != null
+              ? StringParser.optStringToOptDouble(grade.grade) ?? grade.grade
+              : "n/a",
           (value) => ++value,
           ifAbsent: () => 1,
         );
       }
     }
 
-    return Map.fromEntries(chartData.entries.toList()..sort((a, b) {
-      if (a.key is double && b.key is double) {
-        final aKey = a.key as double;
-        final bKey = b.key as double;
-        return aKey.compareTo(bKey);
-      } else if (a.key is double) {
-        return a.key > 4 ? 1 : -1;
-      } else if (b.key is double) {
-        return b.key > 4 ? -1 : 1;
-      } else {
-        final aKey = a.key as String;
-        final bKey = b.key as String;
-        return aKey.compareTo(bKey);
-      }
-    }));
+    return Map.fromEntries(chartData.entries.toList()
+      ..sort((a, b) {
+        if (a.key is double && b.key is double) {
+          final aKey = a.key as double;
+          final bKey = b.key as double;
+          return aKey.compareTo(bKey);
+        } else if (a.key == "n/a") {
+          return 1;
+        } else if (b.key == "n/a") {
+          return -1;
+        } else if (a.key is double) {
+          return a.key > 4 ? 1 : -1;
+        } else if (b.key is double) {
+          return b.key > 4 ? -1 : 1;
+        } else {
+          final aKey = a.key as String;
+          final bKey = b.key as String;
+          return aKey.compareTo(bKey);
+        }
+      }));
   }
 
   static Color getColor(dynamic grade) {

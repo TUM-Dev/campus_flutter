@@ -5,8 +5,5 @@ class CafeteriaMenu {
   final DateTime date;
   final List<MenuCategory> categories;
 
-  CafeteriaMenu({
-    required this.date,
-    required this.categories
-  });
+  CafeteriaMenu({required this.date, required this.categories});
 }

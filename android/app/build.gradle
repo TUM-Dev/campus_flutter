@@ -52,17 +52,26 @@ android {
     }
 
     signingConfigs {
-        release {
-            keyAlias System.getenv("ANDROID_KEY_ALIAS")
-            keyPassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            storeFile file(System.getenv("ANDROID_KEYSTORE_FILE"))
-            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+        if (System.getenv("ANDROID_KEYSTORE_FILE") != null) {
+            release {
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                storeFile file(System.getenv("ANDROID_KEYSTORE_FILE"))
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            }
         }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
-            signingConfig signingConfigs.release
+            if (System.getenv("ANDROID_KEYSTORE_FILE") != null) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
         }
     }
 }

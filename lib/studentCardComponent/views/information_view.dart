@@ -17,7 +17,7 @@ class InformationView extends StatelessWidget {
         child: Column(children: [
       const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
       //_tumLogo(),
-          _titleLogo(context),
+      _titleLogo(context),
       const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,8 +34,10 @@ class InformationView extends StatelessWidget {
                     _infoEntryRow("Birthday",
                         DateFormat.yMd().format(studentCard.birthday)),
                     _infoEntryRow("Study ID", studentCard.studyID),
-                    _infoEntryRow("Semester",
-                        StringParser.toShortSemesterName(studentCard.semester)),
+                    _infoEntryRow(
+                        "Semester",
+                        StringParser.toShortSemesterName(
+                            context, studentCard.semester)),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     if (studentCard.studies != null) ..._currentSubjects(),
                   ]))
@@ -108,8 +110,11 @@ class InformationView extends StatelessWidget {
   List<Widget> _currentSubjects() {
     final studies = studentCard.studies?.study;
     return [
-      for (var studyProgram in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ?? [])
-        Text("${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
+      for (var studyProgram
+          in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ??
+              [])
+        Text(
+            "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
     ];
   }
 

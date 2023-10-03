@@ -1,5 +1,4 @@
 app_identifier("de.tum.tca-flutter")
-apple_id("jakobkoerber@posteo.de")
 team_name("Technische Universitaet Muenchen")
 team_id("2J3C6P6X3N")
 itc_team_name("Technische Universitaet Muenchen")

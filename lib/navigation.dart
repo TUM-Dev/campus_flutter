@@ -2,7 +2,11 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/searchComponent/views/search_body_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
@@ -20,6 +24,27 @@ class Navigation extends ConsumerStatefulWidget {
 
 class _NavigationState extends ConsumerState<Navigation> {
   int currentPageIndex = 0;
+  double _searchAreaHeight = 0.0;
+  bool _isSearching = false;
+  bool showContent = false;
+
+  void _toggleSearch() {
+    setState(() {
+      ref.read(searchViewModel).clear();
+      showContent = false;
+      _isSearching = !_isSearching;
+      _searchAreaHeight =
+          _isSearching ? MediaQuery.sizeOf(context).height : 0.0;
+    });
+  }
+
+  void _closeSearch() {
+    setState(() {
+      showContent = false;
+      _isSearching = false;
+      _searchAreaHeight = 0.0;
+    });
+  }
 
   @override
   void initState() {
@@ -35,34 +60,36 @@ class _NavigationState extends ConsumerState<Navigation> {
           extendBody: true,
           appBar: AppBar(
             centerTitle: true,
-            leadingWidth: 80,
+            leadingWidth: (kIsWeb && isLandScape) ? 80 : null,
             leading: (kIsWeb && isLandScape)
                 ? Padding(
                     padding: const EdgeInsets.all(15),
                     child: Image.asset('assets/images/logos/tum-logo-blue.png',
                         fit: BoxFit.scaleDown))
-                : IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                : IconButton(
+                    onPressed: () => _toggleSearch(),
+                    icon: const Icon(Icons.search)),
             title: (() {
               switch (currentPageIndex) {
                 case 0:
                   if (kIsWeb && isLandScape) {
-                    return Text("Home",
+                    return Text(context.localizations.home,
                         style: Theme.of(context).textTheme.titleLarge);
                   } else {
                     return Image.asset('assets/images/logos/tum-logo-blue.png',
                         fit: BoxFit.cover, height: 20);
                   }
                 case 1:
-                  return Text("Grades",
+                  return Text(context.localizations.grades,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 2:
-                  return Text("Lectures",
+                  return Text(context.localizations.lectures,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 3:
-                  return Text("Calendar",
+                  return Text(context.localizations.calendar,
                       style: Theme.of(context).textTheme.titleLarge);
                 case 4:
-                  return Text("Places",
+                  return Text(context.localizations.places,
                       style: Theme.of(context).textTheme.titleLarge);
                 default:
                   return Image.asset('assets/images/logos/tum-logo-blue.png',
@@ -71,8 +98,12 @@ class _NavigationState extends ConsumerState<Navigation> {
             }()),
             actions: <Widget>[
               if (kIsWeb && isLandScape)
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-              if (!kIsWeb)
+                IconButton(
+                    onPressed: () => _toggleSearch(),
+                    icon: const Icon(Icons.search)),
+              if (!kIsWeb &&
+                  ref.read(loginViewModel).credentials.value ==
+                      Credentials.tumId)
                 IconButton(
                     onPressed: () => _openStudentCardSheet(),
                     icon: const Icon(Icons.credit_card)),
@@ -87,11 +118,30 @@ class _NavigationState extends ConsumerState<Navigation> {
           //: null,
           bottomNavigationBar:
               (kIsWeb && isLandScape) ? null : _bottomNavigationBar(),
-          body: SafeArea(
-              child: (kIsWeb && isLandScape)
-                  ? _webNavigationRail()
-                  : _navigationBody()),
-          floatingActionButton: !kIsWeb
+          body: Stack(
+            children: [
+              SafeArea(
+                  child: (kIsWeb && isLandScape)
+                      ? _webNavigationRail(context)
+                      : _navigationBody()),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: _searchAreaHeight,
+                child: _isSearching
+                    ? SearchView(
+                        index: currentPageIndex, showContent: showContent)
+                    : null,
+                onEnd: () {
+                  setState(() {
+                    showContent = !showContent;
+                  });
+                },
+              ),
+            ],
+          ),
+          floatingActionButton: (!kIsWeb &&
+                  ref.read(loginViewModel).credentials.value ==
+                      Credentials.tumId)
               ? FloatingActionButton(
                   onPressed: () => _openStudentCardSheet(),
                   child: const Icon(Icons.credit_card))
@@ -100,14 +150,20 @@ class _NavigationState extends ConsumerState<Navigation> {
   }
 
   Widget _navigationBody() {
-    return <Widget>[
-      HomeScreen(),
-      const GradesView(),
-      const LecturesView(),
-      const CalendarsView(),
-      // TODO: replace with places widget
-      const Text("Coming Soon")
-    ][currentPageIndex];
+    switch (currentPageIndex) {
+      case 0:
+        return HomeScreen();
+      case 1:
+        return const GradesView();
+      case 2:
+        return const LecturesView();
+      case 3:
+        return const CalendarsView();
+      case 4:
+        return const PlacesScreen();
+      default:
+        return HomeScreen();
+    }
   }
 
   Widget _bottomNavigationBar() {
@@ -124,10 +180,10 @@ class _NavigationState extends ConsumerState<Navigation> {
         ),
         child: NavigationBar(
           onDestinationSelected: (int index) {
+            _closeSearch();
+            ref.read(searchViewModel).clear();
             setState(() {
-              if (index != 4) {
-                currentPageIndex = index;
-              }
+              currentPageIndex = index;
             });
           },
 
@@ -138,37 +194,37 @@ class _NavigationState extends ConsumerState<Navigation> {
                   : null
               : null,
           selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.house_outlined),
-              selectedIcon: Icon(Icons.house),
-              label: 'Home',
+              icon: const Icon(Icons.house_outlined),
+              selectedIcon: const Icon(Icons.house),
+              label: context.localizations.home,
             ),
             NavigationDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: 'Grades',
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: context.localizations.grades,
             ),
             NavigationDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: 'Lectures',
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: context.localizations.lectures,
             ),
             NavigationDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: 'Calendar',
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: context.localizations.calendar,
             ),
             NavigationDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: 'Places',
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: context.localizations.places,
             ),
           ],
         ));
   }
 
-  Widget _webNavigationRail() {
+  Widget _webNavigationRail(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -176,37 +232,35 @@ class _NavigationState extends ConsumerState<Navigation> {
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
             setState(() {
-              if (index != 4) {
-                currentPageIndex = index;
-              }
+              currentPageIndex = index;
             });
           },
           labelType: NavigationRailLabelType.all,
-          destinations: const <NavigationRailDestination>[
+          destinations: <NavigationRailDestination>[
             NavigationRailDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: Text('Home'),
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: Text(context.localizations.home),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: Text('Grades'),
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: Text(context.localizations.grades),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.class_outlined),
-              selectedIcon: Icon(Icons.class_),
-              label: Text('Lectures'),
+              icon: const Icon(Icons.class_outlined),
+              selectedIcon: const Icon(Icons.class_),
+              label: Text(context.localizations.lectures),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: Text('Calendar'),
+              icon: const Icon(Icons.calendar_month_outlined),
+              selectedIcon: const Icon(Icons.calendar_month),
+              label: Text(context.localizations.calendar),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place),
-              label: Text('Places'),
+              icon: const Icon(Icons.place_outlined),
+              selectedIcon: const Icon(Icons.place),
+              label: Text(context.localizations.places),
             ),
           ],
         ),

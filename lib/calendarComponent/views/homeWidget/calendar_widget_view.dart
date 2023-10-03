@@ -8,6 +8,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
 
 class CalendarHomeWidgetView extends ConsumerStatefulWidget {
   const CalendarHomeWidgetView({super.key});
@@ -27,7 +28,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-        title: "Calendar",
+        title: context.localizations.calendar,
         child: SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.25,
             child: CardWithPadding(
@@ -47,49 +48,90 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                                         ErrorHandlingViewType.textOnly,
                                     retry: ref.read(calendarViewModel).fetch)));
                       } else {
-                        return const DelayedLoadingIndicator(name: "Events");
+                        return DelayedLoadingIndicator(
+                            name: context.localizations.events);
                       }
                     }))));
   }
 
   Widget _calendarWidgetCard((CalendarEvent?, List<CalendarEvent>) events) {
-    final today = DateTime.now();
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    if (events.$1 == null && events.$2.isEmpty) {
+      return Stack(
+        children: [
+          _todayWidget(),
+          Center(
+            child: Text(context.localizations.noUpcomingEvents),
+          )
+        ],
+      );
+    } else if (events.$2.length == 1) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: _todayWidget(),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
           Expanded(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(),
-              Text(DateFormat.EEEE().format(today),
-                  style: TextStyle(color: Theme.of(context).primaryColor)),
-              Text(
-                DateFormat(DateFormat.DAY).format(today),
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
-              const Spacer()
-            ],
-          )),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                if (events.$1 != null)
+                  Expanded(
+                      child: CalendarHomeWidgetEventView(
+                          calendarEvent: events.$1!)),
+                Expanded(
+                    child: CalendarHomeWidgetEventView(
+                        calendarEvent: events.$2[0])),
+              ]))
+        ],
+      );
+    } else {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Expanded(
-              child: (events.$1 != null)
-                  ? CalendarHomeWidgetEventView(calendarEvent: events.$1!)
-                  : const Center(child: Text("No Events Today")))
-        ])),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Expanded(
+                  child: _todayWidget(),
+                ),
+                Expanded(
+                    child: (events.$1 != null)
+                        ? CalendarHomeWidgetEventView(calendarEvent: events.$1!)
+                        : Container())
+              ])),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
           Expanded(
-              child:
-                  CalendarHomeWidgetEventView(calendarEvent: events.$2.first)),
-          Expanded(
-              child: CalendarHomeWidgetEventView(calendarEvent: events.$2[1]))
-        ]))
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Expanded(
+                    child: CalendarHomeWidgetEventView(
+                        calendarEvent: events.$2.first)),
+                Expanded(
+                    child: CalendarHomeWidgetEventView(
+                        calendarEvent: events.$2[1]))
+              ]))
+        ],
+      );
+    }
+  }
+
+  Widget _todayWidget() {
+    final today = DateTime.now();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(DateFormat.EEEE().format(today),
+            style: TextStyle(color: Theme.of(context).primaryColor)),
+        Text(
+          DateFormat(DateFormat.DAY, ref.read(locale).languageCode)
+              .format(today),
+          style: Theme.of(context).textTheme.displaySmall,
+        ),
       ],
     );
   }

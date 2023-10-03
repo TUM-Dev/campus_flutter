@@ -17,11 +17,13 @@ class PersonDetails {
     assert(split.length == 2);
     return split.first;
   }
+
   String? get id {
     final split = obfuscatedID.split("*");
     assert(split.length == 2);
     return split.last;
   }
+
   @JsonKey(name: "vorname")
   final String firstName;
   @JsonKey(name: "familienname")
@@ -47,28 +49,28 @@ class PersonDetails {
   @JsonKey(name: "telefon_nebenstellen")
   final List<PhoneExtension>? phoneExtensions;
 
-  PersonDetails({
-    required this.nr,
-    required this.obfuscatedID,
-    required this.firstName,
-    required this.name,
-    this.title,
-    required this.email,
-    required this.gender,
-    this.officeHours,
-    //required this.officialContact,
-    //required this.privateContact,
-    this.imageData,
-    this.organisations,
-    this.rooms,
-    required this.phoneExtensions
-  });
+  PersonDetails(
+      {required this.nr,
+      required this.obfuscatedID,
+      required this.firstName,
+      required this.name,
+      this.title,
+      required this.email,
+      required this.gender,
+      this.officeHours,
+      //required this.officialContact,
+      //required this.privateContact,
+      this.imageData,
+      this.organisations,
+      this.rooms,
+      required this.phoneExtensions});
 
   String get fullName {
     return "$firstName $name";
   }
 
-  factory PersonDetails.fromJson(Map<String, dynamic> json) => _$PersonDetailsFromJson(json);
+  factory PersonDetails.fromJson(Map<String, dynamic> json) =>
+      _$PersonDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonDetailsToJson(this);
 
@@ -89,9 +91,7 @@ class PersonDetails {
     try {
       json = json["raum"];
       if (json is List<dynamic>) {
-        return json
-            .map((e) => Room.fromJson(e))
-            .toList();
+        return json.map((e) => Room.fromJson(e)).toList();
       } else if (json is Map<String, dynamic>) {
         return [Room.fromJson(json)];
       } else {
@@ -106,9 +106,7 @@ class PersonDetails {
     try {
       json = json["gruppe"];
       if (json is List<dynamic>) {
-        return json
-            .map((e) => Organisation.fromJson(e))
-            .toList();
+        return json.map((e) => Organisation.fromJson(e)).toList();
       } else if (json is Map<String, dynamic>) {
         return [Organisation.fromJson(json)];
       } else {
@@ -127,7 +125,8 @@ class PersonDetailsData {
 
   PersonDetailsData({required this.person});
 
-  factory PersonDetailsData.fromJson(Map<String, dynamic> json) => _$PersonDetailsDataFromJson(json);
+  factory PersonDetailsData.fromJson(Map<String, dynamic> json) =>
+      _$PersonDetailsDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonDetailsDataToJson(this);
 }

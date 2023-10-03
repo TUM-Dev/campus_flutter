@@ -10,8 +10,9 @@ class MovieViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    MovieService.fetchMovies(forcedRefresh)
-        .then((response) => _sortMovies(response), onError: (error) => movies.addError(error));
+    MovieService.fetchMovies(forcedRefresh).then(
+        (response) => _sortMovies(response),
+        onError: (error) => movies.addError(error));
   }
 
   _sortMovies((DateTime?, List<Movie>) movies) {
