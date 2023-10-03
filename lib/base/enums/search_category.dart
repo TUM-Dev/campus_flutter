@@ -42,12 +42,6 @@ extension SearchCategoryExtension on SearchCategory {
     return [SearchCategory.personalLectures, SearchCategory.lectures];
   }
 
-  static List<SearchCategory> authorizedSearch() {
-    const all = SearchCategory.values;
-    all.remove(SearchCategory.unknown);
-    return SearchCategory.values;
-  }
-
   static List<SearchCategory> unAuthorizedSearch() {
     return [
       SearchCategory.studyRoom,

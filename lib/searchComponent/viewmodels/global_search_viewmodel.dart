@@ -77,13 +77,11 @@ class GlobalSearchViewModel {
   }
 
   void _webSearch(String searchString) async {
-    List<SearchCategory> sortedCategories = [];
     if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
-      sortedCategories = SearchCategoryExtension.authorizedSearch();
+      result.add(SearchCategory.values);
     } else {
-      sortedCategories = SearchCategoryExtension.unAuthorizedSearch();
+      result.add(SearchCategoryExtension.unAuthorizedSearch());
     }
-    result.add(sortedCategories);
   }
 
   Future<void> _textClassificationModel(String searchString) async {
