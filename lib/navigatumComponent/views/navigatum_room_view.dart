@@ -53,7 +53,6 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           if (snapshot.hasData) {
             return Text(snapshot.data!.coordinates.longitude.toString());
           } else if (snapshot.hasError) {
-            print(snapshot.error!);
             return ErrorHandlingView(
               error: snapshot.error!,
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,

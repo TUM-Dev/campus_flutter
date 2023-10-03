@@ -95,7 +95,7 @@ class SettingsView extends ConsumerWidget {
           _appearanceSelection(context, ref),
           if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
           _hideFailedGrades(context, ref),
-          if (getIt.get<List<AvailableMap>>().isNotEmpty)
+          if (!kIsWeb && getIt.get<List<AvailableMap>>().isNotEmpty)
             const DefaultMapsPickerView()
         ])));
   }

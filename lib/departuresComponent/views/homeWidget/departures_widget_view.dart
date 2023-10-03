@@ -97,7 +97,16 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   }
 
   _onWidgetPressed(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DeparturesDetailsScaffold()));
+    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const DeparturesDetailsScaffold()));
+    } else {
+      ref
+          .read(homeSplitViewModel)
+          .selectedWidget
+          .add(const DeparturesDetailsScaffold(
+            isSplitView: true,
+          ));
+    }
   }
 }

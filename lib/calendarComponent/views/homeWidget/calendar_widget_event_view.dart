@@ -30,12 +30,9 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
           if (MediaQuery.orientationOf(context) == Orientation.portrait) {
             showModalSheet(null, calendarEvent, context, ref);
           } else {
-            ref.read(selectedEvent.notifier).state = calendarEvent;
-            ref.read(selectedLecture.notifier).state = null;
-            ref
-                .read(homeSplitViewModel)
-                .selectedWidget
-                .add(const LectureDetailsView());
+            ref.read(homeSplitViewModel).selectedWidget.add(LectureDetailsView(
+                  event: calendarEvent,
+                ));
           }
         },
         child: Column(

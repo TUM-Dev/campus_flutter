@@ -31,6 +31,7 @@ import 'package:campus_flutter/personSearchComponent/viewModel/person_search_vie
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -39,8 +40,6 @@ import 'package:map_launcher/map_launcher.dart';
 final getIt = GetIt.instance;
 
 /// state providers for user interaction
-final selectedLecture = StateProvider<Lecture?>((ref) => null);
-final selectedEvent = StateProvider<CalendarEvent?>((ref) => null);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
@@ -49,11 +48,15 @@ final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
 
 Locale _getDeviceLocale() {
-  final deviceLocal = Platform.localeName;
-  if (deviceLocal.contains("de")) {
-    return const Locale("de");
-  } else {
+  if (kIsWeb) {
     return const Locale("en");
+  } else {
+    final deviceLocal = Platform.localeName;
+    if (deviceLocal.contains("de")) {
+      return const Locale("de");
+    } else {
+      return const Locale("en");
+    }
   }
 }
 
@@ -99,11 +102,10 @@ final movieViewModel = Provider((ref) => MovieViewModel());
 
 /// view model for lectures
 final lectureViewModel = Provider((ref) => LectureViewModel());
-final lectureDetailsViewModel = Provider((ref) {
-  final event = ref.watch(selectedEvent);
-  final lecture = ref.watch(selectedLecture);
-  return LectureDetailsViewModel(event: event, lecture: lecture);
-});
+final lectureDetailsViewModel =
+    Provider.family<LectureDetailsViewModel, (CalendarEvent?, Lecture?)>(
+        (ref, data) =>
+            LectureDetailsViewModel(event: data.$1, lecture: data.$2));
 
 /// view model for grades
 final gradeViewModel = Provider((ref) => GradeViewModel(ref));
