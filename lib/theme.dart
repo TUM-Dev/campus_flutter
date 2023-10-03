@@ -217,9 +217,8 @@ ThemeData darkTheme(BuildContext context) {
                   (states) => _primaryDarkColor),
               foregroundColor:
                   MaterialStateProperty.resolveWith((states) => Colors.white),
-              shape: MaterialStateProperty.resolveWith((states) =>
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0))))),
+              shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))))),
 
       /// remove tint of dialogs
       dialogTheme: const DialogTheme(
@@ -331,6 +330,6 @@ ThemeData darkTheme(BuildContext context) {
           })),
 
       /// style list tiles
-      listTileTheme:
-          ListTileThemeData(titleTextStyle: Theme.of(context).textTheme.bodyMedium));
+      listTileTheme: ListTileThemeData(
+          titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: _almostWhite)));
 }
