@@ -22,6 +22,10 @@ class CalendarEvent extends Searchable {
   final DateTime endDate;
   final String location;
 
+  Duration get duration {
+    return endDate.difference(startDate);
+  }
+
   String? get lvNr {
     return url.split("LvNr=").last;
   }
