@@ -1,6 +1,9 @@
 name: Deploy Beta to TestFlight and Play Store
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - 'ci-cd-caching'
 
 jobs:
   deploy:
