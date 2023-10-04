@@ -11,8 +11,8 @@ jobs:
     runs-on: macos-latest
 
     strategy:
-      matrix:
-        platform: [ ios, android ]
+      # matrix:
+        # platform: [ ios, android ]
       fail-fast: false
 
     steps:
@@ -34,7 +34,10 @@ jobs:
           # java-version: '17'
 
       - name: Test
-        run: echo "${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}"
+        run: |
+          echo CACHE-PATH=${{ steps.flutter-action.outputs.CACHE-PATH }}
+          echo CACHE-KEY=${{ steps.flutter-action.outputs.CACHE-KEY }}
+          echo "${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}"
 
       - name: Cache pub dependencies
         uses: actions/cache@v3
