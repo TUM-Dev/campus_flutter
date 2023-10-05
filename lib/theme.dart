@@ -137,17 +137,13 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
-        unselectedLabelTextStyle:
-            Theme.of(context).textTheme.labelMedium?.copyWith(
-                /*color: _navigationIconGrayLight, */
-                fontWeight: FontWeight.w500),
+        unselectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
-        /*unselectedIconTheme:
-            const IconThemeData(color: _navigationIconGrayLight),*/
-        //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _lightBackground,
-        //surfaceTintColor: Colors.transparent
       ),
 
       /// style pop up menu

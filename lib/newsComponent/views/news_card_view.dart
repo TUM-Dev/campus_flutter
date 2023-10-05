@@ -14,9 +14,6 @@ class NewsCardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-        onTap: () {
-          // TODO: with RSS feed we are able to link to TUM site
-        },
         child: AspectRatio(
             aspectRatio: 1.1,
             child: Card(
@@ -29,11 +26,7 @@ class NewsCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                              imageUrl: /*kIsWeb
-                                  ? news.$2.image.toString().replaceAll(
-                                      "app.tum.de", "tum-proxy.resch.io")
-                                  : */
-                                  news.$2.image.toString(),
+                              imageUrl: news.$2.link.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
                               placeholder: (context, string) => Image.asset(

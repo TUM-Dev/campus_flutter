@@ -32,21 +32,4 @@ class NavigaTumService {
 
     return response.data;
   }
-
-/*static Future<NavigaTumNavigationDetails> fetch(
-      bool forcedRefresh, String query) async {
-    final response = await getIt<MainApi>()
-        .makeRequest<NavigaTumNavigationDetails, NavigaTumApi>(
-            NavigaTumApi(navigaTumApiService: Na(id: query, language: "en")),
-            (p0) => null,
-            forcedRefresh);
-
-    return response.data;
-  }
-
-  func fetch(for query: String, forcedRefresh: Bool) async throws -> [FoundRoom] {
-  let response : [FoundRoom] = try await MainAPI.makeRequest(endpoint: TUMCabeAPI.roomApiSearch(query: query))
-
-  return response
-  }*/
 }
