@@ -3,6 +3,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/search_result_card_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,8 @@ class MovieSearchResultView extends ConsumerWidget {
       viewModel: movieSearchViewModel,
       body: (movie) => ListTile(
         title: Text(movie.title),
-        subtitle: Text(DateFormat.yMd().format(movie.date)),
+        subtitle: Text(DateFormat.yMd(context.localizations.localeName)
+            .format(movie.date)),
       ),
     );
   }

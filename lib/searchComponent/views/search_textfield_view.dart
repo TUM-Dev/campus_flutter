@@ -33,7 +33,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
             });
           },
           decoration: InputDecoration(
-            hintText: 'Search',
+            hintText: context.localizations.search,
             suffixIcon: showIcon
                 ? GestureDetector(
                     onTap: () {

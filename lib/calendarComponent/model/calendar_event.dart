@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/calendar_event_type.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -35,9 +36,12 @@ class CalendarEvent extends Searchable {
   }
 
   // TODO: Mon, dd.mm.yyyy, hh:mm - hh:mm
-  String get timeDatePeriod {
-    final start = DateFormat("EE, dd.MM.yyyy, HH:mm").format(startDate);
-    final end = DateFormat("HH:mm").format(endDate);
+  String timeDatePeriod(BuildContext context) {
+    final start =
+        DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName)
+            .format(startDate);
+    final end =
+        DateFormat("HH:mm", context.localizations.localeName).format(endDate);
     return "$start - $end";
   }
 
