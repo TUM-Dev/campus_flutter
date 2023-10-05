@@ -21,7 +21,8 @@ class SearchCategoryPickerView extends ConsumerWidget {
                   data: _getData(snapshot.data ?? [], ref),
                   height: 40,
                   child: (searchCategory) => FilterChip(
-                        label: Text(searchCategory.title),
+                        label: Text(SearchCategoryExtension.localizedEnumTitle(
+                            searchCategory, context)),
                         onSelected: (selected) {
                           ref
                               .read(searchViewModel)

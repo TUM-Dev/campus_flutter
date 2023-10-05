@@ -19,35 +19,44 @@ class CampusMostSearchedView extends ConsumerWidget {
                 stream: ref.watch(navigaTumViewModel).mostSearchedResults,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        for (var entity in snapshot.data!.indexed) ...[
-                          ListTile(
-                            title: IconText(
-                              iconData: Icons.school,
-                              label: entity.$2.getFormattedName(),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              multipleLines: true,
-                              iconSize: 15,
-                              iconColor: Theme.of(context).primaryColor,
-                            ),
-                            trailing: const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
-                            // TODO(Jakob): NavigaTum Integration
-                            /*onTap: () => Navigator.of(context).push(
+                    if (snapshot.data!.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.all(context.padding),
+                        child: Center(
+                          child: Text(context.localizations.noRoomsFound),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          for (var entity in snapshot.data!.indexed) ...[
+                            ListTile(
+                              title: IconText(
+                                iconData: Icons.school,
+                                label: entity.$2.getFormattedName(),
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                multipleLines: true,
+                                iconSize: 15,
+                                iconColor: Theme.of(context).primaryColor,
+                              ),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 15,
+                              ),
+                              // TODO(Jakob): NavigaTum Integration
+                              /*onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => NavigaTumRoomScaffold(
                                         navigationEntity: entity.$2))),*/
-                          ),
-                          if (entity.$1 < snapshot.data!.length - 1)
-                            const PaddedDivider(
-                              height: 0,
-                            )
-                        ]
-                      ],
-                    );
+                            ),
+                            if (entity.$1 < snapshot.data!.length - 1)
+                              const PaddedDivider(
+                                height: 0,
+                              )
+                          ]
+                        ],
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     return const Text("Error");
                   } else {

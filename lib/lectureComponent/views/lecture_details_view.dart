@@ -96,7 +96,8 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BasicLectureInfoRowView(
-                    information: ref.read(viewModel).event!.timeDatePeriod,
+                    information:
+                        ref.read(viewModel).event!.timeDatePeriod(context),
                     iconData: Icons.hourglass_top),
                 const Divider(),
                 // TODO: NavigaTUM Integration

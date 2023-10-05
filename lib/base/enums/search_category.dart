@@ -1,21 +1,20 @@
+import 'package:campus_flutter/theme.dart';
+import 'package:flutter/cupertino.dart';
+
 enum SearchCategory {
   /// enums that exist in the Text Classification Model
-  cafeterias("Cafeterias"),
-  calendar("Calendar"),
-  grade("Grades"),
-  movie("Movies"),
-  news("News"),
-  studyRoom("Study Rooms"),
-  unknown("Unknown"),
+  cafeterias,
+  calendar,
+  grade,
+  movie,
+  news,
+  studyRoom,
+  unknown,
 
   /// enums that are not classified but shown in searches
-  lectures("Lectures"),
-  personalLectures("Personal Lectures"),
-  persons("Persons");
-
-  final String title;
-
-  const SearchCategory(this.title);
+  lectures,
+  personalLectures,
+  persons;
 
   factory SearchCategory.fromString(String category) {
     switch (category) {
@@ -40,6 +39,32 @@ enum SearchCategory {
 extension SearchCategoryExtension on SearchCategory {
   static List<SearchCategory> lectureSearch() {
     return [SearchCategory.personalLectures, SearchCategory.lectures];
+  }
+
+  static String localizedEnumTitle(
+      SearchCategory searchCategory, BuildContext context) {
+    switch (searchCategory) {
+      case SearchCategory.cafeterias:
+        return context.localizations.cafeterias;
+      case SearchCategory.calendar:
+        return context.localizations.calendar;
+      case SearchCategory.grade:
+        return context.localizations.grades;
+      case SearchCategory.movie:
+        return context.localizations.movies;
+      case SearchCategory.news:
+        return context.localizations.news;
+      case SearchCategory.studyRoom:
+        return context.localizations.studyRooms;
+      case SearchCategory.lectures:
+        return context.localizations.lectures;
+      case SearchCategory.personalLectures:
+        return context.localizations.personalLectures;
+      case SearchCategory.persons:
+        return context.localizations.persons;
+      default:
+        return context.localizations.unknown;
+    }
   }
 
   static List<SearchCategory> unAuthorizedSearch() {
