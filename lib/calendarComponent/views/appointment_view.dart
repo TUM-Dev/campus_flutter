@@ -9,11 +9,12 @@ class AppointmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appointment = details.appointments.first as CalendarEvent;
-    final color = appointment.getEventColor(context);
+    final calendarEvent = details.appointments.first as CalendarEvent;
+    final color = calendarEvent.getEventColor(context);
     return Container(
-      height: details.bounds.height,
+      height: details.bounds.height / 4,
       width: details.bounds.width,
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
           color: color.withOpacity(0.5),
           border: Border(left: BorderSide(color: color, width: 5.0))),
@@ -21,51 +22,77 @@ class AppointmentView extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                  flex: 4,
-                  child: Text(
-                    appointment.title,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        decoration: appointment.isCanceled
-                            ? TextDecoration.lineThrough
-                            : null,
-                        decorationColor: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  )),
-              Expanded(
-                  flex: 3,
-                  child: Text(
-                    appointment.location.toString(),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        decoration: appointment.isCanceled
-                            ? TextDecoration.lineThrough
-                            : null,
-                        decorationColor: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  )),
-              Expanded(
-                  flex: 3,
-                  child: Text(
-                    appointment.timeDatePeriod.toString(),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        decoration: appointment.isCanceled
-                            ? TextDecoration.lineThrough
-                            : null,
-                        decorationColor: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  )),
+              _eventTitle(calendarEvent.title, calendarEvent.duration,
+                  calendarEvent.isCanceled, context),
+              if (calendarEvent.duration
+                      .compareTo(const Duration(hours: 0, minutes: 45)) >
+                  0)
+                _eventLocation(
+                    calendarEvent.location, calendarEvent.isCanceled, context),
+              if (calendarEvent.endDate
+                      .difference(calendarEvent.startDate)
+                      .compareTo(const Duration(hours: 1, minutes: 30)) >=
+                  0)
+                _eventTime(calendarEvent.timeDatePeriod,
+                    calendarEvent.isCanceled, context)
             ],
           )),
     );
+  }
+
+  Widget _eventTitle(
+      String title, Duration duration, bool isCanceled, BuildContext context) {
+    return Expanded(
+        flex: 4,
+        child: Text(
+          title,
+          style: duration.compareTo(const Duration(minutes: 60)) >= 0
+              ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  decoration: isCanceled ? TextDecoration.lineThrough : null,
+                  decorationColor: Colors.white)
+              : Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  decoration: isCanceled ? TextDecoration.lineThrough : null,
+                  decorationColor: Colors.white),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ));
+  }
+
+  Widget _eventLocation(
+      String location, bool isCanceled, BuildContext context) {
+    return Expanded(
+        flex: 3,
+        child: Text(
+          location.toString(),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              decoration: isCanceled ? TextDecoration.lineThrough : null,
+              decorationColor: Colors.white),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ));
+  }
+
+  Widget _eventTime(
+      String timeDatePeriod, bool isCanceled, BuildContext context) {
+    return Expanded(
+        flex: 3,
+        child: Text(
+          timeDatePeriod.toString(),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              decoration: isCanceled ? TextDecoration.lineThrough : null,
+              decorationColor: Colors.white),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ));
   }
 }

@@ -24,7 +24,7 @@ class StudyRoomRowView extends ConsumerWidget {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyLarge
+                          .bodyMedium
                           ?.copyWith(fontWeight: FontWeight.w500)),
                   IconText(
                       iconData: Icons.numbers,
@@ -36,7 +36,7 @@ class StudyRoomRowView extends ConsumerWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: _statusColor(
                       studyRoom.localizedStatus(context), context)),
             )),
