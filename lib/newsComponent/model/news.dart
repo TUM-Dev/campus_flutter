@@ -17,7 +17,7 @@ class News extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title ?? ""),
+        ComparisonToken(value: title),
       ];
 
   News(

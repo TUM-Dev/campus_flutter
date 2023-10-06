@@ -54,7 +54,7 @@ class TumCabeApi extends Api {
       case TumCabeApiServiceMovie _:
         return "${path}movies/0";
       case TumCabeApiServiceCafeteria _:
-        return "${path}/canteen/allCanteens";
+        return "$path/canteen/allCanteens";
       case TumCabeApiServiceNews _:
         return "${path}news/0";
       case TumCabeApiServiceNewsSources _:
