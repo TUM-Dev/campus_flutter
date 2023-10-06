@@ -4,7 +4,6 @@ import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
