@@ -1,23 +1,49 @@
-sealed class TumCabeService {
+sealed class TumCabeApiService {
   Map<String, String> getParameters() => {};
 }
 
-class TumCabeServiceMovie extends TumCabeService {}
+class TumCabeApiServiceMovie extends TumCabeApiService {}
 
-class TumCabeServiceCafeteria extends TumCabeService {}
+class TumCabeApiServiceCafeteria extends TumCabeApiService {}
 
-class TumCabeServiceNews extends TumCabeService {
-  final String source;
+class TumCabeApiServiceNews extends TumCabeApiService {}
 
-  TumCabeServiceNews({required this.source});
-}
+class TumCabeApiServiceNewsSources extends TumCabeApiService {}
 
-class TumCabeServiceNewsSources extends TumCabeService {}
+class TumCabeApiServiceNewsAlert extends TumCabeApiService {}
 
-class TumCabeServiceNewsAlert extends TumCabeService {}
+class TumCabeApiServiceFeedback extends TumCabeApiService {
+  final String topic;
+  final String email;
+  final String emailId;
+  final String message;
+  final int imageCount;
+  final double latitude;
+  final double longitude;
+  final String osVersion;
+  final String appVersion;
 
-class TumCabeServiceRegisterDevice extends TumCabeService {
-  final String publicKey;
+  TumCabeApiServiceFeedback(
+      {required this.topic,
+      required this.email,
+      required this.emailId,
+      required this.message,
+      required this.imageCount,
+      required this.latitude,
+      required this.longitude,
+      required this.osVersion,
+      required this.appVersion});
 
-  TumCabeServiceRegisterDevice({required this.publicKey});
+  @override
+  Map<String, String> getParameters() => {
+        "topic": topic,
+        "email": email,
+        "emailId": emailId,
+        "message": message,
+        "imageCount": imageCount.toString(),
+        "latitude": latitude.toString(),
+        "longitude": longitude.toString(),
+        "osVersion": osVersion,
+        "appVersion": appVersion
+      };
 }

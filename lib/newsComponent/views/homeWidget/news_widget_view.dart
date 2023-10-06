@@ -27,7 +27,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
     return WidgetFrameView(
         title: context.localizations.latestNews,
         child: StreamBuilder(
-            stream: ref.watch(newsViewModel).newsSources,
+            stream: ref.watch(newsViewModel).news,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final fiveNews = ref.watch(newsViewModel).latestFiveNews();

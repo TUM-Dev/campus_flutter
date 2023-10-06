@@ -7,23 +7,25 @@ part of 'news.dart';
 // **************************************************************************
 
 News _$NewsFromJson(Map<String, dynamic> json) => News(
-      id: json['news'] as String,
-      source: json['src'] as String,
+      id: json['id'] as String,
+      source: json['source'] as String,
       date: DateTime.parse(json['date'] as String),
       created: DateTime.parse(json['created'] as String),
       title: json['title'] as String,
       link: Uri.parse(json['link'] as String),
-      image: Uri.parse(json['image'] as String),
+      imageUrl: json['imageUrl'] == null
+          ? null
+          : Uri.parse(json['imageUrl'] as String),
     );
 
 Map<String, dynamic> _$NewsToJson(News instance) => <String, dynamic>{
-      'news': instance.id,
-      'src': instance.source,
+      'id': instance.id,
+      'source': instance.source,
       'date': instance.date.toIso8601String(),
       'created': instance.created.toIso8601String(),
       'title': instance.title,
       'link': instance.link.toString(),
-      'image': instance.image.toString(),
+      'imageUrl': instance.imageUrl?.toString(),
     };
 
 NewsData _$NewsDataFromJson(Map<String, dynamic> json) => NewsData(

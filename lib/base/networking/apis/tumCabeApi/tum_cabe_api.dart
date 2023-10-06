@@ -3,12 +3,12 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TumCabeApi extends Api {
-  final TumCabeService tumCabeService;
+  final TumCabeApiService tumCabeApiService;
 
-  TumCabeApi({required this.tumCabeService});
+  TumCabeApi({required this.tumCabeApiService});
 
   @override
-  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "app.tum.app";
+  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "api.tum.app";
 
   @override
   Map<String, String> get baseHeaders {
@@ -43,29 +43,29 @@ class TumCabeApi extends Api {
   }
 
   @override
-  String get path => "/api/";
+  String get path => "/v1/";
 
   @override
   bool get needsAuth => false;
 
   @override
   String get paths {
-    switch (tumCabeService) {
-      case TumCabeServiceMovie _:
-        return "${path}kino";
-      case TumCabeServiceCafeteria _:
-        return "${path}mensen";
-      case TumCabeServiceNews news:
-        return "${path}news/${news.source}/getAll";
-      case TumCabeServiceNewsSources _:
+    switch (tumCabeApiService) {
+      case TumCabeApiServiceMovie _:
+        return "${path}movies/0";
+      case TumCabeApiServiceCafeteria _:
+        return "${path}/canteen/allCanteens";
+      case TumCabeApiServiceNews _:
+        return "${path}news/0";
+      case TumCabeApiServiceNewsSources _:
         return "${path}news/sources";
-      case TumCabeServiceNewsAlert _:
-        return "${path}news/alert";
-      case TumCabeServiceRegisterDevice registerDevice:
-        return "${path}device/register/${registerDevice.publicKey}";
+      case TumCabeApiServiceNewsAlert _:
+        return "${path}news/alerts";
+      case TumCabeApiServiceFeedback _:
+        return "${path}feedback";
     }
   }
 
   @override
-  Map<String, String> get parameters => {};
+  Map<String, String> get parameters => tumCabeApiService.getParameters();
 }

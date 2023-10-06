@@ -7,47 +7,46 @@ part of 'movie.dart';
 // **************************************************************************
 
 Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
-      id: json['kino'] as String,
+      id: json['movieId'] as String,
       date: DateTime.parse(json['date'] as String),
       created: DateTime.parse(json['created'] as String),
       title: json['title'] as String,
-      year: json['year'] as String,
+      releaseYear: json['releaseYear'] as String,
       runTime: json['runTime'] as String?,
       genre: json['genre'] as String,
       director: json['director'] as String,
       actors: json['actors'] as String,
-      rating: StringParser.stringToDouble(json['rating'] as String?),
+      imdbRating: StringParser.stringToDouble(json['imdbRating'] as String?),
       description: json['description'] as String,
-      cover: Uri.parse(json['cover'] as String),
-      trailer:
-          json['trailer'] == null ? null : Uri.parse(json['trailer'] as String),
+      coverId: json['coverId'] as String,
+      coverName: json['coverName'] as String,
       link: Uri.parse(json['link'] as String),
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
-      'kino': instance.id,
+      'movieId': instance.id,
       'date': instance.date.toIso8601String(),
       'created': instance.created.toIso8601String(),
       'title': instance.title,
-      'year': instance.year,
+      'releaseYear': instance.releaseYear,
       'runTime': instance.runTime,
       'genre': instance.genre,
       'director': instance.director,
       'actors': instance.actors,
-      'rating': instance.rating,
+      'imdbRating': instance.imdbRating,
       'description': instance.description,
-      'cover': instance.cover.toString(),
-      'trailer': instance.trailer?.toString(),
+      'coverName': instance.coverName,
+      'coverId': instance.coverId,
       'link': instance.link.toString(),
     };
 
 MoviesData _$MoviesDataFromJson(Map<String, dynamic> json) => MoviesData(
-      movies: (json['data'] as List<dynamic>)
+      movies: (json['movies'] as List<dynamic>)
           .map((e) => Movie.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$MoviesDataToJson(MoviesData instance) =>
     <String, dynamic>{
-      'data': instance.movies,
+      'movies': instance.movies,
     };

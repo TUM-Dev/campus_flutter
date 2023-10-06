@@ -9,7 +9,7 @@ class MovieService {
       bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<MoviesData, TumCabeApi>(
-        TumCabeApi(tumCabeService: TumCabeServiceMovie()),
+        TumCabeApi(tumCabeApiService: TumCabeApiServiceMovie()),
         MoviesData.fromJson,
         forcedRefresh);
 

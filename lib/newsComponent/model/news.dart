@@ -6,20 +6,18 @@ part 'news.g.dart';
 
 @JsonSerializable()
 class News extends Searchable {
-  @JsonKey(name: "news")
   final String id;
-  @JsonKey(name: "src")
   final String source;
   final DateTime date;
   final DateTime created;
   final String title;
   final Uri link;
-  final Uri image;
+  final Uri? imageUrl;
 
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title),
+        ComparisonToken(value: title ?? ""),
       ];
 
   News(
@@ -29,7 +27,7 @@ class News extends Searchable {
       required this.created,
       required this.title,
       required this.link,
-      required this.image});
+      required this.imageUrl});
 
   factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 

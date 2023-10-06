@@ -29,18 +29,17 @@ class MovieCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
-                            imageUrl: kIsWeb
-                                ? movie.cover.toString().replaceAll(
-                                    "app.tum.de", "tum-proxy.resch.io")
-                                : movie.cover.toString(),
+                            // TODO(Jakob): path for movie cover
+                            imageUrl: "",
                             fit: BoxFit.fitWidth,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,
-                            placeholder: (context, string) {
-                              return Image.asset(
-                                  "assets/images/placeholders/movie_placeholder.png",
-                                  fit: BoxFit.cover);
-                            },
+                            placeholder: (context, string) => Image.asset(
+                                "assets/images/placeholders/movie_placeholder.png",
+                                fit: BoxFit.fill),
+                            errorWidget: (context, url, error) => Image.asset(
+                                "assets/images/placeholders/movie_placeholder.png",
+                                fit: BoxFit.fill),
                           ))),
                   Expanded(
                       flex: 2,
