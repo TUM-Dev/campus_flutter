@@ -52,11 +52,11 @@ class TumCabeApi extends Api {
   String get paths {
     switch (tumCabeApiService) {
       case TumCabeApiServiceMovie _:
-        return "${path}movies/0";
+        return "${path}movies/-1";
       case TumCabeApiServiceCafeteria _:
         return "$path/canteen/allCanteens";
       case TumCabeApiServiceNews _:
-        return "${path}news/0";
+        return "${path}news/-1";
       case TumCabeApiServiceNewsSources _:
         return "${path}news/sources";
       case TumCabeApiServiceNewsAlert _:
