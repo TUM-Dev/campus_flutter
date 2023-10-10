@@ -2,11 +2,27 @@ sealed class TumCabeApiService {
   Map<String, String> getParameters() => {};
 }
 
-class TumCabeApiServiceMovie extends TumCabeApiService {}
+class TumCabeApiServiceMovie extends TumCabeApiService {
+  final DateTime today;
+
+  TumCabeApiServiceMovie(this.today);
+
+  @override
+  Map<String, String> getParameters() =>
+      {"oldestDateAt": today.toUtc().toIso8601String()};
+}
 
 class TumCabeApiServiceCafeteria extends TumCabeApiService {}
 
-class TumCabeApiServiceNews extends TumCabeApiService {}
+class TumCabeApiServiceNews extends TumCabeApiService {
+  final DateTime dateOldestNews;
+
+  TumCabeApiServiceNews(this.dateOldestNews);
+
+  @override
+  Map<String, String> getParameters() =>
+      {"oldestDateAt": dateOldestNews.toUtc().toIso8601String()};
+}
 
 class TumCabeApiServiceNewsSources extends TumCabeApiService {}
 

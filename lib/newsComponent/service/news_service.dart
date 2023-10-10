@@ -8,7 +8,9 @@ class NewsService {
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<NewsData, TumCabeApi>(
-        TumCabeApi(tumCabeApiService: TumCabeApiServiceNews()),
+        TumCabeApi(
+            tumCabeApiService: TumCabeApiServiceNews(
+                DateTime.now().subtract(const Duration(days: 30)))),
         NewsData.fromJson,
         forcedRefresh);
 
