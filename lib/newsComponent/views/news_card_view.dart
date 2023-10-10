@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/newsComponent/model/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../base/networking/apis/tumdev/campus_backend.pb.dart';
+
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
 
-  final (String?, News) news;
+  final News news;
   final double width;
 
   @override
@@ -29,9 +30,9 @@ class NewsCardView extends ConsumerWidget {
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(10.0)),
                       child: CachedNetworkImage(
                           imageUrl: kIsWeb
-                              ? news.$2.image.toString()
+                              ? news.imageUrl.toString()
                               .replaceAll("app.tum.de", "tum-proxy.resch.io")
-                              : news.$2.image.toString(),
+                              : news.imageUrl.toString(),
                           fadeOutDuration: Duration.zero,
                           fadeInDuration: Duration.zero,
                           placeholder: (context, string) => Image.asset("assets/images/placeholders/news_placeholder.png", fit: BoxFit.fill),
@@ -48,17 +49,17 @@ class NewsCardView extends ConsumerWidget {
                             children: [
                               Expanded(
                                   flex: 3,
-                                  child: Text(news.$2.title,
+                                  child: Text(news.title,
                                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).colorScheme.onSurface),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis)),
                               Expanded(
-                                  child: Text(StringParser.dateFormatter(news.$2.created),
+                                  child: Text(StringParser.dateFormatter(news.created.toDateTime()),
                                       style: Theme.of(context).textTheme.bodySmall)),
                               Expanded(
-                                  child: Text("Source: ${news.$1}",
+                                  child: Text("Source: ${news.source}", // TODO(frank): pass the source name instead of the id from the backend ^^
                                       style: Theme.of(context).textTheme.bodySmall,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis))
