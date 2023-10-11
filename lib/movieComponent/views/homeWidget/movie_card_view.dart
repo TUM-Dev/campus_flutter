@@ -31,9 +31,9 @@ class MovieCardView extends ConsumerWidget {
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
                             imageUrl: kIsWeb
-                                ? movie.coverName.toString().replaceAll(
+                                ? movie.coverUrl.toString().replaceAll(
                                     "app.tum.de", "tum-proxy.resch.io")
-                                : movie.coverName.toString(),
+                                : movie.coverUrl.toString(),
                             fit: BoxFit.fitWidth,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,
