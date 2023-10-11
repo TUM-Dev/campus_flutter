@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
