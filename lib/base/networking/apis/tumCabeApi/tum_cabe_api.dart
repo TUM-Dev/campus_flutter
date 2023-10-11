@@ -13,33 +13,11 @@ class TumCabeApi extends Api {
   @override
   Map<String, String> get baseHeaders {
     return {
-      "x-app-version": "0.1.0",
-      "x-app-build": "11",
+      "x-app-version": "not available",
+      "x-app-build": "not available",
       "x-device-id": "not available",
-      "x-os-version": "16.4.1"
+      "x-os-version": "not available"
     };
-    // TODO:
-    /*Map<String, String> headerEntries = {};
-
-    PackageInfo.fromPlatform().then((value) { headerEntries
-        .addAll({
-          "x-app-version": [value.version],
-          "x-app-build": [value.buildNumber],
-        });
-
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      deviceInfo.iosInfo.then((value) => headerEntries
-          .addAll({
-            "x-device-id": [value.identifierForVendor ?? "not available"],
-            "x-os-version": [value.systemVersion]
-          }));
-    } else if (Platform.isAndroid) {
-      deviceInfo.androidInfo.then((value) => headerEntries
-          .addAll({"x-device-id": [value.id], "x-os-version": [value.version.toString()]}));
-    }});
-
-    return headerEntries;*/
   }
 
   @override

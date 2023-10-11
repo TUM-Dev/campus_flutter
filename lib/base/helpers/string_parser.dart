@@ -74,8 +74,10 @@ class StringParser {
         semester.substring(2), 2000 + yearOffset, yearOffset + 1);
   }
 
-  static String dateFormatter(DateTime dateTime) {
-    return DateFormat(DateFormat.YEAR_MONTH_DAY).format(dateTime);
+  static String dateFormatter(DateTime dateTime, BuildContext context) {
+    return DateFormat(
+            DateFormat.YEAR_MONTH_DAY, context.localizations.localeName)
+        .format(dateTime);
   }
 
   static double stringToDouble(String? number) {

@@ -56,8 +56,10 @@ class TuitionView extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _infoRow(context.localizations.tuitionDueDate,
-                    DateFormat.yMd().format(snapshot.data!.deadline)),
+                _infoRow(
+                    context.localizations.tuitionDueDate,
+                    DateFormat.yMd(context.localizations.localeName)
+                        .format(snapshot.data!.deadline)),
                 _infoRow(
                     context.localizations.tuitionOpenAmount,
                     NumberFormat.currency(locale: "de_DE", symbol: '€')

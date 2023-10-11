@@ -61,7 +61,7 @@ class MovieCardView extends ConsumerWidget {
                                     Expanded(
                                         child: Text(
                                             StringParser.dateFormatter(
-                                                movie.date),
+                                                movie.date, context),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall,

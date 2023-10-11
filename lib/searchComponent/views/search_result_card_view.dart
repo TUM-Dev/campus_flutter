@@ -24,7 +24,8 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-        title: searchCategory.title,
+        title:
+            SearchCategoryExtension.localizedEnumTitle(searchCategory, context),
         child: Card(
             child: StreamBuilder(
           stream: ref.watch<SearchViewModel>(viewModel).searchResults,
@@ -34,7 +35,9 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                 return Padding(
                     padding: EdgeInsets.all(context.padding),
                     child: Center(
-                      child: Text("No ${searchCategory.title} Found"),
+                      child: Text(context.localizations.noEntriesFoundSearch(
+                          SearchCategoryExtension.localizedEnumTitle(
+                              searchCategory, context))),
                     ));
               } else {
                 return ListView.separated(
@@ -57,7 +60,8 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                           ErrorHandlingViewType.descriptionOnly));
             } else {
               return DelayedLoadingIndicator(
-                name: searchCategory.title,
+                name: SearchCategoryExtension.localizedEnumTitle(
+                    searchCategory, context),
               );
             }
           },

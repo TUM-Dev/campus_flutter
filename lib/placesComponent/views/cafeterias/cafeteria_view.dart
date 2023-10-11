@@ -142,8 +142,8 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                     //inverted: true,
                   ),
                 if (todayMeals.isEmpty)
-                  const Center(
-                    child: Text("no meal plan found"),
+                  Center(
+                    child: Text(context.localizations.noMealPlanFound),
                   )
               ],
             );

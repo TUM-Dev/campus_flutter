@@ -63,7 +63,7 @@ class NewsCardView extends ConsumerWidget {
                                           overflow: TextOverflow.ellipsis)),
                                   Expanded(
                                       child: Text(
-                                          StringParser.dateFormatter(news.date),
+                                          StringParser.dateFormatter(news.date, context),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),

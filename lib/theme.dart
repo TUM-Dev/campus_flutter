@@ -137,17 +137,13 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(color: _primaryLightColor, fontWeight: FontWeight.w500),
-        unselectedLabelTextStyle:
-            Theme.of(context).textTheme.labelMedium?.copyWith(
-                /*color: _navigationIconGrayLight, */
-                fontWeight: FontWeight.w500),
+        unselectedLabelTextStyle: Theme.of(context)
+            .textTheme
+            .labelMedium
+            ?.copyWith(fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
-        /*unselectedIconTheme:
-            const IconThemeData(color: _navigationIconGrayLight),*/
-        //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _lightBackground,
-        //surfaceTintColor: Colors.transparent
       ),
 
       /// style pop up menu
@@ -179,7 +175,26 @@ ThemeData lightTheme(BuildContext context) {
           subtitleTextStyle: Theme.of(context)
               .textTheme
               .bodySmall
-              ?.copyWith(color: Theme.of(context).colorScheme.secondary)));
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
+
+      /// style for segmented button
+      segmentedButtonTheme: SegmentedButtonThemeData(
+          style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return Colors.white;
+          } else {
+            return _primaryLightColor;
+          }
+        }),
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return _primaryLightColor;
+          } else {
+            return Colors.transparent;
+          }
+        }),
+      )));
 }
 
 /// dark theme
@@ -331,5 +346,24 @@ ThemeData darkTheme(BuildContext context) {
 
       /// style list tiles
       listTileTheme: ListTileThemeData(
-          titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: _almostWhite)));
+          titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: _almostWhite)),
+
+      /// style for segmented button
+      segmentedButtonTheme: SegmentedButtonThemeData(
+          style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return Colors.white;
+          } else {
+            return _primaryDarkColor;
+          }
+        }),
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return _primaryDarkColor;
+          } else {
+            return Colors.transparent;
+          }
+        }),
+      )));
 }
