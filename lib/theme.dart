@@ -180,21 +180,22 @@ ThemeData lightTheme(BuildContext context) {
       /// style for segmented button
       segmentedButtonTheme: SegmentedButtonThemeData(
           style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return Colors.white;
-          } else {
-            return _primaryLightColor;
-          }
-        }),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return _primaryLightColor;
-          } else {
-            return Colors.transparent;
-          }
-        }),
-      )));
+              foregroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.white;
+                } else {
+                  return _primaryLightColor;
+                }
+              }),
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return _primaryLightColor;
+                } else {
+                  return Colors.transparent;
+                }
+              }),
+              side: const MaterialStatePropertyAll(
+                  BorderSide(color: _lightGray, width: 0.5)))));
 }
 
 /// dark theme
@@ -351,19 +352,19 @@ ThemeData darkTheme(BuildContext context) {
       /// style for segmented button
       segmentedButtonTheme: SegmentedButtonThemeData(
           style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return Colors.white;
-          } else {
-            return _primaryDarkColor;
-          }
-        }),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return _primaryDarkColor;
-          } else {
-            return Colors.transparent;
-          }
-        }),
-      )));
+              foregroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.white;
+                } else {
+                  return _primaryDarkColor;
+                }
+              }),
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return _primaryDarkColor;
+                } else {
+                  return Colors.transparent;
+                }
+              }),
+              side: const MaterialStatePropertyAll(BorderSide(color: _darkGray, width: 0.5)))));
 }
