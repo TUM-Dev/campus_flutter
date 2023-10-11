@@ -12,18 +12,21 @@ option java_outer_classname = "CampusApiProto";
 option java_package = "app.tum.campus.api";
 
 service Campus {
-  rpc GetTopNews(GetTopNewsRequest) returns (GetTopNewsReply) {
-    option (google.api.http) = {get: "/news/top"};
+  rpc ListNewsAlerts(ListNewsAlertsRequest) returns (ListNewsAlertsReply) {
+    option (google.api.http) = {
+      get: "/news/alerts"
+      response_body: "alerts"
+    };
   }
 
-  rpc GetNewsSources(GetNewsSourcesRequest) returns (GetNewsSourcesReply) {
+  rpc ListNewsSources(ListNewsSourcesRequest) returns (ListNewsSourcesReply) {
     option (google.api.http) = {
       get: "/news/sources",
       response_body: "sources"
     };
   }
 
-  rpc GetNews(GetNewsRequest) returns (GetNewsReply) {
+  rpc ListNews(ListNewsRequest) returns (ListNewsReply) {
     option (google.api.http) = {
       get: "/news/{last_news_id}",
       response_body: "news"
@@ -39,7 +42,7 @@ service Campus {
   }
 
   // This endpoint retrieves Canteen Ratings from the Backend.
-  rpc GetCanteenRatings(GetCanteenRatingsRequest) returns (GetCanteenRatingsReply) {
+  rpc ListCanteenRatings(ListCanteenRatingsRequest) returns (ListCanteenRatingsReply) {
     option (google.api.http) = {
       post: "/canteen/rating/get",
       body: "*",
@@ -53,64 +56,64 @@ service Campus {
     };
   }
 
-  rpc NewCanteenRating(NewCanteenRatingRequest) returns (NewCanteenRatingReply) {
+  rpc CreateCanteenRating(CreateCanteenRatingRequest) returns (CreateCanteenRatingReply) {
     option (google.api.http) = {
       post: "/canteen/rating/new",
       body: "*",
     };
   }
 
-  rpc NewDishRating(NewDishRatingRequest) returns (NewDishRatingReply) {
+  rpc CreateDishRating(CreateDishRatingRequest) returns (CreateDishRatingReply) {
     option (google.api.http) = {
       post: "/dish/rating/new",
       body: "*",
     };
   }
 
-  rpc GetAvailableDishTags(GetAvailableDishTagsRequest) returns (GetAvailableDishTagsReply) {
+  rpc ListAvailableDishTags(ListAvailableDishTagsRequest) returns (ListAvailableDishTagsReply) {
     option (google.api.http) = {
       get: "/dish/rating/allRatingTags",
       response_body: "rating_tags"
     };
   }
 
-  rpc GetNameTags(GetNameTagsRequest) returns (GetNameTagsReply) {
+  rpc ListNameTags(ListNameTagsRequest) returns (ListNameTagsReply) {
     option (google.api.http) = {
       get: "/dish/rating/allDishTags",
       response_body: "rating_tags"
     };
   }
 
-  rpc GetAvailableCanteenTags(GetAvailableCanteenTagsRequest) returns (GetAvailableCanteenTagsReply) {
+  rpc ListAvailableCanteenTags(ListAvailableCanteenTagsRequest) returns (ListAvailableCanteenTagsReply) {
     option (google.api.http) = {
       get: "/canteen/rating/allRatingTags",
       response_body: "rating_tags"
     };
   }
 
-  rpc GetCanteens(GetCanteensRequest) returns (GetCanteensReply) {
+  rpc ListCanteens(ListCanteensRequest) returns (ListCanteensReply) {
     option (google.api.http) = {
       get: "/canteen/allCanteens",
       response_body: "canteen"
     };
   }
 
-  rpc GetDishes(GetDishesRequest) returns (GetDishesReply) {
+  rpc ListDishes(ListDishesRequest) returns (ListDishesReply) {
     option (google.api.http) = {
       get: "/dish/allDishes",
       response_body: "dish"
     };
   }
 
-  rpc GetResponsiblePerson(GetResponsiblePersonRequest) returns (GetResponsiblePersonReply) {
+  rpc ListResponsiblePerson(ListResponsiblePersonRequest) returns (ListResponsiblePersonReply) {
     option (google.api.http) = {get: "/barrierfree/contacts"};
   }
 
-  rpc GetMoreInformation(GetMoreInformationRequest) returns (GetMoreInformationReply) {
+  rpc ListMoreInformation(ListMoreInformationRequest) returns (ListMoreInformationReply) {
     option (google.api.http) = {get: "/barrierfree/moreInformation"};
   }
 
-  rpc GetOpeningTimes(GetOpeningTimesRequest) returns (GetOpeningTimesReply) {
+  rpc ListOpeningTimes(ListOpeningTimesRequest) returns (ListOpeningTimesReply) {
     option (google.api.http) = {get: "/openingtimes/{language}"};
   }
 
@@ -118,20 +121,19 @@ service Campus {
     option (google.api.http) = {get: "/updatenote/{version}"};
   }
 
-  rpc GetStudyRoomList(GetStudyRoomListRequest) returns (GetStudyRoomListReply) {
+  rpc ListStudyRooms(ListStudyRoomsRequest) returns (ListStudyRoomsReply) {
     option (google.api.http) = {get: "/studyrooms"};
   }
 
-  rpc GetMovies(GetMoviesRequest) returns (GetMoviesReply) {
+  rpc ListMovies(ListMoviesRequest) returns (ListMoviesReply) {
     option (google.api.http) = {get: "/movies/{last_id}"};
   }
 
-  rpc SendFeedback(SendFeedbackRequest) returns (SendFeedbackReply) {
-    option (google.api.http) = {post: "/feedback"};
-  }
-
-  rpc SendFeedbackImage(SendFeedbackImageRequest) returns (SendFeedbackImageReply) {
-    option (google.api.http) = {post: "/feedback/{id}/{image_nr}"};
+  rpc CreateFeedback(stream CreateFeedbackRequest) returns (CreateFeedbackReply) {
+    option (google.api.http) = {
+      post: "/feedback",
+      body: "attachment",
+    };
   }
 
   rpc GetUploadStatus(GetUploadStatusRequest) returns (GetUploadStatusReply) {
@@ -146,7 +148,7 @@ service Campus {
     option (google.api.http) = {get: "/notifications/confirm/{notification_id}"};
   }
 
-  rpc GetMembers(GetMembersRequest) returns (GetMembersReply) {
+  rpc GetMember(GetMemberRequest) returns (GetMemberReply) {
     option (google.api.http) = {get: "/members/{lrz_id}"};
   }
 
@@ -155,23 +157,23 @@ service Campus {
   }
 
   // Endpoint for the iOS app to respond to background notifications requests
-  rpc IOSDeviceRequestResponse(IOSDeviceRequestResponseRequest) returns (IOSDeviceRequestResponseReply) {
+  rpc IOSDeviceRequestResponse(IOSDeviceRequestResponseRequest) returns (IOSDeviceRequestResponseReply) { // TODO naming
     option (google.api.http) = {
       post: "/ios/notifications/deviceRequestResponse",
       body: "*",
     };
   }
 
-  // Register an Android, iOS or Windows device for push notifications
-  rpc RegisterDevice(RegisterDeviceRequest) returns (RegisterDeviceReply) {
+  // Create an device (Android/iOS/Windows) for push notifications
+  rpc CreateDevice(CreateDeviceRequest) returns (CreateDeviceReply) {
     option (google.api.http) = {
       post: "/device",
       body: "*",
     };
   }
 
-  // Unregister it from push notifications
-  rpc RemoveDevice(RemoveDeviceRequest) returns (RemoveDeviceReply) {
+  // Delete a device from push notifications
+  rpc DeleteDevice(DeleteDeviceRequest) returns (DeleteDeviceReply) {
     option (google.api.http) = {delete: "/device/{device_id}"};
   }
 }
@@ -182,22 +184,22 @@ enum DeviceType {
   WINDOWS = 2;
 }
 
-message RegisterDeviceRequest {
+message CreateDeviceRequest {
   string device_id = 1;
   optional string public_key = 2;
   DeviceType device_type = 3;
 }
 
-message RegisterDeviceReply {
+message CreateDeviceReply {
   string device_id = 1;
 }
 
-message RemoveDeviceRequest {
+message DeleteDeviceRequest {
   string device_id = 1;
   DeviceType device_type = 2;
 }
 
-message RemoveDeviceReply {
+message DeleteDeviceReply {
   string device_id = 1;
 }
 
@@ -235,37 +237,51 @@ message News {
   string title = 2;
   string text = 3;
   string link = 4;
+  // where a news thumbnail is stored. empty string means no image is available
   string image_url = 5;
   string source = 6;
+  // when the news item was created in OUR database
   google.protobuf.Timestamp created = 7;
+  // the date of the news item
   google.protobuf.Timestamp date = 8;
 }
 
-message GetNewsReply {
+message ListNewsReply {
   repeated News news = 1;
 }
 
-message GetNewsRequest {
+message ListNewsRequest {
   // the last id of the news item received. 0 to get all news items
   int32 last_news_id = 1;
   // filter by news source id. 0 to get all news items
   int32 news_source = 2;
+  // the oldest time you want to be included in the response
+  google.protobuf.Timestamp oldest_date_at = 3;
 }
 
-message GetNewsSourcesRequest {}
+message ListNewsSourcesRequest {}
 
-message GetNewsSourcesReply {
+message ListNewsSourcesReply {
   repeated NewsSource sources = 1;
 }
 
 message NewsSource {
   string source = 1;
   string title = 2;
-  string icon = 3;
+  // where the icon can be found
+  string icon_url = 3;
 }
 
-message GetTopNewsRequest {}
-message GetTopNewsReply {
+message ListNewsAlertsRequest {
+  // the last id of the news item received. 0 to get all news items
+  int32 last_news_alert_id = 1;
+}
+
+message ListNewsAlertsReply {
+  repeated NewsAlert alerts = 1;
+}
+
+message NewsAlert {
   string image_url = 1;
   string link = 2;
   google.protobuf.Timestamp created = 3;
@@ -273,7 +289,7 @@ message GetTopNewsReply {
   google.protobuf.Timestamp to = 5;
 }
 
-message GetCanteenRatingsRequest {
+message ListCanteenRatingsRequest {
   // canteenId Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
   string canteen_id = 1;
   // Optional Parameter to define an interval for the ratings (Lower bound)
@@ -284,7 +300,7 @@ message GetCanteenRatingsRequest {
   // Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
   int32 limit = 4;
 }
-message GetCanteenRatingsReply {
+message ListCanteenRatingsReply {
   repeated SingleRatingReply rating = 1;
   double avg = 2;
   double std = 3;
@@ -327,9 +343,9 @@ message SingleRatingReply {
   google.protobuf.Timestamp visited = 5;
 }
 
-message NewCanteenRatingReply {}
+message CreateCanteenRatingReply {}
 
-message NewCanteenRatingRequest {
+message CreateCanteenRatingRequest {
   // number in the range 1-5
   int32 points = 1;
   string canteen_id = 2;
@@ -340,8 +356,8 @@ message NewCanteenRatingRequest {
   string comment = 6;
 }
 
-message NewDishRatingReply {}
-message NewDishRatingRequest {
+message CreateDishRatingReply {}
+message CreateDishRatingRequest {
   // number in the range 1-5
   int32 points = 1;
   // Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
@@ -356,18 +372,18 @@ message NewDishRatingRequest {
   string comment = 7;
 }
 
-message GetAvailableDishTagsRequest {}
-message GetAvailableDishTagsReply {
+message ListAvailableDishTagsRequest {}
+message ListAvailableDishTagsReply {
   repeated TagsOverview rating_tags = 1;
 }
 
-message GetNameTagsRequest {}
-message GetNameTagsReply {
+message ListNameTagsRequest {}
+message ListNameTagsReply {
   repeated TagsOverview rating_tags = 1;
 }
 
-message GetAvailableCanteenTagsRequest {}
-message GetAvailableCanteenTagsReply {
+message ListAvailableCanteenTagsRequest {}
+message ListAvailableCanteenTagsReply {
   repeated TagsOverview rating_tags = 1;
 }
 
@@ -395,8 +411,8 @@ message RatingTagResult {
   int32 max = 5;
 }
 
-message GetCanteensRequest {}
-message GetCanteensReply {
+message ListCanteensRequest {}
+message ListCanteensReply {
   repeated Canteen canteen = 1;
 }
 
@@ -407,7 +423,7 @@ message Canteen {
   double latitude = 4;
 }
 
-message GetDishesRequest {
+message ListDishesRequest {
   string canteen_id = 1;
   // >=2022 until the current year
   int32 year = 2;
@@ -417,12 +433,12 @@ message GetDishesRequest {
   int32 day = 4;
 }
 
-message GetDishesReply {
+message ListDishesReply {
   repeated string dish = 1;
 }
 
-message GetResponsiblePersonRequest {}
-message GetResponsiblePersonReply {
+message ListResponsiblePersonRequest {}
+message ListResponsiblePersonReply {
   repeated ResponsiblePerson responsible_person = 1;
 }
 
@@ -446,8 +462,8 @@ message RoomInformationElement {
   string name = 9;
 }
 
-message GetMoreInformationRequest {}
-message GetMoreInformationReply {
+message ListMoreInformationRequest {}
+message ListMoreInformationReply {
   message MoreInformation {
     string title = 1;
     string category = 2;
@@ -456,11 +472,11 @@ message GetMoreInformationReply {
   repeated MoreInformation infos = 1;
 }
 
-message GetOpeningTimesRequest {
+message ListOpeningTimesRequest {
   string language = 1;
 }
 
-message GetOpeningTimesReply {
+message ListOpeningTimesReply {
   repeated OpeningTimesMsgElement facilities = 1;
 }
 
@@ -487,8 +503,8 @@ message GetUpdateNoteReply {
   string version_name = 2;
 }
 
-message GetStudyRoomListRequest {}
-message GetStudyRoomListReply {
+message ListStudyRoomsRequest {}
+message ListStudyRoomsReply {
   repeated StudyRoomMsgElement rooms = 1;
 }
 message StudyRoomMsgElement {
@@ -506,18 +522,20 @@ message StudyRoom {
   string building_name = 5;
 }
 
-message GetMoviesRequest {
+message ListMoviesRequest {
   // the last Id you have requested. Use -1 to get all movies
   int32 last_id = 1;
+  // the oldest time you want to be included in the response
+  google.protobuf.Timestamp oldest_date_at = 2;
 }
 
-message GetMoviesReply {
+message ListMoviesReply {
   repeated Movie movies = 1;
 }
 
 message Movie {
-  string cover_name = 1;
-  string cover_path = 2;
+  reserved /*string cover_name = */ 1;
+  reserved /*string cover_path =*/ 2;
   int64 movie_id = 3;
   google.protobuf.Timestamp date = 4;
   google.protobuf.Timestamp created = 5;
@@ -532,40 +550,60 @@ message Movie {
   string imdb_rating = 12;
   string description = 13;
   int64 cover_id = 14;
-  // was previously the trailer
-  reserved 15;
+  reserved /*string trailer*/ 15;
   // Where to find additional information about this movie
   string link = 16;
+  // Where to find a cover image for this movie
+  string cover_url = 17;
 }
 
-message SendFeedbackReply {}
-message SendFeedbackRequest {
-  string topic = 1;
-  string email = 2;
-  string email_id = 3;
-  string message = 4;
-  int32 image_count = 5;
-  double latitude = 6;
-  double longitude = 7;
-  string os_version = 8;
-  string app_version = 9;
+message CreateFeedbackRequest {
+  enum Recipient {
+    // Feedback for the TUM Dev Team
+    TUM_DEV = 0;
+    // Feedback for the general TUM Contact Form
+    TUM_CONTACT = 1;
+  }
+
+  // who is the feedback for
+  Recipient recipient = 1;
+  // the email address of the user
+  string from_email = 2;
+  // The actual message
+  string message = 3;
+  // Optional location which the user can choose (data protection) to attach or not
+  Coordinate location = 4;
+  // Optional os information which the user can choose (data protection) to attach or not
+  string os_version = 5;
+  // Optional app information which the user can choose (data protection) to attach or not
+  string app_version = 6;
+  // Optional file in Base64.
+  // Accepted file formats: jpeg, jpg, png, webp, md, txt, pdf
+  // Maximum file size 4MB as by Protobuf maximum per request message size
+  bytes attachment = 7;
+}
+message Coordinate {
+  double latitude = 1;
+  double longitude = 2;
 }
 
-message SendFeedbackImageReply {
+message CreateFeedbackReply {}
+
+message CreateFeedbackImageReply {
   string status = 1;
 }
 
-message SendFeedbackImageRequest {
+message CreateFeedbackImageRequest {
   int32 id = 1;
   int32 image_nr = 2;
   //todo where does the file come from?
 }
 
-message GetMembersRequest {
+message GetMemberRequest {
   string lrz_id = 1;
 }
 
-message GetMembersReply {
+message GetMemberReply {
   string lrz_id = 1;
   string name = 2;
   int32 member_id = 3;

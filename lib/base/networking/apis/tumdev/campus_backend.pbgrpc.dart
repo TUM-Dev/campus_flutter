@@ -21,90 +21,86 @@ export 'campus_backend.pb.dart';
 
 @$pb.GrpcServiceName('api.Campus')
 class CampusClient extends $grpc.Client {
-  static final _$getTopNews = $grpc.ClientMethod<$0.GetTopNewsRequest, $0.GetTopNewsReply>(
-      '/api.Campus/GetTopNews',
-      ($0.GetTopNewsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetTopNewsReply.fromBuffer(value));
-  static final _$getNewsSources = $grpc.ClientMethod<$0.GetNewsSourcesRequest, $0.GetNewsSourcesReply>(
-      '/api.Campus/GetNewsSources',
-      ($0.GetNewsSourcesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNewsSourcesReply.fromBuffer(value));
-  static final _$getNews = $grpc.ClientMethod<$0.GetNewsRequest, $0.GetNewsReply>(
-      '/api.Campus/GetNews',
-      ($0.GetNewsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNewsReply.fromBuffer(value));
+  static final _$listNewsAlerts = $grpc.ClientMethod<$0.ListNewsAlertsRequest, $0.ListNewsAlertsReply>(
+      '/api.Campus/ListNewsAlerts',
+      ($0.ListNewsAlertsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListNewsAlertsReply.fromBuffer(value));
+  static final _$listNewsSources = $grpc.ClientMethod<$0.ListNewsSourcesRequest, $0.ListNewsSourcesReply>(
+      '/api.Campus/ListNewsSources',
+      ($0.ListNewsSourcesRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListNewsSourcesReply.fromBuffer(value));
+  static final _$listNews = $grpc.ClientMethod<$0.ListNewsRequest, $0.ListNewsReply>(
+      '/api.Campus/ListNews',
+      ($0.ListNewsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListNewsReply.fromBuffer(value));
   static final _$searchRooms = $grpc.ClientMethod<$0.SearchRoomsRequest, $0.SearchRoomsReply>(
       '/api.Campus/SearchRooms',
       ($0.SearchRoomsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.SearchRoomsReply.fromBuffer(value));
-  static final _$getCanteenRatings = $grpc.ClientMethod<$0.GetCanteenRatingsRequest, $0.GetCanteenRatingsReply>(
-      '/api.Campus/GetCanteenRatings',
-      ($0.GetCanteenRatingsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetCanteenRatingsReply.fromBuffer(value));
+  static final _$listCanteenRatings = $grpc.ClientMethod<$0.ListCanteenRatingsRequest, $0.ListCanteenRatingsReply>(
+      '/api.Campus/ListCanteenRatings',
+      ($0.ListCanteenRatingsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListCanteenRatingsReply.fromBuffer(value));
   static final _$getDishRatings = $grpc.ClientMethod<$0.GetDishRatingsRequest, $0.GetDishRatingsReply>(
       '/api.Campus/GetDishRatings',
       ($0.GetDishRatingsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetDishRatingsReply.fromBuffer(value));
-  static final _$newCanteenRating = $grpc.ClientMethod<$0.NewCanteenRatingRequest, $0.NewCanteenRatingReply>(
-      '/api.Campus/NewCanteenRating',
-      ($0.NewCanteenRatingRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.NewCanteenRatingReply.fromBuffer(value));
-  static final _$newDishRating = $grpc.ClientMethod<$0.NewDishRatingRequest, $0.NewDishRatingReply>(
-      '/api.Campus/NewDishRating',
-      ($0.NewDishRatingRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.NewDishRatingReply.fromBuffer(value));
-  static final _$getAvailableDishTags = $grpc.ClientMethod<$0.GetAvailableDishTagsRequest, $0.GetAvailableDishTagsReply>(
-      '/api.Campus/GetAvailableDishTags',
-      ($0.GetAvailableDishTagsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetAvailableDishTagsReply.fromBuffer(value));
-  static final _$getNameTags = $grpc.ClientMethod<$0.GetNameTagsRequest, $0.GetNameTagsReply>(
-      '/api.Campus/GetNameTags',
-      ($0.GetNameTagsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNameTagsReply.fromBuffer(value));
-  static final _$getAvailableCanteenTags = $grpc.ClientMethod<$0.GetAvailableCanteenTagsRequest, $0.GetAvailableCanteenTagsReply>(
-      '/api.Campus/GetAvailableCanteenTags',
-      ($0.GetAvailableCanteenTagsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetAvailableCanteenTagsReply.fromBuffer(value));
-  static final _$getCanteens = $grpc.ClientMethod<$0.GetCanteensRequest, $0.GetCanteensReply>(
-      '/api.Campus/GetCanteens',
-      ($0.GetCanteensRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetCanteensReply.fromBuffer(value));
-  static final _$getDishes = $grpc.ClientMethod<$0.GetDishesRequest, $0.GetDishesReply>(
-      '/api.Campus/GetDishes',
-      ($0.GetDishesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetDishesReply.fromBuffer(value));
-  static final _$getResponsiblePerson = $grpc.ClientMethod<$0.GetResponsiblePersonRequest, $0.GetResponsiblePersonReply>(
-      '/api.Campus/GetResponsiblePerson',
-      ($0.GetResponsiblePersonRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetResponsiblePersonReply.fromBuffer(value));
-  static final _$getMoreInformation = $grpc.ClientMethod<$0.GetMoreInformationRequest, $0.GetMoreInformationReply>(
-      '/api.Campus/GetMoreInformation',
-      ($0.GetMoreInformationRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetMoreInformationReply.fromBuffer(value));
-  static final _$getOpeningTimes = $grpc.ClientMethod<$0.GetOpeningTimesRequest, $0.GetOpeningTimesReply>(
-      '/api.Campus/GetOpeningTimes',
-      ($0.GetOpeningTimesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetOpeningTimesReply.fromBuffer(value));
+  static final _$createCanteenRating = $grpc.ClientMethod<$0.CreateCanteenRatingRequest, $0.CreateCanteenRatingReply>(
+      '/api.Campus/CreateCanteenRating',
+      ($0.CreateCanteenRatingRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateCanteenRatingReply.fromBuffer(value));
+  static final _$createDishRating = $grpc.ClientMethod<$0.CreateDishRatingRequest, $0.CreateDishRatingReply>(
+      '/api.Campus/CreateDishRating',
+      ($0.CreateDishRatingRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateDishRatingReply.fromBuffer(value));
+  static final _$listAvailableDishTags = $grpc.ClientMethod<$0.ListAvailableDishTagsRequest, $0.ListAvailableDishTagsReply>(
+      '/api.Campus/ListAvailableDishTags',
+      ($0.ListAvailableDishTagsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListAvailableDishTagsReply.fromBuffer(value));
+  static final _$listNameTags = $grpc.ClientMethod<$0.ListNameTagsRequest, $0.ListNameTagsReply>(
+      '/api.Campus/ListNameTags',
+      ($0.ListNameTagsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListNameTagsReply.fromBuffer(value));
+  static final _$listAvailableCanteenTags = $grpc.ClientMethod<$0.ListAvailableCanteenTagsRequest, $0.ListAvailableCanteenTagsReply>(
+      '/api.Campus/ListAvailableCanteenTags',
+      ($0.ListAvailableCanteenTagsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListAvailableCanteenTagsReply.fromBuffer(value));
+  static final _$listCanteens = $grpc.ClientMethod<$0.ListCanteensRequest, $0.ListCanteensReply>(
+      '/api.Campus/ListCanteens',
+      ($0.ListCanteensRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListCanteensReply.fromBuffer(value));
+  static final _$listDishes = $grpc.ClientMethod<$0.ListDishesRequest, $0.ListDishesReply>(
+      '/api.Campus/ListDishes',
+      ($0.ListDishesRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListDishesReply.fromBuffer(value));
+  static final _$listResponsiblePerson = $grpc.ClientMethod<$0.ListResponsiblePersonRequest, $0.ListResponsiblePersonReply>(
+      '/api.Campus/ListResponsiblePerson',
+      ($0.ListResponsiblePersonRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListResponsiblePersonReply.fromBuffer(value));
+  static final _$listMoreInformation = $grpc.ClientMethod<$0.ListMoreInformationRequest, $0.ListMoreInformationReply>(
+      '/api.Campus/ListMoreInformation',
+      ($0.ListMoreInformationRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListMoreInformationReply.fromBuffer(value));
+  static final _$listOpeningTimes = $grpc.ClientMethod<$0.ListOpeningTimesRequest, $0.ListOpeningTimesReply>(
+      '/api.Campus/ListOpeningTimes',
+      ($0.ListOpeningTimesRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListOpeningTimesReply.fromBuffer(value));
   static final _$getUpdateNote = $grpc.ClientMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
       '/api.Campus/GetUpdateNote',
       ($0.GetUpdateNoteRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetUpdateNoteReply.fromBuffer(value));
-  static final _$getStudyRoomList = $grpc.ClientMethod<$0.GetStudyRoomListRequest, $0.GetStudyRoomListReply>(
-      '/api.Campus/GetStudyRoomList',
-      ($0.GetStudyRoomListRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetStudyRoomListReply.fromBuffer(value));
-  static final _$getMovies = $grpc.ClientMethod<$0.GetMoviesRequest, $0.GetMoviesReply>(
-      '/api.Campus/GetMovies',
-      ($0.GetMoviesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetMoviesReply.fromBuffer(value));
-  static final _$sendFeedback = $grpc.ClientMethod<$0.SendFeedbackRequest, $0.SendFeedbackReply>(
-      '/api.Campus/SendFeedback',
-      ($0.SendFeedbackRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.SendFeedbackReply.fromBuffer(value));
-  static final _$sendFeedbackImage = $grpc.ClientMethod<$0.SendFeedbackImageRequest, $0.SendFeedbackImageReply>(
-      '/api.Campus/SendFeedbackImage',
-      ($0.SendFeedbackImageRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.SendFeedbackImageReply.fromBuffer(value));
+  static final _$listStudyRooms = $grpc.ClientMethod<$0.ListStudyRoomsRequest, $0.ListStudyRoomsReply>(
+      '/api.Campus/ListStudyRooms',
+      ($0.ListStudyRoomsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListStudyRoomsReply.fromBuffer(value));
+  static final _$listMovies = $grpc.ClientMethod<$0.ListMoviesRequest, $0.ListMoviesReply>(
+      '/api.Campus/ListMovies',
+      ($0.ListMoviesRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListMoviesReply.fromBuffer(value));
+  static final _$createFeedback = $grpc.ClientMethod<$0.CreateFeedbackRequest, $0.CreateFeedbackReply>(
+      '/api.Campus/CreateFeedback',
+      ($0.CreateFeedbackRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateFeedbackReply.fromBuffer(value));
   static final _$getUploadStatus = $grpc.ClientMethod<$0.GetUploadStatusRequest, $0.GetUploadStatusReply>(
       '/api.Campus/GetUploadStatus',
       ($0.GetUploadStatusRequest value) => value.writeToBuffer(),
@@ -117,10 +113,10 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/GetNotificationConfirm',
       ($0.GetNotificationConfirmRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetNotificationConfirmReply.fromBuffer(value));
-  static final _$getMembers = $grpc.ClientMethod<$0.GetMembersRequest, $0.GetMembersReply>(
-      '/api.Campus/GetMembers',
-      ($0.GetMembersRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetMembersReply.fromBuffer(value));
+  static final _$getMember = $grpc.ClientMethod<$0.GetMemberRequest, $0.GetMemberReply>(
+      '/api.Campus/GetMember',
+      ($0.GetMemberRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetMemberReply.fromBuffer(value));
   static final _$getCanteenHeadCount = $grpc.ClientMethod<$0.GetCanteenHeadCountRequest, $0.GetCanteenHeadCountReply>(
       '/api.Campus/GetCanteenHeadCount',
       ($0.GetCanteenHeadCountRequest value) => value.writeToBuffer(),
@@ -129,14 +125,14 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/IOSDeviceRequestResponse',
       ($0.IOSDeviceRequestResponseRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseReply.fromBuffer(value));
-  static final _$registerDevice = $grpc.ClientMethod<$0.RegisterDeviceRequest, $0.RegisterDeviceReply>(
-      '/api.Campus/RegisterDevice',
-      ($0.RegisterDeviceRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.RegisterDeviceReply.fromBuffer(value));
-  static final _$removeDevice = $grpc.ClientMethod<$0.RemoveDeviceRequest, $0.RemoveDeviceReply>(
-      '/api.Campus/RemoveDevice',
-      ($0.RemoveDeviceRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.RemoveDeviceReply.fromBuffer(value));
+  static final _$createDevice = $grpc.ClientMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
+      '/api.Campus/CreateDevice',
+      ($0.CreateDeviceRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateDeviceReply.fromBuffer(value));
+  static final _$deleteDevice = $grpc.ClientMethod<$0.DeleteDeviceRequest, $0.DeleteDeviceReply>(
+      '/api.Campus/DeleteDevice',
+      ($0.DeleteDeviceRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.DeleteDeviceReply.fromBuffer(value));
 
   CampusClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -144,88 +140,84 @@ class CampusClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetTopNewsReply> getTopNews($0.GetTopNewsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getTopNews, request, options: options);
+  $grpc.ResponseFuture<$0.ListNewsAlertsReply> listNewsAlerts($0.ListNewsAlertsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listNewsAlerts, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetNewsSourcesReply> getNewsSources($0.GetNewsSourcesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getNewsSources, request, options: options);
+  $grpc.ResponseFuture<$0.ListNewsSourcesReply> listNewsSources($0.ListNewsSourcesRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listNewsSources, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetNewsReply> getNews($0.GetNewsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getNews, request, options: options);
+  $grpc.ResponseFuture<$0.ListNewsReply> listNews($0.ListNewsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listNews, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.SearchRoomsReply> searchRooms($0.SearchRoomsRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$searchRooms, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetCanteenRatingsReply> getCanteenRatings($0.GetCanteenRatingsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getCanteenRatings, request, options: options);
+  $grpc.ResponseFuture<$0.ListCanteenRatingsReply> listCanteenRatings($0.ListCanteenRatingsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listCanteenRatings, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetDishRatingsReply> getDishRatings($0.GetDishRatingsRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getDishRatings, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.NewCanteenRatingReply> newCanteenRating($0.NewCanteenRatingRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$newCanteenRating, request, options: options);
+  $grpc.ResponseFuture<$0.CreateCanteenRatingReply> createCanteenRating($0.CreateCanteenRatingRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createCanteenRating, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.NewDishRatingReply> newDishRating($0.NewDishRatingRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$newDishRating, request, options: options);
+  $grpc.ResponseFuture<$0.CreateDishRatingReply> createDishRating($0.CreateDishRatingRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createDishRating, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetAvailableDishTagsReply> getAvailableDishTags($0.GetAvailableDishTagsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getAvailableDishTags, request, options: options);
+  $grpc.ResponseFuture<$0.ListAvailableDishTagsReply> listAvailableDishTags($0.ListAvailableDishTagsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listAvailableDishTags, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetNameTagsReply> getNameTags($0.GetNameTagsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getNameTags, request, options: options);
+  $grpc.ResponseFuture<$0.ListNameTagsReply> listNameTags($0.ListNameTagsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listNameTags, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetAvailableCanteenTagsReply> getAvailableCanteenTags($0.GetAvailableCanteenTagsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getAvailableCanteenTags, request, options: options);
+  $grpc.ResponseFuture<$0.ListAvailableCanteenTagsReply> listAvailableCanteenTags($0.ListAvailableCanteenTagsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listAvailableCanteenTags, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetCanteensReply> getCanteens($0.GetCanteensRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getCanteens, request, options: options);
+  $grpc.ResponseFuture<$0.ListCanteensReply> listCanteens($0.ListCanteensRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listCanteens, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetDishesReply> getDishes($0.GetDishesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getDishes, request, options: options);
+  $grpc.ResponseFuture<$0.ListDishesReply> listDishes($0.ListDishesRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listDishes, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetResponsiblePersonReply> getResponsiblePerson($0.GetResponsiblePersonRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getResponsiblePerson, request, options: options);
+  $grpc.ResponseFuture<$0.ListResponsiblePersonReply> listResponsiblePerson($0.ListResponsiblePersonRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listResponsiblePerson, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetMoreInformationReply> getMoreInformation($0.GetMoreInformationRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getMoreInformation, request, options: options);
+  $grpc.ResponseFuture<$0.ListMoreInformationReply> listMoreInformation($0.ListMoreInformationRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listMoreInformation, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetOpeningTimesReply> getOpeningTimes($0.GetOpeningTimesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getOpeningTimes, request, options: options);
+  $grpc.ResponseFuture<$0.ListOpeningTimesReply> listOpeningTimes($0.ListOpeningTimesRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listOpeningTimes, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetUpdateNoteReply> getUpdateNote($0.GetUpdateNoteRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUpdateNote, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetStudyRoomListReply> getStudyRoomList($0.GetStudyRoomListRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getStudyRoomList, request, options: options);
+  $grpc.ResponseFuture<$0.ListStudyRoomsReply> listStudyRooms($0.ListStudyRoomsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listStudyRooms, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetMoviesReply> getMovies($0.GetMoviesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getMovies, request, options: options);
+  $grpc.ResponseFuture<$0.ListMoviesReply> listMovies($0.ListMoviesRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listMovies, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.SendFeedbackReply> sendFeedback($0.SendFeedbackRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$sendFeedback, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.SendFeedbackImageReply> sendFeedbackImage($0.SendFeedbackImageRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$sendFeedbackImage, request, options: options);
+  $grpc.ResponseFuture<$0.CreateFeedbackReply> createFeedback($async.Stream<$0.CreateFeedbackRequest> request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$createFeedback, request, options: options).single;
   }
 
   $grpc.ResponseFuture<$0.GetUploadStatusReply> getUploadStatus($0.GetUploadStatusRequest request, {$grpc.CallOptions? options}) {
@@ -240,8 +232,8 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$getNotificationConfirm, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.GetMembersReply> getMembers($0.GetMembersRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getMembers, request, options: options);
+  $grpc.ResponseFuture<$0.GetMemberReply> getMember($0.GetMemberRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getMember, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetCanteenHeadCountReply> getCanteenHeadCount($0.GetCanteenHeadCountRequest request, {$grpc.CallOptions? options}) {
@@ -252,12 +244,12 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$iOSDeviceRequestResponse, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.RegisterDeviceReply> registerDevice($0.RegisterDeviceRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$registerDevice, request, options: options);
+  $grpc.ResponseFuture<$0.CreateDeviceReply> createDevice($0.CreateDeviceRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createDevice, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.RemoveDeviceReply> removeDevice($0.RemoveDeviceRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$removeDevice, request, options: options);
+  $grpc.ResponseFuture<$0.DeleteDeviceReply> deleteDevice($0.DeleteDeviceRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteDevice, request, options: options);
   }
 }
 
@@ -266,27 +258,27 @@ abstract class CampusServiceBase extends $grpc.Service {
   $core.String get $name => 'api.Campus';
 
   CampusServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.GetTopNewsRequest, $0.GetTopNewsReply>(
-        'GetTopNews',
-        getTopNews_Pre,
+    $addMethod($grpc.ServiceMethod<$0.ListNewsAlertsRequest, $0.ListNewsAlertsReply>(
+        'ListNewsAlerts',
+        listNewsAlerts_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetTopNewsRequest.fromBuffer(value),
-        ($0.GetTopNewsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetNewsSourcesRequest, $0.GetNewsSourcesReply>(
-        'GetNewsSources',
-        getNewsSources_Pre,
+        ($core.List<$core.int> value) => $0.ListNewsAlertsRequest.fromBuffer(value),
+        ($0.ListNewsAlertsReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListNewsSourcesRequest, $0.ListNewsSourcesReply>(
+        'ListNewsSources',
+        listNewsSources_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetNewsSourcesRequest.fromBuffer(value),
-        ($0.GetNewsSourcesReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetNewsRequest, $0.GetNewsReply>(
-        'GetNews',
-        getNews_Pre,
+        ($core.List<$core.int> value) => $0.ListNewsSourcesRequest.fromBuffer(value),
+        ($0.ListNewsSourcesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListNewsRequest, $0.ListNewsReply>(
+        'ListNews',
+        listNews_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetNewsRequest.fromBuffer(value),
-        ($0.GetNewsReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.ListNewsRequest.fromBuffer(value),
+        ($0.ListNewsReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.SearchRoomsRequest, $0.SearchRoomsReply>(
         'SearchRooms',
         searchRooms_Pre,
@@ -294,13 +286,13 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.SearchRoomsRequest.fromBuffer(value),
         ($0.SearchRoomsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetCanteenRatingsRequest, $0.GetCanteenRatingsReply>(
-        'GetCanteenRatings',
-        getCanteenRatings_Pre,
+    $addMethod($grpc.ServiceMethod<$0.ListCanteenRatingsRequest, $0.ListCanteenRatingsReply>(
+        'ListCanteenRatings',
+        listCanteenRatings_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetCanteenRatingsRequest.fromBuffer(value),
-        ($0.GetCanteenRatingsReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.ListCanteenRatingsRequest.fromBuffer(value),
+        ($0.ListCanteenRatingsReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetDishRatingsRequest, $0.GetDishRatingsReply>(
         'GetDishRatings',
         getDishRatings_Pre,
@@ -308,76 +300,76 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetDishRatingsRequest.fromBuffer(value),
         ($0.GetDishRatingsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.NewCanteenRatingRequest, $0.NewCanteenRatingReply>(
-        'NewCanteenRating',
-        newCanteenRating_Pre,
+    $addMethod($grpc.ServiceMethod<$0.CreateCanteenRatingRequest, $0.CreateCanteenRatingReply>(
+        'CreateCanteenRating',
+        createCanteenRating_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.NewCanteenRatingRequest.fromBuffer(value),
-        ($0.NewCanteenRatingReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.NewDishRatingRequest, $0.NewDishRatingReply>(
-        'NewDishRating',
-        newDishRating_Pre,
+        ($core.List<$core.int> value) => $0.CreateCanteenRatingRequest.fromBuffer(value),
+        ($0.CreateCanteenRatingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateDishRatingRequest, $0.CreateDishRatingReply>(
+        'CreateDishRating',
+        createDishRating_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.NewDishRatingRequest.fromBuffer(value),
-        ($0.NewDishRatingReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetAvailableDishTagsRequest, $0.GetAvailableDishTagsReply>(
-        'GetAvailableDishTags',
-        getAvailableDishTags_Pre,
+        ($core.List<$core.int> value) => $0.CreateDishRatingRequest.fromBuffer(value),
+        ($0.CreateDishRatingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListAvailableDishTagsRequest, $0.ListAvailableDishTagsReply>(
+        'ListAvailableDishTags',
+        listAvailableDishTags_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetAvailableDishTagsRequest.fromBuffer(value),
-        ($0.GetAvailableDishTagsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetNameTagsRequest, $0.GetNameTagsReply>(
-        'GetNameTags',
-        getNameTags_Pre,
+        ($core.List<$core.int> value) => $0.ListAvailableDishTagsRequest.fromBuffer(value),
+        ($0.ListAvailableDishTagsReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListNameTagsRequest, $0.ListNameTagsReply>(
+        'ListNameTags',
+        listNameTags_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetNameTagsRequest.fromBuffer(value),
-        ($0.GetNameTagsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetAvailableCanteenTagsRequest, $0.GetAvailableCanteenTagsReply>(
-        'GetAvailableCanteenTags',
-        getAvailableCanteenTags_Pre,
+        ($core.List<$core.int> value) => $0.ListNameTagsRequest.fromBuffer(value),
+        ($0.ListNameTagsReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListAvailableCanteenTagsRequest, $0.ListAvailableCanteenTagsReply>(
+        'ListAvailableCanteenTags',
+        listAvailableCanteenTags_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetAvailableCanteenTagsRequest.fromBuffer(value),
-        ($0.GetAvailableCanteenTagsReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetCanteensRequest, $0.GetCanteensReply>(
-        'GetCanteens',
-        getCanteens_Pre,
+        ($core.List<$core.int> value) => $0.ListAvailableCanteenTagsRequest.fromBuffer(value),
+        ($0.ListAvailableCanteenTagsReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListCanteensRequest, $0.ListCanteensReply>(
+        'ListCanteens',
+        listCanteens_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetCanteensRequest.fromBuffer(value),
-        ($0.GetCanteensReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetDishesRequest, $0.GetDishesReply>(
-        'GetDishes',
-        getDishes_Pre,
+        ($core.List<$core.int> value) => $0.ListCanteensRequest.fromBuffer(value),
+        ($0.ListCanteensReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListDishesRequest, $0.ListDishesReply>(
+        'ListDishes',
+        listDishes_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetDishesRequest.fromBuffer(value),
-        ($0.GetDishesReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetResponsiblePersonRequest, $0.GetResponsiblePersonReply>(
-        'GetResponsiblePerson',
-        getResponsiblePerson_Pre,
+        ($core.List<$core.int> value) => $0.ListDishesRequest.fromBuffer(value),
+        ($0.ListDishesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListResponsiblePersonRequest, $0.ListResponsiblePersonReply>(
+        'ListResponsiblePerson',
+        listResponsiblePerson_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetResponsiblePersonRequest.fromBuffer(value),
-        ($0.GetResponsiblePersonReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetMoreInformationRequest, $0.GetMoreInformationReply>(
-        'GetMoreInformation',
-        getMoreInformation_Pre,
+        ($core.List<$core.int> value) => $0.ListResponsiblePersonRequest.fromBuffer(value),
+        ($0.ListResponsiblePersonReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListMoreInformationRequest, $0.ListMoreInformationReply>(
+        'ListMoreInformation',
+        listMoreInformation_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetMoreInformationRequest.fromBuffer(value),
-        ($0.GetMoreInformationReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetOpeningTimesRequest, $0.GetOpeningTimesReply>(
-        'GetOpeningTimes',
-        getOpeningTimes_Pre,
+        ($core.List<$core.int> value) => $0.ListMoreInformationRequest.fromBuffer(value),
+        ($0.ListMoreInformationReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListOpeningTimesRequest, $0.ListOpeningTimesReply>(
+        'ListOpeningTimes',
+        listOpeningTimes_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetOpeningTimesRequest.fromBuffer(value),
-        ($0.GetOpeningTimesReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.ListOpeningTimesRequest.fromBuffer(value),
+        ($0.ListOpeningTimesReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
         'GetUpdateNote',
         getUpdateNote_Pre,
@@ -385,34 +377,27 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetUpdateNoteRequest.fromBuffer(value),
         ($0.GetUpdateNoteReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetStudyRoomListRequest, $0.GetStudyRoomListReply>(
-        'GetStudyRoomList',
-        getStudyRoomList_Pre,
+    $addMethod($grpc.ServiceMethod<$0.ListStudyRoomsRequest, $0.ListStudyRoomsReply>(
+        'ListStudyRooms',
+        listStudyRooms_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetStudyRoomListRequest.fromBuffer(value),
-        ($0.GetStudyRoomListReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetMoviesRequest, $0.GetMoviesReply>(
-        'GetMovies',
-        getMovies_Pre,
+        ($core.List<$core.int> value) => $0.ListStudyRoomsRequest.fromBuffer(value),
+        ($0.ListStudyRoomsReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListMoviesRequest, $0.ListMoviesReply>(
+        'ListMovies',
+        listMovies_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetMoviesRequest.fromBuffer(value),
-        ($0.GetMoviesReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.SendFeedbackRequest, $0.SendFeedbackReply>(
-        'SendFeedback',
-        sendFeedback_Pre,
+        ($core.List<$core.int> value) => $0.ListMoviesRequest.fromBuffer(value),
+        ($0.ListMoviesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateFeedbackRequest, $0.CreateFeedbackReply>(
+        'CreateFeedback',
+        createFeedback,
+        true,
         false,
-        false,
-        ($core.List<$core.int> value) => $0.SendFeedbackRequest.fromBuffer(value),
-        ($0.SendFeedbackReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.SendFeedbackImageRequest, $0.SendFeedbackImageReply>(
-        'SendFeedbackImage',
-        sendFeedbackImage_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.SendFeedbackImageRequest.fromBuffer(value),
-        ($0.SendFeedbackImageReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.CreateFeedbackRequest.fromBuffer(value),
+        ($0.CreateFeedbackReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetUploadStatusRequest, $0.GetUploadStatusReply>(
         'GetUploadStatus',
         getUploadStatus_Pre,
@@ -434,13 +419,13 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetNotificationConfirmRequest.fromBuffer(value),
         ($0.GetNotificationConfirmReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetMembersRequest, $0.GetMembersReply>(
-        'GetMembers',
-        getMembers_Pre,
+    $addMethod($grpc.ServiceMethod<$0.GetMemberRequest, $0.GetMemberReply>(
+        'GetMember',
+        getMember_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetMembersRequest.fromBuffer(value),
-        ($0.GetMembersReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.GetMemberRequest.fromBuffer(value),
+        ($0.GetMemberReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetCanteenHeadCountRequest, $0.GetCanteenHeadCountReply>(
         'GetCanteenHeadCount',
         getCanteenHeadCount_Pre,
@@ -455,104 +440,96 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseRequest.fromBuffer(value),
         ($0.IOSDeviceRequestResponseReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.RegisterDeviceRequest, $0.RegisterDeviceReply>(
-        'RegisterDevice',
-        registerDevice_Pre,
+    $addMethod($grpc.ServiceMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
+        'CreateDevice',
+        createDevice_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.RegisterDeviceRequest.fromBuffer(value),
-        ($0.RegisterDeviceReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.RemoveDeviceRequest, $0.RemoveDeviceReply>(
-        'RemoveDevice',
-        removeDevice_Pre,
+        ($core.List<$core.int> value) => $0.CreateDeviceRequest.fromBuffer(value),
+        ($0.CreateDeviceReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteDeviceRequest, $0.DeleteDeviceReply>(
+        'DeleteDevice',
+        deleteDevice_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.RemoveDeviceRequest.fromBuffer(value),
-        ($0.RemoveDeviceReply value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.DeleteDeviceRequest.fromBuffer(value),
+        ($0.DeleteDeviceReply value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.GetTopNewsReply> getTopNews_Pre($grpc.ServiceCall call, $async.Future<$0.GetTopNewsRequest> request) async {
-    return getTopNews(call, await request);
+  $async.Future<$0.ListNewsAlertsReply> listNewsAlerts_Pre($grpc.ServiceCall call, $async.Future<$0.ListNewsAlertsRequest> request) async {
+    return listNewsAlerts(call, await request);
   }
 
-  $async.Future<$0.GetNewsSourcesReply> getNewsSources_Pre($grpc.ServiceCall call, $async.Future<$0.GetNewsSourcesRequest> request) async {
-    return getNewsSources(call, await request);
+  $async.Future<$0.ListNewsSourcesReply> listNewsSources_Pre($grpc.ServiceCall call, $async.Future<$0.ListNewsSourcesRequest> request) async {
+    return listNewsSources(call, await request);
   }
 
-  $async.Future<$0.GetNewsReply> getNews_Pre($grpc.ServiceCall call, $async.Future<$0.GetNewsRequest> request) async {
-    return getNews(call, await request);
+  $async.Future<$0.ListNewsReply> listNews_Pre($grpc.ServiceCall call, $async.Future<$0.ListNewsRequest> request) async {
+    return listNews(call, await request);
   }
 
   $async.Future<$0.SearchRoomsReply> searchRooms_Pre($grpc.ServiceCall call, $async.Future<$0.SearchRoomsRequest> request) async {
     return searchRooms(call, await request);
   }
 
-  $async.Future<$0.GetCanteenRatingsReply> getCanteenRatings_Pre($grpc.ServiceCall call, $async.Future<$0.GetCanteenRatingsRequest> request) async {
-    return getCanteenRatings(call, await request);
+  $async.Future<$0.ListCanteenRatingsReply> listCanteenRatings_Pre($grpc.ServiceCall call, $async.Future<$0.ListCanteenRatingsRequest> request) async {
+    return listCanteenRatings(call, await request);
   }
 
   $async.Future<$0.GetDishRatingsReply> getDishRatings_Pre($grpc.ServiceCall call, $async.Future<$0.GetDishRatingsRequest> request) async {
     return getDishRatings(call, await request);
   }
 
-  $async.Future<$0.NewCanteenRatingReply> newCanteenRating_Pre($grpc.ServiceCall call, $async.Future<$0.NewCanteenRatingRequest> request) async {
-    return newCanteenRating(call, await request);
+  $async.Future<$0.CreateCanteenRatingReply> createCanteenRating_Pre($grpc.ServiceCall call, $async.Future<$0.CreateCanteenRatingRequest> request) async {
+    return createCanteenRating(call, await request);
   }
 
-  $async.Future<$0.NewDishRatingReply> newDishRating_Pre($grpc.ServiceCall call, $async.Future<$0.NewDishRatingRequest> request) async {
-    return newDishRating(call, await request);
+  $async.Future<$0.CreateDishRatingReply> createDishRating_Pre($grpc.ServiceCall call, $async.Future<$0.CreateDishRatingRequest> request) async {
+    return createDishRating(call, await request);
   }
 
-  $async.Future<$0.GetAvailableDishTagsReply> getAvailableDishTags_Pre($grpc.ServiceCall call, $async.Future<$0.GetAvailableDishTagsRequest> request) async {
-    return getAvailableDishTags(call, await request);
+  $async.Future<$0.ListAvailableDishTagsReply> listAvailableDishTags_Pre($grpc.ServiceCall call, $async.Future<$0.ListAvailableDishTagsRequest> request) async {
+    return listAvailableDishTags(call, await request);
   }
 
-  $async.Future<$0.GetNameTagsReply> getNameTags_Pre($grpc.ServiceCall call, $async.Future<$0.GetNameTagsRequest> request) async {
-    return getNameTags(call, await request);
+  $async.Future<$0.ListNameTagsReply> listNameTags_Pre($grpc.ServiceCall call, $async.Future<$0.ListNameTagsRequest> request) async {
+    return listNameTags(call, await request);
   }
 
-  $async.Future<$0.GetAvailableCanteenTagsReply> getAvailableCanteenTags_Pre($grpc.ServiceCall call, $async.Future<$0.GetAvailableCanteenTagsRequest> request) async {
-    return getAvailableCanteenTags(call, await request);
+  $async.Future<$0.ListAvailableCanteenTagsReply> listAvailableCanteenTags_Pre($grpc.ServiceCall call, $async.Future<$0.ListAvailableCanteenTagsRequest> request) async {
+    return listAvailableCanteenTags(call, await request);
   }
 
-  $async.Future<$0.GetCanteensReply> getCanteens_Pre($grpc.ServiceCall call, $async.Future<$0.GetCanteensRequest> request) async {
-    return getCanteens(call, await request);
+  $async.Future<$0.ListCanteensReply> listCanteens_Pre($grpc.ServiceCall call, $async.Future<$0.ListCanteensRequest> request) async {
+    return listCanteens(call, await request);
   }
 
-  $async.Future<$0.GetDishesReply> getDishes_Pre($grpc.ServiceCall call, $async.Future<$0.GetDishesRequest> request) async {
-    return getDishes(call, await request);
+  $async.Future<$0.ListDishesReply> listDishes_Pre($grpc.ServiceCall call, $async.Future<$0.ListDishesRequest> request) async {
+    return listDishes(call, await request);
   }
 
-  $async.Future<$0.GetResponsiblePersonReply> getResponsiblePerson_Pre($grpc.ServiceCall call, $async.Future<$0.GetResponsiblePersonRequest> request) async {
-    return getResponsiblePerson(call, await request);
+  $async.Future<$0.ListResponsiblePersonReply> listResponsiblePerson_Pre($grpc.ServiceCall call, $async.Future<$0.ListResponsiblePersonRequest> request) async {
+    return listResponsiblePerson(call, await request);
   }
 
-  $async.Future<$0.GetMoreInformationReply> getMoreInformation_Pre($grpc.ServiceCall call, $async.Future<$0.GetMoreInformationRequest> request) async {
-    return getMoreInformation(call, await request);
+  $async.Future<$0.ListMoreInformationReply> listMoreInformation_Pre($grpc.ServiceCall call, $async.Future<$0.ListMoreInformationRequest> request) async {
+    return listMoreInformation(call, await request);
   }
 
-  $async.Future<$0.GetOpeningTimesReply> getOpeningTimes_Pre($grpc.ServiceCall call, $async.Future<$0.GetOpeningTimesRequest> request) async {
-    return getOpeningTimes(call, await request);
+  $async.Future<$0.ListOpeningTimesReply> listOpeningTimes_Pre($grpc.ServiceCall call, $async.Future<$0.ListOpeningTimesRequest> request) async {
+    return listOpeningTimes(call, await request);
   }
 
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote_Pre($grpc.ServiceCall call, $async.Future<$0.GetUpdateNoteRequest> request) async {
     return getUpdateNote(call, await request);
   }
 
-  $async.Future<$0.GetStudyRoomListReply> getStudyRoomList_Pre($grpc.ServiceCall call, $async.Future<$0.GetStudyRoomListRequest> request) async {
-    return getStudyRoomList(call, await request);
+  $async.Future<$0.ListStudyRoomsReply> listStudyRooms_Pre($grpc.ServiceCall call, $async.Future<$0.ListStudyRoomsRequest> request) async {
+    return listStudyRooms(call, await request);
   }
 
-  $async.Future<$0.GetMoviesReply> getMovies_Pre($grpc.ServiceCall call, $async.Future<$0.GetMoviesRequest> request) async {
-    return getMovies(call, await request);
-  }
-
-  $async.Future<$0.SendFeedbackReply> sendFeedback_Pre($grpc.ServiceCall call, $async.Future<$0.SendFeedbackRequest> request) async {
-    return sendFeedback(call, await request);
-  }
-
-  $async.Future<$0.SendFeedbackImageReply> sendFeedbackImage_Pre($grpc.ServiceCall call, $async.Future<$0.SendFeedbackImageRequest> request) async {
-    return sendFeedbackImage(call, await request);
+  $async.Future<$0.ListMoviesReply> listMovies_Pre($grpc.ServiceCall call, $async.Future<$0.ListMoviesRequest> request) async {
+    return listMovies(call, await request);
   }
 
   $async.Future<$0.GetUploadStatusReply> getUploadStatus_Pre($grpc.ServiceCall call, $async.Future<$0.GetUploadStatusRequest> request) async {
@@ -567,8 +544,8 @@ abstract class CampusServiceBase extends $grpc.Service {
     return getNotificationConfirm(call, await request);
   }
 
-  $async.Future<$0.GetMembersReply> getMembers_Pre($grpc.ServiceCall call, $async.Future<$0.GetMembersRequest> request) async {
-    return getMembers(call, await request);
+  $async.Future<$0.GetMemberReply> getMember_Pre($grpc.ServiceCall call, $async.Future<$0.GetMemberRequest> request) async {
+    return getMember(call, await request);
   }
 
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount_Pre($grpc.ServiceCall call, $async.Future<$0.GetCanteenHeadCountRequest> request) async {
@@ -579,41 +556,40 @@ abstract class CampusServiceBase extends $grpc.Service {
     return iOSDeviceRequestResponse(call, await request);
   }
 
-  $async.Future<$0.RegisterDeviceReply> registerDevice_Pre($grpc.ServiceCall call, $async.Future<$0.RegisterDeviceRequest> request) async {
-    return registerDevice(call, await request);
+  $async.Future<$0.CreateDeviceReply> createDevice_Pre($grpc.ServiceCall call, $async.Future<$0.CreateDeviceRequest> request) async {
+    return createDevice(call, await request);
   }
 
-  $async.Future<$0.RemoveDeviceReply> removeDevice_Pre($grpc.ServiceCall call, $async.Future<$0.RemoveDeviceRequest> request) async {
-    return removeDevice(call, await request);
+  $async.Future<$0.DeleteDeviceReply> deleteDevice_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteDeviceRequest> request) async {
+    return deleteDevice(call, await request);
   }
 
-  $async.Future<$0.GetTopNewsReply> getTopNews($grpc.ServiceCall call, $0.GetTopNewsRequest request);
-  $async.Future<$0.GetNewsSourcesReply> getNewsSources($grpc.ServiceCall call, $0.GetNewsSourcesRequest request);
-  $async.Future<$0.GetNewsReply> getNews($grpc.ServiceCall call, $0.GetNewsRequest request);
+  $async.Future<$0.ListNewsAlertsReply> listNewsAlerts($grpc.ServiceCall call, $0.ListNewsAlertsRequest request);
+  $async.Future<$0.ListNewsSourcesReply> listNewsSources($grpc.ServiceCall call, $0.ListNewsSourcesRequest request);
+  $async.Future<$0.ListNewsReply> listNews($grpc.ServiceCall call, $0.ListNewsRequest request);
   $async.Future<$0.SearchRoomsReply> searchRooms($grpc.ServiceCall call, $0.SearchRoomsRequest request);
-  $async.Future<$0.GetCanteenRatingsReply> getCanteenRatings($grpc.ServiceCall call, $0.GetCanteenRatingsRequest request);
+  $async.Future<$0.ListCanteenRatingsReply> listCanteenRatings($grpc.ServiceCall call, $0.ListCanteenRatingsRequest request);
   $async.Future<$0.GetDishRatingsReply> getDishRatings($grpc.ServiceCall call, $0.GetDishRatingsRequest request);
-  $async.Future<$0.NewCanteenRatingReply> newCanteenRating($grpc.ServiceCall call, $0.NewCanteenRatingRequest request);
-  $async.Future<$0.NewDishRatingReply> newDishRating($grpc.ServiceCall call, $0.NewDishRatingRequest request);
-  $async.Future<$0.GetAvailableDishTagsReply> getAvailableDishTags($grpc.ServiceCall call, $0.GetAvailableDishTagsRequest request);
-  $async.Future<$0.GetNameTagsReply> getNameTags($grpc.ServiceCall call, $0.GetNameTagsRequest request);
-  $async.Future<$0.GetAvailableCanteenTagsReply> getAvailableCanteenTags($grpc.ServiceCall call, $0.GetAvailableCanteenTagsRequest request);
-  $async.Future<$0.GetCanteensReply> getCanteens($grpc.ServiceCall call, $0.GetCanteensRequest request);
-  $async.Future<$0.GetDishesReply> getDishes($grpc.ServiceCall call, $0.GetDishesRequest request);
-  $async.Future<$0.GetResponsiblePersonReply> getResponsiblePerson($grpc.ServiceCall call, $0.GetResponsiblePersonRequest request);
-  $async.Future<$0.GetMoreInformationReply> getMoreInformation($grpc.ServiceCall call, $0.GetMoreInformationRequest request);
-  $async.Future<$0.GetOpeningTimesReply> getOpeningTimes($grpc.ServiceCall call, $0.GetOpeningTimesRequest request);
+  $async.Future<$0.CreateCanteenRatingReply> createCanteenRating($grpc.ServiceCall call, $0.CreateCanteenRatingRequest request);
+  $async.Future<$0.CreateDishRatingReply> createDishRating($grpc.ServiceCall call, $0.CreateDishRatingRequest request);
+  $async.Future<$0.ListAvailableDishTagsReply> listAvailableDishTags($grpc.ServiceCall call, $0.ListAvailableDishTagsRequest request);
+  $async.Future<$0.ListNameTagsReply> listNameTags($grpc.ServiceCall call, $0.ListNameTagsRequest request);
+  $async.Future<$0.ListAvailableCanteenTagsReply> listAvailableCanteenTags($grpc.ServiceCall call, $0.ListAvailableCanteenTagsRequest request);
+  $async.Future<$0.ListCanteensReply> listCanteens($grpc.ServiceCall call, $0.ListCanteensRequest request);
+  $async.Future<$0.ListDishesReply> listDishes($grpc.ServiceCall call, $0.ListDishesRequest request);
+  $async.Future<$0.ListResponsiblePersonReply> listResponsiblePerson($grpc.ServiceCall call, $0.ListResponsiblePersonRequest request);
+  $async.Future<$0.ListMoreInformationReply> listMoreInformation($grpc.ServiceCall call, $0.ListMoreInformationRequest request);
+  $async.Future<$0.ListOpeningTimesReply> listOpeningTimes($grpc.ServiceCall call, $0.ListOpeningTimesRequest request);
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote($grpc.ServiceCall call, $0.GetUpdateNoteRequest request);
-  $async.Future<$0.GetStudyRoomListReply> getStudyRoomList($grpc.ServiceCall call, $0.GetStudyRoomListRequest request);
-  $async.Future<$0.GetMoviesReply> getMovies($grpc.ServiceCall call, $0.GetMoviesRequest request);
-  $async.Future<$0.SendFeedbackReply> sendFeedback($grpc.ServiceCall call, $0.SendFeedbackRequest request);
-  $async.Future<$0.SendFeedbackImageReply> sendFeedbackImage($grpc.ServiceCall call, $0.SendFeedbackImageRequest request);
+  $async.Future<$0.ListStudyRoomsReply> listStudyRooms($grpc.ServiceCall call, $0.ListStudyRoomsRequest request);
+  $async.Future<$0.ListMoviesReply> listMovies($grpc.ServiceCall call, $0.ListMoviesRequest request);
+  $async.Future<$0.CreateFeedbackReply> createFeedback($grpc.ServiceCall call, $async.Stream<$0.CreateFeedbackRequest> request);
   $async.Future<$0.GetUploadStatusReply> getUploadStatus($grpc.ServiceCall call, $0.GetUploadStatusRequest request);
   $async.Future<$0.GetNotificationReply> getNotification($grpc.ServiceCall call, $0.GetNotificationRequest request);
   $async.Future<$0.GetNotificationConfirmReply> getNotificationConfirm($grpc.ServiceCall call, $0.GetNotificationConfirmRequest request);
-  $async.Future<$0.GetMembersReply> getMembers($grpc.ServiceCall call, $0.GetMembersRequest request);
+  $async.Future<$0.GetMemberReply> getMember($grpc.ServiceCall call, $0.GetMemberRequest request);
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount($grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
   $async.Future<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse($grpc.ServiceCall call, $0.IOSDeviceRequestResponseRequest request);
-  $async.Future<$0.RegisterDeviceReply> registerDevice($grpc.ServiceCall call, $0.RegisterDeviceRequest request);
-  $async.Future<$0.RemoveDeviceReply> removeDevice($grpc.ServiceCall call, $0.RemoveDeviceRequest request);
+  $async.Future<$0.CreateDeviceReply> createDevice($grpc.ServiceCall call, $0.CreateDeviceRequest request);
+  $async.Future<$0.DeleteDeviceReply> deleteDevice($grpc.ServiceCall call, $0.DeleteDeviceRequest request);
 }
