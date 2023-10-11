@@ -5,7 +5,7 @@ class NewsService {
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     final start = DateTime.now();
     CampusClient mainApi = getIt<CampusClient>();
-    final news = await mainApi.getNews(GetNewsRequest());
+    final news = await mainApi.listNews(ListNewsRequest());
     return (start, news.news);
   }
 }
