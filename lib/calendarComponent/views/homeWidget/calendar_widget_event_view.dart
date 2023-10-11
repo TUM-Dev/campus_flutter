@@ -15,9 +15,11 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String startTime =
-        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.startDate);
+        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
+            .format(calendarEvent.startDate);
     final String endTime =
-        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.endDate);
+        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
+            .format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(today.year, today.month, today.day)
@@ -42,10 +44,11 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
             //const Spacer(),
             Text(
                 startDate.isAtSameMomentAs(todayDate)
-                    ? "Today"
+                    ? context.localizations.today
                     : startDate.isAtSameMomentAs(tomorrowDate)
-                        ? "Tomorrow"
-                        : DateFormat("EEEE, d. MMM")
+                        ? context.localizations.tomorrow
+                        : DateFormat("EEEE, d. MMM",
+                                context.localizations.localeName)
                             .format(calendarEvent.startDate),
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.secondary)),

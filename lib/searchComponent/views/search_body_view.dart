@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/views/search_category_picker_view.dart';
 import 'package:campus_flutter/searchComponent/views/search_result_view_builder.dart';
 import 'package:campus_flutter/searchComponent/views/search_textfield_view.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -40,7 +41,8 @@ class SearchView extends ConsumerWidget {
             stream: ref.watch(searchViewModel).result,
             builder: (context, snapshot) {
               if (!snapshot.hasData && textEditingController.text.isEmpty) {
-                return const Center(child: Text("Enter a Query to Start"));
+                return Center(
+                    child: Text(context.localizations.enterQueryStart));
               } else {
                 final orientation = MediaQuery.orientationOf(context);
                 if (orientation == Orientation.landscape) {
