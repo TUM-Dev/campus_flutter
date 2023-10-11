@@ -20,9 +20,8 @@ class Movie extends Searchable {
   @JsonKey(fromJson: StringParser.stringToDouble)
   final double? imdbRating;
   final String description;
-  final String coverName;
-  final String coverId;
   final Uri link;
+  final Uri coverUrl;
 
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -41,9 +40,8 @@ class Movie extends Searchable {
       required this.actors,
       this.imdbRating,
       required this.description,
-      required this.coverId,
-      required this.coverName,
-      required this.link})
+      required this.link,
+      required this.coverUrl})
       : title = title.split(":")[1].trim();
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);

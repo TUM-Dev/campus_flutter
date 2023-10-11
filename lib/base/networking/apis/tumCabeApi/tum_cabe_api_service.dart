@@ -3,25 +3,35 @@ sealed class TumCabeApiService {
 }
 
 class TumCabeApiServiceMovie extends TumCabeApiService {
-  final DateTime today;
+  final DateTime? today;
 
   TumCabeApiServiceMovie(this.today);
 
   @override
-  Map<String, String> getParameters() =>
-      {"oldestDateAt": today.toUtc().toIso8601String()};
+  Map<String, String> getParameters() {
+    if (today != null) {
+      return {"oldestDateAt": today!.toUtc().toIso8601String()};
+    } else {
+      return {};
+    }
+  }
 }
 
 class TumCabeApiServiceCafeteria extends TumCabeApiService {}
 
 class TumCabeApiServiceNews extends TumCabeApiService {
-  final DateTime dateOldestNews;
+  final DateTime? dateOldestNews;
 
   TumCabeApiServiceNews(this.dateOldestNews);
 
   @override
-  Map<String, String> getParameters() =>
-      {"oldestDateAt": dateOldestNews.toUtc().toIso8601String()};
+  Map<String, String> getParameters() {
+    if (dateOldestNews != null) {
+      return {"oldestDateAt": dateOldestNews!.toUtc().toIso8601String()};
+    } else {
+      return {};
+    }
+  }
 }
 
 class TumCabeApiServiceNewsSources extends TumCabeApiService {}

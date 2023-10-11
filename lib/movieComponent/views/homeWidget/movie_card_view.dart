@@ -28,8 +28,7 @@ class MovieCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
-                            // TODO(Jakob): path for movie cover
-                            imageUrl: "",
+                            imageUrl: movie.coverUrl.toString(),
                             fit: BoxFit.fitWidth,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,

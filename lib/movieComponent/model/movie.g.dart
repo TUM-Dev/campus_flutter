@@ -18,9 +18,8 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       actors: json['actors'] as String,
       imdbRating: StringParser.stringToDouble(json['imdbRating'] as String?),
       description: json['description'] as String,
-      coverId: json['coverId'] as String,
-      coverName: json['coverName'] as String,
       link: Uri.parse(json['link'] as String),
+      coverUrl: Uri.parse(json['coverUrl'] as String),
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
@@ -35,9 +34,8 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'actors': instance.actors,
       'imdbRating': instance.imdbRating,
       'description': instance.description,
-      'coverName': instance.coverName,
-      'coverId': instance.coverId,
       'link': instance.link.toString(),
+      'coverUrl': instance.coverUrl.toString(),
     };
 
 MoviesData _$MoviesDataFromJson(Map<String, dynamic> json) => MoviesData(

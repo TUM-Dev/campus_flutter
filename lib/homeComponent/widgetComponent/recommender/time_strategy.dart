@@ -79,9 +79,7 @@ class TimeStrategy implements WidgetRecommenderStrategy {
 
       case HomeWidget.movies:
         await MovieService.fetchMovies(false).then<void>((value) {
-          if (value.$2
-              .where((element) => element.date.isAfter(DateTime.now()))
-              .isEmpty) {
+          if (value.$2.isEmpty) {
             priority = 0;
           }
         }, onError: (_) => priority = 0);
