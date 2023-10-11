@@ -66,6 +66,9 @@ dependency_overrides:
       url: https://github.com/jakobkoerber/packages.git
       path: packages/google_maps_flutter/google_maps_flutter_ios
       ref: main
+  tflite_flutter: 0.10.1
+  package_info_plus: 4.1.0
+  device_info_plus: 9.0.3
 
 dev_dependencies:
   flutter_test:

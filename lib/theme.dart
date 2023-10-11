@@ -168,15 +168,6 @@ ThemeData lightTheme(BuildContext context) {
             }
           })),
 
-      /// style list tiles
-      listTileTheme: ListTileThemeData(
-          dense: false,
-          titleTextStyle: Theme.of(context).textTheme.bodyMedium,
-          subtitleTextStyle: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
-
       /// style for segmented button
       segmentedButtonTheme: SegmentedButtonThemeData(
           style: ButtonStyle(
@@ -345,12 +336,6 @@ ThemeData darkTheme(BuildContext context) {
               return _darkGray;
             }
           })),
-
-      /// style list tiles
-      /*listTileTheme: ListTileThemeData(
-          //dense: true
-          titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: _almostWhite)
-      ),*/
 
       /// style for segmented button
       segmentedButtonTheme: SegmentedButtonThemeData(
