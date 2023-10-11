@@ -103,7 +103,7 @@ class SettingsView extends ConsumerWidget {
   Widget _appearanceSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
         dense: true,
-        title: Text(context.localizations.brightness,
+        title: Text(context.localizations.theme,
             style: Theme.of(context).textTheme.bodyMedium),
         trailing: DropdownButton(
           onChanged: (Appearance? newAppearance) {
