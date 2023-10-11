@@ -29,7 +29,10 @@ class NewsCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                              imageUrl: news.imageUrl.toString(),
+                              imageUrl:
+                                  news.imageUrl.toString().contains("src_1.png")
+                                      ? news.link.toString()
+                                      : news.imageUrl.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
                               placeholder: (context, string) => Image.asset(
@@ -63,7 +66,8 @@ class NewsCardView extends ConsumerWidget {
                                           overflow: TextOverflow.ellipsis)),
                                   Expanded(
                                       child: Text(
-                                          StringParser.dateFormatter(news.date, context),
+                                          StringParser.dateFormatter(
+                                              news.date, context),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
