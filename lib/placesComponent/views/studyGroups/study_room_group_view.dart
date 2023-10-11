@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/directions_button.dart';
@@ -205,23 +206,11 @@ class StudyRoomGroupView extends ConsumerWidget {
                               subtitle: lastFetched != null
                                   ? LastUpdatedText(lastFetched)
                                   : null,
-                              child: CardWithPadding(
-                                  child: Column(
-                                children: [
-                                  for (var studyRoom
-                                      in (studyRooms ?? []).indexed) ...[
-                                    GestureDetector(
-                                        onTap: () {
-                                          // TODO(Jakob): NavigaTUM Integration
-                                        },
-                                        child: StudyRoomRowView(
-                                            studyRoom: studyRoom.$2)),
-                                    if (studyRoom.$1 !=
-                                        (studyRooms?.length ?? 0) - 1)
-                                      const Divider()
-                                  ]
-                                ],
-                              )))
+                              child: Card(
+                                  child: SeparatedList.list(
+                                      data: studyRooms ?? [],
+                                      tile: (studyRoom) => StudyRoomRowView(
+                                          studyRoom: studyRoom))))
                         ],
                       ),
                     ));

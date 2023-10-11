@@ -31,14 +31,7 @@ class CampusMostSearchedView extends ConsumerWidget {
                         children: [
                           for (var entity in snapshot.data!.indexed) ...[
                             ListTile(
-                              title: IconText(
-                                iconData: Icons.school,
-                                label: entity.$2.getFormattedName(),
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                multipleLines: true,
-                                iconSize: 15,
-                                iconColor: Theme.of(context).primaryColor,
-                              ),
+                              title: Text(entity.$2.getFormattedName()),
                               trailing: const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 15,

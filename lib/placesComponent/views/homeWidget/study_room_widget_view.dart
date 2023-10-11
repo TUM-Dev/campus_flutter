@@ -71,10 +71,9 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                       context);
                 }
               },
-              child: CardWithPadding.constrained(
-                  boxConstraints: BoxConstraints(
-                      minHeight: MediaQuery.sizeOf(context).height * 0.08),
-                  child: _widgetLabel(snapshot, context)));
+              child: widget.closestStudyRoom
+                  ? Card(child: _widgetLabel(snapshot, context))
+                  : _widgetLabel(snapshot, context));
         });
   }
 
@@ -92,16 +91,20 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                         (element) => element.id == widget.studyRoomGroup!.id),
             context);
       } else {
-        return Center(
-            child: Text(context.localizations.noNearFreeStudyRoomsFound));
+        return ListTile(
+          title: Center(
+              child: Text(context.localizations.noNearFreeStudyRoomsFound)),
+        );
       }
     } else if (snapshot.hasError) {
-      return ErrorHandlingView(
-          error: snapshot.error!,
-          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly);
+      return ListTile(
+          title: ErrorHandlingView(
+              error: snapshot.error!,
+              errorHandlingViewType: ErrorHandlingViewType.descriptionOnly));
     } else {
-      return DelayedLoadingIndicator(
-          name: context.localizations.nearestStudyRooms);
+      return ListTile(
+          title: DelayedLoadingIndicator(
+              name: context.localizations.nearestStudyRooms));
     }
   }
 
@@ -119,15 +122,13 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   }
 
   Widget _buttonLabel(StudyRoomGroup studyRoomGroup, BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: Text(studyRoomGroup.name ?? context.localizations.unknown)),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-        _freeRooms(studyRoomGroup),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-        const Icon(Icons.arrow_forward_ios, size: 15)
-      ],
+    return ListTile(
+      title: Text(studyRoomGroup.name ?? context.localizations.unknown),
+      subtitle: _freeRooms(studyRoomGroup),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        size: 15,
+      ),
     );
   }
 

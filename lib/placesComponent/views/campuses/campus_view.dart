@@ -122,8 +122,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
                   title: context.localizations.cafeterias,
-                  child: CardWithPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Card(
                       child: SeparatedList.list(
                           data: cafeterias,
                           tile: (cafeteria) =>
