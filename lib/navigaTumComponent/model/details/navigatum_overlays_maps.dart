@@ -1,4 +1,4 @@
-import 'package:campus_flutter/navigatumComponent/model/navigatum_overlay_map.dart';
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_overlay_map.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_overlays_maps.g.dart';

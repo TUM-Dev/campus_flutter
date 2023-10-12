@@ -11,8 +11,8 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewm
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
-import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_details_viewmodel.dart';
-import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';

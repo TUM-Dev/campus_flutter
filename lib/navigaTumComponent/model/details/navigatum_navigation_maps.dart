@@ -1,5 +1,5 @@
-import 'package:campus_flutter/navigatumComponent/model/details/navigatum_overlays_maps.dart';
-import 'package:campus_flutter/navigatumComponent/model/details/navigatum_roomfinder_maps.dart';
+import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_overlays_maps.dart';
+import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_roomfinder_maps.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_navigation_maps.g.dart';

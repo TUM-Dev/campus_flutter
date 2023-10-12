@@ -1,5 +1,5 @@
-import 'package:campus_flutter/navigatumComponent/model/navigatum_navigation_entity.dart';
-import 'package:campus_flutter/navigatumComponent/services/navigatum_service.dart';
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
+import 'package:campus_flutter/navigaTumComponent/services/navigatum_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NavigaTumViewModel {

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/navigatumComponent/model/navigatum_navigation_property.dart';
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_property.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_navigation_additional_properties.g.dart';

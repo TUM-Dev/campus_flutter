@@ -1,6 +1,6 @@
-import 'package:campus_flutter/navigatumComponent/model/details/navigatum_navigation_additional_properties.dart';
-import 'package:campus_flutter/navigatumComponent/model/details/navigatum_navigation_coordinates.dart';
-import 'package:campus_flutter/navigatumComponent/model/details/navigatum_navigation_maps.dart';
+import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_additional_properties.dart';
+import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_coordinates.dart';
+import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_maps.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_navigation_details.g.dart';

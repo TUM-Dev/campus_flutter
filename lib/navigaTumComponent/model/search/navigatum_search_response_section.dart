@@ -1,4 +1,4 @@
-import 'package:campus_flutter/navigatumComponent/model/navigatum_navigation_entity.dart';
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_search_response_section.g.dart';

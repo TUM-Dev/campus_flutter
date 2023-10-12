@@ -187,6 +187,8 @@
       }
    },
    "rooms":"Räume",
+   "roomDetails":"Raumdetails",
+   "building":"Gebäude",
    "departures":"Abfahrten",
    "nfreeRooms":"{count, plural, =0{Keine freien Räume} =1{1 freier Raum} other{{count} freie Räume}}",
    "@nfreeRooms":{

@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
-import 'package:campus_flutter/navigatumComponent/model/navigatum_navigation_details.dart';
-import 'package:campus_flutter/navigatumComponent/model/search/navigatum_search_response.dart';
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
+import 'package:campus_flutter/navigaTumComponent/model/search/navigatum_search_response.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

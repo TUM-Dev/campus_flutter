@@ -17,7 +17,7 @@ class SearchCategoryPickerView extends ConsumerWidget {
         builder: (context, snapshot) {
           return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: HorizontalSlider(
+              child: HorizontalSlider.height(
                   data: _getData(snapshot.data ?? [], ref),
                   height: 40,
                   child: (searchCategory) => FilterChip(

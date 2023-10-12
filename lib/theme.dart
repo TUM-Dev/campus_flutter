@@ -13,6 +13,8 @@ const Color _almostBlack = Color(0xff1a1c1e);
 const Color _almostWhite = Color(0xffe3e2e6);
 
 extension ContextTheme on BuildContext {
+  ThemeData get theme => Theme.of(this);
+
   double get halfPadding => 5.0;
 
   double get padding => 15.0;

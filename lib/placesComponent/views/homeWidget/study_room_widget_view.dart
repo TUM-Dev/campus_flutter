@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
+import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';

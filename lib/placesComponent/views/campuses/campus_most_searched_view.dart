@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,11 @@ class CampusMostSearchedView extends ConsumerWidget {
                                 Icons.arrow_forward_ios,
                                 size: 15,
                               ),
-                              // TODO(Jakob): NavigaTum Integration
-                              /*onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => NavigaTumRoomScaffold(
-                                        navigationEntity: entity.$2))),*/
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NavigaTumRoomScaffold(
+                                              id: entity.$2.id))),
                             ),
                             if (entity.$1 < snapshot.data!.length - 1)
                               const PaddedDivider(

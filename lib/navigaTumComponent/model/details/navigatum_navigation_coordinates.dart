@@ -6,7 +6,7 @@ part 'navigatum_navigation_coordinates.g.dart';
 class NavigaTumNavigationCoordinates {
   @JsonKey(name: "lat")
   final double? latitude;
-  @JsonKey(name: "long")
+  @JsonKey(name: "lon")
   final double? longitude;
 
   NavigaTumNavigationCoordinates(this.latitude, this.longitude);

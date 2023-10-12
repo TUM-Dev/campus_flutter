@@ -33,7 +33,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                 final fiveNews = ref.watch(newsViewModel).latestFiveNews();
                 if (fiveNews.isNotEmpty) {
                   return LayoutBuilder(builder: (context, constraints) {
-                    return HorizontalSlider(
+                    return HorizontalSlider.height(
                         data: fiveNews,
                         height: 300,
                         child: (news) {
