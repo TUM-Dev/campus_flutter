@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/model/vocab.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'
@@ -22,11 +20,9 @@ class GlobalSearchViewModel {
   final Ref ref;
 
   late Interpreter interpreter;
-  late HashMap vocab2;
 
   GlobalSearchViewModel(this.ref) {
     if (!kIsWeb) {
-      loadVocabulary();
       initializeNaturalLanguageModel();
     }
   }
@@ -34,14 +30,6 @@ class GlobalSearchViewModel {
   Future initializeNaturalLanguageModel() async {
     interpreter =
         await Interpreter.fromAsset('assets/models/english_bert_30.tflite');
-  }
-
-  void loadVocabulary() async {
-    vocab2 = HashMap();
-    var config = await rootBundle.loadString("assets/models/myfile.txt");
-    config.split('\n').forEach((value) {
-      vocab2[value] = vocab2.length;
-    });
   }
 
   void search(int index, String searchString) async {
@@ -161,8 +149,14 @@ class GlobalSearchViewModel {
       this.searchString = searchString;
     }
     search(this.index, this.searchString);
-    for (var element in selectedCategories.value) {
-      _searchTriggerBuilder(searchString, element);
+    if (selectedCategories.value.isEmpty) {
+      for (var category in SearchCategory.values) {
+        _searchTriggerBuilder(searchString, category);
+      }
+    } else {
+      for (var selectedCategory in selectedCategories.value) {
+        _searchTriggerBuilder(searchString, selectedCategory);
+      }
     }
   }
 
