@@ -84,6 +84,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
         _type(details.typeCommonName),
         Expanded(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: NavigaTumRoomBuildingView(

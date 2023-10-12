@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class ImageFullScreenScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black,
           leading: const BackButton(
             color: Colors.white,
           ),
@@ -68,12 +69,16 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
   @override
   void initState() {
     super.initState();
-    timer = repeatTimer();
+    if (widget.map != null) {
+      timer = repeatTimer();
+    }
   }
 
   @override
   void dispose() {
-    timer.cancel();
+    if (widget.map != null) {
+      timer.cancel();
+    }
     super.dispose();
   }
 
@@ -115,8 +120,8 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
           child: Stack(
             children: [
               if (widget.url != null)
-                Image.network(
-                  widget.url!,
+                CachedNetworkImage(
+                  imageUrl: widget.url!,
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.center,
                   height: double.infinity,
