@@ -21,7 +21,6 @@ class TimeStrategy implements WidgetRecommenderStrategy {
           break;
         }
 
-        /* Cafeteria opening hours. */
         // The menu is not interesting anymore after the cafeteria has closed.
         if (14 <= currentDate.hour) {
           priority = 0;
@@ -33,7 +32,6 @@ class TimeStrategy implements WidgetRecommenderStrategy {
           priority += 1;
         }
 
-        // TODO: useful?
         if (currentDate.hour >= 10 && currentDate.hour <= 12) {
           priority += 1;
         }
@@ -79,9 +77,7 @@ class TimeStrategy implements WidgetRecommenderStrategy {
 
       case HomeWidget.movies:
         await MovieService.fetchMovies(false).then<void>((value) {
-          if (value.$2
-              .where((element) => element.date.isAfter(DateTime.now()))
-              .isEmpty) {
+          if (value.$2.isEmpty) {
             priority = 0;
           }
         }, onError: (_) => priority = 0);

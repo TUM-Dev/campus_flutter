@@ -10,7 +10,7 @@
    "comingSoon":"demnächst verfügbar",
    "appearance":"Darstellung",
    "language":"Sprache",
-   "brightness":"Helligkeit",
+   "theme":"Theme",
    "useWebView":"Web-Ansicht verwenden",
    "hideFailedGrades":"Durchgefallene Noten ausblenden",
    "defaultMapsApplication":"Standard-Kartenanwendung",
@@ -197,5 +197,23 @@
             "format":"compact"
          }
       }
-   }
+   },
+   "noRoomsFound":"Keine Räume gefunden",
+   "noMealPlanFound":"Kein Essensplan gefunden",
+   "noEntriesFoundSearch":"Keine {searchCategory} gefunden",
+            "@noEntriesFoundSearch":{
+               "description":"Title of Search Category",
+               "placeholders":{
+                  "searchCategory":{
+                     "type":"String",
+                     "example":"Grades"
+                  }
+               }
+            },
+   "enterQueryStart":"Stelle eine Suchanfrage",
+   "personalLectures":"Persönliche Vorlesungen",
+   "persons":"Personen",
+   "search":"Suche",
+   "today":"Heute",
+   "tomorrow":"Morgen"
 }

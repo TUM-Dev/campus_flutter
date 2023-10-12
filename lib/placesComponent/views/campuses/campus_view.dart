@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
@@ -122,8 +121,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
                   title: context.localizations.cafeterias,
-                  child: CardWithPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Card(
                       child: SeparatedList.list(
                           data: cafeterias,
                           tile: (cafeteria) =>

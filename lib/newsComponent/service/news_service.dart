@@ -2,33 +2,18 @@ import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api.dart
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/newsComponent/model/news.dart';
-import 'package:campus_flutter/newsComponent/model/news_source.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class NewsService {
-  static Future<(DateTime?, List<NewsSource>)> fetchNews(
-      bool forcedRefresh) async {
+  static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<NewsSources, TumCabeApi>(
-        TumCabeApi(tumCabeService: TumCabeServiceNewsSources()),
-        NewsSources.fromJson,
+    final response = await mainApi.makeRequest<NewsData, TumCabeApi>(
+        TumCabeApi(
+            tumCabeApiService: TumCabeApiServiceNews(
+                DateTime.now().subtract(const Duration(days: 30)))),
+        NewsData.fromJson,
         forcedRefresh);
 
-    List<NewsSource> newsSources = response.data.newsSources;
-
-    for (var newsSource in newsSources.indexed) {
-      try {
-        final newsResponse = await mainApi.makeRequest<NewsData, TumCabeApi>(
-            TumCabeApi(
-                tumCabeService:
-                    TumCabeServiceNews(source: newsSource.$2.id.toString())),
-            NewsData.fromJson,
-            forcedRefresh);
-
-        newsSources[newsSource.$2.id].news.addAll(newsResponse.data.news);
-      } catch (_) {}
-    }
-
-    return (response.saved, newsSources);
+    return (response.saved, response.data.news);
   }
 }
