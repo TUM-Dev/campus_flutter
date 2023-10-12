@@ -1,0 +1,163 @@
+import 'dart:async';
+
+import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
+import 'package:campus_flutter/theme.dart';
+import 'package:flutter/material.dart';
+
+class ImageFullScreenScaffold extends StatelessWidget {
+  factory ImageFullScreenScaffold.network(
+      {required String url, NavigaTumRoomFinderMap? map}) {
+    return ImageFullScreenScaffold(
+      url: url,
+      map: map,
+    );
+  }
+
+  factory ImageFullScreenScaffold.imageData(
+      {required String imageData, NavigaTumRoomFinderMap? map}) {
+    return ImageFullScreenScaffold(
+      imageData: imageData,
+      map: map,
+    );
+  }
+
+  const ImageFullScreenScaffold(
+      {super.key, this.url, this.imageData, this.map});
+
+  final String? url;
+  final String? imageData;
+  final NavigaTumRoomFinderMap? map;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: const BackButton(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.black,
+        body: ImageFullScreenView(
+          map: map,
+          url: url,
+          imageData: imageData,
+        ));
+  }
+}
+
+class ImageFullScreenView extends StatefulWidget {
+  const ImageFullScreenView({super.key, this.map, this.url, this.imageData});
+
+  final String? url;
+  final String? imageData;
+  final NavigaTumRoomFinderMap? map;
+
+  @override
+  State<ImageFullScreenView> createState() => _ImageFullScreenViewState();
+}
+
+class _ImageFullScreenViewState extends State<ImageFullScreenView> {
+  Offset viewState = Offset.zero;
+  double scale = 1.0;
+  double initialScale = 1.0;
+  bool isRed = false;
+
+  late final Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = repeatTimer();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  Timer repeatTimer() {
+    return Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      setState(() {
+        isRed = !isRed;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTap: () {
+        setState(() {
+          scale = 1.0;
+          viewState = Offset.zero;
+        });
+      },
+      onScaleStart: (details) {
+        initialScale = scale;
+      },
+      onScaleUpdate: (details) {
+        final scale = initialScale * details.scale;
+        if (scale >= 0.5 && scale <= 5) {
+          setState(() {
+            viewState += details.focalPointDelta / this.scale;
+            if (scale >= 0.5 && scale <= 3) {
+              this.scale = scale;
+            }
+          });
+        }
+      },
+      child: Transform.scale(
+        scale: scale,
+        child: Transform.translate(
+          offset: viewState,
+          child: Stack(
+            children: [
+              if (widget.url != null)
+                Image.network(
+                  widget.url!,
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.center,
+                  height: double.infinity,
+                  width: double.infinity,
+                ),
+              if (widget.imageData != null)
+                Image.asset(
+                  widget.imageData!,
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.center,
+                ),
+              if (widget.map != null)
+                Positioned(
+                  left: _calculateX(
+                      MediaQuery.sizeOf(context).width, widget.map!),
+                  top: _calculateY(MediaQuery.sizeOf(context).height,
+                      MediaQuery.sizeOf(context).width, widget.map!),
+                  child: CircleAvatar(
+                    radius: 7.5,
+                    backgroundColor:
+                        isRed ? Colors.redAccent : context.theme.primaryColor,
+                  ),
+                )
+              //},
+              //)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  double _calculateY(double height, double width, NavigaTumRoomFinderMap map) {
+    final scaleFactor = (width / map.width);
+    final actualHeight = scaleFactor * map.height;
+    final heightUpperSpace = (height - actualHeight) / 2;
+    return (scaleFactor * map.y) + heightUpperSpace - kToolbarHeight - 7.5;
+  }
+
+  double _calculateX(double width, NavigaTumRoomFinderMap map) {
+    final scaleFactor = (width / map.width);
+    return scaleFactor * map.x - 7.5;
+  }
+}

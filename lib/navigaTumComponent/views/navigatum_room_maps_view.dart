@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
@@ -22,12 +24,26 @@ class NavigaTumRoomMapsView extends StatelessWidget {
           leadingTrailingPadding: false,
           data: maps,
           child: (map) {
-            return CachedNetworkImage(
+            return Tapable(
+              child: CachedNetworkImage(
                 imageUrl: NavigaTumApi(
                         navigaTumApiService:
                             NavigaTumApiServiceImages(id: map.imageUrl))
                     .asURL()
-                    .toString());
+                    .toString(),
+              ),
+              action: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageFullScreenScaffold.network(
+                      url: NavigaTumApi(
+                        navigaTumApiService:
+                            NavigaTumApiServiceImages(id: map.imageUrl),
+                      ).asURL().toString(),
+                      map: map),
+                ),
+              ),
+            );
           },
           aspectRatio: 2,
         ),
