@@ -71,14 +71,17 @@ class ErrorHandlingView extends StatelessWidget {
       BuildContext context, String errorMessage, String? fixMessage) {
     switch (errorHandlingViewType) {
       case ErrorHandlingViewType.fullScreen:
+      case ErrorHandlingViewType.fullScreenNoImage:
         return Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Spacer(),
-          Image.asset("assets/images/errors/error_square.png",
-              height: MediaQuery.of(context).size.height * 0.3333,
-              fit: BoxFit.scaleDown),
-          const Spacer(),
+          if (errorHandlingViewType == ErrorHandlingViewType.fullScreen) ...[
+            const Spacer(),
+            Image.asset("assets/images/errors/error_square.png",
+                height: MediaQuery.of(context).size.height * 0.3333,
+                fit: BoxFit.scaleDown),
+            const Spacer(),
+          ],
           Expanded(
               flex: 0,
               child: Column(children: [
@@ -133,6 +136,7 @@ class ErrorHandlingView extends StatelessWidget {
 
 enum ErrorHandlingViewType {
   fullScreen,
+  fullScreenNoImage,
   textOnly,
   descriptionOnly,
   redDescriptionOnly

@@ -38,7 +38,13 @@ class IconText extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
           multipleLines
               ? Flexible(child: Text(label, style: textStyle))
-              : Flexible(child: Text(label, style: textStyle, maxLines: 1))
+              : Flexible(
+                  child: Text(
+                  label,
+                  style: textStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ))
         ],
         if (!leadingIcon) ...[
           multipleLines

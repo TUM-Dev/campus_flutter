@@ -1,4 +1,6 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
 import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/spatial_temporal_strategy.dart';
@@ -57,10 +59,20 @@ class _WidgetScreenState extends ConsumerState<WidgetScreen> {
                 const NewsWidgetView()
               ],
             );
+          } else if (snapshot.hasError) {
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 2 / 5,
+              child: ErrorHandlingView(
+                  error: snapshot.error ?? Error(),
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly),
+            );
           } else {
-            // TODO: error handling
-            if (snapshot.hasError) {}
-            return const SizedBox.shrink();
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 2 / 5,
+              child: const DelayedLoadingIndicator(
+                name: "Widgets",
+              ),
+            );
           }
         });
   }
