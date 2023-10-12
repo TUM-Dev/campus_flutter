@@ -55,8 +55,14 @@ class GradeViewModel implements ViewModel {
     }
 
     if (ref.read(hideFailedGrades)) {
-      response.removeWhere((element) =>
-          (StringParser.optStringToOptDouble(element.grade) ?? 5) >= 4.0);
+      response.removeWhere((element) {
+        final parsedGrade = StringParser.optStringToOptDouble(element.grade);
+        if (parsedGrade != null) {
+          return parsedGrade > 4.0;
+        } else {
+          return element.grade != "B";
+        }
+      });
     }
 
     Map<String, List<Grade>> gradesByDegree = {};
