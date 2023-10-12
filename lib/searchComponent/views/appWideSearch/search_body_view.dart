@@ -1,8 +1,8 @@
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/searchComponent/views/search_category_picker_view.dart';
-import 'package:campus_flutter/searchComponent/views/search_result_view_builder.dart';
-import 'package:campus_flutter/searchComponent/views/search_textfield_view.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/search_category_picker_view.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_view_builder.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/search_textfield_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,8 +27,7 @@ class SearchView extends ConsumerWidget {
                 textEditingController: textEditingController,
                 index: index,
               ),
-              if (index == 0 || index == 2)
-                SearchCategoryPickerView(index: index),
+              SearchCategoryPickerView(index: index),
               _search(ref)
             ]) //)
           : Container(),
@@ -52,14 +51,12 @@ class SearchView extends ConsumerWidget {
                       itemBuilder: (context, index) =>
                           SearchResultViewBuilder(snapshot.data![index]));
                 } else {
-                  return Scrollbar(
-                      child: SingleChildScrollView(
-                          child:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
+                  return SingleChildScrollView(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
                     for (var result in snapshot.data ??
                         const Iterable<SearchCategory>.empty())
                       SearchResultViewBuilder(result),
-                  ])));
+                  ]));
                 }
               }
             }));

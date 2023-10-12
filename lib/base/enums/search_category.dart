@@ -14,7 +14,8 @@ enum SearchCategory {
   /// enums that are not classified but shown in searches
   lectures,
   personalLectures,
-  persons;
+  persons,
+  rooms;
 
   factory SearchCategory.fromString(String category) {
     switch (category) {
@@ -62,6 +63,8 @@ extension SearchCategoryExtension on SearchCategory {
         return context.localizations.personalLectures;
       case SearchCategory.persons:
         return context.localizations.persons;
+      case SearchCategory.rooms:
+        return context.localizations.rooms;
       default:
         return context.localizations.unknown;
     }
@@ -70,6 +73,7 @@ extension SearchCategoryExtension on SearchCategory {
   static List<SearchCategory> unAuthorizedSearch() {
     return [
       SearchCategory.studyRoom,
+      SearchCategory.rooms,
       SearchCategory.cafeterias,
       SearchCategory.movie,
       SearchCategory.news

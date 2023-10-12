@@ -52,24 +52,10 @@ class GlobalSearchViewModel {
     this.index = index;
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
-      if (index == 0) {
-        if (!kIsWeb) {
-          _textClassificationModel(searchString);
-        } else {
-          _webSearch(searchString);
-        }
+      if (!kIsWeb) {
+        _textClassificationModel(searchString);
       } else {
-        switch (index) {
-          case 1:
-            result.add([SearchCategory.grade]);
-          case 2:
-            result.add(
-                [SearchCategory.personalLectures, SearchCategory.lectures]);
-          case 3:
-            result.add([SearchCategory.calendar]);
-          case 4:
-            result.add([SearchCategory.cafeterias, SearchCategory.studyRoom]);
-        }
+        _webSearch(searchString);
       }
     } else {
       result.add(selectedCategories.value);
@@ -175,46 +161,85 @@ class GlobalSearchViewModel {
       this.searchString = searchString;
     }
     search(this.index, this.searchString);
+    for (var element in selectedCategories.value) {
+      _searchTriggerBuilder(searchString, element);
+    }
+  }
+
+  void setSearchCategories(int index) {
+    final authorized =
+        ref.read(loginViewModel).credentials.value == Credentials.tumId;
     switch (index) {
       case 1:
-        ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
+        if (authorized) {
+          selectedCategories.add([SearchCategory.grade]);
+        } else {
+          selectedCategories.add([]);
+        }
       case 2:
-        ref
-            .read(personalLectureSearchViewModel)
-            .personalLectureSearch(query: this.searchString);
-        ref
-            .read(lectureSearchViewModel)
-            .lectureSearch(query: this.searchString);
+        if (authorized) {
+          selectedCategories
+              .add([SearchCategory.personalLectures, SearchCategory.lectures]);
+        } else {
+          selectedCategories.add([]);
+        }
       case 3:
-        ref
-            .read(calendarSearchViewModel)
-            .calendarSearch(query: this.searchString);
+        if (authorized) {
+          selectedCategories.add([
+            SearchCategory.calendar,
+          ]);
+        } else {
+          selectedCategories.add([]);
+        }
       case 4:
+        selectedCategories.add([
+          SearchCategory.studyRoom,
+          SearchCategory.cafeterias,
+          SearchCategory.rooms
+        ]);
+      default:
+        selectedCategories.add([]);
+    }
+  }
+
+  void _searchTriggerBuilder(
+      String? searchString, SearchCategory searchCategory) {
+    switch (searchCategory) {
+      case SearchCategory.grade:
+        ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
+      case SearchCategory.cafeterias:
         ref
             .read(cafeteriaSearchViewModel)
             .cafeteriaSearch(query: this.searchString);
-        ref
-            .read(studyRoomSearchViewModel)
-            .studyRoomSearch(query: this.searchString);
-      default:
-        ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
-        ref
-            .read(personalLectureSearchViewModel)
-            .personalLectureSearch(query: this.searchString);
-        ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
+      case SearchCategory.calendar:
         ref
             .read(calendarSearchViewModel)
             .calendarSearch(query: this.searchString);
-        ref
-            .read(cafeteriaSearchViewModel)
-            .cafeteriaSearch(query: this.searchString);
+      case SearchCategory.movie:
+        ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
+      case SearchCategory.news:
+        // TODO(Jakob): add news to search after move to new backend is finalised
+        return;
+      case SearchCategory.studyRoom:
         ref
             .read(studyRoomSearchViewModel)
             .studyRoomSearch(query: this.searchString);
-        ref.read(personSearchViewModel).personSearch(query: this.searchString);
+      case SearchCategory.lectures:
         ref
             .read(lectureSearchViewModel)
             .lectureSearch(query: this.searchString);
+      case SearchCategory.personalLectures:
+        ref
+            .read(personalLectureSearchViewModel)
+            .personalLectureSearch(query: this.searchString);
+      case SearchCategory.persons:
+        ref.read(personSearchViewModel).personSearch(query: this.searchString);
+      case SearchCategory.rooms:
+        ref
+            .read(navigaTumSearchViewModel)
+            .navigaTumSearch(query: this.searchString);
+      default:
+        return;
     }
   }
 }

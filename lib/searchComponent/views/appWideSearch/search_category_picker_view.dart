@@ -40,16 +40,12 @@ class SearchCategoryPickerView extends ConsumerWidget {
 
   List<SearchCategory> _getData(List<SearchCategory> data, WidgetRef ref) {
     List<SearchCategory> searchCategories = [];
-    if (index == 2) {
-      searchCategories = SearchCategoryExtension.lectureSearch();
+    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+      searchCategories = SearchCategory.values
+          .where((element) => element != SearchCategory.unknown)
+          .toList();
     } else {
-      if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
-        searchCategories = SearchCategory.values
-            .where((element) => element != SearchCategory.unknown)
-            .toList();
-      } else {
-        searchCategories = SearchCategoryExtension.unAuthorizedSearch();
-      }
+      searchCategories = SearchCategoryExtension.unAuthorizedSearch();
     }
     searchCategories.sort((a, b) {
       return data.contains(a) && data.contains(b)

@@ -1,9 +1,11 @@
+import 'package:campus_flutter/base/extensions/string_capitalize.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'navigatum_navigation_entity.g.dart';
 
 @JsonSerializable()
-class NavigaTumNavigationEntity {
+class NavigaTumNavigationEntity extends Searchable {
   final String id;
   final String type;
   final String name;
@@ -27,7 +29,7 @@ class NavigaTumNavigationEntity {
   }
 
   String getFormattedSubtext() {
-    return _removeHighlight(subtext);
+    return _removeHighlight(subtext.capitalizeFirstLetter());
   }
 
   String _removeHighlight(String field) {

@@ -1,3 +1,4 @@
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoRowView extends StatelessWidget {
@@ -9,13 +10,16 @@ class DetailedLectureInfoRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(title,
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall
-              ?.copyWith(fontWeight: FontWeight.bold)),
-      Text(information.replaceAll(r'\\n', "\n"))
-    ]);
+    return Padding(
+      padding: EdgeInsets.all(context.padding),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(fontWeight: FontWeight.bold)),
+        Text(information.replaceAll(r'\\n', "\n"))
+      ]),
+    );
   }
 }

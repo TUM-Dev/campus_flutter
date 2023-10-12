@@ -12,6 +12,7 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dar
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
@@ -138,3 +139,4 @@ final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
 final personSearchViewModel = Provider((ref) => PersonSearchViewModel());
+final navigaTumSearchViewModel = Provider((ref) => NavigaTumSearchViewModel());
