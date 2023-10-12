@@ -1,4 +1,3 @@
-
 import 'package:campus_flutter/personDetailedComponent/model/contact_info.dart';
 import 'package:campus_flutter/personDetailedComponent/model/phone_extension.dart';
 import 'package:campus_flutter/personDetailedComponent/model/room.dart';
