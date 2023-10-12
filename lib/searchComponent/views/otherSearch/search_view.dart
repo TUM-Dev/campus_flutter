@@ -1,34 +1,48 @@
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
+import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchScaffold extends StatelessWidget {
-  const SearchScaffold({super.key, this.isRoomSearch = true});
+class SearchScaffold extends ConsumerWidget {
+  const SearchScaffold(
+      {super.key, this.searchString, this.isRoomSearch = true});
 
   final bool isRoomSearch;
+  final String? searchString;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pop(context);
+            if (isRoomSearch) {
+              ref.read(navigaTumSearchViewModel).searchResults.add([]);
+            } else {
+              ref.read(personSearchViewModel).searchResults.add([]);
+            }
+          },
+        ),
         title: Text(isRoomSearch ? "Room Search" : "Person Search"),
       ),
-      body: SearchView(isRoomSearch: isRoomSearch),
+      body: SearchView(searchString: searchString, isRoomSearch: isRoomSearch),
     );
   }
 }
 
 class SearchView extends ConsumerStatefulWidget {
-  const SearchView({super.key, required this.isRoomSearch});
+  const SearchView({super.key, this.searchString, required this.isRoomSearch});
 
   final bool isRoomSearch;
+  final String? searchString;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchViewState();
@@ -36,6 +50,27 @@ class SearchView extends ConsumerStatefulWidget {
 
 class _SearchViewState extends ConsumerState<SearchView> {
   final TextEditingController textEditingController = TextEditingController();
+
+  bool showClearButton = false;
+
+  @override
+  void initState() {
+    if (widget.searchString != null) {
+      if (widget.isRoomSearch) {
+        ref
+            .read(navigaTumSearchViewModel)
+            .navigaTumSearch(query: widget.searchString!);
+      } else {
+        ref
+            .read(personSearchViewModel)
+            .personSearch(query: widget.searchString!);
+      }
+      setState(() {
+        textEditingController.text = widget.searchString!;
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,23 +89,45 @@ class _SearchViewState extends ConsumerState<SearchView> {
       child: TextField(
         controller: textEditingController,
         onChanged: (searchString) {
+          setState(() {
+            showClearButton = searchString.isNotEmpty;
+          });
           if (widget.isRoomSearch) {
-            ref
-                .read(navigaTumSearchViewModel)
-                .navigaTumSearch(query: searchString);
+            if (searchString.isNotEmpty) {
+              ref
+                  .read(navigaTumSearchViewModel)
+                  .navigaTumSearch(query: searchString);
+            } else {
+              ref.read(navigaTumSearchViewModel).searchResults.add(null);
+            }
           } else {
-            ref.read(personSearchViewModel).personSearch(query: searchString);
+            if (searchString.isNotEmpty) {
+              ref.read(personSearchViewModel).personSearch(query: searchString);
+            } else {
+              ref.read(navigaTumSearchViewModel).searchResults.add(null);
+            }
           }
         },
         decoration: InputDecoration(
           hintText: context.localizations.search,
-          // TODO: make it work
-          suffixIcon: textEditingController.text.isNotEmpty
+          suffixIcon: showClearButton
               ? GestureDetector(
                   onTap: () {
                     setState(() {
-                      textEditingController.clear();
+                      textEditingController.text = "";
+                      showClearButton = false;
                     });
+                    if (widget.isRoomSearch) {
+                      ref
+                          .read(navigaTumSearchViewModel)
+                          .searchResults
+                          .add(null);
+                    } else {
+                      ref
+                          .read(navigaTumSearchViewModel)
+                          .searchResults
+                          .add(null);
+                    }
                   },
                   child: const Icon(Icons.clear),
                 )
@@ -115,8 +172,16 @@ class _SearchViewState extends ConsumerState<SearchView> {
                   } else {
                     final person = searchable as Person;
                     return ListTile(
-                      title: Text(person.fullName),
+                      title: Text(person.fullNameWithTitle),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PersonDetailsScaffold(
+                            obfuscatedId: person.obfuscatedID,
+                          ),
+                        ),
+                      ),
                     );
                   }
                 },
@@ -130,10 +195,22 @@ class _SearchViewState extends ConsumerState<SearchView> {
                 errorHandlingViewType: ErrorHandlingViewType.textOnly),
           );
         } else {
-          return Expanded(
+          if (widget.searchString != null) {
+            return Expanded(
               child: Center(
-            child: Text(context.localizations.enterQueryStart),
-          ));
+                child: DelayedLoadingIndicator(
+                  name: widget.isRoomSearch
+                      ? context.localizations.rooms
+                      : context.localizations.persons,
+                ),
+              ),
+            );
+          } else {
+            return Expanded(
+                child: Center(
+              child: Text(context.localizations.enterQueryStart),
+            ));
+          }
         }
       },
     );

@@ -1,16 +1,18 @@
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
+import 'package:campus_flutter/searchComponent/views/otherSearch/search_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BasicLectureInfoView extends StatelessWidget {
+class BasicLectureInfoView extends ConsumerWidget {
   const BasicLectureInfoView({super.key, required this.lectureDetails});
 
   final LectureDetails lectureDetails;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return LectureInfoCardView(
       icon: Icons.folder,
       title: context.localizations.basicLectureInformation,
@@ -26,7 +28,23 @@ class BasicLectureInfoView extends StatelessWidget {
         // TODO: person finder
         if (lectureDetails.speaker != null)
           BasicLectureInfoRowView(
-              information: lectureDetails.speaker!, iconData: Icons.person),
+            information: lectureDetails.speaker!,
+            iconData: Icons.person,
+            trailingWidget: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SearchScaffold(
+                              isRoomSearch: false,
+                              searchString:
+                                  lectureDetails.speaker?.split(",").first,
+                            ))),
+                icon: Icon(
+                  Icons.search,
+                  size: 20,
+                  color: context.theme.primaryColor,
+                )),
+          ),
         if (lectureDetails.firstScheduledDate != null)
           BasicLectureInfoRowView(
               information: lectureDetails.firstScheduledDate!,

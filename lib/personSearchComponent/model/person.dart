@@ -9,6 +9,7 @@ class Person extends Searchable {
   final String firstname;
   @JsonKey(name: "familienname")
   final String surname;
+  @JsonKey(name: "titel")
   final String? title;
   final String nr;
   @JsonKey(name: "obfuscated_id")
@@ -28,6 +29,14 @@ class Person extends Searchable {
 
   String get fullName {
     return "$firstname $surname";
+  }
+
+  String get fullNameWithTitle {
+    if (title != null) {
+      return "$title $fullName";
+    } else {
+      return fullName;
+    }
   }
 
   Person(

@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class SearchView extends ConsumerWidget {
-  SearchView({super.key, required this.index, required this.showContent});
+class SearchBodyView extends ConsumerWidget {
+  SearchBodyView({super.key, required this.index, required this.showContent});
 
   final TextEditingController textEditingController = TextEditingController();
 

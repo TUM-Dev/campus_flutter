@@ -1,3 +1,4 @@
+import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
@@ -15,7 +16,16 @@ class PersonSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.persons,
       viewModel: personSearchViewModel,
       body: (person) => ListTile(
-        title: Text(person.fullName),
+        title: Text(person.fullNameWithTitle),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          size: 15,
+        ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PersonDetailsScaffold(obfuscatedId: person.obfuscatedID))),
       ),
     );
   }

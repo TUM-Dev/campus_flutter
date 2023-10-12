@@ -76,14 +76,14 @@ final profileViewModel = Provider.autoDispose((ref) {
 /// view model for users details and person details
 final profileDetailsViewModel = Provider.autoDispose((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
-  final profileDetailsViewModel = PersonDetailsViewModel(profile);
+  final profileDetailsViewModel = PersonDetailsViewModel(profile?.obfuscatedID);
   profileDetailsViewModel.fetch(false);
   ref.keepAlive();
   return profileDetailsViewModel;
 });
-final personDetailsViewModel = Provider((ref) {
-  final profile = ref.watch(selectedProfile);
-  return PersonDetailsViewModel(profile);
+final personDetailsViewModel =
+    Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {
+  return PersonDetailsViewModel(obfuscatedId);
 });
 
 /// view model for places

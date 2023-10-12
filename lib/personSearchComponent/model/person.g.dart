@@ -9,7 +9,7 @@ part of 'person.dart';
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       firstname: json['vorname'] as String,
       surname: json['familienname'] as String,
-      title: json['title'] as String?,
+      title: json['titel'] as String?,
       nr: json['nr'] as String,
       obfuscatedID: json['obfuscated_id'] as String,
     );
@@ -17,7 +17,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'vorname': instance.firstname,
       'familienname': instance.surname,
-      'title': instance.title,
+      'titel': instance.title,
       'nr': instance.nr,
       'obfuscated_id': instance.obfuscatedID,
     };

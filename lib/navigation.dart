@@ -119,7 +119,7 @@ class _NavigationState extends ConsumerState<Navigation> {
                 duration: const Duration(milliseconds: 300),
                 height: _searchAreaHeight,
                 child: _isSearching
-                    ? SearchView(
+                    ? SearchBodyView(
                         index: currentPageIndex, showContent: showContent)
                     : null,
                 onEnd: () {
