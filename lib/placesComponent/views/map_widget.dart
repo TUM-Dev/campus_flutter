@@ -93,7 +93,6 @@ class MapWidget extends ConsumerStatefulWidget {
   }
 
   const MapWidget._({
-    super.key,
     required this.markers,
     required this.horizontalPadding,
     this.latLng,

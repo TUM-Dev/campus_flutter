@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
-import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/model/search/navigatum_search_response.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 

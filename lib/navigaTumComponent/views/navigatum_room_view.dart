@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_view.dart';
-import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_building_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_maps_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
