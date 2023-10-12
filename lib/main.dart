@@ -28,8 +28,6 @@ main() async {
   } else {
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
-    final directory = await getTemporaryDirectory();
-    HiveCacheStore(directory.path).clean();
     getIt.registerSingleton<MainApi>(
         MainApi.mobileCache(await getTemporaryDirectory()));
   }
