@@ -6,7 +6,6 @@ import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class ImageFullScreenScaffold extends StatelessWidget {
   factory ImageFullScreenScaffold.network(
