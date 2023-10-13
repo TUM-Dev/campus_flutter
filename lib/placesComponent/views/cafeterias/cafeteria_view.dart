@@ -1,7 +1,9 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/info_row.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
+import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
@@ -11,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CafeteriaScaffold extends ConsumerWidget {
@@ -24,11 +27,78 @@ class CafeteriaScaffold extends ConsumerWidget {
       appBar: AppBar(
         leading: const BackButton(),
         title: Text(cafeteria.name),
+        actions: [
+          if (cafeteria.openingHours != null)
+            IconButton(
+                onPressed: () => _alertDialog(context),
+                icon: Icon(
+                  Icons.access_time_filled,
+                  color: context.theme.primaryColor,
+                ))
+        ],
       ),
       body: CafeteriaView(
         cafeteria: cafeteria,
       ),
     );
+  }
+
+  void _alertDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          final openingHours = cafeteria.openingHours;
+          return AlertDialog(
+            title: Text(
+              context.localizations.openingHours,
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InfoRow(
+                    title: context.localizations.monday,
+                    info:
+                        _openingHourStringBuilder(openingHours?.mon, context)),
+                InfoRow(
+                    title: context.localizations.tuesday,
+                    info:
+                        _openingHourStringBuilder(openingHours?.tue, context)),
+                InfoRow(
+                    title: context.localizations.wednesday,
+                    info:
+                        _openingHourStringBuilder(openingHours?.wed, context)),
+                InfoRow(
+                    title: context.localizations.thursday,
+                    info:
+                        _openingHourStringBuilder(openingHours?.thu, context)),
+                InfoRow(
+                    title: context.localizations.friday,
+                    info:
+                        _openingHourStringBuilder(openingHours?.fri, context)),
+                InfoRow(
+                    title: context.localizations.weekend,
+                    info: context.localizations.closed),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("Okay"))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
+  }
+
+  String _openingHourStringBuilder(
+      OpeningHour? openingHour, BuildContext context) {
+    if (openingHour == null) {
+      return context.localizations.unknown;
+    } else {
+      return "${openingHour.start} - ${openingHour.end}";
+    }
   }
 }
 
@@ -43,11 +113,13 @@ class CafeteriaView extends ConsumerStatefulWidget {
 
 class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
   late DateTime selectedDate;
+  late (bool, OpeningHour?) openingHours;
 
   @override
   void initState() {
     final today = DateTime.now();
     selectedDate = DateTime(today.year, today.month, today.day);
+    openingHours = widget.cafeteria.openingHoursToday;
     super.initState();
   }
 
@@ -68,6 +140,8 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
       } else {
         return Column(
           children: [
+            if (openingHours.$2 != null && openingHours.$1)
+              _openingTimes(openingHours, context),
             ..._mapAndDirections(),
             const PaddedDivider(),
             _pickerAndSlider()
@@ -75,6 +149,16 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         );
       }
     });
+  }
+
+  Widget _openingTimes(
+      (bool, OpeningHour?) openingHours, BuildContext context) {
+    if (!openingHours.$1) {
+      return Text(context.localizations.closedToday);
+    } else {
+      return Text(context.localizations
+          .openToday(openingHours.$2!.start, openingHours.$2!.end));
+    }
   }
 
   List<Widget> _mapAndDirections() {

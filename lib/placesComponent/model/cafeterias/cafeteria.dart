@@ -1,3 +1,4 @@
+import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -40,9 +41,29 @@ class Cafeteria extends Searchable {
   @JsonKey(name: "queue_status")
   final String? queueStatusApi;
   Queue? queue;
+  @JsonKey(name: "open_hours")
+  final OpeningHours? openingHours;
 
   String? get title {
     return name;
+  }
+
+  (bool, OpeningHour?) get openingHoursToday {
+    final today = DateTime.now();
+    switch (today.weekday) {
+      case 1:
+        return (true, openingHours?.mon);
+      case 2:
+        return (true, openingHours?.tue);
+      case 3:
+        return (true, openingHours?.wed);
+      case 4:
+        return (true, openingHours?.thu);
+      case 5:
+        return (true, openingHours?.fri);
+      default:
+        return (false, null);
+    }
   }
 
   @override
@@ -61,7 +82,8 @@ class Cafeteria extends Searchable {
       required this.name,
       required this.id,
       required this.queueStatusApi,
-      required this.queue});
+      required this.queue,
+      this.openingHours});
 
   factory Cafeteria.fromJson(Map<String, dynamic> json) =>
       _$CafeteriaFromJson(json);
