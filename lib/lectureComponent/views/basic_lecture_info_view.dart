@@ -25,7 +25,6 @@ class BasicLectureInfoView extends ConsumerWidget {
         BasicLectureInfoRowView(
             information: lectureDetails.organisation,
             iconData: Icons.import_contacts),
-        // TODO: person finder
         if (lectureDetails.speaker != null)
           BasicLectureInfoRowView(
             information: lectureDetails.speaker!,
