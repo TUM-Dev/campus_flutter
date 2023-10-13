@@ -16,22 +16,21 @@ class LectureLinksView extends StatelessWidget {
       title: context.localizations.lectureLinks,
       widgets: [
         if (lectureDetails.curriculumURL != null)
-          _entry(lectureDetails.curriculumURL,
-              context.localizations.lectureCurriculum),
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.curriculumURL,
+              label: context.localizations.lectureCurriculum),
         if (lectureDetails.scheduledDatesURL != null)
-          _entry(lectureDetails.scheduledDatesURL,
-              context.localizations.scheduledLectureDates),
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.scheduledDatesURL,
+              label: context.localizations.scheduledLectureDates),
         if (lectureDetails.examDateURL != null)
-          _entry(lectureDetails.examDateURL,
-              context.localizations.lectureExamDate),
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.examDateURL,
+              label: context.localizations.lectureExamDate),
       ],
-    );
-  }
-
-  Widget _entry(String? url, String label) {
-    return ListTile(
-      dense: true,
-      title: HyperLinkText(link: url ?? "", label: label),
     );
   }
 }
