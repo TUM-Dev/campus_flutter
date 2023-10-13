@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/helpers/info_row.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +44,13 @@ class TuitionView extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _infoRow(
-                    context.localizations.tuitionDueDate,
-                    DateFormat.yMd(context.localizations.localeName)
+                InfoRow(
+                    title: context.localizations.tuitionDueDate,
+                    info: DateFormat.yMd(context.localizations.localeName)
                         .format(snapshot.data!.deadline)),
-                _infoRow(
-                    context.localizations.tuitionOpenAmount,
-                    NumberFormat.currency(locale: "de_DE", symbol: '€')
+                InfoRow(
+                    title: context.localizations.tuitionOpenAmount,
+                    info: NumberFormat.currency(locale: "de_DE", symbol: '€')
                         .format(snapshot.data!.amount))
               ]),
               actions: [
@@ -93,14 +94,5 @@ class TuitionView extends ConsumerWidget {
                   .bodyMedium
                   ?.copyWith(color: Colors.red)));
     }
-  }
-
-  Widget _infoRow(String title, String info) {
-    return Row(children: [
-      Expanded(
-          child:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
-      Expanded(child: Text(info))
-    ]);
   }
 }

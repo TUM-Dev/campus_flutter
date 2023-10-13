@@ -59,8 +59,26 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     ),
                 ],
               ),
+              subtitle: _openingHours(),
               child: _dynamicContent(snapshot));
         });
+  }
+
+  Widget? _openingHours() {
+    final openingHours = ref
+        .read(cafeteriasViewModel)
+        .closestCafeteria
+        .value
+        ?.$1
+        .openingHoursToday;
+    if (openingHours?.$2 != null) {
+      return Padding(
+          padding: EdgeInsets.only(left: context.padding),
+          child: Text(context.localizations
+              .openToday(openingHours!.$2!.start, openingHours.$2!.end)));
+    } else {
+      return null;
+    }
   }
 
   Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu)?> snapshot) {
