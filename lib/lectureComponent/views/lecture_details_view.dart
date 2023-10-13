@@ -89,8 +89,14 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
       if (ref.read(viewModel).event != null)
         LectureMeetingInfoView(viewModel: viewModel),
       BasicLectureInfoView(lectureDetails: lectureDetails),
-      DetailedLectureInfoView(lectureDetails: lectureDetails),
-      LectureLinksView(lectureDetails: lectureDetails)
+      if (lectureDetails.courseContents != null ||
+          lectureDetails.courseObjective != null ||
+          lectureDetails.note != null)
+        DetailedLectureInfoView(lectureDetails: lectureDetails),
+      if (lectureDetails.curriculumURL != null ||
+          lectureDetails.scheduledDatesURL != null ||
+          lectureDetails.examDateURL != null)
+        LectureLinksView(lectureDetails: lectureDetails)
     ];
   }
 }

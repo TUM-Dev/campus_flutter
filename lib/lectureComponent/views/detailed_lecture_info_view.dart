@@ -15,23 +15,18 @@ class DetailedLectureInfoView extends StatelessWidget {
       icon: Icons.info_outline_rounded,
       title: context.localizations.detailedLectureInformation,
       widgets: [
-        if (lectureDetails.courseContents != null) ...[
+        if (lectureDetails.courseContents != null)
           DetailedLectureInfoRowView(
               title: context.localizations.courseContents,
-              information: lectureDetails.courseContents!)
-        ],
-        if (lectureDetails.courseObjective != null) ...[
-          const Divider(),
+              information: lectureDetails.courseContents!),
+        if (lectureDetails.courseObjective != null)
           DetailedLectureInfoRowView(
               title: context.localizations.courseObjective,
-              information: lectureDetails.courseObjective!)
-        ],
-        if (lectureDetails.note != null) ...[
-          const Divider(),
+              information: lectureDetails.courseObjective!),
+        if (lectureDetails.note != null)
           DetailedLectureInfoRowView(
               title: context.localizations.note,
-              information: lectureDetails.note!)
-        ],
+              information: lectureDetails.note!),
       ],
     );
   }
