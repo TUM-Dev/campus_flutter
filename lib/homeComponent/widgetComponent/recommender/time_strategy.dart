@@ -22,10 +22,10 @@ class TimeStrategy implements WidgetRecommenderStrategy {
         }
 
         // The menu is not interesting anymore after the cafeteria has closed.
-        /*if (14 <= currentDate.hour) {
+        if (15 <= currentDate.hour) {
           priority = 0;
           break;
-        }*/
+        }
 
         // The menu might be interesting before the opening hours.
         if (currentDate.hour < 14 && 6 < currentDate.hour) {
