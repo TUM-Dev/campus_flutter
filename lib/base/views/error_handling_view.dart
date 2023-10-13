@@ -26,29 +26,39 @@ class ErrorHandlingView extends StatelessWidget {
       final dioException = error as DioException;
       switch (dioException.type) {
         case DioExceptionType.badResponse:
-          return _exceptionMessage(
-              context, "Bad Response", "Please try again!");
+          return _exceptionMessage(context, context.localizations.badResponse,
+              context.localizations.pleaseTryAgain);
         case DioExceptionType.connectionError:
-          return _exceptionMessage(context, "Connection Error",
-              "Make sure you have \na working internet connection!");
+          return _exceptionMessage(
+              context,
+              context.localizations.connectionError,
+              context.localizations.makeSureInternetConnection);
         case DioExceptionType.cancel:
-          return _exceptionMessage(context, "Request Cancelled",
-              "Please report this is as a bug \nvia Email or on GitHub");
+          return _exceptionMessage(
+              context,
+              context.localizations.requestCancelled,
+              context.localizations.pleaseReport);
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:
         case DioExceptionType.receiveTimeout:
-          return _exceptionMessage(context, "Connection Timeout",
-              "Make sure you have \na working internet connection!");
+          return _exceptionMessage(
+              context,
+              context.localizations.connectionTimeout,
+              context.localizations.makeSureInternetConnection);
         default:
           if ((error as DioException)
               .error
               .toString()
               .contains("SocketException")) {
-            return _exceptionMessage(context, "Connection Error",
-                "Make sure you have \na working internet connection!");
+            return _exceptionMessage(
+                context,
+                context.localizations.connectionError,
+                context.localizations.makeSureInternetConnection);
           } else {
-            return _exceptionMessage(context, "Unknown Error",
-                "Please report this is as a bug \nvia Email or on GitHub");
+            return _exceptionMessage(
+                context,
+                context.localizations.unknownError,
+                context.localizations.pleaseReport);
           }
       }
     } else if (error is TumOnlineApiException) {
@@ -62,8 +72,8 @@ class ErrorHandlingView extends StatelessWidget {
       final exception = error as CustomException;
       return _exceptionMessage(context, exception.message, null);
     } else {
-      return _exceptionMessage(context, "Unknown Error",
-          "Please report this is as a bug \nvia Email or on GitHub");
+      return _exceptionMessage(context, context.localizations.unknownError,
+          context.localizations.pleaseReport);
     }
   }
 

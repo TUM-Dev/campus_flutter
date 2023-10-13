@@ -5,85 +5,104 @@ import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapWidget extends StatefulWidget {
+class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding(
       {required Set<Marker> markers,
       LatLng? latLng,
+      EdgeInsets? controlPadding,
       double? zoom,
       double? aspectRatio,
-      bool aspectRatioNeeded = true}) {
-    return MapWidget(
+      bool aspectRatioNeeded = true,
+      bool roundedCorners = true}) {
+    return MapWidget._(
       markers: markers,
       horizontalPadding: false,
+      controlPadding: controlPadding,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
       aspectRatioNeeded: aspectRatioNeeded,
+      roundedCorners: roundedCorners,
     );
   }
 
   factory MapWidget.horizontalPadding(
       {required Set<Marker> markers,
       LatLng? latLng,
+      EdgeInsets? controlPadding,
       double? zoom,
       double? aspectRatio,
-      bool aspectRatioNeeded = true}) {
-    return MapWidget(
+      bool aspectRatioNeeded = true,
+      bool roundedCorners = true}) {
+    return MapWidget._(
       markers: markers,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
       horizontalPadding: true,
+      controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
+      roundedCorners: roundedCorners,
     );
   }
 
   factory MapWidget.noPadding(
       {required Set<Marker> markers,
       LatLng? latLng,
+      EdgeInsets? controlPadding,
       double? zoom,
       double? aspectRatio,
-      bool aspectRatioNeeded = true}) {
-    return MapWidget(
+      bool aspectRatioNeeded = true,
+      bool roundedCorners = true}) {
+    return MapWidget._(
       markers: markers,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
       horizontalPadding: false,
       padding: EdgeInsets.zero,
+      controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
+      roundedCorners: roundedCorners,
     );
   }
 
   factory MapWidget.customPadding(
       {required Set<Marker> markers,
       required EdgeInsets padding,
+      EdgeInsets? controlPadding,
       LatLng? latLng,
       double? zoom,
       double? aspectRatio,
-      bool aspectRatioNeeded = true}) {
-    return MapWidget(
+      bool aspectRatioNeeded = true,
+      bool roundedCorners = true}) {
+    return MapWidget._(
       markers: markers,
       padding: padding,
+      controlPadding: controlPadding,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
       horizontalPadding: false,
       aspectRatioNeeded: aspectRatioNeeded,
+      roundedCorners: roundedCorners,
     );
   }
 
-  const MapWidget(
-      {super.key,
-      required this.markers,
-      required this.horizontalPadding,
-      this.latLng,
-      this.zoom,
-      this.aspectRatio,
-      this.padding,
-      this.aspectRatioNeeded = true});
+  const MapWidget._({
+    required this.markers,
+    required this.horizontalPadding,
+    this.latLng,
+    this.zoom,
+    this.aspectRatio,
+    this.padding,
+    this.controlPadding,
+    required this.aspectRatioNeeded,
+    required this.roundedCorners,
+  });
 
   final Set<Marker> markers;
   final bool horizontalPadding;
@@ -91,13 +110,16 @@ class MapWidget extends StatefulWidget {
   final double? zoom;
   final double? aspectRatio;
   final bool aspectRatioNeeded;
+  final bool roundedCorners;
   final EdgeInsets? padding;
+  final EdgeInsets? controlPadding;
 
   @override
-  State<StatefulWidget> createState() => _MapWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
+class _MapWidgetState extends ConsumerState<MapWidget>
+    with WidgetsBindingObserver {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -110,14 +132,14 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
     _setMapStyle();
   }
 
-  Future _setMapStyle() async {
+  Future _setMapStyle({bool platformChanged = false}) async {
     final controller = await _controller.future;
-    setBrightness(controller);
+    setBrightness(controller, platformChanged);
   }
 
-  void setBrightness(GoogleMapController controller) {
+  void setBrightness(GoogleMapController controller, bool platformChanged) {
     final brightness = Theme.of(context).brightness;
-    if (brightness == Brightness.dark) {
+    if (brightness == (platformChanged ? Brightness.light : Brightness.dark)) {
       controller.setMapStyle(getIt.get<MapThemeService>().darkTheme);
     } else {
       controller.setMapStyle(getIt.get<MapThemeService>().lightTheme);
@@ -127,7 +149,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   @override
   void didChangePlatformBrightness() {
     setState(() {
-      _setMapStyle();
+      _setMapStyle(platformChanged: true);
     });
   }
 
@@ -142,7 +164,9 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
     return Padding(
       padding: widget.padding ?? EdgeInsets.all(context.padding),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: widget.roundedCorners
+            ? BorderRadius.circular(15.0)
+            : BorderRadius.zero,
         child: widget.aspectRatioNeeded
             ? AspectRatio(
                 aspectRatio: widget.aspectRatio ?? 1.0, child: _mapWidget())
@@ -158,6 +182,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
         duration: const Duration(milliseconds: 200),
         child: GoogleMap(
           mapType: MapType.normal,
+          padding: widget.controlPadding ?? EdgeInsets.zero,
           initialCameraPosition: CameraPosition(
               target: widget.latLng ??
                   const LatLng(48.26307794976663, 11.668018668778569),

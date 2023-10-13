@@ -35,8 +35,14 @@ class MainApi {
           if (body.headers["content-type"]?.first.contains("xml") ?? false) {
             final transformer = Xml2Json();
             transformer.parse(decoded);
-            return transformer
-                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
           } else {
             return decoded;
           }
@@ -70,8 +76,14 @@ class MainApi {
           if (body.headers["content-type"]?.first.contains("xml") ?? false) {
             final transformer = Xml2Json();
             transformer.parse(decoded);
-            return transformer
-                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
           } else {
             return decoded;
           }
@@ -139,8 +151,6 @@ class MainApi {
       } else {
         response = await endpoint.asResponse(dioClient: dio);
       }
-
-      //print(jsonDecode(response.data.toString()));
 
       log("${response.statusCode}: ${response.realUri}");
       try {

@@ -187,6 +187,8 @@
       }
    },
    "rooms":"Rooms",
+   "roomDetails":"Room Details",
+   "building":"Building",
    "departures":"Departures",
    "nfreeRooms":"{count, plural, =0{no free rooms} =1{1 free room} other{{count} free rooms}}",
    "@nfreeRooms":{
@@ -215,5 +217,16 @@
    "persons":"Persons",
    "search":"Search",
    "today":"Today",
-   "tomorrow":"Tomorrow"
+   "tomorrow":"Tomorrow",
+   "noMapsFound":"No Maps Found",
+   "roomSearch":"Room Search",
+   "personSearch":"Person Search",
+   "badResponse":"Bad Response",
+   "pleaseTryAgain":"Please try again!",
+   "connectionError":"Connection Error",
+   "makeSureInternetConnection":"Make sure you have \na working internet connection!",
+   "requestCancelled":"Request Cancelled",
+   "pleaseReport":"Please report this is as a bug \nvia Email or on GitHub",
+   "connectionTimeout":"Connection Timeout",
+   "unknownError":"Unknown Error"
 }

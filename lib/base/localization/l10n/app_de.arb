@@ -187,6 +187,8 @@
       }
    },
    "rooms":"Räume",
+   "roomDetails":"Raumdetails",
+   "building":"Gebäude",
    "departures":"Abfahrten",
    "nfreeRooms":"{count, plural, =0{Keine freien Räume} =1{1 freier Raum} other{{count} freie Räume}}",
    "@nfreeRooms":{
@@ -215,5 +217,16 @@
    "persons":"Personen",
    "search":"Suche",
    "today":"Heute",
-   "tomorrow":"Morgen"
+   "tomorrow":"Morgen",
+   "noMapsFound":"Keine Karten gefunden",
+   "roomSearch":"Raum Suche",
+   "personSearch":"Personen Suche",
+   "badResponse":"Ungültige Antwort",
+   "pleaseTryAgain":"Bitte versuche es erneut!",
+   "connectionError":"Verbindungsfehler",
+   "makeSureInternetConnection":"Stelle sicher, dass du eine\n funktionierende Internetverbindung hast!",
+   "requestCancelled":"Anfrage abgebrochen",
+   "pleaseReport":"Bitte melden Sie dies als Fehler \nper E-Mail oder auf GitHub",
+   "connectionTimeout":"Zeitüberschreitung",
+   "unknownError":"Unbekannter Fehler"
 }

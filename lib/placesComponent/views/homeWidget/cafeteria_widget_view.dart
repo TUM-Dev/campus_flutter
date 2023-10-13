@@ -100,7 +100,7 @@ class DishSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HorizontalSlider<(Dish, String)>(
+    return HorizontalSlider<(Dish, String)>.height(
         data: dishes,
         height: 160,
         leadingTrailingPadding: !inverted,

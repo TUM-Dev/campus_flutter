@@ -1,6 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TumCabeApi extends Api {
   final TumCabeApiService tumCabeApiService;
@@ -8,7 +7,7 @@ class TumCabeApi extends Api {
   TumCabeApi({required this.tumCabeApiService});
 
   @override
-  String get baseURL => kIsWeb ? "tum-proxy.resch.io" : "api.tum.app";
+  String get baseURL => "api.tum.app";
 
   @override
   Map<String, String> get baseHeaders {

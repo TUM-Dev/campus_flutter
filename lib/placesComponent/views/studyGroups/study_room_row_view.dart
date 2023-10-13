@@ -1,3 +1,4 @@
+import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,13 @@ class StudyRoomRowView extends ConsumerWidget {
         size: 15,
       ),
       onTap: () {
-        // TODO(Jakob): NavigaTUM Integration
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigaTumRoomScaffold(
+                id: studyRoom.raum_nr_architekt ?? "null"),
+          ),
+        );
       },
     );
   }

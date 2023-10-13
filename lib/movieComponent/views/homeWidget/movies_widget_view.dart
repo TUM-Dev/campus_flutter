@@ -40,7 +40,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                             child: Text(context.localizations.noMoviesFound))));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
-                  return HorizontalSlider<Movie>(
+                  return HorizontalSlider<Movie>.height(
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {
