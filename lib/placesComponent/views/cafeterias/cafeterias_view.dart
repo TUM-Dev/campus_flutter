@@ -60,7 +60,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
                               top: context.halfPadding,
                               bottom: context.padding),
                           markers:
-                              ref.read(studyRoomsViewModel).mapMakers(context)),
+                              ref.read(cafeteriasViewModel).mapMakers(context)),
                     ),
                     Expanded(
                         child: SingleChildScrollView(
@@ -73,7 +73,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
                     child: Column(
                   children: [
                     MapWidget.horizontalPadding(
-                      markers: ref.read(studyRoomsViewModel).mapMakers(context),
+                      markers: ref.read(cafeteriasViewModel).mapMakers(context),
                     ),
                     const PaddedDivider(),
                     _cafeteriaList(cafeterias, true)
@@ -85,7 +85,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
             return ErrorHandlingView(
               error: snapshot.error!,
               errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-              retry: ref.read(studyRoomsViewModel).fetch,
+              retry: ref.read(cafeteriasViewModel).fetch,
             );
           } else {
             return DelayedLoadingIndicator(
