@@ -138,7 +138,6 @@ class StudyRoomsViewModel {
           .map((e) => Marker(
               markerId: MarkerId(const Uuid().v4()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                   title: e.name ?? "Unknown",
                   onTap: () {
