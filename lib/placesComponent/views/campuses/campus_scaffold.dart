@@ -27,18 +27,19 @@ class _CampusScaffoldState extends ConsumerState<CampusScaffold> {
           title: Text(widget.campus.name),
           titleSpacing: 0,
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              CampusMapScaffold(campus: widget.campus)));
-                },
-                icon: Icon(
-                  Icons.map_outlined,
-                  color: context.theme.primaryColor,
-                ))
+            if (MediaQuery.orientationOf(context) == Orientation.portrait)
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CampusMapScaffold(campus: widget.campus)));
+                  },
+                  icon: Icon(
+                    Icons.map_outlined,
+                    color: context.theme.primaryColor,
+                  ))
           ],
         ),
         body: OrientationBuilder(builder: (context, orientation) {

@@ -152,8 +152,6 @@ class MainApi {
         response = await endpoint.asResponse(dioClient: dio);
       }
 
-      //print(jsonDecode(response.data.toString()));
-
       log("${response.statusCode}: ${response.realUri}");
       try {
         return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),

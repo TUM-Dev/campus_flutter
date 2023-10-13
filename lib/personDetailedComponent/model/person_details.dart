@@ -53,10 +53,15 @@ class PersonDetails {
   static Object? readValue(Map<dynamic, dynamic> json, String key) {
     final data = json[key] as List<dynamic>?;
     if (data != null) {
-      return data.map((e) {
-        final singleData = e as Map<String, dynamic>;
-        return singleData[singleData.keys.first];
-      }).toList();
+      if ((data.first as Map<String, dynamic>).values.first is List<dynamic>) {
+        return (data.first as Map<String, dynamic>).values.first
+            as List<dynamic>;
+      } else {
+        return data.map((e) {
+          final singleData = e as Map<String, dynamic>;
+          return singleData[singleData.keys.first];
+        }).toList();
+      }
     } else {
       return null;
     }
