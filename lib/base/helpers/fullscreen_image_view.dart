@@ -59,11 +59,14 @@ class ImageFullScreenView extends StatefulWidget {
 }
 
 class _ImageFullScreenViewState extends State<ImageFullScreenView> {
+  /// needed for zoom and pan
   Offset viewState = Offset.zero;
   double scale = 1.0;
   double initialScale = 1.0;
-  bool isRed = false;
 
+  /// animation of blinking map point
+  bool isRed = false;
+  double radius = 7.5;
   late final Timer timer;
 
   @override
@@ -122,7 +125,7 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
               if (widget.url != null)
                 CachedNetworkImage(
                   imageUrl: widget.url!,
-                  fit: BoxFit.fitWidth,
+                  fit: getBoxFit(),
                   alignment: Alignment.center,
                   height: double.infinity,
                   width: double.infinity,
@@ -130,23 +133,21 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
               if (widget.imageData != null)
                 Image.asset(
                   widget.imageData!,
-                  fit: BoxFit.fitWidth,
+                  fit: getBoxFit(),
                   alignment: Alignment.center,
                 ),
               if (widget.map != null)
                 Positioned(
-                  left: _calculateX(
+                  left: _calculateX(MediaQuery.sizeOf(context).height,
                       MediaQuery.sizeOf(context).width, widget.map!),
                   top: _calculateY(MediaQuery.sizeOf(context).height,
                       MediaQuery.sizeOf(context).width, widget.map!),
                   child: CircleAvatar(
-                    radius: 7.5,
+                    radius: radius,
                     backgroundColor:
                         isRed ? Colors.redAccent : context.theme.primaryColor,
                   ),
                 )
-              //},
-              //)
             ],
           ),
         ),
@@ -154,15 +155,56 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
     );
   }
 
+  BoxFit getBoxFit() {
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      return BoxFit.fitHeight;
+    } else {
+      return BoxFit.fitWidth;
+    }
+  }
+
   double _calculateY(double height, double width, NavigaTumRoomFinderMap map) {
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      return _calculateYLandscape(height, map);
+    } else {
+      return _calculateYPortrait(height, width, map);
+    }
+  }
+
+  double _calculateX(double height, double width, NavigaTumRoomFinderMap map) {
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      return _calculateXLandscape(height, width, map);
+    } else {
+      return _calculateXPortrait(width, map);
+    }
+  }
+
+  double _calculateYLandscape(double height, NavigaTumRoomFinderMap map) {
+    final scaleFactor = ((height - kToolbarHeight) / map.height);
+    return scaleFactor * map.y - (radius * 2);
+  }
+
+  double _calculateYPortrait(
+      double height, double width, NavigaTumRoomFinderMap map) {
     final scaleFactor = (width / map.width);
     final actualHeight = scaleFactor * map.height;
     final heightUpperSpace = (height - actualHeight) / 2;
-    return (scaleFactor * map.y) + heightUpperSpace - kToolbarHeight - 7.5;
+    return (scaleFactor * map.y) +
+        heightUpperSpace -
+        kToolbarHeight -
+        (radius * 2);
   }
 
-  double _calculateX(double width, NavigaTumRoomFinderMap map) {
+  double _calculateXLandscape(
+      double height, double width, NavigaTumRoomFinderMap map) {
+    final scaleFactor = ((height - kToolbarHeight) / map.height);
+    final actualWidth = scaleFactor * map.width;
+    final widthLeftSpace = (width - actualWidth) / 2;
+    return (scaleFactor * map.x) + widthLeftSpace - (radius * 2);
+  }
+
+  double _calculateXPortrait(double width, NavigaTumRoomFinderMap map) {
     final scaleFactor = (width / map.width);
-    return scaleFactor * map.x - 7.5;
+    return scaleFactor * map.x - (radius * 2);
   }
 }

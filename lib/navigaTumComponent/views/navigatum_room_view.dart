@@ -69,8 +69,8 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
                   ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
             );
           } else {
-            return const DelayedLoadingIndicator(
-              name: "Room Details",
+            return DelayedLoadingIndicator(
+              name: context.localizations.roomDetails,
             );
           }
         });

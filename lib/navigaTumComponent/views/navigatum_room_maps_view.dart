@@ -20,33 +20,37 @@ class NavigaTumRoomMapsView extends StatelessWidget {
     return WidgetFrameView(
       title: context.localizations.map,
       child: CardWithPadding(
-        child: HorizontalSlider.aspectRatio(
-          leadingTrailingPadding: false,
-          data: maps,
-          child: (map) {
-            return Tapable(
-              child: CachedNetworkImage(
-                imageUrl: NavigaTumApi(
-                        navigaTumApiService:
-                            NavigaTumApiServiceImages(id: map.imageUrl))
-                    .asURL()
-                    .toString(),
+        child: maps.isNotEmpty
+            ? HorizontalSlider.aspectRatio(
+                leadingTrailingPadding: false,
+                data: maps,
+                child: (map) {
+                  return Tapable(
+                    child: CachedNetworkImage(
+                      imageUrl: NavigaTumApi(
+                              navigaTumApiService:
+                                  NavigaTumApiServiceImages(id: map.imageUrl))
+                          .asURL()
+                          .toString(),
+                    ),
+                    action: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImageFullScreenScaffold.network(
+                            url: NavigaTumApi(
+                              navigaTumApiService:
+                                  NavigaTumApiServiceImages(id: map.imageUrl),
+                            ).asURL().toString(),
+                            map: map),
+                      ),
+                    ),
+                  );
+                },
+                aspectRatio: 2,
+              )
+            : Center(
+                child: Text(context.localizations.noMapsFound),
               ),
-              action: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ImageFullScreenScaffold.network(
-                      url: NavigaTumApi(
-                        navigaTumApiService:
-                            NavigaTumApiServiceImages(id: map.imageUrl),
-                      ).asURL().toString(),
-                      map: map),
-                ),
-              ),
-            );
-          },
-          aspectRatio: 2,
-        ),
       ),
     );
   }

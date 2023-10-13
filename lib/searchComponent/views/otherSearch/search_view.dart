@@ -31,7 +31,9 @@ class SearchScaffold extends ConsumerWidget {
             }
           },
         ),
-        title: Text(isRoomSearch ? "Room Search" : "Person Search"),
+        title: Text(isRoomSearch
+            ? context.localizations.roomSearch
+            : context.localizations.personSearch),
       ),
       body: SearchView(searchString: searchString, isRoomSearch: isRoomSearch),
     );
