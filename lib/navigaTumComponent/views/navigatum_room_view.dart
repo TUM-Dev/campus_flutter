@@ -116,7 +116,8 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           ),
           if (isPortrait)
             NavigaTumRoomBuildingView(coordinates: details.coordinates),
-          NavigaTumRoomMapsView(maps: ref.read(viewModel).getMaps())
+          if ((details.maps.roomfinder?.available ?? []).isNotEmpty)
+            NavigaTumRoomMapsView(maps: ref.read(viewModel).getMaps())
         ],
       ),
     );

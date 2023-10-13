@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ImageFullScreenScaffold extends StatelessWidget {
   factory ImageFullScreenScaffold.network(
@@ -192,7 +195,7 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
     return (scaleFactor * map.y) +
         heightUpperSpace -
         kToolbarHeight -
-        (radius * 2);
+        _getMinusRadius();
   }
 
   double _calculateXLandscape(
@@ -205,6 +208,18 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
 
   double _calculateXPortrait(double width, NavigaTumRoomFinderMap map) {
     final scaleFactor = (width / map.width);
-    return scaleFactor * map.x - (radius * 2);
+    return scaleFactor * map.x - radius;
+  }
+
+  double _getMinusRadius() {
+    if (!kIsWeb) {
+      if (Platform.isIOS) {
+        return radius;
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
   }
 }
