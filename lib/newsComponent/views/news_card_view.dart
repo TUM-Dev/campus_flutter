@@ -35,6 +35,9 @@ class NewsCardView extends ConsumerWidget {
                                   : news.imageUrl.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
+                              errorWidget: (context, string, error) => Image.asset(
+                                  "assets/images/placeholders/news_placeholder.png",
+                                  fit: BoxFit.fill),
                               placeholder: (context, string) => Image.asset(
                                   "assets/images/placeholders/news_placeholder.png",
                                   fit: BoxFit.fill),
@@ -69,8 +72,8 @@ class NewsCardView extends ConsumerWidget {
                                               .textTheme
                                               .bodySmall)),
                                   Expanded(
-                                      child: Text(
-                                          "Source: ${news.source}", // TODO(frank): pass the source name instead of the id from the backend ^^
+                                      child: Text("Source: ${news.source}",
+                                          // TODO(frank): pass the source name instead of the id from the backend ^^
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,
