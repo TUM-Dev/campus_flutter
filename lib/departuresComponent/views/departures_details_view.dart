@@ -18,9 +18,10 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
     return StreamBuilder(
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
-          final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-              ? Theme.of(context).canvasColor
-              : Colors.white;
+          final backgroundColor =
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? Theme.of(context).canvasColor
+                  : Colors.white;
           return Scaffold(
               appBar: AppBar(
                 leading: const BackButton(),
@@ -85,7 +86,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                     onTap: () async {
                       Station? selectedStation =
                           ref.read(departureViewModel).selectedStation.value;
-                      if (selectedStation != null && selectedStation.location != null) {
+                      if (selectedStation != null &&
+                          selectedStation.location != null) {
                         if (await MapLauncher.isMapAvailable(MapType.google) ??
                             false) {
                           await MapLauncher.showDirections(
@@ -138,8 +140,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       child: ListView.separated(
                           itemBuilder: (context, index) =>
                               DeparturesDetailsRowView(
-                                  departure:
-                                      widget.snapshot.data![index]),
+                                  departure: widget.snapshot.data![index]),
                           separatorBuilder: (context, index) => const Divider(),
                           itemCount: widget.snapshot.data!.length))),
             ],
@@ -148,8 +149,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
       return ErrorHandlingView(
           error: widget.snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-          retry: ref.read(departureViewModel).fetch
-      );
+          retry: ref.read(departureViewModel).fetch);
     } else {
       return const DelayedLoadingIndicator(name: "Departures");
     }

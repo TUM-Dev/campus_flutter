@@ -13,11 +13,13 @@ class LectureLinksView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (lectureDetails.curriculumURL != null) ...[
-          HyperLinkText(link: lectureDetails.curriculumURL ?? "", label: "Curriculum")
+          HyperLinkText(
+              link: lectureDetails.curriculumURL ?? "", label: "Curriculum")
         ],
         if (lectureDetails.scheduledDatesURL != null) ...[
           const Divider(),
-          HyperLinkText(link: lectureDetails.scheduledDatesURL ?? "", label: "Dates")
+          HyperLinkText(
+              link: lectureDetails.scheduledDatesURL ?? "", label: "Dates")
         ],
         if (lectureDetails.examDateURL != null) ...[
           const Divider(),

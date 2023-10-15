@@ -24,15 +24,17 @@ class CalendarViewModel implements ViewModel {
     List<CalendarEvent> rightColumn = [];
 
     final filteredEvents = events.value ?? [];
-    filteredEvents.removeWhere((element) => element.startDate.isBefore(DateTime.now()));
+    filteredEvents
+        .removeWhere((element) => element.startDate.isBefore(DateTime.now()));
     filteredEvents.sort((a, b) => a.startDate.compareTo(b.startDate));
 
     final currentDate = DateTime.now();
-    final currentDay = DateTime(currentDate.year, currentDate.month, currentDate.day);
+    final currentDay =
+        DateTime(currentDate.year, currentDate.month, currentDate.day);
 
     for (CalendarEvent event in events.value ?? []) {
-      final dateToCheck =
-          DateTime(event.startDate.year, event.startDate.month, event.startDate.day);
+      final dateToCheck = DateTime(
+          event.startDate.year, event.startDate.month, event.startDate.day);
       if (dateToCheck == currentDay && leftColumn == null) {
         leftColumn = event;
       } else if (rightColumn.length <= 2 &&

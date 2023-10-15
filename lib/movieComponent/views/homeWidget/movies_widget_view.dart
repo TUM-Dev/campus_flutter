@@ -42,7 +42,8 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {
-                        return MovieCardView(movie: data, width: constraints.maxWidth * 0.4);
+                        return MovieCardView(
+                            movie: data, width: constraints.maxWidth * 0.4);
                       });
                 });
               }
@@ -52,8 +53,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                     height: MediaQuery.of(context).size.height * 0.34,
                     child: ErrorHandlingView(
                         error: error,
-                        errorHandlingViewType:
-                            ErrorHandlingViewType.textOnly,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: ref.read(movieViewModel).fetch))),
             loadingBuilder: (context) => Card(
                 child: SizedBox(

@@ -12,7 +12,8 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
   const StudyRoomWidgetView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _StudyRoomWidgetViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _StudyRoomWidgetViewState();
 }
 
 class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
@@ -41,7 +42,8 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
             }));
   }
 
-  Widget _widgetLabel(AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
+  Widget _widgetLabel(
+      AsyncSnapshot<StudyRoomGroup?> snapshot, BuildContext context) {
     if (snapshot.hasData) {
       if (snapshot.data != null) {
         return _buttonLabel(context, snapshot);
@@ -52,8 +54,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
       return ErrorHandlingView(
           error: snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-          retry: ref.read(studyRoomWidgetViewModel).fetch
-      );
+          retry: ref.read(studyRoomWidgetViewModel).fetch);
     } else {
       return const DelayedLoadingIndicator(name: "Closest Study Room");
     }
@@ -62,14 +63,17 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   _onPressed(BuildContext context) {
     if (MediaQuery.orientationOf(context) == Orientation.portrait) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-          const StudyRoomGroupScaffold()));
+          builder: (context) => const StudyRoomGroupScaffold()));
     } else {
-      ref.read(homeSplitViewModel).selectedWidget.add(const StudyRoomGroupView());
+      ref
+          .read(homeSplitViewModel)
+          .selectedWidget
+          .add(const StudyRoomGroupView());
     }
   }
 
-  Widget _buttonLabel(BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
+  Widget _buttonLabel(
+      BuildContext context, AsyncSnapshot<StudyRoomGroup?> snapshot) {
     return Row(
       children: [
         Text(snapshot.data?.name ?? "Unkown"),
@@ -83,9 +87,9 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _freeRooms(AsyncSnapshot<StudyRoomGroup?> snapshot) {
     if (snapshot.data?.rooms != null) {
-      final freeRooms = ref.read(studyRoomWidgetViewModel).countAvailableRooms();
-      return Text(
-          "$freeRooms room${freeRooms > 1 ? "s" : ""} free",
+      final freeRooms =
+          ref.read(studyRoomWidgetViewModel).countAvailableRooms();
+      return Text("$freeRooms room${freeRooms > 1 ? "s" : ""} free",
           style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red));
     } else {
       return const Text("no free rooms", style: TextStyle(color: Colors.red));

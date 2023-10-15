@@ -10,7 +10,8 @@ class DeparturesPreference {
 
   DeparturesPreference({required this.preferences});
 
-  factory DeparturesPreference.fromJson(Map<String, dynamic> json) => _$DeparturesPreferenceFromJson(json);
+  factory DeparturesPreference.fromJson(Map<String, dynamic> json) =>
+      _$DeparturesPreferenceFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeparturesPreferenceToJson(this);
 }

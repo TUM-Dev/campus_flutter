@@ -57,7 +57,8 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                           },
                           child: Text("Today",
                               style: Theme.of(context).textTheme.titleMedium)),
-                      const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.0)),
                       Expanded(
                           child: CupertinoSlidingSegmentedControl(
                               children: calendarTabs,
@@ -69,7 +70,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               groupValue: _selectedCalendarTab))
                     ],
                   )),
-              if(lastFetched != null) LastUpdatedText(lastFetched),
+              if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: _calendarController),
                 const CalendarWeekView(),
@@ -84,7 +85,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
           } else {
             return const DelayedLoadingIndicator(name: "Calendar");
           }
-    });
+        });
   }
 }
 

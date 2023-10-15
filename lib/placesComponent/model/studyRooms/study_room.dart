@@ -42,7 +42,7 @@ class StudyRoom {
         return "Free";
       case "belegt":
         if (occupiedUntil != null) {
-          return "Occupied until ${ DateFormat.yMd().format(occupiedUntil!)}";
+          return "Occupied until ${DateFormat.yMd().format(occupiedUntil!)}";
         } else {
           return "";
         }
@@ -55,9 +55,8 @@ class StudyRoom {
     return status == "frei";
   }
 
-
-  StudyRoom({
-      this.buildingCode,
+  StudyRoom(
+      {this.buildingCode,
       this.buildingName,
       required this.buildingNumber,
       this.code,
@@ -72,10 +71,10 @@ class StudyRoom {
       this.raum_nr_architekt,
       required this.res_nr,
       this.status,
-      this.attributes
-  });
+      this.attributes});
 
-  factory StudyRoom.fromJson(Map<String, dynamic> json) => _$StudyRoomFromJson(json);
+  factory StudyRoom.fromJson(Map<String, dynamic> json) =>
+      _$StudyRoomFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomToJson(this);
 }

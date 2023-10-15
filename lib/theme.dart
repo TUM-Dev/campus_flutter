@@ -126,7 +126,8 @@ ThemeData lightTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-                /*color: _navigationIconGrayLight, */fontWeight: FontWeight.w500),
+                /*color: _navigationIconGrayLight, */ fontWeight:
+                    FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         /*unselectedIconTheme:
             const IconThemeData(color: _navigationIconGrayLight),*/
@@ -143,9 +144,8 @@ ThemeData lightTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }
 
 /// dark theme
@@ -259,10 +259,10 @@ ThemeData darkTheme(BuildContext context) {
             .textTheme
             .labelMedium
             ?.copyWith(
-            color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
+                color: _navigationIconGrayLight, fontWeight: FontWeight.w500),
         selectedIconTheme: const IconThemeData(color: _primaryLightColor),
         unselectedIconTheme:
-        const IconThemeData(color: _navigationIconGrayLight),
+            const IconThemeData(color: _navigationIconGrayLight),
         //indicatorColor: Colors.transparent,
         useIndicator: false,
         backgroundColor: _darkBackground,
@@ -276,7 +276,6 @@ ThemeData darkTheme(BuildContext context) {
           surfaceTintColor: Colors.transparent),
 
       /// style snackbar
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: Colors.redAccent
-      ));
+      snackBarTheme:
+          const SnackBarThemeData(backgroundColor: Colors.redAccent));
 }

@@ -26,11 +26,13 @@ class BasicLectureInfoView extends StatelessWidget {
         if (lectureDetails.speaker != null) ...[
           const Divider(),
           BasicLectureInfoRowView(
-            information: lectureDetails.speaker!, iconData: Icons.person),
+              information: lectureDetails.speaker!, iconData: Icons.person),
         ],
         if (lectureDetails.firstScheduledDate != null) ...[
           const Divider(),
-          BasicLectureInfoRowView(information: lectureDetails.firstScheduledDate!, iconData: Icons.watch_later)
+          BasicLectureInfoRowView(
+              information: lectureDetails.firstScheduledDate!,
+              iconData: Icons.watch_later)
         ],
       ],
     );

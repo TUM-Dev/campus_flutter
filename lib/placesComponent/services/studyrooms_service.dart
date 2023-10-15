@@ -5,13 +5,13 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.
 import 'package:campus_flutter/providers_get_it.dart';
 
 class StudyRoomsService {
-  static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(bool forcedRefresh) async {
+  static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(
+      bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<StudyRoomData, TumDevAppApi>(
         TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
         StudyRoomData.fromJson,
-        forcedRefresh
-    );
+        forcedRefresh);
 
     return (response.saved, response.data);
   }

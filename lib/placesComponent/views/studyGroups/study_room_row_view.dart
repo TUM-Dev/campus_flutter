@@ -15,14 +15,20 @@ class StudyRoomRowView extends ConsumerWidget {
         child: Row(
           children: [
             Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(studyRoom.name ?? "Unknown",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style:
-                      Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500)),
-              IconText(iconData: Icons.numbers, label: studyRoom.code ?? "Unkown")
-            ])),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text(studyRoom.name ?? "Unknown",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w500)),
+                  IconText(
+                      iconData: Icons.numbers,
+                      label: studyRoom.code ?? "Unkown")
+                ])),
             Expanded(
                 child: Text(
               studyRoom.localizedStatus,

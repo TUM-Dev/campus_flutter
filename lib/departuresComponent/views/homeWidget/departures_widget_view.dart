@@ -14,7 +14,8 @@ class DeparturesHomeWidget extends ConsumerStatefulWidget {
   const DeparturesHomeWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _DeparturesHomeWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _DeparturesHomeWidgetState();
 }
 
 class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
@@ -34,23 +35,29 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               child: GestureDetector(
                   onTap: () => _onWidgetPressed(context),
                   child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.225),
+                      constraints: BoxConstraints(
+                          minHeight:
+                              MediaQuery.of(context).size.height * 0.225),
                       child: CardWithPadding(
                           child: StreamBuilder(
                               stream: ref.watch(departureViewModel).departures,
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  final station =
-                                      ref.watch(departureViewModel).selectedStation.value!;
+                                  final station = ref
+                                      .watch(departureViewModel)
+                                      .selectedStation
+                                      .value!;
                                   return _widgetContent(snapshot, station);
                                 } else if (snapshot.hasError) {
                                   return ErrorHandlingView(
                                       error: snapshot.error!,
-                                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                                      retry: ref.read(departureViewModel).fetch);
+                                      errorHandlingViewType:
+                                          ErrorHandlingViewType.textOnly,
+                                      retry:
+                                          ref.read(departureViewModel).fetch);
                                 } else {
-                                  return const DelayedLoadingIndicator(name: "Departures");
+                                  return const DelayedLoadingIndicator(
+                                      name: "Departures");
                                 }
                               })))));
         });
@@ -64,7 +71,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
     }
   }
 
-  Widget _widgetContent(AsyncSnapshot<List<Departure>?> snapshot, Station station) {
+  Widget _widgetContent(
+      AsyncSnapshot<List<Departure>?> snapshot, Station station) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +85,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                 TextSpan(
                     text: station.name,
                     style: TextStyle(
-                        color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold))
               ])),
           for (var departure in snapshot.data!.getRange(0, 3)) ...[
             const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
@@ -87,7 +96,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   }
 
   _onWidgetPressed(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const DeparturesDetailsScaffold()));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const DeparturesDetailsScaffold()));
   }
 }
