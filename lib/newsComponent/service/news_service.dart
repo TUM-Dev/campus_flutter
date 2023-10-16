@@ -6,16 +6,11 @@ import 'package:campus_flutter/providers_get_it.dart';
 class NewsService {
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     final start = DateTime.now();
-    try {
-      CampusClient mainApi = getIt<CachedCampusClient>();
-      final news = await mainApi.listNews(ListNewsRequest(
-          oldestDateAt: Timestamp.fromDateTime(
-              DateTime.now().subtract(const Duration(days: 30)))));
+    CampusClient mainApi = getIt<CachedCampusClient>();
+    final news = await mainApi.listNews(ListNewsRequest(
+        oldestDateAt: Timestamp.fromDateTime(
+            DateTime.now().subtract(const Duration(days: 30)))));
 
-      return (start, news.news);
-    } catch (e) {
-      print(e.toString());
-      rethrow;
-    }
+    return (start, news.news);
   }
 }
