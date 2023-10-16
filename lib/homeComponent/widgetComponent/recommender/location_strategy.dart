@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender_strategy.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
-import 'package:campus_flutter/placesComponent/services/studyrooms_service.dart';
+import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationStrategy implements WidgetRecommenderStrategy {

@@ -15,6 +15,50 @@ enum Campus {
 }
 
 extension CampusExtension on Campus {
+  static List<Campus> get campusPlaces {
+    return [
+      Campus.stammgelaende,
+      Campus.garching,
+      Campus.olympiapark,
+      Campus.klinikumRechts,
+      Campus.freising
+    ];
+  }
+
+  String get searchStringRooms {
+    switch (this) {
+      case Campus.stammgelaende:
+        return "Stammgelände";
+      case Campus.olympiapark:
+        return "Olympiapark";
+      case Campus.klinikumRechts:
+        return "Klinikum Isar";
+      case Campus.grosshadern:
+        return "Großhadern";
+      case Campus.garching:
+        return "Garching Forschungszentrum";
+      case Campus.freising:
+        return "Weihenstephan";
+    }
+  }
+
+  String? get image {
+    switch (this) {
+      case Campus.stammgelaende:
+        return "assets/images/campus/campus-stamm.jpeg";
+      case Campus.olympiapark:
+        return "assets/images/campus/campus-olympia.jpg";
+      case Campus.klinikumRechts:
+        return "assets/images/campus/campus-klinikum.jpg";
+      case Campus.garching:
+        return "assets/images/campus/campus-garching.jpeg";
+      case Campus.freising:
+        return "assets/images/campus/campus-freising.jpg";
+      default:
+        return null;
+    }
+  }
+
   Location get location {
     switch (this) {
       case Campus.stammgelaende:

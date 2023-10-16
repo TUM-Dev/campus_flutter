@@ -190,27 +190,4 @@ class DeparturesViewModel extends ViewModel {
       return [];
     }
   }
-
-  /// code from iOS application for walking distance
-/*
-  func calculateWalkingDistance(completion: @escaping (_ success: Bool) -> Void) {
-  if let currentLocation = locationManager.location?.coordinate, let selectedStation {
-  let request = MKDirections.Request()
-  request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentLocation))
-  request.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: selectedStation.latitude, longitude: selectedStation.longitude)))
-  request.transportType = .walking
-  let directions = MKDirections(request: request)
-  directions.calculateETA { (response, error) -> Void in
-  guard let response = response else {
-  completion(self.walkingDistance != nil)
-  return
-  }
-
-  self.walkingDistance = (Int(response.expectedTravelTime) / 60) % 60
-  completion(self.walkingDistance != nil)
-  }
-  } else {
-  print("Weird")
-  }
-  }*/
 }

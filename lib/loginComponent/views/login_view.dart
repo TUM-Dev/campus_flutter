@@ -1,9 +1,11 @@
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
+import 'package:campus_flutter/theme.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -21,77 +23,93 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
         backgroundColor:
             MediaQuery.platformBrightnessOf(context) == Brightness.dark
                 ? Theme.of(context).canvasColor
                 : Colors.white,
-        body:
-            SafeArea(child: OrientationBuilder(builder: (context, orientation) {
-          if (orientation == Orientation.landscape) {
-            return Row(
-              children: [
-                Expanded(
-                    flex: 3,
-                    child: Column(
-                      children: [
-                        const Spacer(),
-                        const Image(
-                          image: AssetImage(
-                              "assets/images/logos/tum-logo-blue.png"),
-                          height: 60,
-                        ),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        Text("Welcome to the TUM Campus App",
-                            style: Theme.of(context).textTheme.titleLarge),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        Text("Enter your TUM ID to get started",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.0)),
-                        _tumIdTextFields(context, ref),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        _loginButton(context, ref),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        _skipLoginButton(context, ref),
-                        const Spacer(),
-                      ],
-                    )),
-                Expanded(flex: 2, child: _towerImage())
-              ],
-            );
-          } else {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                const Image(
-                  image: AssetImage("assets/images/logos/tum-logo-blue.png"),
-                  height: 60,
-                ),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                Text("Welcome to the TUM Campus App",
-                    style: Theme.of(context).textTheme.titleLarge),
-                const Spacer(),
-                Text("Enter your TUM ID to get started",
-                    style: Theme.of(context).textTheme.titleMedium),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                _tumIdTextFields(context, ref),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                _loginButton(context, ref),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                _skipLoginButton(context, ref),
-                const Spacer(),
-                _towerImage(),
-                const Spacer()
-              ],
-            );
-          }
-        })));
+        resizeToAvoidBottomInset:
+            orientation != Orientation.portrait && !kIsWeb,
+        body: SafeArea(
+            maintainBottomViewPadding: true,
+            child: OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.landscape) {
+                return Row(
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Column(
+                          children: [
+                            const Spacer(),
+                            const Image(
+                              image: AssetImage(
+                                  "assets/images/logos/tum-logo-blue.png"),
+                              height: 60,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0)),
+                            Text(
+                              context.localizations.welcomeToTheApp,
+                              style: Theme.of(context).textTheme.titleLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0)),
+                            Text(
+                              context.localizations.enterYourIDToStart,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5.0)),
+                            _tumIdTextFields(context, ref),
+                            const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0)),
+                            _loginButton(context, ref),
+                            const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0)),
+                            _skipLoginButton(context, ref),
+                            const Spacer(),
+                          ],
+                        )),
+                    Expanded(flex: 2, child: _towerImage())
+                  ],
+                );
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    const Image(
+                      image:
+                          AssetImage("assets/images/logos/tum-logo-blue.png"),
+                      height: 60,
+                    ),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0)),
+                    Text(context.localizations.welcomeToTheApp,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center),
+                    const Spacer(),
+                    Text(context.localizations.enterYourIDToStart,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                    _tumIdTextFields(context, ref),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0)),
+                    _loginButton(context, ref),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0)),
+                    _skipLoginButton(context, ref),
+                    const Spacer(),
+                    _towerImage(),
+                    const Spacer()
+                  ],
+                );
+              }
+            })));
   }
 
   Widget _tumIdTextFields(BuildContext context, WidgetRef ref) {
@@ -177,7 +195,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           });
                         }
                       : null,
-                  child: Text("Log in",
+                  child: Text(context.localizations.login,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
@@ -194,7 +212,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => ref.read(loginViewModel).skip(),
-      child: Text("Continue without TUM ID",
+      child: Text(context.localizations.continueWithoutID,
           style: Theme.of(context)
               .textTheme
               .bodySmall

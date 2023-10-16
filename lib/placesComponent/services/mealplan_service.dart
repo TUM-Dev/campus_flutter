@@ -61,8 +61,8 @@ class MealPlanService {
     final today = DateTime.now();
     final todayDate = DateTime(today.year, today.month, today.day);
 
-    mealPlan.days.removeWhere((element) => (element.dishes.isEmpty ||
-        (element.date != todayDate || element.date.isBefore(todayDate))));
+    mealPlan.days.removeWhere((element) =>
+        (element.dishes.isEmpty || element.date.isBefore(todayDate)));
     mealPlan.days.sort((menu1, menu2) => menu1.date.compareTo(menu2.date));
 
     cafeteriaMenu = mealPlan.days.map((e) {

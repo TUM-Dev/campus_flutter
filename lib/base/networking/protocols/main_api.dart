@@ -29,17 +29,26 @@ class MainApi {
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
-    dio.options = BaseOptions(responseDecoder: (data, options, body) {
-      final decoded = utf8.decoder.convert(data);
-      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-        final transformer = Xml2Json();
-        transformer.parse(decoded);
-        return transformer
-            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
-      } else {
-        return decoded;
-      }
-    });
+    dio.options = BaseOptions(
+        responseDecoder: (data, options, body) {
+          final decoded = utf8.decoder.convert(data);
+          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+            final transformer = Xml2Json();
+            transformer.parse(decoded);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
+          } else {
+            return decoded;
+          }
+        },
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5));
 
     this.dio = dio;
   }
@@ -61,17 +70,26 @@ class MainApi {
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
-    dio.options = BaseOptions(responseDecoder: (data, options, body) {
-      final decoded = utf8.decoder.convert(data);
-      if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-        final transformer = Xml2Json();
-        transformer.parse(decoded);
-        return transformer
-            .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
-      } else {
-        return decoded;
-      }
-    });
+    dio.options = BaseOptions(
+        responseDecoder: (data, options, body) {
+          final decoded = utf8.decoder.convert(data);
+          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+            final transformer = Xml2Json();
+            transformer.parse(decoded);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
+          } else {
+            return decoded;
+          }
+        },
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5));
 
     this.dio = dio;
   }
@@ -107,8 +125,13 @@ class MainApi {
       rethrow;
     } catch (_) {
       /// catch possible decoding error and return actual expected object
-      return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()), response.headers, createObject);
+      try {
+        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
+            response.headers, createObject);
+      } catch (e) {
+        log(e.toString());
+        rethrow;
+      }
     }
   }
 
@@ -119,18 +142,28 @@ class MainApi {
       bool forcedRefresh) async {
     Response<String> response;
 
-    if (forcedRefresh) {
-      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
-      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
-      noCacheDio.options.extra["forcedRefresh"] = "true";
-      response = await endpoint.asResponse(dioClient: noCacheDio);
-    } else {
-      response = await endpoint.asResponse(dioClient: dio);
-    }
+    try {
+      if (forcedRefresh) {
+        Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
+        noCacheDio.options.responseDecoder = dio.options.responseDecoder;
+        noCacheDio.options.extra["forcedRefresh"] = "true";
+        response = await endpoint.asResponse(dioClient: noCacheDio);
+      } else {
+        response = await endpoint.asResponse(dioClient: dio);
+      }
 
-    log("${response.statusCode}: ${response.realUri}");
-    return ApiResponse<T>.fromJson(
-        jsonDecode(response.data.toString()), response.headers, createObject);
+      log("${response.statusCode}: ${response.realUri}");
+      try {
+        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
+            response.headers, createObject);
+      } catch (e) {
+        log(e.toString());
+        rethrow;
+      }
+    } catch (e) {
+      log("${endpoint.asURL().toString()}: ${e.toString()}");
+      rethrow;
+    }
   }
 
   clearCache() async {

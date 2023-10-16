@@ -24,7 +24,7 @@ class SpatialTemporalStrategy implements WidgetRecommenderStrategy {
         });
 
     /// remove all where priority is 0
-    recommendations.removeWhere((key, value) => value <= 1);
+    recommendations.removeWhere((key, value) => value < 1);
 
     return recommendations;
   }

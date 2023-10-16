@@ -2,6 +2,7 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -14,9 +15,11 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String startTime =
-        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.startDate);
+        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
+            .format(calendarEvent.startDate);
     final String endTime =
-        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.endDate);
+        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
+            .format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(today.year, today.month, today.day)
@@ -29,33 +32,33 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
           if (MediaQuery.orientationOf(context) == Orientation.portrait) {
             showModalSheet(null, calendarEvent, context, ref);
           } else {
-            ref.read(selectedEvent.notifier).state = calendarEvent;
-            ref.read(selectedLecture.notifier).state = null;
-            ref
-                .read(homeSplitViewModel)
-                .selectedWidget
-                .add(const LectureDetailsView());
+            ref.read(homeSplitViewModel).selectedWidget.add(LectureDetailsView(
+                  event: calendarEvent,
+                ));
           }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
+            //const Spacer(),
             Text(
                 startDate.isAtSameMomentAs(todayDate)
-                    ? "Today"
+                    ? context.localizations.today
                     : startDate.isAtSameMomentAs(tomorrowDate)
-                        ? "Tomorrow"
-                        : DateFormat("EEEE, d. MMM")
+                        ? context.localizations.tomorrow
+                        : DateFormat("EEEE, d. MMM",
+                                context.localizations.localeName)
                             .format(calendarEvent.startDate),
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.secondary)),
-            const Spacer(),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
             Container(
                 decoration: BoxDecoration(
                     border: Border(
                         left: BorderSide(
-                            color: Theme.of(context).primaryColor,
+                            color: calendarEvent.getEventColor(context),
                             width: 2.0))),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5.0),
@@ -77,7 +80,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                     ],
                   ),
                 )),
-            const Spacer()
+            //const Spacer()
           ],
         ));
   }

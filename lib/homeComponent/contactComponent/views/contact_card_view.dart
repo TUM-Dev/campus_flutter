@@ -2,10 +2,11 @@ import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/user_details_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/theme.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
@@ -25,6 +26,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             return contactInfo(snapshot.data);
           } else {
             return DelayedLoadingIndicator(
+              name: context.localizations.personalData,
               alternativeLoadingIndicator: const ContactCardLoadingView(),
               delayWidget: Container(),
             );
@@ -51,16 +53,14 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             Text(
                 data != null
                     ? data.fullName
-                    : PersonDetailsViewModel.defaultPersonDetails.fullName,
+                    : UserDetailsViewModel.defaultPersonDetails.fullName,
                 style: Theme.of(context).textTheme.headlineSmall),
-            Text(ref.watch(profileDetailsViewModel).profile != null
-                ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "go42tum"
-                : "go42tum"),
+            Text(ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum"),
             Text(data != null
                 ? data.email
-                : PersonDetailsViewModel.defaultPersonDetails.email),
+                : UserDetailsViewModel.defaultPersonDetails.email),
             // TODO: solve with tumCard api?
-            const Text("coming soon")
+            Text(context.localizations.comingSoon)
           ],
         ))
       ],

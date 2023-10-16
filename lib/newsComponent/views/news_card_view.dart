@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
@@ -15,7 +15,7 @@ class NewsCardView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () {
-          // TODO: with RSS feed we are able to link to TUM site
+          UrlLauncher.urlString(news.link, ref);
         },
         child: AspectRatio(
             aspectRatio: 1.1,
@@ -29,16 +29,16 @@ class NewsCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                              imageUrl: kIsWeb
-                                  ? news.imageUrl.toString().replaceAll(
-                                      "app.tum.de", "tum-proxy.resch.io")
-                                  : news.imageUrl.toString(),
+                              imageUrl:
+                                  news.imageUrl.toString().contains("src_1.png")
+                                      ? news.link.toString()
+                                      : news.imageUrl.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
-                              errorWidget: (context, string, error) => Image.asset(
+                              placeholder: (context, string) => Image.asset(
                                   "assets/images/placeholders/news_placeholder.png",
                                   fit: BoxFit.fill),
-                              placeholder: (context, string) => Image.asset(
+                              errorWidget: (context, url, error) => Image.asset(
                                   "assets/images/placeholders/news_placeholder.png",
                                   fit: BoxFit.fill),
                               fit: BoxFit.fill))),
@@ -67,18 +67,19 @@ class NewsCardView extends ConsumerWidget {
                                   Expanded(
                                       child: Text(
                                           StringParser.dateFormatter(
-                                              news.date.toDateTime()),
+                                              news.date.toDateTime(), context),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
-                                  Expanded(
-                                      child: Text("Source: ${news.source}",
-                                          // TODO(frank): pass the source name instead of the id from the backend ^^
+                                  // TODO(frank): pass the source name instead of the id from the backend ^^
+                                  /*Expanded(
+                                      child: Text(
+                                          context.localizations.source(news.source),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,
                                           maxLines: 1,
-                                          overflow: TextOverflow.ellipsis))
+                                          overflow: TextOverflow.ellipsis))*/
                                 ],
                               ))))
                 ],

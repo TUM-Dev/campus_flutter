@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:video_player/video_player.dart';
+import 'package:campus_flutter/theme.dart';
 
 class ConfirmView extends ConsumerStatefulWidget {
   const ConfirmView({super.key});
@@ -86,7 +87,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         appBar: AppBar(
             leading: const BackButton(),
             backgroundColor: backgroundColor,
-            title: const Text("Check Token")),
+            title: Text(context.localizations.checkToken)),
         body: Column(children: [
           Text(texts[currentText], textAlign: TextAlign.center),
           const Spacer(),
@@ -132,10 +133,10 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                             titleColor: Colors.white)));
                   });
                 },
-                child: const IconText(
+                child: IconText(
                   iconData: Icons.arrow_forward,
-                  label: "Check Token",
-                  style: TextStyle(color: Colors.white),
+                  label: context.localizations.checkToken,
+                  style: const TextStyle(color: Colors.white),
                   leadingIcon: false,
                 )),
           ]),
@@ -157,7 +158,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
 
                     UrlLauncher.url(emailUri, ref);
                   },
-                  child: Text("Contact Support",
+                  child: Text(context.localizations.contactSupport,
                       style:
                           TextStyle(color: Theme.of(context).primaryColor)))),
           const Spacer(flex: 2)

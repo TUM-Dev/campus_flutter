@@ -1,3 +1,4 @@
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class PaddedDivider extends StatelessWidget {
@@ -8,7 +9,7 @@ class PaddedDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: context.padding),
       child: Divider(
         height: height,
       ),

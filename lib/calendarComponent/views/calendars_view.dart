@@ -7,10 +7,10 @@ import 'package:campus_flutter/calendarComponent/views/calendar_month_view.dart'
 import 'package:campus_flutter/calendarComponent/views/calendar_week_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:campus_flutter/theme.dart';
 
 class CalendarsView extends ConsumerStatefulWidget {
   const CalendarsView({super.key});
@@ -23,12 +23,6 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
   int _selectedCalendarTab = 0;
 
   final CalendarController _calendarController = CalendarController();
-
-  final Map<int, Widget> calendarTabs = const {
-    0: Text("Day"),
-    1: Text("Week"),
-    2: Text("Month")
-  };
 
   @override
   void initState() {
@@ -55,21 +49,40 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               _calendarController.displayDate = DateTime.now();
                             });
                           },
-                          child: Text("Today",
+                          child: Text(context.localizations.calendarViewToday,
                               style: Theme.of(context).textTheme.titleMedium)),
                       const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.0)),
                       Expanded(
-                          child: CupertinoSlidingSegmentedControl(
-                              children: calendarTabs,
-                              onValueChanged: (i) {
-                                setState(() {
-                                  _selectedCalendarTab = i ?? 0;
-                                });
-                              },
-                              groupValue: _selectedCalendarTab))
+                          child: SegmentedButton(
+                              segments: <ButtonSegment>[
+                            ButtonSegment(
+                                value: 0,
+                                label:
+                                    Text(context.localizations.calendarViewDay),
+                                icon: const Icon(Icons.calendar_view_day)),
+                            ButtonSegment(
+                                value: 1,
+                                label: Text(
+                                    context.localizations.calendarViewWeek),
+                                icon: const Icon(Icons.calendar_view_week)),
+                            ButtonSegment(
+                                value: 2,
+                                label: Text(
+                                    context.localizations.calendarViewMonth),
+                                icon: const Icon(Icons.calendar_view_month)),
+                          ],
+                              selected: {
+                            _selectedCalendarTab
+                          },
+                              onSelectionChanged: (newSelection) =>
+                                  setState(() {
+                                    _selectedCalendarTab = newSelection.first;
+                                  })))
                     ],
                   )),
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
               if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: _calendarController),
@@ -83,7 +96,8 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                 errorHandlingViewType: ErrorHandlingViewType.fullScreen,
                 retry: ref.read(calendarViewModel).fetch);
           } else {
-            return const DelayedLoadingIndicator(name: "Calendar");
+            return DelayedLoadingIndicator(
+                name: context.localizations.calendar);
           }
         });
   }
@@ -101,9 +115,6 @@ showModalSheet(CalendarTapDetails? details, CalendarEvent? event,
     calendarEvent = event;
   }
 
-  ref.read(selectedEvent.notifier).state = calendarEvent;
-  ref.read(selectedLecture.notifier).state = null;
-
   if (calendarEvent != null) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -115,7 +126,8 @@ showModalSheet(CalendarTapDetails? details, CalendarEvent? event,
               initialChildSize: 1,
               minChildSize: 1,
               builder: (context, scrollController) {
-                return LectureDetailsView(scrollController: scrollController);
+                return LectureDetailsView(
+                    event: calendarEvent, scrollController: scrollController);
               });
         });
   }

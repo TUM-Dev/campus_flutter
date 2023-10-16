@@ -1,4 +1,6 @@
+import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/helpers/directions_launcher.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
@@ -8,10 +10,12 @@ import 'package:campus_flutter/departuresComponent/views/departures_details_row_
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:map_launcher/map_launcher.dart';
+import 'package:campus_flutter/theme.dart';
 
 class DeparturesDetailsScaffold extends ConsumerWidget {
-  const DeparturesDetailsScaffold({super.key});
+  const DeparturesDetailsScaffold({super.key, this.isSplitView = false});
+
+  final bool isSplitView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,16 +23,16 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
         stream: ref.watch(departureViewModel).departures,
         builder: (context, snapshot) {
           final backgroundColor =
-              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+              Theme.of(context).brightness == Brightness.dark
                   ? Theme.of(context).canvasColor
                   : Colors.white;
           return Scaffold(
               appBar: AppBar(
-                leading: const BackButton(),
-                backgroundColor: backgroundColor,
+                leading: isSplitView ? null : const BackButton(),
+                backgroundColor: isSplitView ? null : backgroundColor,
                 title: Text(
                     ref.watch(departureViewModel).selectedStation.value?.name ??
-                        "Departures"),
+                        context.localizations.departures),
                 actions: [
                   PopupMenuButton<Station>(
                     initialValue:
@@ -43,16 +47,21 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                   )
                 ],
               ),
-              backgroundColor: backgroundColor,
-              body: DeparturesDetailsView(snapshot: snapshot));
+              backgroundColor: isSplitView ? null : backgroundColor,
+              body: DeparturesDetailsView(
+                snapshot: snapshot,
+                isSplitView: isSplitView,
+              ));
         });
   }
 }
 
 class DeparturesDetailsView extends ConsumerStatefulWidget {
-  const DeparturesDetailsView({super.key, required this.snapshot});
+  const DeparturesDetailsView(
+      {super.key, required this.snapshot, this.isSplitView = false});
 
   final AsyncSnapshot<List<Departure>?> snapshot;
+  final bool isSplitView;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -71,7 +80,8 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
             children: [
               if (ref.watch(departureViewModel).selectedStation.value !=
                   null) ...[
-                Text.rich(TextSpan(text: "Station: ", children: [
+                Text.rich(
+                    TextSpan(text: context.localizations.station, children: [
                   TextSpan(
                       text: ref
                           .watch(departureViewModel)
@@ -88,61 +98,21 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                           ref.read(departureViewModel).selectedStation.value;
                       if (selectedStation != null &&
                           selectedStation.location != null) {
-                        if (await MapLauncher.isMapAvailable(MapType.google) ??
-                            false) {
-                          await MapLauncher.showDirections(
-                            mapType: MapType.google,
-                            directionsMode: DirectionsMode.walking,
-                            destinationTitle: selectedStation.name,
-                            destination: Coords(
-                                selectedStation.location!.latitude,
-                                selectedStation.location!.longitude),
-                          );
-                        } else if (await MapLauncher.isMapAvailable(
-                                MapType.apple) ??
-                            false) {
-                          await MapLauncher.showDirections(
-                            mapType: MapType.apple,
-                            directionsMode: DirectionsMode.walking,
-                            destinationTitle: selectedStation.name,
-                            destination: Coords(
-                                selectedStation.location!.latitude,
-                                selectedStation.location!.longitude),
-                          );
-                        }
+                        launchDirections(selectedStation.location!,
+                            selectedStation.name, ref);
                       }
                     },
-                    child: const IconText(
-                        iconData: Icons.open_in_new, label: "Show Directions"))
+                    child: IconText(
+                        iconData: Icons.open_in_new,
+                        label: context.localizations.showDirections))
               ],
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-              if (lastFetched != null) LastUpdatedText(lastFetched),
-              const Row(
-                children: [
-                  SizedBox(
-                      width: 50,
-                      child: Text("Line",
-                          style: TextStyle(fontWeight: FontWeight.w500))),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
-                  Text("Direction",
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                  Spacer(),
-                  Text("Departure",
-                      style: TextStyle(fontWeight: FontWeight.w500))
-                ],
-              ),
-              const Divider(),
-              Expanded(
-                  child: RefreshIndicator(
-                      onRefresh: () {
-                        return ref.read(departureViewModel).fetch(true);
-                      },
-                      child: ListView.separated(
-                          itemBuilder: (context, index) =>
-                              DeparturesDetailsRowView(
-                                  departure: widget.snapshot.data![index]),
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemCount: widget.snapshot.data!.length))),
+              if (widget.isSplitView)
+                Expanded(
+                    child: CardWithPadding(
+                        margin: EdgeInsets.zero,
+                        child: Column(children: _departureList(lastFetched)))),
+              if (!widget.isSplitView) ..._departureList(lastFetched)
             ],
           ));
     } else if (widget.snapshot.hasError) {
@@ -151,7 +121,38 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
           errorHandlingViewType: ErrorHandlingViewType.fullScreen,
           retry: ref.read(departureViewModel).fetch);
     } else {
-      return const DelayedLoadingIndicator(name: "Departures");
+      return DelayedLoadingIndicator(name: context.localizations.departures);
     }
+  }
+
+  List<Widget> _departureList(DateTime? lastFetched) {
+    return [
+      if (lastFetched != null) LastUpdatedText(lastFetched),
+      Row(
+        children: [
+          SizedBox(
+              width: 50,
+              child: Text(context.localizations.line,
+                  style: const TextStyle(fontWeight: FontWeight.w500))),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
+          Text(context.localizations.direction,
+              style: const TextStyle(fontWeight: FontWeight.w500)),
+          const Spacer(),
+          Text(context.localizations.departure,
+              style: const TextStyle(fontWeight: FontWeight.w500))
+        ],
+      ),
+      const Divider(),
+      Expanded(
+          child: RefreshIndicator(
+              onRefresh: () {
+                return ref.read(departureViewModel).fetch(true);
+              },
+              child: ListView.separated(
+                  itemBuilder: (context, index) => DeparturesDetailsRowView(
+                      departure: widget.snapshot.data![index]),
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: widget.snapshot.data!.length))),
+    ];
   }
 }

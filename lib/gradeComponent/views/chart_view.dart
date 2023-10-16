@@ -8,6 +8,7 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:campus_flutter/theme.dart';
 
 class ChartView extends ConsumerWidget {
   const ChartView({super.key, required this.studyID, required this.title});
@@ -56,7 +57,7 @@ class ChartView extends ConsumerWidget {
           Row(
             children: [
               Expanded(
-                  child: Text("Average Grade:",
+                  child: Text(context.localizations.averageGrade,
                       style: Theme.of(context).textTheme.bodyLarge)),
               Text(
                 averageGrade.averageGrade.toString(),

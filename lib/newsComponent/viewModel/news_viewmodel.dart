@@ -13,19 +13,17 @@ class NewsViewModel implements ViewModel {
     return NewsService.fetchNews(forcedRefresh).then((value) {
       lastFetched.add(value.$1);
       news.add(value.$2);
-    }, onError: (error) {
-      news.addError(error);
-    });
+    }, onError: (error) => news.addError(error));
   }
 
   List<News> latestFiveNews() {
-    if (news.value == null) {
+    if (news.value != null) {
+      final news = this.news.value!;
+      news.sort((news1, news2) =>
+          news2.date.toDateTime().compareTo(news1.date.toDateTime()));
+      return news.sublist(0, 5).toList();
+    } else {
       return [];
     }
-    final newsItems = news.value!.toList();
-    newsItems.removeWhere((element) => (element.source == "2"));
-    newsItems.sort(
-        (n1, n2) => n1.created.toDateTime().compareTo(n2.created.toDateTime()));
-    return newsItems.sublist(0, 5);
   }
 }

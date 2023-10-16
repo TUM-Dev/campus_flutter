@@ -1,3 +1,4 @@
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
@@ -23,7 +24,9 @@ class DelayedLoadingIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                     const CircularProgressIndicator.adaptive(),
-                    Text(name != null ? "Loading $name" : "Loading")
+                    Text(name != null
+                        ? context.localizations.loading(name!)
+                        : "Loading")
                   ]));
             } else {
               return alternativeLoadingIndicator!;

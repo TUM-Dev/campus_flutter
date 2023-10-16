@@ -3,6 +3,7 @@ import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:campus_flutter/theme.dart';
 
 class DeparturesDetailsRowView extends ConsumerWidget {
   const DeparturesDetailsRowView({super.key, required this.departure});
@@ -19,7 +20,7 @@ class DeparturesDetailsRowView extends ConsumerWidget {
                 maxLines: 1, overflow: TextOverflow.ellipsis)),
         _delayText,
         const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-        _timeText
+        _timeText(context)
       ],
     );
   }
@@ -85,23 +86,23 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     return const SizedBox.shrink();
   }
 
-  Widget get _timeText {
+  Widget _timeText(BuildContext context) {
     if (departure.realDateTime != null) {
       final realDateTime = departure.realDateTime!;
       if ((departure.servingLine.delay ?? 0) > 0) {
-        return timeBuilder(realDateTime, Colors.red);
+        return timeBuilder(context, realDateTime, Colors.red);
       } else {
-        return timeBuilder(realDateTime, Colors.green);
+        return timeBuilder(context, realDateTime, Colors.green);
       }
     } else {
-      return timeBuilder(departure.dateTime, null);
+      return timeBuilder(context, departure.dateTime, null);
     }
   }
 
-  Widget timeBuilder(DateTime dateTime, Color? color) {
+  Widget timeBuilder(BuildContext context, DateTime dateTime, Color? color) {
     // TODO: walking distance
     if (departure.countdown < 1) {
-      return Text("NOW",
+      return Text(context.localizations.now,
           style: TextStyle(color: color, fontWeight: FontWeight.w500));
     } else {
       final hour = NumberFormat("00").format(dateTime.hour);
