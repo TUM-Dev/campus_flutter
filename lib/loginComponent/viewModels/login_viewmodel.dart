@@ -75,7 +75,6 @@ class LoginViewModel {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
         Api.tumToken = value;
-        //Api.tumToken = "E2313F253B3586FD486D1AF3659F01EA";
         await LoginService.confirmToken(false).then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) {

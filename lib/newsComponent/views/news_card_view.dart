@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
-import 'package:campus_flutter/newsComponent/model/news.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,7 +15,7 @@ class NewsCardView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () {
-          UrlLauncher.url(news.link, ref);
+          UrlLauncher.urlString(news.link, ref);
         },
         child: AspectRatio(
             aspectRatio: 1.1,
@@ -67,10 +67,11 @@ class NewsCardView extends ConsumerWidget {
                                   Expanded(
                                       child: Text(
                                           StringParser.dateFormatter(
-                                              news.date, context),
+                                              news.date.toDateTime(), context),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
+                                  // TODO(frank): pass the source name instead of the id from the backend ^^
                                   /*Expanded(
                                       child: Text(
                                           context.localizations.source(news.source),

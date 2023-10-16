@@ -1,19 +1,16 @@
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api.dart';
-import 'package:campus_flutter/base/networking/apis/tumCabeApi/tum_cabe_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
-import 'package:campus_flutter/newsComponent/model/news.dart';
+import 'package:campus_flutter/base/networking/apis/google/protobuf/timestamp.pb.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class NewsService {
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
-    MainApi mainApi = getIt<MainApi>();
-    final response = await mainApi.makeRequest<NewsData, TumCabeApi>(
-        TumCabeApi(
-            tumCabeApiService: TumCabeApiServiceNews(
-                DateTime.now().subtract(const Duration(days: 30)))),
-        NewsData.fromJson,
-        forcedRefresh);
+    final start = DateTime.now();
+    CachedCampusClient mainApi = getIt<CachedCampusClient>();
+    final news = await mainApi.listNews(ListNewsRequest(
+        oldestDateAt: Timestamp.fromDateTime(
+            DateTime.now().subtract(const Duration(days: 30)))));
 
-    return (response.saved, response.data.news);
+    return (start, news.news);
   }
 }

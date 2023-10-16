@@ -1,4 +1,3 @@
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
@@ -13,13 +12,13 @@ class MovieSearchResultView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SearchResultCardView<MovieSearchViewModel, Movie>(
+    return SearchResultCardView<MovieSearchViewModel, MovieSearch>(
       searchCategory: SearchCategory.movie,
       viewModel: movieSearchViewModel,
-      body: (movie) => ListTile(
-        title: Text(movie.title),
+      body: (movieSearch) => ListTile(
+        title: Text(movieSearch.movie.title),
         subtitle: Text(DateFormat.yMd(context.localizations.localeName)
-            .format(movie.date)),
+            .format(movieSearch.movie.date.toDateTime())),
       ),
     );
   }
