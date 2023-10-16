@@ -37,12 +37,15 @@ class ChartView extends ConsumerWidget {
         ),
         SfCartesianChart(
             primaryXAxis: CategoryAxis(),
-            primaryYAxis:
-                NumericAxis(minimum: 0, maximum: data.values.reduce(max).toDouble(), interval: 1),
+            primaryYAxis: NumericAxis(
+                minimum: 0,
+                maximum: data.values.reduce(max).toDouble(),
+                interval: 1),
             series: <ChartSeries<MapEntry<dynamic, int>, String>>[
               ColumnSeries<MapEntry<dynamic, int>, String>(
                 dataSource: data.entries.toList(),
-                xValueMapper: (MapEntry<dynamic, int> data, _) => data.key.toString(),
+                xValueMapper: (MapEntry<dynamic, int> data, _) =>
+                    data.key.toString(),
                 yValueMapper: (MapEntry<dynamic, int> data, _) => data.value,
                 pointColorMapper: (MapEntry<dynamic, int> data, _) =>
                     GradeViewModel.getColor(data.key),
@@ -52,10 +55,15 @@ class ChartView extends ConsumerWidget {
           const Divider(),
           Row(
             children: [
-              Expanded(child: Text("Average Grade:", style: Theme.of(context).textTheme.bodyLarge)),
+              Expanded(
+                  child: Text("Average Grade:",
+                      style: Theme.of(context).textTheme.bodyLarge)),
               Text(
                 averageGrade.averageGrade.toString(),
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               )
             ],
           )

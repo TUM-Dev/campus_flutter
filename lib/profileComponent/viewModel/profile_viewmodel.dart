@@ -15,8 +15,10 @@ class ProfileViewModel implements ViewModel {
     ProfileService.fetchProfile(forcedRefresh).then((response) {
       lastFetched.add(response.$1);
       profile.add(response.$2);
-      ProfileService.fetchTuition(forcedRefresh, response.$2.personGroup ?? "", response.$2.id ?? "")
-          .then((response) => tuition.add(response.$2), onError: (error) => tuition.addError(error));
+      ProfileService.fetchTuition(forcedRefresh, response.$2.personGroup ?? "",
+              response.$2.id ?? "")
+          .then((response) => tuition.add(response.$2),
+              onError: (error) => tuition.addError(error));
     }, onError: (error) => profile.addError(error));
   }
 }

@@ -71,7 +71,8 @@ class GradeData {
 
   GradeData({required this.gradesAttribute});
 
-  factory GradeData.fromJson(Map<String, dynamic> json) => _$GradeDataFromJson(json);
+  factory GradeData.fromJson(Map<String, dynamic> json) =>
+      _$GradeDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$GradeDataToJson(this);
 }

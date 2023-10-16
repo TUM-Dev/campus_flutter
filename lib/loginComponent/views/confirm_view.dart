@@ -77,9 +77,10 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-        ? Theme.of(context).canvasColor
-        : Colors.white;
+    final backgroundColor =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark
+            ? Theme.of(context).canvasColor
+            : Colors.white;
     return Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
@@ -96,34 +97,39 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           const Spacer(flex: 2),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
-                onPressed: () => UrlLauncher.urlString("https://campus.tum.de", ref),
+                onPressed: () =>
+                    UrlLauncher.urlString("https://campus.tum.de", ref),
                 child: const IconText(
                     iconData: Icons.language,
                     label: "TUMOnline",
                     style: TextStyle(color: Colors.white))),
             ElevatedButton(
                 onPressed: () {
-                  ref.read(loginViewModel).confirmLogin().then(
-                      (value) {
-                        if (value.confirmed) {
-                          Navigator
-                              .of(context)
-                              .push(MaterialPageRoute(
-                              builder: (context) => const PermissionCheckView()));
-                        } else {
-                          throw TumOnlineApiException(tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed());
-                        }
-                      },
-                      onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 10),
-                                  content: ErrorHandlingView(error: error, errorHandlingViewType: ErrorHandlingViewType.textOnly, titleColor: Colors.white,)));
-                      }).catchError((error) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            duration: const Duration(seconds: 10),
-                            content: ErrorHandlingView(error: error, errorHandlingViewType: ErrorHandlingViewType.textOnly, titleColor: Colors.white)));
+                  ref.read(loginViewModel).confirmLogin().then((value) {
+                    if (value.confirmed) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const PermissionCheckView()));
+                    } else {
+                      throw TumOnlineApiException(
+                          tumOnlineApiExceptionType:
+                              TumOnlineApiExceptionTokenNotConfirmed());
+                    }
+                  }, onError: (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        duration: const Duration(seconds: 10),
+                        content: ErrorHandlingView(
+                          error: error,
+                          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                          titleColor: Colors.white,
+                        )));
+                  }).catchError((error) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        duration: const Duration(seconds: 10),
+                        content: ErrorHandlingView(
+                            error: error,
+                            errorHandlingViewType:
+                                ErrorHandlingViewType.textOnly,
+                            titleColor: Colors.white)));
                   });
                 },
                 child: const IconText(
@@ -142,9 +148,12 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                     final osVersion = Platform.operatingSystemVersion;
 
                     String email = Uri.encodeComponent("app@tum.de");
-                    String subject = Uri.encodeComponent("[$operatingSystem - Token]");
-                    String body = Uri.encodeComponent("Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"); //output: Hello%20Flutter
-                    Uri emailUri = Uri.parse("mailto:$email?subject=$subject&body=$body");
+                    String subject =
+                        Uri.encodeComponent("[$operatingSystem - Token]");
+                    String body = Uri.encodeComponent(
+                        "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n"); //output: Hello%20Flutter
+                    Uri emailUri =
+                        Uri.parse("mailto:$email?subject=$subject&body=$body");
 
                     UrlLauncher.url(emailUri, ref);
                   },

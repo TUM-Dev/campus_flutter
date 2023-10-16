@@ -30,8 +30,11 @@ class LocationStrategy implements WidgetRecommenderStrategy {
 
           for (var distance in [closeDistance, veryCloseDistance]) {
             locations.removeWhere((element) => (Geolocator.distanceBetween(
-                  element.latitude, element.longitude, location.latitude, location.longitude) >=
-                  distance));
+                    element.latitude,
+                    element.longitude,
+                    location.latitude,
+                    location.longitude) >=
+                distance));
             if (locations.isNotEmpty) {
               priority++;
             }
@@ -41,10 +44,11 @@ class LocationStrategy implements WidgetRecommenderStrategy {
           final locations = await _getStudyRoomLocations();
 
           for (var distance in [closeDistance, veryCloseDistance]) {
-            locations.removeWhere((element) => Geolocator.distanceBetween(
-                element.latitude, element.longitude, location.latitude, location.longitude) >=
+            locations.removeWhere((element) =>
+                Geolocator.distanceBetween(element.latitude, element.longitude,
+                    location.latitude, location.longitude) >=
                 distance);
-            
+
             if (locations.isNotEmpty) {
               priority++;
             }
@@ -54,8 +58,11 @@ class LocationStrategy implements WidgetRecommenderStrategy {
           List<Campus> locations = Campus.values.toList();
 
           locations.removeWhere((element) =>
-              Geolocator.distanceBetween(element.location.latitude, element.location.longitude,
-                  location.latitude, location.longitude) >=
+              Geolocator.distanceBetween(
+                  element.location.latitude,
+                  element.location.longitude,
+                  location.latitude,
+                  location.longitude) >=
               closeDistance);
 
           if (locations.isEmpty) {
@@ -76,7 +83,8 @@ class LocationStrategy implements WidgetRecommenderStrategy {
     try {
       final cafeterias = await CafeteriasService.fetchCafeterias(false);
       return cafeterias.$2
-          .map((e) => Location(latitude: e.location.latitude, longitude: e.location.longitude))
+          .map((e) => Location(
+              latitude: e.location.latitude, longitude: e.location.longitude))
           .toList();
     } catch (_) {
       return [];

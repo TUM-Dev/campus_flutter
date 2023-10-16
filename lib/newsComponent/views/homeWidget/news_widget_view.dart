@@ -23,27 +23,42 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetFrameView(title: "Latest News", child:
-    StreamBuilder(
-      stream: ref.watch(newsViewModel).newsSources,
-        builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final fiveNews = ref.watch(newsViewModel).latestFiveNews();
-          if (fiveNews.isNotEmpty) {
-            return LayoutBuilder(builder: (context, constraints) {
-              return HorizontalSlider(data: fiveNews, height: 300, child: (news) {
-                return NewsCardView(news: news, width: constraints.maxWidth * 0.8);
-              });
-            });
-          } else {
-            return const SizedBox(height: 300, child: Card(child: Center(child: Text("no news found"))));
-          }
-        } else if (snapshot.hasError) {
-          return SizedBox(height: 300, child: Card(child: ErrorHandlingView(error: snapshot.error!, errorHandlingViewType: ErrorHandlingViewType.textOnly, retry: ref.read(newsViewModel).fetch)));
-        } else {
-          return const SizedBox(height: 300, child: Card(child: DelayedLoadingIndicator(name: "News")));
-        }
-        }
-    ));
+    return WidgetFrameView(
+        title: "Latest News",
+        child: StreamBuilder(
+            stream: ref.watch(newsViewModel).news,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final fiveNews = ref.watch(newsViewModel).latestFiveNews();
+                if (fiveNews.isNotEmpty) {
+                  return LayoutBuilder(builder: (context, constraints) {
+                    return HorizontalSlider(
+                        data: fiveNews,
+                        height: 300,
+                        child: (news) {
+                          return NewsCardView(
+                              news: news, width: constraints.maxWidth * 0.8);
+                        });
+                  });
+                } else {
+                  return const SizedBox(
+                      height: 300,
+                      child: Card(child: Center(child: Text("no news found"))));
+                }
+              } else if (snapshot.hasError) {
+                return SizedBox(
+                    height: 300,
+                    child: Card(
+                        child: ErrorHandlingView(
+                            error: snapshot.error!,
+                            errorHandlingViewType:
+                                ErrorHandlingViewType.textOnly,
+                            retry: ref.read(newsViewModel).fetch)));
+              } else {
+                return const SizedBox(
+                    height: 300,
+                    child: Card(child: DelayedLoadingIndicator(name: "News")));
+              }
+            }));
   }
 }

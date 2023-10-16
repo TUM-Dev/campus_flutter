@@ -4,19 +4,17 @@ import 'package:json_annotation/json_annotation.dart';
 part 'station.g.dart';
 
 @JsonSerializable()
+
 /// local data type
 class Station {
   final String name;
   final String apiName;
   final Location? location;
 
-  Station({
-    required this.name,
-    required this.apiName,
-    this.location
-  });
+  Station({required this.name, required this.apiName, this.location});
 
-  factory Station.fromJson(Map<String, dynamic> json) => _$StationFromJson(json);
+  factory Station.fromJson(Map<String, dynamic> json) =>
+      _$StationFromJson(json);
 
   Map<String, dynamic> toJson() => _$StationToJson(this);
 }

@@ -36,47 +36,33 @@ class _NavigationState extends ConsumerState<Navigation> {
           centerTitle: true,
           leadingWidth: 80,
           leading: (kIsWeb && isLandScape)
-              ? Padding(padding: const EdgeInsets.all(15),
-              child: Image.asset('assets/images/logos/tum-logo-blue.png',
-                  fit: BoxFit.scaleDown))
+              ? Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Image.asset('assets/images/logos/tum-logo-blue.png',
+                      fit: BoxFit.scaleDown))
               : IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
           title: (() {
             switch (currentPageIndex) {
               case 0:
                 if (kIsWeb && isLandScape) {
                   return Text("Home",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleLarge);
+                      style: Theme.of(context).textTheme.titleLarge);
                 } else {
                   return Image.asset('assets/images/logos/tum-logo-blue.png',
                       fit: BoxFit.cover, height: 20);
                 }
               case 1:
                 return Text("Grades",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 2:
                 return Text("Lectures",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 3:
                 return Text("Calendar",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                    style: Theme.of(context).textTheme.titleLarge);
               case 4:
                 return Text("Places",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge);
+                    style: Theme.of(context).textTheme.titleLarge);
               default:
                 return Image.asset('assets/images/logos/tum-logo-blue.png',
                     fit: BoxFit.contain, height: 20);
@@ -93,9 +79,8 @@ class _NavigationState extends ConsumerState<Navigation> {
                 icon: const Icon(Icons.settings)),
           ],
         ), //: null,
-        bottomNavigationBar: (kIsWeb && isLandScape)
-            ? null
-            : _bottomNavigationBar(),
+        bottomNavigationBar:
+            (kIsWeb && isLandScape) ? null : _bottomNavigationBar(),
         body: SafeArea(
             child: (kIsWeb && isLandScape)
                 ? _webNavigationRail()
@@ -135,6 +120,7 @@ class _NavigationState extends ConsumerState<Navigation> {
               }
             });
           },
+
           /// Platform is not supported on web
           height: !kIsWeb
               ? Platform.isIOS

@@ -1,4 +1,5 @@
-import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/apis/campusBackend/cached_client.dart';
+import 'package:campus_flutter/base/networking/apis/campusBackend/cached_response.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
@@ -11,26 +12,26 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:grpc/grpc_or_grpcweb.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  getIt.registerSingleton<CampusClient>(CampusClient(
-      GrpcOrGrpcWebClientChannel.toSeparateEndpoints(
-          grpcHost: "api.tum.app",
-          grpcPort: 443,
-          grpcTransportSecure: true,
-          grpcWebHost: "api-grpc.tum.app",
-          grpcWebPort: 443,
-          grpcWebTransportSecure: true)));
-  getIt.registerSingleton<ConnectivityResult>(await Connectivity().checkConnectivity());
+  Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
+  getIt.registerSingleton<ConnectivityResult>(
+      await Connectivity().checkConnectivity());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
+    getIt.registerSingleton<CachedCampusClient>(
+        await CachedCampusClient.createWebCache());
   } else {
-    getIt.registerSingleton<MainApi>(MainApi.mobileCache(await getTemporaryDirectory()));
+    getIt.registerSingleton<MainApi>(
+        MainApi.mobileCache(await getTemporaryDirectory()));
+    getIt.registerSingleton<CachedCampusClient>(
+        await CachedCampusClient.createMobileCache(
+            await getTemporaryDirectory()));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }

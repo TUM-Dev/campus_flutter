@@ -14,11 +14,11 @@ class CafeteriaWidgetView extends ConsumerStatefulWidget {
   const CafeteriaWidgetView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CafeteriaWidgetViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CafeteriaWidgetViewState();
 }
 
 class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
-
   @override
   void initState() {
     ref.read(cafeteriaWidgetViewModel).fetch(false);
@@ -32,11 +32,11 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
         stream: ref.watch(cafeteriaWidgetViewModel).cafeteriaMenu,
         builder: (context, snapshot) {
           return WidgetFrameView(
-            title: ref.watch(cafeteriaWidgetViewModel).cafeteria.value?.name ?? "Cafeteria",
-          child: _dynamicContent(snapshot)
-          );
-        }
-    );
+              title:
+                  ref.watch(cafeteriaWidgetViewModel).cafeteria.value?.name ??
+                      "Cafeteria",
+              child: _dynamicContent(snapshot));
+        });
   }
 
   // TODO: change to adaptive
@@ -52,19 +52,22 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
             });
       } else {
         return const Card(
-            child: SizedBox(height: 150, child: Center(child: Text("no meal plan found"))));
+            child: SizedBox(
+                height: 150, child: Center(child: Text("no meal plan found"))));
       }
     } else if (snapshot.hasError) {
       // TODO: error handling if offline
-      return Card(child: SizedBox(height: 150, child:
-      ErrorHandlingView(
-          error: snapshot.error!,
-          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-          retry: ref.read(cafeteriaWidgetViewModel).fetch
-      )));
+      return Card(
+          child: SizedBox(
+              height: 150,
+              child: ErrorHandlingView(
+                  error: snapshot.error!,
+                  errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+                  retry: ref.read(cafeteriaWidgetViewModel).fetch)));
     } else {
       return const Card(
-          child: SizedBox(height: 150, child: DelayedLoadingIndicator(name: "Mealplan")));
+          child: SizedBox(
+              height: 150, child: DelayedLoadingIndicator(name: "Mealplan")));
     }
   }
 
@@ -72,31 +75,43 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
     return CardWithPadding(
         height: 150,
         margin: const EdgeInsets.symmetric(vertical: 5.0),
-        child: SizedBox(width: 150, child:
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: SizedBox(
+            width: 150,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                    Text(dish.$2, style: Theme.of(context).textTheme.titleLarge),
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(dish.$2,
+                        style: Theme.of(context).textTheme.titleLarge),
                     const Spacer(),
                     IconButton(
-                        onPressed: () => _dishInfoAlert(dish.$1, context),
-                        icon: Icon(Icons.info_outline, color: Theme.of(context).primaryColor),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.centerRight,
-                        highlightColor: Colors.transparent,
+                      onPressed: () => _dishInfoAlert(dish.$1, context),
+                      icon: Icon(Icons.info_outline,
+                          color: Theme.of(context).primaryColor),
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerRight,
+                      highlightColor: Colors.transparent,
                     )
                   ],
                 )),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-            Expanded(flex: 3, child: Text(dish.$1.name, maxLines: 3, overflow: TextOverflow.ellipsis,)),
-            Expanded(child: Text(CafeteriaWidgetViewModel.formatPrice(dish.$1), maxLines: 1,))
-          ],
-        )
-    ));
+                const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                Expanded(
+                    flex: 3,
+                    child: Text(
+                      dish.$1.name,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                Expanded(
+                    child: Text(
+                  CafeteriaWidgetViewModel.formatPrice(dish.$1),
+                  maxLines: 1,
+                ))
+              ],
+            )));
   }
 
   _dishInfoAlert(Dish dish, BuildContext context) {
@@ -106,19 +121,16 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           return AlertDialog(
             title: Text(dish.name),
             actionsAlignment: MainAxisAlignment.center,
-            content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (var label in dish.labels) ...[
-                    Text(label)
-                  ],
-                  Text(CafeteriaWidgetViewModel.formatPrice(dish))
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              for (var label in dish.labels) ...[Text(label)],
+              Text(CafeteriaWidgetViewModel.formatPrice(dish))
             ]),
             actions: [
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Okay"))
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("Okay"))
             ],
           );
-        }
-    );
+        });
   }
 }

@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_s
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class NavigaTumApi extends Api {
-
   final NavigaTumService navigaTumService;
 
   NavigaTumApi({required this.navigaTumService});

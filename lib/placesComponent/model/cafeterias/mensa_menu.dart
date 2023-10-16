@@ -7,10 +7,11 @@ part 'mensa_menu.g.dart';
 class MensaMenu {
   final DateTime date;
   final List<Dish> dishes;
-  
+
   MensaMenu({required this.date, required this.dishes});
 
-  factory MensaMenu.fromJson(Map<String, dynamic> json) => _$MensaMenuFromJson(json);
+  factory MensaMenu.fromJson(Map<String, dynamic> json) =>
+      _$MensaMenuFromJson(json);
 
   Map<String, dynamic> toJson() => _$MensaMenuToJson(this);
 }
@@ -22,7 +23,8 @@ class MenuCategory {
 
   MenuCategory({required this.name, required this.dishes});
 
-  factory MenuCategory.fromJson(Map<String, dynamic> json) => _$MenuCategoryFromJson(json);
+  factory MenuCategory.fromJson(Map<String, dynamic> json) =>
+      _$MenuCategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$MenuCategoryToJson(this);
 }

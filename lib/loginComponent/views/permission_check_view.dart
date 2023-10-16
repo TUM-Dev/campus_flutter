@@ -28,11 +28,11 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
     fetchCalendar = CalendarService.fetchCalendar(true);
     fetchLecture = LectureService.fetchLecture(true);
     fetchGrades = GradeService.fetchGrades(true);
-    fetchProfile = ProfileService.fetchProfile(true).then((value) =>
-        fetchTuition = ProfileService.fetchTuition(
+    fetchProfile = ProfileService.fetchProfile(true).then(
+        (value) => fetchTuition = ProfileService.fetchTuition(
             true, value.$2.personGroup ?? "", value.$2.id ?? ""),
-        onError: (error)
-        => fetchTuition = ProfileService.fetchTuition(true, "", "id"));
+        onError: (error) =>
+            fetchTuition = ProfileService.fetchTuition(true, "", "id"));
     super.initState();
   }
 
@@ -75,7 +75,8 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
                       if (widget.isSettingsView) {
                         Navigator.of(context).pop();
                       } else {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       }
                     },
                     child: const Text("Done"))),

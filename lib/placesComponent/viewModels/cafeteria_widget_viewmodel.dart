@@ -24,7 +24,8 @@ class CafeteriaWidgetViewModel implements ViewModel {
     }, onError: (error) => cafeteria.addError(error));
   }
 
-  _getClosestCafeteria(bool forcedRefresh, (DateTime?, List<Cafeteria>) response, Position? location) {
+  _getClosestCafeteria(bool forcedRefresh,
+      (DateTime?, List<Cafeteria>) response, Position? location) {
     lastFetched.add(response.$1);
 
     if (location != null) {
@@ -33,15 +34,13 @@ class CafeteriaWidgetViewModel implements ViewModel {
             currentCafeteria.location.latitude,
             currentCafeteria.location.longitude,
             location.latitude,
-            location.longitude
-        );
+            location.longitude);
 
         final distanceNext = Geolocator.distanceBetween(
             nextCafeteria.location.latitude,
             nextCafeteria.location.longitude,
             location.latitude,
-            location.longitude
-        );
+            location.longitude);
 
         if (distanceCurrent < distanceNext) {
           return currentCafeteria;
@@ -139,12 +138,17 @@ class CafeteriaWidgetViewModel implements ViewModel {
     }
 
     if (price.unitPrice != null && price.unit != null && price.unitPrice != 0) {
-      unitPriceString = '${priceFormatter.format(price.unitPrice!)} / ${price.unit!}';
+      unitPriceString =
+          '${priceFormatter.format(price.unitPrice!)} / ${price.unit!}';
     }
 
-    final divider = (basePriceString?.isNotEmpty == true && unitPriceString?.isNotEmpty == true) ? ' + ' : '';
+    final divider = (basePriceString?.isNotEmpty == true &&
+            unitPriceString?.isNotEmpty == true)
+        ? ' + '
+        : '';
 
-    final finalPrice = (basePriceString ?? '') + divider + (unitPriceString ?? '');
+    final finalPrice =
+        (basePriceString ?? '') + divider + (unitPriceString ?? '');
 
     return finalPrice;
   }

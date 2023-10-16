@@ -8,9 +8,11 @@ class Location {
   final double longitude;
   final String address;
 
-  Location({required this.latitude, required this.longitude, required this.address});
+  Location(
+      {required this.latitude, required this.longitude, required this.address});
 
-  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
@@ -41,9 +43,15 @@ class Cafeteria {
     return name;
   }
 
-  Cafeteria({required this.location, required this.name, required this.id, required this.queueStatusApi, required this.queue});
+  Cafeteria(
+      {required this.location,
+      required this.name,
+      required this.id,
+      required this.queueStatusApi,
+      required this.queue});
 
-  factory Cafeteria.fromJson(Map<String, dynamic> json) => _$CafeteriaFromJson(json);
+  factory Cafeteria.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriaFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriaToJson(this);
 }
@@ -55,7 +63,8 @@ class Cafeterias {
 
   Cafeterias({required this.cafeterias});
 
-  factory Cafeterias.fromJson(Map<String, dynamic> json) => _$CafeteriasFromJson(json);
+  factory Cafeterias.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriasFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriasToJson(this);
 }

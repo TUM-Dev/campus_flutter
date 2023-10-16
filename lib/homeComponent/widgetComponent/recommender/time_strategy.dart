@@ -2,10 +2,9 @@ import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender_strategy.dart';
 
 class TimeStrategy implements WidgetRecommenderStrategy {
-
   @override
   Future<Map<HomeWidget, int>> getRecommendations() {
-    return Future(() => { for (var e in HomeWidget.values) e : _priority(e) });
+    return Future(() => {for (var e in HomeWidget.values) e: _priority(e)});
   }
 
   int _priority(HomeWidget homeWidget) {

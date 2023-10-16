@@ -30,9 +30,9 @@ class StudyRoomGroupView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             final studyRoomGroup = snapshot.data!;
-            final studyRooms =
-                ref.read(studyRoomWidgetViewModel).rooms.value!;
-            final lastFetched = ref.read(studyRoomWidgetViewModel).lastFetched.value;
+            final studyRooms = ref.read(studyRoomWidgetViewModel).rooms.value!;
+            final lastFetched =
+                ref.read(studyRoomWidgetViewModel).lastFetched.value;
             return RefreshIndicator(
                 onRefresh: () => ref.read(studyRoomWidgetViewModel).fetch(true),
                 child: SingleChildScrollView(
@@ -46,7 +46,9 @@ class StudyRoomGroupView extends ConsumerWidget {
                       //const PaddedDivider(),
                       WidgetFrameView(
                           title: "Rooms",
-                          subtitle: lastFetched != null ? LastUpdatedText(lastFetched) : null,
+                          subtitle: lastFetched != null
+                              ? LastUpdatedText(lastFetched)
+                              : null,
                           child: CardWithPadding(
                               child: Column(
                             children: [

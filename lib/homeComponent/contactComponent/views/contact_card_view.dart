@@ -11,7 +11,8 @@ class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ContactCardViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ContactCardViewState();
 }
 
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
@@ -37,7 +38,8 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         CircleAvatar(
           backgroundImage: data?.imageData != null
               ? Image.memory(base64DecodeImageData(data!.imageData!)).image
-              : const AssetImage('assets/images/placeholders/portrait_placeholder.png'),
+              : const AssetImage(
+                  'assets/images/placeholders/portrait_placeholder.png'),
           backgroundColor: Colors.white,
           radius: 50,
         ),
@@ -54,7 +56,9 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             Text(ref.watch(profileDetailsViewModel).profile != null
                 ? ref.watch(profileDetailsViewModel).profile?.tumID ?? "go42tum"
                 : "go42tum"),
-            Text(data != null ? data.email : PersonDetailsViewModel.defaultPersonDetails.email),
+            Text(data != null
+                ? data.email
+                : PersonDetailsViewModel.defaultPersonDetails.email),
             // TODO: solve with tumCard api?
             const Text("coming soon")
           ],

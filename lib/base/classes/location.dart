@@ -9,7 +9,8 @@ class Location {
 
   Location({required this.latitude, required this.longitude});
 
-  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
