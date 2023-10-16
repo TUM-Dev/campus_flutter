@@ -35,11 +35,9 @@ main() async {
     Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
-    getIt.registerSingleton<MainApi>(
-        MainApi.mobileCache(directory));
+    getIt.registerSingleton<MainApi>(MainApi.mobileCache(directory));
     getIt.registerSingleton<CachedCampusClient>(
-        await CachedCampusClient.createMobileCache(
-            directory));
+        await CachedCampusClient.createMobileCache(directory));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }
