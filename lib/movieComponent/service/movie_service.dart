@@ -9,7 +9,8 @@ class MovieService {
     final start = DateTime.now();
     CachedCampusClient mainApi = getIt<CachedCampusClient>();
     final response = await mainApi.listMovies(ListMoviesRequest(
-        oldestDateAt: Timestamp.fromDateTime(DateTime.now())));
+        oldestDateAt: Timestamp.fromDateTime(
+            DateTime(start.year, start.month, start.day))));
     return (start, response.movies);
   }
 }

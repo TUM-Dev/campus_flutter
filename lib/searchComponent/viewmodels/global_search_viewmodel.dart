@@ -212,8 +212,7 @@ class GlobalSearchViewModel {
       case SearchCategory.movie:
         ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
       case SearchCategory.news:
-        // TODO(Jakob): add news to search after move to new backend is finalised
-        return;
+        ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
       case SearchCategory.studyRoom:
         ref
             .read(studyRoomSearchViewModel)
