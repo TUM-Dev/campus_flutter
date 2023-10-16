@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pb.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
@@ -7,8 +8,7 @@ import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.d
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../base/networking/apis/tumdev/campus_backend.pb.dart';
+import 'package:campus_flutter/theme.dart';
 
 class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});
@@ -36,14 +36,16 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                 return Card(
                     child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.34,
-                        child: const Text("no movies found")));
+                        child: Center(
+                            child: Text(context.localizations.noMoviesFound))));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
-                  return HorizontalSlider<Movie>(
+                  return HorizontalSlider<Movie>.height(
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {
-                        return MovieCardView(movie: data, width: constraints.maxWidth * 0.4);
+                        return MovieCardView(
+                            movie: data, width: constraints.maxWidth * 0.4);
                       });
                 });
               }
@@ -53,12 +55,12 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                     height: MediaQuery.of(context).size.height * 0.34,
                     child: ErrorHandlingView(
                         error: error,
-                        errorHandlingViewType:
-                            ErrorHandlingViewType.textOnly,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: ref.read(movieViewModel).fetch))),
             loadingBuilder: (context) => Card(
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.34,
-                    child: const DelayedLoadingIndicator(name: "Movies")))));
+                    child: DelayedLoadingIndicator(
+                        name: context.localizations.movies)))));
   }
 }

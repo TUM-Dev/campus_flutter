@@ -1,4 +1,6 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
+import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
 import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/spatial_temporal_strategy.dart';
@@ -6,7 +8,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_
 import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
 import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
-import 'package:campus_flutter/placesComponent/views/homeWidget/studyroom_widget_view.dart';
+import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +25,8 @@ class _WidgetScreenState extends ConsumerState<WidgetScreen> {
   @override
   initState() {
     super.initState();
-    recommendations = WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
+    recommendations =
+        WidgetRecommender(SpatialTemporalStrategy()).fetchRecommendations(ref);
   }
 
   @override
@@ -45,20 +48,31 @@ class _WidgetScreenState extends ConsumerState<WidgetScreen> {
                         case HomeWidget.departures:
                           return const DeparturesHomeWidget();
                         case HomeWidget.studyRoom:
-                          return const StudyRoomWidgetView();
+                          return const StudyRoomWidgetView.closest();
+                        case HomeWidget.movies:
+                          return const MoviesHomeWidget();
                         default:
                           return const SizedBox.shrink();
                       }
                     },
                   ),
-                const MoviesHomeWidget(),
                 const NewsWidgetView()
               ],
             );
+          } else if (snapshot.hasError) {
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 2 / 5,
+              child: ErrorHandlingView(
+                  error: snapshot.error ?? Error(),
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly),
+            );
           } else {
-            // TODO: error handling
-            if (snapshot.hasError) {}
-            return const SizedBox.shrink();
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 2 / 5,
+              child: const DelayedLoadingIndicator(
+                name: "Widgets",
+              ),
+            );
           }
         });
   }

@@ -6,26 +6,29 @@ import 'package:campus_flutter/lectureComponent/services/lecture_details_service
 import 'package:rxdart/rxdart.dart';
 
 class LectureDetailsViewModel implements ViewModel {
-  BehaviorSubject<LectureDetails?> lectureDetails = BehaviorSubject.seeded(null);
+  BehaviorSubject<LectureDetails?> lectureDetails =
+      BehaviorSubject.seeded(null);
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   final CalendarEvent? event;
   final Lecture? lecture;
 
-  LectureDetailsViewModel({this.event, this.lecture}) {
-    fetch(false);
-  }
+  LectureDetailsViewModel({this.event, this.lecture});
 
   @override
   Future fetch(bool forcedRefresh) async {
     if (event != null) {
-      LectureDetailsService.fetchLectureDetails(event!.lvNr ?? "", forcedRefresh).then((response) {
+      LectureDetailsService.fetchLectureDetails(
+              event!.lvNr ?? "", forcedRefresh)
+          .then((response) {
         lastFetched.add(response.$1);
         lectureDetails.add(response.$2);
       }, onError: (error) => lectureDetails.addError(error));
     } else {
-      LectureDetailsService.fetchLectureDetails(lecture?.lvNumber ?? "", forcedRefresh).then((response) {
+      LectureDetailsService.fetchLectureDetails(
+              lecture?.lvNumber ?? "", forcedRefresh)
+          .then((response) {
         lastFetched.add(response.$1);
         lectureDetails.add(response.$2);
       }, onError: (error) => lectureDetails.addError(error));

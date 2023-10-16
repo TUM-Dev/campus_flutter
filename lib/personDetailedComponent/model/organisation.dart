@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'organisation.g.dart';
@@ -16,15 +15,15 @@ class Organisation {
   @JsonKey(name: "beschreibung")
   final String? description;
 
-  Organisation({
-    required this.name,
-    required this.id,
-    required this.number,
-    required this.title,
-    required this.description
-  });
+  Organisation(
+      {required this.name,
+      required this.id,
+      required this.number,
+      required this.title,
+      required this.description});
 
-  factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
+  factory Organisation.fromJson(Map<String, dynamic> json) =>
+      _$OrganisationFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrganisationToJson(this);
 }

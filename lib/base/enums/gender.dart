@@ -1,6 +1,1 @@
-enum Gender {
-  male,
-  female,
-  nonBinary,
-  unknown
-}
+enum Gender { male, female, nonBinary, unknown }

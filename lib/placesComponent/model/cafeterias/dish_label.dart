@@ -9,9 +9,11 @@ class DishLabel {
   final Map<String, String> text;
   final String abbreviation;
 
-  DishLabel({required this.name, required this.text, required this.abbreviation});
+  DishLabel(
+      {required this.name, required this.text, required this.abbreviation});
 
-  factory DishLabel.fromJson(Map<String, dynamic> json) => _$DishLabelFromJson(json);
+  factory DishLabel.fromJson(Map<String, dynamic> json) =>
+      _$DishLabelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DishLabelToJson(this);
 }

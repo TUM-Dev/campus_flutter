@@ -5,7 +5,7 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class Profile {
-  @JsonKey(name: "familienname")
+  @JsonKey(name: "vorname")
   final String? firstname;
   @JsonKey(name: "obfuscated_id")
   final String? obfuscatedID;
@@ -15,7 +15,7 @@ class Profile {
   final String? obfuscatedIDExtern;
   @JsonKey(name: "obfuscated_id_studierende")
   final String? obfuscatedIDStudent;
-  @JsonKey(name: "vorname")
+  @JsonKey(name: "familienname")
   final String? surname;
   @JsonKey(name: "kennung")
   final String? tumID;

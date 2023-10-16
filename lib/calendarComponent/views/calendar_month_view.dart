@@ -1,4 +1,5 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_data_source.dart';
+import 'package:campus_flutter/calendarComponent/views/appointment_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ class CalendarMonthView extends ConsumerWidget {
       view: CalendarView.month,
       monthViewSettings: const MonthViewSettings(
           showAgenda: true,
+          agendaItemHeight: 75,
           navigationDirection: MonthNavigationDirection.vertical),
       dataSource: MeetingDataSource(
           ref.read(calendarViewModel).events.value ?? [], context),
@@ -25,6 +27,7 @@ class CalendarMonthView extends ConsumerWidget {
       onTap: (details) {
         showModalSheet(details, null, context, ref);
       },
+      appointmentBuilder: (context, details) => AppointmentView(details),
     ));
   }
 }

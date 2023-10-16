@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MeetingDataSource extends CalendarDataSource {
-
   final BuildContext context;
 
   MeetingDataSource(List<CalendarEvent> source, this.context) {
@@ -33,6 +32,7 @@ class MeetingDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int index) {
-    return Theme.of(context).primaryColor;
+    final appointment = appointments![index]! as CalendarEvent;
+    return appointment.getEventColor(context);
   }
 }

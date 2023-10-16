@@ -16,7 +16,8 @@ class TumOnlineApiException implements ApiException {
             tumOnlineApiExceptionType: TumOnlineApiExceptionNoPermission());
       case "Token ist nicht bestätigt!":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed());
+            tumOnlineApiExceptionType:
+                TumOnlineApiExceptionTokenNotConfirmed());
       case "Token ist ungültig!":
         return TumOnlineApiException(
             tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken());
@@ -26,11 +27,12 @@ class TumOnlineApiException implements ApiException {
             tumOnlineApiExceptionType: TumOnlineApiExceptionPersonNotFound());
       case String message when message.contains("Suchstring"):
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidSearchString());
+            tumOnlineApiExceptionType:
+                TumOnlineApiExceptionInvalidSearchString());
       default:
         return TumOnlineApiException(
-            tumOnlineApiExceptionType:
-                TumOnlineApiExceptionUnknown(message: exception.exceptionMessage.message));
+            tumOnlineApiExceptionType: TumOnlineApiExceptionUnknown(
+                message: exception.exceptionMessage.message));
     }
   }
 
@@ -81,8 +83,8 @@ class TumOnlineApiException implements ApiException {
         return "Make sure you entered the name correctly!";
       case TumOnlineApiExceptionInvalidSearchString _:
         return "A search string with less than 4 characters must not contain wildcards or special characters!";
-      case TumOnlineApiExceptionUnknown unkown:
-        return unkown.message;
+      case TumOnlineApiExceptionUnknown unknown:
+        return unknown.message;
     }
   }
 }
@@ -92,7 +94,8 @@ sealed class TumOnlineApiExceptionType {}
 
 class TumOnlineApiExceptionNoPermission extends TumOnlineApiExceptionType {}
 
-class TumOnlineApiExceptionTokenNotConfirmed extends TumOnlineApiExceptionType {}
+class TumOnlineApiExceptionTokenNotConfirmed
+    extends TumOnlineApiExceptionType {}
 
 class TumOnlineApiExceptionInvalidToken extends TumOnlineApiExceptionType {}
 
@@ -102,9 +105,11 @@ class TumOnlineApiExceptionNoUserSpecified extends TumOnlineApiExceptionType {}
 
 class TumOnlineApiExceptionPersonNotFound extends TumOnlineApiExceptionType {}
 
-class TumOnlineApiExceptionInvalidSearchString extends TumOnlineApiExceptionType {}
+class TumOnlineApiExceptionInvalidSearchString
+    extends TumOnlineApiExceptionType {}
 
-class TumOnlineApiExceptionTokenLimitReached extends TumOnlineApiExceptionType {}
+class TumOnlineApiExceptionTokenLimitReached
+    extends TumOnlineApiExceptionType {}
 
 class TumOnlineApiExceptionNoUserFound extends TumOnlineApiExceptionType {}
 

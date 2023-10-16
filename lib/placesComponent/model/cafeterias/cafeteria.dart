@@ -1,3 +1,6 @@
+import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
+import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
@@ -8,9 +11,11 @@ class Location {
   final double longitude;
   final String address;
 
-  Location({required this.latitude, required this.longitude, required this.address});
+  Location(
+      {required this.latitude, required this.longitude, required this.address});
 
-  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
@@ -28,7 +33,7 @@ class Queue {
 }
 
 @JsonSerializable()
-class Cafeteria {
+class Cafeteria extends Searchable {
   final Location location;
   String name;
   @JsonKey(name: "canteen_id")
@@ -36,14 +41,52 @@ class Cafeteria {
   @JsonKey(name: "queue_status")
   final String? queueStatusApi;
   Queue? queue;
+  @JsonKey(name: "open_hours")
+  final OpeningHours? openingHours;
 
   String? get title {
     return name;
   }
 
-  Cafeteria({required this.location, required this.name, required this.id, required this.queueStatusApi, required this.queue});
+  (bool, OpeningHour?) get openingHoursToday {
+    final today = DateTime.now();
+    switch (today.weekday) {
+      case 1:
+        return (true, openingHours?.mon);
+      case 2:
+        return (true, openingHours?.tue);
+      case 3:
+        return (true, openingHours?.wed);
+      case 4:
+        return (true, openingHours?.thu);
+      case 5:
+        return (true, openingHours?.fri);
+      default:
+        return (false, null);
+    }
+  }
 
-  factory Cafeteria.fromJson(Map<String, dynamic> json) => _$CafeteriaFromJson(json);
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: name),
+        ComparisonToken(value: location.address),
+        ComparisonToken(
+            value: location.latitude.toString(), type: ComparisonTokenType.raw),
+        ComparisonToken(
+            value: location.longitude.toString(), type: ComparisonTokenType.raw)
+      ];
+
+  Cafeteria(
+      {required this.location,
+      required this.name,
+      required this.id,
+      required this.queueStatusApi,
+      required this.queue,
+      this.openingHours});
+
+  factory Cafeteria.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriaFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriaToJson(this);
 }
@@ -55,7 +98,8 @@ class Cafeterias {
 
   Cafeterias({required this.cafeterias});
 
-  factory Cafeterias.fromJson(Map<String, dynamic> json) => _$CafeteriasFromJson(json);
+  factory Cafeterias.fromJson(Map<String, dynamic> json) =>
+      _$CafeteriasFromJson(json);
 
   Map<String, dynamic> toJson() => _$CafeteriasToJson(this);
 }
