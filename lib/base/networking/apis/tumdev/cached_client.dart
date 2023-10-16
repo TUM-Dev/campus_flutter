@@ -22,8 +22,7 @@ class CachedCampusClient extends CampusClient {
 
   CachedCampusClient._webCache(CallOptions callOptions)
       : super(_channel(),
-            options: callOptions,
-            interceptors: [CacheInterceptor.webCache()]);
+            options: callOptions, interceptors: [CacheInterceptor.webCache()]);
 
   CachedCampusClient._mobileCache(Directory directory, CallOptions callOptions)
       : super(_channel(),

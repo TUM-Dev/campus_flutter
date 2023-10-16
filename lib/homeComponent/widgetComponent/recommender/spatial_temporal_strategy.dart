@@ -15,7 +15,8 @@ class SpatialTemporalStrategy implements WidgetRecommenderStrategy {
     Map<HomeWidget, int> recommendations = Map.fromIterable(HomeWidget.values,
         key: (homeWidget) => homeWidget,
         value: (homeWidget) {
-          if (timeRecommendations[homeWidget] != 0 && locationRecommendations[homeWidget] != 0) {
+          if (timeRecommendations[homeWidget] != 0 &&
+              locationRecommendations[homeWidget] != 0) {
             return (timeRecommendations[homeWidget] ?? 0) +
                 (locationRecommendations[homeWidget] ?? 0);
           } else {

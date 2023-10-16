@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
