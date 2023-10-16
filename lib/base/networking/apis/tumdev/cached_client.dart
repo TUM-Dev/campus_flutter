@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:campus_flutter/base/networking/apis/campusBackend/cache_interceptor.dart';
-import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cache_interceptor.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
@@ -28,8 +28,7 @@ class CachedCampusClient extends CampusClient {
             interceptors: [CacheInterceptor.mobileCache(directory)]);
 
   void invalidateCache() {
-    // TODO: implement interceptUnary
-    throw UnimplementedError();
+    // TODO: implement
   }
 
   static CallOptions _callOptions() {

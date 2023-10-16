@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

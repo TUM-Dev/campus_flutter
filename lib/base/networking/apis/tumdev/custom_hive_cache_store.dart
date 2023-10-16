@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/campusBackend/cached_response.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
