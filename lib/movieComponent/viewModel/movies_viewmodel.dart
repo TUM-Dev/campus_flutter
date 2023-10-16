@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pb.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/movieComponent/service/movie_service.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/networking/apis/campusBackend/campus_backend.pb.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/movieComponent/service/movie_service.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
@@ -9,7 +9,8 @@ import 'package:rxdart/rxdart.dart';
 
 class MovieSearchViewModel implements SearchViewModel<MovieSearch> {
   @override
-  BehaviorSubject<List<MovieSearch>?> searchResults = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<MovieSearch>?> searchResults =
+      BehaviorSubject.seeded(null);
 
   List<MovieSearch> movieData = [];
 
@@ -18,7 +19,8 @@ class MovieSearchViewModel implements SearchViewModel<MovieSearch> {
     if (movieData.isEmpty) {
       return MovieService.fetchMovies(forcedRefresh).then((value) {
         movieData = value.$2
-            .where((element) => element.date.toDateTime().isAfter(DateTime.now()))
+            .where(
+                (element) => element.date.toDateTime().isAfter(DateTime.now()))
             .map((e) => MovieSearch(e))
             .toList();
         _search(query);
@@ -44,6 +46,8 @@ class MovieSearch extends Searchable {
   MovieSearch(this.movie);
 
   @override
-  List<ComparisonToken> get comparisonTokens =>
-      [ComparisonToken(value: movie.title), ComparisonToken(value: movie.genre)];
+  List<ComparisonToken> get comparisonTokens => [
+        ComparisonToken(value: movie.title),
+        ComparisonToken(value: movie.genre)
+      ];
 }

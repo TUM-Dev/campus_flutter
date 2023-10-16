@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/networking/apis/campusBackend/cached_client.dart';
-import 'package:campus_flutter/base/networking/apis/campusBackend/cached_response.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
@@ -22,7 +22,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
   getIt.registerSingleton<ConnectivityResult>(
       await Connectivity().checkConnectivity());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
@@ -31,13 +30,16 @@ main() async {
     getIt.registerSingleton<CachedCampusClient>(
         await CachedCampusClient.createWebCache());
   } else {
+    final directory = await getTemporaryDirectory();
+    Hive.init(directory.path);
+    Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
     getIt.registerSingleton<MainApi>(
-        MainApi.mobileCache(await getTemporaryDirectory()));
+        MainApi.mobileCache(directory));
     getIt.registerSingleton<CachedCampusClient>(
         await CachedCampusClient.createMobileCache(
-            await getTemporaryDirectory()));
+            directory));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }
