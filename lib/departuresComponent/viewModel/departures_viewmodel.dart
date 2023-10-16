@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
@@ -39,29 +40,33 @@ class DeparturesViewModel extends ViewModel {
   }
 
   void calculateClosestCampus() async {
-    final location = await LocationService.getLastKnown();
+    try {
+      final location = await LocationService.getLastKnown();
 
-    if (location != null) {
-      final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
-        final currentDistance = Geolocator.distanceBetween(
-            currentCampus.location.latitude,
-            currentCampus.location.longitude,
-            location.latitude,
-            location.longitude);
+      if (location != null) {
+        final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
+          final currentDistance = Geolocator.distanceBetween(
+              currentCampus.location.latitude,
+              currentCampus.location.longitude,
+              location.latitude,
+              location.longitude);
 
-        final nextDistance = Geolocator.distanceBetween(
-            nextCampus.location.latitude,
-            nextCampus.location.longitude,
-            location.latitude,
-            location.longitude);
+          final nextDistance = Geolocator.distanceBetween(
+              nextCampus.location.latitude,
+              nextCampus.location.longitude,
+              location.latitude,
+              location.longitude);
 
-        return currentDistance < nextDistance ? currentCampus : nextCampus;
-      });
+          return currentDistance < nextDistance ? currentCampus : nextCampus;
+        });
 
-      this.closestCampus.add(closestCampus);
-      assignSelectedStation();
-    } else {
-      // TODO:
+        this.closestCampus.add(closestCampus);
+        assignSelectedStation();
+      } else {
+        return;
+      }
+    } catch (e) {
+      log("Departures - $e");
       return;
     }
   }

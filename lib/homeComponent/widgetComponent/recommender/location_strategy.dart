@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/home_widget.dart';
@@ -14,69 +16,79 @@ class LocationStrategy implements WidgetRecommenderStrategy {
 
   @override
   Future<Map<HomeWidget, int>> getRecommendations() async {
-    await LocationService.determinePosition();
+    try {
+      await LocationService.determinePosition();
+    } catch (e) {
+      log("Recommender - ${e.toString()}");
+    }
     return {for (var e in HomeWidget.values) e: await _priority(e)};
   }
 
   Future<int> _priority(HomeWidget homeWidget) async {
-    int priority = 0;
+    return LocationService.getLastKnown().then((location) async {
+      int priority = 0;
+      if (location != null) {
+        switch (homeWidget) {
+          case HomeWidget.cafeteria:
+            final locations = await _getCafeteriaLocations();
 
-    final location = await LocationService.getLastKnown();
+            for (var distance in [closeDistance, veryCloseDistance]) {
+              locations.removeWhere((element) => (Geolocator.distanceBetween(
+                      element.latitude,
+                      element.longitude,
+                      location.latitude,
+                      location.longitude) >=
+                  distance));
+              if (locations.isNotEmpty) {
+                priority++;
+              } else {
+                priority = 0;
+              }
+            }
 
-    if (location != null) {
-      switch (homeWidget) {
-        case HomeWidget.cafeteria:
-          final locations = await _getCafeteriaLocations();
+          case HomeWidget.studyRoom:
+            final locations = await _getStudyRoomLocations();
 
-          for (var distance in [closeDistance, veryCloseDistance]) {
-            locations.removeWhere((element) => (Geolocator.distanceBetween(
-                    element.latitude,
-                    element.longitude,
+            for (var distance in [closeDistance, veryCloseDistance]) {
+              locations.removeWhere((element) =>
+                  Geolocator.distanceBetween(
+                      element.latitude,
+                      element.longitude,
+                      location.latitude,
+                      location.longitude) >=
+                  distance);
+
+              if (locations.isNotEmpty) {
+                priority++;
+              } else {
+                priority = 0;
+              }
+            }
+
+          case HomeWidget.departures:
+            List<Campus> locations = Campus.values.toList();
+
+            locations.removeWhere((element) =>
+                Geolocator.distanceBetween(
+                    element.location.latitude,
+                    element.location.longitude,
                     location.latitude,
                     location.longitude) >=
-                distance));
-            if (locations.isNotEmpty) {
+                closeDistance);
+
+            if (locations.isEmpty) {
+              priority == 0;
+            } else {
               priority++;
             }
-          }
 
-        case HomeWidget.studyRoom:
-          final locations = await _getStudyRoomLocations();
-
-          for (var distance in [closeDistance, veryCloseDistance]) {
-            locations.removeWhere((element) =>
-                Geolocator.distanceBetween(element.latitude, element.longitude,
-                    location.latitude, location.longitude) >=
-                distance);
-
-            if (locations.isNotEmpty) {
-              priority++;
-            }
-          }
-
-        case HomeWidget.departures:
-          List<Campus> locations = Campus.values.toList();
-
-          locations.removeWhere((element) =>
-              Geolocator.distanceBetween(
-                  element.location.latitude,
-                  element.location.longitude,
-                  location.latitude,
-                  location.longitude) >=
-              closeDistance);
-
-          if (locations.isEmpty) {
-            priority -= 4;
-          } else {
-            priority++;
-          }
-
-        default:
-          break;
+          default:
+            break;
+        }
       }
-    }
 
-    return priority;
+      return priority;
+    }, onError: (error) => 0);
   }
 
   Future<List<Location>> _getCafeteriaLocations() async {

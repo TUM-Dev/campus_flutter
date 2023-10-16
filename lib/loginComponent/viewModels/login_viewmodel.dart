@@ -119,7 +119,6 @@ class LoginViewModel {
   Future logout(WidgetRef ref) async {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
-    getIt<CachedCampusClient>().invalidateCache();
     await getIt<MainApi>().clearCache();
     await _storage.delete(key: "token");
     Api.tumToken = "";
