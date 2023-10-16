@@ -3,12 +3,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-class HiveCacheStore {
+// TODO: rename to avoid conflicts with dio cache store
+class CustomHiveCacheStore {
   final String _cachePath;
   final ConnectivityResult _connectivityResult;
   final Duration ttl;
 
-  HiveCacheStore(this._cachePath, this._connectivityResult,
+  CustomHiveCacheStore(this._cachePath, this._connectivityResult,
       {this.ttl = const Duration(days: 30)});
 
   (bool, CacheResponse?) get(String key) {

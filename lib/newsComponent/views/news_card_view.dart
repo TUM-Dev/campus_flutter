@@ -67,7 +67,7 @@ class NewsCardView extends ConsumerWidget {
                                   Expanded(
                                       child: Text(
                                           StringParser.dateFormatter(
-                                              news.created.toDateTime()),
+                                              news.date.toDateTime()),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
