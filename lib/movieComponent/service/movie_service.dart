@@ -5,13 +5,13 @@ import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 
 class MovieService {
-  static Future<(DateTime?, List<Movie>)> fetchMovies(bool forcedRefresh) async {
+  static Future<(DateTime?, List<Movie>)> fetchMovies(
+      bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequest<MoviesData, TumCabeApi>(
-        TumCabeApi(tumCabeService: TumCabeServiceMovie()),
+        TumCabeApi(tumCabeApiService: TumCabeApiServiceMovie(DateTime.now())),
         MoviesData.fromJson,
-        forcedRefresh
-    );
+        forcedRefresh);
 
     return (response.saved, response.data.movies);
   }

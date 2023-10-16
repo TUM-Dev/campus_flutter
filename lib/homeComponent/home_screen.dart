@@ -12,25 +12,20 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return OrientationBuilder(
-        builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return _widgetScrollView();
-          } else {
-            return const AnimatedSplitView();
-          }
-        }
-    );
+    return OrientationBuilder(builder: (context, orientation) {
+      if (orientation == Orientation.portrait) {
+        return _widgetScrollView();
+      } else {
+        return const AnimatedSplitView();
+      }
+    });
   }
 
   Widget _widgetScrollView() {
     return SingleChildScrollView(
-      controller: scrollController,
-        child: const Column(children: [
-          ContactScreen(),
-          PaddedDivider(),
-          WidgetScreen()
-        ]));
+        controller: scrollController,
+        child: const Column(
+            children: [ContactScreen(), PaddedDivider(), WidgetScreen()]));
   }
 }
 
@@ -38,10 +33,12 @@ class AnimatedSplitView extends ConsumerStatefulWidget {
   const AnimatedSplitView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AnimatedSplitViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AnimatedSplitViewState();
 }
 
-class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView> with SingleTickerProviderStateMixin {
+class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _animation;
   final ScrollController scrollController = ScrollController();
@@ -49,8 +46,8 @@ class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView> with Sing
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
     _animation = IntTween(begin: 0, end: 600).animate(_animationController);
     _animation.addListener(() => setState(() {}));
   }
@@ -59,9 +56,7 @@ class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView> with Sing
   Widget build(BuildContext context) {
     final double value = _animation.value / 2;
     return StreamBuilder(
-        stream: ref
-            .read(homeSplitViewModel)
-            .selectedWidget,
+        stream: ref.read(homeSplitViewModel).selectedWidget,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _animationController.forward();
@@ -73,30 +68,24 @@ class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView> with Sing
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(flex: 300 - value.toInt(), child: Container()),
-                Expanded(
-                    flex: 400,
-                    child: _widgetScrollView()
-                ),
+                Expanded(flex: 400, child: _widgetScrollView()),
                 Expanded(flex: 300 - value.toInt(), child: Container()),
                 Expanded(
                     flex: _animation.value,
                     child: (snapshot.hasData && _animation.value == 600)
                         ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                            onPressed: () =>
-                                ref
-                                    .read(homeSplitViewModel)
-                                    .selectedWidget
-                                    .add(null),
-                            icon: const Icon(Icons.close)
-                        ),
-                        Expanded(child: snapshot.data!)
-                      ],
-                    )
-                        : Container()
-                )
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                  onPressed: () => ref
+                                      .read(homeSplitViewModel)
+                                      .selectedWidget
+                                      .add(null),
+                                  icon: const Icon(Icons.close)),
+                              Expanded(child: snapshot.data!)
+                            ],
+                          )
+                        : Container())
               ],
             ),
           );
@@ -106,10 +95,7 @@ class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView> with Sing
   Widget _widgetScrollView() {
     return SingleChildScrollView(
         controller: scrollController,
-        child: const Column(children: [
-          ContactScreen(),
-          PaddedDivider(),
-          WidgetScreen()
-        ]));
+        child: const Column(
+            children: [ContactScreen(), PaddedDivider(), WidgetScreen()]));
   }
 }

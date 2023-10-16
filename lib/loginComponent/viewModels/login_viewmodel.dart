@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:campus_flutter/base/networking/apis/campusBackend/cached_client.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
@@ -75,7 +76,6 @@ class LoginViewModel {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
         Api.tumToken = value;
-        //Api.tumToken = "E2313F253B3586FD486D1AF3659F01EA";
         await LoginService.confirmToken(false).then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) {
@@ -94,14 +94,13 @@ class LoginViewModel {
   }
 
   Future requestLogin() async {
-    return LoginService.requestNewToken(
-        true,
-        "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
+    return LoginService.requestNewToken(true,
+            "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
         .then((value) {
-          final token = value.content;
-          _storage.write(key: "token", value: token);
-          Api.tumToken = token;
-        });
+      final token = value.content;
+      _storage.write(key: "token", value: token);
+      Api.tumToken = token;
+    });
   }
 
   Future<Confirm> confirmLogin() async {
@@ -118,16 +117,12 @@ class LoginViewModel {
   }
 
   Future logout(WidgetRef ref) async {
-    /*ProviderContainer()
-      ..invalidate(profileViewModel)
-      ..invalidate(personDetailsViewModel);*/
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
+    getIt<CachedCampusClient>().invalidateCache();
     await getIt<MainApi>().clearCache();
     await _storage.delete(key: "token");
     Api.tumToken = "";
-    //profileViewModel.
-    //personDetailsViewModel.overrideWithValue(PersonDetailsViewModel(null));
     credentials.add(Credentials.none);
   }
 }

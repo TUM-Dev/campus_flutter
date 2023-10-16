@@ -1,38 +1,34 @@
-sealed class NavigaTumService {
+sealed class NavigaTumApiService {
   Map<String, String> getParameters() => {};
 }
 
-class NavigaTumServiceSearch extends NavigaTumService {
+class NavigaTumApiServiceSearch extends NavigaTumApiService {
   final String query;
 
-  NavigaTumServiceSearch({required this.query});
+  NavigaTumApiServiceSearch({required this.query});
 
   @override
-  Map<String, String> getParameters() => {
-    "q": query
-  };
+  Map<String, String> getParameters() => {"q": query};
 }
 
-class NavigaTumServiceDetails extends NavigaTumService {
+class NavigaTumApiServiceDetails extends NavigaTumApiService {
   final String id;
   final String language;
 
-  NavigaTumServiceDetails({required this.id, required this.language});
+  NavigaTumApiServiceDetails({required this.id, required this.language});
 
   @override
-  Map<String, String> getParameters() => {
-    "lang": language
-  };
+  Map<String, String> getParameters() => {"lang": language};
 }
 
-class NavigaTumServiceImages extends NavigaTumService {
+class NavigaTumApiServiceImages extends NavigaTumApiService {
   final String id;
 
-  NavigaTumServiceImages({required this.id});
+  NavigaTumApiServiceImages({required this.id});
 }
 
-class NavigaTumServiceOverlayImages extends NavigaTumService {
+class NavigaTumApiServiceOverlayImages extends NavigaTumApiService {
   final String id;
 
-  NavigaTumServiceOverlayImages({required this.id});
+  NavigaTumApiServiceOverlayImages({required this.id});
 }

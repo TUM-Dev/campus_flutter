@@ -10,18 +10,9 @@ class MovieViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    MovieService.fetchMovies(forcedRefresh)
-        .then((response) => _sortMovies(response), onError: (error) => movies.addError(error));
-  }
-
-  _sortMovies((DateTime?, List<Movie>) movies) {
-    lastFetched.add(movies.$1);
-    if (movies.$2.isEmpty) {
-      this.movies.add(movies.$2);
-    } else {
-      movies.$2.removeWhere((element) => element.date.isBefore(DateTime.now()));
-      movies.$2.sort((a, b) => a.date.compareTo(b.date));
-      this.movies.add(movies.$2);
-    }
+    MovieService.fetchMovies(forcedRefresh).then((response) {
+      lastFetched.add(response.$1);
+      movies.add(response.$2);
+    }, onError: (error) => movies.addError(error));
   }
 }

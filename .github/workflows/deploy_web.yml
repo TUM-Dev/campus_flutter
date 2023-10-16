@@ -1,9 +1,8 @@
 name: Deploy Web Version
 
 on:
-  push:
-    branches: ["development"]
-    paths: ["lib/**", "web/**"]
+  release:
+    types: [ published ]
 
 permissions:
   contents: read

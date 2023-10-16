@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart' as dio;
 
 abstract class Api {
-
   static String tumToken = "";
 
   String get baseURL;
 
   String get path;
 
-  Map<String, String> get baseHeaders { return {}; }
+  Map<String, String> get baseHeaders {
+    return {};
+  }
 
   String get paths;
 
@@ -17,15 +18,17 @@ abstract class Api {
   bool get needsAuth;
 
   Future<dio.Response<String>> asResponse({required dio.Dio dioClient}) async {
+    return dioClient.getUri(asURL(),
+        options: _customDecodingOptions(baseHeaders));
+  }
+
+  Uri asURL() {
     if (needsAuth) {
       var finalParameters = parameters;
-      // TODO: figure out token sharing
       finalParameters.addAll({"pToken": tumToken});
-      final uri = Uri.https(baseURL, paths, finalParameters);
-      return dioClient.getUri(uri, options: _customDecodingOptions(baseHeaders));
+      return Uri.https(baseURL, paths, finalParameters);
     } else {
-      final uri = Uri.https(baseURL, paths, parameters);
-      return dioClient.getUri(uri, options: _customDecodingOptions(baseHeaders));
+      return Uri.https(baseURL, paths, parameters);
     }
   }
 

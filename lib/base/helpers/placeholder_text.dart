@@ -13,7 +13,6 @@ class PlaceholderText extends StatelessWidget {
       height: textSize.height,
       width: textSize.width,
       color: Colors.grey,
-      // TODO: rounded corners?
     );
   }
 
