@@ -71,4 +71,15 @@ curl -o protos/tumdev/campus_backend.proto https://raw.githubusercontent.com/TUM
 protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/timestamp.proto google/protobuf/empty.proto protos/tumdev/campus_backend.proto 
 ```
 
+### Current needed Forks
+
+To ensure that Campus-Flutter runs on every supported platform, we need to make some modifications to packages.
+
+| Package                 | Reason                                   | Link                                         |
+|-------------------------|------------------------------------------|----------------------------------------------|
+| gRPC                    | Caching                                  | https://github.com/jakobkoerber/grpc-dart |
+| Google Maps Flutter iOS | Enable usage of SDK in ARM iOS Siulators | https://github.com/jakobkoerber/packages |
+| Xml2Json                | Fix Parsing of XML to JSON               | https://github.com/jakobkoerber/xml2json |
+
+
 
