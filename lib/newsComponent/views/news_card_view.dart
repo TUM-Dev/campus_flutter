@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,15 +72,15 @@ class NewsCardView extends ConsumerWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
-                                  // TODO(frank): pass the source name instead of the id from the backend ^^
-                                  /*Expanded(
+                                  Expanded(
                                       child: Text(
-                                          context.localizations.source(news.source),
+                                          context.localizations
+                                              .source(news.sourceTitle),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,
                                           maxLines: 1,
-                                          overflow: TextOverflow.ellipsis))*/
+                                          overflow: TextOverflow.ellipsis))
                                 ],
                               ))))
                 ],
