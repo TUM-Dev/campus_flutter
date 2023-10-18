@@ -68,7 +68,7 @@ class CacheInterceptor implements ClientInterceptor {
     CallOptions options,
     ClientUnaryInvoker<Q, R> invoker,
   ) {
-    final key = "${method.path}?${requests.toString()}";
+    final key = "${method.path}?${request.toString()}";
     final (bool, CacheResponse?) cachedResponse;
     if (kIsWeb) {
       cachedResponse = memCacheStore.get(key);
