@@ -28,7 +28,7 @@ service Campus {
 
   rpc ListNews(ListNewsRequest) returns (ListNewsReply) {
     option (google.api.http) = {
-      get: "/news/{last_news_id}",
+      get: "/news",
       response_body: "news"
     };
   }
@@ -239,7 +239,12 @@ message News {
   string link = 4;
   // where a news thumbnail is stored. empty string means no image is available
   string image_url = 5;
-  string source = 6;
+  // the id of the news source
+  string source_id = 6;
+  // where the icon can be found
+  string source_icon_url = 9;
+  // human readable title of the news source
+  string source_title = 10;
   // when the news item was created in OUR database
   google.protobuf.Timestamp created = 7;
   // the date of the news item

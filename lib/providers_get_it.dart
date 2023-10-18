@@ -6,6 +6,7 @@ import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.d
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommenderViewModel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
@@ -85,6 +86,9 @@ final personDetailsViewModel =
     Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {
   return PersonDetailsViewModel(obfuscatedId);
 });
+
+/// view model for home screen
+final recommenderViewModel = Provider((ref) => RecommenderViewModel(ref));
 
 /// view model for places
 final placesViewModel = Provider((ref) => PlacesViewModel(ref));

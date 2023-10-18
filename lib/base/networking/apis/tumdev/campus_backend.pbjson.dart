@@ -192,7 +192,9 @@ const News$json = {
     {'1': 'text', '3': 3, '4': 1, '5': 9, '10': 'text'},
     {'1': 'link', '3': 4, '4': 1, '5': 9, '10': 'link'},
     {'1': 'image_url', '3': 5, '4': 1, '5': 9, '10': 'imageUrl'},
-    {'1': 'source', '3': 6, '4': 1, '5': 9, '10': 'source'},
+    {'1': 'source_id', '3': 6, '4': 1, '5': 9, '10': 'sourceId'},
+    {'1': 'source_icon_url', '3': 9, '4': 1, '5': 9, '10': 'sourceIconUrl'},
+    {'1': 'source_title', '3': 10, '4': 1, '5': 9, '10': 'sourceTitle'},
     {
       '1': 'created',
       '3': 7,
@@ -216,9 +218,10 @@ const News$json = {
 final $typed_data.Uint8List newsDescriptor = $convert.base64Decode(
     'CgROZXdzEg4KAmlkGAEgASgDUgJpZBIUCgV0aXRsZRgCIAEoCVIFdGl0bGUSEgoEdGV4dBgDIA'
     'EoCVIEdGV4dBISCgRsaW5rGAQgASgJUgRsaW5rEhsKCWltYWdlX3VybBgFIAEoCVIIaW1hZ2VV'
-    'cmwSFgoGc291cmNlGAYgASgJUgZzb3VyY2USNAoHY3JlYXRlZBgHIAEoCzIaLmdvb2dsZS5wcm'
-    '90b2J1Zi5UaW1lc3RhbXBSB2NyZWF0ZWQSLgoEZGF0ZRgIIAEoCzIaLmdvb2dsZS5wcm90b2J1'
-    'Zi5UaW1lc3RhbXBSBGRhdGU=');
+    'cmwSGwoJc291cmNlX2lkGAYgASgJUghzb3VyY2VJZBImCg9zb3VyY2VfaWNvbl91cmwYCSABKA'
+    'lSDXNvdXJjZUljb25VcmwSIQoMc291cmNlX3RpdGxlGAogASgJUgtzb3VyY2VUaXRsZRI0Cgdj'
+    'cmVhdGVkGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBIuCgRkYX'
+    'RlGAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIEZGF0ZQ==');
 
 @$core.Deprecated('Use listNewsReplyDescriptor instead')
 const ListNewsReply$json = {

@@ -11,7 +11,7 @@ class WidgetRecommender {
 
   WidgetRecommender(this._strategy);
 
-  Future<Map<HomeWidget, int>> fetchRecommendations(WidgetRef ref) async {
+  Future<Map<HomeWidget, int>> fetchRecommendations(Ref ref) async {
     final recommendations = await _strategy.getRecommendations();
 
     /// sort by ascending priority

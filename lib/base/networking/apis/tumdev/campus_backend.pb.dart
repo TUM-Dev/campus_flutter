@@ -784,9 +784,11 @@ class News extends $pb.GeneratedMessage {
     $core.String? text,
     $core.String? link,
     $core.String? imageUrl,
-    $core.String? source,
+    $core.String? sourceId,
     $1.Timestamp? created,
     $1.Timestamp? date,
+    $core.String? sourceIconUrl,
+    $core.String? sourceTitle,
   }) {
     final $result = create();
     if (id != null) {
@@ -804,14 +806,20 @@ class News extends $pb.GeneratedMessage {
     if (imageUrl != null) {
       $result.imageUrl = imageUrl;
     }
-    if (source != null) {
-      $result.source = source;
+    if (sourceId != null) {
+      $result.sourceId = sourceId;
     }
     if (created != null) {
       $result.created = created;
     }
     if (date != null) {
       $result.date = date;
+    }
+    if (sourceIconUrl != null) {
+      $result.sourceIconUrl = sourceIconUrl;
+    }
+    if (sourceTitle != null) {
+      $result.sourceTitle = sourceTitle;
     }
     return $result;
   }
@@ -832,11 +840,13 @@ class News extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'text')
     ..aOS(4, _omitFieldNames ? '' : 'link')
     ..aOS(5, _omitFieldNames ? '' : 'imageUrl')
-    ..aOS(6, _omitFieldNames ? '' : 'source')
+    ..aOS(6, _omitFieldNames ? '' : 'sourceId')
     ..aOM<$1.Timestamp>(7, _omitFieldNames ? '' : 'created',
         subBuilder: $1.Timestamp.create)
     ..aOM<$1.Timestamp>(8, _omitFieldNames ? '' : 'date',
         subBuilder: $1.Timestamp.create)
+    ..aOS(9, _omitFieldNames ? '' : 'sourceIconUrl')
+    ..aOS(10, _omitFieldNames ? '' : 'sourceTitle')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -921,17 +931,18 @@ class News extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   void clearImageUrl() => clearField(5);
 
+  /// the id of the news source
   @$pb.TagNumber(6)
-  $core.String get source => $_getSZ(5);
+  $core.String get sourceId => $_getSZ(5);
   @$pb.TagNumber(6)
-  set source($core.String v) {
+  set sourceId($core.String v) {
     $_setString(5, v);
   }
 
   @$pb.TagNumber(6)
-  $core.bool hasSource() => $_has(5);
+  $core.bool hasSourceId() => $_has(5);
   @$pb.TagNumber(6)
-  void clearSource() => clearField(6);
+  void clearSourceId() => clearField(6);
 
   /// when the news item was created in OUR database
   @$pb.TagNumber(7)
@@ -962,6 +973,32 @@ class News extends $pb.GeneratedMessage {
   void clearDate() => clearField(8);
   @$pb.TagNumber(8)
   $1.Timestamp ensureDate() => $_ensure(7);
+
+  /// where the icon can be found
+  @$pb.TagNumber(9)
+  $core.String get sourceIconUrl => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set sourceIconUrl($core.String v) {
+    $_setString(8, v);
+  }
+
+  @$pb.TagNumber(9)
+  $core.bool hasSourceIconUrl() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearSourceIconUrl() => clearField(9);
+
+  /// human readable title of the news source
+  @$pb.TagNumber(10)
+  $core.String get sourceTitle => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set sourceTitle($core.String v) {
+    $_setString(9, v);
+  }
+
+  @$pb.TagNumber(10)
+  $core.bool hasSourceTitle() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearSourceTitle() => clearField(10);
 }
 
 class ListNewsReply extends $pb.GeneratedMessage {
