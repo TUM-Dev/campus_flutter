@@ -29,8 +29,7 @@ class CacheInterceptor implements ClientInterceptor {
       Stream<Q> requests,
       CallOptions options,
       ClientStreamingInvoker<Q, R> invoker) {
-    // TODO: is path enough?
-    final key = method.path; //?${requests.toString()}";
+    final key = "${method.path}?${requests.toString()}";
     final (bool, dynamic) cachedResponse;
     if (kIsWeb) {
       cachedResponse = memCacheStore.get(key);
@@ -69,8 +68,7 @@ class CacheInterceptor implements ClientInterceptor {
     CallOptions options,
     ClientUnaryInvoker<Q, R> invoker,
   ) {
-    // TODO: is path enough?
-    final key = method.path; //?${request.toString()}";
+    final key = "${method.path}?${requests.toString()}";
     final (bool, CacheResponse?) cachedResponse;
     if (kIsWeb) {
       cachedResponse = memCacheStore.get(key);
