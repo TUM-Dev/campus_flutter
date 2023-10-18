@@ -21,7 +21,7 @@ class CalendarsView extends ConsumerStatefulWidget {
 
 class _CalendarsViewState extends ConsumerState<CalendarsView>
     with AutomaticKeepAliveClientMixin<CalendarsView> {
-  int _selectedCalendarTab = 0;
+  late int _selectedCalendarTab;
 
   final CalendarController _calendarController = CalendarController();
 
@@ -29,6 +29,13 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
   void initState() {
     ref.read(calendarViewModel).fetch(false);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _selectedCalendarTab =
+        MediaQuery.orientationOf(context) == Orientation.landscape ? 1 : 0;
+    super.didChangeDependencies();
   }
 
   @override
