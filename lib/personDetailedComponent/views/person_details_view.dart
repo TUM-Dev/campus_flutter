@@ -7,7 +7,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
+import 'package:campus_flutter/searchComponent/views/personRoomSearch/person_room_search_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -175,7 +175,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
+                        builder: (context) => PersonRoomSearchScaffold(
                               searchString: personDetails.rooms!.first.id,
                             ))),
               ),

@@ -5,6 +5,7 @@ import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/loginComponent/views/login_view.dart';
 import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/navigation_alternative.dart';
 import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/routes.dart';
@@ -88,7 +89,7 @@ class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
             FlutterNativeSplash.remove();
             if (snapshot.data == Credentials.tumId ||
                 snapshot.data == Credentials.noTumId) {
-              return const Navigation();
+              return const NavigationAlternative();
             } else {
               return const LoginView();
             }

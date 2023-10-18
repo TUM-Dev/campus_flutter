@@ -1,7 +1,7 @@
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
+import 'package:campus_flutter/searchComponent/views/personRoomSearch/person_room_search_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +33,7 @@ class BasicLectureInfoView extends ConsumerWidget {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
+                        builder: (context) => PersonRoomSearchScaffold(
                               isRoomSearch: false,
                               searchString:
                                   lectureDetails.speaker?.split(",").first,

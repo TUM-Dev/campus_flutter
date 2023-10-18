@@ -14,18 +14,20 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.portrait) {
-        return _widgetScrollView();
+        return _widgetScrollView(ref);
       } else {
         return const AnimatedSplitView();
       }
     });
   }
 
-  Widget _widgetScrollView() {
-    return SingleChildScrollView(
-        controller: scrollController,
-        child: const Column(
-            children: [ContactScreen(), PaddedDivider(), WidgetScreen()]));
+  Widget _widgetScrollView(WidgetRef ref) {
+    return RefreshIndicator(
+        child: SingleChildScrollView(
+            controller: scrollController,
+            child: const Column(
+                children: [ContactScreen(), PaddedDivider(), WidgetScreen()])),
+        onRefresh: () => ref.read(recommenderViewModel).getRecommendations());
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_body_view.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/search_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
@@ -119,7 +119,7 @@ class _NavigationState extends ConsumerState<Navigation> {
                 duration: const Duration(milliseconds: 300),
                 height: _searchAreaHeight,
                 child: _isSearching
-                    ? SearchBodyView(
+                    ? SearchView(
                         index: currentPageIndex, showContent: showContent)
                     : null,
                 onEnd: () {
