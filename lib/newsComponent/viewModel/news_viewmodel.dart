@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/newsComponent/service/news_service.dart';
-import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NewsViewModel implements ViewModel {
