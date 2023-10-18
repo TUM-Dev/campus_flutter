@@ -1,0 +1,35 @@
+name: Update Proto Files
+
+on:
+  repository_dispatch:
+    types: [trigger_protoc_update]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+
+      - name: Fetch gRPC Files
+        run: |
+          dart pub global activate protoc_plugin
+          export PATH="$PATH:$HOME/.pub-cache/bin"
+          curl -o protos/tumdev/campus_backend.proto https://raw.githubusercontent.com/TUM-Dev/Campus-Backend/main/server/api/tumdev/campus_backend.proto
+          protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/timestamp.proto google/protobuf/empty.proto protos/tumdev/campus_backend.proto
+        
+      - name: Commit report
+        run: |
+          git add .
+          git commit -m "Update Proto Files"
+          git push
