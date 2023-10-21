@@ -28,16 +28,8 @@ service Campus {
 
   rpc ListNews(ListNewsRequest) returns (ListNewsReply) {
     option (google.api.http) = {
-      get: "/news/{last_news_id}",
+      get: "/news",
       response_body: "news"
-    };
-  }
-
-  rpc SearchRooms(SearchRoomsRequest) returns (SearchRoomsReply) {
-    option (google.api.http) = {
-      post: "/roomfinder/room/search",
-      body: "*",
-      response_body: "rooms"
     };
   }
 
@@ -211,27 +203,6 @@ message IOSDeviceRequestResponseRequest {
 message IOSDeviceRequestResponseReply {
   string message = 1;
 }
-
-message SearchRoomsRequest {
-  string query = 1;
-}
-
-message SearchRoomsReply {
-  repeated Room rooms = 1;
-}
-
-message Room {
-  int64 room_id = 1;
-  string room_code = 2;
-  string building_nr = 3;
-  string arch_id = 4;
-  string info = 5;
-  string address = 6;
-  string purpose = 7;
-  string campus = 8;
-  string name = 9;
-}
-
 message News {
   int64 id = 1;
   string title = 2;
@@ -239,7 +210,12 @@ message News {
   string link = 4;
   // where a news thumbnail is stored. empty string means no image is available
   string image_url = 5;
-  string source = 6;
+  // the id of the news source
+  string source_id = 6;
+  // where the icon can be found
+  string source_icon_url = 9;
+  // human readable title of the news source
+  string source_title = 10;
   // when the news item was created in OUR database
   google.protobuf.Timestamp created = 7;
   // the date of the news item
