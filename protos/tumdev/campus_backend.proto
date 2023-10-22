@@ -113,10 +113,6 @@ service Campus {
     option (google.api.http) = {get: "/updatenote/{version}"};
   }
 
-  rpc ListStudyRooms(ListStudyRoomsRequest) returns (ListStudyRoomsReply) {
-    option (google.api.http) = {get: "/studyrooms"};
-  }
-
   rpc ListMovies(ListMoviesRequest) returns (ListMoviesReply) {
     option (google.api.http) = {get: "/movies/{last_id}"};
   }
@@ -477,25 +473,6 @@ message GetUpdateNoteRequest {
 message GetUpdateNoteReply {
   string message = 1;
   string version_name = 2;
-}
-
-message ListStudyRoomsRequest {}
-message ListStudyRoomsReply {
-  repeated StudyRoomMsgElement rooms = 1;
-}
-message StudyRoomMsgElement {
-  int32 id = 1;
-  string name = 2;
-  string details = 3;
-  repeated StudyRoom rooms = 4;
-}
-
-message StudyRoom {
-  int32 group_id = 1;
-  int32 room_id = 2;
-  string room_code = 3;
-  string room_name = 4;
-  string building_name = 5;
 }
 
 message ListMoviesRequest {
