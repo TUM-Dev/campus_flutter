@@ -85,10 +85,6 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/GetUpdateNote',
       ($0.GetUpdateNoteRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetUpdateNoteReply.fromBuffer(value));
-  static final _$listStudyRooms = $grpc.ClientMethod<$0.ListStudyRoomsRequest, $0.ListStudyRoomsReply>(
-      '/api.Campus/ListStudyRooms',
-      ($0.ListStudyRoomsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListStudyRoomsReply.fromBuffer(value));
   static final _$listMovies = $grpc.ClientMethod<$0.ListMoviesRequest, $0.ListMoviesReply>(
       '/api.Campus/ListMovies',
       ($0.ListMoviesRequest value) => value.writeToBuffer(),
@@ -198,10 +194,6 @@ class CampusClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetUpdateNoteReply> getUpdateNote($0.GetUpdateNoteRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUpdateNote, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.ListStudyRoomsReply> listStudyRooms($0.ListStudyRoomsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$listStudyRooms, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.ListMoviesReply> listMovies($0.ListMoviesRequest request, {$grpc.CallOptions? options}) {
@@ -362,13 +354,6 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetUpdateNoteRequest.fromBuffer(value),
         ($0.GetUpdateNoteReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListStudyRoomsRequest, $0.ListStudyRoomsReply>(
-        'ListStudyRooms',
-        listStudyRooms_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.ListStudyRoomsRequest.fromBuffer(value),
-        ($0.ListStudyRoomsReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.ListMoviesRequest, $0.ListMoviesReply>(
         'ListMovies',
         listMovies_Pre,
@@ -505,10 +490,6 @@ abstract class CampusServiceBase extends $grpc.Service {
     return getUpdateNote(call, await request);
   }
 
-  $async.Future<$0.ListStudyRoomsReply> listStudyRooms_Pre($grpc.ServiceCall call, $async.Future<$0.ListStudyRoomsRequest> request) async {
-    return listStudyRooms(call, await request);
-  }
-
   $async.Future<$0.ListMoviesReply> listMovies_Pre($grpc.ServiceCall call, $async.Future<$0.ListMoviesRequest> request) async {
     return listMovies(call, await request);
   }
@@ -561,7 +542,6 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.ListMoreInformationReply> listMoreInformation($grpc.ServiceCall call, $0.ListMoreInformationRequest request);
   $async.Future<$0.ListOpeningTimesReply> listOpeningTimes($grpc.ServiceCall call, $0.ListOpeningTimesRequest request);
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote($grpc.ServiceCall call, $0.GetUpdateNoteRequest request);
-  $async.Future<$0.ListStudyRoomsReply> listStudyRooms($grpc.ServiceCall call, $0.ListStudyRoomsRequest request);
   $async.Future<$0.ListMoviesReply> listMovies($grpc.ServiceCall call, $0.ListMoviesRequest request);
   $async.Future<$0.CreateFeedbackReply> createFeedback($grpc.ServiceCall call, $async.Stream<$0.CreateFeedbackRequest> request);
   $async.Future<$0.GetUploadStatusReply> getUploadStatus($grpc.ServiceCall call, $0.GetUploadStatusRequest request);

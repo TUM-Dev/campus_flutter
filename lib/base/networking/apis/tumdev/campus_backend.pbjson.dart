@@ -772,63 +772,6 @@ final $typed_data.Uint8List getUpdateNoteReplyDescriptor = $convert.base64Decode
     'ChJHZXRVcGRhdGVOb3RlUmVwbHkSGAoHbWVzc2FnZRgBIAEoCVIHbWVzc2FnZRIhCgx2ZXJzaW'
     '9uX25hbWUYAiABKAlSC3ZlcnNpb25OYW1l');
 
-@$core.Deprecated('Use listStudyRoomsRequestDescriptor instead')
-const ListStudyRoomsRequest$json = {
-  '1': 'ListStudyRoomsRequest',
-};
-
-/// Descriptor for `ListStudyRoomsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listStudyRoomsRequestDescriptor = $convert.base64Decode(
-    'ChVMaXN0U3R1ZHlSb29tc1JlcXVlc3Q=');
-
-@$core.Deprecated('Use listStudyRoomsReplyDescriptor instead')
-const ListStudyRoomsReply$json = {
-  '1': 'ListStudyRoomsReply',
-  '2': [
-    {'1': 'rooms', '3': 1, '4': 3, '5': 11, '6': '.api.StudyRoomMsgElement', '10': 'rooms'},
-  ],
-};
-
-/// Descriptor for `ListStudyRoomsReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listStudyRoomsReplyDescriptor = $convert.base64Decode(
-    'ChNMaXN0U3R1ZHlSb29tc1JlcGx5Ei4KBXJvb21zGAEgAygLMhguYXBpLlN0dWR5Um9vbU1zZ0'
-    'VsZW1lbnRSBXJvb21z');
-
-@$core.Deprecated('Use studyRoomMsgElementDescriptor instead')
-const StudyRoomMsgElement$json = {
-  '1': 'StudyRoomMsgElement',
-  '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
-    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'details', '3': 3, '4': 1, '5': 9, '10': 'details'},
-    {'1': 'rooms', '3': 4, '4': 3, '5': 11, '6': '.api.StudyRoom', '10': 'rooms'},
-  ],
-};
-
-/// Descriptor for `StudyRoomMsgElement`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List studyRoomMsgElementDescriptor = $convert.base64Decode(
-    'ChNTdHVkeVJvb21Nc2dFbGVtZW50Eg4KAmlkGAEgASgFUgJpZBISCgRuYW1lGAIgASgJUgRuYW'
-    '1lEhgKB2RldGFpbHMYAyABKAlSB2RldGFpbHMSJAoFcm9vbXMYBCADKAsyDi5hcGkuU3R1ZHlS'
-    'b29tUgVyb29tcw==');
-
-@$core.Deprecated('Use studyRoomDescriptor instead')
-const StudyRoom$json = {
-  '1': 'StudyRoom',
-  '2': [
-    {'1': 'group_id', '3': 1, '4': 1, '5': 5, '10': 'groupId'},
-    {'1': 'room_id', '3': 2, '4': 1, '5': 5, '10': 'roomId'},
-    {'1': 'room_code', '3': 3, '4': 1, '5': 9, '10': 'roomCode'},
-    {'1': 'room_name', '3': 4, '4': 1, '5': 9, '10': 'roomName'},
-    {'1': 'building_name', '3': 5, '4': 1, '5': 9, '10': 'buildingName'},
-  ],
-};
-
-/// Descriptor for `StudyRoom`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List studyRoomDescriptor = $convert.base64Decode(
-    'CglTdHVkeVJvb20SGQoIZ3JvdXBfaWQYASABKAVSB2dyb3VwSWQSFwoHcm9vbV9pZBgCIAEoBV'
-    'IGcm9vbUlkEhsKCXJvb21fY29kZRgDIAEoCVIIcm9vbUNvZGUSGwoJcm9vbV9uYW1lGAQgASgJ'
-    'Ughyb29tTmFtZRIjCg1idWlsZGluZ19uYW1lGAUgASgJUgxidWlsZGluZ05hbWU=');
-
 @$core.Deprecated('Use listMoviesRequestDescriptor instead')
 const ListMoviesRequest$json = {
   '1': 'ListMoviesRequest',
