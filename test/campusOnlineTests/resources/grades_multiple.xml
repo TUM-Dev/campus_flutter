@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rowset>
+    <row>
+        <pv_kand_nr isnull="true"></pv_kand_nr>
+        <datum>2023-02-09</datum>
+        <lv_nummer>IN4049</lv_nummer>
+        <lv_semester>22W</lv_semester>
+        <lv_titel>Praktikum - iOS</lv_titel>
+        <pruefer_nachname>Krusche</pruefer_nachname>
+        <uninotenamekurz>1,0</uninotenamekurz>
+        <exam_typ_name>FA</exam_typ_name>
+        <modus>Beurteilt/immanenter Prüfungscharakter</modus>
+        <studienidentifikator>1630 17 043</studienidentifikator>
+        <studienbezeichnung>Wirtschaftsinformatik</studienbezeichnung>
+        <st_studium_nr>1024663</st_studium_nr>
+        <lv_credits isnull="true"></lv_credits>
+    </row>
+    <row>
+        <pv_kand_nr isnull="true"></pv_kand_nr>
+        <datum>2023-02-09</datum>
+        <lv_nummer>IN4049</lv_nummer>
+        <lv_semester>22W</lv_semester>
+        <lv_titel>Praktikum - iOS</lv_titel>
+        <pruefer_nachname>Krusche</pruefer_nachname>
+        <uninotenamekurz>1,0</uninotenamekurz>
+        <exam_typ_name>FA</exam_typ_name>
+        <modus>Beurteilt/immanenter Prüfungscharakter</modus>
+        <studienidentifikator>1630 17 043</studienidentifikator>
+        <studienbezeichnung>Wirtschaftsinformatik</studienbezeichnung>
+        <st_studium_nr>1024663</st_studium_nr>
+        <lv_credits isnull="true"></lv_credits>
+    </row>
+</rowset>
