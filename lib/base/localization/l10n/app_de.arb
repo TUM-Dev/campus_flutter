@@ -200,6 +200,7 @@
    },
    "noRoomsFound":"Keine Räume gefunden",
    "noMealPlanFound":"Kein Essensplan gefunden",
+   "mealPlan": "Essensplan",
    "noEntriesFoundSearch":"Keine {searchCategory} gefunden",
    "@noEntriesFoundSearch":{
       "description":"Title of Search Category",

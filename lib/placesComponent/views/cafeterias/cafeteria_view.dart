@@ -188,48 +188,54 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             .read(cafeteriasViewModel)
             .fetchCafeteriaMenu(false, widget.cafeteria),
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            final menu = snapshot.data!;
-            final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
-                menu.firstWhereOrNull((element) =>
-                    element.date.isAtSameMomentAs(selectedDate) ||
-                    element.date.isAfter(selectedDate)));
-            return Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(context.padding),
-                    child: SizedBox(
-                        height: 80,
-                        child: SfDateRangePicker(
-                          headerHeight: 0,
-                          toggleDaySelection: false,
-                          enablePastDates: false,
-                          allowViewNavigation: false,
-                          initialSelectedDate: menu.first.date,
-                          minDate: menu.first.date,
-                          maxDate: menu.last.date,
-                          monthViewSettings:
-                              const DateRangePickerMonthViewSettings(
-                                  numberOfWeeksInView: 1, firstDayOfWeek: 1),
-                          onSelectionChanged: (args) => setState(() {
-                            selectedDate = args.value as DateTime;
-                          }),
-                          selectableDayPredicate: (date) {
-                            return date.weekday != DateTime.saturday &&
-                                date.weekday != DateTime.sunday;
-                          },
-                        ))),
-                if (todayMeals.isNotEmpty)
-                  DishSlider(
-                    dishes: todayMeals,
-                    //inverted: true,
-                  ),
-                if (todayMeals.isEmpty)
-                  Center(
-                    child: Text(context.localizations.noMealPlanFound),
-                  )
-              ],
-            );
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(context.localizations.noMealPlanFound),
+              );
+            } else {
+              final menu = snapshot.data!;
+              final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
+                  menu.firstWhereOrNull((element) =>
+                      element.date.isAtSameMomentAs(selectedDate) ||
+                      element.date.isAfter(selectedDate)));
+              return Column(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(context.padding),
+                      child: SizedBox(
+                          height: 80,
+                          child: SfDateRangePicker(
+                            headerHeight: 0,
+                            toggleDaySelection: false,
+                            enablePastDates: false,
+                            allowViewNavigation: false,
+                            initialSelectedDate: menu.first.date,
+                            minDate: menu.first.date,
+                            maxDate: menu.last.date,
+                            monthViewSettings:
+                                const DateRangePickerMonthViewSettings(
+                                    numberOfWeeksInView: 1, firstDayOfWeek: 1),
+                            onSelectionChanged: (args) => setState(() {
+                              selectedDate = args.value as DateTime;
+                            }),
+                            selectableDayPredicate: (date) {
+                              return date.weekday != DateTime.saturday &&
+                                  date.weekday != DateTime.sunday;
+                            },
+                          ))),
+                  if (todayMeals.isNotEmpty)
+                    DishSlider(
+                      dishes: todayMeals,
+                      //inverted: true,
+                    ),
+                  if (todayMeals.isEmpty)
+                    Center(
+                      child: Text(context.localizations.noMealPlanFound),
+                    )
+                ],
+              );
+            }
           } else if (snapshot.hasError) {
             return ErrorHandlingView(
                 error: snapshot.error!,

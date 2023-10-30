@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
@@ -8,23 +10,24 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/meal_plan.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:dio/dio.dart';
 
 class MealPlanService {
   static Future<(DateTime?, List<CafeteriaMenu>)> getCafeteriaMenu(
       bool forcedRefresh, Cafeteria cafeteria) async {
     MainApi mainApi = getIt<MainApi>();
     final today = DateTime.now();
-    final response = await mainApi.makeRequest<MealPlan, EatApi>(
-        EatApi(EatApiServiceMenu(
-            location: cafeteria.id,
-            year: today.year,
-            week: today.weekNumber())),
-        MealPlan.fromJson,
-        forcedRefresh);
-
-    final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
-
     try {
+      final response = await mainApi.makeRequest<MealPlan, EatApi>(
+          EatApi(EatApiServiceMenu(
+              location: cafeteria.id,
+              year: today.year,
+              week: today.weekNumber())),
+          MealPlan.fromJson,
+          forcedRefresh);
+
+      final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
+
       final nextWeek = today.add(const Duration(days: 7));
 
       final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
@@ -41,8 +44,12 @@ class MealPlanService {
       thisWeekMenu.addAll(nextWeekMenu);
 
       return (response.saved, thisWeekMenu);
-    } catch (_) {
-      return (response.saved, thisWeekMenu);
+    } catch (e) {
+      if (e is DioException) {
+        return (DateTime.now(), <CafeteriaMenu>[]);
+      } else {
+        rethrow;
+      }
     }
   }
 

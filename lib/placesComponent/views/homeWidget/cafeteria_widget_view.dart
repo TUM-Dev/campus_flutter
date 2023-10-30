@@ -93,7 +93,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
     }
   }
 
-  Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu)?> snapshot) {
+  Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu?)?> snapshot) {
     if (snapshot.hasData) {
       final dishes =
           ref.watch(cafeteriasViewModel).getTodayDishes(snapshot.data!.$2);
@@ -108,16 +108,21 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       }
     } else if (snapshot.hasError) {
       return Card(
-          child: SizedBox(
-              height: 150,
-              child: ErrorHandlingView(
-                  error: snapshot.error!,
-                  errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-                  retry: ref.read(cafeteriasViewModel).fetchClosestCafeteria)));
+        child: SizedBox(
+          height: 150,
+          child: ErrorHandlingView(
+              error: snapshot.error!,
+              errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+              retry: ref.read(cafeteriasViewModel).fetchClosestCafeteria),
+        ),
+      );
     } else {
-      return const Card(
-          child: SizedBox(
-              height: 150, child: DelayedLoadingIndicator(name: "Mealplan")));
+      return Card(
+        child: SizedBox(
+          height: 150,
+          child: DelayedLoadingIndicator(name: context.localizations.mealPlan),
+        ),
+      );
     }
   }
 }
