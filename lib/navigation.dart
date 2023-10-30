@@ -30,6 +30,7 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Consumer(
           builder: (context, ref, child) => getIt<NavigationService>()
               .title(ref.watch(currentIndex), context),
