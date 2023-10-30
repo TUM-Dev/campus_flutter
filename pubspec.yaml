@@ -1,7 +1,7 @@
 name: campus_flutter
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.3.0
+version: 0.3.1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -55,7 +55,7 @@ dependencies:
   flutter_map: ^4.0.0
   latlong2: ^0.8.2
   flutter_svg: ^2.0.7
-  map_launcher: ^2.5.0+1
+  map_launcher: ^3.0.1
   flutter_staggered_grid_view: ^0.7.0
   flutter_localizations:
     sdk: flutter
@@ -82,9 +82,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.24.3
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
   build_runner: ^2.3.3
-  lints: ^2.1.1
+  lints: ^3.0.0
   dart_code_metrics: ^5.7.6
 
 flutter:
