@@ -60,14 +60,12 @@ class NavigationService {
     }
   }
 
-  Widget searchButton(int index, BuildContext context) {
+  Widget searchButton(BuildContext context) {
     return IconButton(
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchScaffold(
-            selectedPage: index,
-          ),
+          builder: (context) => const SearchScaffold(),
         ),
       ),
       icon: const Icon(Icons.search),

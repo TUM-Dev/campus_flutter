@@ -34,10 +34,7 @@ class _NavigationState extends State<Navigation> {
           builder: (context, ref, child) => getIt<NavigationService>()
               .title(ref.watch(currentIndex), context),
         ),
-        leading: Consumer(
-          builder: (context, ref, child) => getIt<NavigationService>()
-              .searchButton(ref.watch(currentIndex), context),
-        ),
+        leading: getIt<NavigationService>().searchButton(context),
         actions: getIt<NavigationService>().actions(context),
       ),
       bottomNavigationBar: DecoratedBox(

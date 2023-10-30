@@ -1,11 +1,22 @@
+import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchScaffold extends StatelessWidget {
-  const SearchScaffold({super.key, required this.selectedPage});
+class SearchScaffold extends ConsumerStatefulWidget {
+  const SearchScaffold({super.key});
 
-  final int selectedPage;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _SearchScaffoldState();
+}
+
+class _SearchScaffoldState extends ConsumerState<SearchScaffold> {
+  @override
+  void initState() {
+    ref.read(searchViewModel).setSearchCategories(ref.read(currentIndex));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +25,7 @@ class SearchScaffold extends StatelessWidget {
         title: Text(context.localizations.search),
         leading: const BackButton(),
       ),
-      body: SearchView(index: selectedPage, showContent: true),
+      body: SearchView(showContent: true),
     );
   }
 }

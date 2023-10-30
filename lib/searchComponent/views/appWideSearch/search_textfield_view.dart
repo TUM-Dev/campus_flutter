@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchTextField extends ConsumerStatefulWidget {
-  const SearchTextField(
-      {super.key, required this.textEditingController, required this.index});
+  const SearchTextField({super.key, required this.textEditingController});
 
   final TextEditingController textEditingController;
-  final int index;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -25,9 +23,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
         child: TextField(
           controller: widget.textEditingController,
           onChanged: (searchString) {
-            ref
-                .read(searchViewModel)
-                .triggerSearchAfterUpdate(searchString, widget.index);
+            ref.read(searchViewModel).triggerSearchAfterUpdate(searchString);
             setState(() {
               showIcon = widget.textEditingController.value.text.isNotEmpty;
             });

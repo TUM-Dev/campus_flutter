@@ -23,6 +23,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder(
         future: Future.wait([
           ref.watch(studyRoomsViewModel).fetch(false),

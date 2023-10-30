@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchCategoryPickerView extends ConsumerWidget {
-  const SearchCategoryPickerView({super.key, required this.index});
-
-  final int index;
+  const SearchCategoryPickerView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +27,7 @@ class SearchCategoryPickerView extends ConsumerWidget {
                               .updateCategory(searchCategory);
                           ref
                               .read(searchViewModel)
-                              .triggerSearchAfterUpdate(null, null);
+                              .triggerSearchAfterUpdate(null);
                         },
                         selected: (snapshot.data ?? []).isNotEmpty
                             ? snapshot.data?.contains(searchCategory) ?? false

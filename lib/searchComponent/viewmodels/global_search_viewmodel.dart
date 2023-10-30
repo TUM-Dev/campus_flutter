@@ -16,7 +16,6 @@ class GlobalSearchViewModel {
       BehaviorSubject.seeded([]);
 
   String searchString = "";
-  int index = 0;
   final Ref ref;
 
   late Interpreter interpreter;
@@ -32,12 +31,11 @@ class GlobalSearchViewModel {
         await Interpreter.fromAsset('assets/models/english_bert_30.tflite');
   }
 
-  void search(int index, String searchString) async {
+  void search(String searchString) async {
     if (searchString.isEmpty) {
       clear();
       return;
     }
-    this.index = index;
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
       if (!kIsWeb) {
@@ -143,12 +141,11 @@ class GlobalSearchViewModel {
     result.add(null);
   }
 
-  void triggerSearchAfterUpdate(String? searchString, int? index) {
-    if (index != null && searchString != null) {
-      this.index = index;
+  void triggerSearchAfterUpdate(String? searchString) {
+    if (searchString != null) {
       this.searchString = searchString;
     }
-    search(this.index, this.searchString);
+    search(this.searchString);
     if (selectedCategories.value.isEmpty) {
       for (var category in SearchCategory.values) {
         _searchTriggerBuilder(searchString, category);
