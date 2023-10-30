@@ -83,6 +83,7 @@ class LocationStrategy implements WidgetRecommenderStrategy {
             }
 
           default:
+            priority = 1;
             break;
         }
       }
