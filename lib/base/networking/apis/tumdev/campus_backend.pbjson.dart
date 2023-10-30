@@ -32,19 +32,16 @@ const CreateDeviceRequest$json = {
   '1': 'CreateDeviceRequest',
   '2': [
     {'1': 'device_id', '3': 1, '4': 1, '5': 9, '10': 'deviceId'},
-    {'1': 'public_key', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'publicKey', '17': true},
+    {'1': 'public_key', '3': 2, '4': 1, '5': 9, '10': 'publicKey'},
     {'1': 'device_type', '3': 3, '4': 1, '5': 14, '6': '.api.DeviceType', '10': 'deviceType'},
-  ],
-  '8': [
-    {'1': '_public_key'},
   ],
 };
 
 /// Descriptor for `CreateDeviceRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createDeviceRequestDescriptor = $convert.base64Decode(
-    'ChNDcmVhdGVEZXZpY2VSZXF1ZXN0EhsKCWRldmljZV9pZBgBIAEoCVIIZGV2aWNlSWQSIgoKcH'
-    'VibGljX2tleRgCIAEoCUgAUglwdWJsaWNLZXmIAQESMAoLZGV2aWNlX3R5cGUYAyABKA4yDy5h'
-    'cGkuRGV2aWNlVHlwZVIKZGV2aWNlVHlwZUINCgtfcHVibGljX2tleQ==');
+    'ChNDcmVhdGVEZXZpY2VSZXF1ZXN0EhsKCWRldmljZV9pZBgBIAEoCVIIZGV2aWNlSWQSHQoKcH'
+    'VibGljX2tleRgCIAEoCVIJcHVibGljS2V5EjAKC2RldmljZV90eXBlGAMgASgOMg8uYXBpLkRl'
+    'dmljZVR5cGVSCmRldmljZVR5cGU=');
 
 @$core.Deprecated('Use createDeviceReplyDescriptor instead')
 const CreateDeviceReply$json = {

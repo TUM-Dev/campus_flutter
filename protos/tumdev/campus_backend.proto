@@ -174,7 +174,7 @@ enum DeviceType {
 
 message CreateDeviceRequest {
   string device_id = 1;
-  optional string public_key = 2;
+  string public_key = 2;
   DeviceType device_type = 3;
 }
 
