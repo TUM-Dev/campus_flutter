@@ -8,13 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class SearchBodyView extends ConsumerWidget {
-  SearchBodyView({super.key, required this.index, required this.showContent});
+class SearchView extends ConsumerWidget {
+  SearchView({super.key, required this.showContent});
 
   final TextEditingController textEditingController = TextEditingController();
 
   final bool showContent;
-  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,9 +24,8 @@ class SearchBodyView extends ConsumerWidget {
           ? Column(mainAxisSize: MainAxisSize.min, children: [
               SearchTextField(
                 textEditingController: textEditingController,
-                index: index,
               ),
-              SearchCategoryPickerView(index: index),
+              const SearchCategoryPickerView(),
               _search(ref)
             ]) //)
           : Container(),

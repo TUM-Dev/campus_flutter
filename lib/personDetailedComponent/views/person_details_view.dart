@@ -175,7 +175,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
+                        builder: (context) => PersonRoomSearchScaffold(
                               searchString: personDetails.rooms!.first.id,
                             ))),
               ),

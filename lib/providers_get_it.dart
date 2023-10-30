@@ -43,6 +43,7 @@ import 'package:map_launcher/map_launcher.dart';
 final getIt = GetIt.instance;
 
 /// state providers for user interaction
+final currentIndex = StateProvider<int>((ref) => 0);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);

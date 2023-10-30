@@ -10,8 +10,8 @@ import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchScaffold extends ConsumerWidget {
-  const SearchScaffold(
+class PersonRoomSearchScaffold extends ConsumerWidget {
+  const PersonRoomSearchScaffold(
       {super.key, this.searchString, this.isRoomSearch = true});
 
   final bool isRoomSearch;
@@ -35,13 +35,15 @@ class SearchScaffold extends ConsumerWidget {
             ? context.localizations.roomSearch
             : context.localizations.personSearch),
       ),
-      body: SearchView(searchString: searchString, isRoomSearch: isRoomSearch),
+      body: PersonRoomSearchView(
+          searchString: searchString, isRoomSearch: isRoomSearch),
     );
   }
 }
 
-class SearchView extends ConsumerStatefulWidget {
-  const SearchView({super.key, this.searchString, required this.isRoomSearch});
+class PersonRoomSearchView extends ConsumerStatefulWidget {
+  const PersonRoomSearchView(
+      {super.key, this.searchString, required this.isRoomSearch});
 
   final bool isRoomSearch;
   final String? searchString;
@@ -50,7 +52,7 @@ class SearchView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchViewState();
 }
 
-class _SearchViewState extends ConsumerState<SearchView> {
+class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
   final TextEditingController textEditingController = TextEditingController();
 
   bool showClearButton = false;
