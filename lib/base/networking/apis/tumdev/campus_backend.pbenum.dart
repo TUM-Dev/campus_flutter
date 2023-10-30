@@ -15,43 +15,35 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class DeviceType extends $pb.ProtobufEnum {
   static const DeviceType IOS = DeviceType._(0, _omitEnumNames ? '' : 'IOS');
-  static const DeviceType ANDROID =
-      DeviceType._(1, _omitEnumNames ? '' : 'ANDROID');
-  static const DeviceType WINDOWS =
-      DeviceType._(2, _omitEnumNames ? '' : 'WINDOWS');
+  static const DeviceType ANDROID = DeviceType._(1, _omitEnumNames ? '' : 'ANDROID');
+  static const DeviceType WINDOWS = DeviceType._(2, _omitEnumNames ? '' : 'WINDOWS');
 
-  static const $core.List<DeviceType> values = <DeviceType>[
+  static const $core.List<DeviceType> values = <DeviceType> [
     IOS,
     ANDROID,
     WINDOWS,
   ];
 
-  static final $core.Map<$core.int, DeviceType> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, DeviceType> _byValue = $pb.ProtobufEnum.initByValue(values);
   static DeviceType? valueOf($core.int value) => _byValue[value];
 
   const DeviceType._($core.int v, $core.String n) : super(v, n);
 }
 
 class CreateFeedbackRequest_Recipient extends $pb.ProtobufEnum {
-  static const CreateFeedbackRequest_Recipient TUM_DEV =
-      CreateFeedbackRequest_Recipient._(0, _omitEnumNames ? '' : 'TUM_DEV');
-  static const CreateFeedbackRequest_Recipient TUM_CONTACT =
-      CreateFeedbackRequest_Recipient._(1, _omitEnumNames ? '' : 'TUM_CONTACT');
+  static const CreateFeedbackRequest_Recipient TUM_DEV = CreateFeedbackRequest_Recipient._(0, _omitEnumNames ? '' : 'TUM_DEV');
+  static const CreateFeedbackRequest_Recipient TUM_CONTACT = CreateFeedbackRequest_Recipient._(1, _omitEnumNames ? '' : 'TUM_CONTACT');
 
-  static const $core.List<CreateFeedbackRequest_Recipient> values =
-      <CreateFeedbackRequest_Recipient>[
+  static const $core.List<CreateFeedbackRequest_Recipient> values = <CreateFeedbackRequest_Recipient> [
     TUM_DEV,
     TUM_CONTACT,
   ];
 
-  static final $core.Map<$core.int, CreateFeedbackRequest_Recipient> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
-  static CreateFeedbackRequest_Recipient? valueOf($core.int value) =>
-      _byValue[value];
+  static final $core.Map<$core.int, CreateFeedbackRequest_Recipient> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static CreateFeedbackRequest_Recipient? valueOf($core.int value) => _byValue[value];
 
-  const CreateFeedbackRequest_Recipient._($core.int v, $core.String n)
-      : super(v, n);
+  const CreateFeedbackRequest_Recipient._($core.int v, $core.String n) : super(v, n);
 }
+
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
