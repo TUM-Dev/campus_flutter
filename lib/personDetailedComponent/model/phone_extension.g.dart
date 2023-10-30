@@ -8,11 +8,11 @@ part of 'phone_extension.dart';
 
 PhoneExtension _$PhoneExtensionFromJson(Map<String, dynamic> json) =>
     PhoneExtension(
-      phoneNumber: json['telefonnummer'] as String,
-      countryCode: json['tum_anlage_land'] as String,
-      areaCode: json['tum_anlage_ortsvorwahl'] as String,
-      equipmentNumber: json['tum_anlage_nummer'] as String,
-      branchNumber: json['tum_nebenstelle'] as String,
+      phoneNumber: json['telefonnummer'] as String?,
+      countryCode: json['tum_anlage_land'] as String?,
+      areaCode: json['tum_anlage_ortsvorwahl'] as String?,
+      equipmentNumber: json['tum_anlage_nummer'] as String?,
+      branchNumber: json['tum_nebenstelle'] as String?,
     );
 
 Map<String, dynamic> _$PhoneExtensionToJson(PhoneExtension instance) =>

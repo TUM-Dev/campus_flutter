@@ -5,34 +5,34 @@ part 'room.g.dart';
 @JsonSerializable()
 class Room {
   @JsonKey(name: "nummer")
-  final String number;
+  final String? number;
   @JsonKey(name: "gebaeudename")
-  final String buildingName;
+  final String? buildingName;
   @JsonKey(name: "gebaeudenummer")
-  final String buildingNumber;
+  final String? buildingNumber;
   @JsonKey(name: "stockwerkname")
-  final String floorName;
+  final String? floorName;
   @JsonKey(name: "stockwerknummer")
-  final String floorNumber;
+  final String? floorNumber;
   @JsonKey(name: "architekt")
-  final String id;
+  final String? id;
   @JsonKey(name: "ortsbeschreibung")
-  final String locationDescription;
+  final String? locationDescription;
   @JsonKey(name: "kurz")
-  final String shortLocationDescription;
+  final String? shortLocationDescription;
   @JsonKey(name: "lang")
-  final String longLocationDescription;
+  final String? longLocationDescription;
 
   Room(
-      {required this.number,
-      required this.buildingName,
-      required this.buildingNumber,
-      required this.floorName,
-      required this.floorNumber,
-      required this.id,
-      required this.locationDescription,
-      required this.shortLocationDescription,
-      required this.longLocationDescription});
+      {this.number,
+      this.buildingName,
+      this.buildingNumber,
+      this.floorName,
+      this.floorNumber,
+      this.id,
+      this.locationDescription,
+      this.shortLocationDescription,
+      this.longLocationDescription});
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 

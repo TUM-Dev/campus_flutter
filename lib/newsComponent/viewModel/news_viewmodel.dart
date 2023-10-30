@@ -19,6 +19,15 @@ class NewsViewModel implements ViewModel {
   List<News> latestFiveNews() {
     if (news.value != null) {
       final news = this.news.value!;
+      Set<String> seenTitles = {};
+      news.retainWhere((element) {
+        if (seenTitles.contains(element.title)) {
+          return false;
+        } else {
+          seenTitles.add(element.title);
+          return true;
+        }
+      });
       news.sort((news1, news2) =>
           news2.date.toDateTime().compareTo(news1.date.toDateTime()));
       if (news.length > 5) {
