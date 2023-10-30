@@ -5,6 +5,7 @@ import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/g
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/lecture_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/movie_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/navigatum_search_result_view.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/news_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/person_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/personal_lecture_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/study_room_search_result_view.dart';
@@ -27,8 +28,7 @@ class SearchResultViewBuilder extends StatelessWidget {
       case SearchCategory.movie:
         return const MovieSearchResultView();
       case SearchCategory.news:
-        // TODO(Jakob): add news to search after move to new backend is finalised
-        return Container();
+        return const NewsSearchResultView();
       case SearchCategory.studyRoom:
         return const StudyRoomSearchResultView();
       case SearchCategory.lectures:

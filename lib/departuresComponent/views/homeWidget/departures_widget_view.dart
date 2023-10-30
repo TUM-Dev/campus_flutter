@@ -99,8 +99,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
             ),
           if (snapshot.data!.isNotEmpty)
             for (var departure in snapshot.data!.length > 3
-                ? snapshot.data!.getRange(0, 3)
-                : snapshot.data!) ...[
+              ? snapshot.data!.getRange(0, 3)
+              : snapshot.data!) ...[
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               DeparturesDetailsRowView(departure: departure)
             ]
