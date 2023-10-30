@@ -10,7 +10,6 @@ import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NavigationService {
   double? _navigationBarHeight;

@@ -1,8 +1,5 @@
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
-import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
