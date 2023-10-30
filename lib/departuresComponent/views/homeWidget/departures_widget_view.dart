@@ -75,7 +75,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   Widget _widgetContent(
       AsyncSnapshot<List<Departure>?> snapshot, Station station) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RichText(
@@ -89,10 +89,21 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold))
               ])),
-          for (var departure in snapshot.data!.getRange(0, 3)) ...[
-            const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            DeparturesDetailsRowView(departure: departure)
-          ]
+          if (snapshot.data!.isEmpty)
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.15),
+              child: const Center(
+                child: Text("No Departures Found"),
+              ),
+            ),
+          if (snapshot.data!.isNotEmpty)
+            for (var departure in snapshot.data!.length > 3
+                ? snapshot.data!.getRange(0, 3)
+                : snapshot.data!) ...[
+              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+              DeparturesDetailsRowView(departure: departure)
+            ]
         ]);
   }
 

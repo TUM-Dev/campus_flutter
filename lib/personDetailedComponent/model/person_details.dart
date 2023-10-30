@@ -81,7 +81,7 @@ class PersonDetails {
       this.imageData,
       this.organisations,
       this.rooms,
-      required this.phoneExtensions});
+      this.phoneExtensions});
 
   String get fullName {
     return "$firstName $name";

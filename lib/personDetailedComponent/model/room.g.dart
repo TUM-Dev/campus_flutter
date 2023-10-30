@@ -7,15 +7,15 @@ part of 'room.dart';
 // **************************************************************************
 
 Room _$RoomFromJson(Map<String, dynamic> json) => Room(
-      number: json['nummer'] as String,
-      buildingName: json['gebaeudename'] as String,
-      buildingNumber: json['gebaeudenummer'] as String,
-      floorName: json['stockwerkname'] as String,
-      floorNumber: json['stockwerknummer'] as String,
-      id: json['architekt'] as String,
-      locationDescription: json['ortsbeschreibung'] as String,
-      shortLocationDescription: json['kurz'] as String,
-      longLocationDescription: json['lang'] as String,
+      number: json['nummer'] as String?,
+      buildingName: json['gebaeudename'] as String?,
+      buildingNumber: json['gebaeudenummer'] as String?,
+      floorName: json['stockwerkname'] as String?,
+      floorNumber: json['stockwerknummer'] as String?,
+      id: json['architekt'] as String?,
+      locationDescription: json['ortsbeschreibung'] as String?,
+      shortLocationDescription: json['kurz'] as String?,
+      longLocationDescription: json['lang'] as String?,
     );
 
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
