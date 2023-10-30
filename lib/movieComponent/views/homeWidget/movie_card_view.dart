@@ -16,7 +16,7 @@ class MovieCardView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () {
-          UrlLauncher.urlString(movie.link, ref);
+          UrlLauncher.urlString(movie.additionalInformationUrl, ref);
         },
         child: Card(
             margin: const EdgeInsets.all(0),
