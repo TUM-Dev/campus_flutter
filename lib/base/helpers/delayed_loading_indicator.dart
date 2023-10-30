@@ -24,7 +24,6 @@ class DelayedLoadingIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                     const CircularProgressIndicator.adaptive(),
-                    // TODO:
                     Text(name != null
                         ? context.localizations.loading(name!)
                         : "Loading")

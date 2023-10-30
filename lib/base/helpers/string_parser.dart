@@ -52,7 +52,7 @@ class StringParser {
     }
   }
 
-  static String degreeShort(String degree) {
+  static String degreeShort(String degree, BuildContext context) {
     // TODO:
     switch (degree) {
       case "Bachelor of Science":
@@ -60,7 +60,7 @@ class StringParser {
       case "Master of Science":
         return "M.Sc.";
       default:
-        return "Unknown";
+        return context.localizations.unknown;
     }
   }
 

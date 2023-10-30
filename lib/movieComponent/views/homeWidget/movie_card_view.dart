@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,7 +16,7 @@ class MovieCardView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         onTap: () {
-          UrlLauncher.url(movie.link, ref);
+          UrlLauncher.urlString(movie.link, ref);
         },
         child: Card(
             margin: const EdgeInsets.all(0),
@@ -29,18 +29,16 @@ class MovieCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
-                            imageUrl: kIsWeb
-                                ? movie.cover.toString().replaceAll(
-                                    "app.tum.de", "tum-proxy.resch.io")
-                                : movie.cover.toString(),
+                            imageUrl: movie.coverUrl.toString(),
                             fit: BoxFit.fitWidth,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,
-                            placeholder: (context, string) {
-                              return Image.asset(
-                                  "assets/images/placeholders/movie_placeholder.png",
-                                  fit: BoxFit.cover);
-                            },
+                            placeholder: (context, string) => Image.asset(
+                                "assets/images/placeholders/movie_placeholder.png",
+                                fit: BoxFit.fill),
+                            errorWidget: (context, url, error) => Image.asset(
+                                "assets/images/placeholders/movie_placeholder.png",
+                                fit: BoxFit.fill),
                           ))),
                   Expanded(
                       flex: 2,
@@ -52,7 +50,7 @@ class MovieCardView extends ConsumerWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                        child: Text(movie.title,
+                                        child: Text(movie.movieTitle,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: Theme.of(context)
@@ -64,7 +62,8 @@ class MovieCardView extends ConsumerWidget {
                                     Expanded(
                                         child: Text(
                                             StringParser.dateFormatter(
-                                                movie.date, context),
+                                                movie.date.toDateTime(),
+                                                context),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall,

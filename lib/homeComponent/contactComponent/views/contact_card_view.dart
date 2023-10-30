@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/user_details_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:flutter/material.dart';
@@ -68,22 +68,18 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                 Text(
                     data != null
                         ? data.fullName
-                        : PersonDetailsViewModel.defaultPersonDetails.fullName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                        : UserDetailsViewModel.defaultPersonDetails.fullName,
                     style: Theme.of(context).textTheme.headlineSmall),
-                Text(ref.watch(profileDetailsViewModel).profile != null
-                    ? ref.watch(profileDetailsViewModel).profile?.tumID ??
-                        "xy00abc"
-                    : "xy00abc"),
+                Text(ref.watch(profileViewModel).profile.value?.tumID ??
+                    "go42tum"),
                 Text(data != null
                     ? data.email
-                    : PersonDetailsViewModel.defaultPersonDetails.email),
+                    : UserDetailsViewModel.defaultPersonDetails.email),
                 for (var studyProgram in studies?.sublist(
                         0, studies.length >= 2 ? 2 : studies.length) ??
                     []) ...[
                   Text(
-                      "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
+                      "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})")
                 ]
               ],
             ))

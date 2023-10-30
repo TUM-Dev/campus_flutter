@@ -4,7 +4,6 @@ import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
@@ -103,7 +102,7 @@ class SettingsView extends ConsumerWidget {
   Widget _appearanceSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
         dense: true,
-        title: Text(context.localizations.brightness,
+        title: Text(context.localizations.theme,
             style: Theme.of(context).textTheme.bodyMedium),
         trailing: DropdownButton(
           onChanged: (Appearance? newAppearance) {
@@ -166,33 +165,23 @@ class SettingsView extends ConsumerWidget {
     return WidgetFrameView(
         title: context.localizations.contactUs,
         child: Card(
-            child: Column(
-          children: [
+            child: SeparatedList.widgets(
+          widgets: [
             if (!kIsWeb)
-              ListTile(
+              HyperLinkListTile(
+                  dense: true,
+                  link: _betaTester(),
+                  label: context.localizations.becomeABetaTester),
+            HyperLinkListTile(
                 dense: true,
-                title: HyperLinkText(
-                    link: _betaTester(),
-                    label: context.localizations.becomeABetaTester),
-              ),
-            const PaddedDivider(height: 0),
-            ListTile(
-              dense: true,
-              title: HyperLinkText(
-                  link: "https://github.com/TUM-Dev",
-                  label: context.localizations.usOnGitHub),
-            ),
-            const PaddedDivider(height: 0),
-            const ListTile(
-              dense: true,
-              title: HyperLinkText(
-                  link: "https://app.tum.de", label: "TUM Dev Website"),
-            ),
-            const PaddedDivider(height: 0),
-            ListTile(
-              dense: true,
-              title: HyperLinkText(uri: _feedbackEmail(), label: "Feedback"),
-            ),
+                link: "https://github.com/TUM-Dev",
+                label: context.localizations.usOnGitHub),
+            const HyperLinkListTile(
+                dense: true,
+                link: "https://app.tum.de",
+                label: "TUM Dev Website"),
+            HyperLinkListTile(
+                dense: true, uri: _feedbackEmail(), label: "Feedback"),
           ],
         )));
   }

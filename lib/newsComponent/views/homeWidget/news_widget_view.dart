@@ -27,13 +27,13 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
     return WidgetFrameView(
         title: context.localizations.latestNews,
         child: StreamBuilder(
-            stream: ref.watch(newsViewModel).newsSources,
+            stream: ref.watch(newsViewModel).news,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final fiveNews = ref.watch(newsViewModel).latestFiveNews();
                 if (fiveNews.isNotEmpty) {
                   return LayoutBuilder(builder: (context, constraints) {
-                    return HorizontalSlider(
+                    return HorizontalSlider.height(
                         data: fiveNews,
                         height: 300,
                         child: (news) {

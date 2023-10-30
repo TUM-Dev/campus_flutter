@@ -21,36 +21,16 @@ class LectureView extends ConsumerWidget {
         children: [
           Row(children: [
             Expanded(
-                child: IconText(
-              iconData: Icons.edit,
-              label: lecture.eventType(context),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-              iconColor: Theme.of(context).primaryColor,
-              multipleLines: true,
-            )),
+              child: _subtitle(lecture.eventType(context), Icons.edit, context),
+            ),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
             Expanded(
-                child: IconText(
-                    iconData: Icons.access_time,
-                    label: lecture.sws,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary),
-                    iconColor: Theme.of(context).primaryColor)),
+              child: _subtitle(lecture.sws, Icons.access_time, context),
+            ),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           if (lecture.speaker != null)
-            IconText(
-              iconData: Icons.person,
-              label: lecture.speaker!,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-              iconColor: Theme.of(context).primaryColor,
-              multipleLines: true,
-            ),
+            _subtitle(lecture.speaker!, Icons.person, context)
         ],
       ),
       onTap: () {
@@ -71,6 +51,16 @@ class LectureView extends ConsumerWidget {
               ));
         }
       },
+    );
+  }
+
+  Widget _subtitle(String text, IconData iconData, BuildContext context) {
+    return IconText(
+      iconData: iconData,
+      label: text,
+      style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+      iconColor: Theme.of(context).primaryColor,
+      multipleLines: false,
     );
   }
 }

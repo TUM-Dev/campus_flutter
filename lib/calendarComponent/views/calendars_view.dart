@@ -7,7 +7,6 @@ import 'package:campus_flutter/calendarComponent/views/calendar_month_view.dart'
 import 'package:campus_flutter/calendarComponent/views/calendar_week_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -20,8 +19,9 @@ class CalendarsView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CalendarsViewState();
 }
 
-class _CalendarsViewState extends ConsumerState<CalendarsView> {
-  int _selectedCalendarTab = 0;
+class _CalendarsViewState extends ConsumerState<CalendarsView>
+    with AutomaticKeepAliveClientMixin<CalendarsView> {
+  late int _selectedCalendarTab;
 
   final CalendarController _calendarController = CalendarController();
 
@@ -32,7 +32,15 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
   }
 
   @override
+  void didChangeDependencies() {
+    _selectedCalendarTab =
+        MediaQuery.orientationOf(context) == Orientation.landscape ? 1 : 0;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
         builder: (context, snapshot) {
@@ -55,20 +63,35 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                       const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.0)),
                       Expanded(
-                          child: CupertinoSlidingSegmentedControl(
-                              children: {
-                            0: Text(context.localizations.calendarViewDay),
-                            1: Text(context.localizations.calendarViewWeek),
-                            2: Text(context.localizations.calendarViewMonth)
+                          child: SegmentedButton(
+                              segments: <ButtonSegment>[
+                            ButtonSegment(
+                                value: 0,
+                                label:
+                                    Text(context.localizations.calendarViewDay),
+                                icon: const Icon(Icons.calendar_view_day)),
+                            ButtonSegment(
+                                value: 1,
+                                label: Text(
+                                    context.localizations.calendarViewWeek),
+                                icon: const Icon(Icons.calendar_view_week)),
+                            ButtonSegment(
+                                value: 2,
+                                label: Text(
+                                    context.localizations.calendarViewMonth),
+                                icon: const Icon(Icons.calendar_view_month)),
+                          ],
+                              selected: {
+                            _selectedCalendarTab
                           },
-                              onValueChanged: (i) {
-                                setState(() {
-                                  _selectedCalendarTab = i ?? 0;
-                                });
-                              },
-                              groupValue: _selectedCalendarTab))
+                              onSelectionChanged: (newSelection) =>
+                                  setState(() {
+                                    _selectedCalendarTab = newSelection.first;
+                                  })))
                     ],
                   )),
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
               if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: _calendarController),
@@ -87,6 +110,9 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
           }
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 showModalSheet(CalendarTapDetails? details, CalendarEvent? event,

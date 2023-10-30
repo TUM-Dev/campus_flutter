@@ -1,12 +1,14 @@
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +38,22 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               titleWidget: Row(
                 children: [
                   Expanded(
+                    child: Tapable(
                       child: Text(
                           snapshot.data?.$1.name ??
                               context.localizations.cafeteria,
                           style: Theme.of(context).textTheme.titleMedium,
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis)),
+                          overflow: TextOverflow.ellipsis),
+                      action: () => snapshot.data != null
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CafeteriaScaffold(
+                                      cafeteria: snapshot.data!.$1)))
+                          : null,
+                    ),
+                  ),
                   if (ref.read(cafeteriasViewModel).closestCafeterias.length >
                       1)
                     PopupMenuButton<String>(
@@ -59,8 +71,26 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     ),
                 ],
               ),
+              subtitle: _openingHours(),
               child: _dynamicContent(snapshot));
         });
+  }
+
+  Widget? _openingHours() {
+    final openingHours = ref
+        .read(cafeteriasViewModel)
+        .closestCafeteria
+        .value
+        ?.$1
+        .openingHoursToday;
+    if (openingHours?.$2 != null) {
+      return Padding(
+          padding: EdgeInsets.only(left: context.padding),
+          child: Text(context.localizations
+              .openToday(openingHours!.$2!.start, openingHours.$2!.end)));
+    } else {
+      return null;
+    }
   }
 
   Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu)?> snapshot) {
@@ -100,7 +130,7 @@ class DishSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HorizontalSlider<(Dish, String)>(
+    return HorizontalSlider<(Dish, String)>.height(
         data: dishes,
         height: 160,
         leadingTrailingPadding: !inverted,

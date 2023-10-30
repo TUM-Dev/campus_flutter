@@ -72,12 +72,19 @@ class CafeteriasViewModel {
 
   _getClosestCafeteria(Position? position, List<Cafeteria> cafeterias) async {
     if (position != null) {
+      final closestCafeteriaToLocation = cafeterias
+          .sorted((a, b) => Geolocator.distanceBetween(a.location.latitude,
+                  a.location.longitude, position.latitude, position.longitude)
+              .compareTo(Geolocator.distanceBetween(b.location.latitude,
+                  b.location.longitude, position.latitude, position.longitude)))
+          .first;
+
       final cafeteriasInRadius = cafeterias.where((element) =>
           Geolocator.distanceBetween(
               element.location.latitude,
               element.location.longitude,
-              position.latitude,
-              position.longitude) <
+              closestCafeteriaToLocation.location.latitude,
+              closestCafeteriaToLocation.location.longitude) <
           250);
 
       List<dynamic> errors = [];

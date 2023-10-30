@@ -1,3 +1,4 @@
+import 'package:campus_flutter/personDetailedComponent/model/contact_info.dart';
 import 'package:campus_flutter/personDetailedComponent/model/phone_extension.dart';
 import 'package:campus_flutter/personDetailedComponent/model/room.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -12,6 +13,7 @@ class PersonDetails {
   final String nr;
   @JsonKey(name: "obfuscated_id")
   final String obfuscatedID;
+
   String? get personGroup {
     final split = obfuscatedID.split("*");
     assert(split.length == 2);
@@ -35,19 +37,35 @@ class PersonDetails {
   final Gender gender;
   @JsonKey(name: "sprechstunde")
   final String? officeHours;
-  // TODO: find solution for Dart enums
-  /*@JsonKey(name: "dienstlich")
-  final List<ContactInfo> officialContact;
+  @JsonKey(name: "dienstlich")
+  final ContactInfo? officialContact;
   @JsonKey(name: "privat")
-  final List<ContactInfo>  privateContact;*/
+  final ContactInfo? privateContact;
   @JsonKey(name: "image_data")
   final String? imageData;
-  @JsonKey(name: "gruppen", fromJson: PersonDetails._jsonToOrganisationList)
+  @JsonKey(name: "gruppen", readValue: readValue)
   final List<Organisation>? organisations;
-  @JsonKey(name: "raeume", fromJson: PersonDetails._jsonToRoomList)
+  @JsonKey(name: "raeume", readValue: readValue)
   final List<Room>? rooms;
-  @JsonKey(name: "telefon_nebenstellen")
+  @JsonKey(name: "telefon_nebenstellen", readValue: readValue)
   final List<PhoneExtension>? phoneExtensions;
+
+  static Object? readValue(Map<dynamic, dynamic> json, String key) {
+    final data = json[key] as List<dynamic>?;
+    if (data != null) {
+      if ((data.first as Map<String, dynamic>).values.first is List<dynamic>) {
+        return (data.first as Map<String, dynamic>).values.first
+            as List<dynamic>;
+      } else {
+        return data.map((e) {
+          final singleData = e as Map<String, dynamic>;
+          return singleData[singleData.keys.first];
+        }).toList();
+      }
+    } else {
+      return null;
+    }
+  }
 
   PersonDetails(
       {required this.nr,
@@ -58,15 +76,23 @@ class PersonDetails {
       required this.email,
       required this.gender,
       this.officeHours,
-      //required this.officialContact,
-      //required this.privateContact,
+      this.officialContact,
+      this.privateContact,
       this.imageData,
       this.organisations,
       this.rooms,
-      required this.phoneExtensions});
+      this.phoneExtensions});
 
   String get fullName {
     return "$firstName $name";
+  }
+
+  String get fullNameWithTitle {
+    if (title != null) {
+      return "$title $firstName $name";
+    } else {
+      return fullName;
+    }
   }
 
   factory PersonDetails.fromJson(Map<String, dynamic> json) =>
@@ -84,36 +110,6 @@ class PersonDetails {
         return Gender.female;
       default:
         return Gender.unknown;
-    }
-  }
-
-  static List<Room> _jsonToRoomList(dynamic json) {
-    try {
-      json = json["raum"];
-      if (json is List<dynamic>) {
-        return json.map((e) => Room.fromJson(e)).toList();
-      } else if (json is Map<String, dynamic>) {
-        return [Room.fromJson(json)];
-      } else {
-        return [];
-      }
-    } catch (_) {
-      return [];
-    }
-  }
-
-  static List<Organisation> _jsonToOrganisationList(dynamic json) {
-    try {
-      json = json["gruppe"];
-      if (json is List<dynamic>) {
-        return json.map((e) => Organisation.fromJson(e)).toList();
-      } else if (json is Map<String, dynamic>) {
-        return [Organisation.fromJson(json)];
-      } else {
-        return [];
-      }
-    } catch (_) {
-      return [];
     }
   }
 }

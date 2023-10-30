@@ -8,7 +8,6 @@ import 'package:campus_flutter/studentCardComponent/views/snapping_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class StudentCardView extends ConsumerWidget {
   const StudentCardView({super.key});
 

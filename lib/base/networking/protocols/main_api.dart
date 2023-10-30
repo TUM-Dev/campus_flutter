@@ -35,8 +35,14 @@ class MainApi {
           if (body.headers["content-type"]?.first.contains("xml") ?? false) {
             final transformer = Xml2Json();
             transformer.parse(decoded);
-            return transformer
-                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
           } else {
             return decoded;
           }
@@ -70,8 +76,14 @@ class MainApi {
           if (body.headers["content-type"]?.first.contains("xml") ?? false) {
             final transformer = Xml2Json();
             transformer.parse(decoded);
-            return transformer
-                .toParkerWithAttrsCustom(array: ["row", "event", "studium"]);
+            return transformer.toParkerWithAttrsCustom(array: [
+              "row",
+              "event",
+              "studium",
+              "raeume",
+              "gruppen",
+              "telefon_nebenstellen",
+            ]);
           } else {
             return decoded;
           }
@@ -130,21 +142,26 @@ class MainApi {
       bool forcedRefresh) async {
     Response<String> response;
 
-    if (forcedRefresh) {
-      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
-      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
-      noCacheDio.options.extra["forcedRefresh"] = "true";
-      response = await endpoint.asResponse(dioClient: noCacheDio);
-    } else {
-      response = await endpoint.asResponse(dioClient: dio);
-    }
-
-    log("${response.statusCode}: ${response.realUri}");
     try {
-      return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()), response.headers, createObject);
+      if (forcedRefresh) {
+        Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
+        noCacheDio.options.responseDecoder = dio.options.responseDecoder;
+        noCacheDio.options.extra["forcedRefresh"] = "true";
+        response = await endpoint.asResponse(dioClient: noCacheDio);
+      } else {
+        response = await endpoint.asResponse(dioClient: dio);
+      }
+
+      log("${response.statusCode}: ${response.realUri}");
+      try {
+        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
+            response.headers, createObject);
+      } catch (e) {
+        log(e.toString());
+        rethrow;
+      }
     } catch (e) {
-      log(e.toString());
+      log("${endpoint.asURL().toString()}: ${e.toString()}");
       rethrow;
     }
   }

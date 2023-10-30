@@ -4,7 +4,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart'
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
+import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -138,7 +138,6 @@ class StudyRoomsViewModel {
           .map((e) => Marker(
               markerId: MarkerId(const Uuid().v4()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                   title: e.name ?? "Unknown",
                   onTap: () {
@@ -158,7 +157,7 @@ class StudyRoomsViewModel {
           .map((e) => Marker(
               markerId: MarkerId(e.id.toString()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              //icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                   title: e.name,
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(

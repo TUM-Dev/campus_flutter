@@ -83,8 +83,8 @@ class TumOnlineApiException implements ApiException {
         return "Make sure you entered the name correctly!";
       case TumOnlineApiExceptionInvalidSearchString _:
         return "A search string with less than 4 characters must not contain wildcards or special characters!";
-      case TumOnlineApiExceptionUnknown unkown:
-        return unkown.message;
+      case TumOnlineApiExceptionUnknown unknown:
+        return unknown.message;
     }
   }
 }

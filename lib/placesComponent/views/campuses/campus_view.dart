@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
@@ -99,7 +99,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
     return Column(
       children: [
         const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-        WidgetFrameView(
+        /*WidgetFrameView(
             title: context.localizations.map,
             child: MapWidget.horizontalPadding(
               markers: ref
@@ -108,7 +108,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
               latLng: LatLng(widget.campus.location.latitude,
                   widget.campus.location.longitude),
               zoom: 15,
-            )),
+            )),*/
         _campusWidgets()
       ],
     );
@@ -121,16 +121,27 @@ class _CampusViewState extends ConsumerState<CampusView> {
           children: [
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
-                  title: context.localizations.cafeterias,
-                  child: CardWithPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  titleWidget: IconText(
+                    iconData: Icons.location_pin,
+                    label: context.localizations.cafeterias,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    leadingIcon: false,
+                  ),
+                  //title: context.localizations.cafeterias,
+                  child: Card(
                       child: SeparatedList.list(
                           data: cafeterias,
                           tile: (cafeteria) =>
                               CafeteriaRowView(cafeteria: cafeteria)))),
             if (studyRooms.isNotEmpty)
               WidgetFrameView(
-                  title: context.localizations.studyRooms,
+                  titleWidget: IconText(
+                    iconData: Icons.location_pin,
+                    label: context.localizations.studyRooms,
+                    iconColor: Colors.red,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    leadingIcon: false,
+                  ),
                   child: Card(
                       child: SeparatedList.list(
                     data: studyRooms,

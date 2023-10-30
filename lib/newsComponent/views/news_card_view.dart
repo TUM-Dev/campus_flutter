@@ -1,19 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/newsComponent/model/news.dart';
+import 'package:campus_flutter/base/helpers/url_launcher.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
 
-  final (String?, News) news;
+  final News news;
   final double width;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
+        onTap: () {
+          UrlLauncher.urlString(news.link, ref);
+        },
         child: AspectRatio(
             aspectRatio: 1.1,
             child: Card(
@@ -26,7 +30,10 @@ class NewsCardView extends ConsumerWidget {
                           borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                              imageUrl: news.$2.link.toString(),
+                              imageUrl:
+                                  news.imageUrl.toString().contains("src_1.png")
+                                      ? news.link.toString()
+                                      : news.imageUrl.toString(),
                               fadeOutDuration: Duration.zero,
                               fadeInDuration: Duration.zero,
                               placeholder: (context, string) => Image.asset(
@@ -47,7 +54,7 @@ class NewsCardView extends ConsumerWidget {
                                 children: [
                                   Expanded(
                                       flex: 3,
-                                      child: Text(news.$2.title,
+                                      child: Text(news.title,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium
@@ -61,13 +68,14 @@ class NewsCardView extends ConsumerWidget {
                                   Expanded(
                                       child: Text(
                                           StringParser.dateFormatter(
-                                              news.$2.created, context),
+                                              news.date.toDateTime(), context),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall)),
                                   Expanded(
                                       child: Text(
-                                          context.localizations.source(news.$1),
+                                          context.localizations
+                                              .source(news.sourceTitle),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,

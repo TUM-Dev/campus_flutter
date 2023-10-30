@@ -39,7 +39,8 @@ class InformationView extends StatelessWidget {
                         StringParser.toShortSemesterName(
                             context, studentCard.semester)),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                    if (studentCard.studies != null) ..._currentSubjects(),
+                    if (studentCard.studies != null)
+                      ..._currentSubjects(context),
                   ]))
         ],
       ),
@@ -107,14 +108,14 @@ class InformationView extends StatelessWidget {
     ]);
   }
 
-  List<Widget> _currentSubjects() {
+  List<Widget> _currentSubjects(BuildContext context) {
     final studies = studentCard.studies?.study;
     return [
       for (var studyProgram
           in studies?.sublist(0, studies.length >= 2 ? 2 : studies.length) ??
               [])
         Text(
-            "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree)})")
+            "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})")
     ];
   }
 

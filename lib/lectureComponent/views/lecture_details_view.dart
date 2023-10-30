@@ -1,16 +1,14 @@
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
-import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_view.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
+import 'package:campus_flutter/lectureComponent/views/lecture_meeting_info_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
@@ -88,48 +86,17 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {
     return [
-      if (ref.read(viewModel).event != null) ...[
-        _infoCard(
-            Icons.calendar_month,
-            context.localizations.thisMeeting,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BasicLectureInfoRowView(
-                    information:
-                        ref.read(viewModel).event!.timeDatePeriod(context),
-                    iconData: Icons.hourglass_top),
-                const Divider(),
-                // TODO: NavigaTUM Integration
-                BasicLectureInfoRowView(
-                    information: ref.read(viewModel).event!.location,
-                    iconData: Icons.location_on)
-              ],
-            ))
-      ],
-      _infoCard(
-          Icons.info_outline_rounded,
-          context.localizations.basicLectureInformation,
-          BasicLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.folder, context.localizations.detailedLectureInformation,
-          DetailedLectureInfoView(lectureDetails: lectureDetails)),
-      _infoCard(Icons.link, context.localizations.lectureLinks,
-          LectureLinksView(lectureDetails: lectureDetails))
+      if (ref.read(viewModel).event != null)
+        LectureMeetingInfoView(viewModel: viewModel),
+      BasicLectureInfoView(lectureDetails: lectureDetails),
+      if (lectureDetails.courseContents != null ||
+          lectureDetails.courseObjective != null ||
+          lectureDetails.note != null)
+        DetailedLectureInfoView(lectureDetails: lectureDetails),
+      if (lectureDetails.curriculumURL != null ||
+          lectureDetails.scheduledDatesURL != null ||
+          lectureDetails.examDateURL != null)
+        LectureLinksView(lectureDetails: lectureDetails)
     ];
-  }
-
-  Widget _infoCard(IconData icon, String title, Widget child) {
-    return CardWithPadding(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        IconText(
-            iconData: icon,
-            label: title,
-            style: Theme.of(context).textTheme.titleMedium),
-        const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
-        child
-      ],
-    ));
   }
 }

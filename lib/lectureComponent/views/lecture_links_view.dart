@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
+import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,26 +11,25 @@ class LectureLinksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (lectureDetails.curriculumURL != null) ...[
-          HyperLinkText(
-              link: lectureDetails.curriculumURL ?? "",
-              label: context.localizations.lectureCurriculum)
-        ],
-        if (lectureDetails.scheduledDatesURL != null) ...[
-          const Divider(),
-          HyperLinkText(
-              link: lectureDetails.scheduledDatesURL ?? "",
-              label: context.localizations.scheduledLectureDates)
-        ],
-        if (lectureDetails.examDateURL != null) ...[
-          const Divider(),
-          HyperLinkText(
-              link: lectureDetails.examDateURL ?? "",
-              label: context.localizations.lectureExamDate)
-        ],
+    return LectureInfoCardView(
+      icon: Icons.link,
+      title: context.localizations.lectureLinks,
+      widgets: [
+        if (lectureDetails.curriculumURL != null)
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.curriculumURL,
+              label: context.localizations.lectureCurriculum),
+        if (lectureDetails.scheduledDatesURL != null)
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.scheduledDatesURL,
+              label: context.localizations.scheduledLectureDates),
+        if (lectureDetails.examDateURL != null)
+          HyperLinkListTile(
+              dense: true,
+              link: lectureDetails.examDateURL,
+              label: context.localizations.lectureExamDate),
       ],
     );
   }

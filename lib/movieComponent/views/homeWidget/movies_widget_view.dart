@@ -1,9 +1,9 @@
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
                             child: Text(context.localizations.noMoviesFound))));
               } else {
                 return LayoutBuilder(builder: (context, constraints) {
-                  return HorizontalSlider<Movie>(
+                  return HorizontalSlider<Movie>.height(
                       data: data,
                       height: MediaQuery.of(context).size.height * 0.34,
                       child: (data) {

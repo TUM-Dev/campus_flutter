@@ -1,18 +1,21 @@
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
+import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/loginComponent/views/login_view.dart';
 import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/routes.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,15 +26,22 @@ main() async {
   getIt.registerSingleton<ConnectivityResult>(
       await Connectivity().checkConnectivity());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
+  getIt.registerSingleton<NavigationService>(NavigationService());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
+    getIt.registerSingleton<CachedCampusClient>(
+        await CachedCampusClient.createWebCache());
   } else {
+    final directory = await getTemporaryDirectory();
+    Hive.init(directory.path);
+    Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
+    await Hive.openBox("grpc_cache", path: directory.path);
+    Hive.box("grpc_cache").clear();
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
-    final directory = await getTemporaryDirectory();
-    HiveCacheStore(directory.path).clean();
-    getIt.registerSingleton<MainApi>(
-        MainApi.mobileCache(await getTemporaryDirectory()));
+    getIt.registerSingleton<MainApi>(MainApi.mobileCache(directory));
+    getIt.registerSingleton<CachedCampusClient>(
+        await CachedCampusClient.createMobileCache(directory));
   }
   runApp(const ProviderScope(child: CampusApp()));
 }
