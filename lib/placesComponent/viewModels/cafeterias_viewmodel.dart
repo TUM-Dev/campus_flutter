@@ -21,7 +21,7 @@ class CafeteriasViewModel {
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
       BehaviorSubject.seeded(null);
 
-  BehaviorSubject<(Cafeteria, CafeteriaMenu)?> closestCafeteria =
+  BehaviorSubject<(Cafeteria, CafeteriaMenu?)?> closestCafeteria =
       BehaviorSubject.seeded(null);
 
   setClosestCafeteria(String id) {
@@ -30,7 +30,7 @@ class CafeteriasViewModel {
   }
 
   List<Cafeteria> cafeterias = [];
-  List<(Cafeteria, CafeteriaMenu)> closestCafeterias = [];
+  List<(Cafeteria, CafeteriaMenu?)> closestCafeterias = [];
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
@@ -88,25 +88,27 @@ class CafeteriasViewModel {
           250);
 
       List<dynamic> errors = [];
-      List<(Cafeteria, CafeteriaMenu)> data = [];
+      List<(Cafeteria, CafeteriaMenu?)> data = [];
       for (final cafeteria in cafeteriasInRadius) {
         await fetchCafeteriaMenu(false, cafeteria).then((value) {
           if (value.isNotEmpty) {
             data.add((cafeteria, value.first));
           } else {
-            errors.add(Error());
+            data.add((cafeteria, null));
           }
         }, onError: (error) => errors.add(error));
       }
 
-      if (data.isEmpty && errors.isNotEmpty) {
-        closestCafeteria.addError("Could not fetch closest cafeteria!");
+      if (data.isEmpty || errors.isNotEmpty) {
+        closestCafeteria
+            .addError(CustomException("Could not fetch closest Cafeteria!"));
       } else {
         closestCafeterias = data;
         closestCafeteria.add(data.first);
       }
     } else {
-      closestCafeteria.addError("Could not fetch closest cafeteria!");
+      closestCafeteria
+          .addError(CustomException("Could not fetch closest Cafeteria!"));
     }
   }
 

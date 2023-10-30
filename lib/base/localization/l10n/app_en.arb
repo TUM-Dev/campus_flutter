@@ -200,6 +200,7 @@
    },
    "noRoomsFound":"No Rooms Found",
    "noMealPlanFound":"No Meal Plan Found",
+   "mealPlan": "Meal Plan",
    "noEntriesFoundSearch":"No {searchCategory} Found",
    "@noEntriesFoundSearch":{
       "description":"Title of Search Category",
