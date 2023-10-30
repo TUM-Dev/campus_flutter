@@ -35,8 +35,6 @@ main() async {
     final directory = await getTemporaryDirectory();
     Hive.init(directory.path);
     Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
-    await Hive.openBox("grpc_cache", path: directory.path);
-    Hive.box("grpc_cache").clear();
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
     getIt.registerSingleton<MainApi>(MainApi.mobileCache(directory));
