@@ -10,9 +10,16 @@ class MovieViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    MovieService.fetchMovies(forcedRefresh).then((response) {
+    return MovieService.fetchMovies(forcedRefresh).then((response) {
       lastFetched.add(response.$1);
       movies.add(response.$2);
     }, onError: (error) => movies.addError(error));
+  }
+}
+
+extension MovieTitle on Movie {
+  String get movieTitle {
+    final titleParts = title.split(": ");
+    return titleParts.length == 2 ? titleParts[1] : title;
   }
 }
