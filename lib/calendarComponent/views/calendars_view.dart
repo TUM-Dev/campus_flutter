@@ -19,7 +19,8 @@ class CalendarsView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CalendarsViewState();
 }
 
-class _CalendarsViewState extends ConsumerState<CalendarsView> {
+class _CalendarsViewState extends ConsumerState<CalendarsView>
+    with AutomaticKeepAliveClientMixin<CalendarsView> {
   int _selectedCalendarTab = 0;
 
   final CalendarController _calendarController = CalendarController();
@@ -32,6 +33,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
         builder: (context, snapshot) {
@@ -101,6 +103,9 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
           }
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 showModalSheet(CalendarTapDetails? details, CalendarEvent? event,

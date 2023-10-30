@@ -33,7 +33,7 @@ class BasicLectureInfoView extends ConsumerWidget {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
+                        builder: (context) => PersonRoomSearchScaffold(
                               isRoomSearch: false,
                               searchString:
                                   lectureDetails.speaker?.split(",").first,

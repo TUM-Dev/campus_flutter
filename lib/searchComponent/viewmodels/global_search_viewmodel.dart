@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/model/vocab.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'

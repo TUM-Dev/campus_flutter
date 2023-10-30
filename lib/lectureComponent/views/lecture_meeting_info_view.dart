@@ -27,7 +27,7 @@ class LectureMeetingInfoView extends ConsumerWidget {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SearchScaffold(
+                      builder: (context) => PersonRoomSearchScaffold(
                             searchString: ref.read(viewModel).event!.location,
                           ))),
               icon: Icon(

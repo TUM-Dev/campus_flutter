@@ -21,20 +21,22 @@ class GradesView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _GradesViewState();
 }
 
-class _GradesViewState extends ConsumerState<GradesView> {
-  late GradeViewModel gradeVM;
+class _GradesViewState extends ConsumerState<GradesView>
+    with AutomaticKeepAliveClientMixin<GradesView> {
+  late Provider<GradeViewModel> gradeVM;
 
   @override
-  void didChangeDependencies() {
-    gradeVM = ref.watch(gradeViewModel);
-    gradeVM.fetch(false);
-    super.didChangeDependencies();
+  void initState() {
+    gradeVM = gradeViewModel;
+    ref.read(gradeVM).fetch(false);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GenericStreamBuilder<Map<String, List<Grade>>>(
-        stream: gradeVM.studyProgramGrades,
+        stream: ref.watch(gradeVM).studyProgramGrades,
         dataBuilder: (context, data) {
           if (data.isEmpty) {
             return Center(child: Text(context.localizations.noGradesFound));
@@ -103,6 +105,9 @@ class _GradesViewState extends ConsumerState<GradesView> {
       ))
     ]);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class DegreeView extends StatelessWidget {

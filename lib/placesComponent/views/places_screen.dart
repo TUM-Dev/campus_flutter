@@ -13,7 +13,8 @@ class PlacesScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PlacesScreenState();
 }
 
-class _PlacesScreenState extends ConsumerState<PlacesScreen> {
+class _PlacesScreenState extends ConsumerState<PlacesScreen>
+    with AutomaticKeepAliveClientMixin<PlacesScreen> {
   @override
   void initState() {
     ref.read(placesViewModel).fetch(false);
@@ -44,4 +45,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
           }
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
