@@ -5,6 +5,7 @@ import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/loginComponent/views/login_view.dart';
 import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/routes.dart';
@@ -25,6 +26,7 @@ main() async {
   getIt.registerSingleton<ConnectivityResult>(
       await Connectivity().checkConnectivity());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
+  getIt.registerSingleton<NavigationService>(NavigationService());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
     getIt.registerSingleton<CachedCampusClient>(
@@ -33,6 +35,8 @@ main() async {
     final directory = await getTemporaryDirectory();
     Hive.init(directory.path);
     Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
+    await Hive.openBox("grpc_cache", path: directory.path);
+    Hive.box("grpc_cache").clear();
     getIt
         .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
     getIt.registerSingleton<MainApi>(MainApi.mobileCache(directory));

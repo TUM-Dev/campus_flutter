@@ -20,7 +20,8 @@ class LecturesView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _LecturesViewState();
 }
 
-class _LecturesViewState extends ConsumerState<LecturesView> {
+class _LecturesViewState extends ConsumerState<LecturesView>
+    with AutomaticKeepAliveClientMixin<LecturesView> {
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -31,6 +32,7 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GenericStreamBuilder<Map<String, List<Lecture>>>(
         stream: ref.watch(lectureViewModel).lectures,
         dataBuilder: (context, data) {
@@ -113,6 +115,9 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
               ]))),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class SemesterView extends ConsumerWidget {

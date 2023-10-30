@@ -5,13 +5,20 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends ConsumerWidget {
-  HomeScreen({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    super.build(context);
     return OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.portrait) {
         return _widgetScrollView();
@@ -27,6 +34,9 @@ class HomeScreen extends ConsumerWidget {
         child: const Column(
             children: [ContactScreen(), PaddedDivider(), WidgetScreen()]));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class AnimatedSplitView extends ConsumerStatefulWidget {

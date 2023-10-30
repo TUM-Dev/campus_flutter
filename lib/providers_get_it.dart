@@ -6,6 +6,7 @@ import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.d
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommenderViewModel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
@@ -26,6 +27,7 @@ import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/c
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
@@ -41,6 +43,7 @@ import 'package:map_launcher/map_launcher.dart';
 final getIt = GetIt.instance;
 
 /// state providers for user interaction
+final currentIndex = StateProvider<int>((ref) => 0);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
@@ -85,6 +88,9 @@ final personDetailsViewModel =
     Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {
   return PersonDetailsViewModel(obfuscatedId);
 });
+
+/// view model for home screen
+final recommenderViewModel = Provider((ref) => RecommenderViewModel(ref));
 
 /// view model for places
 final placesViewModel = Provider((ref) => PlacesViewModel(ref));
@@ -136,6 +142,7 @@ final personalLectureSearchViewModel =
     Provider((ref) => PersonalLectureSearchViewModel());
 final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
+final newsSearchViewModel = Provider((ref) => NewsSearchViewModel());
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
 final personSearchViewModel = Provider((ref) => PersonSearchViewModel());

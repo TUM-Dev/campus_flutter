@@ -126,7 +126,9 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                     Icons.phone,
                     color: context.theme.primaryColor,
                   ),
-                  title: Text(personDetails.phoneExtensions!.first.phoneNumber,
+                  title: Text(
+                      personDetails.phoneExtensions!.first.phoneNumber ??
+                          context.localizations.unknown,
                       style: const TextStyle(
                           decoration: TextDecoration.underline)),
                   onTap: () => UrlLauncher.urlString(
@@ -163,8 +165,9 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                   Icons.room,
                   color: context.theme.primaryColor,
                 ),
-                title:
-                    Text(personDetails.rooms!.first.shortLocationDescription),
+                title: Text(
+                    personDetails.rooms!.first.shortLocationDescription ??
+                        context.localizations.unknown),
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
@@ -172,7 +175,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
+                        builder: (context) => PersonRoomSearchScaffold(
                               searchString: personDetails.rooms!.first.id,
                             ))),
               ),
@@ -181,14 +184,16 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                   Icons.stairs,
                   color: context.theme.primaryColor,
                 ),
-                title: Text(personDetails.rooms!.first.floorName),
+                title: Text(personDetails.rooms!.first.floorName ??
+                    context.localizations.unknown),
               ),
               ListTile(
                 leading: Icon(
                   Icons.account_balance,
                   color: context.theme.primaryColor,
                 ),
-                title: Text(personDetails.rooms!.first.buildingName),
+                title: Text(personDetails.rooms!.first.buildingName ??
+                    context.localizations.unknown),
               ),
             ],
           ),

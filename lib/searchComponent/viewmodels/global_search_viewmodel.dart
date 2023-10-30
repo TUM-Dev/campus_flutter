@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/model/vocab.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'
@@ -16,7 +16,6 @@ class GlobalSearchViewModel {
       BehaviorSubject.seeded([]);
 
   String searchString = "";
-  int index = 0;
   final Ref ref;
 
   late Interpreter interpreter;
@@ -32,12 +31,11 @@ class GlobalSearchViewModel {
         await Interpreter.fromAsset('assets/models/english_bert_30.tflite');
   }
 
-  void search(int index, String searchString) async {
+  void search(String searchString) async {
     if (searchString.isEmpty) {
       clear();
       return;
     }
-    this.index = index;
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
       if (!kIsWeb) {
@@ -143,12 +141,11 @@ class GlobalSearchViewModel {
     result.add(null);
   }
 
-  void triggerSearchAfterUpdate(String? searchString, int? index) {
-    if (index != null && searchString != null) {
-      this.index = index;
+  void triggerSearchAfterUpdate(String? searchString) {
+    if (searchString != null) {
       this.searchString = searchString;
     }
-    search(this.index, this.searchString);
+    search(this.searchString);
     if (selectedCategories.value.isEmpty) {
       for (var category in SearchCategory.values) {
         _searchTriggerBuilder(searchString, category);
@@ -212,8 +209,7 @@ class GlobalSearchViewModel {
       case SearchCategory.movie:
         ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
       case SearchCategory.news:
-        // TODO(Jakob): add news to search after move to new backend is finalised
-        return;
+        ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
       case SearchCategory.studyRoom:
         ref
             .read(studyRoomSearchViewModel)
