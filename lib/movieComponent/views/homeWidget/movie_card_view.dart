@@ -30,7 +30,7 @@ class MovieCardView extends ConsumerWidget {
                               top: Radius.circular(10)),
                           child: CachedNetworkImage(
                             imageUrl: movie.coverUrl.toString(),
-                            fit: BoxFit.fitWidth,
+                            fit: BoxFit.fill,
                             fadeOutDuration: Duration.zero,
                             fadeInDuration: Duration.zero,
                             placeholder: (context, string) => Image.asset(

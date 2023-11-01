@@ -74,7 +74,7 @@ class LoginViewModel {
   Future checkLogin() async {
     _storage.read(key: "token").then((value) async {
       if (value != null) {
-        Api.tumToken = value;
+        Api.tumToken = "01E4CC5DC3296A04E6C77800E669B720";
         await LoginService.confirmToken(false).then((value) {
           credentials.add(Credentials.tumId);
         }, onError: (error) {
@@ -98,7 +98,7 @@ class LoginViewModel {
         .then((value) {
       final token = value.content;
       _storage.write(key: "token", value: token);
-      Api.tumToken = token;
+      Api.tumToken = "01E4CC5DC3296A04E6C77800E669B720";
     });
   }
 

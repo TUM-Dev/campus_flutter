@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
@@ -71,6 +72,9 @@ class ErrorHandlingView extends StatelessWidget {
     } else if (error is CustomException) {
       final exception = error as CustomException;
       return _exceptionMessage(context, exception.message, null);
+    } else if (error is TypeError) {
+      return _exceptionMessage(context, context.localizations.decodingError,
+          context.localizations.pleaseReport);
     } else {
       return _exceptionMessage(context, context.localizations.unknownError,
           context.localizations.pleaseReport);
@@ -95,11 +99,15 @@ class ErrorHandlingView extends StatelessWidget {
           Expanded(
               flex: 0,
               child: Column(children: [
-                Text(errorMessage,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: titleColor ?? Theme.of(context).primaryColor),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
+                _errorMessageText(
+                  errorMessage,
+                  context,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: titleColor ?? Theme.of(context).primaryColor,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 if (fixMessage != null)
                   Text(fixMessage,
                       style: Theme.of(context)
@@ -121,8 +129,9 @@ class ErrorHandlingView extends StatelessWidget {
       case ErrorHandlingViewType.textOnly:
         return Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(
+            _errorMessageText(
               errorMessage,
+              context,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: titleColor ?? Theme.of(context).primaryColor),
               textAlign: TextAlign.center,
@@ -135,19 +144,66 @@ class ErrorHandlingView extends StatelessWidget {
         );
       case ErrorHandlingViewType.descriptionOnly:
         return Center(
-            child: Text(errorMessage, style: TextStyle(color: bodyColor)));
+          child: _errorMessageText(
+            errorMessage,
+            context,
+            style: TextStyle(color: bodyColor),
+          ),
+        );
       case ErrorHandlingViewType.redDescriptionOnly:
         return Center(
-            child:
-                Text(errorMessage, style: const TextStyle(color: Colors.red)));
+          child: _errorMessageText(
+            errorMessage,
+            context,
+            style: const TextStyle(color: Colors.red),
+          ),
+        );
     }
   }
-}
 
-enum ErrorHandlingViewType {
-  fullScreen,
-  fullScreenNoImage,
-  textOnly,
-  descriptionOnly,
-  redDescriptionOnly
+  Widget _errorMessageText(String errorMessage, BuildContext context,
+      {TextStyle? style,
+      TextAlign? textAlign,
+      int? maxLines,
+      TextOverflow? overflow}) {
+    return GestureDetector(
+      onDoubleTap: () => showStackTrace(context),
+      child: Text(
+        errorMessage,
+        style: style,
+        textAlign: textAlign,
+        maxLines: maxLines,
+        overflow: overflow,
+      ),
+    );
+  }
+
+  showStackTrace(BuildContext context) {
+    if (error is Error) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            final split = (error as Error).stackTrace.toString().split("\n");
+            return AlertDialog(
+              title: Text(
+                "Error Description",
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              content: Text(
+                split.isNotEmpty
+                    ? split.first
+                    : (error as Error).stackTrace.toString(),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Okay"))
+              ],
+              actionsAlignment: MainAxisAlignment.center,
+            );
+          });
+    }
+  }
 }
