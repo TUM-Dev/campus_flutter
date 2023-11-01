@@ -121,7 +121,7 @@ class MainApi {
           .data;
     } on U catch (e) {
       /// rethrow error if specified error U
-      e.toString();
+      log(e.toString());
       rethrow;
     } catch (_) {
       /// catch possible decoding error and return actual expected object
@@ -129,7 +129,11 @@ class MainApi {
         return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
             response.headers, createObject);
       } catch (e) {
-        log(e.toString());
+        if (e is Error) {
+          log(e.stackTrace.toString());
+        } else {
+          log(e.toString());
+        }
         rethrow;
       }
     }

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -30,7 +31,9 @@ class AppointmentView extends StatelessWidget {
                       .compareTo(const Duration(hours: 0, minutes: 45)) >
                   0)
                 _eventLocation(
-                    calendarEvent.location, calendarEvent.isCanceled, context),
+                    calendarEvent.location ?? context.localizations.unknown,
+                    calendarEvent.isCanceled,
+                    context),
               if (calendarEvent.endDate
                       .difference(calendarEvent.startDate)
                       .compareTo(const Duration(hours: 1, minutes: 30)) >=

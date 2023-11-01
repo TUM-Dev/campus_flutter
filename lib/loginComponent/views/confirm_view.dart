@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'dart:io';
 
 import 'package:campus_flutter/base/helpers/icon_text.dart';

@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
@@ -28,14 +29,8 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
   @override
   void initState() {
     ref.read(calendarViewModel).fetch(false);
+    _selectedCalendarTab = 1;
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    _selectedCalendarTab =
-        MediaQuery.orientationOf(context) == Orientation.landscape ? 1 : 0;
-    super.didChangeDependencies();
   }
 
   @override
