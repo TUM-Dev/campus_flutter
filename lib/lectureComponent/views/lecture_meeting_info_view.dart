@@ -21,7 +21,8 @@ class LectureMeetingInfoView extends ConsumerWidget {
             information: ref.read(viewModel).event!.timeDatePeriod(context),
             iconData: Icons.hourglass_top),
         BasicLectureInfoRowView(
-          information: ref.read(viewModel).event!.location,
+          information: ref.read(viewModel).event!.location ??
+              context.localizations.unknown,
           iconData: Icons.location_on,
           trailingWidget: IconButton(
               onPressed: () => Navigator.push(

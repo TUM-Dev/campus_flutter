@@ -13,22 +13,21 @@ class CalendarEvent extends Searchable {
   @JsonKey(name: "nr")
   final String id;
   final String status;
-  final String url;
+  final String? url;
   final String title;
-  @JsonKey(name: "description")
-  final String descriptionText;
+  final String? description;
   @JsonKey(name: "dtstart")
   final DateTime startDate;
   @JsonKey(name: "dtend")
   final DateTime endDate;
-  final String location;
+  final String? location;
 
   Duration get duration {
     return endDate.difference(startDate);
   }
 
   String? get lvNr {
-    return url.split("LvNr=").last;
+    return url?.split("LvNr=").last;
   }
 
   String get timePeriod {
@@ -79,18 +78,18 @@ class CalendarEvent extends Searchable {
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
         ComparisonToken(value: title),
-        ComparisonToken(value: location),
+        if (location != null) ComparisonToken(value: location!),
       ];
 
   CalendarEvent(
       {required this.id,
       required this.status,
-      required this.url,
+      this.url,
       required this.title,
-      required this.descriptionText,
+      this.description,
       required this.startDate,
       required this.endDate,
-      required this.location});
+      this.location});
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventFromJson(json);

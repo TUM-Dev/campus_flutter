@@ -10,12 +10,12 @@ CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
     CalendarEvent(
       id: json['nr'] as String,
       status: json['status'] as String,
-      url: json['url'] as String,
+      url: json['url'] as String?,
       title: json['title'] as String,
-      descriptionText: json['description'] as String,
+      description: json['description'] as String?,
       startDate: DateTime.parse(json['dtstart'] as String),
       endDate: DateTime.parse(json['dtend'] as String),
-      location: json['location'] as String,
+      location: json['location'] as String?,
     );
 
 Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>
@@ -24,7 +24,7 @@ Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>
       'status': instance.status,
       'url': instance.url,
       'title': instance.title,
-      'description': instance.descriptionText,
+      'description': instance.description,
       'dtstart': instance.startDate.toIso8601String(),
       'dtend': instance.endDate.toIso8601String(),
       'location': instance.location,

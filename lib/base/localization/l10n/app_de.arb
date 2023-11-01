@@ -227,6 +227,7 @@
    "requestCancelled":"Anfrage abgebrochen",
    "pleaseReport":"Bitte melden Sie dies als Fehler \nper E-Mail oder auf GitHub",
    "connectionTimeout":"Zeitüberschreitung",
+   "decodingError":"Dekodierungsfehler",
    "unknownError":"Unbekannter Fehler",
    "monday":"Montag",
    "tuesday":"Dienstag",

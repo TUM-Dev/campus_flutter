@@ -188,6 +188,11 @@ ThemeData lightTheme(BuildContext context) {
         side: const MaterialStatePropertyAll(
           BorderSide(color: _lightGray, width: 0.5),
         ),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
       ),
     ),
   );
@@ -358,6 +363,11 @@ ThemeData darkTheme(BuildContext context) {
         }),
         side: const MaterialStatePropertyAll(
           BorderSide(color: _darkGray, width: 0.5),
+        ),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
         ),
       ),
     ),

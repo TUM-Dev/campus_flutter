@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
