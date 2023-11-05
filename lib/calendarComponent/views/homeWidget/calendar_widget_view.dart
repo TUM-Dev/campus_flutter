@@ -155,7 +155,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
         ),
         Text(
           DateFormat.MMMd(context.localizations.localeName).format(today),
-          style: Theme.of(context).textTheme.displaySmall,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
       ],
     );
