@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
@@ -24,18 +25,13 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: const BackButton(),
-          title: Text(context.localizations.settings),
-        ),
-        body: ListView(children: [
-          _generalSettings(context, ref),
-          _appearance(context, ref),
-          _contact(context, ref),
-          _authentication(context, ref),
-          _versionNumber()
-        ]));
+    return ListView(children: [
+      _generalSettings(context, ref),
+      _appearance(context, ref),
+      _contact(context, ref),
+      _authentication(context, ref),
+      _versionNumber()
+    ]);
   }
 
   Widget _generalSettings(BuildContext context, WidgetRef ref) {
