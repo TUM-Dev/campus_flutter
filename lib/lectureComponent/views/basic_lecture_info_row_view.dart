@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class BasicLectureInfoRowView extends StatelessWidget {
-  const BasicLectureInfoRowView(
-      {super.key,
-      required this.information,
-      required this.iconData,
-      this.trailingWidget});
+  const BasicLectureInfoRowView({
+    super.key,
+    required this.information,
+    required this.iconData,
+    this.trailingWidget,
+  });
 
   final String information;
   final IconData iconData;

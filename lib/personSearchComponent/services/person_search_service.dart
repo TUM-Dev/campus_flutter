@@ -7,14 +7,17 @@ import 'package:campus_flutter/providers_get_it.dart';
 
 class PersonSearchService {
   static Future<(DateTime?, List<Person>)> fetchPersons(
-      String query, bool forcedRefresh) async {
+    String query,
+    bool forcedRefresh,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<PersonData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServicePersonSearch(search: query)),
-        PersonData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServicePersonSearch(search: query)),
+      PersonData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (response.saved, response.data.personAttribute?.persons ?? []);
   }

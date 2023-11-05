@@ -21,9 +21,11 @@ class NavigaTumSearchResultView extends ConsumerWidget {
         subtitle: Text(entity.getFormattedName()),
         trailing: const Icon(Icons.arrow_forward_ios, size: 15),
         onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NavigaTumRoomScaffold(id: entity.id))),
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigaTumRoomScaffold(id: entity.id),
+          ),
+        ),
       ),
     );
   }

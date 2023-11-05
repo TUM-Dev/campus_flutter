@@ -12,13 +12,18 @@ class CafeteriaSearchViewModel implements SearchViewModel<Cafeteria> {
 
   List<Cafeteria> cafeteriaData = [];
 
-  Future cafeteriaSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future cafeteriaSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     if (cafeteriaData.isEmpty) {
-      return CafeteriasService.fetchCafeterias(forcedRefresh).then((value) {
-        cafeteriaData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return CafeteriasService.fetchCafeterias(forcedRefresh).then(
+        (value) {
+          cafeteriaData = value.$2;
+          _search(query);
+        },
+        onError: (error) => searchResults.addError(error),
+      );
     } else {
       _search(query);
     }

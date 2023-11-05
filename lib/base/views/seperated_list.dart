@@ -2,10 +2,11 @@ import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:flutter/material.dart';
 
 class SeparatedList<T> extends StatelessWidget {
-  factory SeparatedList.list(
-      {required List<T> data,
-      required Widget Function(T) tile,
-      bool padded = true}) {
+  factory SeparatedList.list({
+    required List<T> data,
+    required Widget Function(T) tile,
+    bool padded = true,
+  }) {
     return SeparatedList._(
       data: data,
       tile: tile,
@@ -13,18 +14,21 @@ class SeparatedList<T> extends StatelessWidget {
     );
   }
 
-  factory SeparatedList.widgets(
-      {required List<Widget> widgets, bool padded = true}) {
+  factory SeparatedList.widgets({
+    required List<Widget> widgets,
+    bool padded = true,
+  }) {
     return SeparatedList._(widgets: widgets, padded: padded, list: false);
   }
 
-  const SeparatedList._(
-      {super.key,
-      this.data,
-      this.widgets,
-      this.tile,
-      this.padded = true,
-      this.list = true});
+  const SeparatedList._({
+    super.key,
+    this.data,
+    this.widgets,
+    this.tile,
+    this.padded = true,
+    this.list = true,
+  });
 
   final List<T>? data;
   final List<Widget>? widgets;
@@ -46,8 +50,8 @@ class SeparatedList<T> extends StatelessWidget {
                     )
                   : const Divider(
                       height: 0,
-                    )
-          ]
+                    ),
+          ],
         ],
       );
     } else {
@@ -62,8 +66,8 @@ class SeparatedList<T> extends StatelessWidget {
                     )
                   : const Divider(
                       height: 0,
-                    )
-          ]
+                    ),
+          ],
         ],
       );
     }

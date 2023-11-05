@@ -18,22 +18,30 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(profileViewModel).profile,
-        builder: (context, snapshot) {
-          return Column(mainAxisSize: MainAxisSize.min, children: [
+      stream: ref.watch(profileViewModel).profile,
+      builder: (context, snapshot) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             ConstrainedBox(
-                constraints: BoxConstraints(
-                    minHeight: MediaQuery.sizeOf(context).height * 0.15),
-                child: CardWithPadding(
-                    child: Center(
-                        child: snapshot.hasData
-                            ? const ContactCardView()
-                            : snapshot.hasError
-                                ? const UnauthorizedView()
-                                : Container()))),
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.sizeOf(context).height * 0.15,
+              ),
+              child: CardWithPadding(
+                child: Center(
+                  child: snapshot.hasData
+                      ? const ContactCardView()
+                      : snapshot.hasError
+                          ? const UnauthorizedView()
+                          : Container(),
+                ),
+              ),
+            ),
             const TuitionView(),
-            const LinkView()
-          ]);
-        });
+            const LinkView(),
+          ],
+        );
+      },
+    );
   }
 }

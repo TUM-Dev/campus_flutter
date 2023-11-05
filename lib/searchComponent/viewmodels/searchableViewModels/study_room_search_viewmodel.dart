@@ -18,13 +18,18 @@ class StudyRoomSearchViewModel
 
   StudyRoomData? studyRoomData;
 
-  Future studyRoomSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future studyRoomSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     if (studyRoomData == null) {
-      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
-        studyRoomData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
+        (value) {
+          studyRoomData = value.$2;
+          _search(query);
+        },
+        onError: (error) => searchResults.addError(error),
+      );
     } else {
       _search(query);
     }
@@ -65,6 +70,6 @@ class StudyRoomSearchResult extends Searchable {
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
         ...studyRoomGroup.comparisonTokens,
-        ...studyRooms.expand((element) => element.comparisonTokens)
+        ...studyRooms.expand((element) => element.comparisonTokens),
       ];
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapWidget extends ConsumerStatefulWidget {
-  factory MapWidget.fullPadding(
-      {required Set<Marker> markers,
-      LatLng? latLng,
-      EdgeInsets? controlPadding,
-      double? zoom,
-      double? aspectRatio,
-      bool aspectRatioNeeded = true,
-      bool roundedCorners = true}) {
+  factory MapWidget.fullPadding({
+    required Set<Marker> markers,
+    LatLng? latLng,
+    EdgeInsets? controlPadding,
+    double? zoom,
+    double? aspectRatio,
+    bool aspectRatioNeeded = true,
+    bool roundedCorners = true,
+  }) {
     return MapWidget._(
       markers: markers,
       horizontalPadding: false,
@@ -29,14 +30,15 @@ class MapWidget extends ConsumerStatefulWidget {
     );
   }
 
-  factory MapWidget.horizontalPadding(
-      {required Set<Marker> markers,
-      LatLng? latLng,
-      EdgeInsets? controlPadding,
-      double? zoom,
-      double? aspectRatio,
-      bool aspectRatioNeeded = true,
-      bool roundedCorners = true}) {
+  factory MapWidget.horizontalPadding({
+    required Set<Marker> markers,
+    LatLng? latLng,
+    EdgeInsets? controlPadding,
+    double? zoom,
+    double? aspectRatio,
+    bool aspectRatioNeeded = true,
+    bool roundedCorners = true,
+  }) {
     return MapWidget._(
       markers: markers,
       latLng: latLng,
@@ -49,14 +51,15 @@ class MapWidget extends ConsumerStatefulWidget {
     );
   }
 
-  factory MapWidget.noPadding(
-      {required Set<Marker> markers,
-      LatLng? latLng,
-      EdgeInsets? controlPadding,
-      double? zoom,
-      double? aspectRatio,
-      bool aspectRatioNeeded = true,
-      bool roundedCorners = true}) {
+  factory MapWidget.noPadding({
+    required Set<Marker> markers,
+    LatLng? latLng,
+    EdgeInsets? controlPadding,
+    double? zoom,
+    double? aspectRatio,
+    bool aspectRatioNeeded = true,
+    bool roundedCorners = true,
+  }) {
     return MapWidget._(
       markers: markers,
       latLng: latLng,
@@ -70,15 +73,16 @@ class MapWidget extends ConsumerStatefulWidget {
     );
   }
 
-  factory MapWidget.customPadding(
-      {required Set<Marker> markers,
-      required EdgeInsets padding,
-      EdgeInsets? controlPadding,
-      LatLng? latLng,
-      double? zoom,
-      double? aspectRatio,
-      bool aspectRatioNeeded = true,
-      bool roundedCorners = true}) {
+  factory MapWidget.customPadding({
+    required Set<Marker> markers,
+    required EdgeInsets padding,
+    EdgeInsets? controlPadding,
+    LatLng? latLng,
+    double? zoom,
+    double? aspectRatio,
+    bool aspectRatioNeeded = true,
+    bool roundedCorners = true,
+  }) {
     return MapWidget._(
       markers: markers,
       padding: padding,
@@ -169,7 +173,9 @@ class _MapWidgetState extends ConsumerState<MapWidget>
             : BorderRadius.zero,
         child: widget.aspectRatioNeeded
             ? AspectRatio(
-                aspectRatio: widget.aspectRatio ?? 1.0, child: _mapWidget())
+                aspectRatio: widget.aspectRatio ?? 1.0,
+                child: _mapWidget(),
+              )
             : _mapWidget(),
       ),
     );
@@ -177,36 +183,40 @@ class _MapWidgetState extends ConsumerState<MapWidget>
 
   Widget _mapWidget() {
     return AnimatedOpacity(
-        curve: Curves.fastOutSlowIn,
-        opacity: isMapVisible ? 1.0 : 0.01,
-        duration: const Duration(milliseconds: 200),
-        child: GoogleMap(
-          mapType: MapType.normal,
-          padding: widget.controlPadding ?? EdgeInsets.zero,
-          initialCameraPosition: CameraPosition(
-              target: widget.latLng ??
-                  const LatLng(48.26307794976663, 11.668018668778569),
-              zoom: widget.zoom ?? 10),
-          gestureRecognizers: {
-            Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer())
-          },
-          rotateGesturesEnabled: false,
-          compassEnabled: false,
-          mapToolbarEnabled: false,
-          tiltGesturesEnabled: false,
-          zoomControlsEnabled: true,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          markers: widget.markers,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            Future.delayed(
-                const Duration(milliseconds: 250),
-                () => setState(() {
-                      isMapVisible = true;
-                    }));
-          },
-        ));
+      curve: Curves.fastOutSlowIn,
+      opacity: isMapVisible ? 1.0 : 0.01,
+      duration: const Duration(milliseconds: 200),
+      child: GoogleMap(
+        mapType: MapType.normal,
+        padding: widget.controlPadding ?? EdgeInsets.zero,
+        initialCameraPosition: CameraPosition(
+          target: widget.latLng ??
+              const LatLng(48.26307794976663, 11.668018668778569),
+          zoom: widget.zoom ?? 10,
+        ),
+        gestureRecognizers: {
+          Factory<OneSequenceGestureRecognizer>(
+            () => EagerGestureRecognizer(),
+          ),
+        },
+        rotateGesturesEnabled: false,
+        compassEnabled: false,
+        mapToolbarEnabled: false,
+        tiltGesturesEnabled: false,
+        zoomControlsEnabled: true,
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        markers: widget.markers,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+          Future.delayed(
+            const Duration(milliseconds: 250),
+            () => setState(() {
+              isMapVisible = true;
+            }),
+          );
+        },
+      ),
+    );
   }
 }

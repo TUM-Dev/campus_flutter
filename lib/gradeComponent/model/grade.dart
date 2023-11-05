@@ -2,7 +2,7 @@ import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 part 'grade.g.dart';
 
@@ -50,18 +50,19 @@ class Grade extends Searchable {
     }
   }
 
-  Grade(
-      {required this.date,
-      required this.lvNumber,
-      required this.semester,
-      required this.title,
-      required this.examiner,
-      required this.grade,
-      required this.examType,
-      required this.modus,
-      required this.studyID,
-      required this.studyDesignation,
-      required this.studyNumber});
+  Grade({
+    required this.date,
+    required this.lvNumber,
+    required this.semester,
+    required this.title,
+    required this.examiner,
+    required this.grade,
+    required this.examType,
+    required this.modus,
+    required this.studyID,
+    required this.studyDesignation,
+    required this.studyNumber,
+  });
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 

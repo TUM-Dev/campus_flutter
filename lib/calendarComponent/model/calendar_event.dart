@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/calendar_event_type.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -81,15 +81,16 @@ class CalendarEvent extends Searchable {
         if (location != null) ComparisonToken(value: location!),
       ];
 
-  CalendarEvent(
-      {required this.id,
-      required this.status,
-      this.url,
-      required this.title,
-      this.description,
-      required this.startDate,
-      required this.endDate,
-      this.location});
+  CalendarEvent({
+    required this.id,
+    required this.status,
+    this.url,
+    required this.title,
+    this.description,
+    required this.startDate,
+    required this.endDate,
+    this.location,
+  });
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventFromJson(json);

@@ -7,13 +7,16 @@ import 'package:campus_flutter/providers_get_it.dart';
 
 class LectureSearchService {
   static Future<(DateTime?, List<Lecture>)> fetchLectureSearch(
-      bool forcedRefresh, String query) async {
+    bool forcedRefresh,
+    String query,
+  ) async {
     final response = await getIt<MainApi>().makeRequestWithException<
-            LectureData, TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceLectureSearch(search: query)),
-        LectureData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        LectureData, TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceLectureSearch(search: query)),
+      LectureData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (response.saved, response.data.lecturesAttribute?.lectures ?? []);
   }

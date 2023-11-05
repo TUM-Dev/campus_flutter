@@ -11,13 +11,18 @@ class GradesSearchViewModel implements SearchViewModel<Grade> {
 
   List<Grade> gradesData = [];
 
-  Future gradesSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future gradesSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     if (gradesData.isEmpty) {
-      return GradeService.fetchGrades(forcedRefresh).then((value) {
-        gradesData = value.data;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return GradeService.fetchGrades(forcedRefresh).then(
+        (value) {
+          gradesData = value.data;
+          _search(query);
+        },
+        onError: (error) => searchResults.addError(error),
+      );
     } else {
       return _search(query);
     }

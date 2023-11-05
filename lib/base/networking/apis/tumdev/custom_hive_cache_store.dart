@@ -9,8 +9,11 @@ class CustomHiveCacheStore {
   final ConnectivityResult _connectivityResult;
   final Duration ttl;
 
-  CustomHiveCacheStore(this._cachePath, this._connectivityResult,
-      {this.ttl = const Duration(days: 30)});
+  CustomHiveCacheStore(
+    this._cachePath,
+    this._connectivityResult, {
+    this.ttl = const Duration(days: 30),
+  });
 
   (bool, CacheResponse?) get(String key) {
     final box = Hive.box('grpc_cache');

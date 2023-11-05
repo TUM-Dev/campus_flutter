@@ -11,8 +11,11 @@ class Location {
   final double longitude;
   final String address;
 
-  Location(
-      {required this.latitude, required this.longitude, required this.address});
+  Location({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+  });
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
@@ -72,18 +75,23 @@ class Cafeteria extends Searchable {
         ComparisonToken(value: name),
         ComparisonToken(value: location.address),
         ComparisonToken(
-            value: location.latitude.toString(), type: ComparisonTokenType.raw),
+          value: location.latitude.toString(),
+          type: ComparisonTokenType.raw,
+        ),
         ComparisonToken(
-            value: location.longitude.toString(), type: ComparisonTokenType.raw)
+          value: location.longitude.toString(),
+          type: ComparisonTokenType.raw,
+        ),
       ];
 
-  Cafeteria(
-      {required this.location,
-      required this.name,
-      required this.id,
-      required this.queueStatusApi,
-      required this.queue,
-      this.openingHours});
+  Cafeteria({
+    required this.location,
+    required this.name,
+    required this.id,
+    required this.queueStatusApi,
+    required this.queue,
+    this.openingHours,
+  });
 
   factory Cafeteria.fromJson(Map<String, dynamic> json) =>
       _$CafeteriaFromJson(json);

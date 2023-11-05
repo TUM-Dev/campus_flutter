@@ -41,27 +41,30 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
           border: Border(
-              top: BorderSide(
-            color: CupertinoDynamicColor.withBrightness(
-              color: Color(0x4C000000),
-              darkColor: Color(0x29000000),
+            top: BorderSide(
+              color: CupertinoDynamicColor.withBrightness(
+                color: Color(0x4C000000),
+                darkColor: Color(0x29000000),
+              ),
+              width: 0.0,
             ),
-            width: 0.0,
-          )),
+          ),
         ),
-        child: Consumer(builder: (context, ref, child) {
-          return NavigationBar(
-            height: getIt<NavigationService>().navigationBarHeight,
-            selectedIndex: ref.watch(currentIndex),
-            onDestinationSelected: (index) {
-              if (index != ref.read(currentIndex)) {
-                _pageController.jumpToPage(index);
-                ref.read(currentIndex.notifier).state = index;
-              }
-            },
-            destinations: getIt<NavigationService>().bottomNavItems(context),
-          );
-        }),
+        child: Consumer(
+          builder: (context, ref, child) {
+            return NavigationBar(
+              height: getIt<NavigationService>().navigationBarHeight,
+              selectedIndex: ref.watch(currentIndex),
+              onDestinationSelected: (index) {
+                if (index != ref.read(currentIndex)) {
+                  _pageController.jumpToPage(index);
+                  ref.read(currentIndex.notifier).state = index;
+                }
+              },
+              destinations: getIt<NavigationService>().bottomNavItems(context),
+            );
+          },
+        ),
       ),
       body: PageView(
         controller: _pageController,

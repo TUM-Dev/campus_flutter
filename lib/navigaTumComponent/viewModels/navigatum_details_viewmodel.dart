@@ -21,8 +21,9 @@ class NavigaTumDetailsViewModel {
     }
 
     return NavigaTumService.details(forcedRefresh, id, ref).then(
-        (value) => details.add(value),
-        onError: (error) => details.addError(error));
+      (value) => details.add(value),
+      onError: (error) => details.addError(error),
+    );
   }
 
   List<NavigaTumRoomFinderMap> getMaps() {

@@ -10,14 +10,16 @@ class AverageGrade {
   @JsonKey(name: "studbez")
   final String studyDesignation;
   @JsonKey(
-      name: "avg_grade_weighted_by_credits",
-      fromJson: StringParser.stringToDouble)
+    name: "avg_grade_weighted_by_credits",
+    fromJson: StringParser.stringToDouble,
+  )
   final double averageGrade;
 
-  AverageGrade(
-      {required this.id,
-      required this.studyDesignation,
-      required this.averageGrade});
+  AverageGrade({
+    required this.id,
+    required this.studyDesignation,
+    required this.averageGrade,
+  });
 
   factory AverageGrade.fromJson(Map<String, dynamic> json) =>
       _$AverageGradeFromJson(json);

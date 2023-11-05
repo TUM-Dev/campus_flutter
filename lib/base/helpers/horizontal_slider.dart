@@ -1,13 +1,14 @@
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalSlider<E> extends StatelessWidget {
-  factory HorizontalSlider.height(
-      {required List<E> data,
-      required Widget Function(E data) child,
-      required double height,
-      bool leadingTrailingPadding = true,
-      bool scrollBar = false}) {
+  factory HorizontalSlider.height({
+    required List<E> data,
+    required Widget Function(E data) child,
+    required double height,
+    bool leadingTrailingPadding = true,
+    bool scrollBar = false,
+  }) {
     return HorizontalSlider._(
       data: data,
       child: child,
@@ -17,12 +18,13 @@ class HorizontalSlider<E> extends StatelessWidget {
     );
   }
 
-  factory HorizontalSlider.aspectRatio(
-      {required List<E> data,
-      required Widget Function(E data) child,
-      required double aspectRatio,
-      bool leadingTrailingPadding = true,
-      bool scrollBar = false}) {
+  factory HorizontalSlider.aspectRatio({
+    required List<E> data,
+    required Widget Function(E data) child,
+    required double aspectRatio,
+    bool leadingTrailingPadding = true,
+    bool scrollBar = false,
+  }) {
     return HorizontalSlider._(
       data: data,
       child: child,
@@ -65,32 +67,37 @@ class HorizontalSlider<E> extends StatelessWidget {
   Widget _body(Orientation orientation, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          right: orientation == Orientation.landscape ? context.padding : 0),
+        right: orientation == Orientation.landscape ? context.padding : 0,
+      ),
       child: scrollBar
-          ? Scrollbar(child: _content(orientation))
-          : _content(orientation),
+          ? Scrollbar(child: _content(orientation, context))
+          : _content(orientation, context),
     );
   }
 
-  Widget _content(Orientation orientation) {
-    return ListView(scrollDirection: Axis.horizontal, children: [
-      for (var indexAndValue in data.indexed) ...[
-        if (indexAndValue.$1 == 0) ...[
-          if (leadingTrailingPadding)
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
-          child(indexAndValue.$2)
+  Widget _content(Orientation orientation, BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.only(bottom: context.halfPadding),
+      scrollDirection: Axis.horizontal,
+      children: [
+        for (var indexAndValue in data.indexed) ...[
+          if (indexAndValue.$1 == 0) ...[
+            if (leadingTrailingPadding)
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
+            child(indexAndValue.$2),
+          ],
+          if (indexAndValue.$1 != 0 && indexAndValue.$1 == data.length - 1) ...[
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+            child(indexAndValue.$2),
+            if (orientation != Orientation.landscape && leadingTrailingPadding)
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
+          ],
+          if (indexAndValue.$1 != 0 && indexAndValue.$1 != data.length - 1) ...[
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+            child(indexAndValue.$2),
+          ],
         ],
-        if (indexAndValue.$1 != 0 && indexAndValue.$1 == data.length - 1) ...[
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-          child(indexAndValue.$2),
-          if (orientation != Orientation.landscape && leadingTrailingPadding)
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5))
-        ],
-        if (indexAndValue.$1 != 0 && indexAndValue.$1 != data.length - 1) ...[
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-          child(indexAndValue.$2)
-        ]
-      ]
-    ]);
+      ],
+    );
   }
 }

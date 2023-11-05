@@ -7,13 +7,16 @@ import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart
 import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PersonRoomSearchScaffold extends ConsumerWidget {
-  const PersonRoomSearchScaffold(
-      {super.key, this.searchString, this.isRoomSearch = true});
+  const PersonRoomSearchScaffold({
+    super.key,
+    this.searchString,
+    this.isRoomSearch = true,
+  });
 
   final bool isRoomSearch;
   final String? searchString;
@@ -32,19 +35,26 @@ class PersonRoomSearchScaffold extends ConsumerWidget {
             }
           },
         ),
-        title: Text(isRoomSearch
-            ? context.localizations.roomSearch
-            : context.localizations.personSearch),
+        title: Text(
+          isRoomSearch
+              ? context.localizations.roomSearch
+              : context.localizations.personSearch,
+        ),
       ),
       body: PersonRoomSearchView(
-          searchString: searchString, isRoomSearch: isRoomSearch),
+        searchString: searchString,
+        isRoomSearch: isRoomSearch,
+      ),
     );
   }
 }
 
 class PersonRoomSearchView extends ConsumerStatefulWidget {
-  const PersonRoomSearchView(
-      {super.key, this.searchString, required this.isRoomSearch});
+  const PersonRoomSearchView({
+    super.key,
+    this.searchString,
+    required this.isRoomSearch,
+  });
 
   final bool isRoomSearch;
   final String? searchString;
@@ -83,7 +93,7 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
       children: [
         _textField(),
         Padding(padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
-        _searchBody()
+        _searchBody(),
       ],
     );
   }
@@ -151,53 +161,55 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
         if (snapshot.hasData) {
           return Expanded(
             child: SingleChildScrollView(
-                child: Card(
-              child: SeparatedList.list(
-                data: snapshot.data!,
-                tile: (searchable) {
-                  if (widget.isRoomSearch) {
-                    final navigaTumEntity =
-                        searchable as NavigaTumNavigationEntity;
-                    return ListTile(
-                      title: Text(navigaTumEntity.getFormattedName()),
-                      subtitle: Text(
-                        navigaTumEntity.getFormattedSubtext(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              NavigaTumRoomScaffold(id: navigaTumEntity.id),
+              child: Card(
+                child: SeparatedList.list(
+                  data: snapshot.data!,
+                  tile: (searchable) {
+                    if (widget.isRoomSearch) {
+                      final navigaTumEntity =
+                          searchable as NavigaTumNavigationEntity;
+                      return ListTile(
+                        title: Text(navigaTumEntity.getFormattedName()),
+                        subtitle: Text(
+                          navigaTumEntity.getFormattedSubtext(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    );
-                  } else {
-                    final person = searchable as Person;
-                    return ListTile(
-                      title: Text(person.fullNameWithTitle),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PersonDetailsScaffold(
-                            obfuscatedId: person.obfuscatedID,
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                NavigaTumRoomScaffold(id: navigaTumEntity.id),
                           ),
                         ),
-                      ),
-                    );
-                  }
-                },
+                      );
+                    } else {
+                      final person = searchable as Person;
+                      return ListTile(
+                        title: Text(person.fullNameWithTitle),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PersonDetailsScaffold(
+                              obfuscatedId: person.obfuscatedID,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
-            )),
+            ),
           );
         } else if (snapshot.hasError) {
           return Expanded(
             child: ErrorHandlingView(
-                error: snapshot.error!,
-                errorHandlingViewType: ErrorHandlingViewType.textOnly),
+              error: snapshot.error!,
+              errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            ),
           );
         } else {
           if (widget.searchString != null) {
@@ -212,9 +224,10 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
             );
           } else {
             return Expanded(
-                child: Center(
-              child: Text(context.localizations.enterQueryStart),
-            ));
+              child: Center(
+                child: Text(context.localizations.enterQueryStart),
+              ),
+            );
           }
         }
       },

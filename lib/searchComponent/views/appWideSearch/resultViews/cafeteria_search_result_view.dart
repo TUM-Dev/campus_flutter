@@ -21,8 +21,11 @@ class CafeteriasSearchResultView extends ConsumerWidget {
           Icons.arrow_forward_ios,
           size: 15,
         ),
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CafeteriaScaffold(cafeteria: cafeteria))),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CafeteriaScaffold(cafeteria: cafeteria),
+          ),
+        ),
       ),
     );
   }
