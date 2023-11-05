@@ -23,7 +23,12 @@ class _SearchScaffoldState extends ConsumerState<SearchScaffold> {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.localizations.search),
-        leading: const BackButton(),
+        leading: BackButton(
+          onPressed: () {
+            ref.read(searchViewModel).clear();
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SearchView(showContent: true),
     );
