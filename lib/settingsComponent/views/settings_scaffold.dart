@@ -11,7 +11,8 @@ class SettingsScaffold extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(),
-          title: Text(context.localizations.settings),
+          titleSpacing: 0,
+          title: Text(context.localizations.settingsAndFeedback),
           actions: [
             IconButton(
                 onPressed: () => Navigator.push(

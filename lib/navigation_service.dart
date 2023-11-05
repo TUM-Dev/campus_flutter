@@ -7,7 +7,6 @@ import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
-import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:campus_flutter/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +82,7 @@ class NavigationService {
             ),
           );
         },
-        icon: const Icon(Icons.settings),
+        icon: const Icon(Icons.menu),
       ),
     ];
   }

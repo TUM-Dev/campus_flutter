@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/views/seperated_list.dart';
-import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';
 import 'package:campus_flutter/providers_get_it.dart';
