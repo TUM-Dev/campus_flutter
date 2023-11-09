@@ -72,7 +72,6 @@ ThemeData darkTheme(BuildContext context) {
       color: const Color(0xff252525),
       surfaceTintColor: Colors.transparent,
       elevation: 1.5,
-      //shadowColor: Colors.transparent,
       margin: EdgeInsets.symmetric(
         vertical: context.halfPadding,
         horizontal: context.padding,
@@ -137,14 +136,13 @@ ThemeData darkTheme(BuildContext context) {
               ),
       selectedIconTheme: const IconThemeData(color: primaryLightColor),
       unselectedIconTheme: const IconThemeData(color: navigationIconGrayLight),
-      //indicatorColor: Colors.transparent,
       useIndicator: false,
       backgroundColor: darkBackground,
-      //surfaceTintColor: Colors.transparent
     ),
 
     /// style pop up menu
     popupMenuTheme: PopupMenuThemeData(
+      elevation: 1.5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       surfaceTintColor: Colors.transparent,
     ),
@@ -154,6 +152,7 @@ ThemeData darkTheme(BuildContext context) {
 
     /// style chip
     chipTheme: ChipThemeData(
+      elevation: 1.5,
       showCheckmark: false,
       labelStyle: const TextStyle(color: Colors.white),
       side: BorderSide.none,

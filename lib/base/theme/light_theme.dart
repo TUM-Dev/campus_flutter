@@ -33,6 +33,7 @@ ThemeData lightTheme(BuildContext context) {
     /// custom elevated button styling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
+        elevation: const MaterialStatePropertyAll(1.5),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.disabled)) {
             return Colors.grey.shade300;
@@ -57,8 +58,9 @@ ThemeData lightTheme(BuildContext context) {
     ),
 
     /// remove tint of sheets
-    bottomSheetTheme:
-        const BottomSheetThemeData(surfaceTintColor: Colors.transparent),
+    bottomSheetTheme: const BottomSheetThemeData(
+      surfaceTintColor: Colors.transparent,
+    ),
 
     /// adjust some text colors
     textTheme: const TextTheme(
@@ -77,7 +79,6 @@ ThemeData lightTheme(BuildContext context) {
       color: Colors.white,
       surfaceTintColor: Colors.transparent,
       elevation: 1.5,
-      //shadowColor: Colors.grey,
       margin: EdgeInsets.symmetric(
         vertical: context.halfPadding,
         horizontal: context.padding,
@@ -126,7 +127,6 @@ ThemeData lightTheme(BuildContext context) {
       indicatorColor: Colors.transparent,
       backgroundColor: const Color(0xF0F8F9F8),
       surfaceTintColor: Colors.transparent,
-      //elevation: 50.0,
     ),
 
     /// theme for navigation rail used on web
@@ -146,6 +146,7 @@ ThemeData lightTheme(BuildContext context) {
 
     /// style pop up menu
     popupMenuTheme: PopupMenuThemeData(
+      elevation: 1.5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       surfaceTintColor: Colors.transparent,
     ),
@@ -155,6 +156,7 @@ ThemeData lightTheme(BuildContext context) {
 
     /// style chip
     chipTheme: ChipThemeData(
+      elevation: 1.5,
       showCheckmark: false,
       labelStyle: const TextStyle(color: Colors.white),
       side: BorderSide.none,
