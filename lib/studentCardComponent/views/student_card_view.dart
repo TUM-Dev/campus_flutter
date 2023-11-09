@@ -23,7 +23,7 @@ class StudentCardView extends ConsumerWidget {
           return Column(
             children: [
               if (lastFetched != null) LastUpdatedText(lastFetched),
-              _warningCard(),
+              _warningCard(context),
               InformationView(studentCard: data),
               SnappingSlider(libraryID: data.libraryID),
             ],
@@ -41,20 +41,20 @@ class StudentCardView extends ConsumerWidget {
     );
   }
 
-  Widget _warningCard() {
+  Widget _warningCard(BuildContext context) {
     return CardWithPadding(
       elevation: 0,
-      color: Colors.redAccent.withOpacity(0.2),
-      child: const Row(
+      color: Theme.of(context).primaryColor.withOpacity(0.2),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.warning, color: Colors.red),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+          Icon(Icons.warning, color: Theme.of(context).primaryColor),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
           Expanded(
             child: Text(
-              "Does NOT Replace the Physical StudentCard!",
-              style: TextStyle(color: Colors.red),
+              "Currently in Beta With Limited Functionality!",
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ],
