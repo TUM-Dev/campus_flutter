@@ -13,10 +13,13 @@ class CalendarViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    CalendarService.fetchCalendar(forcedRefresh).then((response) {
-      lastFetched.add(response.$1);
-      events.add(response.$2);
-    }, onError: (error) => events.addError(error));
+    CalendarService.fetchCalendar(forcedRefresh).then(
+      (response) {
+        lastFetched.add(response.$1);
+        events.add(response.$2);
+      },
+      onError: (error) => events.addError(error),
+    );
   }
 
   (CalendarEvent?, List<CalendarEvent>) getWidgetEvents() {
@@ -34,7 +37,10 @@ class CalendarViewModel implements ViewModel {
 
     for (CalendarEvent event in events.value ?? []) {
       final dateToCheck = DateTime(
-          event.startDate.year, event.startDate.month, event.startDate.day);
+        event.startDate.year,
+        event.startDate.month,
+        event.startDate.day,
+      );
       if (dateToCheck == currentDay && leftColumn == null) {
         leftColumn = event;
       } else if (rightColumn.length < 2 &&

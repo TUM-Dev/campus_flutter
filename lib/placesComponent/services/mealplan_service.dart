@@ -8,46 +8,65 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/meal_plan.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:campus_flutter/providers_get_it.dart';
+import 'package:dio/dio.dart';
 
 class MealPlanService {
   static Future<(DateTime?, List<CafeteriaMenu>)> getCafeteriaMenu(
-      bool forcedRefresh, Cafeteria cafeteria) async {
+    bool forcedRefresh,
+    Cafeteria cafeteria,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final today = DateTime.now();
-    final response = await mainApi.makeRequest<MealPlan, EatApi>(
-        EatApi(EatApiServiceMenu(
+    try {
+      final response = await mainApi.makeRequest<MealPlan, EatApi>(
+        EatApi(
+          EatApiServiceMenu(
             location: cafeteria.id,
             year: today.year,
-            week: today.weekNumber())),
+            week: today.weekNumber(),
+          ),
+        ),
         MealPlan.fromJson,
-        forcedRefresh);
+        forcedRefresh,
+      );
 
-    final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
+      final List<CafeteriaMenu> thisWeekMenu = _getMenuPerDay(response.data);
 
-    try {
       final nextWeek = today.add(const Duration(days: 7));
 
       final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
-          EatApi(EatApiServiceMenu(
-              location: cafeteria.id,
-              year: nextWeek.year,
-              week: nextWeek.weekNumber())),
-          MealPlan.fromJson,
-          forcedRefresh);
+        EatApi(
+          EatApiServiceMenu(
+            location: cafeteria.id,
+            year: nextWeek.year,
+            week: nextWeek.weekNumber(),
+          ),
+        ),
+        MealPlan.fromJson,
+        forcedRefresh,
+      );
 
       final List<CafeteriaMenu> nextWeekMenu = _filterNextWeekMenu(
-          _getMenuPerDay(nextWeekResponse.data), thisWeekMenu);
+        _getMenuPerDay(nextWeekResponse.data),
+        thisWeekMenu,
+      );
 
       thisWeekMenu.addAll(nextWeekMenu);
 
       return (response.saved, thisWeekMenu);
-    } catch (_) {
-      return (response.saved, thisWeekMenu);
+    } catch (e) {
+      if (e is DioException) {
+        return (DateTime.now(), <CafeteriaMenu>[]);
+      } else {
+        rethrow;
+      }
     }
   }
 
   static List<CafeteriaMenu> _filterNextWeekMenu(
-      List<CafeteriaMenu> nextWeekMenu, List<CafeteriaMenu> thisWeekMenu) {
+    List<CafeteriaMenu> nextWeekMenu,
+    List<CafeteriaMenu> thisWeekMenu,
+  ) {
     List<CafeteriaMenu> filteredMenu = nextWeekMenu.where((menu) {
       return !thisWeekMenu
           .any((thisWeekMenu) => thisWeekMenu.date == menu.date);
@@ -61,8 +80,9 @@ class MealPlanService {
     final today = DateTime.now();
     final todayDate = DateTime(today.year, today.month, today.day);
 
-    mealPlan.days.removeWhere((element) =>
-        (element.dishes.isEmpty || element.date.isBefore(todayDate)));
+    mealPlan.days.removeWhere(
+      (element) => (element.dishes.isEmpty || element.date.isBefore(todayDate)),
+    );
     mealPlan.days.sort((menu1, menu2) => menu1.date.compareTo(menu2.date));
 
     cafeteriaMenu = mealPlan.days.map((e) {

@@ -16,29 +16,37 @@ class UserDetailsViewModel implements ViewModel {
   UserDetailsViewModel(this.profile);
 
   static PersonDetails defaultPersonDetails = PersonDetails(
-      nr: "",
-      obfuscatedID: "",
-      firstName: "TUM",
-      name: "Student",
-      email: "tum.student@tum.de",
-      gender: Gender.unknown,
-      organisations: [],
-      rooms: [],
-      phoneExtensions: [],
-      imageData: "");
+    nr: "",
+    obfuscatedID: "",
+    firstName: "TUM",
+    name: "Student",
+    email: "tum.student@tum.de",
+    gender: Gender.unknown,
+    organisations: [],
+    rooms: [],
+    phoneExtensions: [],
+    imageData: "",
+  );
 
   @override
   Future fetch(bool forcedRefresh) async {
     if (profile != null) {
       PersonDetailsService.fetchPersonDetails(
-              forcedRefresh, profile!.obfuscatedID ?? "")
-          .then((response) {
-        lastFetched.add(response.$1);
-        personDetails.add(response.$2);
-      }, onError: (error) => personDetails.addError(error));
+        forcedRefresh,
+        profile!.obfuscatedID ?? "",
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          personDetails.add(response.$2);
+        },
+        onError: (error) => personDetails.addError(error),
+      );
     } else {
-      personDetails.addError(TumOnlineApiException(
-          tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound()));
+      personDetails.addError(
+        TumOnlineApiException(
+          tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound(),
+        ),
+      );
     }
   }
 }

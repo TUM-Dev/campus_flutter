@@ -200,6 +200,7 @@
    },
    "noRoomsFound":"No Rooms Found",
    "noMealPlanFound":"No Meal Plan Found",
+   "mealPlan": "Meal Plan",
    "noEntriesFoundSearch":"No {searchCategory} Found",
    "@noEntriesFoundSearch":{
       "description":"Title of Search Category",
@@ -226,6 +227,7 @@
    "requestCancelled":"Request Cancelled",
    "pleaseReport":"Please report this is as a bug \nvia Email or on GitHub",
    "connectionTimeout":"Connection Timeout",
+   "decodingError":"Decoding Error",
    "unknownError":"Unknown Error",
    "monday":"Monday",
    "tuesday":"Tuesday",

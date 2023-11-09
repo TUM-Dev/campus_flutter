@@ -15,12 +15,13 @@ class ContactInfo {
   @JsonKey(name: "www_homepage")
   final String? homepage;
 
-  ContactInfo(
-      {this.phone,
-      this.fax,
-      this.mobilePhone,
-      this.additionalInfo,
-      this.homepage});
+  ContactInfo({
+    this.phone,
+    this.fax,
+    this.mobilePhone,
+    this.additionalInfo,
+    this.homepage,
+  });
 
   factory ContactInfo.fromJson(Map<String, dynamic> json) =>
       _$ContactInfoFromJson(json);

@@ -8,8 +8,8 @@ import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
@@ -29,61 +29,73 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(profileDetailsViewModel).personDetails.withLatestFrom(
+      stream: ref.watch(profileDetailsViewModel).personDetails.withLatestFrom(
             ref.watch(studentCardViewModel).studentCard,
-            (personDetails, studentCard) => (personDetails, studentCard)),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return contactInfo(snapshot.data?.$1, snapshot.data?.$2);
-          } else {
-            return DelayedLoadingIndicator(
-              name: context.localizations.personalData,
-              alternativeLoadingIndicator: const ContactCardLoadingView(),
-              delayWidget: Container(),
-            );
-          }
-        });
+            (personDetails, studentCard) => (personDetails, studentCard),
+          ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return contactInfo(snapshot.data?.$1, snapshot.data?.$2);
+        } else {
+          return DelayedLoadingIndicator(
+            name: context.localizations.personalData,
+            alternativeLoadingIndicator: const ContactCardLoadingView(),
+            delayWidget: Container(),
+          );
+        }
+      },
+    );
   }
 
   Widget contactInfo(PersonDetails? data, StudentCard? studentCard) {
     final studies = studentCard?.studies?.study;
     return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: data?.imageData != null
-                  ? Image.memory(base64DecodeImageData(data!.imageData!)).image
-                  : const AssetImage(
-                      'assets/images/placeholders/portrait_placeholder.png'),
-              backgroundColor: Theme.of(context).cardTheme.color,
-              radius: 50,
-            ),
-            const Padding(padding: EdgeInsets.only(left: 15)),
-            Expanded(
-                child: Column(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: data?.imageData != null
+                ? Image.memory(base64DecodeImageData(data!.imageData!)).image
+                : const AssetImage(
+                    'assets/images/placeholders/portrait_placeholder.png',
+                  ),
+            backgroundColor: Theme.of(context).cardTheme.color,
+            radius: 50,
+          ),
+          const Padding(padding: EdgeInsets.only(left: 15)),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                    data != null
-                        ? data.fullName
-                        : UserDetailsViewModel.defaultPersonDetails.fullName,
-                    style: Theme.of(context).textTheme.headlineSmall),
-                Text(ref.watch(profileViewModel).profile.value?.tumID ??
-                    "go42tum"),
-                Text(data != null
-                    ? data.email
-                    : UserDetailsViewModel.defaultPersonDetails.email),
+                  data != null
+                      ? data.fullName
+                      : UserDetailsViewModel.defaultPersonDetails.fullName,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
+                ),
+                Text(
+                  data != null
+                      ? data.email
+                      : UserDetailsViewModel.defaultPersonDetails.email,
+                ),
                 for (var studyProgram in studies?.sublist(
-                        0, studies.length >= 2 ? 2 : studies.length) ??
+                      0,
+                      studies.length >= 2 ? 2 : studies.length,
+                    ) ??
                     []) ...[
                   Text(
-                      "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})")
-                ]
+                    "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})",
+                  ),
+                ],
               ],
-            ))
-          ],
-        ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

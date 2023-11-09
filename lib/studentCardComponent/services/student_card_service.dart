@@ -7,14 +7,16 @@ import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 
 class StudentCardService {
   static Future<(DateTime?, StudentCard)> fetchStudentCard(
-      bool forcedRefresh) async {
+    bool forcedRefresh,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<StudentCardData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceTumCard()),
-        StudentCardData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceTumCard()),
+      StudentCardData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (response.saved, response.data.studentCards.studentCard);
   }

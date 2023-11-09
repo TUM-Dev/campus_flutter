@@ -22,8 +22,9 @@ class _SnappingSliderState extends State<SnappingSlider> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: _numPages,
-        child: Builder(builder: (context) {
+      length: _numPages,
+      child: Builder(
+        builder: (context) {
           return Column(
             children: [
               SizedBox(
@@ -32,51 +33,62 @@ class _SnappingSliderState extends State<SnappingSlider> {
                   itemCount: _numPages,
                   itemBuilder: (BuildContext context, int index) {
                     return CardWithPadding(
-                        child: index == 1
-                            ? _barcodeView(context)
-                            : _verificationView(context));
+                      child: index == 1
+                          ? _barcodeView(context)
+                          : _verificationView(context),
+                    );
                   },
                   onPageChanged: (index) {
                     DefaultTabController.of(context).index = index;
                   },
                 ),
               ),
-              const TabPageSelector(indicatorSize: 8.0)
+              const TabPageSelector(indicatorSize: 8.0),
             ],
           );
-        }));
+        },
+      ),
+    );
   }
 
   // TODO: beautify ;)
   Widget _verificationView(BuildContext context) {
-    return Column(children: [
-      Text("Verification QR-Code",
-          style: Theme.of(context).textTheme.titleMedium),
-      const Spacer(),
-      BarcodeWidget(
+    return Column(
+      children: [
+        Text(
+          "Verification QR-Code",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const Spacer(),
+        BarcodeWidget(
           data: "https://www.tum.app",
           barcode: Barcode.qrCode(),
           color: Theme.of(context).colorScheme.onSurface,
           drawText: false,
-          height: 150),
-      const Text("demo purposes only"),
-      const Spacer()
-    ]);
+          height: 150,
+        ),
+        const Text("demo purposes only"),
+        const Spacer(),
+      ],
+    );
   }
 
   Widget _barcodeView(BuildContext context) {
-    return Column(children: [
-      Text("Library Barcode", style: Theme.of(context).textTheme.titleMedium),
-      const Spacer(),
-      BarcodeWidget(
+    return Column(
+      children: [
+        Text("Library Barcode", style: Theme.of(context).textTheme.titleMedium),
+        const Spacer(),
+        BarcodeWidget(
           data: widget.libraryID,
           barcode: Barcode.code39(),
           drawText: false,
           color: Theme.of(context).colorScheme.onSurface,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          height: 100),
-      Text("Library Number: ${widget.libraryID}"),
-      const Spacer()
-    ]);
+          height: 100,
+        ),
+        Text("Library Number: ${widget.libraryID}"),
+        const Spacer(),
+      ],
+    );
   }
 }

@@ -21,14 +21,15 @@ class NavigaTumNavigationDetails {
   final NavigaTumNavigationMaps maps;
 
   NavigaTumNavigationDetails(
-      this.id,
-      this.name,
-      this.parentNames,
-      this.type,
-      this.typeCommonName,
-      this.additionalProperties,
-      this.coordinates,
-      this.maps);
+    this.id,
+    this.name,
+    this.parentNames,
+    this.type,
+    this.typeCommonName,
+    this.additionalProperties,
+    this.coordinates,
+    this.maps,
+  );
 
   factory NavigaTumNavigationDetails.fromJson(Map<String, dynamic> json) =>
       _$NavigaTumNavigationDetailsFromJson(json);

@@ -17,13 +17,14 @@ class Departure {
   final ServingLine servingLine;
   final LineInfosType? lineInfos;
 
-  Departure(
-      {required this.stopId,
-      required this.countdown,
-      required this.dateTime,
-      this.realDateTime,
-      required this.servingLine,
-      this.lineInfos});
+  Departure({
+    required this.stopId,
+    required this.countdown,
+    required this.dateTime,
+    this.realDateTime,
+    required this.servingLine,
+    this.lineInfos,
+  });
 
   factory Departure.fromJson(Map<String, dynamic> json) =>
       _$DepartureFromJson(json);
@@ -32,21 +33,23 @@ class Departure {
 
   static DateTime plannedDate(Map<String, dynamic> json) {
     return DateTime(
-        int.parse(json["year"]),
-        int.parse(json["month"]),
-        int.parse(json["day"]),
-        int.parse(json["hour"]),
-        int.parse(json["minute"]));
+      int.parse(json["year"]),
+      int.parse(json["month"]),
+      int.parse(json["day"]),
+      int.parse(json["hour"]),
+      int.parse(json["minute"]),
+    );
   }
 
   static DateTime? realDate(Map<String, dynamic>? json) {
     if (json != null) {
       return DateTime(
-          int.parse(json["year"]),
-          int.parse(json["month"]),
-          int.parse(json["day"]),
-          int.parse(json["hour"]),
-          int.parse(json["minute"]));
+        int.parse(json["year"]),
+        int.parse(json["month"]),
+        int.parse(json["day"]),
+        int.parse(json["hour"]),
+        int.parse(json["minute"]),
+      );
     } else {
       return null;
     }
@@ -59,7 +62,13 @@ class DepartureDateTime {
   final int year, month, day, weekday, hour, minute;
 
   DepartureDateTime(
-      this.year, this.month, this.day, this.weekday, this.hour, this.minute);
+    this.year,
+    this.month,
+    this.day,
+    this.weekday,
+    this.hour,
+    this.minute,
+  );
 
   factory DepartureDateTime.fromJson(Map<String, dynamic> json) =>
       _$DepartureDateTimeFromJson(json);
@@ -75,14 +84,15 @@ class ServingLine {
   @JsonKey(fromJson: StringParser.optStringToOptInt)
   final int? delay;
 
-  ServingLine(
-      {required this.key,
-      required this.code,
-      required this.number,
-      required this.symbol,
-      required this.direction,
-      required this.name,
-      this.delay});
+  ServingLine({
+    required this.key,
+    required this.code,
+    required this.number,
+    required this.symbol,
+    required this.direction,
+    required this.name,
+    this.delay,
+  });
 
   factory ServingLine.fromJson(Map<String, dynamic> json) =>
       _$ServingLineFromJson(json);
@@ -125,9 +135,10 @@ class LineInfosType {
   factory LineInfosType.fromJson(Map<String, dynamic> json) {
     if (json['lineInfos'] != null) {
       return LineInfosType(
-          array: (json['lineInfos'] as List)
-              .map((e) => LineInfoContent.fromJson(e))
-              .toList());
+        array: (json['lineInfos'] as List)
+            .map((e) => LineInfoContent.fromJson(e))
+            .toList(),
+      );
     } else if (json['lineInfo'] != null) {
       return LineInfosType(element: LineInfoElement.fromJson(json));
     } else {
@@ -173,12 +184,13 @@ class AdditionalLink {
   final String id;
   final String linkURL, linkText, linkTextShort, linkTarget;
 
-  AdditionalLink(
-      {required this.id,
-      required this.linkURL,
-      required this.linkText,
-      required this.linkTextShort,
-      required this.linkTarget});
+  AdditionalLink({
+    required this.id,
+    required this.linkURL,
+    required this.linkText,
+    required this.linkTextShort,
+    required this.linkTarget,
+  });
 
   factory AdditionalLink.fromJson(Map<String, dynamic> json) =>
       _$AdditionalLinkFromJson(json);

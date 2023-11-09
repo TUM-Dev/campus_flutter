@@ -1,4 +1,4 @@
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/cupertino.dart';
 
 enum SearchCategory {
@@ -43,7 +43,9 @@ extension SearchCategoryExtension on SearchCategory {
   }
 
   static String localizedEnumTitle(
-      SearchCategory searchCategory, BuildContext context) {
+    SearchCategory searchCategory,
+    BuildContext context,
+  ) {
     switch (searchCategory) {
       case SearchCategory.cafeterias:
         return context.localizations.cafeterias;
@@ -76,7 +78,7 @@ extension SearchCategoryExtension on SearchCategory {
       SearchCategory.rooms,
       SearchCategory.cafeterias,
       SearchCategory.movie,
-      SearchCategory.news
+      SearchCategory.news,
     ];
   }
 }

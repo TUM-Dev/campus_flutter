@@ -14,29 +14,36 @@ class NewsSearchResultView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<NewsSearchViewModel, NewsSearch>(
-        searchCategory: SearchCategory.news,
-        viewModel: newsSearchViewModel,
-        body: (newsSearch) {
-          return ListTile(
-            leading: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: CachedNetworkImage(
-                height: 60,
-                imageUrl: newsSearch.news.imageUrl,
-                placeholder: (context, string) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill),
-                errorWidget: (context, url, error) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill),
-                fit: BoxFit.fitHeight,
+      searchCategory: SearchCategory.news,
+      viewModel: newsSearchViewModel,
+      body: (newsSearch) {
+        return ListTile(
+          leading: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: CachedNetworkImage(
+              height: 60,
+              imageUrl: newsSearch.news.imageUrl,
+              placeholder: (context, string) => Image.asset(
+                "assets/images/placeholders/news_placeholder.png",
+                fit: BoxFit.fill,
               ),
+              errorWidget: (context, url, error) => Image.asset(
+                "assets/images/placeholders/news_placeholder.png",
+                fit: BoxFit.fill,
+              ),
+              fit: BoxFit.fitHeight,
             ),
-            title: Text(newsSearch.news.title),
-            subtitle: Text(StringParser.dateFormatter(
-                newsSearch.news.date.toDateTime(), context)),
-            onTap: () => UrlLauncher.urlString(newsSearch.news.link, ref),
-          );
-        });
+          ),
+          title: Text(newsSearch.news.title),
+          subtitle: Text(
+            StringParser.dateFormatter(
+              newsSearch.news.date.toDateTime(),
+              context,
+            ),
+          ),
+          onTap: () => UrlLauncher.urlString(newsSearch.news.link, ref),
+        );
+      },
+    );
   }
 }

@@ -8,14 +8,16 @@ import 'package:campus_flutter/providers_get_it.dart';
 
 class GradeService {
   static Future<({DateTime? saved, List<Grade> data})> fetchGrades(
-      bool forcedRefresh) async {
+    bool forcedRefresh,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<GradeData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServicePersonalGrades()),
-        GradeData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServicePersonalGrades()),
+      GradeData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
     return (
       saved: response.saved,
       data: response.data.gradesAttribute?.personalGrades ?? []
@@ -26,11 +28,12 @@ class GradeService {
       fetchAverageGrades(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<
-            AverageGradeResponse, TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceAverageGrades()),
-        AverageGradeResponse.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        AverageGradeResponse, TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceAverageGrades()),
+      AverageGradeResponse.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
     return (
       saved: response.saved,
       data: response.data.averageGradeData?.averageGrades ?? []

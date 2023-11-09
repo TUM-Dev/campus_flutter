@@ -9,16 +9,20 @@ class LectureSearchViewModel implements SearchViewModel<Lecture> {
   @override
   BehaviorSubject<List<Lecture>?> searchResults = BehaviorSubject.seeded(null);
 
-  Future lectureSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future lectureSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     return LectureSearchService.fetchLectureSearch(forcedRefresh, query).then(
-        (value) {
-      final results = GlobalSearch.tokenSearch(query, value.$2);
-      if (results == null) {
-        searchResults.addError(SearchException.empty(searchQuery: query));
-      } else {
-        searchResults.add(results);
-      }
-    }, onError: (error) => searchResults.addError(error));
+      (value) {
+        final results = GlobalSearch.tokenSearch(query, value.$2);
+        if (results == null) {
+          searchResults.addError(SearchException.empty(searchQuery: query));
+        } else {
+          searchResults.add(results);
+        }
+      },
+      onError: (error) => searchResults.addError(error),
+    );
   }
 }

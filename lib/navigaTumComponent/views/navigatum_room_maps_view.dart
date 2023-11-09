@@ -7,7 +7,7 @@ import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.d
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
 class NavigaTumRoomMapsView extends StatelessWidget {
@@ -28,20 +28,20 @@ class NavigaTumRoomMapsView extends StatelessWidget {
                   return Tapable(
                     child: CachedNetworkImage(
                       imageUrl: NavigaTumApi(
-                              navigaTumApiService:
-                                  NavigaTumApiServiceImages(id: map.imageUrl))
-                          .asURL()
-                          .toString(),
+                        navigaTumApiService:
+                            NavigaTumApiServiceImages(id: map.imageUrl),
+                      ).asURL().toString(),
                     ),
                     action: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ImageFullScreenScaffold.network(
-                            url: NavigaTumApi(
-                              navigaTumApiService:
-                                  NavigaTumApiServiceImages(id: map.imageUrl),
-                            ).asURL().toString(),
-                            map: map),
+                          url: NavigaTumApi(
+                            navigaTumApiService:
+                                NavigaTumApiServiceImages(id: map.imageUrl),
+                          ).asURL().toString(),
+                          map: map,
+                        ),
                       ),
                     ),
                   );

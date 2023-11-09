@@ -9,10 +9,10 @@ class BarCodeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: ExpansionTile(
-            title: const Text("Library Barcode"),
-            initiallyExpanded: true,
-            children: [
+      child: ExpansionTile(
+        title: const Text("Library Barcode"),
+        initiallyExpanded: true,
+        children: [
           BarcodeWidget(
             height: 60,
             width: MediaQuery.of(context).size.width,
@@ -22,8 +22,12 @@ class BarCodeView extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
             drawText: false,
           ),
-          Text("Library Number: $libraryID",
-              style: Theme.of(context).textTheme.labelLarge)
-        ]));
+          Text(
+            "Library Number: $libraryID",
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ],
+      ),
+    );
   }
 }

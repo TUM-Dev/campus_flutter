@@ -8,15 +8,20 @@ class ApiResponse<T> {
   ApiResponse({required this.data, this.saved});
 
   factory ApiResponse.fromJson(
-      dynamic json, Headers headers, Function(Map<String, dynamic>) create) {
+    dynamic json,
+    Headers headers,
+    Function(Map<String, dynamic>) create,
+  ) {
     if (json is List<dynamic>) {
       return ApiResponse<T>(
-          data: create({"data": json}),
-          saved: ApiResponse._parseDate(headers["date"]?.first));
+        data: create({"data": json}),
+        saved: ApiResponse._parseDate(headers["date"]?.first),
+      );
     } else {
       return ApiResponse<T>(
-          data: create(json),
-          saved: ApiResponse._parseDate(headers["date"]?.first));
+        data: create(json),
+        saved: ApiResponse._parseDate(headers["date"]?.first),
+      );
     }
   }
 

@@ -14,13 +14,16 @@ class LoginService {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi
         .makeRequestWithException<Token, TumOnlineApi, TumOnlineApiException>(
-            TumOnlineApi(TumOnlineServiceTokenRequest(
-                tumId: name,
-                deviceName:
-                    "TCA - ${kIsWeb ? "Web App" : io.Platform.localHostname}")),
-            Token.fromJson,
-            TumOnlineApiException.fromJson,
-            forcedRefresh);
+      TumOnlineApi(
+        TumOnlineServiceTokenRequest(
+          tumId: name,
+          deviceName: "TCA - ${kIsWeb ? "Web App" : io.Platform.localHostname}",
+        ),
+      ),
+      Token.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
     return response.data;
   }
 
@@ -28,10 +31,11 @@ class LoginService {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi
         .makeRequestWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
-            TumOnlineApi(TumOnlineServiceTokenConfirmation()),
-            Confirm.fromJson,
-            TumOnlineApiException.fromJson,
-            forcedRefresh);
+      TumOnlineApi(TumOnlineServiceTokenConfirmation()),
+      Confirm.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return response.data;
   }

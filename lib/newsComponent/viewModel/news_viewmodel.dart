@@ -10,10 +10,13 @@ class NewsViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    return NewsService.fetchRecentNews(forcedRefresh).then((value) {
-      lastFetched.add(value.$1);
-      news.add(value.$2);
-    }, onError: (error) => news.addError(error));
+    return NewsService.fetchRecentNews(forcedRefresh).then(
+      (value) {
+        lastFetched.add(value.$1);
+        news.add(value.$2);
+      },
+      onError: (error) => news.addError(error),
+    );
   }
 
   List<News> latestFiveNews() {
@@ -28,8 +31,10 @@ class NewsViewModel implements ViewModel {
           return true;
         }
       });
-      news.sort((news1, news2) =>
-          news2.date.toDateTime().compareTo(news1.date.toDateTime()));
+      news.sort(
+        (news1, news2) =>
+            news2.date.toDateTime().compareTo(news1.date.toDateTime()),
+      );
       if (news.length > 5) {
         return news.sublist(0, 5).toList();
       } else {

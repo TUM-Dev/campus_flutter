@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
@@ -7,7 +8,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,67 +44,77 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(studyRoomsViewModel).studyRooms,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return OrientationBuilder(builder: (context, orientation) {
+      stream: ref.watch(studyRoomsViewModel).studyRooms,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return OrientationBuilder(
+            builder: (context, orientation) {
               if (orientation == Orientation.landscape) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: MapWidget.customPadding(
-                          padding: EdgeInsets.only(
-                              left: context.padding,
-                              right: context.padding,
-                              top: context.halfPadding,
-                              bottom: context.padding),
-                          markers:
-                              ref.read(studyRoomsViewModel).mapMakers(context)),
+                        padding: EdgeInsets.only(
+                          left: context.padding,
+                          right: context.padding,
+                          top: context.halfPadding,
+                          bottom: context.padding,
+                        ),
+                        markers:
+                            ref.read(studyRoomsViewModel).mapMakers(context),
+                      ),
                     ),
                     Expanded(
-                        child:
-                            _studyRoomList(snapshot.data!.keys.toList(), false))
+                      child:
+                          _studyRoomList(snapshot.data!.keys.toList(), false),
+                    ),
                   ],
                 );
               } else {
                 return SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    MapWidget.horizontalPadding(
-                      markers: ref.read(studyRoomsViewModel).mapMakers(context),
-                    ),
-                    const PaddedDivider(),
-                    _studyRoomList(snapshot.data!.keys.toList(), true)
-                  ],
-                ));
+                  child: Column(
+                    children: [
+                      MapWidget.horizontalPadding(
+                        markers:
+                            ref.read(studyRoomsViewModel).mapMakers(context),
+                      ),
+                      const PaddedDivider(),
+                      _studyRoomList(snapshot.data!.keys.toList(), true),
+                    ],
+                  ),
+                );
               }
-            });
-          } else if (snapshot.hasError) {
-            return ErrorHandlingView(
-              error: snapshot.error!,
-              errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-              retry: ref.read(studyRoomsViewModel).fetch,
-            );
-          } else {
-            return DelayedLoadingIndicator(
-              name: context.localizations.studyRooms,
-            );
-          }
-        });
+            },
+          );
+        } else if (snapshot.hasError) {
+          return ErrorHandlingView(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(studyRoomsViewModel).fetch,
+          );
+        } else {
+          return DelayedLoadingIndicator(
+            name: context.localizations.studyRooms,
+          );
+        }
+      },
+    );
   }
 
   Widget _studyRoomList(List<StudyRoomGroup> studyRoomGroups, bool portrait) {
     return WidgetFrameView(
-        title: portrait ? context.localizations.studyRooms : null,
-        child: Column(
-          children: [
-            Card(
-                child: SeparatedList.list(
+      title: portrait ? context.localizations.studyRooms : null,
+      child: Column(
+        children: [
+          Card(
+            child: SeparatedList.list(
               data: studyRoomGroups,
               tile: (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
-            ))
-          ],
-        ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

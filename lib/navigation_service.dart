@@ -8,7 +8,7 @@ import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -41,23 +41,37 @@ class NavigationService {
   Widget title(int index, BuildContext context) {
     switch (index) {
       case 0:
-        return Image.asset('assets/images/logos/tum-logo-blue.png',
-            fit: BoxFit.cover, height: 20);
+        return Image.asset(
+          'assets/images/logos/tum-logo-blue.png',
+          fit: BoxFit.cover,
+          height: 20,
+        );
       case 1:
-        return Text(context.localizations.grades,
-            style: Theme.of(context).textTheme.titleLarge);
+        return Text(
+          context.localizations.grades,
+          style: Theme.of(context).textTheme.titleLarge,
+        );
       case 2:
-        return Text(context.localizations.lectures,
-            style: Theme.of(context).textTheme.titleLarge);
+        return Text(
+          context.localizations.lectures,
+          style: Theme.of(context).textTheme.titleLarge,
+        );
       case 3:
-        return Text(context.localizations.calendar,
-            style: Theme.of(context).textTheme.titleLarge);
+        return Text(
+          context.localizations.calendar,
+          style: Theme.of(context).textTheme.titleLarge,
+        );
       case 4:
-        return Text(context.localizations.places,
-            style: Theme.of(context).textTheme.titleLarge);
+        return Text(
+          context.localizations.places,
+          style: Theme.of(context).textTheme.titleLarge,
+        );
       default:
-        return Image.asset('assets/images/logos/tum-logo-blue.png',
-            fit: BoxFit.contain, height: 20);
+        return Image.asset(
+          'assets/images/logos/tum-logo-blue.png',
+          fit: BoxFit.contain,
+          height: 20,
+        );
     }
   }
 
@@ -76,14 +90,17 @@ class NavigationService {
   List<Widget> actions(BuildContext context) {
     return [
       IconButton(
-          onPressed: () => _openStudentCardSheet(context),
-          icon: const Icon(Icons.credit_card)),
+        onPressed: () => _openStudentCardSheet(context),
+        icon: const Icon(Icons.credit_card),
+      ),
       IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const SettingsView()));
-          },
-          icon: const Icon(Icons.settings)),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const SettingsView()),
+          );
+        },
+        icon: const Icon(Icons.settings),
+      ),
     ];
   }
 
@@ -118,21 +135,23 @@ class NavigationService {
 
   void _openStudentCardSheet(BuildContext context) {
     showModalBottomSheet(
-        isScrollControlled: true,
-        useSafeArea: true,
-        showDragHandle: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: const StudentCardView());
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: const StudentCardView(),
+        );
 
-          /// leave here for now, enables height adjusted to content
-          /*return const SafeArea(child:
+        /// leave here for now, enables height adjusted to content
+        /*return const SafeArea(child:
                          //Wrap(children: [
                           //StudentCardView()
                        ]));*/
-        });
+      },
+    );
   }
 }

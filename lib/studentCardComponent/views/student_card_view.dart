@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
@@ -14,41 +15,48 @@ class StudentCardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream: ref.watch(studentCardViewModel).studentCard,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var data = snapshot.data!;
-            final lastFetched =
-                ref.read(studentCardViewModel).lastFetched.value;
-            return Column(
-              children: [
-                if (lastFetched != null) LastUpdatedText(lastFetched),
-                _warningCard(),
-                InformationView(studentCard: data),
-                SnappingSlider(libraryID: data.libraryID),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return ErrorHandlingView(
-                error: snapshot.error!,
-                errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-                retry: ref.read(studentCardViewModel).fetch);
-          } else {
-            return const DelayedLoadingIndicator(name: "Student Card");
-          }
-        });
+      stream: ref.watch(studentCardViewModel).studentCard,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data!;
+          final lastFetched = ref.read(studentCardViewModel).lastFetched.value;
+          return Column(
+            children: [
+              if (lastFetched != null) LastUpdatedText(lastFetched),
+              _warningCard(),
+              InformationView(studentCard: data),
+              SnappingSlider(libraryID: data.libraryID),
+            ],
+          );
+        } else if (snapshot.hasError) {
+          return ErrorHandlingView(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(studentCardViewModel).fetch,
+          );
+        } else {
+          return const DelayedLoadingIndicator(name: "Student Card");
+        }
+      },
+    );
   }
 
   Widget _warningCard() {
     return CardWithPadding(
-        color: Colors.redAccent.withOpacity(0.2),
-        child:
-            const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      color: Colors.redAccent.withOpacity(0.2),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Icon(Icons.warning, color: Colors.red),
           Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
           Expanded(
-              child: Text("Does NOT Replace the Physical StudentCard!",
-                  style: TextStyle(color: Colors.red)))
-        ]));
+            child: Text(
+              "Does NOT Replace the Physical StudentCard!",
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -29,30 +29,35 @@ class PlacesViewModel implements ViewModel {
       Campus.garching,
       Campus.olympiapark,
       Campus.klinikumRechts,
-      Campus.freising
+      Campus.freising,
     ];
-    return LocationService.getLastKnown().then((location) {
-      if (location == null) {
-        return defaultOrder;
-      } else {
-        defaultOrder.sort((campus1, campus2) {
-          final campus1Location = campus1.location;
-          final campus2Location = campus2.location;
-          final distance1 = Geolocator.distanceBetween(
+    return LocationService.getLastKnown().then(
+      (location) {
+        if (location == null) {
+          return defaultOrder;
+        } else {
+          defaultOrder.sort((campus1, campus2) {
+            final campus1Location = campus1.location;
+            final campus2Location = campus2.location;
+            final distance1 = Geolocator.distanceBetween(
               location.latitude,
               location.longitude,
               campus1Location.latitude,
-              campus1Location.longitude);
-          final distance2 = Geolocator.distanceBetween(
+              campus1Location.longitude,
+            );
+            final distance2 = Geolocator.distanceBetween(
               location.latitude,
               location.longitude,
               campus2Location.latitude,
-              campus2Location.longitude);
-          return distance1.compareTo(distance2);
-        });
-        return defaultOrder;
-      }
-    }, onError: (error) => defaultOrder);
+              campus2Location.longitude,
+            );
+            return distance1.compareTo(distance2);
+          });
+          return defaultOrder;
+        }
+      },
+      onError: (error) => defaultOrder,
+    );
   }
 
   Set<Marker> getCampusMarkers(BuildContext context, Campus campus) {

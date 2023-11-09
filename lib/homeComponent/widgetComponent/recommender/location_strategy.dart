@@ -25,79 +25,95 @@ class LocationStrategy implements WidgetRecommenderStrategy {
   }
 
   Future<int> _priority(HomeWidget homeWidget) async {
-    return LocationService.getLastKnown().then((location) async {
-      int priority = 0;
-      if (location != null) {
-        switch (homeWidget) {
-          case HomeWidget.cafeteria:
-            final locations = await _getCafeteriaLocations();
+    return LocationService.getLastKnown().then(
+      (location) async {
+        int priority = 0;
+        if (location != null) {
+          switch (homeWidget) {
+            case HomeWidget.cafeteria:
+              final locations = await _getCafeteriaLocations();
 
-            for (var distance in [closeDistance, veryCloseDistance]) {
-              locations.removeWhere((element) => (Geolocator.distanceBetween(
-                      element.latitude,
-                      element.longitude,
-                      location.latitude,
-                      location.longitude) >=
-                  distance));
-              if (locations.isNotEmpty) {
-                priority++;
-              } else {
-                priority = 0;
+              for (var distance in [closeDistance, veryCloseDistance]) {
+                locations.removeWhere(
+                  (element) => (Geolocator.distanceBetween(
+                        element.latitude,
+                        element.longitude,
+                        location.latitude,
+                        location.longitude,
+                      ) >=
+                      distance),
+                );
+                if (locations.isNotEmpty) {
+                  priority++;
+                } else {
+                  priority = 0;
+                }
               }
-            }
 
-          case HomeWidget.studyRoom:
-            final locations = await _getStudyRoomLocations();
+            case HomeWidget.studyRoom:
+              final locations = await _getStudyRoomLocations();
 
-            for (var distance in [closeDistance, veryCloseDistance]) {
-              locations.removeWhere((element) =>
-                  Geolocator.distanceBetween(
-                      element.latitude,
-                      element.longitude,
-                      location.latitude,
-                      location.longitude) >=
-                  distance);
+              for (var distance in [closeDistance, veryCloseDistance]) {
+                locations.removeWhere(
+                  (element) =>
+                      Geolocator.distanceBetween(
+                        element.latitude,
+                        element.longitude,
+                        location.latitude,
+                        location.longitude,
+                      ) >=
+                      distance,
+                );
 
-              if (locations.isNotEmpty) {
-                priority++;
-              } else {
-                priority = 0;
+                if (locations.isNotEmpty) {
+                  priority++;
+                } else {
+                  priority = 0;
+                }
               }
-            }
 
-          case HomeWidget.departures:
-            List<Campus> locations = Campus.values.toList();
+            case HomeWidget.departures:
+              List<Campus> locations = Campus.values.toList();
 
-            locations.removeWhere((element) =>
-                Geolocator.distanceBetween(
-                    element.location.latitude,
-                    element.location.longitude,
-                    location.latitude,
-                    location.longitude) >=
-                closeDistance);
+              locations.removeWhere(
+                (element) =>
+                    Geolocator.distanceBetween(
+                      element.location.latitude,
+                      element.location.longitude,
+                      location.latitude,
+                      location.longitude,
+                    ) >=
+                    closeDistance,
+              );
 
-            if (locations.isEmpty) {
-              priority == 0;
-            } else {
-              priority++;
-            }
+              if (locations.isEmpty) {
+                priority == 0;
+              } else {
+                priority++;
+              }
 
-          default:
-            priority = 1;
-            break;
+            default:
+              priority = 1;
+              break;
+          }
         }
-      }
 
-      return priority;
-    }, onError: (error) => 0);
+        return priority;
+      },
+      onError: (error) => 0,
+    );
   }
 
   Future<List<Location>> _getCafeteriaLocations() async {
     try {
       final cafeterias = await CafeteriasService.fetchCafeterias(false);
       return cafeterias.$2
-          .map((e) => Location(
-              latitude: e.location.latitude, longitude: e.location.longitude))
+          .map(
+            (e) => Location(
+              latitude: e.location.latitude,
+              longitude: e.location.longitude,
+            ),
+          )
           .toList();
     } catch (_) {
       return [];

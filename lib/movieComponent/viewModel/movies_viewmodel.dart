@@ -10,10 +10,13 @@ class MovieViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    return MovieService.fetchMovies(forcedRefresh).then((response) {
-      lastFetched.add(response.$1);
-      movies.add(response.$2);
-    }, onError: (error) => movies.addError(error));
+    return MovieService.fetchMovies(forcedRefresh).then(
+      (response) {
+        lastFetched.add(response.$1);
+        movies.add(response.$2);
+      },
+      onError: (error) => movies.addError(error),
+    );
   }
 }
 

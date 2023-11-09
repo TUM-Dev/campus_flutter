@@ -4,11 +4,12 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:flutter/material.dart';
 
 class LectureInfoCardView extends StatelessWidget {
-  const LectureInfoCardView(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.widgets});
+  const LectureInfoCardView({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.widgets,
+  });
 
   final IconData icon;
   final String title;
@@ -18,9 +19,10 @@ class LectureInfoCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetFrameView(
       titleWidget: IconText(
-          iconData: icon,
-          label: title,
-          style: Theme.of(context).textTheme.titleMedium),
+        iconData: icon,
+        label: title,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
       child: Card(
         child: SeparatedList.widgets(widgets: widgets),
       ),

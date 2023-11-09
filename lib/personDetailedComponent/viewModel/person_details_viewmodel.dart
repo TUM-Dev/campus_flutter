@@ -17,13 +17,19 @@ class PersonDetailsViewModel implements ViewModel {
   Future fetch(bool forcedRefresh) async {
     if (obfuscatedId != null) {
       PersonDetailsService.fetchPersonDetails(forcedRefresh, obfuscatedId ?? "")
-          .then((response) {
-        lastFetched.add(response.$1);
-        personDetails.add(response.$2);
-      }, onError: (error) => personDetails.addError(error));
+          .then(
+        (response) {
+          lastFetched.add(response.$1);
+          personDetails.add(response.$2);
+        },
+        onError: (error) => personDetails.addError(error),
+      );
     } else {
-      personDetails.addError(TumOnlineApiException(
-          tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound()));
+      personDetails.addError(
+        TumOnlineApiException(
+          tumOnlineApiExceptionType: TumOnlineApiExceptionNoUserFound(),
+        ),
+      );
     }
   }
 }

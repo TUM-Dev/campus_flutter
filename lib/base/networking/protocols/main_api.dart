@@ -21,34 +21,38 @@ class MainApi {
     memCacheStore = MemCacheStore();
 
     var cacheOptions = CacheOptions(
-        store: memCacheStore,
-        policy: CachePolicy.forceCache,
-        maxStale: const Duration(minutes: 10),
-        hitCacheOnErrorExcept: [401, 404]);
+      store: memCacheStore,
+      policy: CachePolicy.forceCache,
+      maxStale: const Duration(minutes: 10),
+      hitCacheOnErrorExcept: [401, 404],
+    );
 
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     dio.options = BaseOptions(
-        responseDecoder: (data, options, body) {
-          final decoded = utf8.decoder.convert(data);
-          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-            final transformer = Xml2Json();
-            transformer.parse(decoded);
-            return transformer.toParkerWithAttrsCustom(array: [
+      responseDecoder: (data, options, body) {
+        final decoded = utf8.decoder.convert(data);
+        if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+          final transformer = Xml2Json();
+          transformer.parse(decoded);
+          return transformer.toParkerWithAttrsCustom(
+            array: [
               "row",
               "event",
               "studium",
               "raeume",
               "gruppen",
               "telefon_nebenstellen",
-            ]);
-          } else {
-            return decoded;
-          }
-        },
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 5));
+            ],
+          );
+        } else {
+          return decoded;
+        }
+      },
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+    );
 
     this.dio = dio;
   }
@@ -58,38 +62,46 @@ class MainApi {
 
     /// cache duration is 30 days for offline mode
     var cacheOptions = CacheOptions(
-        store: hiveCacheStore,
-        policy: CachePolicy.forceCache,
-        maxStale: const Duration(days: 30),
-        hitCacheOnErrorExcept: [401, 404]);
+      store: hiveCacheStore,
+      policy: CachePolicy.forceCache,
+      maxStale: const Duration(days: 30),
+      hitCacheOnErrorExcept: [401, 404],
+    );
 
     /// add custom cache interceptor to dio
     final dio = Dio()
-      ..interceptors.add(CustomCacheInterceptor(
-          cacheStore: hiveCacheStore, cacheOptions: cacheOptions));
+      ..interceptors.add(
+        CustomCacheInterceptor(
+          cacheStore: hiveCacheStore,
+          cacheOptions: cacheOptions,
+        ),
+      );
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
     dio.options = BaseOptions(
-        responseDecoder: (data, options, body) {
-          final decoded = utf8.decoder.convert(data);
-          if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-            final transformer = Xml2Json();
-            transformer.parse(decoded);
-            return transformer.toParkerWithAttrsCustom(array: [
+      responseDecoder: (data, options, body) {
+        final decoded = utf8.decoder.convert(data);
+        if (body.headers["content-type"]?.first.contains("xml") ?? false) {
+          final transformer = Xml2Json();
+          transformer.parse(decoded);
+          return transformer.toParkerWithAttrsCustom(
+            array: [
               "row",
               "event",
               "studium",
               "raeume",
               "gruppen",
               "telefon_nebenstellen",
-            ]);
-          } else {
-            return decoded;
-          }
-        },
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 5));
+            ],
+          );
+        } else {
+          return decoded;
+        }
+      },
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+    );
 
     this.dio = dio;
   }
@@ -97,10 +109,11 @@ class MainApi {
   /// with possible error in response body
   Future<ApiResponse<T>>
       makeRequestWithException<T, S extends Api, U extends ApiException>(
-          S endpoint,
-          dynamic Function(Map<String, dynamic>) createObject,
-          dynamic Function(Map<String, dynamic>) createError,
-          bool forcedRefresh) async {
+    S endpoint,
+    dynamic Function(Map<String, dynamic>) createObject,
+    dynamic Function(Map<String, dynamic>) createError,
+    bool forcedRefresh,
+  ) async {
     Response<String> response;
 
     /// add forcedRefresh flag to temporary options
@@ -116,20 +129,29 @@ class MainApi {
     log("${response.statusCode}: ${response.realUri}");
     try {
       /// check if response is error message by  attempting to decoding it
-      throw ApiResponse<U>.fromJson(jsonDecode(response.data.toString()),
-              response.headers, createError)
-          .data;
+      throw ApiResponse<U>.fromJson(
+        jsonDecode(response.data.toString()),
+        response.headers,
+        createError,
+      ).data;
     } on U catch (e) {
       /// rethrow error if specified error U
-      e.toString();
+      log(e.toString());
       rethrow;
     } catch (_) {
       /// catch possible decoding error and return actual expected object
       try {
-        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
-            response.headers, createObject);
+        return ApiResponse<T>.fromJson(
+          jsonDecode(response.data.toString()),
+          response.headers,
+          createObject,
+        );
       } catch (e) {
-        log(e.toString());
+        if (e is Error) {
+          log(e.stackTrace.toString());
+        } else {
+          log(e.toString());
+        }
         rethrow;
       }
     }
@@ -137,9 +159,10 @@ class MainApi {
 
   /// without possible error in response body
   Future<ApiResponse<T>> makeRequest<T, S extends Api>(
-      S endpoint,
-      dynamic Function(Map<String, dynamic>) createObject,
-      bool forcedRefresh) async {
+    S endpoint,
+    dynamic Function(Map<String, dynamic>) createObject,
+    bool forcedRefresh,
+  ) async {
     Response<String> response;
 
     try {
@@ -154,8 +177,11 @@ class MainApi {
 
       log("${response.statusCode}: ${response.realUri}");
       try {
-        return ApiResponse<T>.fromJson(jsonDecode(response.data.toString()),
-            response.headers, createObject);
+        return ApiResponse<T>.fromJson(
+          jsonDecode(response.data.toString()),
+          response.headers,
+          createObject,
+        );
       } catch (e) {
         log(e.toString());
         rethrow;

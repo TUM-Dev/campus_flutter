@@ -106,7 +106,8 @@ final placesViewModel = Provider((ref) => PlacesViewModel(ref));
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 final navigaTumDetailsViewModel =
     Provider.family<NavigaTumDetailsViewModel, String>(
-        (ref, id) => NavigaTumDetailsViewModel(id, ref));
+  (ref, id) => NavigaTumDetailsViewModel(id, ref),
+);
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 
@@ -120,8 +121,8 @@ final movieViewModel = Provider((ref) => MovieViewModel());
 final lectureViewModel = Provider((ref) => LectureViewModel());
 final lectureDetailsViewModel =
     Provider.family<LectureDetailsViewModel, (CalendarEvent?, Lecture?)>(
-        (ref, data) =>
-            LectureDetailsViewModel(event: data.$1, lecture: data.$2));
+  (ref, data) => LectureDetailsViewModel(event: data.$1, lecture: data.$2),
+);
 
 /// view model for grades
 final gradeViewModel = Provider((ref) => GradeViewModel(ref));

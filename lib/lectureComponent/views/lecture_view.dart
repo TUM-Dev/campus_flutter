@@ -19,36 +19,44 @@ class LectureView extends ConsumerWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            Expanded(
-              child: _subtitle(lecture.eventType(context), Icons.edit, context),
-            ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
-            Expanded(
-              child: _subtitle(lecture.sws, Icons.access_time, context),
-            ),
-          ]),
+          Row(
+            children: [
+              Expanded(
+                child:
+                    _subtitle(lecture.eventType(context), Icons.edit, context),
+              ),
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
+              Expanded(
+                child: _subtitle(lecture.sws, Icons.access_time, context),
+              ),
+            ],
+          ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           if (lecture.speaker != null)
-            _subtitle(lecture.speaker!, Icons.person, context)
+            _subtitle(lecture.speaker!, Icons.person, context),
         ],
       ),
       onTap: () {
         if (MediaQuery.orientationOf(context) == Orientation.portrait ||
             isSearch) {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Scaffold(
-                      appBar: AppBar(leading: const BackButton()),
-                      body: LectureDetailsView(
-                        lecture: lecture,
-                      ))));
+            context,
+            MaterialPageRoute(
+              builder: (context) => Scaffold(
+                appBar: AppBar(leading: const BackButton()),
+                body: LectureDetailsView(
+                  lecture: lecture,
+                ),
+              ),
+            ),
+          );
         } else {
-          ref.read(lectureSplitViewModel).selectedWidget.add(LectureDetailsView(
-                key: Key(lecture.title),
-                lecture: lecture,
-              ));
+          ref.read(lectureSplitViewModel).selectedWidget.add(
+                LectureDetailsView(
+                  key: Key(lecture.title),
+                  lecture: lecture,
+                ),
+              );
         }
       },
     );

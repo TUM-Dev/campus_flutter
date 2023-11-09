@@ -30,6 +30,8 @@ class CacheResponseAdapter extends TypeAdapter<CacheResponse> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CacheResponse(
-        saved: fields[0] as DateTime, data: (fields[1] as List).cast<int>());
+      saved: fields[0] as DateTime,
+      data: (fields[1] as List).cast<int>(),
+    );
   }
 }
