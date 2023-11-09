@@ -43,9 +43,11 @@ class StudentCardView extends ConsumerWidget {
 
   Widget _warningCard() {
     return CardWithPadding(
+      elevation: 0,
       color: Colors.redAccent.withOpacity(0.2),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(Icons.warning, color: Colors.red),
           Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),

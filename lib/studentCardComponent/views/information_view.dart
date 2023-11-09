@@ -17,7 +17,6 @@ class InformationView extends StatelessWidget {
       child: Column(
         children: [
           const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-          //_tumLogo(),
           _titleLogo(context),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
           Row(
@@ -34,7 +33,7 @@ class InformationView extends StatelessWidget {
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow(
                       "Birthday",
-                      DateFormat.yMd().format(studentCard.birthday),
+                      DateFormat("dd.MM.yyyy", "de_DE").format(studentCard.birthday),
                     ),
                     _infoEntryRow("Study ID", studentCard.studyID),
                     _infoEntryRow(
@@ -148,7 +147,7 @@ class InformationView extends StatelessWidget {
 
   Widget _validUntil(BuildContext context) {
     return Text(
-      "Valid until: ${DateFormat.yMd().format(studentCard.validUntil)}",
+      "Valid until: ${DateFormat("dd.MM.yyyy", "de_DE").format(studentCard.validUntil)}",
       style: Theme.of(context)
           .textTheme
           .bodyLarge
