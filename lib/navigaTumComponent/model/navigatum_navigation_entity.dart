@@ -13,12 +13,13 @@ class NavigaTumNavigationEntity extends Searchable {
   @JsonKey(name: "parsed_id")
   final String? parsedId;
 
-  NavigaTumNavigationEntity(
-      {required this.id,
-      required this.type,
-      required this.name,
-      required this.subtext,
-      this.parsedId});
+  NavigaTumNavigationEntity({
+    required this.id,
+    required this.type,
+    required this.name,
+    required this.subtext,
+    this.parsedId,
+  });
 
   String getFormattedName() {
     if (parsedId != null) {

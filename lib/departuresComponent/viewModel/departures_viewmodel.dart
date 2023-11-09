@@ -46,16 +46,18 @@ class DeparturesViewModel extends ViewModel {
       if (location != null) {
         final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
           final currentDistance = Geolocator.distanceBetween(
-              currentCampus.location.latitude,
-              currentCampus.location.longitude,
-              location.latitude,
-              location.longitude);
+            currentCampus.location.latitude,
+            currentCampus.location.longitude,
+            location.latitude,
+            location.longitude,
+          );
 
           final nextDistance = Geolocator.distanceBetween(
-              nextCampus.location.latitude,
-              nextCampus.location.longitude,
-              location.latitude,
-              location.longitude);
+            nextCampus.location.latitude,
+            nextCampus.location.longitude,
+            location.latitude,
+            location.longitude,
+          );
 
           return currentDistance < nextDistance ? currentCampus : nextCampus;
         });
@@ -106,16 +108,22 @@ class DeparturesViewModel extends ViewModel {
     if (closestCampus.value != null) {
       if (selectedStation.value != null) {
         DeparturesService.fetchDepartures(
-                true, selectedStation.value!.apiName, walkingDistance.value)
-            .then((response) => sortDepartures(response),
-                onError: (error) => departures.addError(error));
+          true,
+          selectedStation.value!.apiName,
+          walkingDistance.value,
+        ).then(
+          (response) => sortDepartures(response),
+          onError: (error) => departures.addError(error),
+        );
       } else {
         DeparturesService.fetchDepartures(
-                true,
-                closestCampus.value!.defaultStation.apiName,
-                walkingDistance.value)
-            .then((response) => sortDepartures(response),
-                onError: (error) => departures.addError(error));
+          true,
+          closestCampus.value!.defaultStation.apiName,
+          walkingDistance.value,
+        ).then(
+          (response) => sortDepartures(response),
+          onError: (error) => departures.addError(error),
+        );
       }
     }
   }
@@ -143,7 +151,9 @@ class DeparturesViewModel extends ViewModel {
     if ((departures.value?.length ?? 0) > 0) {
       if (departures.value![0].countdown > 0) {
         timer = Timer(
-            Duration(minutes: departures.value![0].countdown), fetchDepartures);
+          Duration(minutes: departures.value![0].countdown),
+          fetchDepartures,
+        );
         return;
       }
     }
@@ -168,13 +178,15 @@ class DeparturesViewModel extends ViewModel {
           sharedPreferences.setString("departuresPreferences", json);
         } catch (_) {
           final DeparturesPreference preferences = DeparturesPreference(
-              preferences: {closestCampus.value!: selectedStation.value!});
+            preferences: {closestCampus.value!: selectedStation.value!},
+          );
           final json = jsonEncode(preferences.toJson());
           sharedPreferences.setString("departuresPreferences", json);
         }
       } else {
         final DeparturesPreference preferences = DeparturesPreference(
-            preferences: {closestCampus.value!: selectedStation.value!});
+          preferences: {closestCampus.value!: selectedStation.value!},
+        );
         final json = jsonEncode(preferences.toJson());
         sharedPreferences.setString("departuresPreferences", json);
       }
@@ -184,12 +196,18 @@ class DeparturesViewModel extends ViewModel {
   List<PopupMenuEntry<Station>> getMenuEntries() {
     if (closestCampus.value != null) {
       return closestCampus.value!.allStations
-          .map((e) => PopupMenuItem(
+          .map(
+            (e) => PopupMenuItem(
               value: e,
               child: selectedStation.value?.name == e.name
                   ? IconText(
-                      iconData: Icons.check, label: e.name, leadingIcon: false)
-                  : Text(e.name)))
+                      iconData: Icons.check,
+                      label: e.name,
+                      leadingIcon: false,
+                    )
+                  : Text(e.name),
+            ),
+          )
           .toList();
     } else {
       return [];

@@ -12,10 +12,11 @@ class CafeteriaCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardWithPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        child: CafeteriaRowView(
-          cafeteria: cafeteria,
-        ));
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      child: CafeteriaRowView(
+        cafeteria: cafeteria,
+      ),
+    );
   }
 }
 
@@ -34,8 +35,11 @@ class CafeteriaRowView extends ConsumerWidget {
         Icons.arrow_forward_ios,
         size: 15,
       ),
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CafeteriaScaffold(cafeteria: cafeteria))),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => CafeteriaScaffold(cafeteria: cafeteria),
+        ),
+      ),
     );
   }
 }

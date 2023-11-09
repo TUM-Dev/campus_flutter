@@ -13,21 +13,27 @@ class CalendarWeekView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
-        child: SfCalendar(
-      view: CalendarView.week,
-      dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value ?? [], context),
-      onTap: (details) {
-        showModalSheet(details, null, context, ref);
-      },
-      firstDayOfWeek: 1,
-      showDatePickerButton: true,
-      headerDateFormat: "",
-      showWeekNumber: true,
-      showNavigationArrow: true,
-      timeSlotViewSettings: const TimeSlotViewSettings(
-          startHour: 7, endHour: 22, timeFormat: "HH:mm"),
-      appointmentBuilder: (context, details) => AppointmentView(details),
-    ));
+      child: SfCalendar(
+        view: CalendarView.week,
+        dataSource: MeetingDataSource(
+          ref.read(calendarViewModel).events.value ?? [],
+          context,
+        ),
+        onTap: (details) {
+          showModalSheet(details, null, context, ref);
+        },
+        firstDayOfWeek: 1,
+        showDatePickerButton: true,
+        headerDateFormat: "",
+        showWeekNumber: true,
+        showNavigationArrow: true,
+        timeSlotViewSettings: const TimeSlotViewSettings(
+          startHour: 7,
+          endHour: 22,
+          timeFormat: "HH:mm",
+        ),
+        appointmentBuilder: (context, details) => AppointmentView(details),
+      ),
+    );
   }
 }

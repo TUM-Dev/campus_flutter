@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 class UnauthorizedView extends StatelessWidget {
   const UnauthorizedView({super.key});
@@ -14,9 +14,11 @@ class UnauthorizedView extends StatelessWidget {
           radius: 50,
         ),
         const Spacer(),
-        Text(context.localizations.notLoggedIn,
-            style: Theme.of(context).textTheme.titleLarge),
-        const Spacer(flex: 2)
+        Text(
+          context.localizations.notLoggedIn,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const Spacer(flex: 2),
       ],
     );
   }

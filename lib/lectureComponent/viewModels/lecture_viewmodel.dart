@@ -11,9 +11,12 @@ class LectureViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    LectureService.fetchLecture(forcedRefresh).then((response) {
-      _lecturesBySemester(response);
-    }, onError: (error) => lectures.addError(error));
+    LectureService.fetchLecture(forcedRefresh).then(
+      (response) {
+        _lecturesBySemester(response);
+      },
+      onError: (error) => lectures.addError(error),
+    );
   }
 
   _lecturesBySemester((DateTime?, List<Lecture>) response) async {
@@ -33,8 +36,9 @@ class LectureViewModel implements ViewModel {
     }
 
     final sortedLecturesBySemester = Map.fromEntries(
-        lecturesBySemester.entries.toList()
-          ..sort((e1, e2) => e2.key.compareTo(e1.key)));
+      lecturesBySemester.entries.toList()
+        ..sort((e1, e2) => e2.key.compareTo(e1.key)),
+    );
 
     lectures.add(sortedLecturesBySemester);
   }

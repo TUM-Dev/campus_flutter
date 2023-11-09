@@ -6,7 +6,7 @@ import 'package:campus_flutter/personDetailedComponent/viewModel/user_details_vi
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key});
@@ -20,18 +20,19 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(profileDetailsViewModel).personDetails,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return contactInfo(snapshot.data);
-          } else {
-            return DelayedLoadingIndicator(
-              name: context.localizations.personalData,
-              alternativeLoadingIndicator: const ContactCardLoadingView(),
-              delayWidget: Container(),
-            );
-          }
-        });
+      stream: ref.watch(profileDetailsViewModel).personDetails,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return contactInfo(snapshot.data);
+        } else {
+          return DelayedLoadingIndicator(
+            name: context.localizations.personalData,
+            alternativeLoadingIndicator: const ContactCardLoadingView(),
+            delayWidget: Container(),
+          );
+        }
+      },
+    );
   }
 
   Widget contactInfo(PersonDetails? data) {
@@ -41,28 +42,35 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
           backgroundImage: data?.imageData != null
               ? Image.memory(base64DecodeImageData(data!.imageData!)).image
               : const AssetImage(
-                  'assets/images/placeholders/portrait_placeholder.png'),
+                  'assets/images/placeholders/portrait_placeholder.png',
+                ),
           backgroundColor: Colors.white,
           radius: 50,
         ),
         const Padding(padding: EdgeInsets.only(left: 15)),
         Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
                 data != null
                     ? data.fullName
                     : UserDetailsViewModel.defaultPersonDetails.fullName,
-                style: Theme.of(context).textTheme.headlineSmall),
-            Text(ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum"),
-            Text(data != null
-                ? data.email
-                : UserDetailsViewModel.defaultPersonDetails.email),
-            // TODO: solve with tumCard api?
-            Text(context.localizations.comingSoon)
-          ],
-        ))
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Text(
+                ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
+              ),
+              Text(
+                data != null
+                    ? data.email
+                    : UserDetailsViewModel.defaultPersonDetails.email,
+              ),
+              // TODO: solve with tumCard api?
+              Text(context.localizations.comingSoon),
+            ],
+          ),
+        ),
       ],
     );
   }

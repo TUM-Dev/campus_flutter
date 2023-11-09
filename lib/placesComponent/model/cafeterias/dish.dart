@@ -10,11 +10,12 @@ class Dish {
   @JsonKey(name: "dish_type")
   final String dishType;
 
-  Dish(
-      {required this.name,
-      required this.prices,
-      required this.labels,
-      required this.dishType});
+  Dish({
+    required this.name,
+    required this.prices,
+    required this.labels,
+    required this.dishType,
+  });
 
   factory Dish.fromJson(Map<String, dynamic> json) => _$DishFromJson(json);
 

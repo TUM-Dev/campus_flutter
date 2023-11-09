@@ -9,7 +9,7 @@ import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,11 +30,12 @@ class CafeteriaScaffold extends ConsumerWidget {
         actions: [
           if (cafeteria.openingHours != null)
             IconButton(
-                onPressed: () => _alertDialog(context),
-                icon: Icon(
-                  Icons.access_time_filled,
-                  color: context.theme.primaryColor,
-                ))
+              onPressed: () => _alertDialog(context),
+              icon: Icon(
+                Icons.access_time_filled,
+                color: context.theme.primaryColor,
+              ),
+            ),
         ],
       ),
       body: CafeteriaView(
@@ -45,55 +46,60 @@ class CafeteriaScaffold extends ConsumerWidget {
 
   void _alertDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) {
-          final openingHours = cafeteria.openingHours;
-          return AlertDialog(
-            title: Text(
-              context.localizations.openingHours,
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InfoRow(
-                    title: context.localizations.monday,
-                    info:
-                        _openingHourStringBuilder(openingHours?.mon, context)),
-                InfoRow(
-                    title: context.localizations.tuesday,
-                    info:
-                        _openingHourStringBuilder(openingHours?.tue, context)),
-                InfoRow(
-                    title: context.localizations.wednesday,
-                    info:
-                        _openingHourStringBuilder(openingHours?.wed, context)),
-                InfoRow(
-                    title: context.localizations.thursday,
-                    info:
-                        _openingHourStringBuilder(openingHours?.thu, context)),
-                InfoRow(
-                    title: context.localizations.friday,
-                    info:
-                        _openingHourStringBuilder(openingHours?.fri, context)),
-                InfoRow(
-                    title: context.localizations.weekend,
-                    info: context.localizations.closed),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Okay"))
+      context: context,
+      builder: (context) {
+        final openingHours = cafeteria.openingHours;
+        return AlertDialog(
+          title: Text(
+            context.localizations.openingHours,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InfoRow(
+                title: context.localizations.monday,
+                info: _openingHourStringBuilder(openingHours?.mon, context),
+              ),
+              InfoRow(
+                title: context.localizations.tuesday,
+                info: _openingHourStringBuilder(openingHours?.tue, context),
+              ),
+              InfoRow(
+                title: context.localizations.wednesday,
+                info: _openingHourStringBuilder(openingHours?.wed, context),
+              ),
+              InfoRow(
+                title: context.localizations.thursday,
+                info: _openingHourStringBuilder(openingHours?.thu, context),
+              ),
+              InfoRow(
+                title: context.localizations.friday,
+                info: _openingHourStringBuilder(openingHours?.fri, context),
+              ),
+              InfoRow(
+                title: context.localizations.weekend,
+                info: context.localizations.closed,
+              ),
             ],
-            actionsAlignment: MainAxisAlignment.center,
-          );
-        });
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Okay"),
+            ),
+          ],
+          actionsAlignment: MainAxisAlignment.center,
+        );
+      },
+    );
   }
 
   String _openingHourStringBuilder(
-      OpeningHour? openingHour, BuildContext context) {
+    OpeningHour? openingHour,
+    BuildContext context,
+  ) {
     if (openingHour == null) {
       return context.localizations.unknown;
     } else {
@@ -125,39 +131,45 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(builder: (context, orientation) {
-      if (orientation == Orientation.landscape) {
-        return Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [..._mapAndDirections()],
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.landscape) {
+          return Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [..._mapAndDirections()],
+                ),
               ),
-            ),
-            Expanded(child: _pickerAndSlider())
-          ],
-        );
-      } else {
-        return Column(
-          children: [
-            if (openingHours.$2 != null && openingHours.$1)
-              _openingTimes(openingHours, context),
-            ..._mapAndDirections(),
-            const PaddedDivider(),
-            _pickerAndSlider()
-          ],
-        );
-      }
-    });
+              Expanded(child: _pickerAndSlider()),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              if (openingHours.$2 != null && openingHours.$1)
+                _openingTimes(openingHours, context),
+              ..._mapAndDirections(),
+              const PaddedDivider(),
+              _pickerAndSlider(),
+            ],
+          );
+        }
+      },
+    );
   }
 
   Widget _openingTimes(
-      (bool, OpeningHour?) openingHours, BuildContext context) {
+    (bool, OpeningHour?) openingHours,
+    BuildContext context,
+  ) {
     if (!openingHours.$1) {
       return Text(context.localizations.closedToday);
     } else {
-      return Text(context.localizations
-          .openToday(openingHours.$2!.start, openingHours.$2!.end));
+      return Text(
+        context.localizations
+            .openToday(openingHours.$2!.start, openingHours.$2!.end),
+      );
     }
   }
 
@@ -166,84 +178,98 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
       MapWidget.fullPadding(
         markers: {
           Marker(
-              markerId: MarkerId(widget.cafeteria.id),
-              position: LatLng(widget.cafeteria.location.latitude,
-                  (widget.cafeteria.location.longitude)),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208)),
+            markerId: MarkerId(widget.cafeteria.id),
+            position: LatLng(
+              widget.cafeteria.location.latitude,
+              (widget.cafeteria.location.longitude),
+            ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(208),
+          ),
         },
-        latLng: LatLng(widget.cafeteria.location.latitude,
-            widget.cafeteria.location.longitude),
+        latLng: LatLng(
+          widget.cafeteria.location.latitude,
+          widget.cafeteria.location.longitude,
+        ),
         zoom: 15,
         aspectRatio: 2,
       ),
       DirectionsButton.latLng(
-          name: widget.cafeteria.name,
-          latitude: widget.cafeteria.location.latitude,
-          longitude: widget.cafeteria.location.longitude),
+        name: widget.cafeteria.name,
+        latitude: widget.cafeteria.location.latitude,
+        longitude: widget.cafeteria.location.longitude,
+      ),
     ];
   }
 
   Widget _pickerAndSlider() {
     return FutureBuilder(
-        future: ref
-            .read(cafeteriasViewModel)
-            .fetchCafeteriaMenu(false, widget.cafeteria),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isEmpty) {
-              return Center(
-                child: Text(context.localizations.noMealPlanFound),
-              );
-            } else {
-              final menu = snapshot.data!;
-              final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
-                  menu.firstWhereOrNull((element) =>
-                      element.date.isAtSameMomentAs(selectedDate) ||
-                      element.date.isAfter(selectedDate)));
-              return Column(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.all(context.padding),
-                      child: SizedBox(
-                          height: 80,
-                          child: SfDateRangePicker(
-                            headerHeight: 0,
-                            toggleDaySelection: false,
-                            enablePastDates: false,
-                            allowViewNavigation: false,
-                            initialSelectedDate: menu.first.date,
-                            minDate: menu.first.date,
-                            maxDate: menu.last.date,
-                            monthViewSettings:
-                                const DateRangePickerMonthViewSettings(
-                                    numberOfWeeksInView: 1, firstDayOfWeek: 1),
-                            onSelectionChanged: (args) => setState(() {
-                              selectedDate = args.value as DateTime;
-                            }),
-                            selectableDayPredicate: (date) {
-                              return date.weekday != DateTime.saturday &&
-                                  date.weekday != DateTime.sunday;
-                            },
-                          ))),
-                  if (todayMeals.isNotEmpty)
-                    DishSlider(
-                      dishes: todayMeals,
-                      //inverted: true,
-                    ),
-                  if (todayMeals.isEmpty)
-                    Center(
-                      child: Text(context.localizations.noMealPlanFound),
-                    )
-                ],
-              );
-            }
-          } else if (snapshot.hasError) {
-            return ErrorHandlingView(
-                error: snapshot.error!,
-                errorHandlingViewType: ErrorHandlingViewType.descriptionOnly);
+      future: ref
+          .read(cafeteriasViewModel)
+          .fetchCafeteriaMenu(false, widget.cafeteria),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(context.localizations.noMealPlanFound),
+            );
           } else {
-            return const DelayedLoadingIndicator();
+            final menu = snapshot.data!;
+            final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
+                  menu.firstWhereOrNull(
+                    (element) =>
+                        element.date.isAtSameMomentAs(selectedDate) ||
+                        element.date.isAfter(selectedDate),
+                  ),
+                );
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(context.padding),
+                  child: SizedBox(
+                    height: 80,
+                    child: SfDateRangePicker(
+                      headerHeight: 0,
+                      toggleDaySelection: false,
+                      enablePastDates: false,
+                      allowViewNavigation: false,
+                      initialSelectedDate: menu.first.date,
+                      minDate: menu.first.date,
+                      maxDate: menu.last.date,
+                      monthViewSettings: const DateRangePickerMonthViewSettings(
+                        numberOfWeeksInView: 1,
+                        firstDayOfWeek: 1,
+                      ),
+                      onSelectionChanged: (args) => setState(() {
+                        selectedDate = args.value as DateTime;
+                      }),
+                      selectableDayPredicate: (date) {
+                        return date.weekday != DateTime.saturday &&
+                            date.weekday != DateTime.sunday;
+                      },
+                    ),
+                  ),
+                ),
+                if (todayMeals.isNotEmpty)
+                  DishSlider(
+                    dishes: todayMeals,
+                    //inverted: true,
+                  ),
+                if (todayMeals.isEmpty)
+                  Center(
+                    child: Text(context.localizations.noMealPlanFound),
+                  ),
+              ],
+            );
           }
-        });
+        } else if (snapshot.hasError) {
+          return ErrorHandlingView(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+          );
+        } else {
+          return const DelayedLoadingIndicator();
+        }
+      },
+    );
   }
 }

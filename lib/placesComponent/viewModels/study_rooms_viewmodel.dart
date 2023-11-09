@@ -23,23 +23,29 @@ class StudyRoomsViewModel {
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
-    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
-      lastFetched = value.$1;
-      studyRoomData = value.$2;
-      _categorizeAndSort();
-    }, onError: (error) => studyRooms.addError(error));
+    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
+      (value) {
+        lastFetched = value.$1;
+        studyRoomData = value.$2;
+        _categorizeAndSort();
+      },
+      onError: (error) => studyRooms.addError(error),
+    );
   }
 
   Future fetchClosestStudyRoom(bool forcedRefresh) async {
     return Future.wait([
       StudyRoomsService.fetchStudyRooms(forcedRefresh),
-      LocationService.getLastKnown()
-    ]).then((value) {
-      lastFetched = (value[0] as (DateTime?, StudyRoomData)).$1;
-      studyRoomData = (value[0] as (DateTime?, StudyRoomData)).$2;
-      _categorizeAndSort();
-      _getClosestStudyRoomGroup(value[1] as Position?);
-    }, onError: (error) => closestStudyRoom.addError(error));
+      LocationService.getLastKnown(),
+    ]).then(
+      (value) {
+        lastFetched = (value[0] as (DateTime?, StudyRoomData)).$1;
+        studyRoomData = (value[0] as (DateTime?, StudyRoomData)).$2;
+        _categorizeAndSort();
+        _getClosestStudyRoomGroup(value[1] as Position?);
+      },
+      onError: (error) => closestStudyRoom.addError(error),
+    );
   }
 
   _getClosestStudyRoomGroup(Position? position) {
@@ -55,7 +61,8 @@ class StudyRoomsViewModel {
               currentGroup.coordinate!.latitude,
               currentGroup.coordinate!.longitude,
               position!.latitude,
-              position.longitude)
+              position.longitude,
+            )
           : 0.0;
 
       final distanceNext = nextGroup.coordinate != null
@@ -63,7 +70,8 @@ class StudyRoomsViewModel {
               nextGroup.coordinate!.latitude,
               nextGroup.coordinate!.longitude,
               position!.latitude,
-              position.longitude)
+              position.longitude,
+            )
           : 0.0;
 
       if (distanceCurrent < distanceNext) {
@@ -110,10 +118,11 @@ class StudyRoomsViewModel {
         groups = groups.where((element) {
           if (element.coordinate != null) {
             return Geolocator.distanceBetween(
-                    campus.location.latitude,
-                    campus.location.longitude,
-                    element.coordinate!.latitude,
-                    element.coordinate!.longitude) <=
+                  campus.location.latitude,
+                  campus.location.longitude,
+                  element.coordinate!.latitude,
+                  element.coordinate!.longitude,
+                ) <=
                 1000;
           } else {
             return false;
@@ -135,15 +144,22 @@ class StudyRoomsViewModel {
     if (studyRoomData?.groups != null && studyRoomData!.groups!.isNotEmpty) {
       return studyRoomData!.groups!
           .where((element) => element.coordinate != null)
-          .map((e) => Marker(
+          .map(
+            (e) => Marker(
               markerId: MarkerId(const Uuid().v4()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
               infoWindow: InfoWindow(
-                  title: e.name ?? "Unknown",
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StudyRoomGroupScaffold(e)));
-                  })))
+                title: e.name ?? "Unknown",
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => StudyRoomGroupScaffold(e),
+                    ),
+                  );
+                },
+              ),
+            ),
+          )
           .toSet();
     } else {
       return {};
@@ -154,14 +170,21 @@ class StudyRoomsViewModel {
     if (campusStudyRooms.value != null) {
       return (campusStudyRooms.value![campus] ?? [])
           .where((element) => element.coordinate != null)
-          .map((e) => Marker(
+          .map(
+            (e) => Marker(
               markerId: MarkerId(e.id.toString()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
               //icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
-                  title: e.name,
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => StudyRoomGroupScaffold(e))))))
+                title: e.name,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => StudyRoomGroupScaffold(e),
+                  ),
+                ),
+              ),
+            ),
+          )
           .toSet();
     } else {
       return {};

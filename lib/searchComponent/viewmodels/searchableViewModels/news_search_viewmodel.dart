@@ -16,10 +16,13 @@ class NewsSearchViewModel implements SearchViewModel<NewsSearch> {
 
   Future newsSearch({bool forcedRefresh = false, required String query}) async {
     if (newsData.isEmpty) {
-      return NewsService.fetchNews(forcedRefresh).then((value) {
-        newsData = value.$2.map((e) => NewsSearch(e)).toList();
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return NewsService.fetchNews(forcedRefresh).then(
+        (value) {
+          newsData = value.$2.map((e) => NewsSearch(e)).toList();
+          _search(query);
+        },
+        onError: (error) => searchResults.addError(error),
+      );
     } else {
       _search(query);
     }

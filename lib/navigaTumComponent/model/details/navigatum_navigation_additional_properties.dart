@@ -11,7 +11,8 @@ class NavigaTumNavigationAdditionalProperties {
   NavigaTumNavigationAdditionalProperties(this.properties);
 
   factory NavigaTumNavigationAdditionalProperties.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$NavigaTumNavigationAdditionalPropertiesFromJson(json);
 
   Map<String, dynamic> toJson() =>

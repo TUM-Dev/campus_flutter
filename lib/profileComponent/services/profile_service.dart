@@ -10,24 +10,29 @@ class ProfileService {
   static Future<(DateTime?, Profile)> fetchProfile(bool forcedRefresh) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<ProfileData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceIdentify()),
-        ProfileData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceIdentify()),
+      ProfileData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (response.saved, response.data.profilesAttribute.profile);
   }
 
   static Future<(DateTime?, Tuition?)> fetchTuition(
-      bool forcedRefresh, String personGroup, String id) async {
+    bool forcedRefresh,
+    String personGroup,
+    String id,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<TuitionData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceTuitionStatus()),
-        TuitionData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceTuitionStatus()),
+      TuitionData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (response.saved, response.data.profilesAttribute.tuition);
   }

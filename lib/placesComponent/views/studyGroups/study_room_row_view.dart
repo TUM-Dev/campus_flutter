@@ -1,6 +1,6 @@
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,11 +13,13 @@ class StudyRoomRowView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(
-          "${studyRoom.name ?? context.localizations.unknown} (${studyRoom.code ?? context.localizations.unknown})"),
+        "${studyRoom.name ?? context.localizations.unknown} (${studyRoom.code ?? context.localizations.unknown})",
+      ),
       subtitle: Text(
         studyRoom.localizedStatus(context),
         style: TextStyle(
-            color: _statusColor(studyRoom.localizedStatus(context), context)),
+          color: _statusColor(studyRoom.localizedStatus(context), context),
+        ),
       ),
       trailing: const Icon(
         Icons.arrow_forward_ios,
@@ -28,7 +30,8 @@ class StudyRoomRowView extends ConsumerWidget {
           context,
           MaterialPageRoute(
             builder: (context) => NavigaTumRoomScaffold(
-                id: studyRoom.raum_nr_architekt ?? "null"),
+              id: studyRoom.raum_nr_architekt ?? "null",
+            ),
           ),
         );
       },

@@ -15,7 +15,9 @@ class RecommenderViewModel {
   getRecommendations() {
     return WidgetRecommender(SpatialTemporalStrategy())
         .fetchRecommendations(ref)
-        .then((value) => recommendations.add(value),
-            onError: (error) => recommendations.addError(error));
+        .then(
+          (value) => recommendations.add(value),
+          onError: (error) => recommendations.addError(error),
+        );
   }
 }

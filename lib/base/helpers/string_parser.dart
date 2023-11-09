@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:intl/intl.dart';
 
 class StringParser {
@@ -65,19 +65,26 @@ class StringParser {
   static String toFullSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
     return context.localizations.fullSemesterName(
-        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
+      semester.substring(2),
+      2000 + yearOffset,
+      yearOffset + 1,
+    );
   }
 
   static String toShortSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
     return context.localizations.shortSemesterName(
-        semester.substring(2), 2000 + yearOffset, yearOffset + 1);
+      semester.substring(2),
+      2000 + yearOffset,
+      yearOffset + 1,
+    );
   }
 
   static String dateFormatter(DateTime dateTime, BuildContext context) {
     return DateFormat(
-            DateFormat.YEAR_MONTH_DAY, context.localizations.localeName)
-        .format(dateTime);
+      DateFormat.YEAR_MONTH_DAY,
+      context.localizations.localeName,
+    ).format(dateTime);
   }
 
   static double stringToDouble(String? number) {

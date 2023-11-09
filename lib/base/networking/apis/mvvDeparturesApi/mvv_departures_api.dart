@@ -27,7 +27,7 @@ class MvvDeparturesApi extends Api {
         "limit": "20",
         "mergeDep": "1",
         "useAllStops": "1",
-        "mode": "direct"
+        "mode": "direct",
       };
 
   @override

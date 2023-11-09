@@ -10,7 +10,8 @@ class SettingsViewModel {
   SettingsViewModel(this.ref);
 
   List<PopupMenuEntry<AvailableMap>> getInstalledMapTypes(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     final availableMaps = getIt.get<List<AvailableMap>>();
     return availableMaps.mapIndexed((index, e) {
       if (ref.read(selectedMapsApp)?.mapType == e.mapType ||

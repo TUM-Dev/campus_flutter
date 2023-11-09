@@ -14,20 +14,26 @@ class CalendarDayView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
-        child: SfCalendar(
-      controller: calendarController,
-      showDatePickerButton: true,
-      view: CalendarView.day,
-      dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value ?? [], context),
-      onTap: (details) {
-        showModalSheet(details, null, context, ref);
-      },
-      headerDateFormat: "EEEE, dd.MM.yyyy",
-      showNavigationArrow: true,
-      timeSlotViewSettings: const TimeSlotViewSettings(
-          startHour: 7, endHour: 22, timeFormat: "HH:mm"),
-      appointmentBuilder: (context, details) => AppointmentView(details),
-    ));
+      child: SfCalendar(
+        controller: calendarController,
+        showDatePickerButton: true,
+        view: CalendarView.day,
+        dataSource: MeetingDataSource(
+          ref.read(calendarViewModel).events.value ?? [],
+          context,
+        ),
+        onTap: (details) {
+          showModalSheet(details, null, context, ref);
+        },
+        headerDateFormat: "EEEE, dd.MM.yyyy",
+        showNavigationArrow: true,
+        timeSlotViewSettings: const TimeSlotViewSettings(
+          startHour: 7,
+          endHour: 22,
+          timeFormat: "HH:mm",
+        ),
+        appointmentBuilder: (context, details) => AppointmentView(details),
+      ),
+    );
   }
 }

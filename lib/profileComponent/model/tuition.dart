@@ -14,11 +14,12 @@ class Tuition {
   @JsonKey(name: "semester_id")
   final String semesterID;
 
-  Tuition(
-      {required this.amount,
-      required this.deadline,
-      required this.semester,
-      required this.semesterID});
+  Tuition({
+    required this.amount,
+    required this.deadline,
+    required this.semester,
+    required this.semesterID,
+  });
 
   factory Tuition.fromJson(Map<String, dynamic> json) =>
       _$TuitionFromJson(json);
