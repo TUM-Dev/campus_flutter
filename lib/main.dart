@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart'
 import 'package:campus_flutter/base/networking/protocols/main_api.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
@@ -27,6 +28,7 @@ main() async {
   );
   getIt.registerSingleton<MapThemeService>(MapThemeService());
   getIt.registerSingleton<NavigationService>(NavigationService());
+  getIt.registerSingleton<CalendarViewService>(CalendarViewService());
   if (kIsWeb) {
     getIt.registerSingleton<MainApi>(MainApi.webCache());
     getIt.registerSingleton<CachedCampusClient>(

@@ -2,11 +2,9 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/views/error_handling_view.dart';
-import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendar_day_view.dart';
 import 'package:campus_flutter/calendarComponent/views/calendar_month_view.dart';
 import 'package:campus_flutter/calendarComponent/views/calendar_week_view.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,42 +122,4 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-showModalSheet(
-  CalendarTapDetails? details,
-  CalendarEvent? event,
-  BuildContext context,
-  WidgetRef ref,
-) {
-  CalendarEvent? calendarEvent;
-  if (details != null) {
-    if (details.targetElement == CalendarElement.appointment &&
-        details.appointments!.isNotEmpty) {
-      calendarEvent = details.appointments?.first as CalendarEvent;
-    }
-  } else if (event != null) {
-    calendarEvent = event;
-  }
-
-  if (calendarEvent != null) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      useSafeArea: true,
-      showDragHandle: true,
-      context: context,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 1,
-          minChildSize: 1,
-          builder: (context, scrollController) {
-            return LectureDetailsView(
-              event: calendarEvent,
-              scrollController: scrollController,
-            );
-          },
-        );
-      },
-    );
-  }
 }
