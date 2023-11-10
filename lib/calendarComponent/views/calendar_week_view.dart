@@ -14,7 +14,7 @@ class CalendarWeekView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: SfCalendar(
-        view: CalendarView.week,
+        view: CalendarView.workWeek,
         dataSource: MeetingDataSource(
           ref.read(calendarViewModel).events.value ?? [],
           context,
