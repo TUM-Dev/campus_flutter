@@ -8,11 +8,14 @@ class InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
+    return Row(
+      children: [
+        Expanded(
           child:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w500))),
-      Expanded(child: Text(info))
-    ]);
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+        ),
+        Expanded(child: Text(info)),
+      ],
+    );
   }
 }

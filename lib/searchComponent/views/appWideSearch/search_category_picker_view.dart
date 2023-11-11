@@ -11,29 +11,32 @@ class SearchCategoryPickerView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-        stream: ref.watch(searchViewModel).selectedCategories,
-        builder: (context, snapshot) {
-          return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: HorizontalSlider.height(
-                  data: _getData(snapshot.data ?? [], ref),
-                  height: 40,
-                  child: (searchCategory) => FilterChip(
-                        label: Text(SearchCategoryExtension.localizedEnumTitle(
-                            searchCategory, context)),
-                        onSelected: (selected) {
-                          ref
-                              .read(searchViewModel)
-                              .updateCategory(searchCategory);
-                          ref
-                              .read(searchViewModel)
-                              .triggerSearchAfterUpdate(null);
-                        },
-                        selected: (snapshot.data ?? []).isNotEmpty
-                            ? snapshot.data?.contains(searchCategory) ?? false
-                            : true,
-                      )));
-        });
+      stream: ref.watch(searchViewModel).selectedCategories,
+      builder: (context, snapshot) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: HorizontalSlider.height(
+            data: _getData(snapshot.data ?? [], ref),
+            height: 40,
+            child: (searchCategory) => FilterChip(
+              label: Text(
+                SearchCategoryExtension.localizedEnumTitle(
+                  searchCategory,
+                  context,
+                ),
+              ),
+              onSelected: (selected) {
+                ref.read(searchViewModel).updateCategory(searchCategory);
+                ref.read(searchViewModel).triggerSearchAfterUpdate(null);
+              },
+              selected: (snapshot.data ?? []).isNotEmpty
+                  ? snapshot.data?.contains(searchCategory) ?? false
+                  : true,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   List<SearchCategory> _getData(List<SearchCategory> data, WidgetRef ref) {

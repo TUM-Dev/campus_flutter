@@ -20,18 +20,26 @@ class LectureDetailsViewModel implements ViewModel {
   Future fetch(bool forcedRefresh) async {
     if (event != null) {
       LectureDetailsService.fetchLectureDetails(
-              event!.lvNr ?? "", forcedRefresh)
-          .then((response) {
-        lastFetched.add(response.$1);
-        lectureDetails.add(response.$2);
-      }, onError: (error) => lectureDetails.addError(error));
+        event!.lvNr ?? "",
+        forcedRefresh,
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          lectureDetails.add(response.$2);
+        },
+        onError: (error) => lectureDetails.addError(error),
+      );
     } else {
       LectureDetailsService.fetchLectureDetails(
-              lecture?.lvNumber ?? "", forcedRefresh)
-          .then((response) {
-        lastFetched.add(response.$1);
-        lectureDetails.add(response.$2);
-      }, onError: (error) => lectureDetails.addError(error));
+        lecture?.lvNumber ?? "",
+        forcedRefresh,
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          lectureDetails.add(response.$2);
+        },
+        onError: (error) => lectureDetails.addError(error),
+      );
     }
   }
 }

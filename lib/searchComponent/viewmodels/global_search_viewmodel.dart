@@ -67,7 +67,7 @@ class GlobalSearchViewModel {
       "grade",
       "movie",
       "news",
-      "studyroom"
+      "studyroom",
     ];
     final categories = Map.fromIterables(categoryNames, probabilities);
     if (ref.read(loginViewModel).credentials.value != Credentials.tumId) {
@@ -186,7 +186,7 @@ class GlobalSearchViewModel {
         selectedCategories.add([
           SearchCategory.studyRoom,
           SearchCategory.cafeterias,
-          SearchCategory.rooms
+          SearchCategory.rooms,
         ]);
       default:
         selectedCategories.add([]);
@@ -194,7 +194,9 @@ class GlobalSearchViewModel {
   }
 
   void _searchTriggerBuilder(
-      String? searchString, SearchCategory searchCategory) {
+    String? searchString,
+    SearchCategory searchCategory,
+  ) {
     switch (searchCategory) {
       case SearchCategory.grade:
         ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);

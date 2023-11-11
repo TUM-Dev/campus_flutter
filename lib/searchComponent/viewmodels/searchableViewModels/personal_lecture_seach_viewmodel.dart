@@ -11,13 +11,18 @@ class PersonalLectureSearchViewModel implements SearchViewModel<Lecture> {
 
   List<Lecture> _personalLectureData = [];
 
-  Future personalLectureSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future personalLectureSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     if (_personalLectureData.isEmpty) {
-      return LectureService.fetchLecture(forcedRefresh).then((value) {
-        _personalLectureData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return LectureService.fetchLecture(forcedRefresh).then(
+        (value) {
+          _personalLectureData = value.$2;
+          _search(query);
+        },
+        onError: (error) => searchResults.addError(error),
+      );
     } else {
       _search(query);
     }

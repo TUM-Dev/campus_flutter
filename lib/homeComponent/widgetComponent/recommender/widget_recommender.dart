@@ -17,8 +17,9 @@ class WidgetRecommender {
     /// sort by ascending priority
     LinkedHashMap<HomeWidget, int> sortedRecommendations =
         LinkedHashMap<HomeWidget, int>.fromEntries(
-            recommendations.entries.toList()
-              ..sort((a, b) => b.value.compareTo(a.value)));
+      recommendations.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value)),
+    );
 
     if (ref.read(loginViewModel).credentials.value != Credentials.tumId) {
       sortedRecommendations.remove(HomeWidget.calendar);

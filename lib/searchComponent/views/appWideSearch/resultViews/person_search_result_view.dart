@@ -22,10 +22,12 @@ class PersonSearchResultView extends ConsumerWidget {
           size: 15,
         ),
         onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    PersonDetailsScaffold(obfuscatedId: person.obfuscatedID))),
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PersonDetailsScaffold(obfuscatedId: person.obfuscatedID),
+          ),
+        ),
       ),
     );
   }

@@ -25,10 +25,11 @@ class CacheInterceptor implements ClientInterceptor {
 
   @override
   ResponseStream<R> interceptStreaming<Q, R>(
-      ClientMethod<Q, R> method,
-      Stream<Q> requests,
-      CallOptions options,
-      ClientStreamingInvoker<Q, R> invoker) {
+    ClientMethod<Q, R> method,
+    Stream<Q> requests,
+    CallOptions options,
+    ClientStreamingInvoker<Q, R> invoker,
+  ) {
     final key = "${method.path}?${requests.toString()}";
     final (bool, dynamic) cachedResponse;
     if (kIsWeb) {
@@ -41,11 +42,12 @@ class CacheInterceptor implements ClientInterceptor {
       final data = factory(cachedResponse.$2!.data);
       return ResponseStream<R>(
         ClientCall(
-            ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
-            requests,
-            options,
-            null,
-            true),
+          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
+          requests,
+          options,
+          null,
+          true,
+        ),
       );
     }
 
@@ -80,11 +82,12 @@ class CacheInterceptor implements ClientInterceptor {
       final data = factory(cachedResponse.$2!.data);
       return ResponseFuture<R>(
         ClientCall(
-            ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
-            Stream.value(request),
-            options,
-            null,
-            true),
+          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
+          Stream.value(request),
+          options,
+          null,
+          true,
+        ),
       );
     }
 
@@ -119,11 +122,15 @@ class CacheInterceptor implements ClientInterceptor {
   R Function(List<int>, [ExtensionRegistry])? _getFactory<R>() {
     switch (R) {
       case ListNewsReply:
-        return ListNewsReply.fromBuffer as R Function(List<int>,
-            [ExtensionRegistry]);
+        return ListNewsReply.fromBuffer as R Function(
+          List<int>, [
+          ExtensionRegistry,
+        ]);
       case ListMoviesReply:
-        return ListMoviesReply.fromBuffer as R Function(List<int>,
-            [ExtensionRegistry]);
+        return ListMoviesReply.fromBuffer as R Function(
+          List<int>, [
+          ExtensionRegistry,
+        ]);
       default:
         return null;
     }

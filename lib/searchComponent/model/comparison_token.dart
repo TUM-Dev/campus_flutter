@@ -2,8 +2,10 @@ class ComparisonToken {
   final String value;
   final ComparisonTokenType type;
 
-  ComparisonToken(
-      {required this.value, this.type = ComparisonTokenType.tokenized});
+  ComparisonToken({
+    required this.value,
+    this.type = ComparisonTokenType.tokenized,
+  });
 
   static bool isEqual(ComparisonToken lhs, ComparisonToken rhs) {
     if (lhs.value.length != rhs.value.length) {

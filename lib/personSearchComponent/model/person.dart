@@ -39,12 +39,13 @@ class Person extends Searchable {
     }
   }
 
-  Person(
-      {required this.firstname,
-      required this.surname,
-      this.title,
-      required this.nr,
-      required this.obfuscatedID});
+  Person({
+    required this.firstname,
+    required this.surname,
+    this.title,
+    required this.nr,
+    required this.obfuscatedID,
+  });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 

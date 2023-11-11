@@ -4,7 +4,8 @@ import 'package:campus_flutter/providers_get_it.dart';
 
 class FeedbackService {
   Future<CreateFeedbackReply> sendFeedback(
-      CreateFeedbackRequest createFeedbackRequest) async {
+    CreateFeedbackRequest createFeedbackRequest,
+  ) async {
     CachedCampusClient mainApi = getIt<CachedCampusClient>();
     return await mainApi.createFeedback(Stream.value(createFeedbackRequest));
   }

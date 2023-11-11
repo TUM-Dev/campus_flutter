@@ -1,7 +1,7 @@
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -63,32 +63,37 @@ class StudyRoom extends Searchable {
   List<ComparisonToken> get comparisonTokens => [
         ComparisonToken(value: name ?? ""),
         ComparisonToken(
-            value: buildingCode ?? "", type: ComparisonTokenType.raw),
+          value: buildingCode ?? "",
+          type: ComparisonTokenType.raw,
+        ),
         ComparisonToken(value: buildingName ?? ""),
         ComparisonToken(
-            value: buildingNumber.toString(), type: ComparisonTokenType.raw),
+          value: buildingNumber.toString(),
+          type: ComparisonTokenType.raw,
+        ),
         ComparisonToken(value: status ?? ""),
         ComparisonToken(value: occupiedBy ?? ""),
         ...?attributes?.expand((element) => element.comparisonTokens),
       ];
 
-  StudyRoom(
-      {this.buildingCode,
-      this.buildingName,
-      required this.buildingNumber,
-      this.code,
-      required this.id,
-      this.name,
-      this.number,
-      this.occupiedBy,
-      required this.occupiedFor,
-      this.occupiedFrom,
-      required this.occupiedIn,
-      this.occupiedUntil,
-      this.raum_nr_architekt,
-      required this.res_nr,
-      this.status,
-      this.attributes});
+  StudyRoom({
+    this.buildingCode,
+    this.buildingName,
+    required this.buildingNumber,
+    this.code,
+    required this.id,
+    this.name,
+    this.number,
+    this.occupiedBy,
+    required this.occupiedFor,
+    this.occupiedFrom,
+    required this.occupiedIn,
+    this.occupiedUntil,
+    this.raum_nr_architekt,
+    required this.res_nr,
+    this.status,
+    this.attributes,
+  });
 
   factory StudyRoom.fromJson(Map<String, dynamic> json) =>
       _$StudyRoomFromJson(json);

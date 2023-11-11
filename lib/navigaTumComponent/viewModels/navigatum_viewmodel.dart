@@ -15,10 +15,13 @@ class NavigaTumViewModel {
       return;
     }
 
-    return NavigaTumService.search(forcedRefresh, searchString).then((value) {
-      searchResults
-          .add(value.sections.expand((element) => element.entries).toList());
-    }, onError: (error) => searchResults.addError(error));
+    return NavigaTumService.search(forcedRefresh, searchString).then(
+      (value) {
+        searchResults
+            .add(value.sections.expand((element) => element.entries).toList());
+      },
+      onError: (error) => searchResults.addError(error),
+    );
   }
 
   Future mostSearched(String searchString, bool forcedRefresh) async {
@@ -27,12 +30,15 @@ class NavigaTumViewModel {
       return;
     }
 
-    return NavigaTumService.search(forcedRefresh, searchString).then((value) {
-      final mostSearchResults =
-          value.sections.expand((element) => element.entries).toList();
-      mostSearchResults
-          .removeWhere((element) => int.tryParse(element.name[0]) == null);
-      mostSearchedResults.add(mostSearchResults);
-    }, onError: (error) => searchResults.addError(error));
+    return NavigaTumService.search(forcedRefresh, searchString).then(
+      (value) {
+        final mostSearchResults =
+            value.sections.expand((element) => element.entries).toList();
+        mostSearchResults
+            .removeWhere((element) => int.tryParse(element.name[0]) == null);
+        mostSearchedResults.add(mostSearchResults);
+      },
+      onError: (error) => searchResults.addError(error),
+    );
   }
 }

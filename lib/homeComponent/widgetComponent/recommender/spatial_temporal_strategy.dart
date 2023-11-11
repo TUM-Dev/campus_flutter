@@ -12,17 +12,19 @@ class SpatialTemporalStrategy implements WidgetRecommenderStrategy {
     final timeRecommendations = await timeStrategy.getRecommendations();
     final locationRecommendations = await locationStrategy.getRecommendations();
 
-    Map<HomeWidget, int> recommendations = Map.fromIterable(HomeWidget.values,
-        key: (homeWidget) => homeWidget,
-        value: (homeWidget) {
-          if (timeRecommendations[homeWidget] != 0 &&
-              locationRecommendations[homeWidget] != 0) {
-            return (timeRecommendations[homeWidget] ?? 0) +
-                (locationRecommendations[homeWidget] ?? 0);
-          } else {
-            return 0;
-          }
-        });
+    Map<HomeWidget, int> recommendations = Map.fromIterable(
+      HomeWidget.values,
+      key: (homeWidget) => homeWidget,
+      value: (homeWidget) {
+        if (timeRecommendations[homeWidget] != 0 &&
+            locationRecommendations[homeWidget] != 0) {
+          return (timeRecommendations[homeWidget] ?? 0) +
+              (locationRecommendations[homeWidget] ?? 0);
+        } else {
+          return 0;
+        }
+      },
+    );
 
     /// remove all where priority is 0
     recommendations.removeWhere((key, value) => value < 1);

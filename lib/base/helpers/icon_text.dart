@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
-  const IconText(
-      {super.key,
-      required this.iconData,
-      required this.label,
-      this.style,
-      this.textColor,
-      this.multipleLines = false,
-      this.leadingIcon = true,
-      this.mainAxisAlignment = MainAxisAlignment.start,
-      this.iconSize,
-      this.iconColor});
+  const IconText({
+    super.key,
+    required this.iconData,
+    required this.label,
+    this.style,
+    this.textColor,
+    this.multipleLines = false,
+    this.leadingIcon = true,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.iconSize,
+    this.iconColor,
+  });
 
   final IconData iconData;
   final String label;
@@ -40,23 +41,27 @@ class IconText extends StatelessWidget {
               ? Flexible(child: Text(label, style: textStyle))
               : Flexible(
                   child: Text(
-                  label,
-                  style: textStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ))
+                    label,
+                    style: textStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
         ],
         if (!leadingIcon) ...[
           multipleLines
               ? Flexible(child: Text(label, style: textStyle))
               : Flexible(
-                  child: Text(label,
-                      style: textStyle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis)),
+                  child: Text(
+                    label,
+                    style: textStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-          Icon(iconData, color: iconColor, size: iconSize)
-        ]
+          Icon(iconData, color: iconColor, size: iconSize),
+        ],
       ],
     );
   }

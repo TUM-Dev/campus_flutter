@@ -19,10 +19,13 @@ class FeedbackViewModel {
     }
 
     final feedback = CreateFeedbackRequest(
-        recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
-        fromEmail: emailAddress.text,
-        message: message.text,
-        location: Coordinate(
-            latitude: position?.latitude, longitude: position?.longitude));
+      recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
+      fromEmail: emailAddress.text,
+      message: message.text,
+      location: Coordinate(
+        latitude: position?.latitude,
+        longitude: position?.longitude,
+      ),
+    );
   }
 }

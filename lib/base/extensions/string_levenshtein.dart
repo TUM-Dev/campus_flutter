@@ -30,7 +30,7 @@ extension Levenshtein on String {
           dist[i][j] = [
             dist[i - 1][j] + 1, // Deletion
             dist[i][j - 1] + 1, // Insertion
-            dist[i - 1][j - 1] + 1 // Substitution
+            dist[i - 1][j - 1] + 1, // Substitution
           ].reduce((min, current) => current < min ? current : min);
         }
       }

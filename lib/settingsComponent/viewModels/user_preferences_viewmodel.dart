@@ -51,18 +51,26 @@ class UserPreferencesViewModel {
   }
 
   void saveUserPreference(
-      UserPreference userPreference, dynamic newValue) async {
+    UserPreference userPreference,
+    dynamic newValue,
+  ) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     switch (userPreference) {
       case UserPreference.defaultMapsApplication:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as MapType).name);
+          userPreference.name,
+          (newValue as MapType).name,
+        );
       case UserPreference.locale:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as Locale).languageCode);
+          userPreference.name,
+          (newValue as Locale).languageCode,
+        );
       case UserPreference.theme:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as Appearance).name);
+          userPreference.name,
+          (newValue as Appearance).name,
+        );
       default:
         await sharedPreferences.setBool(userPreference.name, newValue as bool);
     }
