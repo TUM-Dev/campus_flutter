@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc
 import 'package:campus_flutter/providers_get_it.dart';
 
 class FeedbackService {
-  Future<CreateFeedbackReply> sendFeedback(
+  static Future<CreateFeedbackReply> sendFeedback(
     CreateFeedbackRequest createFeedbackRequest,
   ) async {
     CachedCampusClient mainApi = getIt<CachedCampusClient>();

@@ -137,7 +137,7 @@ final userPreferencesViewModel =
     Provider((ref) => UserPreferencesViewModel(ref));
 
 /// view model for feedback
-final feedbackViewModel = Provider((ref) => FeedbackViewModel());
+final feedbackViewModel = Provider((ref) => FeedbackViewModel(ref));
 
 /// search view models
 final searchViewModel = Provider((ref) => GlobalSearchViewModel(ref));
