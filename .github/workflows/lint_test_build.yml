@@ -1,9 +1,9 @@
 name: Linting, Testing and Building
 
 on:
-  pull_request:
+  push:
     branches-ignore:
-      - "development"
+      - "dev"
       - "main"
 
 jobs:
@@ -28,9 +28,6 @@ jobs:
 
       - name: Install Flutter Packages
         run: flutter pub get
-
-        # - name: Verify formatting
-        # run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze Project
         run: dart analyze --fatal-warnings
