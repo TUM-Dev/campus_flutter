@@ -30,7 +30,7 @@ class StudyRoomRowView extends ConsumerWidget {
           context,
           MaterialPageRoute(
             builder: (context) => NavigaTumRoomScaffold(
-              id: studyRoom.raum_nr_architekt ?? "null",
+              id: studyRoom.roomNoArchitect ?? "null",
             ),
           ),
         );

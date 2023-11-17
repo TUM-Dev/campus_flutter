@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/base/extensions/locale+fullname.dart';
+import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
@@ -234,13 +234,6 @@ class SettingsView extends ConsumerWidget {
     } else {
       return "https://testflight.apple.com/join/4Ddi6f2f";
     }
-  }
-
-  Uri _feedbackEmail() {
-    final operatingSystem = kIsWeb ? "Web App" : Platform.operatingSystem;
-    String email = Uri.encodeComponent("app@tum.de");
-    String subject = Uri.encodeComponent("[$operatingSystem - Feedback]");
-    return Uri.parse("mailto:$email?subject=$subject");
   }
 
   Widget _authentication(BuildContext context, WidgetRef ref) {

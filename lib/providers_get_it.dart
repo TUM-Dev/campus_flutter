@@ -7,7 +7,7 @@ import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmode
 import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommenderViewModel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommender_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
