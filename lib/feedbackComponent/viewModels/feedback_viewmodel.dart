@@ -21,7 +21,11 @@ class FeedbackViewModel {
   final TextEditingController emailAddress = TextEditingController();
   final TextEditingController message = TextEditingController();
 
-  FeedbackViewModel(Ref ref) {
+  final Ref ref;
+
+  FeedbackViewModel(this.ref);
+
+  initForm() {
     final email = ref.read(profileDetailsViewModel).personDetails.value?.email;
     if (email != null) {
       emailAddress.text = email;

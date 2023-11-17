@@ -28,11 +28,23 @@ class FeedbackFormScaffold extends ConsumerWidget {
   }
 }
 
-class FeedbackFormView extends ConsumerWidget {
+class FeedbackFormView extends ConsumerStatefulWidget {
   const FeedbackFormView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _FeedbackFormViewState();
+}
+
+class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
+  @override
+  void initState() {
+    ref.read(feedbackViewModel).initForm();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       child: Column(
         children: [
@@ -90,7 +102,7 @@ class FeedbackFormView extends ConsumerWidget {
                 return Text(
                   context.localizations.successfullySent,
                   style: context.theme.textTheme.bodyLarge
-                      ?.copyWith(color: Colors.green),
+                      ?.copyWith(color: context.theme.primaryColor),
                 );
               } else if (snapshot.hasError) {
                 return Column(
@@ -98,7 +110,7 @@ class FeedbackFormView extends ConsumerWidget {
                     Text(
                       context.localizations.unableToSend,
                       style: context.theme.textTheme.bodyLarge
-                          ?.copyWith(color: Colors.redAccent),
+                          ?.copyWith(color: context.theme.primaryColor),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(

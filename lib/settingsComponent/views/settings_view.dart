@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/extensions/locale+fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
@@ -208,10 +209,18 @@ class SettingsView extends ConsumerWidget {
               link: "https://app.tum.de",
               label: "TUM Dev Website",
             ),
-            HyperLinkListTile(
+            ListTile(
               dense: true,
-              uri: _feedbackEmail(),
-              label: "Feedback",
+              title: Text(
+                "Feedback",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FeedbackFormScaffold(),
+                ),
+              ),
             ),
           ],
         ),

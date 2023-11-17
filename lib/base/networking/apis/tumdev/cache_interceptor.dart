@@ -30,37 +30,7 @@ class CacheInterceptor implements ClientInterceptor {
     CallOptions options,
     ClientStreamingInvoker<Q, R> invoker,
   ) {
-    final key = "${method.path}?${requests.toString()}";
-    final (bool, dynamic) cachedResponse;
-    if (kIsWeb) {
-      cachedResponse = memCacheStore.get(key);
-    } else {
-      cachedResponse = hiveCacheStore.get(key);
-    }
-    final factory = _getFactory<R>();
-    if (cachedResponse.$1 && cachedResponse.$2 != null && factory != null) {
-      final data = factory(cachedResponse.$2!.data);
-      return ResponseStream<R>(
-        ClientCall(
-          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
-          requests,
-          options,
-          null,
-          true,
-        ),
-      );
-    }
-
-    final response = invoker(method, requests, options);
-    response.listen((data) {
-      if (kIsWeb) {
-        memCacheStore.put(key, _convertToBuffer<R>(data));
-      } else {
-        hiveCacheStore.put(key, _convertToBuffer<R>(data));
-      }
-    });
-
-    return response;
+    return invoker(method, requests, options);
   }
 
   @override
@@ -107,10 +77,10 @@ class CacheInterceptor implements ClientInterceptor {
   // TODO: figure out nicer solution or add missing classes
   Uint8List? _convertToBuffer<R>(R data) {
     switch (R) {
-      case ListNewsReply:
+      case ListNewsReply _:
         final listData = data as ListNewsReply;
         return listData.writeToBuffer();
-      case ListMoviesReply:
+      case ListMoviesReply _:
         final movieData = data as ListMoviesReply;
         return movieData.writeToBuffer();
       default:
@@ -121,12 +91,12 @@ class CacheInterceptor implements ClientInterceptor {
   // TODO: figure out nicer solution or add missing classes
   R Function(List<int>, [ExtensionRegistry])? _getFactory<R>() {
     switch (R) {
-      case ListNewsReply:
+      case ListNewsReply _:
         return ListNewsReply.fromBuffer as R Function(
           List<int>, [
           ExtensionRegistry,
         ]);
-      case ListMoviesReply:
+      case ListMoviesReply _:
         return ListMoviesReply.fromBuffer as R Function(
           List<int>, [
           ExtensionRegistry,
