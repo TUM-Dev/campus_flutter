@@ -33,8 +33,10 @@ class StudyRoom extends Searchable {
   final int occupiedIn;
   @JsonKey(name: "belegung_bis", fromJson: DateTime.tryParse)
   final DateTime? occupiedUntil;
-  final String? raum_nr_architekt;
-  final int res_nr;
+  @JsonKey(name: "raum_nr_architekt")
+  final String? roomNoArchitect;
+  @JsonKey(name: "res_nr")
+  final int resNo;
   final String? status;
   @JsonKey(name: "attribute")
   final List<StudyRoomAttribute>? attributes;
@@ -89,8 +91,8 @@ class StudyRoom extends Searchable {
     this.occupiedFrom,
     required this.occupiedIn,
     this.occupiedUntil,
-    this.raum_nr_architekt,
-    required this.res_nr,
+    this.roomNoArchitect,
+    required this.resNo,
     this.status,
     this.attributes,
   });

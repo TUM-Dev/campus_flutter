@@ -7,8 +7,7 @@ part of 'navigatum_roomfinder_map.dart';
 // **************************************************************************
 
 NavigaTumRoomFinderMap _$NavigaTumRoomFinderMapFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     NavigaTumRoomFinderMap(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -21,8 +20,7 @@ NavigaTumRoomFinderMap _$NavigaTumRoomFinderMapFromJson(
     );
 
 Map<String, dynamic> _$NavigaTumRoomFinderMapToJson(
-  NavigaTumRoomFinderMap instance,
-) =>
+        NavigaTumRoomFinderMap instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

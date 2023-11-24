@@ -6,6 +6,7 @@
    "identification":"Identifikation",
    "places":"Orte",
    "settings":"Einstellungen",
+   "settingsAndFeedback":"Einstellungen & Feedback",
    "generalSettings":"Allgemeine Einstellungen",
    "comingSoon":"demnächst verfügbar",
    "appearance":"Darstellung",
@@ -200,7 +201,7 @@
    },
    "noRoomsFound":"Keine Räume gefunden",
    "noMealPlanFound":"Kein Essensplan gefunden",
-   "mealPlan": "Essensplan",
+   "mealPlan":"Essensplan",
    "noEntriesFoundSearch":"Keine {searchCategory} gefunden",
    "@noEntriesFoundSearch":{
       "description":"Title of Search Category",
@@ -251,5 +252,17 @@
       }
    },
    "closed":"Geschlossen",
-   "closedToday":"Heute geschlossen"
+   "closedToday":"Heute geschlossen",
+   "submitFeedback":"Feedback einreichen",
+   "yourEmailAddress":"Deine E-Mail-Adresse",
+   "message":"Nachricht",
+   "shareLocation":"Aktuellen Standort teilen",
+   "shareDeviceInformation":"Informationen über das Gerät teilen",
+   "submit":"Senden",
+   "yourMessage":"Deine Nachricht...",
+   "yourEmail":"deineemail@tum.de",
+   "invalidEmail":"Ungültige E-Mail-Adresse",
+   "invalidMessage":"Ungültige Nachricht",
+   "unableToSend":"Nachricht kann nicht gesendet werden!",
+   "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!"
 }

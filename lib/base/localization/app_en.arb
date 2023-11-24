@@ -6,6 +6,7 @@
    "identification":"Identification",
    "places":"Places",
    "settings":"Settings",
+   "settingsAndFeedback":"Settings & Feedback",
    "generalSettings":"General Settings",
    "comingSoon":"Coming Soon",
    "language":"Language",
@@ -200,7 +201,7 @@
    },
    "noRoomsFound":"No Rooms Found",
    "noMealPlanFound":"No Meal Plan Found",
-   "mealPlan": "Meal Plan",
+   "mealPlan":"Meal Plan",
    "noEntriesFoundSearch":"No {searchCategory} Found",
    "@noEntriesFoundSearch":{
       "description":"Title of Search Category",
@@ -251,5 +252,17 @@
       }
    },
    "closed":"Closed",
-   "closedToday":"Closed Today"
+   "closedToday":"Closed Today",
+   "submitFeedback":"Submit Feedback",
+   "yourEmailAddress":"Your Email Address",
+   "message":"Message",
+   "shareLocation":"Share Current Location",
+   "shareDeviceInformation":"Share Device's Information",
+   "submit":"Submit",
+   "yourMessage":"Your Message",
+   "yourEmail":"youremail@tum.de",
+   "invalidEmail":"Invalid Email Address",
+   "invalidMessage":"Invalid Message",
+   "unableToSend":"Unable to Send Message!",
+   "successfullySent":"Message Successfully Sent!\n Thanks for Your Feedback!"
 }

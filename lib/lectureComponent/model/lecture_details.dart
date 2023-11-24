@@ -16,7 +16,7 @@ class LectureDetails {
   @JsonKey(name: "dauer_info")
   final String duration;
   @JsonKey(name: "stp_sp_sst")
-  final String stp_sp_sst;
+  final String stpSpSst;
   @JsonKey(name: "stp_lv_art_name")
   final String eventTypeDefault;
   @JsonKey(name: "stp_lv_art_kurz")
@@ -45,7 +45,8 @@ class LectureDetails {
   final String? courseObjective;
   @JsonKey(name: "lehrmethode")
   final String? teachingMethod;
-  final String? anmeld_lv;
+  @JsonKey(name: "anmeld_lv")
+  final String? signUpLV;
   @JsonKey(name: "ersttermin")
   final String? firstScheduledDate;
   @JsonKey(name: "pruefmodus")
@@ -84,7 +85,7 @@ class LectureDetails {
     required this.lvNumber,
     required this.title,
     required this.duration,
-    required this.stp_sp_sst,
+    required this.stpSpSst,
     required this.eventTypeDefault,
     required this.eventTypeTag,
     required this.semester,
@@ -99,7 +100,7 @@ class LectureDetails {
     this.requirements,
     this.courseObjective,
     this.teachingMethod,
-    this.anmeld_lv,
+    this.signUpLV,
     this.firstScheduledDate,
     this.examinationMode,
     this.studienbehelfe,

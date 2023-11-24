@@ -7,8 +7,7 @@ part of 'navigatum_navigation_details.dart';
 // **************************************************************************
 
 NavigaTumNavigationDetails _$NavigaTumNavigationDetailsFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     NavigaTumNavigationDetails(
       json['id'] as String,
       json['name'] as String,
@@ -16,17 +15,14 @@ NavigaTumNavigationDetails _$NavigaTumNavigationDetailsFromJson(
       json['type'] as String,
       json['type_common_name'] as String,
       NavigaTumNavigationAdditionalProperties.fromJson(
-        json['props'] as Map<String, dynamic>,
-      ),
+          json['props'] as Map<String, dynamic>),
       NavigaTumNavigationCoordinates.fromJson(
-        json['coords'] as Map<String, dynamic>,
-      ),
+          json['coords'] as Map<String, dynamic>),
       NavigaTumNavigationMaps.fromJson(json['maps'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$NavigaTumNavigationDetailsToJson(
-  NavigaTumNavigationDetails instance,
-) =>
+        NavigaTumNavigationDetails instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
