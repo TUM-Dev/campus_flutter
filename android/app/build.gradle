@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId "de.tum.tca_flutter"
-        minSdkVersion 20
+        minSdkVersion 26
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

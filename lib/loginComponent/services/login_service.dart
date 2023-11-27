@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
@@ -17,7 +15,7 @@ class LoginService {
       TumOnlineApi(
         TumOnlineServiceTokenRequest(
           tumId: name,
-          deviceName: "TCA - ${kIsWeb ? "Web App" : io.Platform.localHostname}",
+          deviceName: "TCA - ${kIsWeb ? "Web App" : "Mobile"}",
         ),
       ),
       Token.fromJson,
