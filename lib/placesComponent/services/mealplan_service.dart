@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
@@ -34,27 +36,32 @@ class MealPlanService {
 
       final nextWeek = today.add(const Duration(days: 7));
 
-      final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
-        EatApi(
-          EatApiServiceMenu(
-            location: cafeteria.id,
-            year: nextWeek.year,
-            week: nextWeek.weekNumber(),
+      try {
+        final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
+          EatApi(
+            EatApiServiceMenu(
+              location: cafeteria.id,
+              year: nextWeek.year,
+              week: nextWeek.weekNumber(),
+            ),
           ),
-        ),
-        MealPlan.fromJson,
-        forcedRefresh,
-      );
+          MealPlan.fromJson,
+          forcedRefresh,
+        );
 
-      final List<CafeteriaMenu> nextWeekMenu = _filterNextWeekMenu(
-        _getMenuPerDay(nextWeekResponse.data),
-        thisWeekMenu,
-      );
+        final List<CafeteriaMenu> nextWeekMenu = _filterNextWeekMenu(
+          _getMenuPerDay(nextWeekResponse.data),
+          thisWeekMenu,
+        );
 
-      thisWeekMenu.addAll(nextWeekMenu);
+        thisWeekMenu.addAll(nextWeekMenu);
 
-      return (response.saved, thisWeekMenu);
+        return (response.saved, thisWeekMenu);
+      } catch (e) {
+        return (response.saved, thisWeekMenu);
+      }
     } catch (e) {
+      log((e as Error).stackTrace.toString());
       if (e is DioException) {
         return (DateTime.now(), <CafeteriaMenu>[]);
       } else {

@@ -9,7 +9,8 @@ part of 'dish.dart';
 Dish _$DishFromJson(Map<String, dynamic> json) => Dish(
       name: json['name'] as String,
       prices: (json['prices'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, Price.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(
+            k, e == null ? null : Price.fromJson(e as Map<String, dynamic>)),
       ),
       labels:
           (json['labels'] as List<dynamic>).map((e) => e as String).toList(),

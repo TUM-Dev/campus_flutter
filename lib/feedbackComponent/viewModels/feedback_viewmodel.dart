@@ -13,7 +13,6 @@ import 'package:rxdart/rxdart.dart';
 
 class FeedbackViewModel {
   BehaviorSubject<bool> shareLocation = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> shareDeviceInfos = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> activeButton = BehaviorSubject.seeded(false);
   BehaviorSubject<bool?> validEmail = BehaviorSubject.seeded(null);
   BehaviorSubject<bool?> validMessage = BehaviorSubject.seeded(null);
@@ -39,13 +38,10 @@ class FeedbackViewModel {
       position = await LocationService.getLastKnown();
     }
 
-    String? deviceInfos;
-    if (shareDeviceInfos.value) {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      final baseInfo = await deviceInfo.deviceInfo;
-      deviceInfos =
-          "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
-    }
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final baseInfo = await deviceInfo.deviceInfo;
+    final deviceInfos =
+        "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String packageInfos = packageInfo.version;
@@ -104,7 +100,6 @@ class FeedbackViewModel {
     emailAddress.text = "";
     message.text = "";
     shareLocation.add(false);
-    shareDeviceInfos.add(false);
     activeButton.add(false);
     validMessage.add(null);
     validEmail.add(null);

@@ -206,6 +206,9 @@ class CafeteriasViewModel {
 
       case "Studitopf":
       case var string when string.contains("HG"):
+      case var string when string.contains("Tagesgericht"):
+      case var string when string.contains("Aktionsessen"):
+      case "Aktion":
       case "DishType.VEGAN":
         return "🍲";
 
@@ -226,30 +229,35 @@ class CafeteriasViewModel {
       case var string when RegExp(r"N\d").hasMatch(string):
         return "🍰";
 
-      case "Aktion":
-        return "🏷️";
-
       default:
         return " ";
     }
   }
 
-  static String formatPrice(Dish dish, {String pricingGroup = "students"}) {
+  static String? formatPrice(
+    Dish dish,
+    BuildContext context, {
+    String pricingGroup = "students",
+  }) {
     final NumberFormat priceFormatter = NumberFormat.currency(symbol: '€');
 
-    Price price;
+    Price? price;
     String? basePriceString;
     String? unitPriceString;
 
     switch (pricingGroup) {
       case 'staff':
-        price = dish.prices['staff']!;
+        price = dish.prices['staff'];
         break;
       case 'guests':
-        price = dish.prices['guests']!;
+        price = dish.prices['guests'];
         break;
       default:
-        price = dish.prices['students']!;
+        price = dish.prices['students'];
+    }
+
+    if (price == null) {
+      return null;
     }
 
     if (price.basePrice != null && price.basePrice != 0) {

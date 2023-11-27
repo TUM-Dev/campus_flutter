@@ -66,8 +66,6 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                     ? data.email
                     : UserDetailsViewModel.defaultPersonDetails.email,
               ),
-              // TODO: solve with tumCard api?
-              Text(context.localizations.comingSoon),
             ],
           ),
         ),

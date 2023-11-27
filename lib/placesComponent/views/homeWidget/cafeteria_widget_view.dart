@@ -167,6 +167,7 @@ class DishCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? price = CafeteriasViewModel.formatPrice(dish.$1, context);
     return CardWithPadding(
       color: inverted ? Theme.of(context).colorScheme.background : null,
       height: 150,
@@ -186,7 +187,7 @@ class DishCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: () => _dishInfoAlert(dish.$1, context),
+                    onPressed: () => _dishInfoAlert(dish.$1, price, context),
                     icon: Icon(
                       Icons.info_outline,
                       color: Theme.of(context).primaryColor,
@@ -207,19 +208,20 @@ class DishCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Expanded(
-              child: Text(
-                CafeteriasViewModel.formatPrice(dish.$1),
-                maxLines: 1,
+            if (price != null)
+              Expanded(
+                child: Text(
+                  price,
+                  maxLines: 1,
+                ),
               ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  _dishInfoAlert(Dish dish, BuildContext context) {
+  _dishInfoAlert(Dish dish, String? price, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -230,7 +232,7 @@ class DishCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               for (var label in dish.labels) ...[Text(label)],
-              Text(CafeteriasViewModel.formatPrice(dish)),
+              if (price != null) Text(price),
             ],
           ),
           actions: [
