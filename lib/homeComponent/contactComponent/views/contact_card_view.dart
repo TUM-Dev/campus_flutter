@@ -18,6 +18,12 @@ class ContactCardView extends ConsumerStatefulWidget {
 
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
+  void initState() {
+    ref.read(profileDetailsViewModel).fetch(false);
+    super.initState();
+  }
+
+  @override
   build(BuildContext context) {
     return StreamBuilder(
       stream: ref.watch(profileDetailsViewModel).personDetails,

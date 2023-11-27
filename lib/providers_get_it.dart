@@ -70,20 +70,12 @@ Locale _getDeviceLocale() {
 final loginViewModel = Provider((ref) => LoginViewModel());
 
 /// view model for users profile
-final profileViewModel = Provider.autoDispose((ref) {
-  final profileViewModel = ProfileViewModel();
-  profileViewModel.fetch(false);
-  ref.keepAlive();
-  return profileViewModel;
-});
+final profileViewModel = Provider((ref) => ProfileViewModel());
 
 /// view model for users details and person details
-final profileDetailsViewModel = Provider.autoDispose((ref) {
+final profileDetailsViewModel = Provider((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
-  final profileDetailsViewModel = PersonDetailsViewModel(profile?.obfuscatedID);
-  profileDetailsViewModel.fetch(false);
-  ref.keepAlive();
-  return profileDetailsViewModel;
+  return PersonDetailsViewModel(profile?.obfuscatedID);
 });
 final personDetailsViewModel =
     Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {

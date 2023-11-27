@@ -35,6 +35,15 @@ jobs:
       - name: Run Tests
         run: flutter test
 
+      - name: Install CocoaPods
+        run: cd ./ios && pod install
+
+      - name: Install Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
       - name: Build iOS
         run: flutter build ipa --no-codesign
 
