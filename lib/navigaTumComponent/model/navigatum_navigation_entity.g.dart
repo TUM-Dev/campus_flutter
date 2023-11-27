@@ -7,8 +7,7 @@ part of 'navigatum_navigation_entity.dart';
 // **************************************************************************
 
 NavigaTumNavigationEntity _$NavigaTumNavigationEntityFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     NavigaTumNavigationEntity(
       id: json['id'] as String,
       type: json['type'] as String,
@@ -18,8 +17,7 @@ NavigaTumNavigationEntity _$NavigaTumNavigationEntityFromJson(
     );
 
 Map<String, dynamic> _$NavigaTumNavigationEntityToJson(
-  NavigaTumNavigationEntity instance,
-) =>
+        NavigaTumNavigationEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

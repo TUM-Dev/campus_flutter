@@ -3,7 +3,7 @@ import 'package:campus_flutter/personSearchComponent/services/person_search_serv
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PersonSearchViewModel extends SearchViewModel<Person> {
+class PersonSearchViewModel implements SearchViewModel<Person> {
   @override
   BehaviorSubject<List<Person>?> searchResults = BehaviorSubject.seeded(null);
 

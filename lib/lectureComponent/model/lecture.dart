@@ -17,7 +17,7 @@ class Lecture extends Searchable {
   @JsonKey(name: "dauer_info")
   final String duration;
   @JsonKey(name: "stp_sp_sst")
-  final String stp_sp_sst;
+  final String stpSpSst;
   @JsonKey(name: "stp_lv_art_name")
   final String eventTypeDefault;
   @JsonKey(name: "stp_lv_art_kurz")
@@ -77,7 +77,7 @@ class Lecture extends Searchable {
     required this.lvNumber,
     required this.title,
     required this.duration,
-    required this.stp_sp_sst,
+    required this.stpSpSst,
     required this.eventTypeDefault,
     required this.eventTypeTag,
     required this.semesterYear,

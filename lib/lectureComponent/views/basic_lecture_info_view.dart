@@ -18,7 +18,7 @@ class BasicLectureInfoView extends ConsumerWidget {
       title: context.localizations.basicLectureInformation,
       widgets: [
         BasicLectureInfoRowView(
-          information: "${lectureDetails.stp_sp_sst} SWS",
+          information: "${lectureDetails.stpSpSst} SWS",
           iconData: Icons.hourglass_top,
         ),
         BasicLectureInfoRowView(

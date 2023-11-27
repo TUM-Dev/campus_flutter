@@ -6,7 +6,7 @@ import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
-import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
@@ -96,10 +96,12 @@ class NavigationService {
       IconButton(
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const SettingsView()),
+            MaterialPageRoute(
+              builder: (context) => const SettingsScaffold(),
+            ),
           );
         },
-        icon: const Icon(Icons.settings),
+        icon: const Icon(Icons.menu),
       ),
     ];
   }

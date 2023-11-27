@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NavigaTumSearchViewModel
-    extends SearchViewModel<NavigaTumNavigationEntity> {
+    implements SearchViewModel<NavigaTumNavigationEntity> {
   @override
   BehaviorSubject<List<NavigaTumNavigationEntity>?> searchResults =
       BehaviorSubject.seeded(null);

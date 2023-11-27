@@ -12,7 +12,7 @@ LectureDetails _$LectureDetailsFromJson(Map<String, dynamic> json) =>
       lvNumber: StringParser.stringToInt(json['stp_lv_nr'] as String?),
       title: json['stp_sp_titel'] as String,
       duration: json['dauer_info'] as String,
-      stp_sp_sst: json['stp_sp_sst'] as String,
+      stpSpSst: json['stp_sp_sst'] as String,
       eventTypeDefault: json['stp_lv_art_name'] as String,
       eventTypeTag: json['stp_lv_art_kurz'] as String,
       semester: json['semester_name'] as String,
@@ -28,7 +28,7 @@ LectureDetails _$LectureDetailsFromJson(Map<String, dynamic> json) =>
       requirements: json['voraussetzung_lv'] as String?,
       courseObjective: json['lehrziel'] as String?,
       teachingMethod: json['lehrmethode'] as String?,
-      anmeld_lv: json['anmeld_lv'] as String?,
+      signUpLV: json['anmeld_lv'] as String?,
       firstScheduledDate: json['ersttermin'] as String?,
       examinationMode: json['pruefmodus'] as String?,
       studienbehelfe: json['studienbehelfe'] as String?,
@@ -44,7 +44,7 @@ Map<String, dynamic> _$LectureDetailsToJson(LectureDetails instance) =>
       'stp_lv_nr': instance.lvNumber,
       'stp_sp_titel': instance.title,
       'dauer_info': instance.duration,
-      'stp_sp_sst': instance.stp_sp_sst,
+      'stp_sp_sst': instance.stpSpSst,
       'stp_lv_art_name': instance.eventTypeDefault,
       'stp_lv_art_kurz': instance.eventTypeTag,
       'semester_name': instance.semester,
@@ -59,7 +59,7 @@ Map<String, dynamic> _$LectureDetailsToJson(LectureDetails instance) =>
       'voraussetzung_lv': instance.requirements,
       'lehrziel': instance.courseObjective,
       'lehrmethode': instance.teachingMethod,
-      'anmeld_lv': instance.anmeld_lv,
+      'anmeld_lv': instance.signUpLV,
       'ersttermin': instance.firstScheduledDate,
       'pruefmodus': instance.examinationMode,
       'studienbehelfe': instance.studienbehelfe,
@@ -72,8 +72,7 @@ Map<String, dynamic> _$LectureDetailsToJson(LectureDetails instance) =>
 LectureDetailsData _$LectureDetailsDataFromJson(Map<String, dynamic> json) =>
     LectureDetailsData(
       lectureDetailsAttribute: LectureDetailsElement.fromJson(
-        json['rowset'] as Map<String, dynamic>,
-      ),
+          json['rowset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LectureDetailsDataToJson(LectureDetailsData instance) =>
@@ -82,16 +81,14 @@ Map<String, dynamic> _$LectureDetailsDataToJson(LectureDetailsData instance) =>
     };
 
 LectureDetailsElement _$LectureDetailsElementFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     LectureDetailsElement(
       lectureDetails:
           LectureDetailsElement._lectureDetailsFromJson(json['row']),
     );
 
 Map<String, dynamic> _$LectureDetailsElementToJson(
-  LectureDetailsElement instance,
-) =>
+        LectureDetailsElement instance) =>
     <String, dynamic>{
       'row': instance.lectureDetails,
     };

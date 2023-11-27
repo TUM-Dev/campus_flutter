@@ -10,8 +10,7 @@ AverageGrade _$AverageGradeFromJson(Map<String, dynamic> json) => AverageGrade(
       id: json['studidf'] as String,
       studyDesignation: json['studbez'] as String,
       averageGrade: StringParser.stringToDouble(
-        json['avg_grade_weighted_by_credits'] as String?,
-      ),
+          json['avg_grade_weighted_by_credits'] as String?),
     );
 
 Map<String, dynamic> _$AverageGradeToJson(AverageGrade instance) =>
@@ -22,8 +21,7 @@ Map<String, dynamic> _$AverageGradeToJson(AverageGrade instance) =>
     };
 
 AverageGradeResponse _$AverageGradeResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     AverageGradeResponse(
       averageGradeData: json['studien'] == null
           ? null
@@ -31,8 +29,7 @@ AverageGradeResponse _$AverageGradeResponseFromJson(
     );
 
 Map<String, dynamic> _$AverageGradeResponseToJson(
-  AverageGradeResponse instance,
-) =>
+        AverageGradeResponse instance) =>
     <String, dynamic>{
       'studien': instance.averageGradeData,
     };

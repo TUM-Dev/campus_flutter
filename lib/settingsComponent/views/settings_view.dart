@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/base/extensions/locale+fullname.dart';
+import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
@@ -24,20 +25,14 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
-        title: Text(context.localizations.settings),
-      ),
-      body: ListView(
-        children: [
-          _generalSettings(context, ref),
-          _appearance(context, ref),
-          _contact(context, ref),
-          _authentication(context, ref),
-          _versionNumber(),
-        ],
-      ),
+    return ListView(
+      children: [
+        _generalSettings(context, ref),
+        _appearance(context, ref),
+        _contact(context, ref),
+        _authentication(context, ref),
+        _versionNumber(),
+      ],
     );
   }
 
@@ -214,10 +209,18 @@ class SettingsView extends ConsumerWidget {
               link: "https://app.tum.de",
               label: "TUM Dev Website",
             ),
-            HyperLinkListTile(
+            ListTile(
               dense: true,
-              uri: _feedbackEmail(),
-              label: "Feedback",
+              title: Text(
+                "Feedback",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FeedbackFormScaffold(),
+                ),
+              ),
             ),
           ],
         ),
@@ -231,13 +234,6 @@ class SettingsView extends ConsumerWidget {
     } else {
       return "https://testflight.apple.com/join/4Ddi6f2f";
     }
-  }
-
-  Uri _feedbackEmail() {
-    final operatingSystem = kIsWeb ? "Web App" : Platform.operatingSystem;
-    String email = Uri.encodeComponent("app@tum.de");
-    String subject = Uri.encodeComponent("[$operatingSystem - Feedback]");
-    return Uri.parse("mailto:$email?subject=$subject");
   }
 
   Widget _authentication(BuildContext context, WidgetRef ref) {

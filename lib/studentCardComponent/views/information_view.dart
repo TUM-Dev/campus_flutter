@@ -33,7 +33,8 @@ class InformationView extends StatelessWidget {
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow(
                       "Birthday",
-                      DateFormat("dd.MM.yyyy", "de_DE").format(studentCard.birthday),
+                      DateFormat("dd.MM.yyyy", "de_DE")
+                          .format(studentCard.birthday),
                     ),
                     _infoEntryRow("Study ID", studentCard.studyID),
                     _infoEntryRow(
