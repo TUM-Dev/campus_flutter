@@ -35,6 +35,9 @@ jobs:
       - name: Run Tests
         run: flutter test
 
+      - name: Install CocoaPods
+        run: cd ios && pod install
+
       - name: Build iOS
         run: flutter build ipa --no-codesign
 
