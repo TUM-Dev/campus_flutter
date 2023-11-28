@@ -78,7 +78,7 @@ ThemeData lightTheme(BuildContext context) {
     cardTheme: CardTheme(
       color: Colors.white,
       surfaceTintColor: Colors.transparent,
-      elevation: 1.5,
+      elevation: 1,
       margin: EdgeInsets.symmetric(
         vertical: context.halfPadding,
         horizontal: context.padding,
