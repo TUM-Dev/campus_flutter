@@ -26,8 +26,9 @@ class GradeRectangle extends StatelessWidget {
                 : parsedGrade.toString(),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: Colors.white,
+              fontWeight: FontWeight.bold,
               shadows: [
-                const Shadow(color: Colors.black, blurRadius: 10.0),
+                Shadow(color: Colors.grey.shade600, blurRadius: 3),
               ],
             ),
           ),

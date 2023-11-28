@@ -20,6 +20,7 @@ class GradeRow extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Row(
             children: [
               Expanded(

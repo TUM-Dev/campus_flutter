@@ -19,6 +19,7 @@ class LectureView extends ConsumerWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Row(
             children: [
               Expanded(
