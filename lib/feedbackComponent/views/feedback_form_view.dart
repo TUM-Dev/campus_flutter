@@ -74,10 +74,6 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
                   text: context.localizations.shareLocation,
                   isChecked: ref.read(feedbackViewModel).shareLocation,
                 ),
-                FeedbackCheckMarkView(
-                  text: context.localizations.shareDeviceInformation,
-                  isChecked: ref.read(feedbackViewModel).shareDeviceInfos,
-                ),
               ],
             ),
           ),

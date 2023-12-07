@@ -25,7 +25,7 @@ class DetailedLectureInfoRowView extends StatelessWidget {
                 .titleSmall
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Text(information.replaceAll(r'\\n', "\n")),
+          Text(information.replaceAll(r'\\n', "\n").replaceAll(r'\t', "\t")),
         ],
       ),
     );

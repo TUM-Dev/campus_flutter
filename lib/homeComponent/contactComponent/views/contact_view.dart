@@ -16,6 +16,12 @@ class ContactScreen extends ConsumerStatefulWidget {
 
 class _ContactScreenState extends ConsumerState<ContactScreen> {
   @override
+  void initState() {
+    ref.read(profileViewModel).fetch(false);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: ref.watch(profileViewModel).profile,

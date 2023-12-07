@@ -22,6 +22,7 @@ class ContactCardView extends ConsumerStatefulWidget {
 class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   void initState() {
+    ref.read(profileDetailsViewModel).fetch(false);
     ref.read(studentCardViewModel);
     super.initState();
   }

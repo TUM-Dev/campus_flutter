@@ -5,7 +5,7 @@ part 'dish.g.dart';
 @JsonSerializable()
 class Dish {
   final String name;
-  final Map<String, Price> prices;
+  final Map<String, Price?> prices;
   final List<String> labels;
   @JsonKey(name: "dish_type")
   final String dishType;
