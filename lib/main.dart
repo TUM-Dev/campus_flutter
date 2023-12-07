@@ -19,9 +19,8 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show PlatformDispatcher, kIsWeb;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import  'package:firebase_crashlytics/firebase_crashlytics.dart';
-import  'package:firebase_core/firebase_core.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
