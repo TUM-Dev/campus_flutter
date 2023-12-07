@@ -52,6 +52,8 @@ dependencies:
   flutter_svg: ^2.0.9
   uuid: ^4.2.1
   collection: ^1.18.0
+  firebase_crashlytics: ^3.4.6
+  firebase_core: ^2.24.0
 
 dependency_overrides:
   xml2json:

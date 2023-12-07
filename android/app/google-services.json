@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "37463514185",
+    "project_id": "tum-campus-app-test",
+    "storage_bucket": "tum-campus-app-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37463514185:android:95c93d35f8e62cfd0f3398",
+        "android_client_info": {
+          "package_name": "de.tum.tca_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLk6HAS9VnZ5M6lQvMAZrfKjrPwihPC-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
