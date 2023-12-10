@@ -49,3 +49,6 @@ jobs:
 
       - name: Build Android
         run: flutter build apk
+
+      - name: Build Website
+        run: flutter build web --base-href /
