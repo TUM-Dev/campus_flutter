@@ -9,6 +9,7 @@ class Person extends Searchable {
   final String firstname;
   @JsonKey(name: "familienname")
   final String surname;
+  @JsonKey(name: "titel")
   final String? title;
   final String nr;
   @JsonKey(name: "obfuscated_id")
@@ -30,12 +31,21 @@ class Person extends Searchable {
     return "$firstname $surname";
   }
 
-  Person(
-      {required this.firstname,
-      required this.surname,
-      this.title,
-      required this.nr,
-      required this.obfuscatedID});
+  String get fullNameWithTitle {
+    if (title != null) {
+      return "$title $fullName";
+    } else {
+      return fullName;
+    }
+  }
+
+  Person({
+    required this.firstname,
+    required this.surname,
+    this.title,
+    required this.nr,
+    required this.obfuscatedID,
+  });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 

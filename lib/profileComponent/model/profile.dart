@@ -46,14 +46,15 @@ class Profile {
     return "$firstname $surname";
   }
 
-  Profile(
-      {this.firstname,
-      this.obfuscatedID,
-      this.obfuscatedIDEmployee,
-      this.obfuscatedIDExtern,
-      this.obfuscatedIDStudent,
-      this.surname,
-      this.tumID});
+  Profile({
+    this.firstname,
+    this.obfuscatedID,
+    this.obfuscatedIDEmployee,
+    this.obfuscatedIDExtern,
+    this.obfuscatedIDStudent,
+    this.surname,
+    this.tumID,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);

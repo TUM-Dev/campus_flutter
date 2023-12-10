@@ -3,16 +3,8 @@ name: Linting, Testing and Building
 on:
   push:
     branches-ignore:
-      - "development"
+      - "dev"
       - "main"
-    paths:
-      - 'lib/**'
-  pull_request:
-    branches-ignore:
-      - "development"
-      - "main"
-    paths:
-      - 'lib/**'
 
 jobs:
   build:
@@ -37,14 +29,23 @@ jobs:
       - name: Install Flutter Packages
         run: flutter pub get
 
-        # - name: Verify formatting
-        # run: dart format --output=none --set-exit-if-changed .
-
       - name: Analyze Project
         run: dart analyze --fatal-warnings
 
       - name: Run Tests
         run: flutter test
 
-      - name: Build Project
+      - name: Install CocoaPods
+        run: cd ./ios && pod install
+
+      - name: Install Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Build iOS
         run: flutter build ipa --no-codesign
+
+      - name: Build Android
+        run: flutter build apk

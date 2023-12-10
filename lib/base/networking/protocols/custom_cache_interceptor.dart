@@ -9,8 +9,10 @@ class CustomCacheInterceptor implements Interceptor {
 
   final CacheOptions cacheOptions;
 
-  CustomCacheInterceptor(
-      {required this.cacheStore, required this.cacheOptions});
+  CustomCacheInterceptor({
+    required this.cacheStore,
+    required this.cacheOptions,
+  });
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
@@ -19,7 +21,9 @@ class CustomCacheInterceptor implements Interceptor {
 
   @override
   Future<void> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     ConnectivityResult connectivityResult = getIt<ConnectivityResult>();
     options.extra[CacheResponse.requestSentDate] = DateTime.now();
     final key = CacheOptions.defaultCacheKeyBuilder(options);
@@ -57,12 +61,18 @@ class CustomCacheInterceptor implements Interceptor {
 
   @override
   Future<void> onResponse(
-      Response response, ResponseInterceptorHandler handler) async {
+    Response response,
+    ResponseInterceptorHandler handler,
+  ) async {
     final key = CacheOptions.defaultCacheKeyBuilder(response.requestOptions);
     final cacheResponse = await CacheResponse.fromResponse(
-        key: key, options: cacheOptions, response: response);
+      key: key,
+      options: cacheOptions,
+      response: response,
+    );
     await cacheStore.set(
-        await cacheResponse.writeContent(cacheOptions, response: response));
+      await cacheResponse.writeContent(cacheOptions, response: response),
+    );
     handler.next(response);
   }
 }

@@ -2,7 +2,7 @@ import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 part 'lecture.g.dart';
 
@@ -17,7 +17,7 @@ class Lecture extends Searchable {
   @JsonKey(name: "dauer_info")
   final String duration;
   @JsonKey(name: "stp_sp_sst")
-  final String stp_sp_sst;
+  final String stpSpSst;
   @JsonKey(name: "stp_lv_art_name")
   final String eventTypeDefault;
   @JsonKey(name: "stp_lv_art_kurz")
@@ -72,22 +72,23 @@ class Lecture extends Searchable {
         ComparisonToken(value: semester),
       ];
 
-  Lecture(
-      {required this.id,
-      required this.lvNumber,
-      required this.title,
-      required this.duration,
-      required this.stp_sp_sst,
-      required this.eventTypeDefault,
-      required this.eventTypeTag,
-      required this.semesterYear,
-      required this.semesterType,
-      required this.semester,
-      required this.semesterID,
-      required this.organisationNumber,
-      required this.organisation,
-      required this.organisationTag,
-      required this.speaker});
+  Lecture({
+    required this.id,
+    required this.lvNumber,
+    required this.title,
+    required this.duration,
+    required this.stpSpSst,
+    required this.eventTypeDefault,
+    required this.eventTypeTag,
+    required this.semesterYear,
+    required this.semesterType,
+    required this.semester,
+    required this.semesterID,
+    required this.organisationNumber,
+    required this.organisation,
+    required this.organisationTag,
+    required this.speaker,
+  });
 
   factory Lecture.fromJson(Map<String, dynamic> json) =>
       _$LectureFromJson(json);

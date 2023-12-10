@@ -4,25 +4,24 @@ part 'phone_extension.g.dart';
 
 @JsonSerializable()
 class PhoneExtension {
-  // TODO: needed?
-  //String id;
   @JsonKey(name: "telefonnummer")
-  final String phoneNumber;
+  final String? phoneNumber;
   @JsonKey(name: "tum_anlage_land")
-  final String countryCode;
+  final String? countryCode;
   @JsonKey(name: "tum_anlage_ortsvorwahl")
-  final String areaCode;
+  final String? areaCode;
   @JsonKey(name: "tum_anlage_nummer")
-  final String equipmentNumber;
+  final String? equipmentNumber;
   @JsonKey(name: "tum_nebenstelle")
-  final String branchNumber;
+  final String? branchNumber;
 
-  PhoneExtension(
-      {required this.phoneNumber,
-      required this.countryCode,
-      required this.areaCode,
-      required this.equipmentNumber,
-      required this.branchNumber});
+  PhoneExtension({
+    this.phoneNumber,
+    this.countryCode,
+    this.areaCode,
+    this.equipmentNumber,
+    this.branchNumber,
+  });
 
   factory PhoneExtension.fromJson(Map<String, dynamic> json) =>
       _$PhoneExtensionFromJson(json);

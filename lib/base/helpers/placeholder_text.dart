@@ -8,21 +8,20 @@ class PlaceholderText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textSize = _calcTextSize();
+    var textSize = _calcTextSize(context);
     return Container(
       height: textSize.height,
       width: textSize.width,
       color: Colors.grey,
-      // TODO: rounded corners?
     );
   }
 
   /// found on: https://stackoverflow.com/a/63133637
-  Size _calcTextSize() {
+  Size _calcTextSize(BuildContext context) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
-      textScaleFactor: WidgetsBinding.instance.window.textScaleFactor,
+      textScaleFactor: MediaQuery.textScaleFactorOf(context),
     )..layout();
     return textPainter.size;
   }

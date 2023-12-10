@@ -51,6 +51,35 @@ If you want to participate in the beta of this app, enter your details [here](ht
 ## Support
 You can reach us on [Discord](https://discord.gg/k558T6ktuh), [GitHub](https://github.com/TUM-Dev/Campus-Flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)
 
-## License
-Licensed under [GNU GPL v3](http://www.gnu.org/licenses/gpl.html)
+## Development
+
+To develop this project, you need these dependency's installed. If you have any problems with any of the steps below, please open an issue.
+Please refer to the respective installation instructions:
+
+| Dependency                               | Usage                                    | where to download it                         |
+|------------------------------------------|------------------------------------------|----------------------------------------------|
+| `Flutter` (includes the `Dart` compiler) | SDK to develop this app                  | https://docs.flutter.dev/get-started/install |
+
+### Updating the `.proto` files of the
+
+To update the generated stubs for the Campus, you need protoc installed, then activte it in dart and then you can generate the new client
+
+```bash
+dart pub global activate protoc_plugin
+export PATH="$PATH:$HOME/.pub-cache/bin"
+curl -o protos/tumdev/campus_backend.proto https://raw.githubusercontent.com/TUM-Dev/Campus-Backend/main/server/api/tumdev/campus_backend.proto
+protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/timestamp.proto google/protobuf/empty.proto protos/tumdev/campus_backend.proto 
+```
+
+### Current needed Forks
+
+To ensure that Campus-Flutter runs on every supported platform, we need to make some modifications to packages.
+
+| Package                 | Reason                                   | Link                                         |
+|-------------------------|------------------------------------------|----------------------------------------------|
+| gRPC                    | Caching                                  | https://github.com/jakobkoerber/grpc-dart |
+| Google Maps Flutter iOS | Enable usage of SDK in ARM iOS Siulators | https://github.com/jakobkoerber/packages |
+| Xml2Json                | Fix Parsing of XML to JSON               | https://github.com/jakobkoerber/xml2json |
+
+
 

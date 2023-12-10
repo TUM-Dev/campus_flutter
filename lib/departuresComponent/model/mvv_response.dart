@@ -6,9 +6,9 @@ part 'mvv_response.g.dart';
 @JsonSerializable()
 class MvvResponse {
   @JsonKey(name: "departureList")
-  final List<Departure> departures;
+  final List<Departure>? departures;
 
-  MvvResponse({required this.departures});
+  MvvResponse({this.departures});
 
   factory MvvResponse.fromJson(Map<String, dynamic> json) =>
       _$MvvResponseFromJson(json);

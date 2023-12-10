@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
@@ -39,29 +40,35 @@ class DeparturesViewModel extends ViewModel {
   }
 
   void calculateClosestCampus() async {
-    final location = await LocationService.getLastKnown();
+    try {
+      final location = await LocationService.getLastKnown();
 
-    if (location != null) {
-      final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
-        final currentDistance = Geolocator.distanceBetween(
+      if (location != null) {
+        final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
+          final currentDistance = Geolocator.distanceBetween(
             currentCampus.location.latitude,
             currentCampus.location.longitude,
             location.latitude,
-            location.longitude);
+            location.longitude,
+          );
 
-        final nextDistance = Geolocator.distanceBetween(
+          final nextDistance = Geolocator.distanceBetween(
             nextCampus.location.latitude,
             nextCampus.location.longitude,
             location.latitude,
-            location.longitude);
+            location.longitude,
+          );
 
-        return currentDistance < nextDistance ? currentCampus : nextCampus;
-      });
+          return currentDistance < nextDistance ? currentCampus : nextCampus;
+        });
 
-      this.closestCampus.add(closestCampus);
-      assignSelectedStation();
-    } else {
-      // TODO:
+        this.closestCampus.add(closestCampus);
+        assignSelectedStation();
+      } else {
+        return;
+      }
+    } catch (e) {
+      log("Departures - $e");
       return;
     }
   }
@@ -101,16 +108,22 @@ class DeparturesViewModel extends ViewModel {
     if (closestCampus.value != null) {
       if (selectedStation.value != null) {
         DeparturesService.fetchDepartures(
-                true, selectedStation.value!.apiName, walkingDistance.value)
-            .then((response) => sortDepartures(response),
-                onError: (error) => departures.addError(error));
+          true,
+          selectedStation.value!.apiName,
+          walkingDistance.value,
+        ).then(
+          (response) => sortDepartures(response),
+          onError: (error) => departures.addError(error),
+        );
       } else {
         DeparturesService.fetchDepartures(
-                true,
-                closestCampus.value!.defaultStation.apiName,
-                walkingDistance.value)
-            .then((response) => sortDepartures(response),
-                onError: (error) => departures.addError(error));
+          true,
+          closestCampus.value!.defaultStation.apiName,
+          walkingDistance.value,
+        ).then(
+          (response) => sortDepartures(response),
+          onError: (error) => departures.addError(error),
+        );
       }
     }
   }
@@ -118,7 +131,7 @@ class DeparturesViewModel extends ViewModel {
   void sortDepartures(({DateTime? saved, MvvResponse data}) response) {
     lastFetched.add(response.saved);
 
-    response.data.departures.sort((departure1, departure2) {
+    response.data.departures?.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
         return departure1.realDateTime!.compareTo(departure2.realDateTime!);
       } else if (departure1.realDateTime != null) {
@@ -130,7 +143,7 @@ class DeparturesViewModel extends ViewModel {
       }
     });
 
-    departures.add(response.data.departures);
+    departures.add(response.data.departures ?? []);
     setTimerForRefresh();
   }
 
@@ -138,7 +151,9 @@ class DeparturesViewModel extends ViewModel {
     if ((departures.value?.length ?? 0) > 0) {
       if (departures.value![0].countdown > 0) {
         timer = Timer(
-            Duration(minutes: departures.value![0].countdown), fetchDepartures);
+          Duration(minutes: departures.value![0].countdown),
+          fetchDepartures,
+        );
         return;
       }
     }
@@ -163,13 +178,15 @@ class DeparturesViewModel extends ViewModel {
           sharedPreferences.setString("departuresPreferences", json);
         } catch (_) {
           final DeparturesPreference preferences = DeparturesPreference(
-              preferences: {closestCampus.value!: selectedStation.value!});
+            preferences: {closestCampus.value!: selectedStation.value!},
+          );
           final json = jsonEncode(preferences.toJson());
           sharedPreferences.setString("departuresPreferences", json);
         }
       } else {
         final DeparturesPreference preferences = DeparturesPreference(
-            preferences: {closestCampus.value!: selectedStation.value!});
+          preferences: {closestCampus.value!: selectedStation.value!},
+        );
         final json = jsonEncode(preferences.toJson());
         sharedPreferences.setString("departuresPreferences", json);
       }
@@ -179,12 +196,18 @@ class DeparturesViewModel extends ViewModel {
   List<PopupMenuEntry<Station>> getMenuEntries() {
     if (closestCampus.value != null) {
       return closestCampus.value!.allStations
-          .map((e) => PopupMenuItem(
+          .map(
+            (e) => PopupMenuItem(
               value: e,
               child: selectedStation.value?.name == e.name
                   ? IconText(
-                      iconData: Icons.check, label: e.name, leadingIcon: false)
-                  : Text(e.name)))
+                      iconData: Icons.check,
+                      label: e.name,
+                      leadingIcon: false,
+                    )
+                  : Text(e.name),
+            ),
+          )
           .toList();
     } else {
       return [];

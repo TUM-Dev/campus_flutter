@@ -72,20 +72,25 @@ class LoginViewModel {
   }
 
   Future checkLogin() async {
-    _storage.read(key: "token").then((value) async {
-      if (value != null) {
-        Api.tumToken = value;
-        //Api.tumToken = "E2313F253B3586FD486D1AF3659F01EA";
-        await LoginService.confirmToken(false).then((value) {
-          credentials.add(Credentials.tumId);
-        }, onError: (error) {
+    _storage.read(key: "token").then(
+      (value) async {
+        if (value != null) {
+          Api.tumToken = value;
+          await LoginService.confirmToken(false).then(
+            (value) {
+              credentials.add(Credentials.tumId);
+            },
+            onError: (error) {
+              credentials.add(Credentials.none);
+              _errorHandling(error);
+            },
+          );
+        } else {
           credentials.add(Credentials.none);
-          _errorHandling(error);
-        });
-      } else {
-        credentials.add(Credentials.none);
-      }
-    }, onError: (error) => _errorHandling(error));
+        }
+      },
+      onError: (error) => _errorHandling(error),
+    );
   }
 
   _errorHandling(dynamic error) {
@@ -94,9 +99,10 @@ class LoginViewModel {
   }
 
   Future requestLogin() async {
-    return LoginService.requestNewToken(true,
-            "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}")
-        .then((value) {
+    return LoginService.requestNewToken(
+      true,
+      "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}",
+    ).then((value) {
       final token = value.content;
       _storage.write(key: "token", value: token);
       Api.tumToken = token;
@@ -117,16 +123,11 @@ class LoginViewModel {
   }
 
   Future logout(WidgetRef ref) async {
-    /*ProviderContainer()
-      ..invalidate(profileViewModel)
-      ..invalidate(personDetailsViewModel);*/
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     await getIt<MainApi>().clearCache();
     await _storage.delete(key: "token");
     Api.tumToken = "";
-    //profileViewModel.
-    //personDetailsViewModel.overrideWithValue(PersonDetailsViewModel(null));
     credentials.add(Credentials.none);
   }
 }

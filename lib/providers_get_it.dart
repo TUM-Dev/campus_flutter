@@ -4,15 +4,18 @@ import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
+import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommender_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
-import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_details_viewmodel.dart';
-import 'package:campus_flutter/navigatumComponent/viewModels/navigatum_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
@@ -25,6 +28,7 @@ import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/c
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/lecture_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/movie_search_viewmodel.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
@@ -40,6 +44,7 @@ import 'package:map_launcher/map_launcher.dart';
 final getIt = GetIt.instance;
 
 /// state providers for user interaction
+final currentIndex = StateProvider<int>((ref) => 0);
 final selectedProfile = StateProvider<Profile?>((ref) => null);
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
@@ -65,32 +70,28 @@ Locale _getDeviceLocale() {
 final loginViewModel = Provider((ref) => LoginViewModel());
 
 /// view model for users profile
-final profileViewModel = Provider.autoDispose((ref) {
-  final profileViewModel = ProfileViewModel();
-  profileViewModel.fetch(false);
-  ref.keepAlive();
-  return profileViewModel;
-});
+final profileViewModel = Provider((ref) => ProfileViewModel());
 
 /// view model for users details and person details
-final profileDetailsViewModel = Provider.autoDispose((ref) {
+final profileDetailsViewModel = Provider((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
-  final profileDetailsViewModel = PersonDetailsViewModel(profile);
-  profileDetailsViewModel.fetch(false);
-  ref.keepAlive();
-  return profileDetailsViewModel;
+  return PersonDetailsViewModel(profile?.obfuscatedID);
 });
-final personDetailsViewModel = Provider((ref) {
-  final profile = ref.watch(selectedProfile);
-  return PersonDetailsViewModel(profile);
+final personDetailsViewModel =
+    Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {
+  return PersonDetailsViewModel(obfuscatedId);
 });
+
+/// view model for home screen
+final recommenderViewModel = Provider((ref) => RecommenderViewModel(ref));
 
 /// view model for places
 final placesViewModel = Provider((ref) => PlacesViewModel(ref));
 final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 final navigaTumDetailsViewModel =
     Provider.family<NavigaTumDetailsViewModel, String>(
-        (ref, id) => NavigaTumDetailsViewModel(id, ref));
+  (ref, id) => NavigaTumDetailsViewModel(id, ref),
+);
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 
@@ -104,8 +105,8 @@ final movieViewModel = Provider((ref) => MovieViewModel());
 final lectureViewModel = Provider((ref) => LectureViewModel());
 final lectureDetailsViewModel =
     Provider.family<LectureDetailsViewModel, (CalendarEvent?, Lecture?)>(
-        (ref, data) =>
-            LectureDetailsViewModel(event: data.$1, lecture: data.$2));
+  (ref, data) => LectureDetailsViewModel(event: data.$1, lecture: data.$2),
+);
 
 /// view model for grades
 final gradeViewModel = Provider((ref) => GradeViewModel(ref));
@@ -127,6 +128,9 @@ final settingsViewModel = Provider((ref) => SettingsViewModel(ref));
 final userPreferencesViewModel =
     Provider((ref) => UserPreferencesViewModel(ref));
 
+/// view model for feedback
+final feedbackViewModel = Provider((ref) => FeedbackViewModel(ref));
+
 /// search view models
 final searchViewModel = Provider((ref) => GlobalSearchViewModel(ref));
 final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
@@ -135,6 +139,8 @@ final personalLectureSearchViewModel =
     Provider((ref) => PersonalLectureSearchViewModel());
 final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
+final newsSearchViewModel = Provider((ref) => NewsSearchViewModel());
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
 final personSearchViewModel = Provider((ref) => PersonSearchViewModel());
+final navigaTumSearchViewModel = Provider((ref) => NavigaTumSearchViewModel());

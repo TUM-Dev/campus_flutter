@@ -1,6 +1,6 @@
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,8 +19,10 @@ class _DefaultMapsPickerViewState extends ConsumerState<DefaultMapsPickerView> {
   Widget build(BuildContext context) {
     return ListTile(
       dense: true,
-      title: Text(context.localizations.defaultMapsApplication,
-          style: Theme.of(context).textTheme.bodyMedium),
+      title: Text(
+        context.localizations.defaultMapsApplication,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
       trailing: PopupMenuButton<AvailableMap>(
         icon: ref.read(selectedMapsApp)?.icon != null
             ? ClipRRect(
@@ -37,7 +39,9 @@ class _DefaultMapsPickerViewState extends ConsumerState<DefaultMapsPickerView> {
         onSelected: (selection) {
           ref.read(selectedMapsApp.notifier).state = selection;
           ref.read(userPreferencesViewModel).saveUserPreference(
-              UserPreference.defaultMapsApplication, selection.mapType);
+                UserPreference.defaultMapsApplication,
+                selection.mapType,
+              );
           setState(() {});
         },
       ),

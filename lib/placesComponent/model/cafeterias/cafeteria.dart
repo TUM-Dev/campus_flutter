@@ -1,3 +1,4 @@
+import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -10,8 +11,11 @@ class Location {
   final double longitude;
   final String address;
 
-  Location(
-      {required this.latitude, required this.longitude, required this.address});
+  Location({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+  });
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
@@ -40,9 +44,29 @@ class Cafeteria extends Searchable {
   @JsonKey(name: "queue_status")
   final String? queueStatusApi;
   Queue? queue;
+  @JsonKey(name: "open_hours")
+  final OpeningHours? openingHours;
 
   String? get title {
     return name;
+  }
+
+  (bool, OpeningHour?) get openingHoursToday {
+    final today = DateTime.now();
+    switch (today.weekday) {
+      case 1:
+        return (true, openingHours?.mon);
+      case 2:
+        return (true, openingHours?.tue);
+      case 3:
+        return (true, openingHours?.wed);
+      case 4:
+        return (true, openingHours?.thu);
+      case 5:
+        return (true, openingHours?.fri);
+      default:
+        return (false, null);
+    }
   }
 
   @override
@@ -51,17 +75,23 @@ class Cafeteria extends Searchable {
         ComparisonToken(value: name),
         ComparisonToken(value: location.address),
         ComparisonToken(
-            value: location.latitude.toString(), type: ComparisonTokenType.raw),
+          value: location.latitude.toString(),
+          type: ComparisonTokenType.raw,
+        ),
         ComparisonToken(
-            value: location.longitude.toString(), type: ComparisonTokenType.raw)
+          value: location.longitude.toString(),
+          type: ComparisonTokenType.raw,
+        ),
       ];
 
-  Cafeteria(
-      {required this.location,
-      required this.name,
-      required this.id,
-      required this.queueStatusApi,
-      required this.queue});
+  Cafeteria({
+    required this.location,
+    required this.name,
+    required this.id,
+    required this.queueStatusApi,
+    required this.queue,
+    this.openingHours,
+  });
 
   factory Cafeteria.fromJson(Map<String, dynamic> json) =>
       _$CafeteriaFromJson(json);

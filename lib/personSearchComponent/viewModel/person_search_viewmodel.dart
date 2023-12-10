@@ -3,14 +3,19 @@ import 'package:campus_flutter/personSearchComponent/services/person_search_serv
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PersonSearchViewModel extends SearchViewModel<Person> {
+class PersonSearchViewModel implements SearchViewModel<Person> {
   @override
   BehaviorSubject<List<Person>?> searchResults = BehaviorSubject.seeded(null);
 
-  Future personSearch(
-      {bool forcedRefresh = false, required String query}) async {
-    return PersonSearchService.fetchPersons(query, forcedRefresh).then((value) {
-      searchResults.add(value.$2);
-    }, onError: (error) => searchResults.addError(error));
+  Future personSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
+    return PersonSearchService.fetchPersons(query, forcedRefresh).then(
+      (value) {
+        searchResults.add(value.$2);
+      },
+      onError: (error) => searchResults.addError(error),
+    );
   }
 }

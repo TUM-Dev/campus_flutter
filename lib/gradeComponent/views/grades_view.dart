@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
@@ -12,7 +13,7 @@ import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
 import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 
 class GradesView extends ConsumerStatefulWidget {
   const GradesView({super.key});
@@ -21,88 +22,111 @@ class GradesView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _GradesViewState();
 }
 
-class _GradesViewState extends ConsumerState<GradesView> {
-  late GradeViewModel gradeVM;
+class _GradesViewState extends ConsumerState<GradesView>
+    with AutomaticKeepAliveClientMixin<GradesView> {
+  late Provider<GradeViewModel> gradeVM;
 
   @override
-  void didChangeDependencies() {
-    gradeVM = ref.watch(gradeViewModel);
-    gradeVM.fetch(false);
-    super.didChangeDependencies();
+  void initState() {
+    gradeVM = gradeViewModel;
+    ref.read(gradeVM).fetch(false);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GenericStreamBuilder<Map<String, List<Grade>>>(
-        stream: gradeVM.studyProgramGrades,
-        dataBuilder: (context, data) {
-          if (data.isEmpty) {
-            return Center(child: Text(context.localizations.noGradesFound));
-          } else {
-            final lastFetched = ref.read(gradeViewModel).lastFetched.value;
-            return OrientationBuilder(builder: (context, constraints) {
+      stream: ref.watch(gradeVM).studyProgramGrades,
+      dataBuilder: (context, data) {
+        if (data.isEmpty) {
+          return Center(child: Text(context.localizations.noGradesFound));
+        } else {
+          final lastFetched = ref.read(gradeViewModel).lastFetched.value;
+          return OrientationBuilder(
+            builder: (context, constraints) {
               if (constraints == Orientation.portrait) {
                 return _oneColumnView(data, lastFetched);
               } else {
                 return _twoColumnView(data, lastFetched);
               }
-            });
-          }
-        },
-        errorBuilder: (context, error) => ErrorHandlingView(
-              error: error,
-              errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-              retry: ref.read(gradeViewModel).fetch,
-            ),
-        loadingBuilder: (context) =>
-            DelayedLoadingIndicator(name: context.localizations.grades));
+            },
+          );
+        }
+      },
+      errorBuilder: (context, error) => ErrorHandlingView(
+        error: error,
+        errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+        retry: ref.read(gradeViewModel).fetch,
+      ),
+      loadingBuilder: (context) =>
+          DelayedLoadingIndicator(name: context.localizations.grades),
+    );
   }
 
   Widget _oneColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
     return RefreshIndicator(
-        child: Scrollbar(
-            child: SingleChildScrollView(
-                clipBehavior: Clip.antiAlias,
-                child: Column(children: [
-                  if (lastFetched != null) LastUpdatedText(lastFetched),
-                  DegreeView(degree: data),
-                ]))),
-        onRefresh: () async {
-          ref.read(gradeViewModel).fetch(true);
-        });
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              if (lastFetched != null) LastUpdatedText(lastFetched),
+              DegreeView(degree: data),
+            ],
+          ),
+        ),
+      ),
+      onRefresh: () async {
+        ref.read(gradeViewModel).fetch(true);
+      },
+    );
   }
 
   Widget _twoColumnView(Map<String, List<Grade>> data, DateTime? lastFetched) {
-    return Column(children: [
-      if (lastFetched != null) LastUpdatedText(lastFetched),
-      Expanded(
+    return Column(
+      children: [
+        if (lastFetched != null) LastUpdatedText(lastFetched),
+        Expanded(
           child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-              flex: 2,
-              child: ChartView(
-                studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
-                title: data.values.first.firstOrNull?.studyDesignation ??
-                    "Unknown",
-              )),
-          Expanded(
-              flex: 3,
-              child: RefreshIndicator(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 2,
+                child: ChartView(
+                  studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
+                  title: data.values.first.firstOrNull?.studyDesignation ??
+                      "Unknown",
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: RefreshIndicator(
                   child: Scrollbar(
-                      child: SingleChildScrollView(
-                          child: Column(children: [
-                    for (var semester in data.entries) ...[
-                      SemesterView(semester: semester)
-                    ]
-                  ]))),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (var semester in data.entries) ...[
+                            SemesterView(semester: semester),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
                   onRefresh: () async {
                     ref.read(gradeViewModel).fetch(true);
-                  }))
-        ],
-      ))
-    ]);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class DegreeView extends StatelessWidget {
@@ -115,9 +139,9 @@ class DegreeView extends StatelessWidget {
     return Column(
       children: [
         ChartView(
-            studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
-            title:
-                degree.values.first.firstOrNull?.studyDesignation ?? "Unknown"),
+          studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
+          title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown",
+        ),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],
     );
@@ -132,20 +156,23 @@ class SemesterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: ExpansionTile(
-      title: Text(StringParser.toFullSemesterName(context, semester.key)),
-      initiallyExpanded:
-          (semester.key == SemesterCalculator.getCurrentSemester() ||
-              semester.key == SemesterCalculator.getPriorSemester()),
-      children: [
-        for (var index = 0; index < semester.value.length; index++)
-          Column(children: [
-            GradeRow(grade: semester.value[index]),
-            (index != semester.value.length - 1
-                ? const PaddedDivider()
-                : const SizedBox.shrink())
-          ])
-      ],
-    ));
+      child: ExpansionTile(
+        title: Text(StringParser.toFullSemesterName(context, semester.key)),
+        initiallyExpanded:
+            (semester.key == SemesterCalculator.getCurrentSemester() ||
+                semester.key == SemesterCalculator.getPriorSemester()),
+        children: [
+          for (var index = 0; index < semester.value.length; index++)
+            Column(
+              children: [
+                GradeRow(grade: semester.value[index]),
+                (index != semester.value.length - 1
+                    ? const PaddedDivider()
+                    : const SizedBox.shrink()),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }

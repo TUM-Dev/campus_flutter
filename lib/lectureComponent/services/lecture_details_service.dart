@@ -7,14 +7,17 @@ import 'package:campus_flutter/providers_get_it.dart';
 
 class LectureDetailsService {
   static Future<(DateTime?, LectureDetails)> fetchLectureDetails(
-      String lvNumber, bool forcedRefresh) async {
+    String lvNumber,
+    bool forcedRefresh,
+  ) async {
     MainApi mainApi = getIt<MainApi>();
     final response = await mainApi.makeRequestWithException<LectureDetailsData,
-            TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceLectureDetails(lvNr: lvNumber)),
-        LectureDetailsData.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh);
+        TumOnlineApi, TumOnlineApiException>(
+      TumOnlineApi(TumOnlineServiceLectureDetails(lvNr: lvNumber)),
+      LectureDetailsData.fromJson,
+      TumOnlineApiException.fromJson,
+      forcedRefresh,
+    );
 
     return (
       response.saved,

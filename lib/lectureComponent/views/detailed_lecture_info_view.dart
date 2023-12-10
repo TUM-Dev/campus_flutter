@@ -1,6 +1,7 @@
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_row_view.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoView extends StatelessWidget {
@@ -10,26 +11,25 @@ class DetailedLectureInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (lectureDetails.courseContents != null) ...[
+    return LectureInfoCardView(
+      icon: Icons.info_outline_rounded,
+      title: context.localizations.detailedLectureInformation,
+      widgets: [
+        if (lectureDetails.courseContents != null)
           DetailedLectureInfoRowView(
-              title: context.localizations.courseContents,
-              information: lectureDetails.courseContents!)
-        ],
-        if (lectureDetails.courseObjective != null) ...[
-          const Divider(),
+            title: context.localizations.courseContents,
+            information: lectureDetails.courseContents!,
+          ),
+        if (lectureDetails.courseObjective != null)
           DetailedLectureInfoRowView(
-              title: context.localizations.courseObjective,
-              information: lectureDetails.courseObjective!)
-        ],
-        if (lectureDetails.note != null) ...[
-          const Divider(),
+            title: context.localizations.courseObjective,
+            information: lectureDetails.courseObjective!,
+          ),
+        if (lectureDetails.note != null)
           DetailedLectureInfoRowView(
-              title: context.localizations.note,
-              information: lectureDetails.note!)
-        ],
+            title: context.localizations.note,
+            information: lectureDetails.note!,
+          ),
       ],
     );
   }

@@ -1,5 +1,5 @@
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
-import 'package:campus_flutter/movieComponent/model/movie.dart';
 import 'package:campus_flutter/movieComponent/service/movie_service.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,19 +10,19 @@ class MovieViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    MovieService.fetchMovies(forcedRefresh).then(
-        (response) => _sortMovies(response),
-        onError: (error) => movies.addError(error));
+    return MovieService.fetchMovies(forcedRefresh).then(
+      (response) {
+        lastFetched.add(response.$1);
+        movies.add(response.$2);
+      },
+      onError: (error) => movies.addError(error),
+    );
   }
+}
 
-  _sortMovies((DateTime?, List<Movie>) movies) {
-    lastFetched.add(movies.$1);
-    if (movies.$2.isEmpty) {
-      this.movies.add(movies.$2);
-    } else {
-      movies.$2.removeWhere((element) => element.date.isBefore(DateTime.now()));
-      movies.$2.sort((a, b) => a.date.compareTo(b.date));
-      this.movies.add(movies.$2);
-    }
+extension MovieTitle on Movie {
+  String get movieTitle {
+    final titleParts = title.split(": ");
+    return titleParts.length == 2 ? titleParts[1] : title;
   }
 }

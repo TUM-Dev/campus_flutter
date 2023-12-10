@@ -16,10 +16,22 @@ PersonDetails _$PersonDetailsFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       gender: PersonDetails._stringToGender(json['geschlecht'] as String),
       officeHours: json['sprechstunde'] as String?,
+      officialContact: json['dienstlich'] == null
+          ? null
+          : ContactInfo.fromJson(json['dienstlich'] as Map<String, dynamic>),
+      privateContact: json['privat'] == null
+          ? null
+          : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
       imageData: json['image_data'] as String?,
-      organisations: PersonDetails._jsonToOrganisationList(json['gruppen']),
-      rooms: PersonDetails._jsonToRoomList(json['raeume']),
-      phoneExtensions: (json['telefon_nebenstellen'] as List<dynamic>?)
+      organisations:
+          (PersonDetails.readValue(json, 'gruppen') as List<dynamic>?)
+              ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      rooms: (PersonDetails.readValue(json, 'raeume') as List<dynamic>?)
+          ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      phoneExtensions: (PersonDetails.readValue(json, 'telefon_nebenstellen')
+              as List<dynamic>?)
           ?.map((e) => PhoneExtension.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -34,6 +46,8 @@ Map<String, dynamic> _$PersonDetailsToJson(PersonDetails instance) =>
       'email': instance.email,
       'geschlecht': _$GenderEnumMap[instance.gender]!,
       'sprechstunde': instance.officeHours,
+      'dienstlich': instance.officialContact,
+      'privat': instance.privateContact,
       'image_data': instance.imageData,
       'gruppen': instance.organisations,
       'raeume': instance.rooms,

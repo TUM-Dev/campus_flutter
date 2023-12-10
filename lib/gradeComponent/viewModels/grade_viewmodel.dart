@@ -28,23 +28,31 @@ class GradeViewModel implements ViewModel {
 
   @override
   Future fetch(bool forcedRefresh) async {
-    GradeService.fetchAverageGrades(forcedRefresh).then((response) {
-      _averageGrades = response.data;
-      return _fetchGrades(forcedRefresh);
-    }, onError: (error) => _fetchGrades(forcedRefresh));
+    GradeService.fetchAverageGrades(forcedRefresh).then(
+      (response) {
+        _averageGrades = response.data;
+        return _fetchGrades(forcedRefresh);
+      },
+      onError: (error) => _fetchGrades(forcedRefresh),
+    );
   }
 
   _fetchGrades(bool forcedRefresh) async {
-    return GradeService.fetchGrades(forcedRefresh).then((response) {
-      lastFetched.add(response.saved);
-      _gradesByDegreeAndSemester(response.data);
-    }, onError: (error) => studyProgramGrades.addError(error));
+    return GradeService.fetchGrades(forcedRefresh).then(
+      (response) {
+        lastFetched.add(response.saved);
+        _gradesByDegreeAndSemester(response.data);
+      },
+      onError: (error) => studyProgramGrades.addError(error),
+    );
   }
 
   AverageGrade? getAverageGrade() {
     if (studyProgramGrades.hasValue) {
-      return _averageGrades.firstWhereOrNull((element) =>
-          element.id == studyProgramGrades.value?.values.first.first.studyID);
+      return _averageGrades.firstWhereOrNull(
+        (element) =>
+            element.id == studyProgramGrades.value?.values.first.first.studyID,
+      );
     }
     return null;
   }
@@ -55,8 +63,14 @@ class GradeViewModel implements ViewModel {
     }
 
     if (ref.read(hideFailedGrades)) {
-      response.removeWhere((element) =>
-          (StringParser.optStringToOptDouble(element.grade) ?? 5) >= 4.0);
+      response.removeWhere((element) {
+        final parsedGrade = StringParser.optStringToOptDouble(element.grade);
+        if (parsedGrade != null) {
+          return parsedGrade > 4.0;
+        } else {
+          return element.grade != "B";
+        }
+      });
     }
 
     Map<String, List<Grade>> gradesByDegree = {};
@@ -88,13 +102,15 @@ class GradeViewModel implements ViewModel {
         final studyDesignation = e.values.first.first.studyDesignation;
         final degree = StringParser.degreeShortFromID(studyId);
         return PopupMenuItem(
-            value: studyId,
-            child: selectedStudyId == studyId
-                ? IconText(
-                    iconData: Icons.check,
-                    label: "$studyDesignation ($degree)",
-                    leadingIcon: false)
-                : Text("$studyDesignation ($degree)"));
+          value: studyId,
+          child: selectedStudyId == studyId
+              ? IconText(
+                  iconData: Icons.check,
+                  label: "$studyDesignation ($degree)",
+                  leadingIcon: false,
+                )
+              : Text("$studyDesignation ($degree)"),
+        );
       }).toList();
     } else {
       return [];
@@ -120,26 +136,28 @@ class GradeViewModel implements ViewModel {
       }
     }
 
-    return Map.fromEntries(chartData.entries.toList()
-      ..sort((a, b) {
-        if (a.key is double && b.key is double) {
-          final aKey = a.key as double;
-          final bKey = b.key as double;
-          return aKey.compareTo(bKey);
-        } else if (a.key == "n/a") {
-          return 1;
-        } else if (b.key == "n/a") {
-          return -1;
-        } else if (a.key is double) {
-          return a.key > 4 ? 1 : -1;
-        } else if (b.key is double) {
-          return b.key > 4 ? -1 : 1;
-        } else {
-          final aKey = a.key as String;
-          final bKey = b.key as String;
-          return aKey.compareTo(bKey);
-        }
-      }));
+    return Map.fromEntries(
+      chartData.entries.toList()
+        ..sort((a, b) {
+          if (a.key is double && b.key is double) {
+            final aKey = a.key as double;
+            final bKey = b.key as double;
+            return aKey.compareTo(bKey);
+          } else if (a.key == "n/a") {
+            return 1;
+          } else if (b.key == "n/a") {
+            return -1;
+          } else if (a.key is double) {
+            return a.key > 4 ? 1 : -1;
+          } else if (b.key is double) {
+            return b.key > 4 ? -1 : 1;
+          } else {
+            final aKey = a.key as String;
+            final bKey = b.key as String;
+            return aKey.compareTo(bKey);
+          }
+        }),
+    );
   }
 
   static Color getColor(dynamic grade) {

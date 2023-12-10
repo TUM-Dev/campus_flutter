@@ -13,26 +13,31 @@ class TumOnlineApiException implements ApiException {
           when message.contains("Keine Rechte für Funktion") ||
               message.contains("Funktion nicht erlaubt"):
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionNoPermission());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionNoPermission(),
+        );
       case "Token ist nicht bestätigt!":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType:
-                TumOnlineApiExceptionTokenNotConfirmed());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed(),
+        );
       case "Token ist ungültig!":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken(),
+        );
       case "Ungültige pIdentNr":
       case "Person ist nicht sichtbar.":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionPersonNotFound());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionPersonNotFound(),
+        );
       case String message when message.contains("Suchstring"):
         return TumOnlineApiException(
-            tumOnlineApiExceptionType:
-                TumOnlineApiExceptionInvalidSearchString());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidSearchString(),
+        );
       default:
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionUnknown(
-                message: exception.exceptionMessage.message));
+          tumOnlineApiExceptionType: TumOnlineApiExceptionUnknown(
+            message: exception.exceptionMessage.message,
+          ),
+        );
     }
   }
 
@@ -83,8 +88,8 @@ class TumOnlineApiException implements ApiException {
         return "Make sure you entered the name correctly!";
       case TumOnlineApiExceptionInvalidSearchString _:
         return "A search string with less than 4 characters must not contain wildcards or special characters!";
-      case TumOnlineApiExceptionUnknown unkown:
-        return unkown.message;
+      case TumOnlineApiExceptionUnknown unknown:
+        return unknown.message;
     }
   }
 }
