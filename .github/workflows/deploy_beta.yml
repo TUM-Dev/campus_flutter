@@ -10,16 +10,16 @@ jobs:
     # if: "github.event.release.prerelease"
     runs-on: macos-latest
 
-    # strategy:
-      # matrix:
-        # platform: [ ios, android ]
-      # fail-fast: false
+    strategy:
+      matrix:
+        platform: [ ios, android ]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Install Bundle
-        run: cd ./ios && bundle install
+        run: cd ./${{ matrix.platform }} && bundle install
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -39,7 +39,6 @@ jobs:
       - name: Install Flutter Packages
         run: |
           flutter config --no-analytics
-          flutter config --no-animations
           flutter pub get
 
       - if: matrix.platform == 'ios'
