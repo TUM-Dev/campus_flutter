@@ -26,25 +26,15 @@ jobs:
         with:
           channel: stable
           cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:arch:'
 
-      # - if: matrix.platform == 'android'
-        # uses: actions/setup-java@v3
-        # with:
-          # distribution: 'corretto'
-          # java-version: '17'
-
-      - name: Test
-        run: |
-          echo CACHE-PATH=${{ steps.flutter-action.outputs.CACHE-PATH }}
-          echo CACHE-KEY=${{ steps.flutter-action.outputs.CACHE-KEY }}
-          echo "${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}"
-
-      - name: Cache pub dependencies
-        uses: actions/cache@v3
+      - if: matrix.platform == 'android'
+        uses: actions/setup-java@v3
         with:
-          path: ${{ env.FLUTTER_HOME }}/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          # restore-keys: ${{ runner.os }}-pub-
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'gradle'
 
       - name: Install Flutter Packages
         run: flutter pub get
