@@ -16,11 +16,11 @@ PODS:
     - Flutter
   - google_maps_flutter_ios (0.0.1):
     - Flutter
-    - GoogleMaps (> 8.0)
-  - GoogleMaps (8.3.0):
-    - GoogleMaps/Maps (= 8.3.0)
-  - GoogleMaps/Base (8.3.0)
-  - GoogleMaps/Maps (8.3.0):
+    - GoogleMaps (< 9.0)
+  - GoogleMaps (8.3.1):
+    - GoogleMaps/Maps (= 8.3.1)
+  - GoogleMaps/Base (8.3.1)
+  - GoogleMaps/Maps (8.3.1):
     - GoogleMaps/Base
   - map_launcher (0.0.1):
     - Flutter
@@ -129,8 +129,8 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  google_maps_flutter_ios: 0d3ed43aa0a264a87f614b9f92729026c56947ef
-  GoogleMaps: 54762190c9741867d03e4e4218672ab5a0a8096b
+  google_maps_flutter_ios: a831c6f6a127f58333ec7654217c067f02cb5da9
+  GoogleMaps: b47b67bd63d708477d6ff457da2d695c0d8ceb5f
   map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
