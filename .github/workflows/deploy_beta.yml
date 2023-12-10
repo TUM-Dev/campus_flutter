@@ -10,10 +10,10 @@ jobs:
     # if: "github.event.release.prerelease"
     runs-on: macos-latest
 
-    strategy:
+    # strategy:
       # matrix:
         # platform: [ ios, android ]
-      fail-fast: false
+      # fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +37,10 @@ jobs:
           cache: 'gradle'
 
       - name: Install Flutter Packages
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter config --no-animations
+          flutter pub get
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
