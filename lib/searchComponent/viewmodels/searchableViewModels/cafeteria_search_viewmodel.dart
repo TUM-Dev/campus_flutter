@@ -3,7 +3,10 @@ import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart'
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 
 class CafeteriaSearchViewModel implements SearchViewModel<Cafeteria> {
   @override

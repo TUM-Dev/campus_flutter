@@ -30,7 +30,7 @@ class TumOnlineApi extends Api {
       case TumOnlineServicePersonalLectures _:
         return "${path}wbservicesbasic.veranstaltungenEigene";
       case TumOnlineServicePersonalGrades _:
-        return "${path}wbservicesbasic.noten";
+        return "${path}wbservicesbasic.notena";
       case TumOnlineServiceLectureSearch _:
         return "${path}wbservicesbasic.veranstaltungenSuche";
       case TumOnlineServiceLectureDetails _:

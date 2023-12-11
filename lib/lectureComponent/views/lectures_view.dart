@@ -4,12 +4,13 @@ import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
+import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
+import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -60,7 +61,7 @@ class _LecturesViewState extends ConsumerState<LecturesView>
           );
         }
       },
-      errorBuilder: (context, error) => ErrorHandlingView(
+      errorBuilder: (context, error) => ErrorHandlingRouter(
         error: error,
         errorHandlingViewType: ErrorHandlingViewType.fullScreen,
         retry: ref.read(lectureViewModel).fetch,

@@ -1,6 +1,9 @@
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/services/navigatum_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final navigaTumViewModel = Provider((ref) => NavigaTumViewModel());
 
 class NavigaTumViewModel {
   BehaviorSubject<List<NavigaTumNavigationEntity>?> searchResults =

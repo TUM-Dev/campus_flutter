@@ -1,8 +1,11 @@
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
+
+final settingsViewModel = Provider((ref) => SettingsViewModel(ref));
 
 class SettingsViewModel {
   final Ref ref;

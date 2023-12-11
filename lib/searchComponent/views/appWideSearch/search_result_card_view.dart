@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
@@ -63,7 +63,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
             } else if (snapshot.hasError) {
               return Padding(
                 padding: EdgeInsets.all(context.padding),
-                child: ErrorHandlingView(
+                child: ErrorHandlingRouter(
                   error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
                 ),

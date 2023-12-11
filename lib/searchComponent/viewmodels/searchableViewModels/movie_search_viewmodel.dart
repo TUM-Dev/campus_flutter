@@ -5,7 +5,10 @@ import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
 
 class MovieSearchViewModel implements SearchViewModel<MovieSearch> {
   @override

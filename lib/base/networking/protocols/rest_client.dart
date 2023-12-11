@@ -12,12 +12,12 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:flutter/foundation.dart';
 import 'package:xml2json/xml2json.dart';
 
-class MainApi {
+class RESTClient {
   late Dio dio;
   late MemCacheStore memCacheStore;
   late HiveCacheStore hiveCacheStore;
 
-  MainApi.webCache() {
+  RESTClient.webCache() {
     memCacheStore = MemCacheStore();
 
     var cacheOptions = CacheOptions(
@@ -57,7 +57,7 @@ class MainApi {
     this.dio = dio;
   }
 
-  MainApi.mobileCache(Directory directory) {
+  RESTClient.mobileCache(Directory directory) {
     hiveCacheStore = HiveCacheStore(directory.path);
 
     /// cache duration is 30 days for offline mode

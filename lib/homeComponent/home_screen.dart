@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_view.dart';
+import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

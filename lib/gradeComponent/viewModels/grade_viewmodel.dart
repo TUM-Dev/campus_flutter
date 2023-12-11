@@ -4,11 +4,13 @@ import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final gradeViewModel = Provider((ref) => GradeViewModel(ref));
 
 class GradeViewModel implements ViewModel {
   final BehaviorSubject<Map<String, List<Grade>>?> studyProgramGrades =

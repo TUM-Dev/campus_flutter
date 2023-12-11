@@ -1,7 +1,10 @@
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import '../model/lecture.dart';
+
+final lectureViewModel = Provider((ref) => LectureViewModel());
 
 class LectureViewModel implements ViewModel {
   BehaviorSubject<Map<String, List<Lecture>>?> lectures =

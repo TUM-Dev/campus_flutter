@@ -11,10 +11,13 @@ import 'package:campus_flutter/departuresComponent/model/departures_preference.d
 import 'package:campus_flutter/departuresComponent/model/mvv_response.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/services/departures_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+
+final departureViewModel = Provider((ref) => DeparturesViewModel());
 
 class DeparturesViewModel extends ViewModel {
   BehaviorSubject<List<Departure>?> departures = BehaviorSubject.seeded(null);

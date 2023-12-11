@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -133,7 +133,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 10),
-                          content: ErrorHandlingView(
+                          content: ErrorHandlingRouter(
                             error: error,
                             errorHandlingViewType:
                                 ErrorHandlingViewType.textOnly,
@@ -146,7 +146,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         duration: const Duration(seconds: 10),
-                        content: ErrorHandlingView(
+                        content: ErrorHandlingRouter(
                           error: error,
                           errorHandlingViewType: ErrorHandlingViewType.textOnly,
                           titleColor: Colors.white,

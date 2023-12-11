@@ -1,105 +1,14 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/extensions/custom_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/searchComponent/model/search_exception.dart';
-import 'package:dio/dio.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
-class ErrorHandlingView extends StatelessWidget {
-  const ErrorHandlingView({
-    super.key,
-    required this.error,
-    required this.errorHandlingViewType,
-    this.retry,
-    this.titleColor,
-    this.bodyColor,
-  });
+mixin ErrorHandlingView {
+  late final ErrorHandlingViewType errorHandlingViewType;
+  late final Future<dynamic> Function(bool)? retry;
+  late final Color? titleColor;
+  late final Color? bodyColor;
 
-  final Object error;
-  final ErrorHandlingViewType errorHandlingViewType;
-  final Future<dynamic> Function(bool)? retry;
-  final Color? titleColor;
-  final Color? bodyColor;
-
-  @override
-  Widget build(BuildContext context) {
-    if (error is DioException) {
-      final dioException = error as DioException;
-      switch (dioException.type) {
-        case DioExceptionType.badResponse:
-          return _exceptionMessage(
-            context,
-            context.localizations.badResponse,
-            context.localizations.pleaseTryAgain,
-          );
-        case DioExceptionType.connectionError:
-          return _exceptionMessage(
-            context,
-            context.localizations.connectionError,
-            context.localizations.makeSureInternetConnection,
-          );
-        case DioExceptionType.cancel:
-          return _exceptionMessage(
-            context,
-            context.localizations.requestCancelled,
-            context.localizations.pleaseReport,
-          );
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return _exceptionMessage(
-            context,
-            context.localizations.connectionTimeout,
-            context.localizations.makeSureInternetConnection,
-          );
-        default:
-          if ((error as DioException)
-              .error
-              .toString()
-              .contains("SocketException")) {
-            return _exceptionMessage(
-              context,
-              context.localizations.connectionError,
-              context.localizations.makeSureInternetConnection,
-            );
-          } else {
-            return _exceptionMessage(
-              context,
-              context.localizations.unknownError,
-              context.localizations.pleaseReport,
-            );
-          }
-      }
-    } else if (error is TumOnlineApiException) {
-      final tumOnlineApiException = error as TumOnlineApiException;
-      return _exceptionMessage(
-        context,
-        tumOnlineApiException.errorDescription,
-        tumOnlineApiException.recoverySuggestion,
-      );
-    } else if (error is SearchException) {
-      final searchError = error as SearchException;
-      return _exceptionMessage(context, searchError.message, null);
-    } else if (error is CustomException) {
-      final exception = error as CustomException;
-      return _exceptionMessage(context, exception.message, null);
-    } else if (error is TypeError) {
-      return _exceptionMessage(
-        context,
-        context.localizations.decodingError,
-        context.localizations.pleaseReport,
-      );
-    } else {
-      return _exceptionMessage(
-        context,
-        context.localizations.unknownError,
-        context.localizations.pleaseReport,
-      );
-    }
-  }
-
-  Widget _exceptionMessage(
+  Widget exceptionMessage(
     BuildContext context,
     String errorMessage,
     String? fixMessage,
@@ -208,19 +117,20 @@ class ErrorHandlingView extends StatelessWidget {
     int? maxLines,
     TextOverflow? overflow,
   }) {
-    return GestureDetector(
+    return /*GestureDetector(
       onDoubleTap: () => showStackTrace(context),
-      child: Text(
-        errorMessage,
-        style: style,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        overflow: overflow,
-      ),
+      child: */
+        Text(
+      errorMessage,
+      style: style,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      overflow: overflow,
+      //),
     );
   }
 
-  showStackTrace(BuildContext context) {
+  /*showStackTrace(BuildContext context) {
     if (error is Error) {
       showDialog(
         context: context,
@@ -229,7 +139,10 @@ class ErrorHandlingView extends StatelessWidget {
           return AlertDialog(
             title: Text(
               "Error Description",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium,
               textAlign: TextAlign.center,
             ),
             content: Text(
@@ -249,5 +162,5 @@ class ErrorHandlingView extends StatelessWidget {
         },
       );
     }
-  }
+  }*/
 }

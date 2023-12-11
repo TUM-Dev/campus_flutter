@@ -1,9 +1,11 @@
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
+import 'package:campus_flutter/profileComponent/services/profile_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../model/profile.dart';
-import '../services/profile_service.dart';
+final profileViewModel = Provider((ref) => ProfileViewModel());
 
 class ProfileViewModel implements ViewModel {
   BehaviorSubject<Profile?> profile = BehaviorSubject.seeded(null);

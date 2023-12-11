@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart'
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/custom_hive_cache_store.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/lru_memory_cache_store.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc.dart';

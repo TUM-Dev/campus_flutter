@@ -6,10 +6,13 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
+
+final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
 
 class StudyRoomsViewModel {
   BehaviorSubject<Map<Campus, List<StudyRoomGroup>>?> campusStudyRooms =

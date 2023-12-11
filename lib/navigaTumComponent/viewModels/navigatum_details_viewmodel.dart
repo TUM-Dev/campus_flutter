@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
+final navigaTumDetailsViewModel =
+    Provider.family<NavigaTumDetailsViewModel, String>(
+  (ref, id) => NavigaTumDetailsViewModel(id, ref),
+);
+
 class NavigaTumDetailsViewModel {
   BehaviorSubject<NavigaTumNavigationDetails?> details =
       BehaviorSubject.seeded(null);

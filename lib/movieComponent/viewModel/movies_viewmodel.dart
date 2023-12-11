@@ -1,7 +1,10 @@
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/movieComponent/service/movie_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final movieViewModel = Provider((ref) => MovieViewModel());
 
 class MovieViewModel implements ViewModel {
   BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);

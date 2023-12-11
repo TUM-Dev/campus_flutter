@@ -7,8 +7,11 @@ import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rxdart/rxdart.dart';
+
+final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
 
 class StudyRoomSearchViewModel
     implements SearchViewModel<StudyRoomSearchResult> {
