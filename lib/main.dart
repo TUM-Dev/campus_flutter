@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:campus_flutter/authentication_router.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
-import 'package:campus_flutter/base/networking/protocols/rest_client.dart';
+import 'package:campus_flutter/base/networking/base/connection_checker.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
@@ -11,7 +12,6 @@ import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
 import 'package:campus_flutter/routes.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,13 +35,13 @@ main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
-  //if (!kDebugMode) {
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
-  //}
+  if (!kDebugMode) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
   await _initializeGeneral();
   if (kIsWeb) {
     await _initializeWeb();
@@ -56,8 +56,8 @@ main() async {
 }
 
 Future<void> _initializeGeneral() async {
-  getIt.registerSingleton<ConnectivityResult>(
-    await Connectivity().checkConnectivity(),
+  getIt.registerSingleton<ConnectionChecker>(
+    ConnectionChecker(),
   );
   getIt.registerSingleton<MapThemeService>(MapThemeService());
   getIt.registerSingleton<NavigationService>(NavigationService());

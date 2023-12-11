@@ -29,46 +29,48 @@ class TuitionView extends ConsumerWidget {
   }
 
   _alertDialog(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          context.localizations.tuitionFees,
-          style: Theme.of(context).textTheme.titleMedium,
-          textAlign: TextAlign.center,
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              snapshot.data!.semester,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w500),
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            InfoRow(
-              title: context.localizations.tuitionDueDate,
-              info: DateFormat.yMd(context.localizations.localeName)
-                  .format(snapshot.data!.deadline),
-            ),
-            InfoRow(
-              title: context.localizations.tuitionOpenAmount,
-              info: NumberFormat.currency(locale: "de_DE", symbol: '€')
-                  .format(snapshot.data!.amount),
+    if (snapshot.data != null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            context.localizations.tuitionFees,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                snapshot.data!.semester,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w500),
+              ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+              InfoRow(
+                title: context.localizations.tuitionDueDate,
+                info: DateFormat.yMd(context.localizations.localeName)
+                    .format(snapshot.data!.deadline),
+              ),
+              InfoRow(
+                title: context.localizations.tuitionOpenAmount,
+                info: NumberFormat.currency(locale: "de_DE", symbol: '€')
+                    .format(snapshot.data!.amount),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Okay"),
             ),
           ],
+          actionsAlignment: MainAxisAlignment.center,
         ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Okay"),
-          ),
-        ],
-        actionsAlignment: MainAxisAlignment.center,
-      ),
-    );
+      );
+    }
   }
 
   Widget _tuitionStatus(

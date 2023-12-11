@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/base/networking/protocols/rest_client.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/services/login_service.dart';
 import 'package:campus_flutter/main.dart';

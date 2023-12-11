@@ -129,14 +129,14 @@ class CafeteriasViewModel {
 
       if (data.isEmpty || errors.isNotEmpty) {
         closestCafeteria
-            .addError(CustomException("Could not fetch closest Cafeteria!"));
+            .addError(CampusException("Could not fetch closest Cafeteria!"));
       } else {
         closestCafeterias = data;
         closestCafeteria.add(data.first);
       }
     } else {
       closestCafeteria
-          .addError(CustomException("Could not fetch closest Cafeteria!"));
+          .addError(CampusException("Could not fetch closest Cafeteria!"));
     }
   }
 
@@ -171,7 +171,7 @@ class CafeteriasViewModel {
     return MealPlanService.getCafeteriaMenu(forcedRefresh, cafeteria).then(
       (response) => response.$2,
       onError: (error) => Future<List<CafeteriaMenu>>.error(
-        CustomException("Unable to fetch meal plan"),
+        CampusException("Unable to fetch meal plan"),
       ),
     );
   }

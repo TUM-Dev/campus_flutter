@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/departures_preference.dart';
@@ -19,11 +18,10 @@ import 'package:flutter/material.dart';
 
 final departureViewModel = Provider((ref) => DeparturesViewModel());
 
-class DeparturesViewModel extends ViewModel {
-  BehaviorSubject<List<Departure>?> departures = BehaviorSubject.seeded(null);
-
+class DeparturesViewModel {
+  final BehaviorSubject<List<Departure>?> departures =
+      BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
-
   final BehaviorSubject<Campus?> closestCampus = BehaviorSubject.seeded(null);
   final BehaviorSubject<int?> walkingDistance = BehaviorSubject.seeded(null);
   final BehaviorSubject<Station?> selectedStation =
@@ -106,7 +104,6 @@ class DeparturesViewModel extends ViewModel {
     }
   }
 
-  @override
   Future fetch(bool forcedRefresh) async {
     if (closestCampus.value != null) {
       if (selectedStation.value != null) {

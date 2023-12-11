@@ -3,10 +3,10 @@ import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:flutter/material.dart';
 
-class CustomExceptionRouter extends StatelessWidget with ErrorHandlingView {
-  CustomExceptionRouter({
+class CampusExceptionRouter extends StatelessWidget with ErrorHandlingView {
+  CampusExceptionRouter({
     super.key,
-    required this.customException,
+    required this.campusException,
     required ErrorHandlingViewType errorHandlingViewType,
     Future<dynamic> Function(bool)? retry,
     Color? titleColor,
@@ -18,10 +18,10 @@ class CustomExceptionRouter extends StatelessWidget with ErrorHandlingView {
     this.bodyColor = bodyColor;
   }
 
-  final CustomException customException;
+  final CampusException campusException;
 
   @override
   Widget build(BuildContext context) {
-    return exceptionMessage(context, customException.message, null);
+    return exceptionMessage(context, campusException.message, null);
   }
 }

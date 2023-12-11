@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
@@ -11,7 +10,7 @@ final lectureDetailsViewModel =
   (ref, data) => LectureDetailsViewModel(event: data.$1, lecture: data.$2),
 );
 
-class LectureDetailsViewModel implements ViewModel {
+class LectureDetailsViewModel {
   BehaviorSubject<LectureDetails?> lectureDetails =
       BehaviorSubject.seeded(null);
 
@@ -22,7 +21,6 @@ class LectureDetailsViewModel implements ViewModel {
 
   LectureDetailsViewModel({this.event, this.lecture});
 
-  @override
   Future fetch(bool forcedRefresh) async {
     if (event != null) {
       LectureDetailsService.fetchLectureDetails(

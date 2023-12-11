@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/mvvDeparturesApi/mvv_departures_api.dart';
-import 'package:campus_flutter/base/networking/protocols/rest_client.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/departuresComponent/model/mvv_response.dart';
 import 'package:campus_flutter/main.dart';
 

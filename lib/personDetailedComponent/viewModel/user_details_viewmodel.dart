@@ -1,12 +1,12 @@
 import 'package:campus_flutter/base/enums/gender.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/services/person_details_service.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:rxdart/rxdart.dart';
 
-class UserDetailsViewModel implements ViewModel {
+class UserDetailsViewModel {
   final Profile? profile;
 
   final BehaviorSubject<PersonDetails?> personDetails =
@@ -28,7 +28,6 @@ class UserDetailsViewModel implements ViewModel {
     imageData: "",
   );
 
-  @override
   Future fetch(bool forcedRefresh) async {
     if (profile != null) {
       PersonDetailsService.fetchPersonDetails(

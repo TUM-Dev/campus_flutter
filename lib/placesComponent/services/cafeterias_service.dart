@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/rest_client.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/main.dart';
 

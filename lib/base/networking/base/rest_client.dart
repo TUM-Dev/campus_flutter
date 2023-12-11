@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:campus_flutter/base/networking/protocols/custom_cache_interceptor.dart';
-import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
-import 'package:campus_flutter/base/networking/protocols/api_response.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
+import 'package:campus_flutter/base/networking/base/api_response.dart';
+import 'package:campus_flutter/base/networking/base/custom_cache_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';

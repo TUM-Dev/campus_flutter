@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/services/person_details_service.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
@@ -15,7 +15,7 @@ final personDetailsViewModel =
   return PersonDetailsViewModel(obfuscatedId);
 });
 
-class PersonDetailsViewModel implements ViewModel {
+class PersonDetailsViewModel {
   final BehaviorSubject<PersonDetails?> personDetails =
       BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
@@ -24,7 +24,6 @@ class PersonDetailsViewModel implements ViewModel {
 
   PersonDetailsViewModel(this.obfuscatedId);
 
-  @override
   Future fetch(bool forcedRefresh) async {
     if (obfuscatedId != null) {
       PersonDetailsService.fetchPersonDetails(forcedRefresh, obfuscatedId ?? "")

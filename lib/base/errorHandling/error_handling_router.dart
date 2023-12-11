@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/custom_exception_router.dart';
+import 'package:campus_flutter/base/errorHandling/campus_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
@@ -50,7 +50,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
       case TumOnlineApiException tumOnlineApiException:
         if (ref.read(loginViewModel).credentials.value != Credentials.tumId &&
             tumOnlineApiException.tumOnlineApiExceptionType ==
-                TumOnlineApiExceptionInvalidToken) {
+                TumOnlineApiExceptionInvalidToken()) {
           FirebaseCrashlytics.instance.recordFlutterFatalError(
             FlutterErrorDetails(
               exception: tumOnlineApiException,
@@ -78,14 +78,14 @@ class ErrorHandlingRouter extends ConsumerWidget {
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
-      case CustomException customException:
+      case CampusException campusException:
         FirebaseCrashlytics.instance.recordFlutterFatalError(
           FlutterErrorDetails(
-            exception: customException,
+            exception: campusException,
           ),
         );
-        return CustomExceptionRouter(
-          customException: customException,
+        return CampusExceptionRouter(
+          campusException: campusException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           titleColor: titleColor,

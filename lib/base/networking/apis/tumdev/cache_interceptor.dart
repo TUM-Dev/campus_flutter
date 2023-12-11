@@ -4,8 +4,6 @@ import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart'
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/custom_hive_cache_store.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/lru_memory_cache_store.dart';
-import 'package:campus_flutter/main.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc.dart';
 import 'package:protobuf/protobuf.dart';
@@ -15,8 +13,9 @@ class CacheInterceptor implements ClientInterceptor {
   late LRUMemoryCacheStore memCacheStore;
 
   CacheInterceptor.mobileCache(Directory directory) {
-    hiveCacheStore =
-        CustomHiveCacheStore(directory.path, getIt<ConnectivityResult>());
+    hiveCacheStore = CustomHiveCacheStore(
+      directory.path,
+    );
   }
 
   CacheInterceptor.webCache() {
@@ -40,7 +39,7 @@ class CacheInterceptor implements ClientInterceptor {
     CallOptions options,
     ClientUnaryInvoker<Q, R> invoker,
   ) {
-    final key = "${method.path}?${request.toString()}";
+    final key = method.path;
     final (bool, CacheResponse?) cachedResponse;
     if (kIsWeb) {
       cachedResponse = memCacheStore.get(key);
@@ -76,33 +75,31 @@ class CacheInterceptor implements ClientInterceptor {
 
   // TODO: figure out nicer solution or add missing classes
   Uint8List? _convertToBuffer<R>(R data) {
-    switch (R) {
-      case ListNewsReply _:
-        final listData = data as ListNewsReply;
-        return listData.writeToBuffer();
-      case ListMoviesReply _:
-        final movieData = data as ListMoviesReply;
-        return movieData.writeToBuffer();
-      default:
-        return null;
+    if (R == ListNewsReply) {
+      final listData = data as ListNewsReply;
+      return listData.writeToBuffer();
+    } else if (R == ListMoviesReply) {
+      final movieData = data as ListMoviesReply;
+      return movieData.writeToBuffer();
+    } else {
+      return null;
     }
   }
 
   // TODO: figure out nicer solution or add missing classes
   R Function(List<int>, [ExtensionRegistry])? _getFactory<R>() {
-    switch (R) {
-      case ListNewsReply _:
-        return ListNewsReply.fromBuffer as R Function(
-          List<int>, [
-          ExtensionRegistry,
-        ]);
-      case ListMoviesReply _:
-        return ListMoviesReply.fromBuffer as R Function(
-          List<int>, [
-          ExtensionRegistry,
-        ]);
-      default:
-        return null;
+    if (R == ListNewsReply) {
+      return ListNewsReply.fromBuffer as R Function(
+        List<int>, [
+        ExtensionRegistry,
+      ]);
+    } else if (R == ListMoviesReply) {
+      return ListMoviesReply.fromBuffer as R Function(
+        List<int>, [
+        ExtensionRegistry,
+      ]);
+    } else {
+      return null;
     }
   }
 

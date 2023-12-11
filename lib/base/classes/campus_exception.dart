@@ -1,5 +1,0 @@
-/*
-class CampusException implements Error {
-
-}
-*/
