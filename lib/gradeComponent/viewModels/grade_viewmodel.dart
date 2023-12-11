@@ -93,14 +93,14 @@ class GradeViewModel {
     _allGrades = gradesByDegreeAndSemester;
   }
 
-  List<PopupMenuEntry<String>> getMenuEntries() {
+  List<PopupMenuEntry<String>> getMenuEntries(BuildContext context) {
     if (_allGrades?.values != null) {
       return _allGrades!.values.map((e) {
         final selectedStudyId =
             studyProgramGrades.value?.values.first.first.studyID;
         final studyId = e.values.first.first.studyID;
         final studyDesignation = e.values.first.first.studyDesignation;
-        final degree = StringParser.degreeShortFromID(studyId);
+        final degree = StringParser.degreeShortFromID(studyId, context);
         return PopupMenuItem(
           value: studyId,
           child: selectedStudyId == studyId

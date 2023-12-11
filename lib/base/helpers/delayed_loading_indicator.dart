@@ -27,8 +27,8 @@ class DelayedLoadingIndicator extends StatelessWidget {
                   const CircularProgressIndicator.adaptive(),
                   Text(
                     name != null
-                        ? context.localizations.loading(name!)
-                        : "Loading",
+                        ? context.localizations.loadingName(name!)
+                        : context.localizations.loading,
                   ),
                 ],
               ),

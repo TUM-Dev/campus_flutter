@@ -26,11 +26,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
 
   int currentText = 0;
 
-  List<String> texts = const [
-    "1. Sign in to TumOnline\n",
-    "2. Select Token-Management\n",
-    "3. Activate the newly created token \nand enable your desired permissions",
-  ];
+  late List<String> texts;
 
   @override
   initState() {
@@ -40,6 +36,16 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
       _videoPlayerController.play();
     });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    texts = [
+      context.localizations.signInToTumOnline,
+      context.localizations.selectTokenManagement,
+      context.localizations.activateToken,
+    ];
+    super.didChangeDependencies();
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
@@ -75,14 +76,12 @@ class NavigationService {
 
   Widget searchButton(BuildContext context) {
     return IconButton(
-      onPressed: () => throw Exception()
-      /*Navigator.push(
+      onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const SearchScaffold(),
         ),
-      )*/
-      ,
+      ),
       icon: const Icon(Icons.search),
     );
   }

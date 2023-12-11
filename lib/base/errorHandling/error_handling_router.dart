@@ -48,9 +48,15 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case TumOnlineApiException tumOnlineApiException:
-        if (ref.read(loginViewModel).credentials.value != Credentials.tumId &&
-            tumOnlineApiException.tumOnlineApiExceptionType ==
-                TumOnlineApiExceptionInvalidToken()) {
+        final isInvalidToken =
+            tumOnlineApiException.tumOnlineApiExceptionType !=
+                TumOnlineApiExceptionInvalidToken();
+        final isTokenNotConfirmed =
+            tumOnlineApiException.tumOnlineApiExceptionType !=
+                TumOnlineApiExceptionTokenNotConfirmed();
+        final isNotAuthorized =
+            ref.read(loginViewModel).credentials.value != Credentials.tumId;
+        if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
           FirebaseCrashlytics.instance.recordFlutterFatalError(
             FlutterErrorDetails(
               exception: tumOnlineApiException,

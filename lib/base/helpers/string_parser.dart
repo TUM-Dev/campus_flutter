@@ -3,11 +3,11 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:intl/intl.dart';
 
 class StringParser {
-  static String degreeShortFromID(String studyID) {
+  static String degreeShortFromID(String studyID, BuildContext context) {
     final splitDegreeNumbers = studyID.split(" ");
 
     if (splitDegreeNumbers.length != 3) {
-      return "Unknown";
+      return context.localizations.unknown;
     }
 
     final academicDegreeNumber = splitDegreeNumbers[1];

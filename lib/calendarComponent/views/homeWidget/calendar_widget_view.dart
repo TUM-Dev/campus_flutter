@@ -43,12 +43,10 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               } else if (snapshot.hasError) {
                 return SizedBox(
                   height: 200,
-                  child: Card(
-                    child: ErrorHandlingRouter(
-                      error: snapshot.error!,
-                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                      retry: ref.read(calendarViewModel).fetch,
-                    ),
+                  child: ErrorHandlingRouter(
+                    error: snapshot.error!,
+                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                    retry: ref.read(calendarViewModel).fetch,
                   ),
                 );
               } else {

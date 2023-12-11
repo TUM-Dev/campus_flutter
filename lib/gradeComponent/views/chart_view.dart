@@ -24,13 +24,15 @@ class ChartView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           PopupMenuButton<String>(
-            itemBuilder: (context) => ref.read(gradeViewModel).getMenuEntries(),
+            itemBuilder: (context) =>
+                ref.read(gradeViewModel).getMenuEntries(context),
             onSelected: (selected) {
               ref.read(gradeViewModel).setSelectedDegree(selected);
             },
             child: IconText(
               iconData: Icons.keyboard_arrow_down,
-              label: "$title (${StringParser.degreeShortFromID(studyID)})",
+              label:
+                  "$title (${StringParser.degreeShortFromID(studyID, context)})",
               style: Theme.of(context).textTheme.bodyLarge,
               mainAxisAlignment: MainAxisAlignment.center,
               leadingIcon: false,

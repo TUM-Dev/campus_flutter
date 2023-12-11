@@ -114,16 +114,6 @@ class _CampusViewState extends ConsumerState<CampusView> {
     return Column(
       children: [
         const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-        /*WidgetFrameView(
-            title: context.localizations.map,
-            child: MapWidget.horizontalPadding(
-              markers: ref
-                  .read(placesViewModel)
-                  .getCampusMarkers(context, widget.campus),
-              latLng: LatLng(widget.campus.location.latitude,
-                  widget.campus.location.longitude),
-              zoom: 15,
-            )),*/
         _campusWidgets(),
       ],
     );
@@ -142,7 +132,6 @@ class _CampusViewState extends ConsumerState<CampusView> {
                   style: Theme.of(context).textTheme.titleMedium,
                   leadingIcon: false,
                 ),
-                //title: context.localizations.cafeterias,
                 child: Card(
                   child: SeparatedList.list(
                     data: cafeterias,

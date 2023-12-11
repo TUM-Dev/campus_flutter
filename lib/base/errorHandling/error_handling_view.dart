@@ -117,50 +117,12 @@ mixin ErrorHandlingView {
     int? maxLines,
     TextOverflow? overflow,
   }) {
-    return /*GestureDetector(
-      onDoubleTap: () => showStackTrace(context),
-      child: */
-        Text(
+    return Text(
       errorMessage,
       style: style,
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,
-      //),
     );
   }
-
-  /*showStackTrace(BuildContext context) {
-    if (error is Error) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          final split = (error as Error).stackTrace.toString().split("\n");
-          return AlertDialog(
-            title: Text(
-              "Error Description",
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            content: Text(
-              split.isNotEmpty
-                  ? split.first
-                  : (error as Error).stackTrace.toString(),
-              textAlign: TextAlign.center,
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Okay"),
-              ),
-            ],
-            actionsAlignment: MainAxisAlignment.center,
-          );
-        },
-      );
-    }
-  }*/
 }

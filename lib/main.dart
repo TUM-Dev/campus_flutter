@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:campus_flutter/authentication_router.dart';
+import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
 import 'package:campus_flutter/base/networking/base/connection_checker.dart';
@@ -24,8 +25,6 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'base/enums/appearance.dart';
 
 final getIt = GetIt.instance;
 final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
@@ -56,9 +55,7 @@ main() async {
 }
 
 Future<void> _initializeGeneral() async {
-  getIt.registerSingleton<ConnectionChecker>(
-    ConnectionChecker(),
-  );
+  getIt.registerSingleton<ConnectionChecker>(ConnectionChecker());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<CalendarViewService>(CalendarViewService());
