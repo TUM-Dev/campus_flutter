@@ -11,6 +11,7 @@ import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     switch (error) {
       case DioException dioException:
-        FirebaseCrashlytics.instance.recordFlutterFatalError(
+        recordFlutterError(
           FlutterErrorDetails(
             exception: dioException,
             stack: dioException.stackTrace,
@@ -57,7 +58,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
         final isNotAuthorized =
             ref.read(loginViewModel).credentials.value != Credentials.tumId;
         if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
-          FirebaseCrashlytics.instance.recordFlutterFatalError(
+          recordFlutterError(
             FlutterErrorDetails(
               exception: tumOnlineApiException,
               stack: StackTrace.current,
@@ -72,7 +73,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case SearchException searchException:
-        FirebaseCrashlytics.instance.recordFlutterFatalError(
+        recordFlutterError(
           FlutterErrorDetails(
             exception: searchException,
           ),
@@ -85,7 +86,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case CampusException campusException:
-        FirebaseCrashlytics.instance.recordFlutterFatalError(
+        recordFlutterError(
           FlutterErrorDetails(
             exception: campusException,
           ),
@@ -98,7 +99,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case TypeError typeError:
-        FirebaseCrashlytics.instance.recordFlutterFatalError(
+        recordFlutterError(
           FlutterErrorDetails(
             exception: typeError,
             stack: typeError.stackTrace,
@@ -112,7 +113,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       default:
-        FirebaseCrashlytics.instance.recordFlutterError(
+        recordFlutterError(
           FlutterErrorDetails(
             exception: error,
           ),
@@ -124,6 +125,12 @@ class ErrorHandlingRouter extends ConsumerWidget {
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
+    }
+  }
+
+  void recordFlutterError(FlutterErrorDetails flutterErrorDetails) {
+    if (!kIsWeb) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(flutterErrorDetails);
     }
   }
 }

@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,29 +49,24 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCsK9MsOnQhQ0Vozvsm5BYproz75R6f2-0',
-    appId: '1:37463514185:web:e73214376da5afac0f3398',
-    messagingSenderId: '37463514185',
-    projectId: 'tum-campus-app-test',
-    authDomain: 'tum-campus-app-test.firebaseapp.com',
-    storageBucket: 'tum-campus-app-test.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCLk6HAS9VnZ5M6lQvMAZrfKjrPwihPC-g',
-    appId: '1:37463514185:android:95c93d35f8e62cfd0f3398',
-    messagingSenderId: '37463514185',
-    projectId: 'tum-campus-app-test',
-    storageBucket: 'tum-campus-app-test.appspot.com',
+    apiKey: 'AIzaSyD917lW3Y2-x8UiWfUdzKDnI1iO7Qt7Z5s',
+    appId: '1:944892355389:android:510d92307b08a9c352db54',
+    messagingSenderId: '944892355389',
+    projectId: 'tca-backend-0001',
+    databaseURL: 'https://tca-backend-0001.firebaseio.com',
+    storageBucket: 'tca-backend-0001.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAoZH1Kk11jRrvzzKgncc3vYoA6UOGhUyA',
-    appId: '1:37463514185:ios:24e365da3f11ea9c0f3398',
-    messagingSenderId: '37463514185',
-    projectId: 'tum-campus-app-test',
-    storageBucket: 'tum-campus-app-test.appspot.com',
-    iosBundleId: 'de.tum.tca-flutter',
+    apiKey: 'AIzaSyAcgSYu70ITyg2JyUc26038zhGH1Klo3cg',
+    appId: '1:944892355389:ios:70b9e0e71c71af4b52db54',
+    messagingSenderId: '944892355389',
+    projectId: 'tca-backend-0001',
+    databaseURL: 'https://tca-backend-0001.firebaseio.com',
+    storageBucket: 'tca-backend-0001.appspot.com',
+    androidClientId: '944892355389-jat7kf35dqlvc2uvlsh3vbuq8ge6s6s5.apps.googleusercontent.com',
+    iosClientId: '944892355389-qfnnv8c4344dk8ka4904ue35rclf3ipg.apps.googleusercontent.com',
+    iosBundleId: 'de.tum.tca',
   );
 }

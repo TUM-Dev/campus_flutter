@@ -76,12 +76,12 @@ class NavigationService {
 
   Widget searchButton(BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.push(
+      onPressed: () => throw Exception()/*Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const SearchScaffold(),
         ),
-      ),
+      )*/,
       icon: const Icon(Icons.search),
     );
   }

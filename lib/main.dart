@@ -33,8 +33,8 @@ final appearance = StateProvider<Appearance>((ref) => Appearance.system);
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Firebase.initializeApp();
-  if (!kDebugMode) {
+  if (!kDebugMode && !kIsWeb) {
+    await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
