@@ -2,12 +2,11 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +59,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         if (snapshot.hasData) {
           return _body(snapshot.data!);
         } else if (snapshot.hasError) {
-          return ErrorHandlingView(
+          return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
           );

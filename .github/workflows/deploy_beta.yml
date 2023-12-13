@@ -33,7 +33,6 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-          cache: 'gradle'
 
       - name: Install Flutter Packages
         run: |

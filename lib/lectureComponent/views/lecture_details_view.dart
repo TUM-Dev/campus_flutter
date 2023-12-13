@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
@@ -11,7 +11,6 @@ import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view
 import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_meeting_info_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,7 +50,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         if (snapshot.hasData) {
           return lectureDetailsView(snapshot.data!);
         } else if (snapshot.hasError) {
-          return ErrorHandlingView(
+          return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: ref.read(viewModel).fetch,

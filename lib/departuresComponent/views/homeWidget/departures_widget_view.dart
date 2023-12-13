@@ -1,13 +1,14 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
+import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
+import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +50,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                           ref.watch(departureViewModel).selectedStation.value!;
                       return _widgetContent(snapshot, station);
                     } else if (snapshot.hasError) {
-                      return ErrorHandlingView(
+                      return ErrorHandlingRouter(
                         error: snapshot.error!,
                         errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: ref.read(departureViewModel).fetch,

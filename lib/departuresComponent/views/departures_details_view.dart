@@ -4,11 +4,11 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/directions_launcher.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
+import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -136,7 +136,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
         ),
       );
     } else if (widget.snapshot.hasError) {
-      return ErrorHandlingView(
+      return ErrorHandlingRouter(
         error: widget.snapshot.error!,
         errorHandlingViewType: ErrorHandlingViewType.fullScreen,
         retry: ref.read(departureViewModel).fetch,

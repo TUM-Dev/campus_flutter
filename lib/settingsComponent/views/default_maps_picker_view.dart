@@ -1,10 +1,12 @@
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:map_launcher/map_launcher.dart';
+
+final selectedMapsApp = StateProvider<AvailableMap?>((ref) => null);
 
 class DefaultMapsPickerView extends ConsumerStatefulWidget {
   const DefaultMapsPickerView({super.key});

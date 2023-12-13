@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/meal_plan.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:dio/dio.dart';
 
 class MealPlanService {
@@ -17,7 +17,7 @@ class MealPlanService {
     bool forcedRefresh,
     Cafeteria cafeteria,
   ) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final today = DateTime.now();
     try {
       final response = await mainApi.makeRequest<MealPlan, EatApi>(

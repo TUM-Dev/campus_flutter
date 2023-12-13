@@ -4,6 +4,8 @@ import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
+final recommenderViewModel = Provider((ref) => RecommenderViewModel(ref));
+
 class RecommenderViewModel {
   BehaviorSubject<Map<HomeWidget, int>?> recommendations =
       BehaviorSubject.seeded(null);

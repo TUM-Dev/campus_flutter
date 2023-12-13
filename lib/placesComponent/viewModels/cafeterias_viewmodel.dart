@@ -11,11 +11,14 @@ import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
+
+final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 
 class CafeteriasViewModel {
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
@@ -126,14 +129,14 @@ class CafeteriasViewModel {
 
       if (data.isEmpty || errors.isNotEmpty) {
         closestCafeteria
-            .addError(CustomException("Could not fetch closest Cafeteria!"));
+            .addError(CampusException("Could not fetch closest Cafeteria!"));
       } else {
         closestCafeterias = data;
         closestCafeteria.add(data.first);
       }
     } else {
       closestCafeteria
-          .addError(CustomException("Could not fetch closest Cafeteria!"));
+          .addError(CampusException("Could not fetch closest Cafeteria!"));
     }
   }
 
@@ -168,7 +171,7 @@ class CafeteriasViewModel {
     return MealPlanService.getCafeteriaMenu(forcedRefresh, cafeteria).then(
       (response) => response.$2,
       onError: (error) => Future<List<CafeteriaMenu>>.error(
-        CustomException("Unable to fetch meal plan"),
+        CampusException("Unable to fetch meal plan"),
       ),
     );
   }

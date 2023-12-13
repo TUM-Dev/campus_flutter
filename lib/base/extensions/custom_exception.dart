@@ -1,5 +1,5 @@
-class CustomException implements Exception {
+class CampusException implements Exception {
   final String message;
 
-  CustomException(this.message);
+  CampusException(this.message);
 }

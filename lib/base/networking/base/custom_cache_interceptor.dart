@@ -1,5 +1,5 @@
-import 'package:campus_flutter/providers_get_it.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/base/networking/base/connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
@@ -24,13 +24,12 @@ class CustomCacheInterceptor implements Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    ConnectivityResult connectivityResult = getIt<ConnectivityResult>();
+    final hasConnection = await getIt<ConnectionChecker>().checkConnection();
     options.extra[CacheResponse.requestSentDate] = DateTime.now();
     final key = CacheOptions.defaultCacheKeyBuilder(options);
 
     /// checks if device has a working internet connection
-    if (connectivityResult != ConnectivityResult.none &&
-        !options.path.contains("tumCard")) {
+    if (hasConnection && !options.path.contains("tumCard")) {
       /// if forcedRefresh parameter is passed the cache is invalidated
       if (options.extra["forcedRefresh"] == "true") {
         cacheStore.delete(key);
@@ -47,7 +46,7 @@ class CustomCacheInterceptor implements Interceptor {
         }
       }
     } else {
-      /// if device is online, the cache is valid for 30 days
+      /// if device is offline, the cache is valid for 30 days
       final cache = await cacheStore.get(key);
       if (cache != null &&
           DateTime.now().difference(cache.responseDate).inDays <= 30) {

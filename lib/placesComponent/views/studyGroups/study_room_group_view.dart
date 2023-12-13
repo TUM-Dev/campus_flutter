@@ -1,15 +1,15 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
+import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:collection/collection.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,7 @@ class StudyRoomGroupView extends ConsumerWidget {
             },
           );
         } else if (snapshot.hasError) {
-          return ErrorHandlingView(
+          return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: ref.read(studyRoomsViewModel).fetch,

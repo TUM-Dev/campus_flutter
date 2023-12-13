@@ -2,11 +2,11 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -55,7 +55,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
         errorBuilder: (context, error) => Card(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.34,
-            child: ErrorHandlingView(
+            child: ErrorHandlingRouter(
               error: error,
               errorHandlingViewType: ErrorHandlingViewType.textOnly,
               retry: ref.read(movieViewModel).fetch,

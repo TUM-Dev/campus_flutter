@@ -1,14 +1,14 @@
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 
 class CafeteriasService {
   static Future<(DateTime?, List<Cafeteria>)> fetchCafeterias(
     bool forcedRefresh,
   ) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final response = await mainApi.makeRequest<Cafeterias, EatApi>(
       EatApi(EatApiServiceCanteens()),
       Cafeterias.fromJson,

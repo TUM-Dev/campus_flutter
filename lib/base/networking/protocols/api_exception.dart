@@ -3,8 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'api_exception.g.dart';
 
 abstract class ApiException implements Exception {
-  String get errorDescription;
-  String? get recoverySuggestion;
+  final String message;
+  final String? recoverySuggestion;
+
+  @pragma("vm:entry-point")
+  ApiException([this.message = "", this.recoverySuggestion]);
 }
 
 @JsonSerializable()

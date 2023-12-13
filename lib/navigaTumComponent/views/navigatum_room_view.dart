@@ -1,12 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_building_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_maps_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +64,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
             },
           );
         } else if (snapshot.hasError) {
-          return ErrorHandlingView(
+          return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,

@@ -5,12 +5,11 @@ import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/views/generic_stream_builder.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/views/chart_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -54,7 +53,7 @@ class _GradesViewState extends ConsumerState<GradesView>
           );
         }
       },
-      errorBuilder: (context, error) => ErrorHandlingView(
+      errorBuilder: (context, error) => ErrorHandlingRouter(
         error: error,
         errorHandlingViewType: ErrorHandlingViewType.fullScreen,
         retry: ref.read(gradeViewModel).fetch,

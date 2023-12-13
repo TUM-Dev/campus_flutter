@@ -1,14 +1,17 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
+
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class PlacesViewModel implements ViewModel {
+final placesViewModel = Provider((ref) => PlacesViewModel(ref));
+
+class PlacesViewModel {
   List<Campus> campuses = [];
 
   StudyRoomData? studyRoomData;
@@ -16,7 +19,6 @@ class PlacesViewModel implements ViewModel {
 
   PlacesViewModel(this.ref);
 
-  @override
   Future fetch(bool forcedRefresh) {
     return _getCampusByLocation().then((value) {
       campuses = value;

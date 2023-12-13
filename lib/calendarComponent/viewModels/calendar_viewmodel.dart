@@ -1,9 +1,11 @@
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CalendarViewModel implements ViewModel {
+final calendarViewModel = Provider((ref) => CalendarViewModel());
+
+class CalendarViewModel {
   BehaviorSubject<List<CalendarEvent>?> events = BehaviorSubject.seeded(null);
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
@@ -11,7 +13,6 @@ class CalendarViewModel implements ViewModel {
   BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?> widgetEvents =
       BehaviorSubject.seeded(null);
 
-  @override
   Future fetch(bool forcedRefresh) async {
     CalendarService.fetchCalendar(forcedRefresh).then(
       (response) {

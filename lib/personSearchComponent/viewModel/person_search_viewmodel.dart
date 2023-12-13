@@ -1,7 +1,10 @@
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/personSearchComponent/services/person_search_service.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final personSearchViewModel = Provider((ref) => PersonSearchViewModel());
 
 class PersonSearchViewModel implements SearchViewModel<Person> {
   @override

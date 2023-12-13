@@ -1,15 +1,15 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/model/token.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginService {
   static Future<Token> requestNewToken(bool forcedRefresh, String name) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final response = await mainApi
         .makeRequestWithException<Token, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
@@ -26,7 +26,7 @@ class LoginService {
   }
 
   static Future<Confirm> confirmToken(bool forcedRefresh) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final response = await mainApi
         .makeRequestWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceTokenConfirmation()),
