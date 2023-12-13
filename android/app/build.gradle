@@ -88,3 +88,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex'
 }
+
+apply plugin: 'com.google.firebase.crashlytics'
