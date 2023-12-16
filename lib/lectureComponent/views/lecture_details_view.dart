@@ -109,7 +109,10 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
     return [
       if (ref.read(viewModel).event != null)
         LectureMeetingInfoView(viewModel: viewModel),
-      BasicLectureInfoView(lectureDetails: lectureDetails),
+      BasicLectureInfoView(
+        lectureDetails: lectureDetails,
+        lecture: widget.lecture,
+      ),
       if (lectureDetails.courseContents != null ||
           lectureDetails.courseObjective != null ||
           lectureDetails.note != null)
