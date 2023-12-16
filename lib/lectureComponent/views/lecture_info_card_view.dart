@@ -24,7 +24,10 @@ class LectureInfoCardView extends StatelessWidget {
         style: Theme.of(context).textTheme.titleMedium,
       ),
       child: Card(
-        child: SeparatedList.widgets(widgets: widgets),
+        child: SeparatedList.widgets(
+          widgets: widgets,
+          crossAxisAlignment: CrossAxisAlignment.start,
+        ),
       ),
     );
   }
