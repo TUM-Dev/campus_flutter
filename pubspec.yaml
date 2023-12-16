@@ -53,6 +53,7 @@ dependencies:
   collection: ^1.18.0
   firebase_crashlytics: ^3.4.6
   firebase_core: ^2.24.0
+  flutter_linkify: ^6.0.0
 
 dependency_overrides:
   xml2json:
