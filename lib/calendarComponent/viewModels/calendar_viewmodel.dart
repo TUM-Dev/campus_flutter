@@ -27,11 +27,15 @@ class CalendarViewModel {
     CalendarEvent? leftColumn;
     List<CalendarEvent> rightColumn = [];
 
-    final filteredEvents = events.value ?? [];
-    filteredEvents
-        .removeWhere((element) => element.startDate.isBefore(DateTime.now()));
+    final filteredEvents = events.value
+            ?.where(
+              (element) => element.startDate.isBefore(
+                DateTime.now(),
+              ),
+            )
+            .toList() ??
+        [];
     filteredEvents.sort((a, b) => a.startDate.compareTo(b.startDate));
-
     final currentDate = DateTime.now();
     final currentDay =
         DateTime(currentDate.year, currentDate.month, currentDate.day);

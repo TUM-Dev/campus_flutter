@@ -8,8 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BasicLectureInfoView extends ConsumerWidget {
-  const BasicLectureInfoView(
-      {super.key, required this.lectureDetails, this.lecture});
+  const BasicLectureInfoView({
+    super.key,
+    required this.lectureDetails,
+    this.lecture,
+  });
 
   final LectureDetails lectureDetails;
   final Lecture? lecture;

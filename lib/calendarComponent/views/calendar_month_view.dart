@@ -27,7 +27,6 @@ class CalendarMonthView extends ConsumerWidget {
         firstDayOfWeek: 1,
         showDatePickerButton: true,
         showNavigationArrow: true,
-        minDate: getIt<CalendarViewService>().minDate(ref),
         maxDate: getIt<CalendarViewService>().maxDate(ref),
         onTap: (details) {
           getIt<CalendarViewService>()
