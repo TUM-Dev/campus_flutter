@@ -47,7 +47,7 @@ class CalendarViewService {
       calendarEvent = event;
     }
 
-    if (calendarEvent != null) {
+    if (calendarEvent != null && calendarEvent.url != null) {
       showModalBottomSheet(
         isScrollControlled: true,
         useSafeArea: true,
@@ -65,6 +65,26 @@ class CalendarViewService {
             },
           );
         },
+      );
+    } else if (calendarEvent != null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            calendarEvent!.title,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            calendarEvent.timeDatePeriod(context),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            ),
+          ],
+        ),
       );
     }
   }
