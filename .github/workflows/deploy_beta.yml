@@ -25,6 +25,8 @@ jobs:
         with:
           channel: stable
           cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:arch:'
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
@@ -32,15 +34,10 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      - name: Cache pub dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.FLUTTER_HOME }}/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: ${{ runner.os }}-pub-
-
       - name: Install Flutter Packages
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter pub get
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods

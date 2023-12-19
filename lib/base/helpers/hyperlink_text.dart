@@ -49,7 +49,7 @@ class _HyperlinkTextState extends ConsumerState<HyperLinkListTile> {
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
-          const Icon(Icons.open_in_new, size: 15 /*, color: Colors.blue*/),
+          const Icon(Icons.open_in_new, size: 15),
         ],
       ),
       onTap: () {

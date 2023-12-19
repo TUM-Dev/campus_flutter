@@ -1,11 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_event_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -43,12 +43,10 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               } else if (snapshot.hasError) {
                 return SizedBox(
                   height: 200,
-                  child: Card(
-                    child: ErrorHandlingView(
-                      error: snapshot.error!,
-                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                      retry: ref.read(calendarViewModel).fetch,
-                    ),
+                  child: ErrorHandlingRouter(
+                    error: snapshot.error!,
+                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                    retry: ref.read(calendarViewModel).fetch,
                   ),
                 );
               } else {

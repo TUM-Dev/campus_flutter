@@ -1,12 +1,13 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -206,7 +207,7 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
           );
         } else if (snapshot.hasError) {
           return Expanded(
-            child: ErrorHandlingView(
+            child: ErrorHandlingRouter(
               error: snapshot.error!,
               errorHandlingViewType: ErrorHandlingViewType.textOnly,
             ),

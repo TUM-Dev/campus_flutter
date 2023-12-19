@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/feedbackComponent/services/feedback_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rxdart/rxdart.dart';
+
+final feedbackViewModel = Provider((ref) => FeedbackViewModel(ref));
 
 class FeedbackViewModel {
   BehaviorSubject<bool> shareLocation = BehaviorSubject.seeded(false);

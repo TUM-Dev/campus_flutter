@@ -1,7 +1,8 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_data_source.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/appointment_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -28,7 +29,6 @@ class CalendarDayView extends ConsumerWidget {
         },
         headerDateFormat: "EEEE, dd.MM.yyyy",
         showNavigationArrow: true,
-        minDate: getIt<CalendarViewService>().minDate(ref),
         maxDate: getIt<CalendarViewService>().maxDate(ref),
         timeSlotViewSettings: const TimeSlotViewSettings(
           startHour: 7,

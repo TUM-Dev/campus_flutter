@@ -1,9 +1,9 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/snapping_slider.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class StudentCardView extends ConsumerWidget {
             ],
           );
         } else if (snapshot.hasError) {
-          return ErrorHandlingView(
+          return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: ref.read(studentCardViewModel).fetch,

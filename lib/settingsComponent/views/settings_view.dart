@@ -6,10 +6,11 @@ import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
+import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -19,6 +20,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+final useWebView = StateProvider<bool>((ref) => true);
+final hideFailedGrades = StateProvider<bool>((ref) => false);
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});

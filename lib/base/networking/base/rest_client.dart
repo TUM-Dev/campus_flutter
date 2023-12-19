@@ -2,22 +2,22 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:campus_flutter/base/networking/protocols/custom_cache_interceptor.dart';
-import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
-import 'package:campus_flutter/base/networking/protocols/api_response.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
+import 'package:campus_flutter/base/networking/base/api_response.dart';
+import 'package:campus_flutter/base/networking/base/custom_cache_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xml2json/xml2json.dart';
 
-class MainApi {
+class RESTClient {
   late Dio dio;
   late MemCacheStore memCacheStore;
   late HiveCacheStore hiveCacheStore;
 
-  MainApi.webCache() {
+  RESTClient.webCache() {
     memCacheStore = MemCacheStore();
 
     var cacheOptions = CacheOptions(
@@ -57,7 +57,7 @@ class MainApi {
     this.dio = dio;
   }
 
-  MainApi.mobileCache(Directory directory) {
+  RESTClient.mobileCache(Directory directory) {
     hiveCacheStore = HiveCacheStore(directory.path);
 
     /// cache duration is 30 days for offline mode

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';

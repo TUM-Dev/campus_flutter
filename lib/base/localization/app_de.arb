@@ -26,8 +26,9 @@
    "enterYourIDToStart":"Gib deine TUM ID ein, um zu starten",
    "continueWithoutID":"Ohne TUM ID fortfahren",
    "unknown":"Unbekannt",
-   "loading":"Laden von {name}",
-   "@loading":{
+   "loading":"Lade",
+   "loadingName":"Lade {name}",
+   "@loadingName":{
       "description":"Während Ladeanimationen angezeigt",
       "placeholders":{
          "name":{
@@ -264,5 +265,8 @@
    "invalidEmail":"Ungültige E-Mail-Adresse",
    "invalidMessage":"Ungültige Nachricht",
    "unableToSend":"Nachricht kann nicht gesendet werden!",
-   "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!"
+   "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!",
+   "signInToTumOnline":"1. Melden Dich bei TUMonline an\n",
+   "selectTokenManagement":"2. Token-Verwaltung auswählen\n",
+   "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen"
 }

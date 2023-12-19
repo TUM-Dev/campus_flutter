@@ -1,16 +1,17 @@
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/networking/protocols/view_model.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-class GradeViewModel implements ViewModel {
+final gradeViewModel = Provider((ref) => GradeViewModel(ref));
+
+class GradeViewModel {
   final BehaviorSubject<Map<String, List<Grade>>?> studyProgramGrades =
       BehaviorSubject.seeded(null);
 
@@ -26,7 +27,6 @@ class GradeViewModel implements ViewModel {
 
   GradeViewModel(this.ref);
 
-  @override
   Future fetch(bool forcedRefresh) async {
     GradeService.fetchAverageGrades(forcedRefresh).then(
       (response) {
@@ -93,14 +93,14 @@ class GradeViewModel implements ViewModel {
     _allGrades = gradesByDegreeAndSemester;
   }
 
-  List<PopupMenuEntry<String>> getMenuEntries() {
+  List<PopupMenuEntry<String>> getMenuEntries(BuildContext context) {
     if (_allGrades?.values != null) {
       return _allGrades!.values.map((e) {
         final selectedStudyId =
             studyProgramGrades.value?.values.first.first.studyID;
         final studyId = e.values.first.first.studyID;
         final studyDesignation = e.values.first.first.studyDesignation;
-        final degree = StringParser.degreeShortFromID(studyId);
+        final degree = StringParser.degreeShortFromID(studyId, context);
         return PopupMenuItem(
           value: studyId,
           child: selectedStudyId == studyId

@@ -5,7 +5,10 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoView extends StatelessWidget {
-  const DetailedLectureInfoView({super.key, required this.lectureDetails});
+  const DetailedLectureInfoView({
+    super.key,
+    required this.lectureDetails,
+  });
 
   final LectureDetails lectureDetails;
 

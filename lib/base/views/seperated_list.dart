@@ -5,20 +5,28 @@ class SeparatedList<T> extends StatelessWidget {
   factory SeparatedList.list({
     required List<T> data,
     required Widget Function(T) tile,
+    CrossAxisAlignment? crossAxisAlignment,
     bool padded = true,
   }) {
     return SeparatedList._(
       data: data,
       tile: tile,
+      crossAxisAlignment: crossAxisAlignment,
       padded: padded,
     );
   }
 
   factory SeparatedList.widgets({
     required List<Widget> widgets,
+    CrossAxisAlignment? crossAxisAlignment,
     bool padded = true,
   }) {
-    return SeparatedList._(widgets: widgets, padded: padded, list: false);
+    return SeparatedList._(
+      widgets: widgets,
+      crossAxisAlignment: crossAxisAlignment,
+      padded: padded,
+      list: false,
+    );
   }
 
   const SeparatedList._({
@@ -26,6 +34,7 @@ class SeparatedList<T> extends StatelessWidget {
     this.data,
     this.widgets,
     this.tile,
+    this.crossAxisAlignment,
     this.padded = true,
     this.list = true,
   });
@@ -33,6 +42,7 @@ class SeparatedList<T> extends StatelessWidget {
   final List<T>? data;
   final List<Widget>? widgets;
   final Widget Function(T)? tile;
+  final CrossAxisAlignment? crossAxisAlignment;
   final bool padded;
   final bool list;
 
@@ -40,6 +50,7 @@ class SeparatedList<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     if (list) {
       return Column(
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
         children: [
           for (var dataPoint in data!.indexed) ...[
             tile!(dataPoint.$2),
@@ -56,6 +67,7 @@ class SeparatedList<T> extends StatelessWidget {
       );
     } else {
       return Column(
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
         children: [
           for (var dataPoint in widgets!.indexed) ...[
             widgets![dataPoint.$1],

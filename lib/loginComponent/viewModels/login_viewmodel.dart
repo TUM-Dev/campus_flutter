@@ -1,14 +1,19 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/protocols/api.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/services/login_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
+
+final loginViewModel = Provider((ref) => LoginViewModel());
 
 class LoginViewModel {
   final _storage = const FlutterSecureStorage();
@@ -126,7 +131,7 @@ class LoginViewModel {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
-    await getIt<MainApi>().clearCache();
+    await getIt<RESTClient>().clearCache();
     await _storage.delete(key: "token");
     Api.tumToken = "";
     credentials.add(Credentials.none);

@@ -15,6 +15,7 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     return Row(
       children: [
         _lineNumberRectangle(context, ref),
+        if (departure.lineInfos != null) _warningButton(context, ref),
         Expanded(
           child: Text(
             departure.servingLine.direction,
@@ -30,7 +31,30 @@ class DeparturesDetailsRowView extends ConsumerWidget {
   }
 
   Widget _lineNumberRectangle(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: departure.servingLine.color,
+        ),
+        width: 55,
+        height: 35,
+        child: Center(
+          child: Text(
+            departure.servingLine.number,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _warningButton(BuildContext context, WidgetRef ref) {
+    return InkWell(
       onTap: () async {
         if (departure.lineInfos != null) {
           if (departure.lineInfos?.element != null) {
@@ -46,40 +70,18 @@ class DeparturesDetailsRowView extends ConsumerWidget {
           }
         }
       },
-      child: Stack(
-        clipBehavior: Clip.none,
+      child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: departure.servingLine.color,
-              ),
-              width: 55,
-              height: 35,
-              child: Center(
-                child: Text(
-                  departure.servingLine.number,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-            ),
+          const Icon(
+            Icons.warning_outlined,
+            color: Color(0xffFFCC01),
+            size: 20,
           ),
-          if (departure.lineInfos != null) _warningOverlay,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.halfPadding),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget get _warningOverlay {
-    return const Positioned(
-      width: 53 * 2,
-      bottom: 22,
-      child: Icon(Icons.warning_outlined, color: Color(0xffFFCC01), size: 20),
     );
   }
 

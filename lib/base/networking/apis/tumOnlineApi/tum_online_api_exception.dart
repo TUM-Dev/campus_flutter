@@ -42,7 +42,7 @@ class TumOnlineApiException implements ApiException {
   }
 
   @override
-  String get errorDescription {
+  String get message {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
         return "No Permission";
@@ -91,6 +91,11 @@ class TumOnlineApiException implements ApiException {
       case TumOnlineApiExceptionUnknown unknown:
         return unknown.message;
     }
+  }
+
+  @override
+  String toString() {
+    return "TumOnlineException: $message";
   }
 }
 

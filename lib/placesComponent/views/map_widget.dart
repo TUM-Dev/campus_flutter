@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';

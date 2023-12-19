@@ -1,11 +1,16 @@
 import 'dart:ui';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final userPreferencesViewModel =
+    Provider((ref) => UserPreferencesViewModel(ref));
 
 class UserPreferencesViewModel {
   final Ref ref;

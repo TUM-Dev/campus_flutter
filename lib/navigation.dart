@@ -1,8 +1,10 @@
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/navigation_service.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final currentIndex = StateProvider<int>((ref) => 0);
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});

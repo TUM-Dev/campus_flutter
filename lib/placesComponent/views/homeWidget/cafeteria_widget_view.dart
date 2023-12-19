@@ -3,14 +3,13 @@ import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/base/helpers/tapable.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,7 +118,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       return Card(
         child: SizedBox(
           height: 150,
-          child: ErrorHandlingView(
+          child: ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
             retry: ref.read(cafeteriasViewModel).fetchClosestCafeteria,

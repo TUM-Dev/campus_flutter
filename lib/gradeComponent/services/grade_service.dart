@@ -1,16 +1,16 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
 
 class GradeService {
   static Future<({DateTime? saved, List<Grade> data})> fetchGrades(
     bool forcedRefresh,
   ) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final response = await mainApi.makeRequestWithException<GradeData,
         TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonalGrades()),
@@ -26,7 +26,7 @@ class GradeService {
 
   static Future<({DateTime? saved, List<AverageGrade> data})>
       fetchAverageGrades(bool forcedRefresh) async {
-    MainApi mainApi = getIt<MainApi>();
+    RESTClient mainApi = getIt<RESTClient>();
     final response = await mainApi.makeRequestWithException<
         AverageGradeResponse, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceAverageGrades()),

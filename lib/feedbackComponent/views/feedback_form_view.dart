@@ -1,10 +1,10 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -113,7 +113,7 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
                         vertical: context.halfPadding,
                       ),
                     ),
-                    ErrorHandlingView(
+                    ErrorHandlingRouter(
                       error: snapshot.error!,
                       errorHandlingViewType:
                           ErrorHandlingViewType.descriptionOnly,

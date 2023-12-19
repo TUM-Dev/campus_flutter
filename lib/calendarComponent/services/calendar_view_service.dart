@@ -1,6 +1,6 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -47,7 +47,7 @@ class CalendarViewService {
       calendarEvent = event;
     }
 
-    if (calendarEvent != null) {
+    if (calendarEvent != null && calendarEvent.url != null) {
       showModalBottomSheet(
         isScrollControlled: true,
         useSafeArea: true,
@@ -65,6 +65,26 @@ class CalendarViewService {
             },
           );
         },
+      );
+    } else if (calendarEvent != null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            calendarEvent!.title,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            calendarEvent.timeDatePeriod(context),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            ),
+          ],
+        ),
       );
     }
   }

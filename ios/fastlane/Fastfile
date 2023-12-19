@@ -20,7 +20,11 @@ platform :ios do
       skip_certificate_matching: true
     )
 
-    previous_build_number = latest_testflight_build_number
+    increment_version_number(
+      version_number: File.read("../iosVersion.txt")
+    )
+
+    previous_build_number = latest_testflight_build_number(initial_build_number: 0, version: File.read("../iosVersion.txt"))
 
     current_build_number = previous_build_number + 1
 
@@ -31,7 +35,7 @@ platform :ios do
     update_code_signing_settings(
       use_automatic_signing: false,
       targets: 'Runner',
-      profile_name: 'match AppStore de.tum.tca-flutter 1688586317',
+      profile_name: 'match AppStore de.tum.tca',
       code_sign_identity: "iPhone Distribution",
       sdk: "iphoneos*",
       team_id: "2J3C6P6X3N"

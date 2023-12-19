@@ -1,7 +1,7 @@
 ![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
 ![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
 [![Discord Channel](https://img.shields.io/badge/Chat-on%20Discord-brightgreen)](https://discord.gg/k558T6ktuh)
-<a href="https://testflight.apple.com/join/LnxaIfKi">
+<a href="https://testflight.apple.com/join/4Ddi6f2f">
 <img src="https://developer.apple.com/assets/elements/icons/testflight/testflight-64x64_2x.png" height="42" align="right">
 </a>
 <!---
@@ -43,7 +43,7 @@ Check out our detailed information at [CONTRIBUTING.md](https://github.com/TCA-T
 -->
 
 ## Beta
-If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/LnxaIfKi) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
+If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/4Ddi6f2f) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
 
 ## Policies
 - [Privacy policy](https://app.tum.de/landing/privacy/)  
@@ -75,11 +75,11 @@ protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/times
 
 To ensure that Campus-Flutter runs on every supported platform, we need to make some modifications to packages.
 
-| Package                 | Reason                                   | Link                                         |
-|-------------------------|------------------------------------------|----------------------------------------------|
-| gRPC                    | Caching                                  | https://github.com/jakobkoerber/grpc-dart |
-| Google Maps Flutter iOS | Enable usage of SDK in ARM iOS Siulators | https://github.com/jakobkoerber/packages |
-| Xml2Json                | Fix Parsing of XML to JSON               | https://github.com/jakobkoerber/xml2json |
+| Package                 | Reason                                    | Link                                         |
+|-------------------------|-------------------------------------------|----------------------------------------------|
+| gRPC                    | Caching                                   | https://github.com/jakobkoerber/grpc-dart |
+| Google Maps Flutter iOS | Enable usage of SDK in ARM iOS Simulators | https://github.com/jakobkoerber/packages |
+| Xml2Json                | Fix Parsing of XML to JSON                | https://github.com/jakobkoerber/xml2json |
 
 
 

@@ -3,7 +3,7 @@ import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card
 import 'package:campus_flutter/homeComponent/contactComponent/views/link_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/tuition_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/unauthorized_view.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
