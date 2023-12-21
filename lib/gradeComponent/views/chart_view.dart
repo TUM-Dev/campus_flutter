@@ -45,7 +45,7 @@ class ChartView extends ConsumerWidget {
               maximum: data.values.reduce(max).toDouble(),
               interval: 1,
             ),
-            series: <ChartSeries<MapEntry<dynamic, int>, String>>[
+            series: <CartesianSeries<MapEntry<dynamic, int>, String>>[
               ColumnSeries<MapEntry<dynamic, int>, String>(
                 dataSource: data.entries.toList(),
                 xValueMapper: (MapEntry<dynamic, int> data, _) =>
