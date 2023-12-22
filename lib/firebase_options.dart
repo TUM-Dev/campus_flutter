@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD917lW3Y2-x8UiWfUdzKDnI1iO7Qt7Z5s',
-    appId: '1:944892355389:android:510d92307b08a9c352db54',
+    appId: '1:944892355389:android:3fec122c5eb51ef4',
     messagingSenderId: '944892355389',
     projectId: 'tca-backend-0001',
     databaseURL: 'https://tca-backend-0001.firebaseio.com',

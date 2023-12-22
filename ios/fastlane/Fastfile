@@ -20,11 +20,7 @@ platform :ios do
       skip_certificate_matching: true
     )
 
-    increment_version_number(
-      version_number: File.read("../iosVersion.txt")
-    )
-
-    previous_build_number = latest_testflight_build_number(initial_build_number: 0, version: File.read("../iosVersion.txt"))
+    previous_build_number = latest_testflight_build_number(initial_build_number: 0)
 
     current_build_number = previous_build_number + 1
 
