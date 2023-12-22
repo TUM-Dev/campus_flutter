@@ -65,8 +65,10 @@ class DefaultFirebaseOptions {
     projectId: 'tca-backend-0001',
     databaseURL: 'https://tca-backend-0001.firebaseio.com',
     storageBucket: 'tca-backend-0001.appspot.com',
-    androidClientId: '944892355389-jat7kf35dqlvc2uvlsh3vbuq8ge6s6s5.apps.googleusercontent.com',
-    iosClientId: '944892355389-qfnnv8c4344dk8ka4904ue35rclf3ipg.apps.googleusercontent.com',
+    androidClientId:
+        '944892355389-jat7kf35dqlvc2uvlsh3vbuq8ge6s6s5.apps.googleusercontent.com',
+    iosClientId:
+        '944892355389-qfnnv8c4344dk8ka4904ue35rclf3ipg.apps.googleusercontent.com',
     iosBundleId: 'de.tum.tca',
   );
 }

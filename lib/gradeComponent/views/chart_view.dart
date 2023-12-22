@@ -39,7 +39,7 @@ class ChartView extends ConsumerWidget {
             ),
           ),
           SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: const CategoryAxis(),
             primaryYAxis: NumericAxis(
               minimum: 0,
               maximum: data.values.reduce(max).toDouble(),

@@ -33,7 +33,6 @@ platform :android do
     ].reduce([], :concat)
 
     # returns the highest version code from array
-    # return versionCodes.max+1
-    return 1000
+    return versionCodes.max+1
   end
 end
