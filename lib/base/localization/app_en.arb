@@ -268,5 +268,7 @@
    "successfullySent":"Message Successfully Sent!\n Thanks for Your Feedback!",
    "signInToTumOnline":"1. Sign in to TUMonline\n",
    "selectTokenManagement":"2. Select Token-Management\n",
-   "activateToken":"3. Activate the newly created token \nand enable your desired permissions"
+   "activateToken":"3. Activate the newly created token \nand enable your desired permissions",
+   "location":"Location",
+   "locationOnboarding":"Enable locations to access personalized experiences and your location on the room finder maps."
 }

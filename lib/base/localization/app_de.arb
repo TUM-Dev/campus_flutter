@@ -268,5 +268,7 @@
    "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!",
    "signInToTumOnline":"1. Melden Dich bei TUMonline an\n",
    "selectTokenManagement":"2. Token-Verwaltung auswählen\n",
-   "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen"
+   "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen",
+   "location":"Standort",
+   "locationOnboarding":"Aktiviere Standorte, um personalisierte Erlebnisse zu erreichen und Deinen Standort auf Raumfinder-Karten zu sehen."
 }

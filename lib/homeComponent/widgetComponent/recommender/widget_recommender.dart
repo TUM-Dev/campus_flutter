@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/recommender/widget_recommender_strategy.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';

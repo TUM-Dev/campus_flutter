@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
