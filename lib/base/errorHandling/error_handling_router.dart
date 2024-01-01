@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/campus_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';

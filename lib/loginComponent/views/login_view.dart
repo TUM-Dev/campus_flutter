@@ -246,7 +246,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => ref.read(loginViewModel).skip(),
+      onTap: () => ref.read(loginViewModel).skip(context),
       child: Text(
         context.localizations.continueWithoutID,
         style: Theme.of(context)

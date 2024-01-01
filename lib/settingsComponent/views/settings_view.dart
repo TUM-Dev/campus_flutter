@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';

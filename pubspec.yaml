@@ -54,6 +54,7 @@ dependencies:
   firebase_crashlytics: ^3.4.6
   firebase_core: ^2.24.0
   flutter_linkify: ^6.0.0
+  permission_handler: ^11.1.0
 
 dependency_overrides:
   xml2json:
@@ -103,4 +104,5 @@ flutter:
     - assets/images/campus/campus-klinikum.jpg
     - assets/images/campus/campus-olympia.jpg
     - assets/images/campus/campus-stamm.jpeg
+    - assets/images/location.png
     - assets/models/english_bert_30.tflite
