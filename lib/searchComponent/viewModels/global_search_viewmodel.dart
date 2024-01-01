@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/model/vocab.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/cafeteria_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/grades_search_viewmodel.dart';
@@ -14,11 +11,8 @@ import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/m
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewmodels/searchableViewModels/study_room_search_viewmodel.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:campus_flutter/base/placeholders/tflite_placeholder.dart'
-    if (dart.library.io) 'package:tflite_flutter/tflite_flutter.dart';
 
 final searchViewModel = Provider((ref) => GlobalSearchViewModel(ref));
 
@@ -28,20 +22,10 @@ class GlobalSearchViewModel {
       BehaviorSubject.seeded([]);
 
   String searchString = "";
+
   final Ref ref;
 
-  late Interpreter interpreter;
-
-  GlobalSearchViewModel(this.ref) {
-    if (!kIsWeb) {
-      initializeNaturalLanguageModel();
-    }
-  }
-
-  Future initializeNaturalLanguageModel() async {
-    interpreter =
-        await Interpreter.fromAsset('assets/models/english_bert_30.tflite');
-  }
+  GlobalSearchViewModel(this.ref);
 
   void search(String searchString) async {
     if (searchString.isEmpty) {
@@ -50,92 +34,14 @@ class GlobalSearchViewModel {
     }
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
-      if (!kIsWeb) {
-        _textClassificationModel(searchString);
+      if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+        result.add(SearchCategory.values);
       } else {
-        _webSearch(searchString);
+        result.add(SearchCategoryExtension.unAuthorizedSearch());
       }
     } else {
       result.add(selectedCategories.value);
     }
-  }
-
-  void _webSearch(String searchString) async {
-    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
-      result.add(SearchCategory.values);
-    } else {
-      result.add(SearchCategoryExtension.unAuthorizedSearch());
-    }
-  }
-
-  Future<void> _textClassificationModel(String searchString) async {
-    final tokens = await tokenizeBert(searchString);
-    var output = List.filled(1 * 6, 0).reshape([1, 6]);
-    interpreter.run(tokens, output);
-    final probabilities = output.first as List<double>;
-    final List<String> categoryNames = [
-      "cafeterias",
-      "calendar",
-      "grade",
-      "movie",
-      "news",
-      "studyroom",
-    ];
-    final categories = Map.fromIterables(categoryNames, probabilities);
-    if (ref.read(loginViewModel).credentials.value != Credentials.tumId) {
-      categories.removeWhere((key, value) => ["calendar, grade"].contains(key));
-    }
-    List<MapEntry<String, double>> sortedEntries = categories.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
-    final sortedCategories = Map.fromEntries(sortedEntries)
-        .keys
-        .map((key) => SearchCategory.fromString(key))
-        .toList();
-
-    /// if authenticated add lecture and person search
-    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
-      sortedCategories
-          .addAll([SearchCategory.lectures, SearchCategory.persons]);
-    }
-    result.add(sortedCategories);
-  }
-
-  Future<List<int>> tokenizeBert(String input) async {
-    List<String> substrings = input.split(" ");
-    List<int> tokenized = [];
-
-    for (var string in substrings) {
-      if (vocab.containsKey(string)) {
-        tokenized.add(vocab[string]!);
-      } else {
-        int start = 0;
-        while (start < string.length) {
-          int length = string.length;
-          while (length >= start) {
-            String tempString = string.substring(start, length);
-            if (vocab.containsKey(tempString)) {
-              tokenized.add(vocab[tempString]!);
-              start = length;
-              break;
-            }
-            length--;
-          }
-          if (start != length) {
-            tokenized.add(vocab["[UNK]"]!);
-            start = string.length;
-          }
-        }
-      }
-    }
-
-    int paddingNeeded = 30 - tokenized.length;
-    if (paddingNeeded > 0) {
-      tokenized.addAll(List<int>.filled(paddingNeeded, 0));
-    } else if (paddingNeeded < 0) {
-      tokenized = tokenized.sublist(0, 30);
-    }
-
-    return tokenized;
   }
 
   void updateCategory(SearchCategory searchCategory) {
