@@ -123,7 +123,10 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
             else if (snapshot.hasError)
               const Icon(Icons.error, color: Colors.red)
             else
-              const CircularProgressIndicator.adaptive(),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 24, maxWidth: 24),
+                child: const CircularProgressIndicator.adaptive(),
+              ),
           ],
         );
       },
