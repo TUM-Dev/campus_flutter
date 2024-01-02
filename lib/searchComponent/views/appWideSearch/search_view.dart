@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/searchComponent/viewmodels/global_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_category_picker_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_view_builder.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_textfield_view.dart';

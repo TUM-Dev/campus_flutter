@@ -271,5 +271,6 @@
    "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen",
    "location":"Standort",
    "locationOnboarding":"Aktiviere Standorte, um personalisierte Erlebnisse zu erreichen und Deinen Standort auf Raumfinder-Karten zu sehen.",
-   "continueOnboarding":"Weiter"
+   "continueOnboarding":"Weiter",
+   "showMore":"Mehr Anzeigen"
 }

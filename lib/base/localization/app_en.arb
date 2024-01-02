@@ -271,5 +271,6 @@
    "activateToken":"3. Activate the newly created token \nand enable your desired permissions",
    "location":"Location",
    "locationOnboarding":"Enable locations to access personalized experiences and your location on the room finder maps.",
-   "continueOnboarding":"Continue"
+   "continueOnboarding":"Continue",
+   "showMore":"Show More"
 }

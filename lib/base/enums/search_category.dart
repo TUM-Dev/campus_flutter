@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/cupertino.dart';
 
+// TODO: setup most logic pre-order of categories
 enum SearchCategory {
   /// enums that exist in the Text Classification Model
   cafeterias,

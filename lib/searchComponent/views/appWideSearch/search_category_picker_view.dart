@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/searchComponent/viewmodels/global_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

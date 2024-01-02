@@ -101,6 +101,7 @@ class CampusApp extends ConsumerWidget {
   }
 }
 
+// TODO: why is this needed?
 Locale _getDeviceLocale() {
   if (kIsWeb) {
     return const Locale("en");
