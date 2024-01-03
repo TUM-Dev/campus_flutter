@@ -33,8 +33,13 @@ ThemeData darkTheme(BuildContext context) {
     /// custom elevated button styling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.resolveWith((states) => primaryDarkColor),
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return darkGray;
+          } else {
+            return primaryDarkColor;
+          }
+        }),
         foregroundColor:
             MaterialStateProperty.resolveWith((states) => Colors.white),
         shape: MaterialStateProperty.resolveWith(
@@ -191,6 +196,12 @@ ThemeData darkTheme(BuildContext context) {
           ),
         ),
       ),
+    ),
+
+    /// style for dateTimePicker
+    datePickerTheme: const DatePickerThemeData(
+      surfaceTintColor: darkBackground,
+      backgroundColor: darkBackground,
     ),
   );
 }

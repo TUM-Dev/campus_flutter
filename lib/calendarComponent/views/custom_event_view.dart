@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CustomEventView extends StatelessWidget {
   const CustomEventView({
@@ -19,7 +18,7 @@ class CustomEventView extends StatelessWidget {
       children: [
         _infoEntry(
           context.localizations.timeFrame,
-          _timeText(context),
+          Text(calendarEvent.timePeriodText(context)),
           context,
         ),
         if (calendarEvent.description != null)
@@ -50,17 +49,5 @@ class CustomEventView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _timeText(BuildContext context) {
-    if (calendarEvent.duration.inDays == 0) {
-      return Text(calendarEvent.dateTimePeriod(context));
-    } else {
-      final start = DateFormat(null, context.localizations.localeName)
-          .format(calendarEvent.startDate);
-      final end = DateFormat(null, context.localizations.localeName)
-          .format(calendarEvent.endDate);
-      return Text("$start ${context.localizations.to.toLowerCase()}\n$end");
-    }
   }
 }

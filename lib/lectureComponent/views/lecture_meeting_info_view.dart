@@ -18,7 +18,7 @@ class LectureMeetingInfoView extends ConsumerWidget {
       title: context.localizations.thisMeeting,
       widgets: [
         BasicLectureInfoRowView(
-          information: ref.read(viewModel).event!.dateTimePeriod(context),
+          information: ref.read(viewModel).event!.timePeriodText(context),
           iconData: Icons.hourglass_top,
         ),
         BasicLectureInfoRowView(

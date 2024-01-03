@@ -196,5 +196,11 @@ ThemeData lightTheme(BuildContext context) {
         ),
       ),
     ),
+
+    /// style for dateTimePicker
+    datePickerTheme: const DatePickerThemeData(
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
+    ),
   );
 }
