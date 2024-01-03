@@ -29,8 +29,8 @@ class NavigaTumService {
     String id,
     Ref ref,
   ) async {
-    final response = await getIt<RESTClient>()
-        .get<NavigaTumNavigationDetails, NavigaTumApi>(
+    final response =
+        await getIt<RESTClient>().get<NavigaTumNavigationDetails, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceDetails(
           id: id,

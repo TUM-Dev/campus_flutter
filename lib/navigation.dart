@@ -66,6 +66,7 @@ class _NavigationState extends ConsumerState<Navigation> {
       ),
       floatingActionButton: getIt<NavigationService>().floatingActionButton(
         ref.watch(currentIndex),
+        ref,
         context,
       ),
       body: PageView(
