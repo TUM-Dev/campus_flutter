@@ -121,9 +121,9 @@ class RESTClient {
       Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
       noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
-      response = await endpoint.getResponse(dioClient: noCacheDio);
+      response = await endpoint.get(dioClient: noCacheDio);
     } else {
-      response = await endpoint.getResponse(dioClient: dio);
+      response = await endpoint.get(dioClient: dio);
     }
 
     log("${response.statusCode}: ${response.realUri}");
@@ -166,7 +166,7 @@ class RESTClient {
     Response<String> response;
 
     /// add forcedRefresh flag to temporary options
-    response = await endpoint.postResponse(dioClient: dio);
+    response = await endpoint.post(dioClient: dio);
 
     log("${response.statusCode}: ${response.realUri}");
     try {
@@ -212,9 +212,9 @@ class RESTClient {
         Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
         noCacheDio.options.responseDecoder = dio.options.responseDecoder;
         noCacheDio.options.extra["forcedRefresh"] = "true";
-        response = await endpoint.getResponse(dioClient: noCacheDio);
+        response = await endpoint.get(dioClient: noCacheDio);
       } else {
-        response = await endpoint.getResponse(dioClient: dio);
+        response = await endpoint.get(dioClient: dio);
       }
 
       log("${response.statusCode}: ${response.realUri}");
