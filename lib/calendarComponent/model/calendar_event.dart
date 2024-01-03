@@ -34,7 +34,7 @@ class CalendarEvent extends Searchable {
     return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
   }
 
-  String timeDatePeriod(BuildContext context) {
+  String dateTimePeriod(BuildContext context) {
     final start =
         DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName)
             .format(startDate);

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
+import 'package:campus_flutter/base/extensions/date_time.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
@@ -17,10 +17,10 @@ class MealPlanService {
     bool forcedRefresh,
     Cafeteria cafeteria,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
+    RESTClient restClient = getIt<RESTClient>();
     final today = DateTime.now();
     try {
-      final response = await mainApi.makeRequest<MealPlan, EatApi>(
+      final response = await restClient.post<MealPlan, EatApi>(
         EatApi(
           EatApiServiceMenu(
             location: cafeteria.id,
@@ -37,7 +37,7 @@ class MealPlanService {
       final nextWeek = today.add(const Duration(days: 7));
 
       try {
-        final nextWeekResponse = await mainApi.makeRequest<MealPlan, EatApi>(
+        final nextWeekResponse = await restClient.post<MealPlan, EatApi>(
           EatApi(
             EatApiServiceMenu(
               location: cafeteria.id,

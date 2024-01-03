@@ -45,7 +45,7 @@ class AppointmentView extends StatelessWidget {
                     .compareTo(const Duration(hours: 1, minutes: 30)) >=
                 0)
               _eventTime(
-                calendarEvent.timeDatePeriod(context),
+                calendarEvent.dateTimePeriod(context),
                 calendarEvent.isCanceled,
                 context,
               ),

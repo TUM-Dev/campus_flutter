@@ -10,8 +10,8 @@ class PersonDetailsService {
     bool forcedRefresh,
     String identNumber,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<PersonDetailsData,
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient.getWithException<PersonDetailsData,
         TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonDetails(identNumber: identNumber)),
       PersonDetailsData.fromJson,

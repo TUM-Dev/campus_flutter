@@ -8,8 +8,8 @@ class CafeteriasService {
   static Future<(DateTime?, List<Cafeteria>)> fetchCafeterias(
     bool forcedRefresh,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequest<Cafeterias, EatApi>(
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient.post<Cafeterias, EatApi>(
       EatApi(EatApiServiceCanteens()),
       Cafeterias.fromJson,
       forcedRefresh,

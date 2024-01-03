@@ -36,7 +36,7 @@ ThemeData lightTheme(BuildContext context) {
         elevation: const MaterialStatePropertyAll(1.5),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.disabled)) {
-            return Colors.grey.shade300;
+            return lightGray;
           } else {
             return primaryLightColor;
           }

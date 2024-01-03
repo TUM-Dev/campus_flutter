@@ -274,5 +274,12 @@
    "continueOnboarding":"Continue",
    "showMore":"Show More",
    "licenses":"Licenses",
-   "privacyPolicy":"Privacy Policy"
+   "privacyPolicy":"Privacy Policy",
+   "createCalendarEvent":"Create Calendar Event",
+   "title":"Title",
+   "annotation":"Annotation",
+   "from":"From",
+   "to":"To",
+   "timeFrame":"Time Frame",
+   "delete":"Delete"
 }

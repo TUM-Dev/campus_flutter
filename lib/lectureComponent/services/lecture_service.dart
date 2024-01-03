@@ -9,9 +9,9 @@ class LectureService {
   static Future<(DateTime?, List<Lecture>)> fetchLecture(
     bool forcedRefresh,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<LectureData,
-        TumOnlineApi, TumOnlineApiException>(
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient
+        .getWithException<LectureData, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonalLectures()),
       LectureData.fromJson,
       TumOnlineApiException.fromJson,
