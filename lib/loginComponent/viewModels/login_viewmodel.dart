@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
 import 'package:campus_flutter/loginComponent/services/login_service.dart';
+import 'package:campus_flutter/loginComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
@@ -11,6 +13,7 @@ import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewm
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 final loginViewModel = Provider((ref) => LoginViewModel());
@@ -19,6 +22,8 @@ class LoginViewModel {
   final _storage = const FlutterSecureStorage();
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
   BehaviorSubject<bool> tumIdValid = BehaviorSubject.seeded(false);
+
+  bool _isSkipped = false;
 
   final TextEditingController textEditingController1 = TextEditingController();
   final TextEditingController textEditingController2 = TextEditingController();
@@ -123,8 +128,24 @@ class LoginViewModel {
     });
   }
 
-  skip() {
-    credentials.add(Credentials.noTumId);
+  void skip(BuildContext context) {
+    _isSkipped = true;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LocationPermissionView(),
+      ),
+    );
+  }
+
+  Future<void> requestLocation(BuildContext context) async {
+    Permission.location.request().then(
+      (value) {
+        if (_isSkipped) {
+          credentials.add(Credentials.noTumId);
+        }
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      },
+    );
   }
 
   Future logout(WidgetRef ref) async {
@@ -137,5 +158,3 @@ class LoginViewModel {
     credentials.add(Credentials.none);
   }
 }
-
-enum Credentials { none, noTumId, tumId }

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +14,21 @@ class NewsCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
+    final imageUrl = news.imageUrl.toString().contains("src_1.png")
+        ? news.link.toString()
+        : news.imageUrl.toString();
+    return InkWell(
       onTap: () {
-        UrlLauncher.urlString(news.link, ref);
+        if (imageUrl.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImageFullScreenScaffold.network(
+                url: imageUrl,
+              ),
+            ),
+          );
+        }
       },
       child: AspectRatio(
         aspectRatio: 1.1,
@@ -31,9 +43,7 @@ class NewsCardView extends ConsumerWidget {
                     top: Radius.circular(10.0),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: news.imageUrl.toString().contains("src_1.png")
-                        ? news.link.toString()
-                        : news.imageUrl.toString(),
+                    imageUrl: imageUrl,
                     fadeOutDuration: Duration.zero,
                     fadeInDuration: Duration.zero,
                     placeholder: (context, string) => Image.asset(

@@ -39,13 +39,13 @@ class ChartView extends ConsumerWidget {
             ),
           ),
           SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: const CategoryAxis(),
             primaryYAxis: NumericAxis(
               minimum: 0,
               maximum: data.values.reduce(max).toDouble(),
               interval: 1,
             ),
-            series: <ChartSeries<MapEntry<dynamic, int>, String>>[
+            series: <CartesianSeries<MapEntry<dynamic, int>, String>>[
               ColumnSeries<MapEntry<dynamic, int>, String>(
                 dataSource: data.entries.toList(),
                 xValueMapper: (MapEntry<dynamic, int> data, _) =>

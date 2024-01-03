@@ -15,7 +15,7 @@ class CafeteriasService {
       forcedRefresh,
     );
 
-    // TODO(Jakob): add fetching of queue status
+    // TODO(Jakob): add fetching of queue status?
 
     return (response.saved, response.data.cafeterias);
   }

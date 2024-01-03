@@ -16,7 +16,7 @@
    "hideFailedGrades":"Durchgefallene Noten ausblenden",
    "defaultMapsApplication":"Standard-Kartenanwendung",
    "map":"Karte",
-   "contactUs":"Kontaktiere uns",
+   "contactMore":"Kontakt & Mehr",
    "tokenPermissions":"Berechtigungen für Token",
    "permissionChangePossibleInTUMonline":"Du kannst deine Berechtigungen in TUMOnline ändern",
    "logout":"Abmelden",
@@ -268,5 +268,11 @@
    "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!",
    "signInToTumOnline":"1. Melden Dich bei TUMonline an\n",
    "selectTokenManagement":"2. Token-Verwaltung auswählen\n",
-   "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen"
+   "activateToken":"3. Aktivieren Sie den neu erstellten Token und\n aktivieren Sie die gewünschten Berechtigungen",
+   "location":"Standort",
+   "locationOnboarding":"Aktiviere Standorte, um personalisierte Erlebnisse zu erreichen und Deinen Standort auf Raumfinder-Karten zu sehen.",
+   "continueOnboarding":"Weiter",
+   "showMore":"Mehr Anzeigen",
+   "licenses":"Lizenzen",
+   "privacyPolicy":"Datenschutzrichtlinie"
 }

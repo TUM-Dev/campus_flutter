@@ -176,18 +176,18 @@ class RESTClient {
       }
 
       log("${response.statusCode}: ${response.realUri}");
-      try {
-        return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()),
-          response.headers,
-          createObject,
-        );
-      } catch (e) {
-        log(e.toString());
-        rethrow;
-      }
+
+      return ApiResponse<T>.fromJson(
+        jsonDecode(response.data.toString()),
+        response.headers,
+        createObject,
+      );
     } catch (e) {
-      log("${endpoint.asURL().toString()}: ${e.toString()}");
+      if (e is Error) {
+        log("${endpoint.asURL().toString()}: ${e.stackTrace.toString()}");
+      } else {
+        log("${endpoint.asURL().toString()}: ${e.toString()}");
+      }
       rethrow;
     }
   }
