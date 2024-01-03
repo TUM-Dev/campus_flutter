@@ -23,6 +23,8 @@ class GlobalSearchViewModel {
 
   String searchString = "";
 
+  bool isAuthorized = false;
+
   final Ref ref;
 
   GlobalSearchViewModel(this.ref);
@@ -66,34 +68,42 @@ class GlobalSearchViewModel {
     search(this.searchString);
     if (selectedCategories.value.isEmpty) {
       for (var category in SearchCategory.values) {
-        _searchTriggerBuilder(searchString, category);
+        if (isAuthorized) {
+          _authorizedSearchTriggerBuilder(searchString, category);
+        } else {
+          _unauthorizedSearchTriggerBuilder(searchString, category);
+        }
       }
     } else {
       for (var selectedCategory in selectedCategories.value) {
-        _searchTriggerBuilder(searchString, selectedCategory);
+        if (isAuthorized) {
+          _authorizedSearchTriggerBuilder(searchString, selectedCategory);
+        } else {
+          _unauthorizedSearchTriggerBuilder(searchString, selectedCategory);
+        }
       }
     }
   }
 
   void setSearchCategories(int index) {
-    final authorized =
+    isAuthorized =
         ref.read(loginViewModel).credentials.value == Credentials.tumId;
     switch (index) {
       case 1:
-        if (authorized) {
+        if (isAuthorized) {
           selectedCategories.add([SearchCategory.grade]);
         } else {
           selectedCategories.add([]);
         }
       case 2:
-        if (authorized) {
+        if (isAuthorized) {
           selectedCategories
               .add([SearchCategory.personalLectures, SearchCategory.lectures]);
         } else {
           selectedCategories.add([]);
         }
       case 3:
-        if (authorized) {
+        if (isAuthorized) {
           selectedCategories.add([
             SearchCategory.calendar,
           ]);
@@ -111,7 +121,7 @@ class GlobalSearchViewModel {
     }
   }
 
-  void _searchTriggerBuilder(
+  void _authorizedSearchTriggerBuilder(
     String? searchString,
     SearchCategory searchCategory,
   ) {
@@ -144,6 +154,32 @@ class GlobalSearchViewModel {
             .personalLectureSearch(query: this.searchString);
       case SearchCategory.persons:
         ref.read(personSearchViewModel).personSearch(query: this.searchString);
+      case SearchCategory.rooms:
+        ref
+            .read(navigaTumSearchViewModel)
+            .navigaTumSearch(query: this.searchString);
+      default:
+        return;
+    }
+  }
+
+  void _unauthorizedSearchTriggerBuilder(
+    String? searchString,
+    SearchCategory searchCategory,
+  ) {
+    switch (searchCategory) {
+      case SearchCategory.cafeterias:
+        ref
+            .read(cafeteriaSearchViewModel)
+            .cafeteriaSearch(query: this.searchString);
+      case SearchCategory.movie:
+        ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
+      case SearchCategory.news:
+        ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
+      case SearchCategory.studyRoom:
+        ref
+            .read(studyRoomSearchViewModel)
+            .studyRoomSearch(query: this.searchString);
       case SearchCategory.rooms:
         ref
             .read(navigaTumSearchViewModel)

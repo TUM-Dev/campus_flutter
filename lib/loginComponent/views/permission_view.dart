@@ -22,38 +22,40 @@ class PermissionView extends StatelessWidget {
         : Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Spacer(
-            flex: 2,
-          ),
-          Image.asset(
-            imagePath,
-            height: 150,
-          ),
-          const Spacer(),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineMedium?.apply(
-                  color: Theme.of(context).primaryColor,
-                ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(context.padding),
-            child: Text(
-              description,
-              textAlign: TextAlign.center,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Spacer(
+              flex: 2,
             ),
-          ),
-          const Spacer(),
-          ElevatedButton(
-            onPressed: onButtonPress,
-            child: const Text("Okay"),
-          ),
-          const Spacer(),
-        ],
+            Image.asset(
+              imagePath,
+              height: 150,
+            ),
+            const Spacer(),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium?.apply(
+                    color: Theme.of(context).primaryColor,
+                  ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(context.padding),
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: onButtonPress,
+              child: const Text("Okay"),
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
