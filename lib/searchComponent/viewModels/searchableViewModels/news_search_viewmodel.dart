@@ -49,6 +49,6 @@ class NewsSearch extends Searchable {
   @override
   List<ComparisonToken> get comparisonTokens => [
         ComparisonToken(value: news.title),
-        // TODO: add source
+        ComparisonToken(value: news.sourceTitle.toString()),
       ];
 }

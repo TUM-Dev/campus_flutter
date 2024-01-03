@@ -41,6 +41,7 @@ service Campus {
     };
   }
 
+  // Allows to query ratings for a specific dish in a specific cafeteria.
   rpc GetDishRatings(GetDishRatingsRequest) returns (GetDishRatingsReply) {
     option (google.api.http) = {
       post: "/dish/rating/get",
@@ -295,10 +296,15 @@ message GetDishRatingsRequest {
 }
 
 message GetDishRatingsReply {
+  // a number of actual ratings
   repeated SingleRatingReply rating = 1;
+  // average rating for all dish rating tags which were used to rate this dish in this cafeteria
   double avg = 2;
+  // std of all dish rating tags which were used to rate this dish in this cafeteria
   double std = 3;
+  // minimum of all dish rating tags which were used to rate this dish in this cafeteria
   int32 min = 4;
+  // maximum of all dish rating tags which were used to rate this dish in this cafeteria
   int32 max = 5;
   repeated RatingTagResult rating_tags = 6;
   repeated RatingTagResult name_tags = 7;

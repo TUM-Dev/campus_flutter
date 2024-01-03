@@ -25,7 +25,6 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
   final SearchCategory searchCategory;
   final Widget Function(S searchable) body;
 
-  // TODO: implement "Show More" button
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
@@ -33,7 +32,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           SearchCategoryExtension.localizedEnumTitle(searchCategory, context),
       child: Card(
         child: StreamBuilder(
-          stream: ref.watch<SearchViewModel>(viewModel).searchResults,
+          stream: ref.watch<SearchViewModel<S>>(viewModel).searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
@@ -58,11 +57,11 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   itemBuilder: (context, index) {
                     if (index == itemCount - 1) {
                       return _showMoreButton(
-                        snapshot.data! as List<S>,
+                        snapshot.data!,
                         context,
                       );
                     } else {
-                      return body(snapshot.data![index] as S);
+                      return body(snapshot.data![index]);
                     }
                   },
                   separatorBuilder: (context, index) => const PaddedDivider(
@@ -93,7 +92,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
     );
   }
 
-  int _calculateItemLength(List<Searchable>? data, WidgetRef ref) {
+  int _calculateItemLength(List<S>? data, WidgetRef ref) {
     final selectedCategories =
         ref.read(searchViewModel).selectedCategories.value;
     if (selectedCategories.contains(searchCategory) &&

@@ -9,10 +9,8 @@ import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
-import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
-import 'package:campus_flutter/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,15 +91,11 @@ class CampusApp extends ConsumerWidget {
       locale: ref.watch(locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routes: {
-        confirm: (context) => const ConfirmView(),
-      },
       home: const AuthenticationRouter(),
     );
   }
 }
 
-// TODO: why is this needed?
 Locale _getDeviceLocale() {
   if (kIsWeb) {
     return const Locale("en");
