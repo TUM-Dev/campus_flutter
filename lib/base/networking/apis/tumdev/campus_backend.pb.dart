@@ -1443,9 +1443,11 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   static GetDishRatingsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetDishRatingsReply>(create);
   static GetDishRatingsReply? _defaultInstance;
 
+  /// a number of actual ratings
   @$pb.TagNumber(1)
   $core.List<SingleRatingReply> get rating => $_getList(0);
 
+  /// average rating for all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(2)
   $core.double get avg => $_getN(1);
   @$pb.TagNumber(2)
@@ -1455,6 +1457,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearAvg() => clearField(2);
 
+  /// std of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(3)
   $core.double get std => $_getN(2);
   @$pb.TagNumber(3)
@@ -1464,6 +1467,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearStd() => clearField(3);
 
+  /// minimum of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(4)
   $core.int get min => $_getIZ(3);
   @$pb.TagNumber(4)
@@ -1473,6 +1477,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   void clearMin() => clearField(4);
 
+  /// maximum of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(5)
   $core.int get max => $_getIZ(4);
   @$pb.TagNumber(5)
@@ -3750,8 +3755,10 @@ class Movie extends $pb.GeneratedMessage {
     $core.String? imdbRating,
     $core.String? description,
     $fixnum.Int64? coverId,
-    $core.String? link,
+    $core.String? trailerUrl,
+    $core.String? additionalInformationUrl,
     $core.String? coverUrl,
+    $core.String? location,
   }) {
     final $result = create();
     if (movieId != null) {
@@ -3790,11 +3797,17 @@ class Movie extends $pb.GeneratedMessage {
     if (coverId != null) {
       $result.coverId = coverId;
     }
-    if (link != null) {
-      $result.link = link;
+    if (trailerUrl != null) {
+      $result.trailerUrl = trailerUrl;
+    }
+    if (additionalInformationUrl != null) {
+      $result.additionalInformationUrl = additionalInformationUrl;
     }
     if (coverUrl != null) {
       $result.coverUrl = coverUrl;
+    }
+    if (location != null) {
+      $result.location = location;
     }
     return $result;
   }
@@ -3815,8 +3828,10 @@ class Movie extends $pb.GeneratedMessage {
     ..aOS(12, _omitFieldNames ? '' : 'imdbRating')
     ..aOS(13, _omitFieldNames ? '' : 'description')
     ..aInt64(14, _omitFieldNames ? '' : 'coverId')
-    ..aOS(16, _omitFieldNames ? '' : 'link')
+    ..aOS(15, _omitFieldNames ? '' : 'trailerUrl')
+    ..aOS(16, _omitFieldNames ? '' : 'additionalInformationUrl')
     ..aOS(17, _omitFieldNames ? '' : 'coverUrl')
+    ..aOS(18, _omitFieldNames ? '' : 'location')
     ..hasRequiredFields = false
   ;
 
@@ -3841,6 +3856,7 @@ class Movie extends $pb.GeneratedMessage {
   static Movie getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Movie>(create);
   static Movie? _defaultInstance;
 
+  /// the id of the movie
   @$pb.TagNumber(3)
   $fixnum.Int64 get movieId => $_getI64(0);
   @$pb.TagNumber(3)
@@ -3850,6 +3866,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearMovieId() => clearField(3);
 
+  /// the date of the movie
   @$pb.TagNumber(4)
   $1.Timestamp get date => $_getN(1);
   @$pb.TagNumber(4)
@@ -3861,6 +3878,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $1.Timestamp ensureDate() => $_ensure(1);
 
+  /// when the movie was created in OUR database
   @$pb.TagNumber(5)
   $1.Timestamp get created => $_getN(2);
   @$pb.TagNumber(5)
@@ -3872,6 +3890,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $1.Timestamp ensureCreated() => $_ensure(2);
 
+  /// title of the movie if available, empty otherwise
   @$pb.TagNumber(6)
   $core.String get title => $_getSZ(3);
   @$pb.TagNumber(6)
@@ -3881,7 +3900,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   void clearTitle() => clearField(6);
 
-  /// release year of the movie
+  /// release year of the movie if available, empty otherwise
   @$pb.TagNumber(7)
   $core.String get releaseYear => $_getSZ(4);
   @$pb.TagNumber(7)
@@ -3891,6 +3910,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   void clearReleaseYear() => clearField(7);
 
+  /// runtime of the movie if available, empty otherwise
   @$pb.TagNumber(8)
   $core.String get runtime => $_getSZ(5);
   @$pb.TagNumber(8)
@@ -3900,6 +3920,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   void clearRuntime() => clearField(8);
 
+  /// genre of the movie if available, empty otherwise
   @$pb.TagNumber(9)
   $core.String get genre => $_getSZ(6);
   @$pb.TagNumber(9)
@@ -3909,6 +3930,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   void clearGenre() => clearField(9);
 
+  /// director of the movie as by omdb(/tu-film), empty otherwise
   @$pb.TagNumber(10)
   $core.String get director => $_getSZ(7);
   @$pb.TagNumber(10)
@@ -3918,6 +3940,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   void clearDirector() => clearField(10);
 
+  /// actors of the movie as by omdb(/tu-film), empty otherwise
   @$pb.TagNumber(11)
   $core.String get actors => $_getSZ(8);
   @$pb.TagNumber(11)
@@ -3927,7 +3950,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   void clearActors() => clearField(11);
 
-  /// imdb rating
+  /// imdb rating for the movie if available, empty otherwise
   @$pb.TagNumber(12)
   $core.String get imdbRating => $_getSZ(9);
   @$pb.TagNumber(12)
@@ -3937,6 +3960,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   void clearImdbRating() => clearField(12);
 
+  /// short description of the movie including limited html tags (only <b>, <i>)
   @$pb.TagNumber(13)
   $core.String get description => $_getSZ(10);
   @$pb.TagNumber(13)
@@ -3946,6 +3970,7 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(13)
   void clearDescription() => clearField(13);
 
+  /// the id of the cover image
   @$pb.TagNumber(14)
   $fixnum.Int64 get coverId => $_getI64(11);
   @$pb.TagNumber(14)
@@ -3955,25 +3980,45 @@ class Movie extends $pb.GeneratedMessage {
   @$pb.TagNumber(14)
   void clearCoverId() => clearField(14);
 
+  /// Where to find a trailer for this movie
+  @$pb.TagNumber(15)
+  $core.String get trailerUrl => $_getSZ(12);
+  @$pb.TagNumber(15)
+  set trailerUrl($core.String v) { $_setString(12, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasTrailerUrl() => $_has(12);
+  @$pb.TagNumber(15)
+  void clearTrailerUrl() => clearField(15);
+
   /// Where to find additional information about this movie
   @$pb.TagNumber(16)
-  $core.String get link => $_getSZ(12);
+  $core.String get additionalInformationUrl => $_getSZ(13);
   @$pb.TagNumber(16)
-  set link($core.String v) { $_setString(12, v); }
+  set additionalInformationUrl($core.String v) { $_setString(13, v); }
   @$pb.TagNumber(16)
-  $core.bool hasLink() => $_has(12);
+  $core.bool hasAdditionalInformationUrl() => $_has(13);
   @$pb.TagNumber(16)
-  void clearLink() => clearField(16);
+  void clearAdditionalInformationUrl() => clearField(16);
 
   /// Where to find a cover image for this movie
   @$pb.TagNumber(17)
-  $core.String get coverUrl => $_getSZ(13);
+  $core.String get coverUrl => $_getSZ(14);
   @$pb.TagNumber(17)
-  set coverUrl($core.String v) { $_setString(13, v); }
+  set coverUrl($core.String v) { $_setString(14, v); }
   @$pb.TagNumber(17)
-  $core.bool hasCoverUrl() => $_has(13);
+  $core.bool hasCoverUrl() => $_has(14);
   @$pb.TagNumber(17)
   void clearCoverUrl() => clearField(17);
+
+  /// Where the movie is shown
+  @$pb.TagNumber(18)
+  $core.String get location => $_getSZ(15);
+  @$pb.TagNumber(18)
+  set location($core.String v) { $_setString(15, v); }
+  @$pb.TagNumber(18)
+  $core.bool hasLocation() => $_has(15);
+  @$pb.TagNumber(18)
+  void clearLocation() => clearField(18);
 }
 
 class CreateFeedbackRequest extends $pb.GeneratedMessage {

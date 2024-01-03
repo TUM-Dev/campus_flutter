@@ -76,11 +76,14 @@ class TimeStrategy implements WidgetRecommenderStrategy {
         }
 
       case HomeWidget.movies:
-        await MovieService.fetchMovies(false).then<void>((value) {
-          if (value.$2.isEmpty) {
-            priority = 0;
-          }
-        }, onError: (_) => priority = 0);
+        await MovieService.fetchMovies(false).then<void>(
+          (value) {
+            if (value.$2.isEmpty) {
+              priority = 0;
+            }
+          },
+          onError: (_) => priority = 0,
+        );
     }
 
     return priority;

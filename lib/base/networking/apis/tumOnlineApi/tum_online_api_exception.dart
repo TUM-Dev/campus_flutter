@@ -13,31 +13,36 @@ class TumOnlineApiException implements ApiException {
           when message.contains("Keine Rechte für Funktion") ||
               message.contains("Funktion nicht erlaubt"):
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionNoPermission());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionNoPermission(),
+        );
       case "Token ist nicht bestätigt!":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType:
-                TumOnlineApiExceptionTokenNotConfirmed());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionTokenNotConfirmed(),
+        );
       case "Token ist ungültig!":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken(),
+        );
       case "Ungültige pIdentNr":
       case "Person ist nicht sichtbar.":
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionPersonNotFound());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionPersonNotFound(),
+        );
       case String message when message.contains("Suchstring"):
         return TumOnlineApiException(
-            tumOnlineApiExceptionType:
-                TumOnlineApiExceptionInvalidSearchString());
+          tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidSearchString(),
+        );
       default:
         return TumOnlineApiException(
-            tumOnlineApiExceptionType: TumOnlineApiExceptionUnknown(
-                message: exception.exceptionMessage.message));
+          tumOnlineApiExceptionType: TumOnlineApiExceptionUnknown(
+            message: exception.exceptionMessage.message,
+          ),
+        );
     }
   }
 
   @override
-  String get errorDescription {
+  String get message {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
         return "No Permission";
@@ -86,6 +91,11 @@ class TumOnlineApiException implements ApiException {
       case TumOnlineApiExceptionUnknown unknown:
         return unknown.message;
     }
+  }
+
+  @override
+  String toString() {
+    return "TumOnlineException: $message";
   }
 }
 

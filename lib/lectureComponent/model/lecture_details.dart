@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:flutter/widgets.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture_details.g.dart';
@@ -16,7 +16,7 @@ class LectureDetails {
   @JsonKey(name: "dauer_info")
   final String duration;
   @JsonKey(name: "stp_sp_sst")
-  final String stp_sp_sst;
+  final String stpSpSst;
   @JsonKey(name: "stp_lv_art_name")
   final String eventTypeDefault;
   @JsonKey(name: "stp_lv_art_kurz")
@@ -45,7 +45,8 @@ class LectureDetails {
   final String? courseObjective;
   @JsonKey(name: "lehrmethode")
   final String? teachingMethod;
-  final String? anmeld_lv;
+  @JsonKey(name: "anmeld_lv")
+  final String? signUpLV;
   @JsonKey(name: "ersttermin")
   final String? firstScheduledDate;
   @JsonKey(name: "pruefmodus")
@@ -79,34 +80,35 @@ class LectureDetails {
     }
   }
 
-  LectureDetails(
-      {required this.id,
-      required this.lvNumber,
-      required this.title,
-      required this.duration,
-      required this.stp_sp_sst,
-      required this.eventTypeDefault,
-      required this.eventTypeTag,
-      required this.semester,
-      required this.semesterType,
-      required this.semesterID,
-      required this.semesterYear,
-      required this.organisationNumber,
-      required this.organisation,
-      required this.organisationTag,
-      required this.speaker,
-      this.courseContents,
-      this.requirements,
-      this.courseObjective,
-      this.teachingMethod,
-      this.anmeld_lv,
-      this.firstScheduledDate,
-      this.examinationMode,
-      this.studienbehelfe,
-      this.note,
-      this.curriculumURL,
-      this.scheduledDatesURL,
-      this.examDateURL});
+  LectureDetails({
+    required this.id,
+    required this.lvNumber,
+    required this.title,
+    required this.duration,
+    required this.stpSpSst,
+    required this.eventTypeDefault,
+    required this.eventTypeTag,
+    required this.semester,
+    required this.semesterType,
+    required this.semesterID,
+    required this.semesterYear,
+    required this.organisationNumber,
+    required this.organisation,
+    required this.organisationTag,
+    required this.speaker,
+    this.courseContents,
+    this.requirements,
+    this.courseObjective,
+    this.teachingMethod,
+    this.signUpLV,
+    this.firstScheduledDate,
+    this.examinationMode,
+    this.studienbehelfe,
+    this.note,
+    this.curriculumURL,
+    this.scheduledDatesURL,
+    this.examDateURL,
+  });
 
   factory LectureDetails.fromJson(Map<String, dynamic> json) =>
       _$LectureDetailsFromJson(json);

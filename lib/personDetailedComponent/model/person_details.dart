@@ -67,21 +67,22 @@ class PersonDetails {
     }
   }
 
-  PersonDetails(
-      {required this.nr,
-      required this.obfuscatedID,
-      required this.firstName,
-      required this.name,
-      this.title,
-      required this.email,
-      required this.gender,
-      this.officeHours,
-      this.officialContact,
-      this.privateContact,
-      this.imageData,
-      this.organisations,
-      this.rooms,
-      required this.phoneExtensions});
+  PersonDetails({
+    required this.nr,
+    required this.obfuscatedID,
+    required this.firstName,
+    required this.name,
+    this.title,
+    required this.email,
+    required this.gender,
+    this.officeHours,
+    this.officialContact,
+    this.privateContact,
+    this.imageData,
+    this.organisations,
+    this.rooms,
+    this.phoneExtensions,
+  });
 
   String get fullName {
     return "$firstName $name";

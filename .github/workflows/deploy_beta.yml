@@ -25,6 +25,8 @@ jobs:
         with:
           channel: stable
           cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:arch:'
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
@@ -32,15 +34,10 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      - name: Cache pub dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.FLUTTER_HOME }}/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: ${{ runner.os }}-pub-
-
       - name: Install Flutter Packages
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter pub get
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
@@ -62,8 +59,6 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
           RELEASE_NOTES: ${{ github.event.release.body }}
 
       - if: matrix.platform == 'android'
@@ -83,4 +78,3 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          # RELEASE_NOTES: ${{ github.event.release.body }}

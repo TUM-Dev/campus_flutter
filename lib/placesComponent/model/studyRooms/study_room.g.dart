@@ -19,8 +19,8 @@ StudyRoom _$StudyRoomFromJson(Map<String, dynamic> json) => StudyRoom(
       occupiedFrom: DateTime.tryParse(json['belegung_ab'] as String),
       occupiedIn: json['belegung_in'] as int,
       occupiedUntil: DateTime.tryParse(json['belegung_bis'] as String),
-      raum_nr_architekt: json['raum_nr_architekt'] as String?,
-      res_nr: json['res_nr'] as int,
+      roomNoArchitect: json['raum_nr_architekt'] as String?,
+      resNo: json['res_nr'] as int,
       status: json['status'] as String?,
       attributes: (json['attribute'] as List<dynamic>?)
           ?.map((e) => StudyRoomAttribute.fromJson(e as Map<String, dynamic>))
@@ -40,8 +40,8 @@ Map<String, dynamic> _$StudyRoomToJson(StudyRoom instance) => <String, dynamic>{
       'belegung_ab': instance.occupiedFrom?.toIso8601String(),
       'belegung_in': instance.occupiedIn,
       'belegung_bis': instance.occupiedUntil?.toIso8601String(),
-      'raum_nr_architekt': instance.raum_nr_architekt,
-      'res_nr': instance.res_nr,
+      'raum_nr_architekt': instance.roomNoArchitect,
+      'res_nr': instance.resNo,
       'status': instance.status,
       'attribute': instance.attributes,
     };

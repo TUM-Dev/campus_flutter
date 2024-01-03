@@ -1,45 +1,80 @@
+import 'dart:io';
+
+import 'package:campus_flutter/authentication_router.dart';
+import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
-import 'package:campus_flutter/base/networking/protocols/main_api.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
-import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
-import 'package:campus_flutter/loginComponent/views/login_view.dart';
-import 'package:campus_flutter/navigation.dart';
-import 'package:campus_flutter/placesComponent/services/mapThemeService.dart';
-import 'package:campus_flutter/providers_get_it.dart';
-import 'package:campus_flutter/routes.dart';
-import 'package:campus_flutter/theme.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:campus_flutter/base/networking/base/connection_checker.dart';
+import 'package:campus_flutter/base/networking/base/rest_client.dart';
+import 'package:campus_flutter/base/theme/dark_theme.dart';
+import 'package:campus_flutter/base/theme/light_theme.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
+import 'package:campus_flutter/navigation_service.dart';
+import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show PlatformDispatcher, kDebugMode, kIsWeb;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+final getIt = GetIt.instance;
+final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
+final appearance = StateProvider<Appearance>((ref) => Appearance.system);
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  getIt.registerSingleton<ConnectivityResult>(
-      await Connectivity().checkConnectivity());
-  getIt.registerSingleton<MapThemeService>(MapThemeService());
-  if (kIsWeb) {
-    getIt.registerSingleton<MainApi>(MainApi.webCache());
-    getIt.registerSingleton<CachedCampusClient>(
-        await CachedCampusClient.createWebCache());
-  } else {
-    final directory = await getTemporaryDirectory();
-    Hive.init(directory.path);
-    Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
-    getIt
-        .registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
-    getIt.registerSingleton<MainApi>(MainApi.mobileCache(directory));
-    getIt.registerSingleton<CachedCampusClient>(
-        await CachedCampusClient.createMobileCache(directory));
+  if (!kDebugMode && !kIsWeb) {
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
   }
-  runApp(const ProviderScope(child: CampusApp()));
+  await _initializeGeneral();
+  if (kIsWeb) {
+    await _initializeWeb();
+  } else {
+    await _initializeMobile();
+  }
+  runApp(
+    const ProviderScope(
+      child: CampusApp(),
+    ),
+  );
+}
+
+Future<void> _initializeGeneral() async {
+  getIt.registerSingleton<ConnectionChecker>(ConnectionChecker());
+  getIt.registerSingleton<MapThemeService>(MapThemeService());
+  getIt.registerSingleton<NavigationService>(NavigationService());
+  getIt.registerSingleton<CalendarViewService>(CalendarViewService());
+}
+
+Future<void> _initializeWeb() async {
+  getIt.registerSingleton<RESTClient>(RESTClient.webCache());
+  getIt.registerSingleton<CachedCampusClient>(
+    await CachedCampusClient.createWebCache(),
+  );
+}
+
+Future<void> _initializeMobile() async {
+  final directory = await getTemporaryDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
+  getIt.registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
+  getIt.registerSingleton<RESTClient>(RESTClient.mobileCache(directory));
+  getIt.registerSingleton<CachedCampusClient>(
+    await CachedCampusClient.createMobileCache(directory),
+  );
 }
 
 class CampusApp extends ConsumerWidget {
@@ -48,53 +83,28 @@ class CampusApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-        title: "TUM Campus App",
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme(context),
-        darkTheme: darkTheme(context),
-        themeMode: ref.watch(appearance).themeMode,
-        locale: ref.watch(locale),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        routes: {
-          confirm: (context) => const ConfirmView(),
-        },
-        home: const AuthenticationRouter());
+      title: "TUM Campus App",
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme(context),
+      darkTheme: darkTheme(context),
+      themeMode: ref.watch(appearance).themeMode,
+      locale: ref.watch(locale),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const AuthenticationRouter(),
+    );
   }
 }
 
-class AuthenticationRouter extends ConsumerStatefulWidget {
-  const AuthenticationRouter({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AuthenticationRouterState();
-}
-
-class _AuthenticationRouterState extends ConsumerState<AuthenticationRouter> {
-  @override
-  void initState() {
-    ref.read(loginViewModel).checkLogin();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: ref.watch(loginViewModel).credentials,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            ref.read(userPreferencesViewModel).loadUserPreferences();
-            FlutterNativeSplash.remove();
-            if (snapshot.data == Credentials.tumId ||
-                snapshot.data == Credentials.noTumId) {
-              return const Navigation();
-            } else {
-              return const LoginView();
-            }
-          } else {
-            return const LoginView();
-          }
-        });
+Locale _getDeviceLocale() {
+  if (kIsWeb) {
+    return const Locale("en");
+  } else {
+    final deviceLocal = Platform.localeName;
+    if (deviceLocal.contains("de")) {
+      return const Locale("de");
+    } else {
+      return const Locale("en");
+    }
   }
 }

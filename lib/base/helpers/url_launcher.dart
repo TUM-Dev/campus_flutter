@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,8 +14,11 @@ class UrlLauncher {
       if (await canLaunchUrlString(urlString)) {
         if (ref.read(useWebView) && Platform.isIOS) {
           launchUrlString(urlString, mode: LaunchMode.inAppWebView).onError(
-              (error, stackTrace) => launchUrlString(urlString,
-                  mode: LaunchMode.externalApplication));
+            (error, stackTrace) => launchUrlString(
+              urlString,
+              mode: LaunchMode.externalApplication,
+            ),
+          );
         } else {
           launchUrlString(urlString, mode: LaunchMode.externalApplication);
         }
@@ -30,8 +33,9 @@ class UrlLauncher {
       if (await canLaunchUrl(url)) {
         if (ref.read(useWebView) && Platform.isIOS) {
           launchUrl(url, mode: LaunchMode.inAppWebView).onError(
-              (error, stackTrace) =>
-                  launchUrl(url, mode: LaunchMode.externalApplication));
+            (error, stackTrace) =>
+                launchUrl(url, mode: LaunchMode.externalApplication),
+          );
         } else {
           launchUrl(url, mode: LaunchMode.externalApplication);
         }

@@ -19,16 +19,17 @@ class ContactCardLoadingView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ShimmerView(
-                child: PlaceholderText(
-              text: "Max Mustermann",
-              style: Theme.of(context).textTheme.headlineSmall,
-            )),
+              child: PlaceholderText(
+                text: "Max Mustermann",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
             const ShimmerView(child: PlaceholderText(text: "go43hum")),
             const ShimmerView(
-                child: PlaceholderText(text: "max.mustermann@tum.de")),
-            const ShimmerView(child: PlaceholderText(text: "Informatik B.Sc.")),
+              child: PlaceholderText(text: "max.mustermann@tum.de"),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

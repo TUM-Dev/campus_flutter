@@ -13,14 +13,16 @@ class GradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: GradeRectangle(grade: grade.grade),
-        title: Text(
-          grade.title,
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
+      leading: GradeRectangle(grade: grade.grade),
+      title: Text(
+        grade.title,
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+          Row(
+            children: [
               Expanded(
                 child:
                     _subtitle(grade.modusShort(context), Icons.edit, context),
@@ -29,11 +31,13 @@ class GradeRow extends StatelessWidget {
               Expanded(
                 child: _subtitle(grade.lvNumber, Icons.numbers, context),
               ),
-            ]),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-            _subtitle(grade.examiner, Icons.person, context),
-          ],
-        ));
+            ],
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+          _subtitle(grade.examiner, Icons.person, context),
+        ],
+      ),
+    );
   }
 
   Widget _subtitle(String text, IconData iconData, BuildContext context) {

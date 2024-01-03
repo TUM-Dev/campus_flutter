@@ -1,14 +1,14 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
-import 'package:campus_flutter/base/views/error_handling_view.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/providers_get_it.dart';
 import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,20 +54,22 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: ref.watch(viewModel).personDetails,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _body(snapshot.data!);
-          } else if (snapshot.hasError) {
-            return ErrorHandlingView(
-                error: snapshot.error!,
-                errorHandlingViewType: ErrorHandlingViewType.fullScreen);
-          } else {
-            return const Center(
-              child: DelayedLoadingIndicator(name: "Person Details"),
-            );
-          }
-        });
+      stream: ref.watch(viewModel).personDetails,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _body(snapshot.data!);
+        } else if (snapshot.hasError) {
+          return ErrorHandlingRouter(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+          );
+        } else {
+          return const Center(
+            child: DelayedLoadingIndicator(name: "Person Details"),
+          );
+        }
+      },
+    );
   }
 
   Widget _body(PersonDetails personDetails) {
@@ -77,7 +79,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         _image(personDetails.imageData),
         _name(personDetails.fullNameWithTitle),
         _contact(personDetails),
-        if (personDetails.rooms != null) _room(personDetails)
+        if (personDetails.rooms != null) _room(personDetails),
       ],
     );
   }
@@ -99,99 +101,119 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
       backgroundImage: imageData != null
           ? Image.memory(base64DecodeImageData(imageData)).image
           : const AssetImage(
-              'assets/images/placeholders/portrait_placeholder.png'),
+              'assets/images/placeholders/portrait_placeholder.png',
+            ),
     );
   }
 
   Widget _contact(PersonDetails personDetails) {
     return WidgetFrameView(
-        title: "Contact",
-        child: Card(
-          child: SeparatedList.widgets(
-            widgets: [
+      title: "Contact",
+      child: Card(
+        child: SeparatedList.widgets(
+          widgets: [
+            ListTile(
+              leading: Icon(
+                Icons.email,
+                color: context.theme.primaryColor,
+              ),
+              title: Text(
+                personDetails.email,
+                style: const TextStyle(decoration: TextDecoration.underline),
+              ),
+              onTap: () =>
+                  UrlLauncher.urlString("mailto:${personDetails.email}", ref),
+            ),
+            if (personDetails.phoneExtensions?.first.phoneNumber != null)
               ListTile(
                 leading: Icon(
-                  Icons.email,
+                  Icons.phone,
                   color: context.theme.primaryColor,
                 ),
-                title: Text(personDetails.email,
-                    style:
-                        const TextStyle(decoration: TextDecoration.underline)),
-                onTap: () =>
-                    UrlLauncher.urlString("mailto:${personDetails.email}", ref),
+                title: Text(
+                  personDetails.phoneExtensions!.first.phoneNumber ??
+                      context.localizations.unknown,
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                onTap: () => UrlLauncher.urlString(
+                  "tel:${personDetails.phoneExtensions!.first.phoneNumber}",
+                  ref,
+                ),
               ),
-              if (personDetails.phoneExtensions?.first.phoneNumber != null)
-                ListTile(
-                  leading: Icon(
-                    Icons.phone,
-                    color: context.theme.primaryColor,
-                  ),
-                  title: Text(personDetails.phoneExtensions!.first.phoneNumber,
-                      style: const TextStyle(
-                          decoration: TextDecoration.underline)),
-                  onTap: () => UrlLauncher.urlString(
-                      "tel:${personDetails.phoneExtensions!.first.phoneNumber}",
-                      ref),
+            if (personDetails.officialContact?.homepage != null)
+              ListTile(
+                leading: Icon(
+                  Icons.web,
+                  color: context.theme.primaryColor,
                 ),
-              if (personDetails.officialContact?.homepage != null)
-                ListTile(
-                  leading: Icon(
-                    Icons.web,
-                    color: context.theme.primaryColor,
-                  ),
-                  title: Text(
-                    personDetails.officialContact!.homepage!,
-                    style:
-                        const TextStyle(decoration: TextDecoration.underline),
-                  ),
-                  onTap: () => UrlLauncher.urlString(
-                      personDetails.officialContact!.homepage!, ref),
+                title: Text(
+                  personDetails.officialContact!.homepage!,
+                  style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-            ],
-          ),
-        ));
+                onTap: () => UrlLauncher.urlString(
+                  personDetails.officialContact!.homepage!,
+                  ref,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _room(PersonDetails personDetails) {
     return WidgetFrameView(
-        title: "Room",
-        child: Card(
-          child: SeparatedList.widgets(
-            widgets: [
-              ListTile(
-                leading: Icon(
-                  Icons.room,
-                  color: context.theme.primaryColor,
-                ),
-                title:
-                    Text(personDetails.rooms!.first.shortLocationDescription),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                ),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SearchScaffold(
-                              searchString: personDetails.rooms!.first.id,
-                            ))),
+      title: "Room",
+      child: Card(
+        child: SeparatedList.widgets(
+          widgets: [
+            ListTile(
+              leading: Icon(
+                Icons.room,
+                color: context.theme.primaryColor,
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.stairs,
-                  color: context.theme.primaryColor,
-                ),
-                title: Text(personDetails.rooms!.first.floorName),
+              title: Text(
+                personDetails.rooms!.first.shortLocationDescription ??
+                    context.localizations.unknown,
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.account_balance,
-                  color: context.theme.primaryColor,
-                ),
-                title: Text(personDetails.rooms!.first.buildingName),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
               ),
-            ],
-          ),
-        ));
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PersonRoomSearchScaffold(
+                    searchString: personDetails.rooms!.first.id,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.stairs,
+                color: context.theme.primaryColor,
+              ),
+              title: Text(
+                personDetails.rooms!.first.floorName ??
+                    context.localizations.unknown,
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.account_balance,
+                color: context.theme.primaryColor,
+              ),
+              title: Text(
+                personDetails.rooms!.first.buildingName ??
+                    context.localizations.unknown,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

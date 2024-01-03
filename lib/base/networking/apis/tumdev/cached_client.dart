@@ -15,19 +15,25 @@ class CachedCampusClient extends CampusClient {
   }
 
   static Future<CachedCampusClient> createMobileCache(
-      Directory directory) async {
+    Directory directory,
+  ) async {
     await Hive.openBox('grpc_cache', path: directory.path);
     return CachedCampusClient._mobileCache(directory, await _callOptions());
   }
 
   CachedCampusClient._webCache(CallOptions callOptions)
-      : super(_channel(),
-            options: callOptions, interceptors: [CacheInterceptor.webCache()]);
+      : super(
+          _channel(),
+          options: callOptions,
+          interceptors: [CacheInterceptor.webCache()],
+        );
 
   CachedCampusClient._mobileCache(Directory directory, CallOptions callOptions)
-      : super(_channel(),
-            options: callOptions,
-            interceptors: [CacheInterceptor.mobileCache(directory)]);
+      : super(
+          _channel(),
+          options: callOptions,
+          interceptors: [CacheInterceptor.mobileCache(directory)],
+        );
 
   static Future<CallOptions> _callOptions() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -53,21 +59,25 @@ class CachedCampusClient extends CampusClient {
         deviceId = macInfo.model;
       }
     }
-    return CallOptions(metadata: {
-      "x-app-version": packageInfo.packageName,
-      "x-app-build": packageInfo.version,
-      "x-device-id": deviceId,
-      "x-os-version": osVersion,
-    }, timeout: const Duration(seconds: 10));
+    return CallOptions(
+      metadata: {
+        "x-app-version": packageInfo.packageName,
+        "x-app-build": packageInfo.version,
+        "x-device-id": deviceId,
+        "x-os-version": osVersion,
+      },
+      timeout: const Duration(seconds: 10),
+    );
   }
 
   static GrpcOrGrpcWebClientChannel _channel() {
     return GrpcOrGrpcWebClientChannel.toSeparateEndpoints(
-        grpcHost: "api.tum.app",
-        grpcPort: 443,
-        grpcTransportSecure: true,
-        grpcWebHost: "api-grpc.tum.app",
-        grpcWebPort: 443,
-        grpcWebTransportSecure: true);
+      grpcHost: "api.tum.app",
+      grpcPort: 443,
+      grpcTransportSecure: true,
+      grpcWebHost: "api-grpc.tum.app",
+      grpcWebPort: 443,
+      grpcWebTransportSecure: true,
+    );
   }
 }

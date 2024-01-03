@@ -8,7 +8,9 @@ typedef Distances = List<int>;
 
 class GlobalSearch {
   static List<T>? tokenSearch<T extends Searchable>(
-      String query, List<T> searchables) {
+    String query,
+    List<T> searchables,
+  ) {
     final tokens = tokenize(query);
 
     Map<T, Distances> levenshteinValues = {};
@@ -29,10 +31,12 @@ class GlobalSearch {
     }
 
     final results = levenshteinValues.entries
-        .sorted((a, b) => isBetter(
-              a.value.sorted((a, b) => a.compareTo(b)),
-              b.value.sorted((a, b) => a.compareTo(b)),
-            ))
+        .sorted(
+          (a, b) => isBetter(
+            a.value.sorted((a, b) => a.compareTo(b)),
+            b.value.sorted((a, b) => a.compareTo(b)),
+          ),
+        )
         .map((e) => (e.key, e.value))
         .toList();
 
@@ -40,7 +44,9 @@ class GlobalSearch {
   }
 
   static int? bestRelativeLevenshtein<T extends Searchable>(
-      String token, T searchable) {
+    String token,
+    T searchable,
+  ) {
     if (token.isEmpty) {
       return null;
     }
@@ -56,15 +62,19 @@ class GlobalSearch {
           (1 * (token.length + dataToken.length) + lev).toDouble();
 
       return (result * 100).toInt();
-    }).reduce((min, current) => current == null
-        ? min
-        : (min == null || current < min)
-            ? current
-            : min);
+    }).reduce(
+      (min, current) => current == null
+          ? min
+          : (min == null || current < min)
+              ? current
+              : min,
+    );
   }
 
   static List<int>? relativeLevenshtein<T extends Searchable>(
-      String token, T searchable) {
+    String token,
+    T searchable,
+  ) {
     if (token.isEmpty) {
       return null;
     }

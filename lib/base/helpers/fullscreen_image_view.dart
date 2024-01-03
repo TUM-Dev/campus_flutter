@@ -3,29 +3,37 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ImageFullScreenScaffold extends StatelessWidget {
-  factory ImageFullScreenScaffold.network(
-      {required String url, NavigaTumRoomFinderMap? map}) {
+  factory ImageFullScreenScaffold.network({
+    required String url,
+    NavigaTumRoomFinderMap? map,
+  }) {
     return ImageFullScreenScaffold(
       url: url,
       map: map,
     );
   }
 
-  factory ImageFullScreenScaffold.imageData(
-      {required String imageData, NavigaTumRoomFinderMap? map}) {
+  factory ImageFullScreenScaffold.imageData({
+    required String imageData,
+    NavigaTumRoomFinderMap? map,
+  }) {
     return ImageFullScreenScaffold(
       imageData: imageData,
       map: map,
     );
   }
 
-  const ImageFullScreenScaffold(
-      {super.key, this.url, this.imageData, this.map});
+  const ImageFullScreenScaffold({
+    super.key,
+    this.url,
+    this.imageData,
+    this.map,
+  });
 
   final String? url;
   final String? imageData;
@@ -34,18 +42,19 @@ class ImageFullScreenScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          leading: const BackButton(
-            color: Colors.white,
-          ),
-        ),
+      appBar: AppBar(
         backgroundColor: Colors.black,
-        body: ImageFullScreenView(
-          map: map,
-          url: url,
-          imageData: imageData,
-        ));
+        leading: const BackButton(
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Colors.black,
+      body: ImageFullScreenView(
+        map: map,
+        url: url,
+        imageData: imageData,
+      ),
+    );
   }
 }
 
@@ -140,16 +149,22 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
                 ),
               if (widget.map != null)
                 Positioned(
-                  left: _calculateX(MediaQuery.sizeOf(context).height,
-                      MediaQuery.sizeOf(context).width, widget.map!),
-                  top: _calculateY(MediaQuery.sizeOf(context).height,
-                      MediaQuery.sizeOf(context).width, widget.map!),
+                  left: _calculateX(
+                    MediaQuery.sizeOf(context).height,
+                    MediaQuery.sizeOf(context).width,
+                    widget.map!,
+                  ),
+                  top: _calculateY(
+                    MediaQuery.sizeOf(context).height,
+                    MediaQuery.sizeOf(context).width,
+                    widget.map!,
+                  ),
                   child: CircleAvatar(
                     radius: radius,
                     backgroundColor:
                         isRed ? Colors.redAccent : context.theme.primaryColor,
                   ),
-                )
+                ),
             ],
           ),
         ),
@@ -187,7 +202,10 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
   }
 
   double _calculateYPortrait(
-      double height, double width, NavigaTumRoomFinderMap map) {
+    double height,
+    double width,
+    NavigaTumRoomFinderMap map,
+  ) {
     final scaleFactor = (width / map.width);
     final actualHeight = scaleFactor * map.height;
     final heightUpperSpace = (height - actualHeight) / 2;
@@ -198,7 +216,10 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
   }
 
   double _calculateXLandscape(
-      double height, double width, NavigaTumRoomFinderMap map) {
+    double height,
+    double width,
+    NavigaTumRoomFinderMap map,
+  ) {
     final scaleFactor = ((height - kToolbarHeight) / map.height);
     final actualWidth = scaleFactor * map.width;
     final widthLeftSpace = (width - actualWidth) / 2;

@@ -1,11 +1,16 @@
 import 'dart:ui';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/providers_get_it.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final userPreferencesViewModel =
+    Provider((ref) => UserPreferencesViewModel(ref));
 
 class UserPreferencesViewModel {
   final Ref ref;
@@ -51,18 +56,26 @@ class UserPreferencesViewModel {
   }
 
   void saveUserPreference(
-      UserPreference userPreference, dynamic newValue) async {
+    UserPreference userPreference,
+    dynamic newValue,
+  ) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     switch (userPreference) {
       case UserPreference.defaultMapsApplication:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as MapType).name);
+          userPreference.name,
+          (newValue as MapType).name,
+        );
       case UserPreference.locale:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as Locale).languageCode);
+          userPreference.name,
+          (newValue as Locale).languageCode,
+        );
       case UserPreference.theme:
         await sharedPreferences.setString(
-            userPreference.name, (newValue as Appearance).name);
+          userPreference.name,
+          (newValue as Appearance).name,
+        );
       default:
         await sharedPreferences.setBool(userPreference.name, newValue as bool);
     }

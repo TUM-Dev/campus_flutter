@@ -1,9 +1,9 @@
 name: Linting, Testing and Building
 
 on:
-  pull_request:
+  push:
     branches-ignore:
-      - "development"
+      - "dev"
       - "main"
 
 jobs:
@@ -18,19 +18,11 @@ jobs:
         with:
           channel: stable
           cache: true
-
-      - name: Cache pub dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.FLUTTER_HOME }}/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: ${{ runner.os }}-pub-
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:arch:'
 
       - name: Install Flutter Packages
         run: flutter pub get
-
-        # - name: Verify formatting
-        # run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze Project
         run: dart analyze --fatal-warnings
@@ -38,5 +30,20 @@ jobs:
       - name: Run Tests
         run: flutter test
 
-      - name: Build Project
+      - name: Install CocoaPods
+        run: cd ./ios && pod install
+
+      - name: Install Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Build iOS
         run: flutter build ipa --no-codesign
+
+      - name: Build Android
+        run: flutter build apk
+
+      - name: Build Website
+        run: flutter build web --base-href /

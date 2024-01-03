@@ -14,11 +14,17 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
     }
   }
 
-  const StudyRoomGroupScaffold.closest(
-      {super.key, this.studyRoomGroup, this.isSplitView = false});
+  const StudyRoomGroupScaffold.closest({
+    super.key,
+    this.studyRoomGroup,
+    this.isSplitView = false,
+  });
 
-  const StudyRoomGroupScaffold.group(
-      {super.key, required this.studyRoomGroup, this.isSplitView = false});
+  const StudyRoomGroupScaffold.group({
+    super.key,
+    required this.studyRoomGroup,
+    this.isSplitView = false,
+  });
 
   final StudyRoomGroup? studyRoomGroup;
   final bool isSplitView;

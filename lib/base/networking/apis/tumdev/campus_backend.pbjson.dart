@@ -32,19 +32,16 @@ const CreateDeviceRequest$json = {
   '1': 'CreateDeviceRequest',
   '2': [
     {'1': 'device_id', '3': 1, '4': 1, '5': 9, '10': 'deviceId'},
-    {'1': 'public_key', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'publicKey', '17': true},
+    {'1': 'public_key', '3': 2, '4': 1, '5': 9, '10': 'publicKey'},
     {'1': 'device_type', '3': 3, '4': 1, '5': 14, '6': '.api.DeviceType', '10': 'deviceType'},
-  ],
-  '8': [
-    {'1': '_public_key'},
   ],
 };
 
 /// Descriptor for `CreateDeviceRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createDeviceRequestDescriptor = $convert.base64Decode(
-    'ChNDcmVhdGVEZXZpY2VSZXF1ZXN0EhsKCWRldmljZV9pZBgBIAEoCVIIZGV2aWNlSWQSIgoKcH'
-    'VibGljX2tleRgCIAEoCUgAUglwdWJsaWNLZXmIAQESMAoLZGV2aWNlX3R5cGUYAyABKA4yDy5h'
-    'cGkuRGV2aWNlVHlwZVIKZGV2aWNlVHlwZUINCgtfcHVibGljX2tleQ==');
+    'ChNDcmVhdGVEZXZpY2VSZXF1ZXN0EhsKCWRldmljZV9pZBgBIAEoCVIIZGV2aWNlSWQSHQoKcH'
+    'VibGljX2tleRgCIAEoCVIJcHVibGljS2V5EjAKC2RldmljZV90eXBlGAMgASgOMg8uYXBpLkRl'
+    'dmljZVR5cGVSCmRldmljZVR5cGU=');
 
 @$core.Deprecated('Use createDeviceReplyDescriptor instead')
 const CreateDeviceReply$json = {
@@ -806,6 +803,7 @@ const Movie$json = {
     {'1': 'date', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'date'},
     {'1': 'created', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
     {'1': 'title', '3': 6, '4': 1, '5': 9, '10': 'title'},
+    {'1': 'location', '3': 18, '4': 1, '5': 9, '10': 'location'},
     {'1': 'release_year', '3': 7, '4': 1, '5': 9, '10': 'releaseYear'},
     {'1': 'runtime', '3': 8, '4': 1, '5': 9, '10': 'runtime'},
     {'1': 'genre', '3': 9, '4': 1, '5': 9, '10': 'genre'},
@@ -813,14 +811,14 @@ const Movie$json = {
     {'1': 'actors', '3': 11, '4': 1, '5': 9, '10': 'actors'},
     {'1': 'imdb_rating', '3': 12, '4': 1, '5': 9, '10': 'imdbRating'},
     {'1': 'description', '3': 13, '4': 1, '5': 9, '10': 'description'},
+    {'1': 'trailer_url', '3': 15, '4': 1, '5': 9, '10': 'trailerUrl'},
+    {'1': 'additional_information_url', '3': 16, '4': 1, '5': 9, '10': 'additionalInformationUrl'},
     {'1': 'cover_id', '3': 14, '4': 1, '5': 3, '10': 'coverId'},
-    {'1': 'link', '3': 16, '4': 1, '5': 9, '10': 'link'},
     {'1': 'cover_url', '3': 17, '4': 1, '5': 9, '10': 'coverUrl'},
   ],
   '9': [
     {'1': 1, '2': 2},
     {'1': 2, '2': 3},
-    {'1': 15, '2': 16},
   ],
 };
 
@@ -828,13 +826,14 @@ const Movie$json = {
 final $typed_data.Uint8List movieDescriptor = $convert.base64Decode(
     'CgVNb3ZpZRIZCghtb3ZpZV9pZBgDIAEoA1IHbW92aWVJZBIuCgRkYXRlGAQgASgLMhouZ29vZ2'
     'xlLnByb3RvYnVmLlRpbWVzdGFtcFIEZGF0ZRI0CgdjcmVhdGVkGAUgASgLMhouZ29vZ2xlLnBy'
-    'b3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBIUCgV0aXRsZRgGIAEoCVIFdGl0bGUSIQoMcmVsZW'
-    'FzZV95ZWFyGAcgASgJUgtyZWxlYXNlWWVhchIYCgdydW50aW1lGAggASgJUgdydW50aW1lEhQK'
-    'BWdlbnJlGAkgASgJUgVnZW5yZRIaCghkaXJlY3RvchgKIAEoCVIIZGlyZWN0b3ISFgoGYWN0b3'
-    'JzGAsgASgJUgZhY3RvcnMSHwoLaW1kYl9yYXRpbmcYDCABKAlSCmltZGJSYXRpbmcSIAoLZGVz'
-    'Y3JpcHRpb24YDSABKAlSC2Rlc2NyaXB0aW9uEhkKCGNvdmVyX2lkGA4gASgDUgdjb3ZlcklkEh'
-    'IKBGxpbmsYECABKAlSBGxpbmsSGwoJY292ZXJfdXJsGBEgASgJUghjb3ZlclVybEoECAEQAkoE'
-    'CAIQA0oECA8QEA==');
+    'b3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBIUCgV0aXRsZRgGIAEoCVIFdGl0bGUSGgoIbG9jYX'
+    'Rpb24YEiABKAlSCGxvY2F0aW9uEiEKDHJlbGVhc2VfeWVhchgHIAEoCVILcmVsZWFzZVllYXIS'
+    'GAoHcnVudGltZRgIIAEoCVIHcnVudGltZRIUCgVnZW5yZRgJIAEoCVIFZ2VucmUSGgoIZGlyZW'
+    'N0b3IYCiABKAlSCGRpcmVjdG9yEhYKBmFjdG9ycxgLIAEoCVIGYWN0b3JzEh8KC2ltZGJfcmF0'
+    'aW5nGAwgASgJUgppbWRiUmF0aW5nEiAKC2Rlc2NyaXB0aW9uGA0gASgJUgtkZXNjcmlwdGlvbh'
+    'IfCgt0cmFpbGVyX3VybBgPIAEoCVIKdHJhaWxlclVybBI8ChphZGRpdGlvbmFsX2luZm9ybWF0'
+    'aW9uX3VybBgQIAEoCVIYYWRkaXRpb25hbEluZm9ybWF0aW9uVXJsEhkKCGNvdmVyX2lkGA4gAS'
+    'gDUgdjb3ZlcklkEhsKCWNvdmVyX3VybBgRIAEoCVIIY292ZXJVcmxKBAgBEAJKBAgCEAM=');
 
 @$core.Deprecated('Use createFeedbackRequestDescriptor instead')
 const CreateFeedbackRequest$json = {

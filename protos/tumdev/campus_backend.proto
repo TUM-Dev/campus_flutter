@@ -41,6 +41,7 @@ service Campus {
     };
   }
 
+  // Allows to query ratings for a specific dish in a specific cafeteria.
   rpc GetDishRatings(GetDishRatingsRequest) returns (GetDishRatingsReply) {
     option (google.api.http) = {
       post: "/dish/rating/get",
@@ -174,7 +175,7 @@ enum DeviceType {
 
 message CreateDeviceRequest {
   string device_id = 1;
-  optional string public_key = 2;
+  string public_key = 2;
   DeviceType device_type = 3;
 }
 
@@ -295,10 +296,15 @@ message GetDishRatingsRequest {
 }
 
 message GetDishRatingsReply {
+  // a number of actual ratings
   repeated SingleRatingReply rating = 1;
+  // average rating for all dish rating tags which were used to rate this dish in this cafeteria
   double avg = 2;
+  // std of all dish rating tags which were used to rate this dish in this cafeteria
   double std = 3;
+  // minimum of all dish rating tags which were used to rate this dish in this cafeteria
   int32 min = 4;
+  // maximum of all dish rating tags which were used to rate this dish in this cafeteria
   int32 max = 5;
   repeated RatingTagResult rating_tags = 6;
   repeated RatingTagResult name_tags = 7;
@@ -487,25 +493,38 @@ message ListMoviesReply {
 }
 
 message Movie {
-  reserved /*string cover_name = */ 1;
-  reserved /*string cover_path =*/ 2;
+  // the id of the movie
   int64 movie_id = 3;
+  // the date of the movie
   google.protobuf.Timestamp date = 4;
+  // when the movie was created in OUR database
   google.protobuf.Timestamp created = 5;
+  // title of the movie if available, empty otherwise
   string title = 6;
-  // release year of the movie
+  // Where the movie is shown
+  string location = 18;
+  // release year of the movie if available, empty otherwise
   string release_year = 7;
+  // runtime of the movie if available, empty otherwise
   string runtime = 8;
+  // genre of the movie if available, empty otherwise
   string genre = 9;
+  // director of the movie as by omdb(/tu-film), empty otherwise
   string director = 10;
+  // actors of the movie as by omdb(/tu-film), empty otherwise
   string actors = 11;
-  // imdb rating
+  // imdb rating for the movie if available, empty otherwise
   string imdb_rating = 12;
+  // short description of the movie including limited html tags (only <b>, <i>)
   string description = 13;
-  int64 cover_id = 14;
-  reserved /*string trailer*/ 15;
+  // Where to find a trailer for this movie
+  string trailer_url = 15;
   // Where to find additional information about this movie
-  string link = 16;
+  string additional_information_url = 16;
+
+  reserved /*cover_name,cover_path = */ 1, 2;
+  // the id of the cover image
+  int64 cover_id = 14;
   // Where to find a cover image for this movie
   string cover_url = 17;
 }

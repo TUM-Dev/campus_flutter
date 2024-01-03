@@ -14,15 +14,16 @@ class NavigaTumRoomFinderMap {
   final int y;
   final String scale;
 
-  NavigaTumRoomFinderMap(
-      {required this.id,
-      required this.name,
-      required this.imageUrl,
-      required this.height,
-      required this.width,
-      required this.x,
-      required this.y,
-      required this.scale});
+  NavigaTumRoomFinderMap({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.height,
+    required this.width,
+    required this.x,
+    required this.y,
+    required this.scale,
+  });
 
   factory NavigaTumRoomFinderMap.fromJson(Map<String, dynamic> json) =>
       _$NavigaTumRoomFinderMapFromJson(json);

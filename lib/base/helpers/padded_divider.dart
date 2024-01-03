@@ -1,4 +1,4 @@
-import 'package:campus_flutter/theme.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 
 class PaddedDivider extends StatelessWidget {
