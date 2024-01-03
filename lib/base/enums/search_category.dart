@@ -2,39 +2,16 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/cupertino.dart';
 
 enum SearchCategory {
-  /// enums that exist in the Text Classification Model
   cafeterias,
-  calendar,
-  grade,
-  movie,
-  news,
   studyRoom,
-  unknown,
-
-  /// enums that are not classified but shown in searches
+  persons,
+  rooms,
+  calendar,
   lectures,
   personalLectures,
-  persons,
-  rooms;
-
-  factory SearchCategory.fromString(String category) {
-    switch (category) {
-      case "cafeterias":
-        return SearchCategory.cafeterias;
-      case "calendar":
-        return SearchCategory.calendar;
-      case "grade":
-        return SearchCategory.grade;
-      case "movie":
-        return SearchCategory.movie;
-      case "news":
-        return SearchCategory.news;
-      case "studyroom":
-        return SearchCategory.studyRoom;
-      default:
-        return SearchCategory.unknown;
-    }
-  }
+  grade,
+  movie,
+  news;
 }
 
 extension SearchCategoryExtension on SearchCategory {

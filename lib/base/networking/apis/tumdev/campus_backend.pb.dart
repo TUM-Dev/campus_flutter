@@ -1443,9 +1443,11 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   static GetDishRatingsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetDishRatingsReply>(create);
   static GetDishRatingsReply? _defaultInstance;
 
+  /// a number of actual ratings
   @$pb.TagNumber(1)
   $core.List<SingleRatingReply> get rating => $_getList(0);
 
+  /// average rating for all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(2)
   $core.double get avg => $_getN(1);
   @$pb.TagNumber(2)
@@ -1455,6 +1457,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearAvg() => clearField(2);
 
+  /// std of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(3)
   $core.double get std => $_getN(2);
   @$pb.TagNumber(3)
@@ -1464,6 +1467,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearStd() => clearField(3);
 
+  /// minimum of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(4)
   $core.int get min => $_getIZ(3);
   @$pb.TagNumber(4)
@@ -1473,6 +1477,7 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   void clearMin() => clearField(4);
 
+  /// maximum of all dish rating tags which were used to rate this dish in this cafeteria
   @$pb.TagNumber(5)
   $core.int get max => $_getIZ(4);
   @$pb.TagNumber(5)

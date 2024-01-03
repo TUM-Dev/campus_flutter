@@ -45,9 +45,13 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: widget.isSettingsView
+          ? Theme.of(context).colorScheme.surface
+          : Theme.of(context).brightness == Brightness.dark
+              ? Theme.of(context).canvasColor
+              : Colors.white,
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: widget.isSettingsView ? const BackButton() : null,
         title: Text(context.localizations.checkPermissions),
       ),
       body: Padding(
@@ -93,7 +97,7 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
                     );
                   }
                 },
-                child: Text(context.localizations.done),
+                child: Text(context.localizations.continueOnboarding),
               ),
             ),
             const Spacer(flex: 3),

@@ -41,7 +41,6 @@ dependencies:
   timeago: ^3.4.0
   grpc: ^3.2.4
   protobuf: ^3.0.0
-  tflite_flutter: ^0.10.1
   syncfusion_flutter_datepicker: ^24.1.41
   google_maps_flutter: ^2.4.0
   map_launcher: ^3.0.1
@@ -105,4 +104,3 @@ flutter:
     - assets/images/campus/campus-olympia.jpg
     - assets/images/campus/campus-stamm.jpeg
     - assets/images/location.png
-    - assets/models/english_bert_30.tflite

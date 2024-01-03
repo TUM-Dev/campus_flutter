@@ -131,7 +131,7 @@ class DeparturesViewModel {
   void sortDepartures(({DateTime? saved, MvvResponse data}) response) {
     lastFetched.add(response.saved);
 
-    response.data.departures?.sort((departure1, departure2) {
+    response.data.departures.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
         return departure1.realDateTime!.compareTo(departure2.realDateTime!);
       } else if (departure1.realDateTime != null) {
@@ -143,7 +143,7 @@ class DeparturesViewModel {
       }
     });
 
-    departures.add(response.data.departures ?? []);
+    departures.add(response.data.departures);
     setTimerForRefresh();
   }
 
