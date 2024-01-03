@@ -19,3 +19,11 @@ extension NumberOfWeeks on DateTime {
     return woy;
   }
 }
+
+extension SameDay on DateTime {
+  bool isAtSameDay(DateTime dateTime) {
+    return day == dateTime.day &&
+        month == dateTime.month &&
+        year == dateTime.year;
+  }
+}

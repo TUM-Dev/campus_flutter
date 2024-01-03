@@ -34,13 +34,29 @@ class CalendarEvent extends Searchable {
     return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
   }
 
-  String timeDatePeriod(BuildContext context) {
+  String _dateTimePeriod(BuildContext context) {
     final start =
         DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName)
             .format(startDate);
     final end =
         DateFormat("HH:mm", context.localizations.localeName).format(endDate);
     return "$start - $end";
+  }
+
+  String timePeriodText(BuildContext context) {
+    if (startDate.day == endDate.day) {
+      return _dateTimePeriod(context);
+    } else {
+      final start = DateFormat(
+        null,
+        context.localizations.localeName,
+      ).format(startDate);
+      final end = DateFormat(
+        null,
+        context.localizations.localeName,
+      ).format(endDate);
+      return "$start ${context.localizations.to.toLowerCase()}\n$end";
+    }
   }
 
   bool get isCanceled {

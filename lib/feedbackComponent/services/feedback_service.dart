@@ -8,7 +8,7 @@ class FeedbackService {
   static Future<CreateFeedbackReply> sendFeedback(
     CreateFeedbackRequest createFeedbackRequest,
   ) async {
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    return await mainApi.createFeedback(Stream.value(createFeedbackRequest));
+    CachedCampusClient restClient = getIt<CachedCampusClient>();
+    return await restClient.createFeedback(Stream.value(createFeedbackRequest));
   }
 }

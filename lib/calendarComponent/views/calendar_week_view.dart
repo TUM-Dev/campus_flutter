@@ -13,32 +13,35 @@ class CalendarWeekView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
-      child: SfCalendar(
-        view: CalendarView.workWeek,
-        dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value ?? [],
-          context,
-        ),
-        onTap: (details) {
-          getIt<CalendarViewService>().showModalSheet(
-            details,
-            null,
+      child: StreamBuilder(
+        stream: ref.watch(calendarViewModel).events,
+        builder: (context, snapshot) => SfCalendar(
+          view: CalendarView.workWeek,
+          dataSource: MeetingDataSource(
+            snapshot.data ?? [],
             context,
-            ref,
-          );
-        },
-        firstDayOfWeek: 1,
-        showDatePickerButton: true,
-        headerDateFormat: "",
-        showWeekNumber: true,
-        showNavigationArrow: true,
-        maxDate: getIt<CalendarViewService>().maxDate(ref),
-        timeSlotViewSettings: const TimeSlotViewSettings(
-          startHour: 7,
-          endHour: 22,
-          timeFormat: "HH:mm",
+          ),
+          onTap: (details) {
+            getIt<CalendarViewService>().showModalSheet(
+              details,
+              null,
+              context,
+              ref,
+            );
+          },
+          firstDayOfWeek: 1,
+          showDatePickerButton: true,
+          headerDateFormat: "",
+          showWeekNumber: true,
+          showNavigationArrow: true,
+          maxDate: getIt<CalendarViewService>().maxDate(ref),
+          timeSlotViewSettings: const TimeSlotViewSettings(
+            startHour: 7,
+            endHour: 22,
+            timeFormat: "HH:mm",
+          ),
+          appointmentBuilder: (context, details) => AppointmentView(details),
         ),
-        appointmentBuilder: (context, details) => AppointmentView(details),
       ),
     );
   }

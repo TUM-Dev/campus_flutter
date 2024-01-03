@@ -13,26 +13,29 @@ class CalendarMonthView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
-      child: SfCalendar(
-        view: CalendarView.month,
-        monthViewSettings: const MonthViewSettings(
-          showAgenda: true,
-          agendaItemHeight: 75,
-          navigationDirection: MonthNavigationDirection.vertical,
+      child: StreamBuilder(
+        stream: ref.watch(calendarViewModel).events,
+        builder: (context, snapshot) => SfCalendar(
+          view: CalendarView.month,
+          monthViewSettings: const MonthViewSettings(
+            showAgenda: true,
+            agendaItemHeight: 75,
+            navigationDirection: MonthNavigationDirection.vertical,
+          ),
+          dataSource: MeetingDataSource(
+            snapshot.data ?? [],
+            context,
+          ),
+          firstDayOfWeek: 1,
+          showDatePickerButton: true,
+          showNavigationArrow: true,
+          maxDate: getIt<CalendarViewService>().maxDate(ref),
+          onTap: (details) {
+            getIt<CalendarViewService>()
+                .showModalSheet(details, null, context, ref);
+          },
+          appointmentBuilder: (context, details) => AppointmentView(details),
         ),
-        dataSource: MeetingDataSource(
-          ref.read(calendarViewModel).events.value ?? [],
-          context,
-        ),
-        firstDayOfWeek: 1,
-        showDatePickerButton: true,
-        showNavigationArrow: true,
-        maxDate: getIt<CalendarViewService>().maxDate(ref),
-        onTap: (details) {
-          getIt<CalendarViewService>()
-              .showModalSheet(details, null, context, ref);
-        },
-        appointmentBuilder: (context, details) => AppointmentView(details),
       ),
     );
   }

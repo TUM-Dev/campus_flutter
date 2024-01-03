@@ -108,7 +108,7 @@ class RESTClient {
 
   /// with possible error in response body
   Future<ApiResponse<T>>
-      makeRequestWithException<T, S extends Api, U extends ApiException>(
+      getWithException<T, S extends Api, U extends ApiException>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,
@@ -121,9 +121,9 @@ class RESTClient {
       Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
       noCacheDio.options.responseDecoder = dio.options.responseDecoder;
       noCacheDio.options.extra["forcedRefresh"] = "true";
-      response = await endpoint.asResponse(dioClient: noCacheDio);
+      response = await endpoint.get(dioClient: noCacheDio);
     } else {
-      response = await endpoint.asResponse(dioClient: dio);
+      response = await endpoint.get(dioClient: dio);
     }
 
     log("${response.statusCode}: ${response.realUri}");
@@ -157,8 +157,50 @@ class RESTClient {
     }
   }
 
+  Future<ApiResponse<T>>
+      postWithException<T, S extends Api, U extends ApiException>(
+    S endpoint,
+    dynamic Function(Map<String, dynamic>) createObject,
+    dynamic Function(Map<String, dynamic>) createError,
+  ) async {
+    Response<String> response;
+
+    /// add forcedRefresh flag to temporary options
+    response = await endpoint.post(dioClient: dio);
+
+    log("${response.statusCode}: ${response.realUri}");
+    try {
+      /// check if response is error message by  attempting to decoding it
+      throw ApiResponse<U>.fromJson(
+        jsonDecode(response.data.toString()),
+        response.headers,
+        createError,
+      ).data;
+    } on U catch (e) {
+      /// rethrow error if specified error U
+      log(e.toString());
+      rethrow;
+    } catch (_) {
+      /// catch possible decoding error and return actual expected object
+      try {
+        return ApiResponse<T>.fromJson(
+          jsonDecode(response.data.toString()),
+          response.headers,
+          createObject,
+        );
+      } catch (e) {
+        if (e is Error) {
+          log(e.stackTrace.toString());
+        } else {
+          log(e.toString());
+        }
+        rethrow;
+      }
+    }
+  }
+
   /// without possible error in response body
-  Future<ApiResponse<T>> makeRequest<T, S extends Api>(
+  Future<ApiResponse<T>> get<T, S extends Api>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     bool forcedRefresh,
@@ -170,9 +212,9 @@ class RESTClient {
         Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
         noCacheDio.options.responseDecoder = dio.options.responseDecoder;
         noCacheDio.options.extra["forcedRefresh"] = "true";
-        response = await endpoint.asResponse(dioClient: noCacheDio);
+        response = await endpoint.get(dioClient: noCacheDio);
       } else {
-        response = await endpoint.asResponse(dioClient: dio);
+        response = await endpoint.get(dioClient: dio);
       }
 
       log("${response.statusCode}: ${response.realUri}");

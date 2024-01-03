@@ -23,7 +23,7 @@ class CalendarSearchResultView extends ConsumerWidget {
           children: [
             IconText(
               iconData: Icons.hourglass_top,
-              label: calendarEvent.timeDatePeriod(context),
+              label: calendarEvent.timePeriodText(context),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),

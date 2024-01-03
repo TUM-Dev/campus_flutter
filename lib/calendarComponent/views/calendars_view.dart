@@ -62,25 +62,25 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                     ),
                     Expanded(
                       child: SegmentedButton(
+                        showSelectedIcon: false,
                         segments: <ButtonSegment>[
                           ButtonSegment(
                             value: 0,
-                            label: Text(context.localizations.calendarViewDay),
-                            icon: const Icon(Icons.calendar_view_day),
+                            label: Text(
+                              context.localizations.calendarViewDay,
+                            ),
                           ),
                           ButtonSegment(
                             value: 1,
                             label: Text(
                               context.localizations.calendarViewWeek,
                             ),
-                            icon: const Icon(Icons.calendar_view_week),
                           ),
                           ButtonSegment(
                             value: 2,
                             label: Text(
                               context.localizations.calendarViewMonth,
                             ),
-                            icon: const Icon(Icons.calendar_view_month),
                           ),
                         ],
                         selected: {
