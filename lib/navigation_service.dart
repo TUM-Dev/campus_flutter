@@ -11,6 +11,10 @@ import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'base/enums/credentials.dart';
+import 'loginComponent/viewModels/login_viewmodel.dart';
 
 class NavigationService {
   double? _navigationBarHeight;
@@ -75,18 +79,22 @@ class NavigationService {
     }
   }
 
-  Widget? floatingActionButton(int index, BuildContext context) {
+  Widget? floatingActionButton(int index, WidgetRef ref, BuildContext context) {
     switch (index) {
       case 3:
-        return FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const EventCreationScaffold(),
+        if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+          return FloatingActionButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EventCreationScaffold(),
+              ),
             ),
-          ),
-          child: const Icon(Icons.add),
-        );
+            child: const Icon(Icons.add),
+          );
+        } else {
+          return null;
+        }
       default:
         return null;
     }
