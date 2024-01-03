@@ -37,10 +37,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "7b875fd4a20b165a3084bd2d210439b22ebc653f21cea4842729c0c30c82596b"
+      sha256: "22600aa1e926be775fa5fe7e6894e7fb3df9efda8891c73f70fb3262399a432d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.9"
+    version: "3.4.10"
   args:
     dependency: transitive
     description:
@@ -594,7 +594,7 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: e96708b1c189d2a36e55e70546533c5461c07f9c
+      resolved-ref: "18aa71f7f6e0b0ac54a81cae35e8f017a74648cf"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
     version: "2.3.3"
@@ -635,7 +635,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "70b1ac09ca3a725f055843fe498c7f065755c059"
+      resolved-ref: c4fbd6d0b0ba1c6b0b56c21329fabfc1676dbc1e
       url: "https://github.com/jakobkoerber/grpc-dart.git"
     source: git
     version: "3.2.4"
@@ -1272,34 +1272,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: b31182b348742b0f2285849179490afd89e321514b8e0eadeab6d7377373c9f2
+      sha256: ed737f014e870430d211f78e6db0fe6c2ec924d633982ae1e49111e56e2472be
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.43"
+    version: "24.1.44"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: d720751869540bc0b18e063414e9c8d41c924cca01e3aad3538d404c31d00e2d
+      sha256: "1f5434cb0dd0118a8f3281a0351559772e09066c2adfd69b16098f38f2b909e9"
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.43+1"
+    version: "24.1.44+1"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "1b40729aa10a727150a6cc56e532c770f4baded83846fca8700efd908d0f4d0a"
+      sha256: "083d4a0ddb25435d267328a30c3938d09599f7578f5f0d28fbd9fd5424c1cd51"
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.43"
+    version: "24.1.44"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "3f9a8e8b585dd992d2321c899ec8d914634fb99eba02cf7a91c48a098bf62820"
+      sha256: "3bad2603b77d5a65e1a324b09480865531ae8026b95e63b1b253b93c26204f0a"
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.43"
+    version: "24.1.44"
   synchronized:
     dependency: transitive
     description:

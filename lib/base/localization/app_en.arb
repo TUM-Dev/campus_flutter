@@ -16,7 +16,7 @@
    "hideFailedGrades":"Hide Failed Grades",
    "defaultMapsApplication":"Default Maps Application",
    "map":"Map",
-   "contactUs":"Contact Us",
+   "contactMore":"Contact & More",
    "tokenPermissions":"Token Permissions",
    "permissionChangePossibleInTUMonline":"You can change your permissions on TUMOnline",
    "logout":"Logout",
@@ -272,5 +272,7 @@
    "location":"Location",
    "locationOnboarding":"Enable locations to access personalized experiences and your location on the room finder maps.",
    "continueOnboarding":"Continue",
-   "showMore":"Show More"
+   "showMore":"Show More",
+   "licenses":"Licenses",
+   "privacyPolicy":"Privacy Policy"
 }

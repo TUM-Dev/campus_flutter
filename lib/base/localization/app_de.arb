@@ -16,7 +16,7 @@
    "hideFailedGrades":"Durchgefallene Noten ausblenden",
    "defaultMapsApplication":"Standard-Kartenanwendung",
    "map":"Karte",
-   "contactUs":"Kontaktiere uns",
+   "contactMore":"Kontakt & Mehr",
    "tokenPermissions":"Berechtigungen für Token",
    "permissionChangePossibleInTUMonline":"Du kannst deine Berechtigungen in TUMOnline ändern",
    "logout":"Abmelden",
@@ -272,5 +272,7 @@
    "location":"Standort",
    "locationOnboarding":"Aktiviere Standorte, um personalisierte Erlebnisse zu erreichen und Deinen Standort auf Raumfinder-Karten zu sehen.",
    "continueOnboarding":"Weiter",
-   "showMore":"Mehr Anzeigen"
+   "showMore":"Mehr Anzeigen",
+   "licenses":"Lizenzen",
+   "privacyPolicy":"Datenschutzrichtlinie"
 }
