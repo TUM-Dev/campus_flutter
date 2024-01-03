@@ -200,7 +200,7 @@ class RESTClient {
   }
 
   /// without possible error in response body
-  Future<ApiResponse<T>> post<T, S extends Api>(
+  Future<ApiResponse<T>> get<T, S extends Api>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     bool forcedRefresh,

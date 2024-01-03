@@ -20,7 +20,7 @@ class MealPlanService {
     RESTClient restClient = getIt<RESTClient>();
     final today = DateTime.now();
     try {
-      final response = await restClient.post<MealPlan, EatApi>(
+      final response = await restClient.get<MealPlan, EatApi>(
         EatApi(
           EatApiServiceMenu(
             location: cafeteria.id,
@@ -37,7 +37,7 @@ class MealPlanService {
       final nextWeek = today.add(const Duration(days: 7));
 
       try {
-        final nextWeekResponse = await restClient.post<MealPlan, EatApi>(
+        final nextWeekResponse = await restClient.get<MealPlan, EatApi>(
           EatApi(
             EatApiServiceMenu(
               location: cafeteria.id,

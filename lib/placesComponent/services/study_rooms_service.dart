@@ -9,7 +9,7 @@ class StudyRoomsService {
     bool forcedRefresh,
   ) async {
     RESTClient restClient = getIt<RESTClient>();
-    final response = await restClient.post<StudyRoomData, TumDevAppApi>(
+    final response = await restClient.get<StudyRoomData, TumDevAppApi>(
       TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
       StudyRoomData.fromJson,
       forcedRefresh,

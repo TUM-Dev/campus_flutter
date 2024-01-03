@@ -10,7 +10,7 @@ class DeparturesService {
     int? walkingTime,
   ) async {
     RESTClient restClient = getIt<RESTClient>();
-    final response = await restClient.post<MvvResponse, MvvDeparturesApi>(
+    final response = await restClient.get<MvvResponse, MvvDeparturesApi>(
       MvvDeparturesApi(station: station, walkingTime: walkingTime),
       MvvResponse.fromJson,
       forcedRefresh,

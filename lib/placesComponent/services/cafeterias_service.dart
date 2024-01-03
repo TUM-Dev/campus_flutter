@@ -9,7 +9,7 @@ class CafeteriasService {
     bool forcedRefresh,
   ) async {
     RESTClient restClient = getIt<RESTClient>();
-    final response = await restClient.post<Cafeterias, EatApi>(
+    final response = await restClient.get<Cafeterias, EatApi>(
       EatApi(EatApiServiceCanteens()),
       Cafeterias.fromJson,
       forcedRefresh,

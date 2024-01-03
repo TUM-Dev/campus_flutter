@@ -11,7 +11,7 @@ class NavigaTumSearchService {
   ) async {
     RESTClient restClient = getIt<RESTClient>();
     final response =
-        await restClient.post<NavigaTumSearchResponse, NavigaTumApi>(
+        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceSearch(query: query),
       ),

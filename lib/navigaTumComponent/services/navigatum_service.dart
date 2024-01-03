@@ -13,7 +13,7 @@ class NavigaTumService {
   ) async {
     RESTClient restClient = getIt();
     final response =
-        await restClient.post<NavigaTumSearchResponse, NavigaTumApi>(
+        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceSearch(query: query),
       ),
@@ -30,7 +30,7 @@ class NavigaTumService {
     Ref ref,
   ) async {
     final response = await getIt<RESTClient>()
-        .post<NavigaTumNavigationDetails, NavigaTumApi>(
+        .get<NavigaTumNavigationDetails, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceDetails(
           id: id,
