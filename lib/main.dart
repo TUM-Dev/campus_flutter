@@ -84,7 +84,8 @@ class CampusApp extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
 }
 
-class _CampusAppState extends ConsumerState<CampusApp> with WidgetsBindingObserver {
+class _CampusAppState extends ConsumerState<CampusApp>
+    with WidgetsBindingObserver {
   String currentLocale = "";
 
   @override
