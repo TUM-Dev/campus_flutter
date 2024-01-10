@@ -1,0 +1,51 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build, Sign and Upload iOS application"
+  lane :ios_beta do
+    if is_ci
+      setup_ci
+    end
+
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_BASE64"],
+      is_key_content_base64: true
+    )
+
+    match(
+      type: "appstore",
+      readonly: true,
+      skip_certificate_matching: true
+    )
+
+    previous_build_number = latest_testflight_build_number(version: "#{get_version_number}", initial_build_number: 0, app_identifier: "de.tum.tca")
+
+    current_build_number = previous_build_number + 1
+
+    increment_build_number(
+      build_number: current_build_number
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: 'Runner',
+      profile_name: 'match AppStore de.tum.tca',
+      code_sign_identity: "iPhone Distribution",
+      sdk: "iphoneos*",
+      team_id: "2J3C6P6X3N"
+    )
+
+    build_app(
+      scheme: "Runner",
+      workspace: "Runner.xcworkspace",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight(
+      changelog: ENV["RELEASE_NOTES"],
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
