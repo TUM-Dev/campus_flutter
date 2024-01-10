@@ -50,6 +50,7 @@ android {
         applicationId "de.tum.in.tumcampus"
         minSdkVersion 26
         targetSdkVersion flutter.targetSdkVersion
+        ndkVersion "25.1.8937393"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -78,6 +79,7 @@ android {
             }
         }
     }
+    namespace 'de.tum.in.tumcampus'
 }
 
 flutter {

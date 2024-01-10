@@ -9,8 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final userPreferencesViewModel =
-    Provider((ref) => UserPreferencesViewModel(ref));
+final userPreferencesViewModel = Provider(
+  (ref) => UserPreferencesViewModel(ref),
+);
 
 class UserPreferencesViewModel {
   final Ref ref;

@@ -9,7 +9,7 @@ PODS:
   - firebase_core (2.24.2):
     - Firebase/CoreOnly (= 10.18.0)
     - Flutter
-  - firebase_crashlytics (3.4.8):
+  - firebase_crashlytics (3.4.9):
     - Firebase/Crashlytics (= 10.18.0)
     - firebase_core
     - Flutter
@@ -173,7 +173,7 @@ SPEC CHECKSUMS:
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
   firebase_core: 0af4a2b24f62071f9bf283691c0ee41556dcb3f5
-  firebase_crashlytics: 55714f63ae0973c54b3a721c451ae5f815086c1f
+  firebase_crashlytics: 4b91b8ad60ee7c168fe88979f84c9573a729de7a
   FirebaseCore: 2322423314d92f946219c8791674d2f3345b598f
   FirebaseCoreExtension: c08d14c7b22e07994e876d837e6f58642f340087
   FirebaseCoreInternal: b444828ea7cfd594fca83046b95db98a2be4f290
@@ -184,7 +184,7 @@ SPEC CHECKSUMS:
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
+  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
   google_maps_flutter_ios: a831c6f6a127f58333ec7654217c067f02cb5da9
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleMaps: b47b67bd63d708477d6ff457da2d695c0d8ceb5f
