@@ -43,7 +43,8 @@ class GeneralSettingsView extends ConsumerWidget {
       ),
     );
   }
-Widget _localeSelection(BuildContext context, WidgetRef ref) {
+
+  Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       leading: Icon(
