@@ -28,24 +28,24 @@ platform :ios do
       build_number: current_build_number
     )
 
-    # update_code_signing_settings(
-      # use_automatic_signing: false,
-      # targets: 'Runner',
-      # profile_name: 'match AppStore de.tum.tca',
-      # code_sign_identity: "iPhone Distribution",
-      # sdk: "iphoneos*",
-      # team_id: "2J3C6P6X3N"
-    # )
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: 'Runner',
+      profile_name: 'match AppStore de.tum.tca',
+      code_sign_identity: "iPhone Distribution",
+      sdk: "iphoneos*",
+      team_id: "2J3C6P6X3N"
+    )
 
-    # build_app(
-      # scheme: "Runner",
-      # workspace: "Runner.xcworkspace",
-      # export_method: "app-store"
-    # )
+    build_app(
+      scheme: "Runner",
+      workspace: "Runner.xcworkspace",
+      export_method: "app-store"
+    )
 
-    # upload_to_testflight(
-      # changelog: ENV["RELEASE_NOTES"],
-      # skip_waiting_for_build_processing: true
-    # )
+    upload_to_testflight(
+      changelog: ENV["RELEASE_NOTES"],
+      skip_waiting_for_build_processing: true
+    )
   end
 end

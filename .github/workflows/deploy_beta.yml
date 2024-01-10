@@ -3,18 +3,15 @@ name: Deploy Beta to TestFlight and Play Store
 on:
   release:
     types: [ published ]
-  push:
-    branches:
-      - bugfix/v4.5.0
 
 jobs:
   deploy:
-    # if: "github.event.release.prerelease"
+    if: "github.event.release.prerelease"
     runs-on: macos-latest
 
     strategy:
       matrix:
-        platform: [ ios ] # [ ios, android ]
+        platform: [ ios, android ]
       fail-fast: false
 
     steps:
