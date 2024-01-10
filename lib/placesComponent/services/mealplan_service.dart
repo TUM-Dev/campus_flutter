@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/base/extensions/date_time.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
@@ -18,7 +20,6 @@ class MealPlanService {
     RESTClient restClient = getIt<RESTClient>();
     final today = DateTime.now();
     try {
-      /// attempt to fetch current weeks meal plan
       final response = await restClient.get<MealPlan, EatApi>(
         EatApi(
           EatApiServiceMenu(
@@ -35,7 +36,6 @@ class MealPlanService {
 
       final nextWeek = today.add(const Duration(days: 7));
 
-      /// attempt to fetch next weeks meal plan, if unsuccessful returns only current week's meal plan
       try {
         final nextWeekResponse = await restClient.get<MealPlan, EatApi>(
           EatApi(
@@ -61,29 +61,11 @@ class MealPlanService {
         return (response.saved, thisWeekMenu);
       }
     } catch (e) {
-      /// current week's meal plan not available, attempt to fetch next week's meal plan
-      try {
-        final today = DateTime.now();
-        final nextWeek = today.add(const Duration(days: 7));
-        final response = await restClient.get<MealPlan, EatApi>(
-          EatApi(
-            EatApiServiceMenu(
-              location: cafeteria.id,
-              year: nextWeek.year,
-              week: nextWeek.weekNumber(),
-            ),
-          ),
-          MealPlan.fromJson,
-          forcedRefresh,
-        );
-
-        return (response.saved, _getMenuPerDay(response.data));
-      } catch (e) {
-        if (e is DioException) {
-          return (DateTime.now(), <CafeteriaMenu>[]);
-        } else {
-          rethrow;
-        }
+      log((e as Error).stackTrace.toString());
+      if (e is DioException) {
+        return (DateTime.now(), <CafeteriaMenu>[]);
+      } else {
+        rethrow;
       }
     }
   }

@@ -54,7 +54,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
-        resourceConfigurations += ["de_DE", "en_US"]
     }
 
     signingConfigs {

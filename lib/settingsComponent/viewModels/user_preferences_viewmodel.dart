@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
@@ -40,11 +42,9 @@ class UserPreferencesViewModel {
           } else {
             ref.read(selectedMapsApp.notifier).state = installedMaps.first;
           }
-        /*case UserPreference.locale:
-          if ((data as String?) != null) {
-            log(data.toString());
-            ref.read(locale.notifier).state = Locale(data as String);
-          }*/
+        case UserPreference.locale:
+          final savedLocale = data != null ? data as String : "en";
+          ref.read(locale.notifier).state = Locale(savedLocale);
         case UserPreference.theme:
           if (data != null) {
             final theme = Appearance.values
@@ -67,11 +67,11 @@ class UserPreferencesViewModel {
           userPreference.name,
           (newValue as MapType).name,
         );
-      /*case UserPreference.locale:
+      case UserPreference.locale:
         await sharedPreferences.setString(
           userPreference.name,
           (newValue as Locale).languageCode,
-        );*/
+        );
       case UserPreference.theme:
         await sharedPreferences.setString(
           userPreference.name,
@@ -87,6 +87,6 @@ enum UserPreference {
   webView,
   hideFailedGrades,
   defaultMapsApplication,
-  //locale,
+  locale,
   theme;
 }

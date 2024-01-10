@@ -2,9 +2,12 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
+import 'package:campus_flutter/base/extensions/locale_fullname.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class GeneralSettingsView extends ConsumerWidget {
   const GeneralSettingsView({super.key});
@@ -17,8 +20,7 @@ class GeneralSettingsView extends ConsumerWidget {
         child: SeparatedList.widgets(
           widgets: [
             _tokenPermission(context),
-            _moreSettings(context),
-            //_localeSelection(context, ref),
+            _localeSelection(context, ref),
           ],
         ),
       ),
@@ -41,22 +43,7 @@ class GeneralSettingsView extends ConsumerWidget {
       ),
     );
   }
-
-  Widget _moreSettings(BuildContext context) {
-    return ListTile(
-      dense: true,
-      leading: Icon(
-        Icons.settings,
-        size: 20,
-        color: Theme.of(context).primaryColor,
-      ),
-      title: const Text("More Settings"),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-      onTap: () => openAppSettings(),
-    );
-  }
-
-/*Widget _localeSelection(BuildContext context, WidgetRef ref) {
+Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       leading: Icon(
@@ -83,5 +70,5 @@ class GeneralSettingsView extends ConsumerWidget {
             .toList(),
       ),
     );
-  }*/
+  }
 }

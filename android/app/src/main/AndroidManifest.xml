@@ -7,8 +7,7 @@
             android:label="Campus"
             android:name="${applicationName}"
             android:roundIcon="@mipmap/ic_launcher_round"
-            android:icon="@mipmap/ic_launcher"
-            android:localeConfig="@xml/locales_config">
+            android:icon="@mipmap/ic_launcher">
         <activity
                 android:name=".MainActivity"
                 android:exported="true"

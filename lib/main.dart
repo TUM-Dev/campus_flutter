@@ -77,27 +77,11 @@ Future<void> _initializeMobile() async {
   );
 }
 
-class CampusApp extends ConsumerStatefulWidget {
+class CampusApp extends ConsumerWidget {
   const CampusApp({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
-}
-
-class _CampusAppState extends ConsumerState<CampusApp>
-    with WidgetsBindingObserver {
-  String currentLocale = "";
-
-  @override
-  void didChangeLocales(List<Locale>? locales) {
-    setState(() {
-      currentLocale = locales.toString();
-    });
-    super.didChangeLocales(locales);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: "TUM Campus App",
       debugShowCheckedModeBanner: false,
