@@ -13,10 +13,8 @@ class StudentCardService {
   ) async {
     try {
       RESTClient restClient = getIt<RESTClient>();
-      final response = await restClient.makeRequestWithException<
-          StudentCardData,
-          TumOnlineApi,
-          TumOnlineApiException>(
+      final response = await restClient.getWithException<StudentCardData,
+          TumOnlineApi, TumOnlineApiException>(
         TumOnlineApi(TumOnlineServiceTumCard()),
         StudentCardData.fromJson,
         TumOnlineApiException.fromJson,

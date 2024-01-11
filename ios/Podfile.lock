@@ -180,7 +180,7 @@ SPEC CHECKSUMS:
   FirebaseCrashlytics: 86d5bce01f42fa1db265f87ff1d591f04db610ec
   FirebaseInstallations: 033d199474164db20c8350736842a94fe717b960
   FirebaseSessions: e5f4caa188dc8bc6142abc974355be75b042215e
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -201,6 +201,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b
   video_player_avfoundation: e9e6f9cae7d7a6d9b43519b0aab382bca60fcfd1
 
-PODFILE CHECKSUM: 231901fe9f3ec2a14ff87ca7c66706cf9d9c2b72
+PODFILE CHECKSUM: 2dec3f67b1fa3eb41982ef2f40e0d15f34b91a30
 
 COCOAPODS: 1.14.3
