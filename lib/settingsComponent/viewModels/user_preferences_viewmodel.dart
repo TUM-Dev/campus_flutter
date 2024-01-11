@@ -43,8 +43,8 @@ class UserPreferencesViewModel {
             ref.read(selectedMapsApp.notifier).state = installedMaps.first;
           }
         case UserPreference.locale:
-          final savedLocale = data != null ? data as String : "en";
-          ref.read(customLocale.notifier).state = Locale(savedLocale);
+          ref.read(customLocale.notifier).state =
+              data != null ? Locale(data as String) : null;
         case UserPreference.theme:
           if (data != null) {
             final theme = Appearance.values
@@ -62,8 +62,7 @@ class UserPreferencesViewModel {
   ) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     if (newValue == null) {
-      sharedPreferences.remove(userPreference.name);
-      return;
+      await sharedPreferences.remove(userPreference.name);
     } else {
       switch (userPreference) {
         case UserPreference.defaultMapsApplication:
