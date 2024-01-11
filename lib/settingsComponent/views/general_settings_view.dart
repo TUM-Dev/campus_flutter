@@ -56,19 +56,29 @@ class GeneralSettingsView extends ConsumerWidget {
         context.localizations.language,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
-      trailing: DropdownButton(
+      trailing: DropdownButton<Locale?>(
         onChanged: (Locale? newLocale) {
+          ref.read(customLocale.notifier).state = newLocale;
           if (newLocale != null) {
             ref
                 .read(userPreferencesViewModel)
                 .saveUserPreference(UserPreference.locale, newLocale);
-            ref.read(locale.notifier).state = newLocale;
           }
         },
-        value: ref.watch(locale),
-        items: AppLocalizations.supportedLocales
-            .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
-            .toList(),
+        value: ref.watch(customLocale),
+        items: () {
+          final availableLocales = AppLocalizations.supportedLocales
+              .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
+              .toList();
+          availableLocales.insert(
+            0,
+            const DropdownMenuItem(
+              value: null,
+              child: Text("System"),
+            ),
+          );
+          return availableLocales;
+        }(),
       ),
     );
   }

@@ -48,7 +48,7 @@ class EventCreationDateTimePicker extends StatelessWidget {
                         ),
                       ),
                       DateFormat.yMd(
-                        Localizations.localeOf(context).toString(),
+                        "de",
                       ).format(
                         snapshot.data ?? DateTime.now(),
                       ),
@@ -62,7 +62,7 @@ class EventCreationDateTimePicker extends StatelessWidget {
                         ),
                       ),
                       DateFormat.Hm(
-                        Localizations.localeOf(context).toString(),
+                        "de",
                       ).format(
                         snapshot.data ?? DateTime.now(),
                       ),

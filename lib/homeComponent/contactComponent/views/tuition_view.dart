@@ -51,12 +51,11 @@ class TuitionView extends ConsumerWidget {
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               InfoRow(
                 title: context.localizations.tuitionDueDate,
-                info: DateFormat.yMd(context.localizations.localeName)
-                    .format(snapshot.data!.deadline),
+                info: DateFormat.yMd("de").format(snapshot.data!.deadline),
               ),
               InfoRow(
                 title: context.localizations.tuitionOpenAmount,
-                info: NumberFormat.currency(locale: "de_DE", symbol: '€')
+                info: NumberFormat.currency(locale: "de", symbol: '€')
                     .format(snapshot.data!.amount),
               ),
             ],

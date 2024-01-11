@@ -15,12 +15,10 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String startTime =
-        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
-            .format(calendarEvent.startDate);
-    final String endTime =
-        DateFormat(DateFormat.HOUR24_MINUTE, context.localizations.localeName)
-            .format(calendarEvent.endDate);
+    final String startTime = DateFormat(DateFormat.HOUR24_MINUTE, "de")
+        .format(calendarEvent.startDate);
+    final String endTime = DateFormat(DateFormat.HOUR24_MINUTE, "de")
+        .format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(today.year, today.month, today.day)
@@ -56,7 +54,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                     ? context.localizations.tomorrow
                     : DateFormat(
                         "EEEE, d. MMM",
-                        context.localizations.localeName,
+                        "de",
                       ).format(calendarEvent.startDate),
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),

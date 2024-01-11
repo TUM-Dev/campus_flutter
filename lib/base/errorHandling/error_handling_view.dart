@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 mixin ErrorHandlingView {
   late final ErrorHandlingViewType errorHandlingViewType;
   late final Future<dynamic> Function(bool)? retry;
+  late final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
   late final Color? titleColor;
   late final Color? bodyColor;
 
@@ -58,7 +59,14 @@ mixin ErrorHandlingView {
                 ),
               ),
               const Spacer(),
-              if (retry != null) ...[
+              if (retry != null && retryWithContext == null) ...[
+                ElevatedButton(
+                  onPressed: () => retry!(true),
+                  child: Text(context.localizations.tryAgain),
+                ),
+                const Spacer(),
+              ],
+              if (retryWithContext != null && retry == null) ...[
                 ElevatedButton(
                   onPressed: () => retry!(true),
                   child: Text(context.localizations.tryAgain),

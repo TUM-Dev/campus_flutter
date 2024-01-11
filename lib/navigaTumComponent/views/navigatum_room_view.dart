@@ -44,7 +44,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
   @override
   void initState() {
     viewModel = navigaTumDetailsViewModel(widget.id);
-    ref.read(viewModel).fetchDetails(false);
+    ref.read(viewModel).fetchDetails(false, context);
     super.initState();
   }
 
@@ -67,7 +67,8 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
+            retryWithContext:
+                ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
           );
         } else {
           return DelayedLoadingIndicator(
