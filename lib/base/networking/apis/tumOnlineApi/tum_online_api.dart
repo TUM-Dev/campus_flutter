@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:intl/intl.dart';
 
 class TumOnlineApi extends Api {
   final TumOnlineService tumOnlineService;
@@ -45,6 +46,10 @@ class TumOnlineApi extends Api {
         return "${path}wbservicesbasic.absNoten";
       case TumOnlineServiceTumCard _:
         return "${path}wbservicesbasic.tumCard";
+      case TumOnlineServiceEventCreate _:
+        return "${path}wbservicesbasic.terminCreate";
+      case TumOnlineServiceEventDelete _:
+        return "${path}wbservicesbasic.terminDelete";
     }
   }
 
@@ -66,9 +71,13 @@ class TumOnlineApi extends Api {
       case TumOnlineServiceIdentify _:
       case TumOnlineServiceTumCard _:
       case TumOnlineServiceAverageGrades _:
+      case TumOnlineServiceEventCreate _:
+      case TumOnlineServiceEventDelete _:
         return true;
       default:
         return false;
     }
   }
+
+  static final dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
 }

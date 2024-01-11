@@ -8,8 +8,8 @@ class NewsService {
     bool forcedRefresh,
   ) async {
     final start = DateTime.now();
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    final news = await mainApi.listNews(
+    CachedCampusClient restClient = getIt<CachedCampusClient>();
+    final news = await restClient.listNews(
       ListNewsRequest(
         oldestDateAt: Timestamp.fromDateTime(
           DateTime(start.year, start.month, start.day)
@@ -22,8 +22,8 @@ class NewsService {
 
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     final start = DateTime.now();
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    final news = await mainApi.listNews(ListNewsRequest());
+    CachedCampusClient restClient = getIt<CachedCampusClient>();
+    final news = await restClient.listNews(ListNewsRequest());
     return (start, news.news);
   }
 }

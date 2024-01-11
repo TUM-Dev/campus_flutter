@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/date_time_week_number.dart';
+import 'package:campus_flutter/base/extensions/date_time.dart';
 
 sealed class EatApiService {}
 

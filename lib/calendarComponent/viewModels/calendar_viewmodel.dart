@@ -59,4 +59,8 @@ class CalendarViewModel {
 
     return (leftColumn, rightColumn);
   }
+
+  Future<void> deleteCalendarElement(String id) async {
+    await CalendarService.deleteCalendarEvent(id).then((value) => fetch(true));
+  }
 }

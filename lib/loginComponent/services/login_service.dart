@@ -9,9 +9,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginService {
   static Future<Token> requestNewToken(bool forcedRefresh, String name) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi
-        .makeRequestWithException<Token, TumOnlineApi, TumOnlineApiException>(
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient
+        .getWithException<Token, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
         TumOnlineServiceTokenRequest(
           tumId: name,
@@ -26,9 +26,9 @@ class LoginService {
   }
 
   static Future<Confirm> confirmToken(bool forcedRefresh) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi
-        .makeRequestWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient
+        .getWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceTokenConfirmation()),
       Confirm.fromJson,
       TumOnlineApiException.fromJson,

@@ -20,38 +20,51 @@ class AppointmentView extends StatelessWidget {
         color: color.withOpacity(0.5),
         border: Border(left: BorderSide(color: color, width: 5.0)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _eventTitle(
-              calendarEvent.title,
-              calendarEvent.duration,
-              calendarEvent.isCanceled,
-              context,
+      child: calendarEvent.duration.inDays != 0
+          ? Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                calendarEvent.title,
+                style: _normalTitleStyle(calendarEvent.isCanceled, context),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _eventTitle(
+                    calendarEvent.title,
+                    calendarEvent.duration,
+                    calendarEvent.isCanceled,
+                    context,
+                  ),
+                  if (calendarEvent.url != null &&
+                      calendarEvent.duration.compareTo(
+                            const Duration(hours: 0, minutes: 45),
+                          ) >
+                          0)
+                    _eventLocation(
+                      calendarEvent.location ?? context.localizations.unknown,
+                      calendarEvent.isCanceled,
+                      context,
+                    ),
+                  if (calendarEvent.endDate
+                          .difference(calendarEvent.startDate)
+                          .compareTo(
+                            const Duration(hours: 1, minutes: 30),
+                          ) >=
+                      0)
+                    _eventTime(
+                      calendarEvent.timePeriodText(context),
+                      calendarEvent.isCanceled,
+                      calendarEvent.url != null ? 1 : 2,
+                      context,
+                    ),
+                ],
+              ),
             ),
-            if (calendarEvent.duration
-                    .compareTo(const Duration(hours: 0, minutes: 45)) >
-                0)
-              _eventLocation(
-                calendarEvent.location ?? context.localizations.unknown,
-                calendarEvent.isCanceled,
-                context,
-              ),
-            if (calendarEvent.endDate
-                    .difference(calendarEvent.startDate)
-                    .compareTo(const Duration(hours: 1, minutes: 30)) >=
-                0)
-              _eventTime(
-                calendarEvent.timeDatePeriod(context),
-                calendarEvent.isCanceled,
-                context,
-              ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -62,27 +75,32 @@ class AppointmentView extends StatelessWidget {
     BuildContext context,
   ) {
     return Expanded(
-      flex: 4,
       child: Text(
         title,
         style: duration.compareTo(const Duration(minutes: 60)) >= 0
-            ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  decoration: isCanceled ? TextDecoration.lineThrough : null,
-                  decorationColor: Colors.white,
-                )
-            : Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  decoration: isCanceled ? TextDecoration.lineThrough : null,
-                  decorationColor: Colors.white,
-                ),
+            ? _normalTitleStyle(isCanceled, context)
+            : _smallTitleStyle(isCanceled, context),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),
     );
   }
+
+  TextStyle? _normalTitleStyle(bool isCanceled, BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            decoration: isCanceled ? TextDecoration.lineThrough : null,
+            decorationColor: Colors.white,
+          );
+
+  TextStyle? _smallTitleStyle(bool isCanceled, BuildContext context) =>
+      Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            decoration: isCanceled ? TextDecoration.lineThrough : null,
+            decorationColor: Colors.white,
+          );
 
   Widget _eventLocation(
     String location,
@@ -90,7 +108,6 @@ class AppointmentView extends StatelessWidget {
     BuildContext context,
   ) {
     return Expanded(
-      flex: 3,
       child: Text(
         location.toString(),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -108,10 +125,10 @@ class AppointmentView extends StatelessWidget {
   Widget _eventTime(
     String timeDatePeriod,
     bool isCanceled,
+    int maxLines,
     BuildContext context,
   ) {
     return Expanded(
-      flex: 3,
       child: Text(
         timeDatePeriod.toString(),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -121,7 +138,7 @@ class AppointmentView extends StatelessWidget {
               decorationColor: Colors.white,
             ),
         overflow: TextOverflow.ellipsis,
-        maxLines: 1,
+        maxLines: maxLines,
       ),
     );
   }

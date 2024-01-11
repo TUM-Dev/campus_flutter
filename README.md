@@ -1,5 +1,5 @@
-![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
-![xcodebuild](https://github.com/TUM-Dev/Campus-Flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
+![xcodebuild](https://github.com/TUM-Dev/campus_flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
+![xcodebuild](https://github.com/TUM-Dev/campus_flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
 [![Discord Channel](https://img.shields.io/badge/Chat-on%20Discord-brightgreen)](https://discord.gg/k558T6ktuh)
 <a href="https://testflight.apple.com/join/4Ddi6f2f">
 <img src="https://developer.apple.com/assets/elements/icons/testflight/testflight-64x64_2x.png" height="42" align="right">
@@ -12,7 +12,7 @@
 
 # Tum Campus App - An Unofficial Guide Through University Life
 
-The TUM Campus App (TCA) is an open source project, developed by volunteers. This repository is dedicated to the development and transition to Flutter and currently in Beta. <!-- and [available on the App Store](https://itunes.apple.com/app/id1217412716), [on the Play Store]() and as a [web app](https://tum-dev.github.io/Campus-Flutter/). -->
+The TUM Campus App (TCA) is an open source project, developed by volunteers. This repository is dedicated to the development and transition to Flutter and currently in Beta. <!-- and [available on the App Store](https://itunes.apple.com/app/id1217412716), [on the Play Store]() and as a [web app](https://web.tum.app). -->
 
 The application mostly targets phones, but can also be used on tablets, Macs and in your browser. We currently support iOS, iPadOS, macOS and Android.
 
@@ -43,13 +43,13 @@ Check out our detailed information at [CONTRIBUTING.md](https://github.com/TCA-T
 -->
 
 ## Beta
-If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/4Ddi6f2f) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://tum-dev.github.io/Campus-Flutter/). We would appreciate your feedback regarding bugs and improvement suggestions!
+If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/4Ddi6f2f) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. You can also test the preliminary [web app](https://web.tum.app/). We would appreciate your feedback regarding bugs and improvement suggestions!
 
 ## Policies
-- [Privacy policy](https://app.tum.de/landing/privacy/)  
+- [Privacy policy](https://app.tum.de/landing/privacy/)
 
 ## Support
-You can reach us on [Discord](https://discord.gg/k558T6ktuh), [GitHub](https://github.com/TUM-Dev/Campus-Flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)
+You can reach us on [Discord](https://discord.gg/k558T6ktuh), [GitHub](https://github.com/TUM-Dev/campus_flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)
 
 ## Development
 
@@ -73,7 +73,7 @@ protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/times
 
 ### Current needed Forks
 
-To ensure that Campus-Flutter runs on every supported platform, we need to make some modifications to packages.
+To ensure that campus_flutter runs on every supported platform, we need to make some modifications to packages.
 
 | Package                 | Reason                                    | Link                                         |
 |-------------------------|-------------------------------------------|----------------------------------------------|

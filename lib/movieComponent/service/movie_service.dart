@@ -8,8 +8,8 @@ class MovieService {
     bool forcedRefresh,
   ) async {
     final start = DateTime.now();
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    final response = await mainApi.listMovies(
+    CachedCampusClient restClient = getIt<CachedCampusClient>();
+    final response = await restClient.listMovies(
       ListMoviesRequest(
         oldestDateAt: Timestamp.fromDateTime(
           DateTime(start.year, start.month, start.day),

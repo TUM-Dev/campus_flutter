@@ -77,3 +77,38 @@ class TumOnlineServiceProfileImage extends TumOnlineService {
   Map<String, String> getParameters() =>
       {"pPersonenGruppe": personGroup, "pPersonenId": id};
 }
+
+class TumOnlineServiceEventCreate extends TumOnlineService {
+  final String title;
+  final String? annotation;
+  final String from;
+  final String to;
+
+  TumOnlineServiceEventCreate({
+    required this.title,
+    required this.annotation,
+    required this.from,
+    required this.to,
+  });
+
+  @override
+  Map<String, String> getParameters() => {
+        "pTitel": title,
+        if (annotation != null) "pAnmerkung": annotation!,
+        "pVon": from,
+        "pBis": to,
+      };
+}
+
+class TumOnlineServiceEventDelete extends TumOnlineService {
+  final String eventId;
+
+  TumOnlineServiceEventDelete({
+    required this.eventId,
+  });
+
+  @override
+  Map<String, String> getParameters() => {
+        "pTerminNr": eventId,
+      };
+}

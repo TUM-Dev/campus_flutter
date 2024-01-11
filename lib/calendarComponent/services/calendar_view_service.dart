@@ -1,5 +1,7 @@
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,12 +75,24 @@ class CalendarViewService {
           title: Text(
             calendarEvent!.title,
             textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
-          content: Text(
-            calendarEvent.timeDatePeriod(context),
-          ),
-          actionsAlignment: MainAxisAlignment.center,
+          content: CustomEventView(calendarEvent: calendarEvent),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
           actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              ),
+              onPressed: () {
+                ref
+                    .read(calendarViewModel)
+                    .deleteCalendarElement(calendarEvent!.id)
+                    .then((value) => Navigator.pop(context));
+              },
+              child: Text(context.localizations.delete),
+            ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("Okay"),

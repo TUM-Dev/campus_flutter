@@ -10,9 +10,9 @@ class PersonSearchService {
     String query,
     bool forcedRefresh,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<PersonData,
-        TumOnlineApi, TumOnlineApiException>(
+    RESTClient restClient = getIt<RESTClient>();
+    final response = await restClient
+        .getWithException<PersonData, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonSearch(search: query)),
       PersonData.fromJson,
       TumOnlineApiException.fromJson,

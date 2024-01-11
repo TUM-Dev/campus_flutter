@@ -6,14 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final currentIndex = StateProvider<int>((ref) => 0);
 
-class Navigation extends StatefulWidget {
+class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
 
   @override
-  State<Navigation> createState() => _NavigationState();
+  ConsumerState<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
+class _NavigationState extends ConsumerState<Navigation> {
   late PageController _pageController;
 
   @override
@@ -33,9 +33,9 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Consumer(
-          builder: (context, ref, child) => getIt<NavigationService>()
-              .title(ref.watch(currentIndex), context),
+        title: getIt<NavigationService>().title(
+          ref.watch(currentIndex),
+          context,
         ),
         leading: getIt<NavigationService>().searchButton(context),
         actions: getIt<NavigationService>().actions(context),
@@ -57,21 +57,22 @@ class _NavigationState extends State<Navigation> {
             ),
           ),
         ),
-        child: Consumer(
-          builder: (context, ref, child) {
-            return NavigationBar(
-              height: getIt<NavigationService>().navigationBarHeight,
-              selectedIndex: ref.watch(currentIndex),
-              onDestinationSelected: (index) {
-                if (index != ref.read(currentIndex)) {
-                  _pageController.jumpToPage(index);
-                  ref.read(currentIndex.notifier).state = index;
-                }
-              },
-              destinations: getIt<NavigationService>().bottomNavItems(context),
-            );
+        child: NavigationBar(
+          height: getIt<NavigationService>().navigationBarHeight,
+          selectedIndex: ref.watch(currentIndex),
+          onDestinationSelected: (index) {
+            if (index != ref.read(currentIndex)) {
+              _pageController.jumpToPage(index);
+              ref.read(currentIndex.notifier).state = index;
+            }
           },
+          destinations: getIt<NavigationService>().bottomNavItems(context),
         ),
+      ),
+      floatingActionButton: getIt<NavigationService>().floatingActionButton(
+        ref.watch(currentIndex),
+        ref,
+        context,
       ),
       body: PageView(
         controller: _pageController,

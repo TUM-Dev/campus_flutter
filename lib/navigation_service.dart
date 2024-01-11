@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
+import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
@@ -11,6 +12,10 @@ import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'base/enums/credentials.dart';
+import 'loginComponent/viewModels/login_viewmodel.dart';
 
 class NavigationService {
   double? _navigationBarHeight;
@@ -72,6 +77,27 @@ class NavigationService {
           fit: BoxFit.contain,
           height: 20,
         );
+    }
+  }
+
+  Widget? floatingActionButton(int index, WidgetRef ref, BuildContext context) {
+    switch (index) {
+      case 3:
+        if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+          return FloatingActionButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EventCreationScaffold(),
+              ),
+            ),
+            child: const Icon(Icons.add),
+          );
+        } else {
+          return null;
+        }
+      default:
+        return null;
     }
   }
 

@@ -274,5 +274,12 @@
    "continueOnboarding":"Weiter",
    "showMore":"Mehr Anzeigen",
    "licenses":"Lizenzen",
-   "privacyPolicy":"Datenschutzrichtlinie"
+   "privacyPolicy":"Datenschutzrichtlinie",
+   "createCalendarEvent":"Kalenderereignis erstellen",
+   "title":"Titel",
+   "annotation":"Bemerkung",
+   "from":"Von",
+   "to":"Bis",
+   "timeFrame":"Zeitrahmen",
+   "delete":"Löschen"
 }
