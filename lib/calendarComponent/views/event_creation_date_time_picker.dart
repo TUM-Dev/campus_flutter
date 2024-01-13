@@ -41,8 +41,8 @@ class EventCreationDateTimePicker extends StatelessWidget {
                       () async => onDateSet(
                         await showDatePicker(
                           context: context,
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(
+                          firstDate: snapshot.data ?? DateTime.now(),
+                          lastDate: (snapshot.data ?? DateTime.now()).add(
                             const Duration(days: 365),
                           ),
                         ),
@@ -58,7 +58,8 @@ class EventCreationDateTimePicker extends StatelessWidget {
                       () async => onTimeOfDaySet(
                         await showTimePicker(
                           context: context,
-                          initialTime: TimeOfDay.now(),
+                          initialTime: TimeOfDay.fromDateTime(
+                              snapshot.data ?? DateTime.now()),
                         ),
                       ),
                       DateFormat.Hm(

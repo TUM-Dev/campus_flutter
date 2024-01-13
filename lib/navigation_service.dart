@@ -87,7 +87,8 @@ class NavigationService {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const EventCreationScaffold(),
+                builder: (context) =>
+                    const EventCreationScaffold(calendarEvent: null),
               ),
             ),
             child: const Icon(Icons.add),

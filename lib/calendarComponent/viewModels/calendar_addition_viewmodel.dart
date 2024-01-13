@@ -1,24 +1,53 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final calendarAdditionViewModel = Provider(
-  (ref) => CalendarAdditionViewModel(ref),
+final calendarAdditionViewModel =
+    Provider.autoDispose.family<CalendarAdditionViewModel, CalendarEvent?>(
+  (ref, calendarEvent) {
+    if (calendarEvent != null) {
+      return CalendarAdditionViewModel.edit(ref, calendarEvent);
+    } else {
+      return CalendarAdditionViewModel(ref);
+    }
+  },
 );
 
 class CalendarAdditionViewModel {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController annotationController = TextEditingController();
   final BehaviorSubject<bool> isValid = BehaviorSubject.seeded(false);
-  final BehaviorSubject<DateTime> from = BehaviorSubject.seeded(DateTime.now());
-  final BehaviorSubject<DateTime> to = BehaviorSubject.seeded(DateTime.now());
+  late final BehaviorSubject<DateTime> from;
+  late final BehaviorSubject<DateTime> to;
 
+  String? id;
   final Ref ref;
 
-  CalendarAdditionViewModel(this.ref);
+  CalendarAdditionViewModel(this.ref) {
+    final date = ref.read(selectedDate);
+    log(date.$1.toString());
+    from = BehaviorSubject.seeded(date.$1 ?? DateTime.now());
+    to = BehaviorSubject.seeded(
+      (date.$1 ?? DateTime.now()).add(const Duration(hours: 1)),
+    );
+  }
+
+  CalendarAdditionViewModel.edit(this.ref, CalendarEvent calendarEvent) {
+    titleController.text = calendarEvent.title;
+    annotationController.text = calendarEvent.description ?? "";
+    from = BehaviorSubject.seeded(calendarEvent.startDate);
+    to = BehaviorSubject.seeded(calendarEvent.endDate);
+    id = calendarEvent.id;
+    isValid.value = true;
+  }
 
   void setFromDate(DateTime? dateTime) {
     if (dateTime != null) {
@@ -90,7 +119,10 @@ class CalendarAdditionViewModel {
   }
 
   Future<void> saveEvent() async {
-    await CalendarService.createCalendarEvent(
+    if (id != null) {
+      await CalendarService.deleteCalendarEvent(id!);
+    }
+    final response = await CalendarService.createCalendarEvent(
       AddedCalendarEvent(
         title: titleController.text,
         annotation: annotationController.text.isEmpty
@@ -99,7 +131,24 @@ class CalendarAdditionViewModel {
         from: from.value,
         to: to.value,
       ),
-    ).then((value) => ref.read(calendarViewModel).fetch(true));
+    );
+    await ref.read(calendarViewModel).fetch(true);
+    if (ref
+            .read(calendarViewModel)
+            .events
+            .value
+            ?.firstWhereOrNull((e) => e.id == response.eventId) ==
+        null) {
+      ref.read(calendarViewModel).events.value?.add(
+            CalendarEvent(
+              id: response.eventId,
+              status: "FT",
+              title: titleController.text,
+              startDate: from.value,
+              endDate: to.value,
+            ),
+          );
+    }
   }
 
   void checkValidity() {

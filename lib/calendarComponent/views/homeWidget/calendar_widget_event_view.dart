@@ -33,7 +33,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
       onTap: () {
         if (MediaQuery.orientationOf(context) == Orientation.portrait) {
           getIt<CalendarViewService>()
-              .showModalSheet(null, calendarEvent, context, ref);
+              .showDetails(null, calendarEvent, context, ref);
         } else {
           ref.read(homeSplitViewModel).selectedWidget.add(
                 LectureDetailsView(

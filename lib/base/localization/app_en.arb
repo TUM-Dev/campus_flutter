@@ -282,5 +282,6 @@
    "to":"To",
    "timeFrame":"Time Frame",
    "delete":"Delete",
-   "deviceSettings":"Device Settings"
+   "deviceSettings":"Device Settings",
+   "edit":"Edit"
 }

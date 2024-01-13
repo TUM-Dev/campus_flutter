@@ -2,6 +2,7 @@ import 'package:campus_flutter/calendarComponent/model/calendar_data_source.dart
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/appointment_view.dart';
+import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +27,17 @@ class CalendarDayView extends ConsumerWidget {
             context,
           ),
           onTap: (details) {
-            getIt<CalendarViewService>()
-                .showModalSheet(details, null, context, ref);
+            if (details.targetElement == CalendarElement.appointment) {
+              getIt<CalendarViewService>().showDetails(
+                details,
+                null,
+                context,
+                ref,
+              );
+            } else {
+              ref.read(selectedDate.notifier).state =
+                  (details.date, CalendarView.day);
+            }
           },
           headerDateFormat: "EEEE, dd.MM.yyyy",
           showNavigationArrow: true,

@@ -282,5 +282,6 @@
    "to":"Bis",
    "timeFrame":"Zeitrahmen",
    "delete":"Löschen",
-   "deviceSettings":"Geräte-Einstellungen"
+   "deviceSettings":"Geräte-Einstellungen",
+   "edit":"Editieren"
 }
