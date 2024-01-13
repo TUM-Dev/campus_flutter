@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
@@ -20,7 +21,7 @@ class InformationView extends StatelessWidget {
           _titleLogo(context),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _profileImage(),
               const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
@@ -32,11 +33,12 @@ class InformationView extends StatelessWidget {
                     _name(context),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow(
-                      "Birthday",
-                      DateFormat("dd.MM.yyyy", "de_DE")
+                      context.localizations.birthday,
+                      DateFormat("dd.MM.yyyy", "de")
                           .format(studentCard.birthday),
                     ),
-                    _infoEntryRow("Study ID", studentCard.studyID),
+                    _infoEntryRow(
+                        context.localizations.studyId, studentCard.studyID),
                     _infoEntryRow(
                       "Semester",
                       StringParser.toShortSemesterName(
@@ -59,7 +61,7 @@ class InformationView extends StatelessWidget {
               const Spacer(),
               _validUntil(context),
               const Spacer(),
-              _validBadge(),
+              _validBadge(context),
             ],
           ),
         ],
@@ -101,7 +103,7 @@ class InformationView extends StatelessWidget {
 
   Widget _title(BuildContext context) {
     return Text(
-      "Digital StudentCard",
+      context.localizations.digitalStudentCard,
       style: Theme.of(context)
           .textTheme
           .titleLarge
@@ -148,7 +150,7 @@ class InformationView extends StatelessWidget {
 
   Widget _validUntil(BuildContext context) {
     return Text(
-      "Valid until: ${DateFormat("dd.MM.yyyy", "de_DE").format(studentCard.validUntil)}",
+      "${context.localizations.validUntil}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
       style: Theme.of(context)
           .textTheme
           .bodyLarge
@@ -156,7 +158,7 @@ class InformationView extends StatelessWidget {
     );
   }
 
-  Widget _validBadge() {
+  Widget _validBadge(BuildContext context) {
     return SizedBox(
       height: 40,
       width: 80,

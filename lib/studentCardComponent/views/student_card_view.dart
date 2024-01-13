@@ -1,11 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/last_updated_text.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
-import 'package:campus_flutter/studentCardComponent/views/snapping_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +25,6 @@ class StudentCardView extends ConsumerWidget {
               if (lastFetched != null) LastUpdatedText(lastFetched),
               _warningCard(context),
               InformationView(studentCard: data),
-              SnappingSlider(libraryID: data.libraryID),
             ],
           );
         } else if (snapshot.hasError) {
@@ -35,7 +34,7 @@ class StudentCardView extends ConsumerWidget {
             retry: ref.read(studentCardViewModel).fetch,
           );
         } else {
-          return const DelayedLoadingIndicator(name: "Student Card");
+          return const DelayedLoadingIndicator(name: "StudentCard");
         }
       },
     );
@@ -53,8 +52,9 @@ class StudentCardView extends ConsumerWidget {
           const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
           Expanded(
             child: Text(
-              "Currently in Beta With Limited Functionality!",
+              context.localizations.currentlyInBeta,
               style: TextStyle(color: Theme.of(context).primaryColor),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

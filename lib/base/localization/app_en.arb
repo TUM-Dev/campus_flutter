@@ -283,5 +283,12 @@
    "timeFrame":"Time Frame",
    "delete":"Delete",
    "deviceSettings":"Device Settings",
-   "edit":"Edit"
+   "edit":"Edit",
+   "digitalStudentCard":"Digital StudentCard",
+   "currentlyInBeta":"Currently in Beta with Limited Functionality!",
+   "validUntil":"Valid until",
+   "libraryBarcode":"Library Barcode",
+   "libraryNumber":"Library Number",
+   "birthday":"Birthday",
+   "studyId":"Study ID"
 }
