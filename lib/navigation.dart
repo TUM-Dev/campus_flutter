@@ -40,11 +40,6 @@ class _NavigationState extends ConsumerState<Navigation> {
         leading: getIt<NavigationService>().searchButton(context),
         actions: getIt<NavigationService>().actions(context),
       ),
-      // TODO: fix floating action button
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () => _openStudentCardSheet(),
-        child: const Icon(Icons.credit_card),
-      ),*/
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
           border: Border(

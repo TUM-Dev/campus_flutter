@@ -174,12 +174,6 @@ class NavigationService {
           width: MediaQuery.of(context).size.width,
           child: const StudentCardView(),
         );
-
-        /// leave here for now, enables height adjusted to content
-        /*return const SafeArea(child:
-                         //Wrap(children: [
-                          //StudentCardView()
-                       ]));*/
       },
     );
   }
