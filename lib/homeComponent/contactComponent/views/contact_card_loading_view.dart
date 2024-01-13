@@ -28,6 +28,9 @@ class ContactCardLoadingView extends StatelessWidget {
             const ShimmerView(
               child: PlaceholderText(text: "max.mustermann@tum.de"),
             ),
+            const ShimmerView(
+              child: PlaceholderText(text: "Musterstudiengang (B.Sc.)"),
+            ),
           ],
         ),
       ],

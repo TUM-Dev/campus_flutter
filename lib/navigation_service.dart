@@ -8,6 +8,7 @@ import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
+import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -115,6 +116,11 @@ class NavigationService {
 
   List<Widget> actions(BuildContext context) {
     return [
+      if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
+        IconButton(
+          onPressed: () => _openStudentCardSheet(context),
+          icon: const Icon(Icons.credit_card),
+        ),
       IconButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -156,4 +162,20 @@ class NavigationService {
           label: context.localizations.places,
         ),
       ];
+
+  void _openStudentCardSheet(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: const StudentCardView(),
+        );
+      },
+    );
+  }
 }

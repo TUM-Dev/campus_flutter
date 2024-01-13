@@ -57,6 +57,8 @@ class StringParser {
     switch (degree) {
       case "Bachelor of Science":
         return "B.Sc.";
+      case "Master of Science":
+        return "M.Sc.";
       default:
         return context.localizations.unknown;
     }

@@ -9,6 +9,7 @@ import 'package:campus_flutter/loginComponent/views/location_permissions_view.da
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -150,6 +151,7 @@ class LoginViewModel {
   Future logout(WidgetRef ref) async {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
+    ref.invalidate(studentCardViewModel);
     await getIt<RESTClient>().clearCache();
     await _storage.delete(key: "token");
     Api.tumToken = "";

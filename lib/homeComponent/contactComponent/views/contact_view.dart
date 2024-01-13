@@ -31,7 +31,7 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
           children: [
             ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: MediaQuery.sizeOf(context).height * 0.15,
+                minHeight: MediaQuery.sizeOf(context).height * 0.175,
               ),
               child: CardWithPadding(
                 child: Center(

@@ -44,15 +44,17 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = widget.isSettingsView
+        ? Theme.of(context).colorScheme.surface
+        : Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).canvasColor
+            : Colors.white;
     return Scaffold(
-      backgroundColor: widget.isSettingsView
-          ? Theme.of(context).colorScheme.surface
-          : Theme.of(context).brightness == Brightness.dark
-              ? Theme.of(context).canvasColor
-              : Colors.white,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: widget.isSettingsView ? const BackButton() : null,
         title: Text(context.localizations.checkPermissions),
+        backgroundColor: backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

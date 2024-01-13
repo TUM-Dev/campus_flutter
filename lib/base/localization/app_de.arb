@@ -283,5 +283,12 @@
    "timeFrame":"Zeitrahmen",
    "delete":"Löschen",
    "deviceSettings":"Geräte-Einstellungen",
-   "edit":"Editieren"
+   "edit":"Editieren",
+   "digitalStudentCard":"Digitale StudentCard",
+   "currentlyInBeta":"Aktuell in Testphase mit eingeschränkter Funktionalität!",
+   "validUntil":"Gültig bis",
+   "libraryBarcode":"Bibliotheks-Barcode",
+   "libraryNumber":"Bibliotheksnummer",
+   "birthday":"Geb.",
+   "studyId":"Matr.Nr."
 }
