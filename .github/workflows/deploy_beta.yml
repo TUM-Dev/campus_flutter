@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    if: "github.event.release.prerelease"
+    if: "github.event.release.published"
     runs-on: macos-latest
 
     strategy:
