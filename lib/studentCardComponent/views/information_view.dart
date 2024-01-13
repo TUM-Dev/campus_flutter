@@ -38,7 +38,9 @@ class InformationView extends StatelessWidget {
                           .format(studentCard.birthday),
                     ),
                     _infoEntryRow(
-                        context.localizations.studyId, studentCard.studyID),
+                      context.localizations.studyId,
+                      studentCard.studyID,
+                    ),
                     _infoEntryRow(
                       "Semester",
                       StringParser.toShortSemesterName(

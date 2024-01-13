@@ -4,7 +4,6 @@ import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/user_details_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
@@ -37,8 +36,10 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             (personDetails, studentCard) => (personDetails, studentCard),
           ),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return contactInfo(snapshot.data?.$1, snapshot.data?.$2);
+        if (snapshot.hasData &&
+            snapshot.data?.$1 != null &&
+            snapshot.data?.$2 != null) {
+          return contactInfo(snapshot.data!.$1!, snapshot.data!.$2!);
         } else {
           return DelayedLoadingIndicator(
             name: context.localizations.personalData,
@@ -50,15 +51,15 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     );
   }
 
-  Widget contactInfo(PersonDetails? data, StudentCard? studentCard) {
-    final studies = studentCard?.studies?.study;
+  Widget contactInfo(PersonDetails data, StudentCard studentCard) {
+    final studies = studentCard.studies?.study;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: data?.imageData != null
-                ? Image.memory(base64DecodeImageData(data!.imageData!)).image
+            backgroundImage: data.imageData != null
+                ? Image.memory(base64DecodeImageData(data.imageData!)).image
                 : const AssetImage(
                     'assets/images/placeholders/portrait_placeholder.png',
                   ),
@@ -72,19 +73,13 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  data != null
-                      ? data.fullName
-                      : UserDetailsViewModel.defaultPersonDetails.fullName,
+                  data.fullName,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 Text(
                   ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
                 ),
-                Text(
-                  data != null
-                      ? data.email
-                      : UserDetailsViewModel.defaultPersonDetails.email,
-                ),
+                Text(data.email),
                 for (var studyProgram in studies?.sublist(
                       0,
                       studies.length >= 2 ? 2 : studies.length,
