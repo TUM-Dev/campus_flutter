@@ -8,6 +8,7 @@ import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_vie
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class GeneralSettingsView extends ConsumerWidget {
   const GeneralSettingsView({super.key});
@@ -21,6 +22,7 @@ class GeneralSettingsView extends ConsumerWidget {
           widgets: [
             _tokenPermission(context),
             _localeSelection(context, ref),
+            _moreSettings(context),
           ],
         ),
       ),
@@ -56,20 +58,42 @@ class GeneralSettingsView extends ConsumerWidget {
         context.localizations.language,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
-      trailing: DropdownButton(
+      trailing: DropdownButton<Locale?>(
         onChanged: (Locale? newLocale) {
-          if (newLocale != null) {
-            ref
-                .read(userPreferencesViewModel)
-                .saveUserPreference(UserPreference.locale, newLocale);
-            ref.read(locale.notifier).state = newLocale;
-          }
+          ref.read(customLocale.notifier).state = newLocale;
+          ref
+              .read(userPreferencesViewModel)
+              .saveUserPreference(UserPreference.locale, newLocale);
         },
-        value: ref.watch(locale),
-        items: AppLocalizations.supportedLocales
-            .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
-            .toList(),
+        value: ref.watch(customLocale),
+        items: () {
+          final availableLocales = AppLocalizations.supportedLocales
+              .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
+              .toList();
+          availableLocales.insert(
+            0,
+            const DropdownMenuItem(
+              value: null,
+              child: Text("System"),
+            ),
+          );
+          return availableLocales;
+        }(),
       ),
+    );
+  }
+
+  Widget _moreSettings(BuildContext context) {
+    return ListTile(
+      dense: true,
+      leading: Icon(
+        Icons.settings,
+        size: 20,
+        color: Theme.of(context).primaryColor,
+      ),
+      title: Text(context.localizations.deviceSettings),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap: () => openAppSettings(),
     );
   }
 }

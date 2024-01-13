@@ -60,7 +60,7 @@ class AppearanceSettingsView extends ConsumerWidget {
                 child: IconText(
                   iconData: e.icon,
                   iconColor: Theme.of(context).primaryColor,
-                  label: ref.read(locale).languageCode == "de"
+                  label: Localizations.localeOf(context).languageCode == "de"
                       ? e.german
                       : e.english,
                 ),

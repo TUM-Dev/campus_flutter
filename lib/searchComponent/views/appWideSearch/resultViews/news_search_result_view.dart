@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
+import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_card_view.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,10 @@ class NewsSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.news,
       viewModel: newsSearchViewModel,
       body: (newsSearch) {
+        final imageUrl =
+            newsSearch.news.imageUrl.toString().contains("src_1.png")
+                ? newsSearch.news.link.toString()
+                : newsSearch.news.imageUrl.toString();
         return ListTile(
           leading: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -40,7 +44,18 @@ class NewsSearchResultView extends ConsumerWidget {
               context,
             ),
           ),
-          onTap: () => UrlLauncher.urlString(newsSearch.news.link, ref),
+          onTap: () {
+            if (imageUrl.isNotEmpty) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageFullScreenScaffold.network(
+                    url: imageUrl,
+                  ),
+                ),
+              );
+            }
+          },
         );
       },
     );

@@ -18,14 +18,13 @@ import 'package:get_it/get_it.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart'
-    show PlatformDispatcher, kDebugMode, kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 final getIt = GetIt.instance;
-final locale = StateProvider<Locale>((ref) => _getDeviceLocale());
+final customLocale = StateProvider<Locale?>((ref) => null);
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
 
 main() async {
@@ -88,7 +87,7 @@ class CampusApp extends ConsumerWidget {
       theme: lightTheme(context),
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
-      locale: ref.watch(locale),
+      locale: ref.watch(customLocale) ?? _getDeviceLocale(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const AuthenticationRouter(),
@@ -98,13 +97,13 @@ class CampusApp extends ConsumerWidget {
 
 Locale _getDeviceLocale() {
   if (kIsWeb) {
-    return const Locale("en");
+    return const Locale("en", "DE");
   } else {
     final deviceLocal = Platform.localeName;
     if (deviceLocal.contains("de")) {
-      return const Locale("de");
+      return const Locale("de", "DE");
     } else {
-      return const Locale("en");
+      return const Locale("en", "DE");
     }
   }
 }

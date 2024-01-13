@@ -1,10 +1,12 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 mixin ErrorHandlingView {
   late final ErrorHandlingViewType errorHandlingViewType;
   late final Future<dynamic> Function(bool)? retry;
+  late final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
   late final Color? titleColor;
   late final Color? bodyColor;
 
@@ -23,8 +25,8 @@ mixin ErrorHandlingView {
               if (errorHandlingViewType ==
                   ErrorHandlingViewType.fullScreen) ...[
                 const Spacer(),
-                Image.asset(
-                  "assets/images/errors/error_square.png",
+                SvgPicture.asset(
+                  "assets/images/errors/error.svg",
                   height: MediaQuery.of(context).size.height * 0.3333,
                   fit: BoxFit.scaleDown,
                 ),
@@ -58,7 +60,14 @@ mixin ErrorHandlingView {
                 ),
               ),
               const Spacer(),
-              if (retry != null) ...[
+              if (retry != null && retryWithContext == null) ...[
+                ElevatedButton(
+                  onPressed: () => retry!(true),
+                  child: Text(context.localizations.tryAgain),
+                ),
+                const Spacer(),
+              ],
+              if (retryWithContext != null && retry == null) ...[
                 ElevatedButton(
                   onPressed: () => retry!(true),
                   child: Text(context.localizations.tryAgain),

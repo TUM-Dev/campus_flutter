@@ -34,7 +34,7 @@ dependencies:
   xml: ^6.2.2
   xml2json: ^6.1.0
   barcode_widget: ^2.0.4
-  lottie: ^2.3.2
+  lottie: ^3.0.0
   shared_preferences: ^2.1.2
   flutter_riverpod: ^2.3.6
   get_it: ^7.6.0
@@ -90,9 +90,7 @@ flutter:
     - assets/images/placeholders/portrait_placeholder.png
     - assets/images/placeholders/movie_placeholder.png
     - assets/images/placeholders/news_placeholder.png
-    - assets/images/errors/error.png
-    - assets/images/errors/error_crop.png
-    - assets/images/errors/error_square.png
+    - assets/images/errors/error.svg
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json
     - assets/lottieFiles/gradient_background_blue_white_speedup.json
