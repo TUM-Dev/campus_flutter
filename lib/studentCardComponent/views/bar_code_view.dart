@@ -26,9 +26,12 @@ class BarCodeView extends StatelessWidget {
               drawText: false,
             ),
           ),
-          Text(
-            "${context.localizations.libraryNumber}: $libraryID",
-            style: Theme.of(context).textTheme.labelLarge,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: context.halfPadding),
+            child: Text(
+              "${context.localizations.libraryNumber}: $libraryID",
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
           ),
         ],
       ),
