@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
@@ -33,7 +31,6 @@ class CalendarAdditionViewModel {
 
   CalendarAdditionViewModel(this.ref) {
     final date = ref.read(selectedDate);
-    log(date.$1.toString());
     from = BehaviorSubject.seeded(date.$1 ?? DateTime.now());
     to = BehaviorSubject.seeded(
       (date.$1 ?? DateTime.now()).add(const Duration(hours: 1)),

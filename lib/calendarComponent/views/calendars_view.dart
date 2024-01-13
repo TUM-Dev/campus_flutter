@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
@@ -39,12 +37,6 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
         .addListener((state) => _selectedDateListener(state));
     _selectedCalendarTab = 1;
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    log("Hallo");
-    super.didChangeDependencies();
   }
 
   @override

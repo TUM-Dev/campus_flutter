@@ -59,7 +59,8 @@ class EventCreationDateTimePicker extends StatelessWidget {
                         await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay.fromDateTime(
-                              snapshot.data ?? DateTime.now()),
+                            snapshot.data ?? DateTime.now(),
+                          ),
                         ),
                       ),
                       DateFormat.Hm(
