@@ -1,15 +1,14 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'dart:io';
 
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
 import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
@@ -173,22 +172,12 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           Center(
             child: MaterialButton(
-              onPressed: () async {
-                final info = await PackageInfo.fromPlatform();
-                final operatingSystem = Platform.operatingSystem;
-                final osVersion = Platform.operatingSystemVersion;
-
-                String email = Uri.encodeComponent("app@tum.de");
-                String subject =
-                    Uri.encodeComponent("[$operatingSystem - Token]");
-                String body = Uri.encodeComponent(
-                  "Hello, I have an issue activating the token of Campus Online in the TCA version ${info.version} with build number ${info.buildNumber} on $osVersion. Please describe the problem in more detail:\n",
-                ); //output: Hello%20Flutter
-                Uri emailUri =
-                    Uri.parse("mailto:$email?subject=$subject&body=$body");
-
-                UrlLauncher.url(emailUri, ref);
-              },
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FeedbackFormScaffold(),
+                ),
+              ),
               child: Text(
                 context.localizations.contactSupport,
                 style: TextStyle(color: Theme.of(context).primaryColor),
