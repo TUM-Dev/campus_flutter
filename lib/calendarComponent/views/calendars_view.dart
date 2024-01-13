@@ -11,6 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
+final selectedDate =
+    StateProvider<(DateTime?, CalendarView?)>((ref) => (null, null));
+
 class CalendarsView extends ConsumerStatefulWidget {
   const CalendarsView({super.key});
 
@@ -22,11 +25,16 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
     with AutomaticKeepAliveClientMixin<CalendarsView> {
   late int _selectedCalendarTab;
 
-  final CalendarController _calendarController = CalendarController();
+  final CalendarController dayController = CalendarController();
+  final CalendarController weekController = CalendarController();
+  final CalendarController monthController = CalendarController();
 
   @override
   void initState() {
     ref.read(calendarViewModel).fetch(false);
+    ref
+        .read(selectedDate.notifier)
+        .addListener((state) => _selectedDateListener(state));
     _selectedCalendarTab = 1;
     super.initState();
   }
@@ -49,7 +57,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                       onPressed: () {
                         setState(() {
                           _selectedCalendarTab = 0;
-                          _calendarController.displayDate = DateTime.now();
+                          dayController.displayDate = DateTime.now();
                         });
                       },
                       child: Text(
@@ -99,9 +107,13 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
               ),
               if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
-                CalendarDayView(calendarController: _calendarController),
-                const CalendarWeekView(),
-                const CalendarMonthView(),
+                CalendarDayView(calendarController: dayController),
+                CalendarWeekView(
+                  calendarController: weekController,
+                ),
+                CalendarMonthView(
+                  calendarController: monthController,
+                ),
               ][_selectedCalendarTab],
             ],
           );
@@ -122,4 +134,25 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
 
   @override
   bool get wantKeepAlive => true;
+
+  void _selectedDateListener((DateTime?, CalendarView?) state) {
+    switch (state.$2) {
+      case CalendarView.day:
+        weekController.selectedDate = state.$1;
+        weekController.displayDate = state.$1;
+        monthController.selectedDate = state.$1;
+        monthController.displayDate = state.$1;
+      case CalendarView.week:
+        dayController.selectedDate = state.$1;
+        dayController.displayDate = state.$1;
+        monthController.selectedDate = state.$1;
+        monthController.displayDate = state.$1;
+      case CalendarView.month:
+        dayController.selectedDate = state.$1;
+        dayController.displayDate = state.$1;
+        weekController.selectedDate = state.$1;
+        weekController.displayDate = state.$1;
+      default:
+    }
+  }
 }

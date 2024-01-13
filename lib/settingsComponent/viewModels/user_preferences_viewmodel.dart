@@ -43,8 +43,8 @@ class UserPreferencesViewModel {
             ref.read(selectedMapsApp.notifier).state = installedMaps.first;
           }
         case UserPreference.locale:
-          final savedLocale = data != null ? data as String : "en";
-          ref.read(locale.notifier).state = Locale(savedLocale);
+          ref.read(customLocale.notifier).state =
+              data != null ? Locale(data as String) : null;
         case UserPreference.theme:
           if (data != null) {
             final theme = Appearance.values
@@ -61,24 +61,31 @@ class UserPreferencesViewModel {
     dynamic newValue,
   ) async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    switch (userPreference) {
-      case UserPreference.defaultMapsApplication:
-        await sharedPreferences.setString(
-          userPreference.name,
-          (newValue as MapType).name,
-        );
-      case UserPreference.locale:
-        await sharedPreferences.setString(
-          userPreference.name,
-          (newValue as Locale).languageCode,
-        );
-      case UserPreference.theme:
-        await sharedPreferences.setString(
-          userPreference.name,
-          (newValue as Appearance).name,
-        );
-      default:
-        await sharedPreferences.setBool(userPreference.name, newValue as bool);
+    if (newValue == null) {
+      await sharedPreferences.remove(userPreference.name);
+    } else {
+      switch (userPreference) {
+        case UserPreference.defaultMapsApplication:
+          await sharedPreferences.setString(
+            userPreference.name,
+            (newValue as MapType).name,
+          );
+        case UserPreference.locale:
+          await sharedPreferences.setString(
+            userPreference.name,
+            (newValue as Locale).languageCode,
+          );
+        case UserPreference.theme:
+          await sharedPreferences.setString(
+            userPreference.name,
+            (newValue as Appearance).name,
+          );
+        default:
+          await sharedPreferences.setBool(
+            userPreference.name,
+            newValue as bool,
+          );
+      }
     }
   }
 }

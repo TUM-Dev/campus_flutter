@@ -31,15 +31,12 @@ class CalendarEvent extends Searchable {
   }
 
   String get timePeriod {
-    return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
+    return "${DateFormat.Hm("de").format(startDate)} - ${DateFormat.Hm("de").format(endDate)}";
   }
 
   String _dateTimePeriod(BuildContext context) {
-    final start =
-        DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName)
-            .format(startDate);
-    final end =
-        DateFormat("HH:mm", context.localizations.localeName).format(endDate);
+    final start = DateFormat("EE, dd.MM.yyyy, HH:mm", "de").format(startDate);
+    final end = DateFormat("HH:mm", "de").format(endDate);
     return "$start - $end";
   }
 
@@ -49,11 +46,11 @@ class CalendarEvent extends Searchable {
     } else {
       final start = DateFormat(
         null,
-        context.localizations.localeName,
+        "de",
       ).format(startDate);
       final end = DateFormat(
         null,
-        context.localizations.localeName,
+        "de",
       ).format(endDate);
       return "$start ${context.localizations.to.toLowerCase()}\n$end";
     }

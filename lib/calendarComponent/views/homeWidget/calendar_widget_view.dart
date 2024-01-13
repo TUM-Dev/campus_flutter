@@ -148,11 +148,11 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          DateFormat.EEEE(context.localizations.localeName).format(today),
+          DateFormat.EEEE("de").format(today),
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         Text(
-          DateFormat.MMMd(context.localizations.localeName).format(today),
+          DateFormat.MMMd("de").format(today),
           style: Theme.of(context).textTheme.headlineSmall,
         ),
       ],

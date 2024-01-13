@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
+import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +34,7 @@ class CalendarViewService {
     }
   }
 
-  showModalSheet(
+  showDetails(
     CalendarTapDetails? details,
     CalendarEvent? event,
     BuildContext context,
@@ -79,7 +80,7 @@ class CalendarViewService {
             overflow: TextOverflow.ellipsis,
           ),
           content: CustomEventView(calendarEvent: calendarEvent),
-          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          actionsAlignment: MainAxisAlignment.center,
           actions: [
             ElevatedButton(
               style: ButtonStyle(
@@ -94,8 +95,18 @@ class CalendarViewService {
               child: Text(context.localizations.delete),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Okay"),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventCreationScaffold(
+                      calendarEvent: calendarEvent,
+                    ),
+                  ),
+                );
+              },
+              child: Text(context.localizations.edit),
             ),
           ],
         ),

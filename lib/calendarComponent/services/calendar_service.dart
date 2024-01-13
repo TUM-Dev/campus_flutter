@@ -21,11 +21,12 @@ class CalendarService {
     return (response.saved, response.data.events?.event ?? []);
   }
 
-  static Future<void> createCalendarEvent(
+  static Future<CalendarCreationConfirmation> createCalendarEvent(
     AddedCalendarEvent addedCalendarEvent,
   ) async {
     RESTClient restClient = getIt<RESTClient>();
-    restClient.getWithException(
+    final response = await restClient.getWithException<
+        CalendarCreationConfirmationData, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
         TumOnlineServiceEventCreate(
           title: addedCalendarEvent.title,
@@ -38,6 +39,7 @@ class CalendarService {
       TumOnlineApiException.fromJson,
       true,
     );
+    return response.data.calendarCreationConfirmation;
   }
 
   static Future<void> deleteCalendarEvent(
