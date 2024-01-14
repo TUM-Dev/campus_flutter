@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_campus_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
@@ -58,9 +58,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
 
   @override
   void initState() {
-    ref
-        .read(navigaTumViewModel)
-        .mostSearched(widget.campus.searchStringRooms, false);
+    ref.read(navigaTumCampusViewModel(widget.campus)).mostSearched(false);
     cafeterias =
         ref.read(cafeteriasViewModel).campusCafeterias.value?[widget.campus] ??
             [];
@@ -156,7 +154,9 @@ class _CampusViewState extends ConsumerState<CampusView> {
                   ),
                 ),
               ),
-            const CampusMostSearchedView(),
+            CampusMostSearchedView(
+              campus: widget.campus,
+            ),
           ],
         ),
       ],
