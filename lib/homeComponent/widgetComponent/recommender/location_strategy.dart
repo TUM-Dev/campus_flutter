@@ -100,7 +100,15 @@ class LocationStrategy implements WidgetRecommenderStrategy {
 
         return priority;
       },
-      onError: (error) => 0,
+      onError: (error) {
+        switch (homeWidget) {
+          case HomeWidget.calendar:
+          case HomeWidget.movies:
+            return 1;
+          default:
+            return 0;
+        }
+      },
     );
   }
 
