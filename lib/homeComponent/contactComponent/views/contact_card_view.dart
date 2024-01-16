@@ -36,10 +36,8 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             (personDetails, studentCard) => (personDetails, studentCard),
           ),
       builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.data?.$1 != null &&
-            snapshot.data?.$2 != null) {
-          return contactInfo(snapshot.data!.$1!, snapshot.data!.$2!);
+        if (snapshot.hasData && snapshot.data?.$1 != null) {
+          return contactInfo(snapshot.data!.$1!, snapshot.data!.$2);
         } else {
           return DelayedLoadingIndicator(
             name: context.localizations.personalData,
@@ -51,8 +49,8 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     );
   }
 
-  Widget contactInfo(PersonDetails data, StudentCard studentCard) {
-    final studies = studentCard.studies?.study;
+  Widget contactInfo(PersonDetails data, StudentCard? studentCard) {
+    final studies = studentCard?.studies?.study;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
