@@ -513,10 +513,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: "06e37fa32392f69f133e166ef6b358a8b6afddbf4c418fc236988184cc115a49"
+      sha256: "30ff8fa384ab6d35965aecc15dfc980e5ebc5f823352c1adfc87dc3d000e8e24"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.1"
+    version: "4.5.0"
   geolocator_apple:
     dependency: transitive
     description:
@@ -594,10 +594,10 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: ca9d019de61f4e20acd3004a1a49dc9db9bb4f58
+      resolved-ref: "89d134da61ae7602820ed8386dd8abc19644d253"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
-    version: "2.4.0"
+    version: "2.4.1"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
