@@ -82,21 +82,8 @@ class Grade extends Searchable {
 }
 
 @JsonSerializable()
-class GradeData {
-  @JsonKey(name: "rowset")
-  Grades? gradesAttribute;
-
-  GradeData({required this.gradesAttribute});
-
-  factory GradeData.fromJson(Map<String, dynamic> json) =>
-      _$GradeDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GradeDataToJson(this);
-}
-
-@JsonSerializable()
 class Grades {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Grade> personalGrades;
 
   Grades({required this.personalGrades});

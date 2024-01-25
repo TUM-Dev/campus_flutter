@@ -8,20 +8,20 @@ import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 
 class StudentCardService {
-  static Future<(DateTime?, StudentCard)> fetchStudentCard(
+  static Future<(DateTime?, List<StudentCard>)> fetchStudentCard(
     bool forcedRefresh,
   ) async {
     try {
       RESTClient restClient = getIt<RESTClient>();
-      final response = await restClient.getWithException<StudentCardData,
-          TumOnlineApi, TumOnlineApiException>(
+      final response = await restClient
+          .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
         TumOnlineApi(TumOnlineServiceTumCard()),
-        StudentCardData.fromJson,
+        StudentCards.fromJson,
         TumOnlineApiException.fromJson,
         forcedRefresh,
       );
 
-      return (response.saved, response.data.studentCards.studentCard);
+      return (response.saved, response.data.studentCards);
     } catch (e) {
       log(e.toString());
       rethrow;

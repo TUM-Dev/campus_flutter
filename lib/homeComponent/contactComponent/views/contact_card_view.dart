@@ -37,7 +37,10 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
           ),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data?.$1 != null) {
-          return contactInfo(snapshot.data!.$1!, snapshot.data!.$2);
+          return contactInfo(
+            snapshot.data!.$1!,
+            snapshot.data!.$2?.firstOrNull,
+          );
         } else {
           return DelayedLoadingIndicator(
             name: context.localizations.personalData,
@@ -50,7 +53,6 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   }
 
   Widget contactInfo(PersonDetails data, StudentCard? studentCard) {
-    final studies = studentCard?.studies?.study;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
@@ -78,9 +80,11 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                   ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
                 ),
                 Text(data.email),
-                for (var studyProgram in studies?.sublist(
+                for (var studyProgram in studentCard?.studies.sublist(
                       0,
-                      studies.length >= 2 ? 2 : studies.length,
+                      studentCard.studies.length >= 2
+                          ? 2
+                          : studentCard.studies.length,
                     ) ??
                     []) ...[
                   Text(

@@ -112,22 +112,11 @@ class CalendarEvent extends Searchable {
 }
 
 @JsonSerializable()
-class CalendarEventsData {
-  final CalendarEvents? events;
-
-  CalendarEventsData({required this.events});
-
-  factory CalendarEventsData.fromJson(Map<String, dynamic> json) =>
-      _$CalendarEventsDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
-}
-
-@JsonSerializable()
 class CalendarEvents {
-  final List<CalendarEvent> event;
+  @JsonKey(name: "event", defaultValue: [])
+  final List<CalendarEvent> events;
 
-  CalendarEvents({required this.event});
+  CalendarEvents({required this.events});
 
   factory CalendarEvents.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventsFromJson(json);

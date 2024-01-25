@@ -23,17 +23,18 @@ PersonDetails _$PersonDetailsFromJson(Map<String, dynamic> json) =>
           ? null
           : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
       imageData: json['image_data'] as String?,
-      organisations:
-          (PersonDetails.readValue(json, 'gruppen') as List<dynamic>?)
+      organisations: (json['gruppe'] as List<dynamic>?)
               ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      rooms: (PersonDetails.readValue(json, 'raeume') as List<dynamic>?)
-          ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      phoneExtensions: (PersonDetails.readValue(json, 'telefon_nebenstellen')
-              as List<dynamic>?)
-          ?.map((e) => PhoneExtension.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              .toList() ??
+          [],
+      rooms: (json['raum'] as List<dynamic>?)
+              ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      phoneExtensions: (json['nebenstelle'] as List<dynamic>?)
+              ?.map((e) => PhoneExtension.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$PersonDetailsToJson(PersonDetails instance) =>
@@ -49,9 +50,9 @@ Map<String, dynamic> _$PersonDetailsToJson(PersonDetails instance) =>
       'dienstlich': instance.officialContact,
       'privat': instance.privateContact,
       'image_data': instance.imageData,
-      'gruppen': instance.organisations,
-      'raeume': instance.rooms,
-      'telefon_nebenstellen': instance.phoneExtensions,
+      'gruppe': instance.organisations,
+      'raum': instance.rooms,
+      'nebenstelle': instance.phoneExtensions,
     };
 
 const _$GenderEnumMap = {

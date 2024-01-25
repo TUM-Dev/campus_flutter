@@ -29,8 +29,8 @@ class StudentCard {
   @JsonKey(name: "gueltig_bis")
   final DateTime validUntil;
 
-  @JsonKey(name: "studien")
-  final Studies? studies;
+  @JsonKey(name: "studium", defaultValue: [])
+  final List<Subject> studies;
 
   @JsonKey(name: "foto")
   final String image;
@@ -45,7 +45,7 @@ class StudentCard {
     required this.semester,
     required this.validFrom,
     required this.validUntil,
-    this.studies,
+    required this.studies,
     required this.image,
   });
 
@@ -53,28 +53,6 @@ class StudentCard {
       _$StudentCardFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentCardToJson(this);
-}
-
-@JsonSerializable()
-class Studies {
-  @JsonKey(name: "studium", fromJson: alwaysAsList)
-  final List<Subject> study;
-
-  Studies({required this.study});
-
-  factory Studies.fromJson(Map<String, dynamic> json) =>
-      _$StudiesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StudiesToJson(this);
-}
-
-// TODO: try to make this generic?
-List<Subject> alwaysAsList(dynamic data) {
-  if (data is Map<String, dynamic>) {
-    return [Subject.fromJson(data)];
-  } else {
-    return (data as List<dynamic>).map((e) => Subject.fromJson(e)).toList();
-  }
 }
 
 @JsonSerializable()
@@ -97,26 +75,13 @@ class Subject {
 
 @JsonSerializable()
 class StudentCards {
-  @JsonKey(name: "card")
-  final StudentCard studentCard;
+  @JsonKey(name: "card", defaultValue: [])
+  final List<StudentCard> studentCards;
 
-  StudentCards({required this.studentCard});
+  StudentCards({required this.studentCards});
 
   factory StudentCards.fromJson(Map<String, dynamic> json) =>
       _$StudentCardsFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentCardsToJson(this);
-}
-
-@JsonSerializable()
-class StudentCardData {
-  @JsonKey(name: "cards")
-  final StudentCards studentCards;
-
-  StudentCardData({required this.studentCards});
-
-  factory StudentCardData.fromJson(Map<String, dynamic> json) =>
-      _$StudentCardDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StudentCardDataToJson(this);
 }

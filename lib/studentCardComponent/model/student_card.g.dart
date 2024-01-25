@@ -16,9 +16,10 @@ StudentCard _$StudentCardFromJson(Map<String, dynamic> json) => StudentCard(
       semester: json['semester'] as String,
       validFrom: DateTime.parse(json['gueltig_ab'] as String),
       validUntil: DateTime.parse(json['gueltig_bis'] as String),
-      studies: json['studien'] == null
-          ? null
-          : Studies.fromJson(json['studien'] as Map<String, dynamic>),
+      studies: (json['studium'] as List<dynamic>?)
+              ?.map((e) => Subject.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       image: json['foto'] as String,
     );
 
@@ -33,16 +34,8 @@ Map<String, dynamic> _$StudentCardToJson(StudentCard instance) =>
       'semester': instance.semester,
       'gueltig_ab': instance.validFrom.toIso8601String(),
       'gueltig_bis': instance.validUntil.toIso8601String(),
-      'studien': instance.studies,
+      'studium': instance.studies,
       'foto': instance.image,
-    };
-
-Studies _$StudiesFromJson(Map<String, dynamic> json) => Studies(
-      study: alwaysAsList(json['studium']),
-    );
-
-Map<String, dynamic> _$StudiesToJson(Studies instance) => <String, dynamic>{
-      'studium': instance.study,
     };
 
 Subject _$SubjectFromJson(Map<String, dynamic> json) => Subject(
@@ -58,21 +51,13 @@ Map<String, dynamic> _$SubjectToJson(Subject instance) => <String, dynamic>{
     };
 
 StudentCards _$StudentCardsFromJson(Map<String, dynamic> json) => StudentCards(
-      studentCard: StudentCard.fromJson(json['card'] as Map<String, dynamic>),
+      studentCards: (json['card'] as List<dynamic>?)
+              ?.map((e) => StudentCard.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$StudentCardsToJson(StudentCards instance) =>
     <String, dynamic>{
-      'card': instance.studentCard,
-    };
-
-StudentCardData _$StudentCardDataFromJson(Map<String, dynamic> json) =>
-    StudentCardData(
-      studentCards:
-          StudentCards.fromJson(json['cards'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$StudentCardDataToJson(StudentCardData instance) =>
-    <String, dynamic>{
-      'cards': instance.studentCards,
+      'card': instance.studentCards,
     };

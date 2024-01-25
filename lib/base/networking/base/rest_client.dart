@@ -36,15 +36,16 @@ class RESTClient {
         if (body.headers["content-type"]?.first.contains("xml") ?? false) {
           final transformer = Xml2Json();
           transformer.parse(decoded);
-          return transformer.toParkerWithAttrsCustom(
-            array: [
-              "row",
-              "event",
-              "studium",
-              "raeume",
-              "gruppen",
-              "telefon_nebenstellen",
-            ],
+          return transformer.toParkerWithAttrs(
+            entries: {
+              "row": "rowset",
+              "event": "events",
+              "studium": "studien",
+              "raum": "raeume",
+              "gruppe": "gruppen",
+              "nebenstelle": "telefon_nebenstellen",
+              "card": "cards",
+            },
           );
         } else {
           return decoded;
@@ -85,15 +86,16 @@ class RESTClient {
         if (body.headers["content-type"]?.first.contains("xml") ?? false) {
           final transformer = Xml2Json();
           transformer.parse(decoded);
-          return transformer.toParkerWithAttrsCustom(
-            array: [
-              "row",
-              "event",
-              "studium",
-              "raeume",
-              "gruppen",
-              "telefon_nebenstellen",
-            ],
+          return transformer.toParkerWithAttrs(
+            entries: {
+              "row": "rowset",
+              "event": "events",
+              "studium": "studien",
+              "raum": "raeume",
+              "gruppe": "gruppen",
+              "nebenstelle": "telefon_nebenstellen",
+              "card": "cards",
+            },
           );
         } else {
           return decoded;

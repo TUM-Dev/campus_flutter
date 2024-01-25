@@ -79,16 +79,17 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         _image(personDetails.imageData),
         _name(personDetails.fullNameWithTitle),
         _contact(personDetails),
-        if (personDetails.rooms != null) _room(personDetails),
+        if (personDetails.rooms.isNotEmpty) _room(personDetails),
       ],
     );
   }
 
   Widget _name(String name) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.padding),
+      padding: EdgeInsets.all(context.padding),
       child: Text(
         name,
+        textAlign: TextAlign.center,
         style: context.theme.textTheme.titleLarge,
       ),
     );
@@ -124,21 +125,21 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
               onTap: () =>
                   UrlLauncher.urlString("mailto:${personDetails.email}", ref),
             ),
-            if (personDetails.phoneExtensions?.first.phoneNumber != null)
+            if (personDetails.phoneExtensions.firstOrNull?.phoneNumber != null)
               ListTile(
                 leading: Icon(
                   Icons.phone,
                   color: context.theme.primaryColor,
                 ),
                 title: Text(
-                  personDetails.phoneExtensions!.first.phoneNumber ??
+                  personDetails.phoneExtensions.first.phoneNumber ??
                       context.localizations.unknown,
                   style: const TextStyle(
                     decoration: TextDecoration.underline,
                   ),
                 ),
                 onTap: () => UrlLauncher.urlString(
-                  "tel:${personDetails.phoneExtensions!.first.phoneNumber}",
+                  "tel:${personDetails.phoneExtensions.firstOrNull?.phoneNumber}",
                   ref,
                 ),
               ),
@@ -175,7 +176,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 color: context.theme.primaryColor,
               ),
               title: Text(
-                personDetails.rooms!.first.shortLocationDescription ??
+                personDetails.rooms.first.shortLocationDescription ??
                     context.localizations.unknown,
               ),
               trailing: const Icon(
@@ -186,7 +187,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => PersonRoomSearchScaffold(
-                    searchString: personDetails.rooms!.first.id,
+                    searchString: personDetails.rooms.first.id,
                   ),
                 ),
               ),
@@ -197,7 +198,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 color: context.theme.primaryColor,
               ),
               title: Text(
-                personDetails.rooms!.first.floorName ??
+                personDetails.rooms.first.floorName ??
                     context.localizations.unknown,
               ),
             ),
@@ -207,7 +208,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 color: context.theme.primaryColor,
               ),
               title: Text(
-                personDetails.rooms!.first.buildingName ??
+                personDetails.rooms.first.buildingName ??
                     context.localizations.unknown,
               ),
             ),

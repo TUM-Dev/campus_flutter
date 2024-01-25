@@ -69,17 +69,6 @@ Map<String, dynamic> _$LectureDetailsToJson(LectureDetails instance) =>
       'pruef_termine_url': instance.examDateURL,
     };
 
-LectureDetailsData _$LectureDetailsDataFromJson(Map<String, dynamic> json) =>
-    LectureDetailsData(
-      lectureDetailsAttribute: LectureDetailsElement.fromJson(
-          json['rowset'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$LectureDetailsDataToJson(LectureDetailsData instance) =>
-    <String, dynamic>{
-      'rowset': instance.lectureDetailsAttribute,
-    };
-
 LectureDetailsElement _$LectureDetailsElementFromJson(
         Map<String, dynamic> json) =>
     LectureDetailsElement(
