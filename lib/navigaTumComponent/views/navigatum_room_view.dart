@@ -44,7 +44,9 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
   @override
   void initState() {
     viewModel = navigaTumDetailsViewModel(widget.id);
-    ref.read(viewModel).fetchDetails(false, context);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) => ref.read(viewModel).fetchDetails(false, context),
+    );
     super.initState();
   }
 
