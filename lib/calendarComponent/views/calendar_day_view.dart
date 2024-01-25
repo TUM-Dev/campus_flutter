@@ -41,7 +41,6 @@ class CalendarDayView extends ConsumerWidget {
           },
           headerDateFormat: "EEEE, dd.MM.yyyy",
           showNavigationArrow: true,
-          maxDate: getIt<CalendarViewService>().maxDate(ref),
           timeSlotViewSettings: const TimeSlotViewSettings(
             startHour: 7,
             endHour: 22,

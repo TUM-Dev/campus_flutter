@@ -47,7 +47,6 @@ class CalendarWeekView extends ConsumerWidget {
             headerDateFormat: "",
             showWeekNumber: true,
             showNavigationArrow: true,
-            maxDate: getIt<CalendarViewService>().maxDate(ref),
             timeSlotViewSettings: const TimeSlotViewSettings(
               startHour: 7,
               endHour: 22,
