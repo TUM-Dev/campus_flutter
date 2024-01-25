@@ -40,7 +40,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFoundSearch(
+                      context.localizations.noEntriesFound(
                         SearchCategoryExtension.localizedEnumTitle(
                           searchCategory,
                           context,

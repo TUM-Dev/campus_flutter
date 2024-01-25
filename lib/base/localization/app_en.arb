@@ -16,6 +16,7 @@
    "hideFailedGrades":"Hide Failed Grades",
    "defaultMapsApplication":"Default Maps Application",
    "map":"Map",
+   "maps":"Maps",
    "contactMore":"Contact & More",
    "tokenPermissions":"Token Permissions",
    "permissionChangePossibleInTUMonline":"You can change your permissions on TUMOnline",
@@ -41,9 +42,8 @@
    "done":"Done",
    "studyRooms":"Study Rooms",
    "nearestStudyRooms":"Nearest Study Rooms",
-   "noNearFreeStudyRoomsFound":"no study rooms near you found",
+   "noNearFreeStudyRoomsFound":"No Study Rooms Near You Found!",
    "mostSearchedRooms":"Most Searched Rooms",
-   "noMoviesFound":"no movies found",
    "tuition":"Tuition",
    "tuitionFees":"Tuition fees",
    "tuitionPaid":"Tuition Paid",
@@ -83,7 +83,6 @@
    "thisMeeting":"This Meeting",
    "lectureDetails":"Lecture Details",
    "noLecturesSelected":"no lecture selected",
-   "noLecturesFound":"no lectures found",
    "showDirections":"Show Directions",
    "notAvailableAbbrev":"n/a",
    "becomeABetaTester":"Become a Beta Tester",
@@ -158,11 +157,9 @@
          }
       }
    },
-   "noNewsFound":"no news found",
    "news":"News",
    "movies":"Movies",
    "personalData":"Personal Data",
-   "noGradesFound":"no grades found",
    "calendarViewToday":"Today",
    "calendarViewDay":"Day",
    "calendarViewWeek":"Week",
@@ -200,14 +197,12 @@
          }
       }
    },
-   "noRoomsFound":"No Rooms Found",
-   "noMealPlanFound":"No Meal Plan Found",
    "mealPlan":"Meal Plan",
-   "noEntriesFoundSearch":"No {searchCategory} Found",
-   "@noEntriesFoundSearch":{
-      "description":"Title of Search Category",
+   "noEntriesFound":"No {category} Found!",
+   "@noEntriesFound":{
+      "description":"Category",
       "placeholders":{
-         "searchCategory":{
+         "category":{
             "type":"String",
             "example":"Grades"
          }
@@ -219,7 +214,6 @@
    "search":"Search",
    "today":"Today",
    "tomorrow":"Tomorrow",
-   "noMapsFound":"No Maps Found",
    "roomSearch":"Room Search",
    "personSearch":"Person Search",
    "badResponse":"Bad Response",

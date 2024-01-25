@@ -109,7 +109,11 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           child: SizedBox(
             height: 150,
             child: Center(
-              child: Text(context.localizations.noMealPlanFound),
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.mealPlan,
+                ),
+              ),
             ),
           ),
         );
