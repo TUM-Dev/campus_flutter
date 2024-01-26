@@ -284,5 +284,9 @@
    "libraryBarcode":"Library Barcode",
    "libraryNumber":"Library Number",
    "birthday":"Birthday",
-   "studyId":"Study ID"
+   "studyId":"Study ID",
+   "locationServiceDisabled":"Location Service disabled",
+   "permissionDenied":"Permission denied",
+   "onlyLetters":"Make Sure to Use Letters Only",
+   "onlyNumbers":"Make Sure to Use Numbers Only"
 }
