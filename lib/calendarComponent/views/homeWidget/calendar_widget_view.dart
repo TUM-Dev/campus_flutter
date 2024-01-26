@@ -30,32 +30,30 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   Widget build(BuildContext context) {
     return WidgetFrameView(
       title: context.localizations.calendar,
-      child: SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.25,
-        child: CardWithPadding(
-          child: StreamBuilder(
-            stream: ref.watch(calendarViewModel).events,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _calendarWidgetCard(
-                  ref.read(calendarViewModel).getWidgetEvents(),
-                );
-              } else if (snapshot.hasError) {
-                return SizedBox(
-                  height: 200,
-                  child: ErrorHandlingRouter(
-                    error: snapshot.error!,
-                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                    retry: ref.read(calendarViewModel).fetch,
-                  ),
-                );
-              } else {
-                return DelayedLoadingIndicator(
-                  name: context.localizations.events,
-                );
-              }
-            },
-          ),
+      child: CardWithPadding(
+        height: 220,
+        child: StreamBuilder(
+          stream: ref.watch(calendarViewModel).events,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _calendarWidgetCard(
+                ref.read(calendarViewModel).getWidgetEvents(),
+              );
+            } else if (snapshot.hasError) {
+              return SizedBox(
+                height: 200,
+                child: ErrorHandlingRouter(
+                  error: snapshot.error!,
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                  retry: ref.read(calendarViewModel).fetch,
+                ),
+              );
+            } else {
+              return DelayedLoadingIndicator(
+                name: context.localizations.events,
+              );
+            }
+          },
         ),
       ),
     );

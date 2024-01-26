@@ -100,9 +100,11 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           Text(texts[currentText], textAlign: TextAlign.center),
           const Spacer(),
           SizedBox(
-            height: 500,
-            width: 230,
-            child: VideoPlayer(_videoPlayerController),
+            width: MediaQuery.sizeOf(context).width * 0.5,
+            child: AspectRatio(
+              aspectRatio: 0.46,
+              child: VideoPlayer(_videoPlayerController),
+            ),
           ),
           const Spacer(flex: 2),
           Row(
