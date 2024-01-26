@@ -142,7 +142,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             inputFormatters: [LengthLimitingTextInputFormatter(2)],
             controller: ref.read(loginViewModel).textEditingController1,
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId();
+              ref.read(loginViewModel).checkTumId(context);
               if (text.length == 2) {
                 FocusScope.of(context).nextFocus();
               }
@@ -161,7 +161,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             inputFormatters: [LengthLimitingTextInputFormatter(2)],
             controller: ref.read(loginViewModel).textEditingController2,
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId();
+              ref.read(loginViewModel).checkTumId(context);
               if (text.length == 2 && int.tryParse(text) != null) {
                 FocusScope.of(context).nextFocus();
               } else if (text.isEmpty) {
@@ -181,7 +181,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             controller: ref.read(loginViewModel).textEditingController3,
             inputFormatters: [LengthLimitingTextInputFormatter(3)],
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId();
+              ref.read(loginViewModel).checkTumId(context);
               if (text.isEmpty) {
                 FocusScope.of(context).previousFocus();
               }

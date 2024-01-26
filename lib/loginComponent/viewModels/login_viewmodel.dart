@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/loginComponent/model/confirm.dart';
@@ -35,50 +36,44 @@ class LoginViewModel {
     textEditingController3.clear();
   }
 
-  void checkTumId() {
-    final RegExp lettersRegex = RegExp(r'^$|^[a-zA-Z]+$');
-    final RegExp numberRegex = RegExp(r'^$|^[0-9]+$');
+  void checkTumId(BuildContext context) {
+    final RegExp lettersRegex = RegExp(r'^[a-zA-Z]+$');
+    final RegExp numberRegex = RegExp(r'^[0-9]+$');
 
-    if (!lettersRegex.hasMatch(textEditingController1.text)) {
-      tumIdValid.addError("make sure to use letters only");
-      return;
-    }
+    validateField(
+      textEditingController1.text,
+      lettersRegex,
+      context.localizations.onlyLetters,
+    );
+    validateField(
+      textEditingController2.text,
+      numberRegex,
+      context.localizations.onlyNumbers,
+    );
+    validateField(
+      textEditingController3.text,
+      lettersRegex,
+      context.localizations.onlyLetters,
+    );
 
-    if (lettersRegex.hasMatch(textEditingController1.text)) {
-      tumIdValid.add(false);
-    }
-
-    if (!numberRegex.hasMatch(textEditingController2.text)) {
-      tumIdValid.addError("make sure to use numbers only");
-      return;
-    }
-
-    if (lettersRegex.hasMatch(textEditingController2.text)) {
-      tumIdValid.add(false);
-    }
-
-    if (!lettersRegex.hasMatch(textEditingController3.text)) {
-      tumIdValid.addError("make sure to use letters only");
-      return;
-    }
-
-    if (lettersRegex.hasMatch(textEditingController3.text)) {
-      tumIdValid.add(false);
-    }
-
-    if (textEditingController1.text.length != 2) {
-      return;
-    }
-
-    if (textEditingController2.text.length != 2) {
-      return;
-    }
-
-    if (textEditingController3.text.length != 3) {
-      return;
-    }
+    validateLength(textEditingController1.text, 2);
+    validateLength(textEditingController2.text, 2);
+    validateLength(textEditingController3.text, 3);
 
     tumIdValid.add(true);
+  }
+
+  void validateField(String text, RegExp regex, String errorMessage) {
+    if (!regex.hasMatch(text)) {
+      tumIdValid.addError(errorMessage);
+      tumIdValid.add(false);
+    }
+  }
+
+  void validateLength(String text, int length) {
+    if (text.length != length) {
+      tumIdValid.add(false);
+    }
   }
 
   Future checkLogin() async {

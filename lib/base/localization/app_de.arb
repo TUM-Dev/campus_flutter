@@ -284,5 +284,9 @@
    "libraryBarcode":"Bibliotheks-Barcode",
    "libraryNumber":"Bibliotheksnummer",
    "birthday":"Geb.",
-   "studyId":"Matr.Nr."
+   "studyId":"Matr.Nr.",
+   "locationServiceDisabled":"Ortungsdienst deaktiviert",
+   "permissionDenied":"Erlaubnis verweigert",
+   "onlyLetters":"Achte drauf, nur Buchstaben zu benutzen",
+   "onlyNumbers":"Achte drauf, nur Zahlen zu benutzen"
 }
