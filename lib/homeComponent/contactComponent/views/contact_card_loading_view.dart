@@ -7,33 +7,37 @@ class ContactCardLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          backgroundImage:
-              AssetImage('assets/images/placeholders/portrait_placeholder.png'),
-          radius: 50,
-        ),
-        const Padding(padding: EdgeInsets.only(left: 15)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ShimmerView(
-              child: PlaceholderText(
-                text: "Max Mustermann",
-                style: Theme.of(context).textTheme.headlineSmall,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundImage: AssetImage(
+              'assets/images/placeholders/portrait_placeholder.png',
+            ),
+            radius: 50,
+          ),
+          const Padding(padding: EdgeInsets.only(left: 15)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerView(
+                child: PlaceholderText(
+                  text: "Max Mustermann",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
               ),
-            ),
-            const ShimmerView(child: PlaceholderText(text: "go43hum")),
-            const ShimmerView(
-              child: PlaceholderText(text: "max.mustermann@tum.de"),
-            ),
-            const ShimmerView(
-              child: PlaceholderText(text: "Musterstudiengang (B.Sc.)"),
-            ),
-          ],
-        ),
-      ],
+              const ShimmerView(child: PlaceholderText(text: "go43hum")),
+              const ShimmerView(
+                child: PlaceholderText(text: "max.mustermann@tum.de"),
+              ),
+              const ShimmerView(
+                child: PlaceholderText(text: "Musterstudiengang (B.Sc.)"),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

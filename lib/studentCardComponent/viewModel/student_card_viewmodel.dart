@@ -6,7 +6,8 @@ import 'package:rxdart/rxdart.dart';
 final studentCardViewModel = Provider((ref) => StudentCardViewModel());
 
 class StudentCardViewModel {
-  BehaviorSubject<StudentCard?> studentCard = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<StudentCard>?> studentCard =
+      BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {

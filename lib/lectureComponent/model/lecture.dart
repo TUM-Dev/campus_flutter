@@ -97,21 +97,8 @@ class Lecture extends Searchable {
 }
 
 @JsonSerializable()
-class LectureData {
-  @JsonKey(name: "rowset")
-  Lectures? lecturesAttribute;
-
-  LectureData({required this.lecturesAttribute});
-
-  factory LectureData.fromJson(Map<String, dynamic> json) =>
-      _$LectureDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LectureDataToJson(this);
-}
-
-@JsonSerializable()
 class Lectures {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Lecture> lectures;
 
   Lectures({required this.lectures});

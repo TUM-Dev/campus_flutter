@@ -38,7 +38,11 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.34,
                 child: Center(
-                  child: Text(context.localizations.noMoviesFound),
+                  child: Text(
+                    context.localizations.noEntriesFound(
+                      context.localizations.movies,
+                    ),
+                  ),
                 ),
               ),
             );

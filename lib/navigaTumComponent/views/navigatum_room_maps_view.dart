@@ -49,7 +49,11 @@ class NavigaTumRoomMapsView extends StatelessWidget {
                 aspectRatio: 2,
               )
             : Center(
-                child: Text(context.localizations.noMapsFound),
+                child: Text(
+                  context.localizations.noEntriesFound(
+                    context.localizations.maps,
+                  ),
+                ),
               ),
       ),
     );

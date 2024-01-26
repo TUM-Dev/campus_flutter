@@ -30,7 +30,11 @@ class CampusMostSearchedView extends ConsumerWidget {
                 return Padding(
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
-                    child: Text(context.localizations.noRoomsFound),
+                    child: Text(
+                      context.localizations.noEntriesFound(
+                        context.localizations.rooms,
+                      ),
+                    ),
                   ),
                 );
               } else {

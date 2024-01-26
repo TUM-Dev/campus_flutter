@@ -16,6 +16,7 @@
    "hideFailedGrades":"Durchgefallene Noten ausblenden",
    "defaultMapsApplication":"Standard-Kartenanwendung",
    "map":"Karte",
+   "maps":"Karten",
    "contactMore":"Kontakt & Mehr",
    "tokenPermissions":"Berechtigungen für Token",
    "permissionChangePossibleInTUMonline":"Du kannst deine Berechtigungen in TUMOnline ändern",
@@ -43,7 +44,6 @@
    "nearestStudyRooms":"Nächste Lernräume",
    "noNearFreeStudyRoomsFound":"Keine Lernräume in deiner Nähe gefunden",
    "mostSearchedRooms":"Meist gesuchte Räume",
-   "noMoviesFound":"Keine Filme gefunden",
    "tuition":"Tuition",
    "tuitionFees":"Studiengebühren",
    "tuitionPaid":"Bezahlt",
@@ -83,7 +83,6 @@
    "thisMeeting":"Dieser Termin",
    "lectureDetails":"Vorlesungsdetails",
    "noLecturesSelected":"keine vorlesungen ausgewählt",
-   "noLecturesFound":"keine vorlesungen gefunden",
    "showDirections":"Wegbeschreibung anzeigen",
    "notAvailableAbbrev":"n. v.",
    "becomeABetaTester":"Werde Beta-Tester",
@@ -158,11 +157,9 @@
          }
       }
    },
-   "noNewsFound":"Keine Nachrichten gefunden",
    "news":"Nachrichten",
    "movies":"Filme",
    "personalData":"Persönliche Daten",
-   "noGradesFound":"Keine Noten gefunden",
    "calendarViewToday":"Heute",
    "calendarViewDay":"Tag",
    "calendarViewWeek":"Woche",
@@ -200,14 +197,12 @@
          }
       }
    },
-   "noRoomsFound":"Keine Räume gefunden",
-   "noMealPlanFound":"Kein Essensplan gefunden",
    "mealPlan":"Essensplan",
-   "noEntriesFoundSearch":"Keine {searchCategory} gefunden",
-   "@noEntriesFoundSearch":{
-      "description":"Title of Search Category",
+   "noEntriesFound":"Keine {category} gefunden!",
+   "@noEntriesFound":{
+      "description":"Category",
       "placeholders":{
-         "searchCategory":{
+         "category":{
             "type":"String",
             "example":"Grades"
          }
@@ -219,7 +214,6 @@
    "search":"Suche",
    "today":"Heute",
    "tomorrow":"Morgen",
-   "noMapsFound":"Keine Karten gefunden",
    "roomSearch":"Raum Suche",
    "personSearch":"Personen Suche",
    "badResponse":"Ungültige Antwort",

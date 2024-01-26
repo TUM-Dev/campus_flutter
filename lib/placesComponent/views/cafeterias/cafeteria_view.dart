@@ -210,7 +210,11 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
             return Center(
-              child: Text(context.localizations.noMealPlanFound),
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.mealPlan,
+                ),
+              ),
             );
           } else {
             final menu = snapshot.data!;
@@ -256,7 +260,11 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                   ),
                 if (todayMeals.isEmpty)
                   Center(
-                    child: Text(context.localizations.noMealPlanFound),
+                    child: Text(
+                      context.localizations.noEntriesFound(
+                        context.localizations.mealPlan,
+                      ),
+                    ),
                   ),
               ],
             );

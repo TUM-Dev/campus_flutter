@@ -39,7 +39,13 @@ class _GradesViewState extends ConsumerState<GradesView>
       stream: ref.watch(gradeVM).studyProgramGrades,
       dataBuilder: (context, data) {
         if (data.isEmpty) {
-          return Center(child: Text(context.localizations.noGradesFound));
+          return Center(
+            child: Text(
+              context.localizations.noEntriesFound(
+                context.localizations.grades,
+              ),
+            ),
+          );
         } else {
           final lastFetched = ref.read(gradeViewModel).lastFetched.value;
           return OrientationBuilder(

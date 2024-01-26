@@ -29,7 +29,7 @@ class CalendarViewModel {
 
     final filteredEvents = events.value
             ?.where(
-              (element) => element.startDate.isBefore(
+              (element) => element.startDate.isAfter(
                 DateTime.now(),
               ),
             )
@@ -40,7 +40,7 @@ class CalendarViewModel {
     final currentDay =
         DateTime(currentDate.year, currentDate.month, currentDate.day);
 
-    for (CalendarEvent event in events.value ?? []) {
+    for (CalendarEvent event in filteredEvents) {
       final dateToCheck = DateTime(
         event.startDate.year,
         event.startDate.month,

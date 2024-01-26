@@ -39,7 +39,13 @@ class _LecturesViewState extends ConsumerState<LecturesView>
       stream: ref.watch(lectureViewModel).lectures,
       dataBuilder: (context, data) {
         if (data.isEmpty) {
-          return Center(child: Text(context.localizations.noLecturesFound));
+          return Center(
+            child: Text(
+              context.localizations.noEntriesFound(
+                context.localizations.lecture,
+              ),
+            ),
+          );
         } else {
           Future(() {
             ref.read(lectureSplitViewModel).selectedWidget.add(

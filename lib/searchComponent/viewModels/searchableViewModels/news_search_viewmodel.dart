@@ -21,6 +21,15 @@ class NewsSearchViewModel implements SearchViewModel<NewsSearch> {
     if (newsData.isEmpty) {
       return NewsService.fetchNews(forcedRefresh).then(
         (value) {
+          Set<String> seenTitles = {};
+          value.$2.retainWhere((element) {
+            if (seenTitles.contains(element.title)) {
+              return false;
+            } else {
+              seenTitles.add(element.title);
+              return true;
+            }
+          });
           newsData = value.$2.map((e) => NewsSearch(e)).toList();
           _search(query);
         },

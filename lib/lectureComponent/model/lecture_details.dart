@@ -117,19 +117,6 @@ class LectureDetails {
 }
 
 @JsonSerializable()
-class LectureDetailsData {
-  @JsonKey(name: "rowset")
-  LectureDetailsElement lectureDetailsAttribute;
-
-  LectureDetailsData({required this.lectureDetailsAttribute});
-
-  factory LectureDetailsData.fromJson(Map<String, dynamic> json) =>
-      _$LectureDetailsDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LectureDetailsDataToJson(this);
-}
-
-@JsonSerializable()
 class LectureDetailsElement {
   @JsonKey(name: "row", fromJson: _lectureDetailsFromJson)
   final LectureDetails lectureDetails;

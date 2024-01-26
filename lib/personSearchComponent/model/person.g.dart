@@ -22,21 +22,11 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'obfuscated_id': instance.obfuscatedID,
     };
 
-PersonData _$PersonDataFromJson(Map<String, dynamic> json) => PersonData(
-      personAttribute: json['rowset'] == null
-          ? null
-          : Persons.fromJson(json['rowset'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$PersonDataToJson(PersonData instance) =>
-    <String, dynamic>{
-      'rowset': instance.personAttribute,
-    };
-
 Persons _$PersonsFromJson(Map<String, dynamic> json) => Persons(
-      persons: (json['row'] as List<dynamic>)
-          .map((e) => Person.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      persons: (json['row'] as List<dynamic>?)
+              ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$PersonsToJson(Persons instance) => <String, dynamic>{

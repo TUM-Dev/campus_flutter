@@ -1,6 +1,5 @@
 ![xcodebuild](https://github.com/TUM-Dev/campus_flutter/actions/workflows/deploy_beta.yml/badge.svg?branch=development)
 ![xcodebuild](https://github.com/TUM-Dev/campus_flutter/actions/workflows/deploy_web.yml/badge.svg?branch=development)
-[![Discord Channel](https://img.shields.io/badge/Chat-on%20Discord-brightgreen)](https://discord.gg/k558T6ktuh)
 <a href="https://testflight.apple.com/join/4Ddi6f2f">
 <img src="https://developer.apple.com/assets/elements/icons/testflight/testflight-64x64_2x.png" height="42" align="right">
 </a>
@@ -49,7 +48,7 @@ If you want to participate in the beta of this app, enter your details [here](ht
 - [Privacy policy](https://app.tum.de/landing/privacy/)
 
 ## Support
-You can reach us on [Discord](https://discord.gg/k558T6ktuh), [GitHub](https://github.com/TUM-Dev/campus_flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)
+You can reach us on [GitHub](https://github.com/TUM-Dev/campus_flutter) or via E-Mail [app@tum.de](mailto:app@tum.de)
 
 ## Development
 

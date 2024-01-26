@@ -19,16 +19,27 @@ class StudentCardView extends ConsumerWidget {
       stream: ref.watch(studentCardViewModel).studentCard,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          var data = snapshot.data!;
-          final lastFetched = ref.read(studentCardViewModel).lastFetched.value;
-          return Column(
-            children: [
-              if (lastFetched != null) LastUpdatedText(lastFetched),
-              _warningCard(context),
-              InformationView(studentCard: data),
-              BarCodeView(libraryID: data.libraryID),
-            ],
-          );
+          if (snapshot.data!.isNotEmpty) {
+            var data = snapshot.data!.first;
+            final lastFetched =
+                ref.read(studentCardViewModel).lastFetched.value;
+            return Column(
+              children: [
+                if (lastFetched != null) LastUpdatedText(lastFetched),
+                _warningCard(context),
+                InformationView(studentCard: data),
+                BarCodeView(libraryID: data.libraryID),
+              ],
+            );
+          } else {
+            return Center(
+              child: Text(
+                context.localizations.noEntriesFound(
+                  "StudentCard",
+                ),
+              ),
+            );
+          }
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,

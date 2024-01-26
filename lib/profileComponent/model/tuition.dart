@@ -28,19 +28,6 @@ class Tuition {
 }
 
 @JsonSerializable()
-class TuitionData {
-  @JsonKey(name: "rowset")
-  Tuitions profilesAttribute;
-
-  TuitionData({required this.profilesAttribute});
-
-  factory TuitionData.fromJson(Map<String, dynamic> json) =>
-      _$TuitionDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TuitionDataToJson(this);
-}
-
-@JsonSerializable()
 class Tuitions {
   @JsonKey(name: "row", fromJson: _tuitionFromJson)
   final Tuition tuition;
