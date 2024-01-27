@@ -41,7 +41,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               );
             } else if (snapshot.hasError) {
               return SizedBox(
-                height: 200,
+                height: 220,
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
