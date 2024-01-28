@@ -116,11 +116,11 @@ class NavigationService {
 
   List<Widget> actions(BuildContext context) {
     return [
-      /*if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
+      if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
         IconButton(
           onPressed: () => _openStudentCardSheet(context),
           icon: const Icon(Icons.credit_card),
-        ),*/
+        ),
       IconButton(
         onPressed: () {
           Navigator.of(context).push(
