@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
 final calendarViewModel = Provider((ref) => CalendarViewModel());
@@ -15,9 +18,11 @@ class CalendarViewModel {
 
   Future fetch(bool forcedRefresh) async {
     CalendarService.fetchCalendar(forcedRefresh).then(
-      (response) {
+      (response) async {
         lastFetched.add(response.$1);
         events.add(response.$2);
+        await HomeWidget.saveWidgetData("calendar", jsonEncode(response.$2));
+        await HomeWidget.updateWidget(iOSName: "CalendarWidget", androidName: "widgets.calendar.CalendarWidget");
       },
       onError: (error) => events.addError(error),
     );

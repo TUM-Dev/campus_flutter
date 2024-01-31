@@ -80,6 +80,9 @@ android {
         }
     }
     namespace 'de.tum.in.tumcampus'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 flutter {
@@ -89,6 +92,11 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex'
+    implementation 'joda-time:joda-time:2.12.6'
+    def appcompat_version = "1.6.1"
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'
