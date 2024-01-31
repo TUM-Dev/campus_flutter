@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,6 +45,7 @@ main() async {
   } else {
     await _initializeMobile();
   }
+  HomeWidget.setAppGroupId("group.de.tum.tca-widget");
   runApp(
     const ProviderScope(
       child: CampusApp(),

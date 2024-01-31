@@ -54,6 +54,7 @@ dependencies:
   firebase_core: ^2.24.0
   flutter_linkify: ^6.0.0
   permission_handler: ^11.1.0
+  home_widget: ^0.4.1
 
 dependency_overrides:
   xml2json:
