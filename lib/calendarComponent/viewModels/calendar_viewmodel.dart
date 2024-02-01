@@ -21,8 +21,30 @@ class CalendarViewModel {
       (response) async {
         lastFetched.add(response.$1);
         events.add(response.$2);
-        await HomeWidget.saveWidgetData("calendar", jsonEncode(response.$2));
-        await HomeWidget.updateWidget(iOSName: "CalendarWidget", androidName: "widgets.calendar.CalendarWidget");
+        await HomeWidget.saveWidgetData(
+          "calendar",
+          jsonEncode(
+            response.$2
+                .where(
+                  (element) =>
+                      element.startDate.isBefore(
+                        DateTime.now().add(
+                          const Duration(days: 14),
+                        ),
+                      ) &&
+                      element.startDate.isAfter(DateTime.now()),
+                )
+                .toList(),
+          ),
+        );
+        await HomeWidget.saveWidgetData(
+          "calendar_save",
+          DateTime.now().toIso8601String(),
+        );
+        await HomeWidget.updateWidget(
+          iOSName: "CalendarWidget",
+          androidName: "widgets.calendar.CalendarWidget",
+        );
       },
       onError: (error) => events.addError(error),
     );

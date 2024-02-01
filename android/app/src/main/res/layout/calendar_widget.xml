@@ -22,14 +22,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/timetable_widget_weekday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                tools:text="Day" />
-
-            <TextView
                 android:id="@+id/timetable_widget_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,14 +30,22 @@
                 android:textSize="16sp"
                 tools:text="Date" />
 
+            <TextView
+                android:id="@+id/timetable_widget_updated_on"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:text="Date" />
+
         </LinearLayout>
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/timetable_widget_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/material_tiny_padding"
-            android:src="@drawable/ic_filter_list" />
+            android:src="@drawable/ic_filter_list" /> -->
 
     </LinearLayout>
 

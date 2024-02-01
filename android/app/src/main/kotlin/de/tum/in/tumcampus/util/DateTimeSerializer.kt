@@ -9,12 +9,15 @@ import java.lang.reflect.Type
 
 class LocalDateTimeDeserializer : JsonDeserializer<DateTime> {
     override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
     ): DateTime {
-        val dateString = json?.asString
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
-        return DateTime.parse(dateString, formatter)
+        return deserializeStringToDate(json?.asString)
     }
+}
+
+fun deserializeStringToDate(dateString: String?): DateTime {
+    val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    return DateTime.parse(dateString, formatter)
 }
