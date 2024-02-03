@@ -7,7 +7,9 @@ part of 'grade.dart';
 // **************************************************************************
 
 Grade _$GradeFromJson(Map<String, dynamic> json) => Grade(
-      date: DateTime.parse(json['datum'] as String),
+      date: json['datum'] == null
+          ? null
+          : DateTime.parse(json['datum'] as String),
       lvNumber: json['lv_nummer'] as String,
       semester: json['lv_semester'] as String,
       title: json['lv_titel'] as String,
@@ -21,7 +23,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) => Grade(
     );
 
 Map<String, dynamic> _$GradeToJson(Grade instance) => <String, dynamic>{
-      'datum': instance.date.toIso8601String(),
+      'datum': instance.date?.toIso8601String(),
       'lv_nummer': instance.lvNumber,
       'lv_semester': instance.semester,
       'lv_titel': instance.title,
