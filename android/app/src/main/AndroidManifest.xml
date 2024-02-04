@@ -34,8 +34,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Campus"
-        android:roundIcon="@mipmap/ic_launcher_round">
+        android:label="Campus">
         <receiver
             android:name=".widgets.calendar.CalendarWidget"
             android:exported="false">
