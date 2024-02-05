@@ -83,9 +83,9 @@ class _AnimatedSplitViewState extends ConsumerState<AnimatedSplitView>
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(flex: 300 - value.toInt(), child: Container()),
-              Expanded(flex: 400, child: _widgetScrollView()),
-              Expanded(flex: 300 - value.toInt(), child: Container()),
+              Expanded(flex: 250 - value.toInt(), child: Container()),
+              Expanded(flex: 500, child: _widgetScrollView()),
+              Expanded(flex: 250 - value.toInt(), child: Container()),
               Expanded(
                 flex: _animation.value,
                 child: (snapshot.hasData && _animation.value == 600)
