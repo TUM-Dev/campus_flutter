@@ -12,8 +12,8 @@ class UrlLauncher {
       launchUrlString(urlString, mode: LaunchMode.platformDefault);
     } else {
       if (await canLaunchUrlString(urlString)) {
-        if (ref.read(useWebView) && Platform.isIOS) {
-          launchUrlString(urlString, mode: LaunchMode.inAppWebView).onError(
+        if (ref.read(useWebView)) {
+          launchUrlString(urlString, mode: LaunchMode.inAppBrowserView).onError(
             (error, stackTrace) => launchUrlString(
               urlString,
               mode: LaunchMode.externalApplication,
