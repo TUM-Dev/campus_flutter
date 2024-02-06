@@ -1,7 +1,6 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_data_source.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
-import 'package:campus_flutter/calendarComponent/views/appointment_view.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class CalendarMonthView extends ConsumerWidget {
                   (details.date, CalendarView.month);
             }
           },
-          appointmentBuilder: (context, details) => AppointmentView(details),
+          appointmentTimeTextFormat: "HH:mm",
         ),
       ),
     );
