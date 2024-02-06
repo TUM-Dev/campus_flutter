@@ -33,7 +33,7 @@ class ContactView extends ConsumerWidget {
             const HyperLinkListTile(
               dense: true,
               link: "https://app.tum.de",
-              label: "TUM Dev Website",
+              label: "TUM-Dev Website",
             ),
             HyperLinkListTile(
               dense: true,

@@ -104,12 +104,12 @@ ThemeData darkTheme(BuildContext context) {
     navigationBarTheme: NavigationBarThemeData(
       labelTextStyle: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Theme.of(context).textTheme.labelMedium?.copyWith(
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: primaryDarkColor,
                 fontWeight: FontWeight.w500,
               );
         } else {
-          return Theme.of(context).textTheme.labelMedium?.copyWith(
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: navigationIconGrayDark,
                 fontWeight: FontWeight.w500,
               );
