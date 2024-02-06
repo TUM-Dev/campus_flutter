@@ -99,7 +99,11 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
                     );
                   }
                 },
-                child: Text(context.localizations.continueOnboarding),
+                child: Text(
+                  widget.isSettingsView
+                      ? context.localizations.back
+                      : context.localizations.continueOnboarding,
+                ),
               ),
             ),
             const Spacer(flex: 3),

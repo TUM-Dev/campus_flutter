@@ -288,5 +288,9 @@
    "locationServiceDisabled":"Ortungsdienst deaktiviert",
    "permissionDenied":"Erlaubnis verweigert",
    "onlyLetters":"Achte drauf, nur Buchstaben zu benutzen",
-   "onlyNumbers":"Achte drauf, nur Zahlen zu benutzen"
+   "onlyNumbers":"Achte drauf, nur Zahlen zu benutzen",
+   "personDetails":"Details zur Person",
+   "contact":"Kontakt",
+   "room":"Raum",
+   "back":"Zurück"
 }

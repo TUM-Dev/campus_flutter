@@ -22,7 +22,7 @@ class PersonDetailsScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Person Details"),
+        title: Text(context.localizations.personDetails),
       ),
       body: PersonDetailsView(
         obfuscatedId: obfuscatedId,
@@ -64,8 +64,10 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
           );
         } else {
-          return const Center(
-            child: DelayedLoadingIndicator(name: "Person Details"),
+          return Center(
+            child: DelayedLoadingIndicator(
+              name: context.localizations.personDetails,
+            ),
           );
         }
       },
@@ -73,14 +75,18 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
   }
 
   Widget _body(PersonDetails personDetails) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _image(personDetails.imageData),
-        _name(personDetails.fullNameWithTitle),
-        _contact(personDetails),
-        if (personDetails.rooms.isNotEmpty) _room(personDetails),
-      ],
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _image(personDetails.imageData),
+            _name(personDetails.fullNameWithTitle),
+            _contact(personDetails),
+            if (personDetails.rooms.isNotEmpty) _room(personDetails),
+          ],
+        ),
+      ),
     );
   }
 
@@ -109,7 +115,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
 
   Widget _contact(PersonDetails personDetails) {
     return WidgetFrameView(
-      title: "Contact",
+      title: context.localizations.contact,
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
@@ -166,7 +172,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
 
   Widget _room(PersonDetails personDetails) {
     return WidgetFrameView(
-      title: "Room",
+      title: context.localizations.room,
       child: Card(
         child: SeparatedList.widgets(
           widgets: [

@@ -288,5 +288,9 @@
    "locationServiceDisabled":"Location Service disabled",
    "permissionDenied":"Permission denied",
    "onlyLetters":"Make Sure to Use Letters Only",
-   "onlyNumbers":"Make Sure to Use Numbers Only"
+   "onlyNumbers":"Make Sure to Use Numbers Only",
+   "personDetails":"Person Details",
+   "contact":"Contact",
+   "room":"Room",
+   "back":"Back"
 }
