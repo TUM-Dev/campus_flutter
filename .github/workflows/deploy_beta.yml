@@ -40,6 +40,10 @@ jobs:
           flutter pub get
 
       - if: matrix.platform == 'ios'
+        name: Install latest CocoaPods Version
+        run: sudo gem install cocoapods
+
+      - if: matrix.platform == 'ios'
         name: Install CocoaPods
         run: cd ./ios && pod install
 
