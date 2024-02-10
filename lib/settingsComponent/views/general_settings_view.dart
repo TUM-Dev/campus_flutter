@@ -1,7 +1,8 @@
+import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
+import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
@@ -60,10 +61,10 @@ class GeneralSettingsView extends ConsumerWidget {
       ),
       trailing: DropdownButton<Locale?>(
         onChanged: (Locale? newLocale) {
-          ref.read(customLocale.notifier).state = newLocale;
-          ref
-              .read(userPreferencesViewModel)
-              .saveUserPreference(UserPreference.locale, newLocale);
+          ref.read(userPreferencesViewModel).savePreference(
+                UserPreference.locale,
+                newLocale,
+              );
         },
         value: ref.watch(customLocale),
         items: () {

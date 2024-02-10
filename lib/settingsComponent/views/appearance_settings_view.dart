@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
@@ -46,27 +46,14 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: DropdownButton(
         onChanged: (Appearance? newAppearance) {
           if (newAppearance != null) {
-            ref.read(appearance.notifier).state = newAppearance;
-            ref
-                .read(userPreferencesViewModel)
-                .saveUserPreference(UserPreference.theme, newAppearance);
+            ref.read(userPreferencesViewModel).savePreference(
+                  UserPreference.theme,
+                  newAppearance,
+                );
           }
         },
         value: ref.watch(appearance),
-        items: Appearance.values
-            .map(
-              (e) => DropdownMenuItem(
-                value: e,
-                child: IconText(
-                  iconData: e.icon,
-                  iconColor: Theme.of(context).primaryColor,
-                  label: Localizations.localeOf(context).languageCode == "de"
-                      ? e.german
-                      : e.english,
-                ),
-              ),
-            )
-            .toList(),
+        items: UserPreferencesViewModel.getAppearanceEntries(context),
       ),
     );
   }
@@ -81,9 +68,10 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(useWebView),
         onChanged: (showWebView) {
-          ref
-              .read(userPreferencesViewModel)
-              .saveUserPreference(UserPreference.webView, showWebView);
+          ref.read(userPreferencesViewModel).savePreference(
+                UserPreference.browser,
+                showWebView,
+              );
           ref.read(useWebView.notifier).state = showWebView;
         },
       ),
@@ -100,10 +88,10 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(hideFailedGrades),
         onChanged: (value) {
-          ref
-              .read(userPreferencesViewModel)
-              .saveUserPreference(UserPreference.hideFailedGrades, value);
-          ref.read(hideFailedGrades.notifier).state = value;
+          ref.read(userPreferencesViewModel).savePreference(
+                UserPreference.failedGrades,
+                value,
+              );
           ref.read(gradeViewModel).fetch(false);
         },
       ),

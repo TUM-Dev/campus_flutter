@@ -47,45 +47,68 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   void initState() {
     if (widget.closestStudyRoom) {
-      ref.read(studyRoomsViewModel).fetchClosestStudyRoom(false);
+      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.closestStudyRoom) {
-      return WidgetFrameView(
-        title: context.localizations.nearestStudyRooms,
-        child: _streamBuilder(context),
-      );
-    } else {
-      return _streamBuilder(context);
-    }
-  }
-
-  Widget _streamBuilder(BuildContext context) {
     return StreamBuilder(
       stream: widget.closestStudyRoom
-          ? ref.watch(studyRoomsViewModel).closestStudyRoom
+          ? ref.watch(studyRoomsViewModel).widgetStudyRoom
           : ref.watch(studyRoomsViewModel).studyRooms,
       builder: (context, snapshot) {
-        return GestureDetector(
-          onTap: () {
-            if (snapshot.hasData && snapshot.data != null) {
-              _onPressed(
-                widget.closestStudyRoom
-                    ? snapshot.data! as StudyRoomGroup
-                    : widget.studyRoomGroup!,
-                context,
-              );
-            }
-          },
-          child: widget.closestStudyRoom
-              ? Card(child: _widgetLabel(snapshot, context))
-              : _widgetLabel(snapshot, context),
-        );
+        if (widget.closestStudyRoom) {
+          return WidgetFrameView(
+            titleWidget: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    context.localizations.studyRooms,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                // TODO: sheet outside of shell possible?
+                PopupMenuButton<int>(
+                  itemBuilder: (context) =>
+                      ref.read(studyRoomsViewModel).getMenuEntries(),
+                  onSelected: (selected) {
+                    ref.read(studyRoomsViewModel).setWidgetStudyRoom(selected);
+                  },
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            child: _body(snapshot),
+          );
+        } else {
+          return _body(snapshot);
+        }
       },
+    );
+  }
+
+  Widget _body(AsyncSnapshot<Object?> snapshot) {
+    return GestureDetector(
+      onTap: () {
+        if (snapshot.hasData && snapshot.data != null) {
+          _onPressed(
+            widget.closestStudyRoom
+                ? snapshot.data! as StudyRoomGroup
+                : widget.studyRoomGroup!,
+            context,
+          );
+        }
+      },
+      child: widget.closestStudyRoom
+          ? Card(child: _widgetLabel(snapshot, context))
+          : _widgetLabel(snapshot, context),
     );
   }
 

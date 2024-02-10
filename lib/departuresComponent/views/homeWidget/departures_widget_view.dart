@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
@@ -36,7 +37,30 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
       stream: ref.watch(departureViewModel).departures,
       builder: (context, snapshot) {
         return WidgetFrameView(
-          title: _titleBuilder(),
+          titleWidget: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _titleBuilder(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              // TODO: sheet outside of shell possible?
+              PopupMenuButton<Campus>(
+                itemBuilder: (context) =>
+                    ref.read(departureViewModel).getCampusEntries(),
+                onSelected: (selected) {
+                  ref.read(departureViewModel).setWidgetCampus(selected);
+                },
+                child: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          ),
           child: GestureDetector(
             onTap: () => _onWidgetPressed(context),
             child: ConstrainedBox(
@@ -73,8 +97,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   }
 
   String _titleBuilder() {
-    if (ref.watch(departureViewModel).closestCampus.value?.name != null) {
-      return "${context.localizations.departures} @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
+    if (ref.watch(departureViewModel).widgetCampus.value?.name != null) {
+      return "${context.localizations.departures} @ ${ref.watch(departureViewModel).widgetCampus.value?.name}";
     } else {
       return context.localizations.departures;
     }

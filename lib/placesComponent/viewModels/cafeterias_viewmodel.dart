@@ -1,7 +1,9 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
@@ -9,6 +11,7 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart'
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
+import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,17 +27,25 @@ class CafeteriasViewModel {
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
       BehaviorSubject.seeded(null);
 
-  BehaviorSubject<(Cafeteria, CafeteriaMenu?)?> closestCafeteria =
+  BehaviorSubject<(Cafeteria, CafeteriaMenu?)?> widgetCafeteria =
       BehaviorSubject.seeded(null);
 
-  setClosestCafeteria(String id) {
-    closestCafeteria.add(
-      closestCafeterias.firstWhereOrNull((element) => element.$1.id == id),
+  Future<void> setWidgetCafeteria(String id) async {
+    final newCafeteria = cafeterias.firstWhereOrNull(
+      (element) => element.id == id,
     );
+    if (newCafeteria != null) {
+      fetchCafeteriaMenu(false, newCafeteria).then(
+        (value) => widgetCafeteria.add(
+          (newCafeteria, value.firstOrNull),
+        ),
+        onError: (error) => widgetCafeteria.addError(error),
+      );
+      getIt<UserPreferencesService>().save(UserPreference.cafeteria, id);
+    }
   }
 
   List<Cafeteria> cafeterias = [];
-  List<(Cafeteria, CafeteriaMenu?)> closestCafeterias = [];
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
@@ -47,16 +58,31 @@ class CafeteriasViewModel {
     );
   }
 
-  Future fetchClosestCafeteria(bool forcedRefresh) async {
-    return Future.wait([
-      CafeteriasService.fetchCafeterias(forcedRefresh),
-      LocationService.getLastKnown(),
-    ]).then(
+  Future<void> fetchWidgetCafeteria(bool forcedRefresh) async {
+    final preferenceId = getIt<UserPreferencesService>().load(
+      UserPreference.cafeteria,
+    );
+
+    return CafeteriasService.fetchCafeterias(forcedRefresh).then(
       (value) {
-        final cafeterias = value[0] as (DateTime?, List<Cafeteria>);
-        lastFetched = cafeterias.$1;
-        _categorizeAndSort(cafeterias.$2);
-        _getClosestCafeteria(value[1] as Position?, cafeterias.$2);
+        lastFetched = value.$1;
+        _categorizeAndSort(value.$2);
+        final selectedCafeteria = value.$2.firstWhereOrNull(
+          (element) => element.id == preferenceId,
+        );
+        if (selectedCafeteria != null) {
+          fetchCafeteriaMenu(forcedRefresh, selectedCafeteria).then(
+            (value) => widgetCafeteria.add(
+              (selectedCafeteria, value.firstOrNull),
+            ),
+            onError: (error) => widgetCafeteria.addError(error),
+          );
+        } else {
+          LocationService.getLastKnown().then(
+            (position) => _getClosestCafeteria(position, value.$2),
+            onError: (error) => widgetCafeteria.addError(error),
+          );
+        }
       },
       onError: (error) => campusCafeterias.addError(error),
     );
@@ -101,67 +127,44 @@ class CafeteriasViewModel {
           )
           .first;
 
-      final cafeteriasInRadius = cafeterias.where(
-        (element) =>
-            Geolocator.distanceBetween(
-              element.location.latitude,
-              element.location.longitude,
-              closestCafeteriaToLocation.location.latitude,
-              closestCafeteriaToLocation.location.longitude,
-            ) <
-            250,
+      fetchCafeteriaMenu(false, closestCafeteriaToLocation).then(
+        (value) => widgetCafeteria.add(
+          (closestCafeteriaToLocation, value.firstOrNull),
+        ),
+        onError: (error) => widgetCafeteria.addError(error),
       );
-
-      List<dynamic> errors = [];
-      List<(Cafeteria, CafeteriaMenu?)> data = [];
-      for (final cafeteria in cafeteriasInRadius) {
-        await fetchCafeteriaMenu(false, cafeteria).then(
-          (value) {
-            if (value.isNotEmpty) {
-              data.add((cafeteria, value.first));
-            } else {
-              data.add((cafeteria, null));
-            }
-          },
-          onError: (error) => errors.add(error),
-        );
-      }
-
-      if (data.isEmpty || errors.isNotEmpty) {
-        closestCafeteria
-            .addError(CampusException("Could not fetch closest Cafeteria!"));
-      } else {
-        closestCafeterias = data;
-        closestCafeteria.add(data.first);
-      }
     } else {
-      closestCafeteria
-          .addError(CampusException("Could not fetch closest Cafeteria!"));
+      final defaultCafeteria = cafeterias.firstWhereOrNull(
+            (element) => element.id == "mensa-garching",
+          ) ??
+          cafeterias.first;
+      fetchCafeteriaMenu(false, defaultCafeteria).then(
+        (value) => widgetCafeteria.add(
+          (defaultCafeteria, value.firstOrNull),
+        ),
+        onError: (error) => widgetCafeteria.addError(error),
+      );
     }
   }
 
   List<PopupMenuEntry<String>> getMenuEntries() {
-    if (closestCafeterias.isNotEmpty) {
-      return closestCafeterias.map((e) {
-        final selectedCafeteriaId = closestCafeteria.value != null
-            ? closestCafeteria.value!.$1.id
-            : closestCafeterias.first.$1.id;
-        final name = e.$1.name;
-        final cafeteriaId = e.$1.id;
-        return PopupMenuItem(
-          value: cafeteriaId,
-          child: selectedCafeteriaId == cafeteriaId
-              ? IconText(
-                  iconData: Icons.check,
-                  label: name,
-                  leadingIcon: false,
-                )
-              : Text(name),
-        );
-      }).toList();
-    } else {
-      return [];
-    }
+    return cafeterias.map((e) {
+      final selectedCafeteriaId = widgetCafeteria.value != null
+          ? widgetCafeteria.value!.$1.id
+          : cafeterias.first.id;
+      final name = e.name;
+      final cafeteriaId = e.id;
+      return PopupMenuItem(
+        value: cafeteriaId,
+        child: selectedCafeteriaId == cafeteriaId
+            ? IconText(
+                iconData: Icons.check,
+                label: name,
+                leadingIcon: false,
+              )
+            : Text(name),
+      );
+    }).toList();
   }
 
   Future<List<CafeteriaMenu>> fetchCafeteriaMenu(

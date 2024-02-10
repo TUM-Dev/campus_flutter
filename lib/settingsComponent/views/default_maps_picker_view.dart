@@ -1,4 +1,4 @@
-import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
+import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +36,12 @@ class _DefaultMapsPickerViewState extends ConsumerState<DefaultMapsPickerView> {
                 ),
               )
             : null,
-        itemBuilder: ref.read(settingsViewModel).getInstalledMapTypes,
+        itemBuilder: UserPreferencesViewModel.getInstalledMapTypes,
         initialValue: ref.read(selectedMapsApp),
         onSelected: (selection) {
-          ref.read(selectedMapsApp.notifier).state = selection;
-          ref.read(userPreferencesViewModel).saveUserPreference(
+          ref.read(userPreferencesViewModel).savePreference(
                 UserPreference.defaultMapsApplication,
-                selection.mapType,
+                selection,
               );
           setState(() {});
         },

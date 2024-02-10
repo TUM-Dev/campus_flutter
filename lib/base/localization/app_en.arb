@@ -292,5 +292,8 @@
    "personDetails":"Person Details",
    "contact":"Contact",
    "room":"Room",
-   "back":"Back"
+   "back":"Back",
+   "editHome":"Edit Home",
+   "reorderDisable":"Reorder & Disable Widgets",
+   "reset":"Reset"
 }

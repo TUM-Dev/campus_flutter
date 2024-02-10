@@ -4,6 +4,7 @@ const menuSettings = "/menu+settings";
 /// Home tab
 const home = "/home";
 const departures = "/departures";
+const cafeteriaWidget = "/cafeteriaWidget";
 const closestStudyRoom = "/closestStudyRoom";
 const fullScreenImage = "/fullScreenImage";
 

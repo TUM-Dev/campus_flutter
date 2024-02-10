@@ -4,15 +4,16 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CafeteriaWidgetView extends ConsumerStatefulWidget {
   const CafeteriaWidgetView({super.key});
@@ -25,14 +26,14 @@ class CafeteriaWidgetView extends ConsumerStatefulWidget {
 class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
   @override
   void initState() {
-    ref.read(cafeteriasViewModel).fetchClosestCafeteria(false);
+    ref.read(cafeteriasViewModel).fetchWidgetCafeteria(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: ref.watch(cafeteriasViewModel).closestCafeteria,
+      stream: ref.watch(cafeteriasViewModel).widgetCafeteria,
       builder: (context, snapshot) {
         return WidgetFrameView(
           titleWidget: Row(
@@ -46,29 +47,22 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   action: () => snapshot.data != null
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CafeteriaScaffold(
-                              cafeteria: snapshot.data!.$1,
-                            ),
-                          ),
-                        )
+                      ? context.push(cafeteriaWidget, extra: snapshot.data!.$1)
                       : null,
                 ),
               ),
-              if (ref.read(cafeteriasViewModel).closestCafeterias.length > 1)
-                PopupMenuButton<String>(
-                  itemBuilder: (context) =>
-                      ref.read(cafeteriasViewModel).getMenuEntries(),
-                  onSelected: (selected) {
-                    ref.read(cafeteriasViewModel).setClosestCafeteria(selected);
-                  },
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: Theme.of(context).primaryColor,
-                  ),
+              // TODO: sheet outside of shell possible?
+              PopupMenuButton<String>(
+                itemBuilder: (context) =>
+                    ref.read(cafeteriasViewModel).getMenuEntries(),
+                onSelected: (selected) {
+                  ref.read(cafeteriasViewModel).setWidgetCafeteria(selected);
+                },
+                child: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).primaryColor,
                 ),
+              ),
             ],
           ),
           subtitle: _openingHours(),
@@ -81,7 +75,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
   Widget? _openingHours() {
     final openingHours = ref
         .read(cafeteriasViewModel)
-        .closestCafeteria
+        .widgetCafeteria
         .value
         ?.$1
         .openingHoursToday;
@@ -125,7 +119,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           child: ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-            retry: ref.read(cafeteriasViewModel).fetchClosestCafeteria,
+            retry: ref.read(cafeteriasViewModel).fetchWidgetCafeteria,
           ),
         ),
       );

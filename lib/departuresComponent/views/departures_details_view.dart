@@ -44,7 +44,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                 },
                 icon: const Icon(Icons.tram),
                 itemBuilder: (context) =>
-                    ref.read(departureViewModel).getMenuEntries(),
+                    ref.read(departureViewModel).getStationEntries(),
               ),
             ],
           ),

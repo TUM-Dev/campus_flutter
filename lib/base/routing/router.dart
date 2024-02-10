@@ -12,7 +12,9 @@ import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
+import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeterias_view.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_scaffold.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
@@ -88,6 +90,12 @@ final _router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: cafeteriaWidget,
+      builder: (context, state) => CafeteriaScaffold(
+        cafeteria: state.extra as Cafeteria,
+      ),
     ),
     GoRoute(
       path: departures,
