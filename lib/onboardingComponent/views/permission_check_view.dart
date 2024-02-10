@@ -1,7 +1,7 @@
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
-import 'package:campus_flutter/loginComponent/views/location_permissions_view.dart';
+import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/profileComponent/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

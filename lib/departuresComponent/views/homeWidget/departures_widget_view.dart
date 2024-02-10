@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
@@ -12,6 +13,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class DeparturesHomeWidget extends ConsumerStatefulWidget {
   const DeparturesHomeWidget({super.key});
@@ -123,11 +125,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   _onWidgetPressed(BuildContext context) {
     if (MediaQuery.orientationOf(context) == Orientation.portrait) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const DeparturesDetailsScaffold(),
-        ),
-      );
+      context.push(departures);
     } else {
       ref.read(homeSplitViewModel).selectedWidget.add(
             const DeparturesDetailsScaffold(

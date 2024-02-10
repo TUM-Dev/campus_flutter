@@ -4,9 +4,11 @@ import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
-import 'package:campus_flutter/loginComponent/model/confirm.dart';
-import 'package:campus_flutter/loginComponent/services/login_service.dart';
-import 'package:campus_flutter/loginComponent/views/location_permissions_view.dart';
+import 'package:campus_flutter/base/routing/router_service.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
+import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
+import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
@@ -14,12 +16,13 @@ import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewm
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
-final loginViewModel = Provider((ref) => LoginViewModel());
+final onboardingViewModel = Provider((ref) => OnboardingViewModel());
 
-class LoginViewModel {
+class OnboardingViewModel {
   final _storage = const FlutterSecureStorage();
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
   BehaviorSubject<bool> tumIdValid = BehaviorSubject.seeded(false);
@@ -77,11 +80,11 @@ class LoginViewModel {
   }
 
   Future checkLogin() async {
-    _storage.read(key: "token").then(
+    return _storage.read(key: "token").then(
       (value) async {
         if (value != null) {
           Api.tumToken = value;
-          await LoginService.confirmToken(false).then(
+          await OnboardingService.confirmToken(false).then(
             (value) {
               credentials.add(Credentials.tumId);
             },
@@ -104,7 +107,7 @@ class LoginViewModel {
   }
 
   Future requestLogin() async {
-    return LoginService.requestNewToken(
+    return OnboardingService.requestNewToken(
       true,
       "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}",
     ).then((value) {
@@ -115,7 +118,7 @@ class LoginViewModel {
   }
 
   Future<Confirm> confirmLogin() async {
-    return LoginService.confirmToken(true).then((value) {
+    return OnboardingService.confirmToken(true).then((value) {
       if (value.confirmed) {
         credentials.add(Credentials.tumId);
       }
@@ -136,14 +139,20 @@ class LoginViewModel {
     Permission.location.request().then(
       (value) {
         if (_isSkipped) {
-          credentials.add(Credentials.noTumId);
+          finishOnboarding(context);
         }
-        Navigator.of(context).popUntil((route) => route.isFirst);
       },
     );
   }
 
+  void finishOnboarding(BuildContext context) {
+    getIt<OnboardingService>().setOnboarded();
+    getIt<RouterService>().isInitialized = true;
+    context.go(home);
+  }
+
   Future logout(WidgetRef ref) async {
+    // TODO:
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);

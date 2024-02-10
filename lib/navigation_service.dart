@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
+import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
@@ -13,9 +17,6 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'base/enums/credentials.dart';
-import 'loginComponent/viewModels/login_viewmodel.dart';
 
 class NavigationService {
   double? _navigationBarHeight;
@@ -83,7 +84,8 @@ class NavigationService {
   Widget? floatingActionButton(int index, WidgetRef ref, BuildContext context) {
     switch (index) {
       case 3:
-        if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+        if (ref.read(onboardingViewModel).credentials.value ==
+            Credentials.tumId) {
           return FloatingActionButton(
             onPressed: () => Navigator.push(
               context,
@@ -102,20 +104,28 @@ class NavigationService {
     }
   }
 
-  Widget searchButton(BuildContext context) {
+  Widget searchButton(int currentIndex, WidgetRef ref, BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SearchScaffold(),
-        ),
-      ),
+      onPressed: () {
+        ref.read(searchViewModel).setSearchCategories(currentIndex);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SearchScaffold(),
+          ),
+        );
+      },
       icon: const Icon(Icons.search),
     );
   }
 
-  List<Widget> actions(BuildContext context) {
+  List<Widget> actions(int currentIndex, BuildContext context) {
     return [
+      if (currentIndex == 0)
+        IconButton(
+          onPressed: () => WidgetScreen.showHomeSheet(context),
+          icon: const Icon(Icons.edit),
+        ),
       if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
         IconButton(
           onPressed: () => _openStudentCardSheet(context),

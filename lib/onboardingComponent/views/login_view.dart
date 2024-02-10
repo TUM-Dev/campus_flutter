@@ -1,11 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/loginComponent/views/confirm_view.dart';
+import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
 class LoginView extends ConsumerStatefulWidget {
@@ -18,7 +18,7 @@ class LoginView extends ConsumerStatefulWidget {
 class _LoginViewState extends ConsumerState<LoginView> {
   @override
   void initState() {
-    ref.read(loginViewModel).clearTextFields();
+    ref.read(onboardingViewModel).clearTextFields();
     super.initState();
   }
 
@@ -140,9 +140,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
               border: OutlineInputBorder(),
             ),
             inputFormatters: [LengthLimitingTextInputFormatter(2)],
-            controller: ref.read(loginViewModel).textEditingController1,
+            controller: ref.read(onboardingViewModel).textEditingController1,
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId(context);
+              ref.read(onboardingViewModel).checkTumId(context);
               if (text.length == 2) {
                 FocusScope.of(context).nextFocus();
               }
@@ -159,9 +159,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
             ),
             keyboardType: TextInputType.number,
             inputFormatters: [LengthLimitingTextInputFormatter(2)],
-            controller: ref.read(loginViewModel).textEditingController2,
+            controller: ref.read(onboardingViewModel).textEditingController2,
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId(context);
+              ref.read(onboardingViewModel).checkTumId(context);
               if (text.length == 2 && int.tryParse(text) != null) {
                 FocusScope.of(context).nextFocus();
               } else if (text.isEmpty) {
@@ -178,10 +178,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
               hintText: "tum",
               border: OutlineInputBorder(),
             ),
-            controller: ref.read(loginViewModel).textEditingController3,
+            controller: ref.read(onboardingViewModel).textEditingController3,
             inputFormatters: [LengthLimitingTextInputFormatter(3)],
             onChanged: (text) {
-              ref.read(loginViewModel).checkTumId(context);
+              ref.read(onboardingViewModel).checkTumId(context);
               if (text.isEmpty) {
                 FocusScope.of(context).previousFocus();
               }
@@ -196,7 +196,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   Widget _loginButton(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-      stream: ref.watch(loginViewModel).tumIdValid,
+      stream: ref.watch(onboardingViewModel).tumIdValid,
       builder: (context, snapshot) {
         return Column(
           children: [
@@ -204,7 +204,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             ElevatedButton(
               onPressed: (snapshot.data != null && snapshot.data!)
                   ? () {
-                      ref.read(loginViewModel).requestLogin().then(
+                      ref.read(onboardingViewModel).requestLogin().then(
                         (value) => Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const ConfirmView(),
@@ -246,7 +246,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => ref.read(loginViewModel).skip(context),
+      onTap: () => ref.read(onboardingViewModel).skip(context),
       child: Text(
         context.localizations.continueWithoutID,
         style: Theme.of(context)

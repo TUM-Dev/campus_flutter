@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class SearchCategoryPickerView extends ConsumerWidget {
 
   List<SearchCategory> _getData(List<SearchCategory> data, WidgetRef ref) {
     List<SearchCategory> searchCategories = [];
-    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+    if (ref.read(onboardingViewModel).credentials.value == Credentials.tumId) {
       searchCategories = SearchCategory.values.toList();
     } else {
       searchCategories = SearchCategoryExtension.unAuthorizedSearch();

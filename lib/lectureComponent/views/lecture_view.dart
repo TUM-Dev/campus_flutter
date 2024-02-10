@@ -1,9 +1,11 @@
 import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LectureView extends ConsumerWidget {
   const LectureView({super.key, required this.lecture, this.isSearch = false});
@@ -40,17 +42,7 @@ class LectureView extends ConsumerWidget {
       onTap: () {
         if (MediaQuery.orientationOf(context) == Orientation.portrait ||
             isSearch) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Scaffold(
-                appBar: AppBar(leading: const BackButton()),
-                body: LectureDetailsView(
-                  lecture: lecture,
-                ),
-              ),
-            ),
-          );
+          context.push(lectureDetails, extra: lecture);
         } else {
           ref.read(lectureSplitViewModel).selectedWidget.add(
                 LectureDetailsView(

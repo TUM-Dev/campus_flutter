@@ -8,7 +8,7 @@ import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_route
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -60,7 +60,8 @@ class ErrorHandlingRouter extends ConsumerWidget {
             tumOnlineApiException.tumOnlineApiExceptionType !=
                 TumOnlineApiExceptionTokenNotConfirmed();
         final isNotAuthorized =
-            ref.read(loginViewModel).credentials.value != Credentials.tumId;
+            ref.read(onboardingViewModel).credentials.value !=
+                Credentials.tumId;
         if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
           recordFlutterError(
             FlutterErrorDetails(

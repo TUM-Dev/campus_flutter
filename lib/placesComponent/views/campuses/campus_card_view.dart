@@ -1,8 +1,9 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/tapable.dart';
-import 'package:campus_flutter/placesComponent/views/campuses/campus_scaffold.dart';
+import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CampusCardView extends ConsumerWidget {
   const CampusCardView({super.key, required this.campus, this.margin});
@@ -62,13 +63,7 @@ class CampusCardView extends ConsumerWidget {
           ),
         ),
       ),
-      action: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CampusScaffold(campus: campus),
-          ),
-        );
-      },
+      action: () => context.push(routes.campus, extra: campus),
     );
   }
 }

@@ -5,8 +5,8 @@ import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
-import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
@@ -121,7 +121,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(loginViewModel).confirmLogin().then(
+                  ref.read(onboardingViewModel).confirmLogin().then(
                     (value) {
                       if (value.confirmed) {
                         Navigator.of(context).push(

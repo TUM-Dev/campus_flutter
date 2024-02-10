@@ -1,15 +1,16 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class StudyRoomWidgetView extends ConsumerStatefulWidget {
   factory StudyRoomWidgetView(StudyRoomGroup? studyRoomGroup) {
@@ -125,11 +126,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   _onPressed(StudyRoomGroup studyRoomGroup, BuildContext context) async {
     if (MediaQuery.orientationOf(context) == Orientation.portrait ||
         widget.studyRoomGroup != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => StudyRoomGroupScaffold(studyRoomGroup),
-        ),
-      );
+      context.push(closestStudyRoom, extra: studyRoomGroup);
     } else {
       ref
           .read(homeSplitViewModel)
