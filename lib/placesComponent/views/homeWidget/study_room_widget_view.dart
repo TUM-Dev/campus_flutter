@@ -79,7 +79,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                     ref.read(studyRoomsViewModel).setWidgetStudyRoom(selected);
                   },
                   child: Icon(
-                    Icons.more_vert,
+                    Icons.filter_list,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),

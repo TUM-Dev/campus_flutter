@@ -138,9 +138,7 @@ class OnboardingViewModel {
   Future<void> requestLocation(BuildContext context) async {
     Permission.location.request().then(
       (value) {
-        if (_isSkipped) {
-          finishOnboarding(context);
-        }
+        finishOnboarding(context);
       },
     );
   }

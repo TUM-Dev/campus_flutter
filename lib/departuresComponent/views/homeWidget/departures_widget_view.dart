@@ -55,7 +55,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                   ref.read(departureViewModel).setWidgetCampus(selected);
                 },
                 child: Icon(
-                  Icons.more_vert,
+                  Icons.filter_list,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
@@ -98,7 +98,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   String _titleBuilder() {
     if (ref.watch(departureViewModel).widgetCampus.value?.name != null) {
-      return "${context.localizations.departures} @ ${ref.watch(departureViewModel).widgetCampus.value?.name}";
+      return ref.watch(departureViewModel).widgetCampus.value!.name;
     } else {
       return context.localizations.departures;
     }

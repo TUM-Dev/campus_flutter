@@ -59,7 +59,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                   ref.read(cafeteriasViewModel).setWidgetCafeteria(selected);
                 },
                 child: Icon(
-                  Icons.more_vert,
+                  Icons.filter_list,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
