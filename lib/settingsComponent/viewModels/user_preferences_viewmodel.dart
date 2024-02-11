@@ -40,7 +40,8 @@ class UserPreferencesViewModel {
               ref.read(selectedMapsApp.notifier).state = installedMaps.first;
             }
           } else {
-            ref.read(selectedMapsApp.notifier).state = installedMaps.firstOrNull;
+            ref.read(selectedMapsApp.notifier).state =
+                installedMaps.firstOrNull;
           }
         case UserPreference.locale:
           ref.read(customLocale.notifier).state =
