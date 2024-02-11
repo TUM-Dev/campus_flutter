@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,11 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     return StreamBuilder(
       stream: ref.watch(profileDetailsViewModel).personDetails,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return contactInfo(snapshot.data!);
+        if (snapshot.hasData || snapshot.hasError) {
+          return contactInfo(
+            snapshot.data,
+            ref.read(profileViewModel).profile.value!,
+          );
         } else {
           return DelayedLoadingIndicator(
             name: context.localizations.personalData,
@@ -44,14 +48,14 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     );
   }
 
-  Widget contactInfo(PersonDetails data) {
+  Widget contactInfo(PersonDetails? data, Profile profile) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: data.imageData != null
-                ? Image.memory(base64DecodeImageData(data.imageData!)).image
+            backgroundImage: data?.imageData != null
+                ? Image.memory(base64DecodeImageData(data!.imageData!)).image
                 : const AssetImage(
                     'assets/images/placeholders/portrait_placeholder.png',
                   ),
@@ -65,16 +69,17 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  data.fullName,
+                  data?.fullName ?? profile.fullName,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 Text(
-                  ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
+                  profile.tumID ?? "go42tum",
                 ),
-                AutoSizeText(
-                  data.email,
-                  maxLines: 1,
-                ),
+                if (data != null)
+                  AutoSizeText(
+                    data.email,
+                    maxLines: 1,
+                  ),
               ],
             ),
           ),
