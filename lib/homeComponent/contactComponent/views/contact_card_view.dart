@@ -37,8 +37,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             (personDetails, studentCard) => (personDetails, studentCard),
           ),
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data?.$1 != null ||
-            snapshot.hasError) {
+        if (snapshot.hasData || snapshot.hasError) {
           return contactInfo(
             snapshot.data?.$1,
             ref.read(profileViewModel).profile.value!,
