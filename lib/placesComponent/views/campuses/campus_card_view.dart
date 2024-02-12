@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class CampusCardView extends ConsumerWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: context.padding),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -48,12 +49,9 @@ class CampusCardView extends ConsumerWidget {
                             ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.place,
-                          color: Theme.of(context).primaryColor,
-                        ),
+                      Icon(
+                        Icons.place,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ],
                   ),

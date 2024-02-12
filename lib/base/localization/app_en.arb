@@ -232,10 +232,14 @@
    "friday":"Friday",
    "weekend":"Weekend",
    "openingHours":"Opening Hours",
-   "openToday":"Open today from {start} - {end}",
-   "@openToday":{
+   "open":"Open {day} from {start} - {end}",
+   "@open":{
       "description":"Opening Times",
       "placeholders":{
+         "day":{
+            "type":"String",
+            "example":"Monday"
+         },
          "start":{
             "type":"String",
             "example":"11:00"
