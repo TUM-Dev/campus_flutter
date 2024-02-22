@@ -126,17 +126,17 @@ class _CampusAppState extends ConsumerState<CampusApp>
 
   @override
   bool get wantKeepAlive => true;
-}
 
-Locale _getDeviceLocale() {
-  if (kIsWeb) {
-    return const Locale("en", "DE");
-  } else {
-    final deviceLocal = Platform.localeName;
-    if (deviceLocal.contains("de")) {
-      return const Locale("de", "DE");
-    } else {
+  Locale _getDeviceLocale() {
+    if (kIsWeb) {
       return const Locale("en", "DE");
+    } else {
+      final deviceLocal = Platform.localeName;
+      if (deviceLocal.contains("de")) {
+        return const Locale("de", "DE");
+      } else {
+        return const Locale("en", "DE");
+      }
     }
   }
 }

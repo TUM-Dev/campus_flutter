@@ -147,6 +147,7 @@ class CafeteriasViewModel {
     }
   }
 
+  // TODO: add option for closest
   List<PopupMenuEntry<String>> getMenuEntries() {
     return cafeterias.map((e) {
       final selectedCafeteriaId = widgetCafeteria.value != null
