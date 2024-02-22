@@ -69,35 +69,6 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
           ),
         ],
       );
-    } else if (events.$2.length == 1) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: _todayWidget(),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (events.$1 != null)
-                  Expanded(
-                    child: CalendarHomeWidgetEventView(
-                      calendarEvent: events.$1!,
-                    ),
-                  ),
-                Expanded(
-                  child: CalendarHomeWidgetEventView(
-                    calendarEvent: events.$2[0],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
     } else {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,32 +80,40 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                 Expanded(
                   child: _todayWidget(),
                 ),
-                Expanded(
-                  child: (events.$1 != null)
-                      ? CalendarHomeWidgetEventView(calendarEvent: events.$1!)
-                      : Container(),
-                ),
+                if (events.$1 != null)
+                  Expanded(
+                    child: CalendarHomeWidgetEventView(
+                      calendarEvent: events.$1!,
+                    ),
+                  ),
               ],
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: CalendarHomeWidgetEventView(
-                    calendarEvent: events.$2.first,
-                  ),
-                ),
-                Expanded(
-                  child: CalendarHomeWidgetEventView(
-                    calendarEvent: events.$2[1],
-                  ),
-                ),
-              ],
+          if (events.$2.isNotEmpty)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: events.$2.length == 1
+                    ? [
+                        Expanded(
+                          child: CalendarHomeWidgetEventView(
+                            calendarEvent: events.$2[0],
+                          ),
+                        ),
+                        const Spacer(),
+                      ]
+                    : [
+                        for (int i = 0; i < events.$2.length && i < 2; i++)
+                          Expanded(
+                            child: CalendarHomeWidgetEventView(
+                              calendarEvent: events.$2[i],
+                            ),
+                          ),
+                      ],
+              ),
             ),
-          ),
         ],
       );
     }
