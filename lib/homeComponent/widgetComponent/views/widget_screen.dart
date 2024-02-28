@@ -14,7 +14,7 @@ class WidgetScreen extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       builder: (context) => SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.55,
+        height: MediaQuery.sizeOf(context).height * 0.6,
         child: const HomeSettingsView(),
       ),
       showDragHandle: true,
@@ -30,6 +30,7 @@ class WidgetScreen extends ConsumerWidget {
         if (snapshot.hasData) {
           return Column(
             children: [
+              // TODO: hide movies and news if empty
               for (var widget in snapshot.data ?? <HomeWidget>[])
                 if (widget.enabled) HomeViewModel.getWidget(widget.widgetType),
             ],

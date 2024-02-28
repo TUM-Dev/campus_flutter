@@ -46,10 +46,12 @@ class CalendarWeekView extends ConsumerWidget {
             headerDateFormat: "",
             showWeekNumber: true,
             showNavigationArrow: true,
-            timeSlotViewSettings: const TimeSlotViewSettings(
+            timeSlotViewSettings: TimeSlotViewSettings(
               startHour: 7,
               endHour: 22,
               timeFormat: "HH:mm",
+              numberOfDaysInView:
+                  MediaQuery.sizeOf(context).width > 600 ? 7 : 4,
             ),
           );
         },
