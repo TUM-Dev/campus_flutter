@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class NewsSearchResultView extends ConsumerWidget {
   const NewsSearchResultView({super.key});
@@ -49,14 +50,7 @@ class NewsSearchResultView extends ConsumerWidget {
           ),
           onTap: () {
             if (imageUrl.isNotEmpty) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ImageFullScreenScaffold.network(
-                    url: imageUrl,
-                  ),
-                ),
-              );
+              context.push(networkImage, extra: (imageUrl, null));
             }
           },
         );

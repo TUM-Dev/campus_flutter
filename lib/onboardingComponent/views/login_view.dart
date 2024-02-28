@@ -1,12 +1,13 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -205,11 +206,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               onPressed: (snapshot.data != null && snapshot.data!)
                   ? () {
                       ref.read(onboardingViewModel).requestLogin().then(
-                        (value) => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const ConfirmView(),
-                          ),
-                        ),
+                        (value) => context.push(confirm),
                         onError: (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

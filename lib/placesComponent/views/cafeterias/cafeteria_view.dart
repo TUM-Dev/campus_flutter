@@ -14,6 +14,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -102,7 +103,7 @@ class CafeteriaScaffold extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text("Okay"),
             ),
           ],

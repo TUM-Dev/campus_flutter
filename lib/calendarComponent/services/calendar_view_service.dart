@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
-import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -74,21 +73,14 @@ class CalendarViewService {
                 ref
                     .read(calendarViewModel)
                     .deleteCalendarElement(calendarEvent!.id)
-                    .then((value) => Navigator.pop(context));
+                    .then((value) => context.pop());
               },
               child: Text(context.localizations.delete),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EventCreationScaffold(
-                      calendarEvent: calendarEvent,
-                    ),
-                  ),
-                );
+                context.pop();
+                context.push(eventCreation, extra: calendarEvent);
               },
               child: Text(context.localizations.edit),
             ),

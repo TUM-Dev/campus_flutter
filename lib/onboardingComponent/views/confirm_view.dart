@@ -4,11 +4,11 @@ import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
@@ -124,11 +124,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                   ref.read(onboardingViewModel).confirmLogin().then(
                     (value) {
                       if (value.confirmed) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const PermissionCheckView(),
-                          ),
-                        );
+                        context.push(permissionCheck);
                       } else {
                         throw TumOnlineApiException(
                           tumOnlineApiExceptionType:
@@ -174,12 +170,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           Center(
             child: MaterialButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const FeedbackFormScaffold(),
-                ),
-              ),
+              onPressed: () => context.push(feedback),
               child: Text(
                 context.localizations.contactSupport,
                 style: TextStyle(color: Theme.of(context).primaryColor),

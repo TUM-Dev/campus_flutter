@@ -3,14 +3,15 @@ import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PersonDetailsScaffold extends StatelessWidget {
   const PersonDetailsScaffold({super.key, required this.obfuscatedId});
@@ -189,12 +190,11 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 Icons.arrow_forward_ios,
                 size: 15,
               ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PersonRoomSearchScaffold(
-                    searchString: personDetails.rooms.first.id,
-                  ),
+              onTap: () => context.push(
+                roomSearch,
+                extra: (
+                  personDetails.rooms.first.id,
+                  null,
                 ),
               ),
             ),

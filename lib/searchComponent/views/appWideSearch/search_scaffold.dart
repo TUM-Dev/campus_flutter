@@ -3,6 +3,7 @@ import 'package:campus_flutter/searchComponent/views/appWideSearch/search_view.d
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchScaffold extends ConsumerWidget {
   const SearchScaffold({super.key});
@@ -15,7 +16,7 @@ class SearchScaffold extends ConsumerWidget {
         leading: BackButton(
           onPressed: () {
             ref.read(searchViewModel).clear();
-            Navigator.pop(context);
+            context.pop();
           },
         ),
       ),

@@ -16,6 +16,7 @@ class RouterService {
 
   RouterService(this.ref);
 
+  // TODO: think about preventing User's from having to sign in again
   Future<String> routingCallback(GoRouterState state) async {
     if (!isInitialized) {
       if (getIt<OnboardingService>().getOnboardingStatus() != null) {

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/appearance_settings_view.dart';
@@ -7,6 +8,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/settingsComponent/views/general_settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final useWebView = StateProvider<bool>((ref) => true);
@@ -36,7 +38,7 @@ class SettingsView extends ConsumerWidget {
           if (login != Credentials.none) {
             ref.read(onboardingViewModel).logout(ref);
           }
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          context.go(onboarding);
         },
         child: Card(
           child: ListTile(

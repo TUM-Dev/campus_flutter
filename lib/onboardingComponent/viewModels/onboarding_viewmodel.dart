@@ -8,7 +8,6 @@ import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
-import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
@@ -26,8 +25,6 @@ class OnboardingViewModel {
   final _storage = const FlutterSecureStorage();
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
   BehaviorSubject<bool> tumIdValid = BehaviorSubject.seeded(false);
-
-  bool _isSkipped = false;
 
   final TextEditingController textEditingController1 = TextEditingController();
   final TextEditingController textEditingController2 = TextEditingController();
@@ -127,12 +124,7 @@ class OnboardingViewModel {
   }
 
   void skip(BuildContext context) {
-    _isSkipped = true;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LocationPermissionView(),
-      ),
-    );
+    context.push(locationPermission);
   }
 
   Future<void> requestLocation(BuildContext context) async {

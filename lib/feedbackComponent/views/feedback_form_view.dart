@@ -7,6 +7,7 @@ import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.d
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FeedbackFormScaffold extends ConsumerWidget {
   const FeedbackFormScaffold({super.key});
@@ -17,7 +18,7 @@ class FeedbackFormScaffold extends ConsumerWidget {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             ref.read(feedbackViewModel).clearForm();
           },
         ),

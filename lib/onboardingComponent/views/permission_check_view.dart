@@ -1,11 +1,12 @@
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
-import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/profileComponent/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:go_router/go_router.dart';
 
 class PermissionCheckView extends ConsumerStatefulWidget {
   const PermissionCheckView({super.key, this.isSettingsView = false});
@@ -90,13 +91,9 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
               child: ElevatedButton(
                 onPressed: () {
                   if (widget.isSettingsView) {
-                    Navigator.of(context).pop();
+                    context.pop();
                   } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const LocationPermissionView(),
-                      ),
-                    );
+                    context.push(locationPermission);
                   }
                 },
                 child: Text(

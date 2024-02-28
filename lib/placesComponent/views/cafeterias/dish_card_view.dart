@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DishCardView extends StatelessWidget {
   const DishCardView({super.key, required this.dish, required this.inverted});
@@ -81,7 +82,7 @@ class DishCardView extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text("Okay"),
             ),
           ],

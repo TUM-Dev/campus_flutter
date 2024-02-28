@@ -40,6 +40,7 @@
    },
    "checkPermissions":"Check Permissions",
    "done":"Done",
+   "studyRoom":"Study Room",
    "studyRooms":"Study Rooms",
    "nearestStudyRooms":"Nearest Study Rooms",
    "noNearFreeStudyRoomsFound":"No Study Rooms Near You Found!",
@@ -299,5 +300,16 @@
    "back":"Back",
    "editHome":"Edit Home",
    "reorderDisable":"Reorder & Disable Widgets",
-   "reset":"Reset"
+   "reset":"Reset",
+   "selectPreferred":"Select your preferred {item}",
+   "@selectPreferred":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Cafeteria"
+         }
+      }
+   },
+   "closest":"Closest"
 }

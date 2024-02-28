@@ -24,7 +24,6 @@ class HomeSettingsView extends ConsumerWidget {
         ),
         TextButton(
           onPressed: () => ref.read(homeViewModel).reset(),
-          //child: Text(context.localizations.reset),
           child: Text(context.localizations.reset),
         ),
         _list(ref),

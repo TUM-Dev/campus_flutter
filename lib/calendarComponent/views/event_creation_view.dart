@@ -5,6 +5,7 @@ import 'package:campus_flutter/calendarComponent/views/event_creation_date_time_
 import 'package:campus_flutter/calendarComponent/views/event_creation_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EventCreationScaffold extends ConsumerWidget {
   const EventCreationScaffold({
@@ -21,7 +22,7 @@ class EventCreationScaffold extends ConsumerWidget {
         leading: BackButton(
           onPressed: () {
             ref.invalidate(calendarAdditionViewModel(calendarEvent));
-            Navigator.pop(context);
+            context.pop();
           },
         ),
         title: Text(context.localizations.createCalendarEvent),
@@ -104,7 +105,7 @@ class EventCreationView extends ConsumerWidget {
                       .saveEvent()
                       .then((value) {
                     ref.invalidate(calendarAdditionViewModel);
-                    Navigator.pop(context);
+                    context.pop();
                   })
               : null,
           child: Text(context.localizations.submit),
