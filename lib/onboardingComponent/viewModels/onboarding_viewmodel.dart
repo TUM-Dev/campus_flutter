@@ -76,31 +76,27 @@ class OnboardingViewModel {
     }
   }
 
-  Future checkLogin() async {
+  Future<bool> checkLogin() async {
     return _storage.read(key: "token").then(
       (value) async {
         if (value != null) {
           Api.tumToken = value;
-          await OnboardingService.confirmToken(false).then(
-            (value) {
-              credentials.add(Credentials.tumId);
-            },
-            onError: (error) {
-              credentials.add(Credentials.none);
-              _errorHandling(error);
-            },
-          );
+          credentials.add(Credentials.tumId);
+          return true;
+        } else if (getIt<OnboardingService>().getOnboardingStatus() != null) {
+          credentials.add(Credentials.noTumId);
+          return true;
         } else {
           credentials.add(Credentials.none);
+          return false;
         }
       },
-      onError: (error) => _errorHandling(error),
+      onError: (error) {
+        log(error.toString());
+        credentials.add(Credentials.none);
+        return false;
+      },
     );
-  }
-
-  _errorHandling(dynamic error) {
-    log(error.toString());
-    credentials.add(Credentials.none);
   }
 
   Future requestLogin() async {
@@ -127,22 +123,23 @@ class OnboardingViewModel {
     context.push(locationPermission);
   }
 
-  Future<void> requestLocation(BuildContext context) async {
+  Future<void> requestLocation(WidgetRef ref, BuildContext context) async {
     Permission.location.request().then(
       (value) {
-        finishOnboarding(context);
+        finishOnboarding(ref, context);
       },
     );
   }
 
-  void finishOnboarding(BuildContext context) {
+  void finishOnboarding(WidgetRef ref, BuildContext context) {
     getIt<OnboardingService>().setOnboarded();
     getIt<RouterService>().isInitialized = true;
+    ref.read(studentCardViewModel).fetch(false);
     context.go(home);
   }
 
   Future logout(WidgetRef ref) async {
-    // TODO:
+    // TODO: Widgets
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
