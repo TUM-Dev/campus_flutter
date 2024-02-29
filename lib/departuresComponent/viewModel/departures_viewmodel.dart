@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
@@ -14,6 +15,7 @@ import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -48,15 +50,15 @@ class DeparturesViewModel {
   }
 
   DeparturesViewModel() {
-    findWidgetCampus();
+    findWidgetCampus(false);
   }
 
-  void findWidgetCampus() async {
+  void findWidgetCampus(bool fetchClosest) async {
     final preferenceId = getIt<UserPreferencesService>().load(
       UserPreference.departure,
     );
 
-    if (preferenceId != null) {
+    if (preferenceId != null && !fetchClosest) {
       widgetCampus.add(Campus.values[preferenceId as int]);
       assignSelectedStation();
     } else {
@@ -235,19 +237,40 @@ class DeparturesViewModel {
     }
   }
 
-  List<PopupMenuEntry<Campus>> getCampusEntries() {
+  List<ListTile> getCampusEntries(BuildContext context) {
     return Campus.values.map((e) {
-      final selectedCampus = widgetCampus.value ?? Campus.garching;
-      return PopupMenuItem(
-        value: e,
-        child: selectedCampus == e
-            ? IconText(
-                iconData: Icons.check,
-                label: e.name,
-                leadingIcon: false,
-              )
-            : Text(e.name),
+      final isSelected = widgetCampus.value == e &&
+          getIt<UserPreferencesService>().load(
+                UserPreference.departure,
+              ) !=
+              null;
+      return ListTile(
+        dense: true,
+        title: Text(e.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetCampus(e);
+          context.pop();
+        },
       );
-    }).toList();
+    }).toList()
+      ..insert(
+        0,
+        ListTile(
+          dense: true,
+          title: Text(context.localizations.closest),
+          trailing: getIt<UserPreferencesService>().load(
+                    UserPreference.departure,
+                  ) ==
+                  null
+              ? const Icon(Icons.check)
+              : null,
+          onTap: () {
+            getIt<UserPreferencesService>().reset(UserPreference.departure);
+            findWidgetCampus(true);
+            context.pop();
+          },
+        ),
+      );
   }
 }

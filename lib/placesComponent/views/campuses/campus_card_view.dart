@@ -1,6 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,7 @@ class CampusCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Tapable(
+    return InkWell(
       child: AspectRatio(
         aspectRatio: 1.75,
         child: Card(
@@ -61,7 +60,7 @@ class CampusCardView extends ConsumerWidget {
           ),
         ),
       ),
-      action: () => context.push(routes.campus, extra: campus),
+      onTap: () => context.push(routes.campus, extra: campus),
     );
   }
 }

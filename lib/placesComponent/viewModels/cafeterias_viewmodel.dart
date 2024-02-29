@@ -1,7 +1,8 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
@@ -10,12 +11,12 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
-import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
@@ -147,25 +148,41 @@ class CafeteriasViewModel {
     }
   }
 
-  // TODO: add option for closest
-  List<PopupMenuEntry<String>> getMenuEntries() {
+  List<ListTile> getCafeteriaEntries(BuildContext context) {
     return cafeterias.map((e) {
-      final selectedCafeteriaId = widgetCafeteria.value != null
-          ? widgetCafeteria.value!.$1.id
-          : cafeterias.first.id;
-      final name = e.name;
-      final cafeteriaId = e.id;
-      return PopupMenuItem(
-        value: cafeteriaId,
-        child: selectedCafeteriaId == cafeteriaId
-            ? IconText(
-                iconData: Icons.check,
-                label: name,
-                leadingIcon: false,
-              )
-            : Text(name),
+      final isSelected = widgetCafeteria.value?.$1.id == e.id &&
+          getIt<UserPreferencesService>().load(
+                UserPreference.cafeteria,
+              ) !=
+              null;
+      return ListTile(
+        dense: true,
+        title: Text(e.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetCafeteria(e.id);
+          context.pop();
+        },
       );
-    }).toList();
+    }).toList()
+      ..insert(
+        0,
+        ListTile(
+          dense: true,
+          title: Text(context.localizations.closest),
+          trailing: getIt<UserPreferencesService>().load(
+                    UserPreference.cafeteria,
+                  ) ==
+                  null
+              ? const Icon(Icons.check)
+              : null,
+          onTap: () {
+            getIt<UserPreferencesService>().reset(UserPreference.cafeteria);
+            fetchWidgetCafeteria(false);
+            context.pop();
+          },
+        ),
+      );
   }
 
   Future<List<CafeteriaMenu>> fetchCafeteriaMenu(
@@ -297,13 +314,7 @@ class CafeteriasViewModel {
               icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                 title: e.name,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CafeteriaScaffold(
-                      cafeteria: e,
-                    ),
-                  ),
-                ),
+                onTap: () => context.push(cafeteria, extra: e),
               ),
             ),
           )
@@ -323,13 +334,7 @@ class CafeteriasViewModel {
               icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                 title: e.name,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CafeteriaScaffold(
-                      cafeteria: e,
-                    ),
-                  ),
-                ),
+                onTap: () => context.push(cafeteria, extra: e),
               ),
             ),
           )

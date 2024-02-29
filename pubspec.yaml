@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 4.5.2+1
+version: 5.0.0+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -21,6 +21,7 @@ dependencies:
   geolocator: ^11.0.0
   hive: ^2.2.3
   intl: any
+  flutter_gen: any
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   package_info_plus: ^5.0.0

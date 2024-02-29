@@ -1,18 +1,19 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
@@ -182,25 +183,42 @@ class StudyRoomsViewModel {
     return data.where((element) => element.status == "frei").length;
   }
 
-  List<PopupMenuEntry<int>> getMenuEntries() {
-    return studyRoomData?.groups?.map((e) {
-          final selectedCafeteriaId = widgetStudyRoom.value != null
-              ? widgetStudyRoom.value!.id
-              : studyRoomData?.groups?.first.id;
-          final name = e.name;
-          final cafeteriaId = e.id;
-          return PopupMenuItem(
-            value: cafeteriaId,
-            child: selectedCafeteriaId == cafeteriaId
-                ? IconText(
-                    iconData: Icons.check,
-                    label: name,
-                    leadingIcon: false,
-                  )
-                : Text(name),
+  List<ListTile> getStudyRoomEntries(BuildContext context) {
+    return studyRooms.value?.entries.map((e) {
+          final isSelected = widgetStudyRoom.value?.id == e.key.id &&
+              getIt<UserPreferencesService>().load(
+                    UserPreference.studyRoom,
+                  ) !=
+                  null;
+          return ListTile(
+            dense: true,
+            title: Text(e.key.name),
+            trailing: isSelected ? const Icon(Icons.check) : null,
+            onTap: () {
+              setWidgetStudyRoom(e.key.id);
+              context.pop();
+            },
           );
         }).toList() ??
-        [];
+        []
+      ..insert(
+        0,
+        ListTile(
+          dense: true,
+          title: Text(context.localizations.closest),
+          trailing: getIt<UserPreferencesService>().load(
+                    UserPreference.studyRoom,
+                  ) ==
+                  null
+              ? const Icon(Icons.check)
+              : null,
+          onTap: () {
+            getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
+            fetchWidgetStudyRooms(false);
+            context.pop();
+          },
+        ),
+      );
   }
 
   Set<Marker> mapMakers(BuildContext context) {
@@ -213,13 +231,7 @@ class StudyRoomsViewModel {
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
               infoWindow: InfoWindow(
                 title: e.name,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => StudyRoomGroupScaffold(e),
-                    ),
-                  );
-                },
+                onTap: () => context.push(studyRoom, extra: e),
               ),
             ),
           )
@@ -237,14 +249,9 @@ class StudyRoomsViewModel {
             (e) => Marker(
               markerId: MarkerId(e.id.toString()),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
-              //icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                 title: e.name,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => StudyRoomGroupScaffold(e),
-                  ),
-                ),
+                onTap: () => context.push(studyRoom, extra: e),
               ),
             ),
           )

@@ -10,6 +10,7 @@ import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmode
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -47,16 +48,22 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // TODO: sheet outside of shell possible?
-              PopupMenuButton<Campus>(
-                itemBuilder: (context) =>
-                    ref.read(departureViewModel).getCampusEntries(),
-                onSelected: (selected) {
-                  ref.read(departureViewModel).setWidgetCampus(selected);
-                },
+              InkWell(
                 child: Icon(
                   Icons.filter_list,
                   color: Theme.of(context).primaryColor,
+                ),
+                onTap: () => showModalBottomSheet(
+                  builder: (context) => PreferenceSelectionView<Campus>(
+                    data:
+                        ref.read(departureViewModel).getCampusEntries(context),
+                    entry: context.localizations.departure,
+                  ),
+                  context: context,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
                 ),
               ),
             ],

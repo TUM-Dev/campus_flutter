@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/tapable.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
@@ -37,28 +37,35 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           titleWidget: Row(
             children: [
               Expanded(
-                child: Tapable(
+                child: InkWell(
                   child: Text(
                     snapshot.data?.$1.name ?? context.localizations.cafeteria,
                     style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  action: () => snapshot.data != null
+                  onTap: () => snapshot.data != null
                       ? context.push(cafeteriaWidget, extra: snapshot.data!.$1)
                       : null,
                 ),
               ),
-              // TODO: sheet outside of shell possible?
-              PopupMenuButton<String>(
-                itemBuilder: (context) =>
-                    ref.read(cafeteriasViewModel).getMenuEntries(),
-                onSelected: (selected) {
-                  ref.read(cafeteriasViewModel).setWidgetCafeteria(selected);
-                },
+              InkWell(
                 child: Icon(
                   Icons.filter_list,
                   color: Theme.of(context).primaryColor,
+                ),
+                onTap: () => showModalBottomSheet(
+                  builder: (context) => PreferenceSelectionView<Cafeteria>(
+                    data: ref
+                        .read(cafeteriasViewModel)
+                        .getCafeteriaEntries(context),
+                    entry: context.localizations.cafeteria,
+                  ),
+                  context: context,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/search_category.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/material.dart';
@@ -46,14 +47,18 @@ class SearchResultDetailsView<S extends Searchable> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Card(
-        child: ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: data.length,
-          itemBuilder: (context, index) => body(data[index]),
-          separatorBuilder: (BuildContext context, int index) =>
-              const PaddedDivider(height: 0),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: context.padding * 2),
+        child: Card(
+          child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: data.length,
+            itemBuilder: (context, index) => body(data[index]),
+            separatorBuilder: (BuildContext context, int index) =>
+                const PaddedDivider(height: 0),
+          ),
         ),
       ),
     );

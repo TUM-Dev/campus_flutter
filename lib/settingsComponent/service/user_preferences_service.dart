@@ -38,4 +38,10 @@ class UserPreferencesService {
   void reset(UserPreference userPreference) {
     sharedPreferences.remove(userPreference.name);
   }
+
+  void resetAll() {
+    for (var element in UserPreference.values) {
+      reset(element);
+    }
+  }
 }

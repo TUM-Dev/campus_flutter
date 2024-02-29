@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
@@ -71,16 +72,24 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // TODO: sheet outside of shell possible?
-                PopupMenuButton<int>(
-                  itemBuilder: (context) =>
-                      ref.read(studyRoomsViewModel).getMenuEntries(),
-                  onSelected: (selected) {
-                    ref.read(studyRoomsViewModel).setWidgetStudyRoom(selected);
-                  },
+                InkWell(
                   child: Icon(
                     Icons.filter_list,
                     color: Theme.of(context).primaryColor,
+                  ),
+                  onTap: () => showModalBottomSheet(
+                    builder: (context) =>
+                        PreferenceSelectionView<StudyRoomGroup>(
+                      data: ref
+                          .read(studyRoomsViewModel)
+                          .getStudyRoomEntries(context),
+                      entry: context.localizations.studyRoom,
+                    ),
+                    context: context,
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    showDragHandle: true,
                   ),
                 ),
               ],
@@ -160,7 +169,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _buttonLabel(StudyRoomGroup studyRoomGroup, BuildContext context) {
     return ListTile(
-      title: Text(studyRoomGroup.name ?? context.localizations.unknown),
+      title: Text(studyRoomGroup.name),
       subtitle: _freeRooms(studyRoomGroup),
       trailing: const Icon(
         Icons.arrow_forward_ios,
