@@ -20,8 +20,6 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   geolocator: ^11.0.0
   hive: ^2.2.3
-  intl: any
-  flutter_gen: any
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   package_info_plus: ^5.0.0
@@ -46,8 +44,6 @@ dependencies:
   google_maps_flutter: ^2.5.3
   map_launcher: ^3.0.1
   flutter_staggered_grid_view: ^0.7.0
-  flutter_localizations:
-    sdk: flutter
   flutter_svg: ^2.0.9
   uuid: ^4.2.1
   collection: ^1.18.0
@@ -57,6 +53,10 @@ dependencies:
   permission_handler: ^11.1.0
   auto_size_text: ^3.0.0
   go_router: ^13.2.0
+  quick_actions: ^1.0.7
+  intl: any
+  flutter_localizations:
+    sdk: flutter
 
 dependency_overrides:
   xml2json:

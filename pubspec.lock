@@ -1087,6 +1087,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  quick_actions:
+    dependency: "direct main"
+    description:
+      name: quick_actions
+      sha256: b17da113df7a7005977f64adfa58ccc49c829d3ccc6e8e770079a8c7fbf2da9e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
+  quick_actions_android:
+    dependency: transitive
+    description:
+      name: quick_actions_android
+      sha256: adb42f20a46b22fee4caef421c00ff9eb209f9d441010bc5d6e9afa824288cf6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.10"
+  quick_actions_ios:
+    dependency: transitive
+    description:
+      name: quick_actions_ios
+      sha256: dd355101d0e9fef6176fa2ae2bf738bcafa8df09a1e17057fcb56475719793de
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.10"
+  quick_actions_platform_interface:
+    dependency: transitive
+    description:
+      name: quick_actions_platform_interface
+      sha256: "81a1e40c519bb3cacfec38b3008b13cef665a75bd270da94f40091b57f0f9236"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   riverpod:
     dependency: transitive
     description:

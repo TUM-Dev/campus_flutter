@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/enums/shortcut_item.dart';
+import 'package:campus_flutter/base/helpers/enum_parser.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
 import 'package:campus_flutter/base/networking/base/connection_checker.dart';
@@ -25,6 +27,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -100,11 +103,22 @@ class CampusApp extends ConsumerStatefulWidget {
 
 class _CampusAppState extends ConsumerState<CampusApp>
     with AutomaticKeepAliveClientMixin {
+  late QuickActions quickActions;
+
   @override
   void initState() {
     getIt.registerSingleton<RouterService>(
       RouterService(ref),
     );
+    quickActions = const QuickActions();
+    quickActions.initialize((shortcutType) {
+      final shortcutItemType = EnumParser.typeFromString(shortcutType);
+      if (getIt<RouterService>().isInitialized) {
+        ref.read(routerProvider).go(shortcutItemType.route);
+      } else {
+        getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+      }
+    });
     super.initState();
   }
 
@@ -120,6 +134,13 @@ class _CampusAppState extends ConsumerState<CampusApp>
       locale: ref.watch(customLocale) ?? _getDeviceLocale(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      localeResolutionCallback: (locale, locales) {
+        quickActions.setShortcutItems(<ShortcutItem>[
+          for (var shortcutItemType in ActiveShortcuts.items)
+            shortcutItemType.shortcutItem(locale),
+        ]);
+        return locale;
+      },
       routerConfig: ref.watch(routerProvider),
     );
   }
