@@ -145,6 +145,7 @@ class OnboardingViewModel {
     ref.invalidate(studentCardViewModel);
     await getIt<RESTClient>().clearCache();
     await _storage.delete(key: "token");
+    // TODO: reset widgets
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }

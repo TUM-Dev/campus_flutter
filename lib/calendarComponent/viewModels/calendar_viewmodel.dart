@@ -18,35 +18,39 @@ class CalendarViewModel {
 
   Future fetch(bool forcedRefresh) async {
     CalendarService.fetchCalendar(forcedRefresh).then(
-      (response) async {
+      (response) {
         lastFetched.add(response.$1);
         events.add(response.$2);
-        await HomeWidget.saveWidgetData(
-          "calendar",
-          jsonEncode(
-            response.$2
-                .where(
-                  (element) =>
-                      element.startDate.isBefore(
-                        DateTime.now().add(
-                          const Duration(days: 14),
-                        ),
-                      ) &&
-                      element.startDate.isAfter(DateTime.now()),
-                )
-                .toList(),
-          ),
-        );
-        await HomeWidget.saveWidgetData(
-          "calendar_save",
-          DateTime.now().toIso8601String(),
-        );
-        await HomeWidget.updateWidget(
-          iOSName: "CalendarWidget",
-          androidName: "widgets.calendar.CalendarWidget",
-        );
+        updateHomeWidget(response.$2);
       },
       onError: (error) => events.addError(error),
+    );
+  }
+
+  Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {
+    await HomeWidget.saveWidgetData(
+      "calendar",
+      jsonEncode(
+        calendarEvents
+            .where(
+              (element) =>
+                  element.startDate.isBefore(
+                    DateTime.now().add(
+                      const Duration(days: 14),
+                    ),
+                  ) &&
+                  element.startDate.isAfter(DateTime.now()),
+            )
+            .toList(),
+      ),
+    );
+    await HomeWidget.saveWidgetData(
+      "calendar_save",
+      DateTime.now().toIso8601String(),
+    );
+    await HomeWidget.updateWidget(
+      iOSName: "CalendarWidget",
+      androidName: "widgets.calendar.CalendarWidget",
     );
   }
 
