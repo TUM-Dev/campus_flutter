@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
@@ -22,7 +23,7 @@ class PersonDetailsScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(context.localizations.personDetails),
       ),
       body: PersonDetailsView(

@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class SearchResultDetailsScaffold<S extends Searchable>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(
           SearchCategoryExtension.localizedEnumTitle(searchCategory, context),
         ),

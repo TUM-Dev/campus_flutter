@@ -1,9 +1,9 @@
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

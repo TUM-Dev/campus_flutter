@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
@@ -91,7 +92,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         backgroundColor: backgroundColor,
         title: Text(context.localizations.checkToken),
       ),

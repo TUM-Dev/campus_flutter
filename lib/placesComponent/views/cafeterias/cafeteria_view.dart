@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/classes/location.dart' as location;
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/directions_launcher.dart';
 import 'package:campus_flutter/base/helpers/info_row.dart';
@@ -27,7 +28,7 @@ class CafeteriaScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(cafeteria.name),
         centerTitle: true,
         actions: [

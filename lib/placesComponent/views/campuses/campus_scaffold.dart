@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -24,7 +25,7 @@ class _CampusScaffoldState extends ConsumerState<CampusScaffold> {
     final fractionalHeight = _height * _fraction;
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(widget.campus.name),
         titleSpacing: 0,
         actions: [

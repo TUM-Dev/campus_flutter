@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/directions_launcher.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
@@ -28,7 +29,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
             : Colors.white;
         return Scaffold(
           appBar: AppBar(
-            leading: isSplitView ? null : const BackButton(),
+            leading: isSplitView ? null : const CustomBackButton(),
             backgroundColor: isSplitView ? null : backgroundColor,
             title: Text(
               ref.watch(departureViewModel).selectedStation.value?.name ??

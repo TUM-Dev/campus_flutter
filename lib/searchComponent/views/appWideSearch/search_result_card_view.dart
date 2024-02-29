@@ -112,6 +112,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
+      // TODO: figure out for multiple attributes
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -13,7 +14,7 @@ class SearchScaffold extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.localizations.search),
-        leading: BackButton(
+        leading: CustomBackButton(
           onPressed: () {
             ref.read(searchViewModel).clear();
             context.pop();
