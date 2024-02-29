@@ -23,7 +23,7 @@ class RouterService {
         FlutterNativeSplash.remove();
         return _alternativeRoute ?? home;
       } else {
-        isInitialized = false;
+        isInitialized = true;
         FlutterNativeSplash.remove();
         return onboarding;
       }
