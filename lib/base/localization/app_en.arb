@@ -40,6 +40,7 @@
    },
    "checkPermissions":"Check Permissions",
    "done":"Done",
+   "studyRoom":"Study Room",
    "studyRooms":"Study Rooms",
    "nearestStudyRooms":"Nearest Study Rooms",
    "noNearFreeStudyRoomsFound":"No Study Rooms Near You Found!",
@@ -232,10 +233,14 @@
    "friday":"Friday",
    "weekend":"Weekend",
    "openingHours":"Opening Hours",
-   "openToday":"Open today from {start} - {end}",
-   "@openToday":{
+   "open":"Open {day} from {start} - {end}",
+   "@open":{
       "description":"Opening Times",
       "placeholders":{
+         "day":{
+            "type":"String",
+            "example":"Monday"
+         },
          "start":{
             "type":"String",
             "example":"11:00"
@@ -284,5 +289,27 @@
    "libraryBarcode":"Library Barcode",
    "libraryNumber":"Library Number",
    "birthday":"Birthday",
-   "studyId":"Study ID"
+   "studyId":"Study ID",
+   "locationServiceDisabled":"Location Service disabled",
+   "permissionDenied":"Permission denied",
+   "onlyLetters":"Make Sure to Use Letters Only",
+   "onlyNumbers":"Make Sure to Use Numbers Only",
+   "personDetails":"Person Details",
+   "contact":"Contact",
+   "room":"Room",
+   "back":"Back",
+   "editHome":"Edit Home",
+   "reorderDisable":"Reorder & Disable Widgets",
+   "reset":"Reset",
+   "selectPreferred":"Select your preferred {item}",
+   "@selectPreferred":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Cafeteria"
+         }
+      }
+   },
+   "closest":"Closest"
 }

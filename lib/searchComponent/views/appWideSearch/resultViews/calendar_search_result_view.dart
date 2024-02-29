@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
@@ -39,12 +40,13 @@ class CalendarSearchResultView extends ConsumerWidget {
             ),
           ],
         ),
+        // TODO:
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => Scaffold(
                 appBar: AppBar(
-                  leading: const BackButton(),
+                  leading: const CustomBackButton(),
                 ),
                 body: SafeArea(
                   child: LectureDetailsView(

@@ -145,14 +145,6 @@ service Campus {
     option (google.api.http) = {get: "/canteen/headCount/{canteen_id}"};
   }
 
-  // Endpoint for the iOS app to respond to background notifications requests
-  rpc IOSDeviceRequestResponse(IOSDeviceRequestResponseRequest) returns (IOSDeviceRequestResponseReply) { // TODO naming
-    option (google.api.http) = {
-      post: "/ios/notifications/deviceRequestResponse",
-      body: "*",
-    };
-  }
-
   // Create an device (Android/iOS/Windows) for push notifications
   rpc CreateDevice(CreateDeviceRequest) returns (CreateDeviceReply) {
     option (google.api.http) = {
@@ -192,14 +184,6 @@ message DeleteDeviceReply {
   string device_id = 1;
 }
 
-message IOSDeviceRequestResponseRequest {
-  string request_id = 1;
-  string payload = 2;
-}
-
-message IOSDeviceRequestResponseReply {
-  string message = 1;
-}
 message News {
   int64 id = 1;
   string title = 2;

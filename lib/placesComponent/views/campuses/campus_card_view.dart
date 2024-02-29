@@ -1,8 +1,9 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/tapable.dart';
-import 'package:campus_flutter/placesComponent/views/campuses/campus_scaffold.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CampusCardView extends ConsumerWidget {
   const CampusCardView({super.key, required this.campus, this.margin});
@@ -12,7 +13,7 @@ class CampusCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Tapable(
+    return InkWell(
       child: AspectRatio(
         aspectRatio: 1.75,
         child: Card(
@@ -35,7 +36,7 @@ class CampusCardView extends ConsumerWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: context.padding),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -47,12 +48,9 @@ class CampusCardView extends ConsumerWidget {
                             ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.place,
-                          color: Theme.of(context).primaryColor,
-                        ),
+                      Icon(
+                        Icons.place,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ],
                   ),
@@ -62,13 +60,7 @@ class CampusCardView extends ConsumerWidget {
           ),
         ),
       ),
-      action: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CampusScaffold(campus: campus),
-          ),
-        );
-      },
+      onTap: () => context.push(routes.campus, extra: campus),
     );
   }
 }

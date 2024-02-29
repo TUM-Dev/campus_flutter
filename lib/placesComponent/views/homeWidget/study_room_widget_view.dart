@@ -1,15 +1,17 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class StudyRoomWidgetView extends ConsumerStatefulWidget {
   factory StudyRoomWidgetView(StudyRoomGroup? studyRoomGroup) {
@@ -46,45 +48,76 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   void initState() {
     if (widget.closestStudyRoom) {
-      ref.read(studyRoomsViewModel).fetchClosestStudyRoom(false);
+      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.closestStudyRoom) {
-      return WidgetFrameView(
-        title: context.localizations.nearestStudyRooms,
-        child: _streamBuilder(context),
-      );
-    } else {
-      return _streamBuilder(context);
-    }
-  }
-
-  Widget _streamBuilder(BuildContext context) {
     return StreamBuilder(
       stream: widget.closestStudyRoom
-          ? ref.watch(studyRoomsViewModel).closestStudyRoom
+          ? ref.watch(studyRoomsViewModel).widgetStudyRoom
           : ref.watch(studyRoomsViewModel).studyRooms,
       builder: (context, snapshot) {
-        return GestureDetector(
-          onTap: () {
-            if (snapshot.hasData && snapshot.data != null) {
-              _onPressed(
-                widget.closestStudyRoom
-                    ? snapshot.data! as StudyRoomGroup
-                    : widget.studyRoomGroup!,
-                context,
-              );
-            }
-          },
-          child: widget.closestStudyRoom
-              ? Card(child: _widgetLabel(snapshot, context))
-              : _widgetLabel(snapshot, context),
-        );
+        if (widget.closestStudyRoom) {
+          return WidgetFrameView(
+            titleWidget: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    context.localizations.studyRooms,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                InkWell(
+                  child: Icon(
+                    Icons.filter_list,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onTap: () => showModalBottomSheet(
+                    builder: (context) =>
+                        PreferenceSelectionView<StudyRoomGroup>(
+                      data: ref
+                          .read(studyRoomsViewModel)
+                          .getStudyRoomEntries(context),
+                      entry: context.localizations.studyRoom,
+                    ),
+                    context: context,
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    showDragHandle: true,
+                  ),
+                ),
+              ],
+            ),
+            child: _body(snapshot),
+          );
+        } else {
+          return _body(snapshot);
+        }
       },
+    );
+  }
+
+  Widget _body(AsyncSnapshot<Object?> snapshot) {
+    return GestureDetector(
+      onTap: () {
+        if (snapshot.hasData && snapshot.data != null) {
+          _onPressed(
+            widget.closestStudyRoom
+                ? snapshot.data! as StudyRoomGroup
+                : widget.studyRoomGroup!,
+            context,
+          );
+        }
+      },
+      child: widget.closestStudyRoom
+          ? Card(child: _widgetLabel(snapshot, context))
+          : _widgetLabel(snapshot, context),
     );
   }
 
@@ -125,11 +158,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   _onPressed(StudyRoomGroup studyRoomGroup, BuildContext context) async {
     if (MediaQuery.orientationOf(context) == Orientation.portrait ||
         widget.studyRoomGroup != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => StudyRoomGroupScaffold(studyRoomGroup),
-        ),
-      );
+      context.push(closestStudyRoom, extra: studyRoomGroup);
     } else {
       ref
           .read(homeSplitViewModel)
@@ -140,7 +169,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _buttonLabel(StudyRoomGroup studyRoomGroup, BuildContext context) {
     return ListTile(
-      title: Text(studyRoomGroup.name ?? context.localizations.unknown),
+      title: Text(studyRoomGroup.name),
       subtitle: _freeRooms(studyRoomGroup),
       trailing: const Icon(
         Icons.arrow_forward_ios,

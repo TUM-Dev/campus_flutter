@@ -1,14 +1,15 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 
 import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
-import 'package:campus_flutter/loginComponent/views/permission_check_view.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
@@ -91,7 +92,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         backgroundColor: backgroundColor,
         title: Text(context.localizations.checkToken),
       ),
@@ -100,9 +101,11 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           Text(texts[currentText], textAlign: TextAlign.center),
           const Spacer(),
           SizedBox(
-            height: 500,
-            width: 230,
-            child: VideoPlayer(_videoPlayerController),
+            width: MediaQuery.sizeOf(context).width * 0.5,
+            child: AspectRatio(
+              aspectRatio: 0.46,
+              child: VideoPlayer(_videoPlayerController),
+            ),
           ),
           const Spacer(flex: 2),
           Row(
@@ -119,14 +122,10 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(loginViewModel).confirmLogin().then(
+                  ref.read(onboardingViewModel).confirmLogin().then(
                     (value) {
                       if (value.confirmed) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const PermissionCheckView(),
-                          ),
-                        );
+                        context.push(permissionCheck);
                       } else {
                         throw TumOnlineApiException(
                           tumOnlineApiExceptionType:
@@ -172,12 +171,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           Center(
             child: MaterialButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const FeedbackFormScaffold(),
-                ),
-              ),
+              onPressed: () => context.push(feedback),
               child: Text(
                 context.localizations.contactSupport,
                 style: TextStyle(color: Theme.of(context).primaryColor),

@@ -9,11 +9,11 @@ part 'grade.g.dart';
 @JsonSerializable()
 class Grade extends Searchable {
   String get id {
-    return "${date.toIso8601String()}-$lvNumber";
+    return "${date?.toIso8601String()}-$lvNumber";
   }
 
   @JsonKey(name: "datum")
-  final DateTime date;
+  final DateTime? date;
   @JsonKey(name: "lv_nummer")
   final String lvNumber;
   @JsonKey(name: "lv_semester")

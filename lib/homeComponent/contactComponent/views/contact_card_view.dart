@@ -1,15 +1,14 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
+import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
@@ -31,15 +30,12 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   build(BuildContext context) {
     return StreamBuilder(
-      stream: ref.watch(profileDetailsViewModel).personDetails.withLatestFrom(
-            ref.watch(studentCardViewModel).studentCard,
-            (personDetails, studentCard) => (personDetails, studentCard),
-          ),
+      stream: ref.watch(profileDetailsViewModel).personDetails,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data?.$1 != null) {
+        if (snapshot.hasData || snapshot.hasError) {
           return contactInfo(
-            snapshot.data!.$1!,
-            snapshot.data!.$2?.firstOrNull,
+            snapshot.data,
+            ref.read(profileViewModel).profile.value!,
           );
         } else {
           return DelayedLoadingIndicator(
@@ -52,14 +48,14 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     );
   }
 
-  Widget contactInfo(PersonDetails data, StudentCard? studentCard) {
+  Widget contactInfo(PersonDetails? data, Profile profile) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: data.imageData != null
-                ? Image.memory(base64DecodeImageData(data.imageData!)).image
+            backgroundImage: data?.imageData != null
+                ? Image.memory(base64DecodeImageData(data!.imageData!)).image
                 : const AssetImage(
                     'assets/images/placeholders/portrait_placeholder.png',
                   ),
@@ -73,24 +69,17 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  data.fullName,
+                  data?.fullName ?? profile.fullName,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 Text(
-                  ref.watch(profileViewModel).profile.value?.tumID ?? "go42tum",
+                  profile.tumID ?? "go42tum",
                 ),
-                Text(data.email),
-                for (var studyProgram in studentCard?.studies.sublist(
-                      0,
-                      studentCard.studies.length >= 2
-                          ? 2
-                          : studentCard.studies.length,
-                    ) ??
-                    []) ...[
-                  Text(
-                    "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})",
+                if (data != null)
+                  AutoSizeText(
+                    data.email,
+                    maxLines: 1,
                   ),
-                ],
               ],
             ),
           ),
