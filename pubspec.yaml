@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 4.5.2+1
+version: 5.0.0+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -18,16 +18,15 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.2.19
   flutter_secure_storage: ^9.0.0
-  geolocator: ^10.0.1
+  geolocator: ^11.0.0
   hive: ^2.2.3
-  intl: any
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   package_info_plus: ^5.0.0
   path_provider: ^2.0.15
   rxdart: ^0.27.7
   shimmer: ^3.0.0
-  syncfusion_flutter_calendar: ^24.1.41
+  syncfusion_flutter_calendar: "24.2.5"
   syncfusion_flutter_charts: ^24.1.41
   url_launcher: ^6.1.10
   video_player: ^2.6.1
@@ -42,11 +41,9 @@ dependencies:
   grpc: ^3.2.4
   protobuf: ^3.0.0
   syncfusion_flutter_datepicker: ^24.1.41
-  google_maps_flutter: ^2.4.0
+  google_maps_flutter: ^2.5.3
   map_launcher: ^3.0.1
   flutter_staggered_grid_view: ^0.7.0
-  flutter_localizations:
-    sdk: flutter
   flutter_svg: ^2.0.9
   uuid: ^4.2.1
   collection: ^1.18.0
@@ -54,6 +51,12 @@ dependencies:
   firebase_core: ^2.24.0
   flutter_linkify: ^6.0.0
   permission_handler: ^11.1.0
+  auto_size_text: ^3.0.0
+  go_router: ^13.2.0
+  quick_actions: ^1.0.7
+  intl: any
+  flutter_localizations:
+    sdk: flutter
 
 dependency_overrides:
   xml2json:

@@ -1,4 +1,3 @@
 arb-dir: lib/base/localization/
 template-arb-file: app_en.arb
-untranslated-messages-file: lib/base/localization/translation_todo.json
 output-localization-file: app_localizations.dart

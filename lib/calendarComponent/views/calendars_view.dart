@@ -35,7 +35,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
     ref
         .read(selectedDate.notifier)
         .addListener((state) => _selectedDateListener(state));
-    _selectedCalendarTab = 1;
+    _selectedCalendarTab = 0;
     super.initState();
   }
 

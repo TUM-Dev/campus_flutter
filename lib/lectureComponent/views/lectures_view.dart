@@ -5,7 +5,6 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/semester_calculator.dart';
 import 'package:campus_flutter/base/helpers/string_parser.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
@@ -35,45 +34,48 @@ class _LecturesViewState extends ConsumerState<LecturesView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GenericStreamBuilder<Map<String, List<Lecture>>>(
+    return StreamBuilder(
       stream: ref.watch(lectureViewModel).lectures,
-      dataBuilder: (context, data) {
-        if (data.isEmpty) {
-          return Center(
-            child: Text(
-              context.localizations.noEntriesFound(
-                context.localizations.lecture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.lecture,
+                ),
               ),
-            ),
+            );
+          } else {
+            Future(() {
+              ref.read(lectureSplitViewModel).selectedWidget.add(
+                    LectureDetailsView(
+                      key: Key(snapshot.data!.values.first.first.title),
+                      lecture: snapshot.data!.values.first.first,
+                    ),
+                  );
+            });
+            final lastFetched = ref.read(lectureViewModel).lastFetched.value;
+            return OrientationBuilder(
+              builder: (context, constraints) {
+                if (constraints == Orientation.portrait) {
+                  return _semesterListView(false, lastFetched, snapshot.data!);
+                } else {
+                  return _twoColumnView(lastFetched, snapshot.data!);
+                }
+              },
+            );
+          }
+        } else if (snapshot.hasError) {
+          return ErrorHandlingRouter(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(lectureViewModel).fetch,
           );
         } else {
-          Future(() {
-            ref.read(lectureSplitViewModel).selectedWidget.add(
-                  LectureDetailsView(
-                    key: Key(data.values.first.first.title),
-                    lecture: data.values.first.first,
-                  ),
-                );
-          });
-          final lastFetched = ref.read(lectureViewModel).lastFetched.value;
-          return OrientationBuilder(
-            builder: (context, constraints) {
-              if (constraints == Orientation.portrait) {
-                return _semesterListView(false, lastFetched, data);
-              } else {
-                return _twoColumnView(lastFetched, data);
-              }
-            },
-          );
+          return DelayedLoadingIndicator(name: context.localizations.lectures);
         }
       },
-      errorBuilder: (context, error) => ErrorHandlingRouter(
-        error: error,
-        errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-        retry: ref.read(lectureViewModel).fetch,
-      ),
-      loadingBuilder: (context) =>
-          const DelayedLoadingIndicator(name: "Lectures"),
     );
   }
 

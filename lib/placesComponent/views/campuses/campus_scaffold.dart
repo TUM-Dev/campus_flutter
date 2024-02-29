@@ -1,9 +1,11 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/placesComponent/views/campuses/campus_map_view.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CampusScaffold extends ConsumerStatefulWidget {
   const CampusScaffold({super.key, required this.campus});
@@ -23,21 +25,13 @@ class _CampusScaffoldState extends ConsumerState<CampusScaffold> {
     final fractionalHeight = _height * _fraction;
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(widget.campus.name),
         titleSpacing: 0,
         actions: [
           if (MediaQuery.orientationOf(context) == Orientation.portrait)
             IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CampusMapScaffold(campus: widget.campus),
-                  ),
-                );
-              },
+              onPressed: () => context.push(campusMap, extra: widget.campus),
               icon: Icon(
                 Icons.map_outlined,
                 color: context.theme.primaryColor,

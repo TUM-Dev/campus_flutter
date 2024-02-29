@@ -1,13 +1,15 @@
-import 'dart:ui';
-
 import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:map_launcher/map_launcher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final userPreferencesViewModel = Provider(
   (ref) => UserPreferencesViewModel(ref),
@@ -18,83 +20,111 @@ class UserPreferencesViewModel {
 
   UserPreferencesViewModel(this.ref);
 
-  void loadUserPreferences() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    for (final userPreferences in UserPreference.values) {
-      final data = sharedPreferences.get(userPreferences.name);
-      switch (userPreferences) {
-        case UserPreference.webView:
-          final webView = data != null ? data as bool : true;
-          ref.read(useWebView.notifier).state = webView;
-        case UserPreference.hideFailedGrades:
-          final failedGrades = data != null ? data as bool : false;
-          ref.read(hideFailedGrades.notifier).state = failedGrades;
-        case UserPreference.defaultMapsApplication:
-          final installedMaps = await MapLauncher.installedMaps;
-          if (data != null && data is String) {
-            final matchingMaps =
-                installedMaps.firstWhereOrNull((e) => e.mapType.name == data);
-            if (matchingMaps != null) {
-              ref.read(selectedMapsApp.notifier).state = matchingMaps;
-            } else {
-              ref.read(selectedMapsApp.notifier).state = installedMaps.first;
-            }
-          } else {
-            ref.read(selectedMapsApp.notifier).state =
-                installedMaps.firstOrNull;
+  Future<void> loadPreferences() async {
+    return Future(() async {
+      Map<UserPreference, dynamic> preferences = {};
+      for (var preference in UserPreference.values) {
+        final value = getIt<UserPreferencesService>().load(preference);
+        preferences[preference] = value;
+        if (value != null) {
+          switch (preference) {
+            case UserPreference.theme:
+              ref.read(appearance.notifier).state =
+                  Appearance.values[value as int];
+            case UserPreference.browser:
+              ref.read(useWebView.notifier).state = value as bool;
+            case UserPreference.failedGrades:
+              ref.read(hideFailedGrades.notifier).state = value as bool;
+            case UserPreference.locale:
+              ref.read(customLocale.notifier).state = Locale(value as String);
+            case UserPreference.defaultMapsApplication:
+              final installedMaps = getIt<List<AvailableMap>>();
+              final matchingMaps = installedMaps.firstWhereOrNull(
+                (e) => e.mapType.name == value as String,
+              );
+              if (matchingMaps != null) {
+                ref.read(selectedMapsApp.notifier).state = matchingMaps;
+              } else {
+                ref.read(selectedMapsApp.notifier).state =
+                    installedMaps.firstOrNull;
+              }
+            default:
+              break;
           }
-        case UserPreference.locale:
-          ref.read(customLocale.notifier).state =
-              data != null ? Locale(data as String) : null;
-        case UserPreference.theme:
-          if (data != null) {
-            final theme = Appearance.values
-                .firstWhere((element) => element.name == (data as String));
-            ref.read(appearance.notifier).state = theme;
-          }
-        //
+        }
       }
+    });
+  }
+
+  void savePreference(UserPreference userPreference, Object? value) {
+    switch (userPreference) {
+      case UserPreference.theme:
+        value = value as Appearance;
+        ref.read(appearance.notifier).state = value;
+        value = value.index;
+      case UserPreference.browser:
+        ref.read(useWebView.notifier).state = value as bool;
+      case UserPreference.failedGrades:
+        ref.read(hideFailedGrades.notifier).state = value as bool;
+      case UserPreference.locale:
+        ref.read(customLocale.notifier).state = value as Locale?;
+      case UserPreference.defaultMapsApplication:
+        ref.read(selectedMapsApp.notifier).state = value as AvailableMap?;
+        value = value?.mapName;
+      default:
+        break;
+    }
+    if (value != null) {
+      getIt<UserPreferencesService>().save(userPreference, value);
     }
   }
 
-  void saveUserPreference(
-    UserPreference userPreference,
-    dynamic newValue,
-  ) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    if (newValue == null) {
-      await sharedPreferences.remove(userPreference.name);
-    } else {
-      switch (userPreference) {
-        case UserPreference.defaultMapsApplication:
-          await sharedPreferences.setString(
-            userPreference.name,
-            (newValue as MapType).name,
-          );
-        case UserPreference.locale:
-          await sharedPreferences.setString(
-            userPreference.name,
-            (newValue as Locale).languageCode,
-          );
-        case UserPreference.theme:
-          await sharedPreferences.setString(
-            userPreference.name,
-            (newValue as Appearance).name,
-          );
-        default:
-          await sharedPreferences.setBool(
-            userPreference.name,
-            newValue as bool,
-          );
-      }
+  void resetUserPreferences() {
+    for (var userPreference in UserPreference.values) {
+      getIt<UserPreferencesService>().reset(userPreference);
     }
   }
-}
 
-enum UserPreference {
-  webView,
-  hideFailedGrades,
-  defaultMapsApplication,
-  locale,
-  theme;
+  static List<PopupMenuItem<AvailableMap>> getInstalledMapTypes(
+    BuildContext context,
+  ) {
+    return getIt.get<List<AvailableMap>>().mapIndexed((index, e) {
+      return PopupMenuItem(
+        value: e,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: SvgPicture.asset(
+                e.icon,
+                height: 30,
+                width: 30,
+              ),
+            ),
+            Text(e.mapName),
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+  static List<DropdownMenuItem<Appearance>> getAppearanceEntries(
+    BuildContext context,
+  ) {
+    return Appearance.values
+        .map(
+          (e) => DropdownMenuItem(
+            value: e,
+            child: IconText(
+              iconData: e.icon,
+              iconColor: Theme.of(context).primaryColor,
+              label: Localizations.localeOf(context).languageCode == "de"
+                  ? e.german
+                  : e.english,
+            ),
+          ),
+        )
+        .toList();
+  }
 }

@@ -3,7 +3,6 @@ import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/views/generic_stream_builder.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
@@ -28,51 +27,43 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetFrameView(
-      title: "TU Film",
-      child: GenericStreamBuilder<List<Movie>>(
-        stream: ref.watch(movieViewModel).movies,
-        dataBuilder: (context, data) {
-          if (data.isEmpty) {
-            return Card(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.34,
-                child: Center(
-                  child: Text(
-                    context.localizations.noEntriesFound(
-                      context.localizations.movies,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return HorizontalSlider<Movie>.height(
-              data: data,
-              height: MediaQuery.of(context).size.height * 0.34,
-              child: (data) {
-                return MovieCardView(movie: data);
-              },
-            );
-          }
-        },
-        errorBuilder: (context, error) => Card(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.34,
-            child: ErrorHandlingRouter(
-              error: error,
-              errorHandlingViewType: ErrorHandlingViewType.textOnly,
-              retry: ref.read(movieViewModel).fetch,
-            ),
-          ),
-        ),
-        loadingBuilder: (context) => Card(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.34,
-            child: DelayedLoadingIndicator(name: context.localizations.movies),
-          ),
-        ),
-      ),
+    return StreamBuilder(
+      stream: ref.watch(movieViewModel).movies,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data!.isEmpty) {
+          return const SizedBox.shrink();
+        } else {
+          return WidgetFrameView(title: "TU Film", child: body(snapshot));
+        }
+      },
     );
+  }
+
+  Widget body(AsyncSnapshot<List<Movie>?> snapshot) {
+    if (snapshot.hasData) {
+      return HorizontalSlider<Movie>.height(
+        data: snapshot.data!,
+        height: MediaQuery.of(context).size.height * 0.34,
+        child: (data) {
+          return MovieCardView(movie: data);
+        },
+      );
+    } else if (snapshot.hasError) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.34,
+        child: ErrorHandlingRouter(
+          error: snapshot.error!,
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+          retry: ref.read(movieViewModel).fetch,
+        ),
+      );
+    } else {
+      return Card(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.34,
+          child: DelayedLoadingIndicator(name: context.localizations.movies),
+        ),
+      );
+    }
   }
 }

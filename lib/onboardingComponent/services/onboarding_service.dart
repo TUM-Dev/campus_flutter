@@ -2,12 +2,31 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
-import 'package:campus_flutter/loginComponent/model/confirm.dart';
-import 'package:campus_flutter/loginComponent/model/token.dart';
+import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
+import 'package:campus_flutter/onboardingComponent/model/token.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginService {
+class OnboardingService {
+  static const key = "isOnboarded";
+
+  final SharedPreferences sharedPreferences;
+
+  OnboardingService(this.sharedPreferences);
+
+  void setOnboarded() {
+    sharedPreferences.setBool(OnboardingService.key, true);
+  }
+
+  void resetOnboardingStatus() {
+    sharedPreferences.remove(OnboardingService.key);
+  }
+
+  bool? getOnboardingStatus() {
+    return sharedPreferences.getBool(OnboardingService.key);
+  }
+
   static Future<Token> requestNewToken(bool forcedRefresh, String name) async {
     RESTClient restClient = getIt<RESTClient>();
     final response = await restClient

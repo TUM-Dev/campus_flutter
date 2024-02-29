@@ -52,7 +52,6 @@ class _SnappingSliderState extends State<SnappingSlider> {
     );
   }
 
-  // TODO: beautify ;)
   Widget _verificationView(BuildContext context) {
     return Column(
       children: [

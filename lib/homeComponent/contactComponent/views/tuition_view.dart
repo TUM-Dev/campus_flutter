@@ -5,6 +5,7 @@ import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
@@ -62,7 +63,7 @@ class TuitionView extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text("Okay"),
             ),
           ],

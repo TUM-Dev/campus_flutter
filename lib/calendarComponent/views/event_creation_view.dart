@@ -1,10 +1,12 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_date_time_picker.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EventCreationScaffold extends ConsumerWidget {
   const EventCreationScaffold({
@@ -18,10 +20,10 @@ class EventCreationScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: CustomBackButton(
           onPressed: () {
             ref.invalidate(calendarAdditionViewModel(calendarEvent));
-            Navigator.pop(context);
+            context.pop();
           },
         ),
         title: Text(context.localizations.createCalendarEvent),
@@ -104,7 +106,7 @@ class EventCreationView extends ConsumerWidget {
                       .saveEvent()
                       .then((value) {
                     ref.invalidate(calendarAdditionViewModel);
-                    Navigator.pop(context);
+                    context.pop();
                   })
               : null,
           child: Text(context.localizations.submit),
