@@ -114,11 +114,14 @@ class NavigationService {
           onPressed: () => WidgetScreen.showHomeSheet(context),
           icon: const Icon(Icons.edit),
         ),
+      // TODO: (Jakob) re-enable digital student card
+      /*
       if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
         IconButton(
           onPressed: () => _openStudentCardSheet(context),
           icon: const Icon(Icons.credit_card),
         ),
+       */
       IconButton(
         onPressed: () => context.push(menuSettings),
         icon: const Icon(Icons.menu),
