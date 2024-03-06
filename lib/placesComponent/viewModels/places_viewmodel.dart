@@ -30,7 +30,7 @@ class PlacesViewModel {
       Campus.stammgelaende,
       Campus.garching,
       Campus.olympiapark,
-      Campus.klinikumRechts,
+      // Campus.klinikumRechts,
       Campus.freising,
     ];
     return LocationService.getLastKnown().then(

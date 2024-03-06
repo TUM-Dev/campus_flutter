@@ -24,6 +24,16 @@ import 'package:uuid/uuid.dart';
 
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 
+const List<String> excludedCafeterias = [
+  "mensa-lothstr",
+  "mensa-pasing",
+  "stucafe-weihenstephan-maximus",
+  "stucafe-karlstr",
+  "stucafe-pasing",
+  "ipp-bistro",
+  "mediziner-mensa",
+];
+
 class CafeteriasViewModel {
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
       BehaviorSubject.seeded(null);
@@ -53,6 +63,7 @@ class CafeteriasViewModel {
     return CafeteriasService.fetchCafeterias(forcedRefresh).then(
       (value) {
         lastFetched = value.$1;
+        _excludeCafeterias(value.$2);
         _categorizeAndSort(value.$2);
       },
       onError: (error) => campusCafeterias.addError(error),
@@ -67,6 +78,7 @@ class CafeteriasViewModel {
     return CafeteriasService.fetchCafeterias(forcedRefresh).then(
       (value) {
         lastFetched = value.$1;
+        _excludeCafeterias(value.$2);
         _categorizeAndSort(value.$2);
         final selectedCafeteria = value.$2.firstWhereOrNull(
           (element) => element.id == preferenceId,
@@ -86,6 +98,12 @@ class CafeteriasViewModel {
         }
       },
       onError: (error) => campusCafeterias.addError(error),
+    );
+  }
+
+  _excludeCafeterias(List<Cafeteria> cafeterias) {
+    cafeterias.removeWhere(
+      (element) => excludedCafeterias.contains(element.id),
     );
   }
 
