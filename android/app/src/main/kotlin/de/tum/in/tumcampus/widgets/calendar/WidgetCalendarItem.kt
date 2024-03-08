@@ -30,7 +30,6 @@ data class WidgetCalendarItem(
 
     private val type: CalendarEventType
         get() {
-            println(title)
             return when {
                 isCanceled -> CalendarEventType.CANCELED
                 title.endsWith("VO") || title.endsWith("VU") || title.endsWith("VI") -> CalendarEventType.LECTURE
@@ -41,7 +40,6 @@ data class WidgetCalendarItem(
 
     private val isCanceled: Boolean
         get() {
-            println(status)
             return status == "CANCEL"
         }
 }

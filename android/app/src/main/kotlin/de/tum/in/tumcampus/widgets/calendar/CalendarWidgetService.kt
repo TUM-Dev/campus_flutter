@@ -78,26 +78,26 @@ class CalendarWidgetService : RemoteViewsService() {
             // Setup the date
             if (currentItem.isFirstOnDay) {
                 remoteViews.setTextViewText(
-                        R.id.timetable_widget_date_day,
+                        R.id.calendar_widget_date_day,
                         startTime.dayOfMonth.toString()
                 )
                 remoteViews.setTextViewText(
-                        R.id.timetable_widget_date_weekday, startTime.dayOfWeek()
+                        R.id.calendar_widget_date_weekday, startTime.dayOfWeek()
                         .getAsShortText(Locale.getDefault())
                 )
-                remoteViews.setViewPadding(R.id.timetable_widget_item, 0, 15, 0, 0)
+                remoteViews.setViewPadding(R.id.calendar_widget_item, 0, 15, 0, 0)
             } else {
                 // Overwrite unused parameters, as the elements are reused they may could be filled with old parameters
-                remoteViews.setTextViewText(R.id.timetable_widget_date_day, "")
-                remoteViews.setTextViewText(R.id.timetable_widget_date_weekday, "")
-                remoteViews.setViewPadding(R.id.timetable_widget_item, 0, 0, 0, 0)
+                remoteViews.setTextViewText(R.id.calendar_widget_date_day, "")
+                remoteViews.setTextViewText(R.id.calendar_widget_date_weekday, "")
+                remoteViews.setViewPadding(R.id.calendar_widget_item, 0, 0, 0, 0)
             }
 
             // Setup event color
-            remoteViews.setInt(R.id.timetable_widget_event, "setBackgroundColor", currentItem.getEventColor(applicationContext))
+            remoteViews.setInt(R.id.calendar_widget_event, "setBackgroundColor", currentItem.getEventColor(applicationContext))
 
             // Setup event title
-            remoteViews.setTextViewText(R.id.timetable_widget_event_title, currentItem.title)
+            remoteViews.setTextViewText(R.id.calendar_widget_event_title, currentItem.title)
 
             // Setup event time
             val formatter = DateTimeFormat.shortTime()
@@ -109,16 +109,16 @@ class CalendarWidgetService : RemoteViewsService() {
                     startTimeText,
                     endTimeText
             )
-            remoteViews.setTextViewText(R.id.timetable_widget_event_time, eventTime)
+            remoteViews.setTextViewText(R.id.calendar_widget_event_time, eventTime)
 
             // Setup event location
-            remoteViews.setTextViewText(R.id.timetable_widget_event_location, currentItem.location)
+            remoteViews.setTextViewText(R.id.calendar_widget_event_location, currentItem.location)
 
             // Setup action to open calendar
             val fillInIntent = Intent().apply {
                 putExtra(Const.EVENT_TIME, currentItem.startDate.millis)
             }
-            remoteViews.setOnClickFillInIntent(R.id.timetable_widget_event, fillInIntent)
+            remoteViews.setOnClickFillInIntent(R.id.calendar_widget_event, fillInIntent)
 
             return remoteViews
         }

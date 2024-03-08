@@ -3,9 +3,9 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
-    <string name="timetable_widget">Timetable Widget TUM</string>
-    <string name="timetable_widget_select_lectures">Select lectures</string>
-    <string name="timetable_widget_no_lectures">No lectures planned :)</string>
+    <string name="calendar_widget">calendar Widget TUM</string>
+    <string name="calendar_widget_select_lectures">Select lectures</string>
+    <string name="calendar_widget_no_lectures">No lectures planned :)</string>
     <string name="IN">in</string>
     <string name="MINUTES">minutes</string>
     <string name="just_now">Just now</string>

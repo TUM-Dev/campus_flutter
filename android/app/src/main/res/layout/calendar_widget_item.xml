@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/timetable_widget_item"
+    android:id="@+id/calendar_widget_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/material_tiny_padding"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/timetable_widget_date_month"
+        android:id="@+id/calendar_widget_date_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
@@ -19,11 +19,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/timetable_widget_date_month"
+        android:layout_below="@id/calendar_widget_date_month"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/timetable_widget_date_day"
+            android:id="@+id/calendar_widget_date_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,7 +33,7 @@
             tools:text="8" />
 
         <TextView
-            android:id="@+id/timetable_widget_date_weekday"
+            android:id="@+id/calendar_widget_date_weekday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-6dp"
@@ -45,17 +45,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/timetable_widget_event"
+        android:id="@+id/calendar_widget_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/timetable_widget_date_month"
+        android:layout_below="@id/calendar_widget_date_month"
         android:layout_marginStart="30dp"
         android:orientation="vertical"
         android:padding="@dimen/material_small_padding"
         tools:background="@color/text_dark_gray">
 
         <TextView
-            android:id="@+id/timetable_widget_event_title"
+            android:id="@+id/calendar_widget_event_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,7 +72,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/timetable_widget_event_time"
+                android:id="@+id/calendar_widget_event_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -82,7 +82,7 @@
                 tools:text="TextView" />
 
             <TextView
-                android:id="@+id/timetable_widget_event_location"
+                android:id="@+id/calendar_widget_event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/material_tiny_padding"

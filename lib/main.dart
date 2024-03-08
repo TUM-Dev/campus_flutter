@@ -122,7 +122,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       });
     HomeWidget.widgetClicked.listen((uri) {
       if (uri != null) {
-        if (uri.queryParameters["homeWidget"] == "calendar") {
+        if (uri.path.contains("calendar")) {
           if (getIt<RouterService>().isInitialized) {
             ref.read(routerProvider).go(calendar);
           } else {

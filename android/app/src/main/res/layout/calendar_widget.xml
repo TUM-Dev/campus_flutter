@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
     <LinearLayout
-        android:id="@+id/timetable_widget_header"
+        android:id="@+id/calendar_widget_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/widget_header_rounded_corners_background"
@@ -22,7 +23,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/timetable_widget_date"
+                android:id="@+id/calendar_widget_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -31,7 +32,7 @@
                 tools:text="Date" />
 
             <TextView
-                android:id="@+id/timetable_widget_updated_on"
+                android:id="@+id/calendar_widget_updated_on"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
@@ -41,7 +42,7 @@
         </LinearLayout>
 
         <!-- <ImageView
-            android:id="@+id/timetable_widget_setting"
+            android:id="@+id/calendar_widget_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/material_tiny_padding"
@@ -56,7 +57,7 @@
         android:background="@drawable/widget_content_rounded_corners_background">
 
         <ListView
-            android:id="@+id/timetable_widget_listview"
+            android:id="@+id/calendar_widget_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/timetable_widget_no_lectures"
+            android:text="@string/calendar_widget_no_lectures"
             android:textColor="@color/text_dark_gray"
             android:visibility="gone"
             tools:visibility="visible" />
