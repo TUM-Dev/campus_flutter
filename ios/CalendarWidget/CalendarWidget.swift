@@ -2,7 +2,7 @@
 //  CalendarWidget.swift
 //  CalendarWidget
 //
-//  Created by Jakob Paul Körber on 30.01.24.
+//  Created by Jakob Körber on 30.01.24.
 //
 
 import WidgetKit
@@ -10,7 +10,9 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> CalendarWidgetEntry {
-        CalendarWidgetEntry(date: Date(), entries: [])
+        CalendarWidgetEntry(date: Date(), entries: [
+            CalendarEntry(id: "0", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: "Audimax")
+        ])
     }
     
     func getSnapshot(in context: Context, completion: @escaping (CalendarWidgetEntry) -> ()) {
@@ -52,14 +54,16 @@ struct CalendarWidget: Widget {
             if #available(iOS 17.0, *) {
                 CalendarWidgetContent(events: entry)
                     .containerBackground(Color.widgetBackground, for: .widget)
+                    .widgetURL(URL(string: "tumCampusApp://message?homeWidget=calendar"))
             } else {
                 CalendarWidgetContent(events: entry)
                     .padding()
                     .background()
+                    .widgetURL(URL(string: "tumCampusApp://message?homeWidget=calendar"))
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Calendar Widget")
+        .description("An Overview About Your Upcoming Events.")
     }
 }
 
@@ -82,8 +86,7 @@ struct CalendarWidgetContent: View {
     }
     
     init(events: CalendarWidgetEntry) {
-        let slicedEntries = Array(events.entries.prefix(displayedItems))
-        self.events = groupEntriesByDate(entries: slicedEntries)
+        self.events = groupEntriesByDate(entries: Array(events.entries.prefix(4)))
     }
     
     private var dateFormatter: DateFormatter {
@@ -94,7 +97,7 @@ struct CalendarWidgetContent: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if displayedItems == 2, let firstEntry = events.first {
+            if displayedItems == 2, let firstEntry = events.sorted(by: { $0.key < $1.key }).first {
                 dateHeader(date: firstEntry.key)
                     .padding(.bottom, 8)
                 
@@ -127,7 +130,6 @@ struct CalendarWidgetContent: View {
         HStack {
             Image(systemName: "calendar")
             
-            //if let firstDate = events.entries.keys.first {
             if date.isToday {
                 Text("Today")
             } else if date.isTomorrow {
@@ -135,11 +137,6 @@ struct CalendarWidgetContent: View {
             } else {
                 Text(dateFormatter.string(from: date))
             }
-            /*} else if let _ = events.entries.first {
-             Text("Unknown Date")
-             } else {
-             Text("Today") // Today no events.
-             }*/
         }
         .font(.body.bold())
         .lineLimit(1)
@@ -162,64 +159,5 @@ struct CalendarWidgetContent: View {
             }
         }
         return groupedEntries
-    }
-}
-
-struct CalendarEventView: View {
-    
-    let event: CalendarEntry
-    let color: Color
-    
-    @State private var height: CGFloat = 0
-    
-    private var timeFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter
-    }
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            Capsule()
-                .frame(width: 2)
-                .foregroundColor(color)
-            
-            VStack(alignment: .leading) {
-                
-                let timeText = "\(timeFormatter.string(from: event.startDate)) - \(timeFormatter.string(from: event.endDate))"
-                
-                Label(timeText, systemImage: "clock")
-                    .font(.caption2)
-                    .foregroundColor(color)
-                
-                Text(event.title)
-                    .font(.caption)
-                    .bold()
-                    .lineLimit(1)
-                
-                Label(event.location, systemImage: "mappin")
-                    .lineLimit(1)
-                    .font(.caption2)
-            }
-        }
-        .frame(height: 40)
-    }
-}
-
-extension Date {
-    var isToday: Bool {
-        let calendar = Calendar.autoupdatingCurrent
-        return calendar.isDateInToday(self)
-    }
-    
-    var isTomorrow: Bool {
-        let calendar = Calendar.autoupdatingCurrent
-        return calendar.isDateInTomorrow(self)
-    }
-    
-    var timeAgo: String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        return formatter.localizedString(for: self, relativeTo: Date())
     }
 }

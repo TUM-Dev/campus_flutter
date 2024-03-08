@@ -9,6 +9,7 @@ import 'package:campus_flutter/base/networking/base/connection_checker.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
@@ -109,16 +110,25 @@ class _CampusAppState extends ConsumerState<CampusApp>
 
   @override
   void initState() {
-    getIt.registerSingleton<RouterService>(
-      RouterService(ref),
-    );
-    quickActions = const QuickActions();
-    quickActions.initialize((shortcutType) {
-      final shortcutItemType = EnumParser.typeFromString(shortcutType);
-      if (getIt<RouterService>().isInitialized) {
-        ref.read(routerProvider).go(shortcutItemType.route);
-      } else {
-        getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+    getIt.registerSingleton<RouterService>(RouterService(ref));
+    quickActions = const QuickActions()
+      ..initialize((shortcutType) {
+        final shortcutItemType = EnumParser.typeFromString(shortcutType);
+        if (getIt<RouterService>().isInitialized) {
+          ref.read(routerProvider).go(shortcutItemType.route);
+        } else {
+          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+        }
+      });
+    HomeWidget.widgetClicked.listen((uri) {
+      if (uri != null) {
+        if (uri.queryParameters["homeWidget"] == "calendar") {
+          if (getIt<RouterService>().isInitialized) {
+            ref.read(routerProvider).go(calendar);
+          } else {
+            getIt<RouterService>().alternativeRoute = calendar;
+          }
+        }
       }
     });
     super.initState();
@@ -133,7 +143,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       theme: lightTheme(context),
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
-      locale: ref.watch(customLocale) ?? _getDeviceLocale(),
+      locale: ref.watch(customLocale) ?? getDeviceLocale(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (locale, locales) {
@@ -150,7 +160,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
   @override
   bool get wantKeepAlive => true;
 
-  Locale _getDeviceLocale() {
+  Locale getDeviceLocale() {
     if (kIsWeb) {
       return const Locale("en", "DE");
     } else {

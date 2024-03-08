@@ -2,7 +2,7 @@
 //  CalendarEntry.swift
 //  Runner
 //
-//  Created by Jakob Paul Körber on 31.01.24.
+//  Created by Jakob Körber on 31.01.24.
 //
 
 import Foundation

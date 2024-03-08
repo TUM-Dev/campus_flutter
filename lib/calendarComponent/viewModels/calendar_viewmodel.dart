@@ -32,15 +32,7 @@ class CalendarViewModel {
       "calendar",
       jsonEncode(
         calendarEvents
-            .where(
-              (element) =>
-                  element.startDate.isBefore(
-                    DateTime.now().add(
-                      const Duration(days: 14),
-                    ),
-                  ) &&
-                  element.startDate.isAfter(DateTime.now()),
-            )
+            .where((element) => element.startDate.isAfter(DateTime.now()))
             .toList(),
       ),
     );
