@@ -17,7 +17,7 @@ import 'package:rxdart/rxdart.dart';
 final homeViewModel = Provider((ref) => HomeViewModel(ref));
 
 class HomeViewModel {
-  late BehaviorSubject<List<HomeWidget>> widgets;
+  late BehaviorSubject<List<HomeScreenWidget>> widgets;
 
   final Ref ref;
 
@@ -25,8 +25,8 @@ class HomeViewModel {
     final data = getIt<UserPreferencesService>()
             .load(UserPreference.homeWidgets) as List<String>? ??
         <String>[];
-    List<HomeWidget> widgets = defaultWidgets;
-    final types = data.map((e) => HomeWidget.fromString(e)).toList();
+    List<HomeScreenWidget> widgets = defaultWidgets;
+    final types = data.map((e) => HomeScreenWidget.fromString(e)).toList();
     if (types.isNotEmpty) {
       widgets = types;
     }
@@ -49,19 +49,19 @@ class HomeViewModel {
       newIndex -= 1;
     }
     final data = widgets.value;
-    final HomeWidget item = data.removeAt(oldIndex);
+    final HomeScreenWidget item = data.removeAt(oldIndex);
     data.insert(newIndex, item);
     savePreference(data);
     widgets.add(data);
   }
 
-  void savePreference(List<HomeWidget> data) {
+  void savePreference(List<HomeScreenWidget> data) {
     final enabledWidgets = data.map((e) => e.convertToString()).toList();
     getIt<UserPreferencesService>()
         .save(UserPreference.homeWidgets, enabledWidgets);
   }
 
-  List<HomeWidget> getEnabledWidgets() {
+  List<HomeScreenWidget> getEnabledWidgets() {
     return widgets.value.where((element) => element.enabled).toList();
   }
 
@@ -103,13 +103,13 @@ class HomeViewModel {
     }
   }
 
-  static List<HomeWidget> get defaultWidgets => [
-        HomeWidget(widgetType: WidgetType.cafeterias),
-        HomeWidget(widgetType: WidgetType.calendar),
-        HomeWidget(widgetType: WidgetType.departures),
-        HomeWidget(widgetType: WidgetType.studyRooms),
-        HomeWidget(widgetType: WidgetType.movies),
-        HomeWidget(widgetType: WidgetType.news),
+  static List<HomeScreenWidget> get defaultWidgets => [
+        HomeScreenWidget(widgetType: WidgetType.cafeterias),
+        HomeScreenWidget(widgetType: WidgetType.calendar),
+        HomeScreenWidget(widgetType: WidgetType.departures),
+        HomeScreenWidget(widgetType: WidgetType.studyRooms),
+        HomeScreenWidget(widgetType: WidgetType.movies),
+        HomeScreenWidget(widgetType: WidgetType.news),
       ];
 
   void reset() {

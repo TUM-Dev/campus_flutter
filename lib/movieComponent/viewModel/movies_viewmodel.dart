@@ -12,7 +12,7 @@ class MovieViewModel {
 
   Future fetch(bool forcedRefresh) async {
     return MovieService.fetchMovies(forcedRefresh).then(
-      (response) async {
+      (response) {
         lastFetched.add(response.$1);
         movies.add(response.$2);
       },
