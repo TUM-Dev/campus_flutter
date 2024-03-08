@@ -1,6 +1,5 @@
 package de.tum.`in`.tumcampus.widgets.calendar
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
@@ -19,15 +18,12 @@ import kotlin.collections.ArrayList
 class CalendarWidgetService : RemoteViewsService() {
 
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
-        return CalendarRemoteViewFactory(this.applicationContext, intent)
+        return CalendarRemoteViewFactory(this.applicationContext)
     }
 
     private class CalendarRemoteViewFactory(
-            private val applicationContext: Context,
-            intent: Intent
+            private val applicationContext: Context
     ) : RemoteViewsFactory {
-
-        private val appWidgetID: Int = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1)
         private var calendarEvents: List<WidgetCalendarItem> = ArrayList()
 
         override fun onCreate() {}
@@ -96,8 +92,6 @@ class CalendarWidgetService : RemoteViewsService() {
                 remoteViews.setTextViewText(R.id.timetable_widget_date_weekday, "")
                 remoteViews.setViewPadding(R.id.timetable_widget_item, 0, 0, 0, 0)
             }
-
-            // TODO: Display month label if event is the first event in a new month
 
             // Setup event color
             remoteViews.setInt(R.id.timetable_widget_event, "setBackgroundColor", currentItem.getEventColor(applicationContext))
