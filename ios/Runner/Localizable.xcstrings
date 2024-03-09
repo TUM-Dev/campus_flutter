@@ -1,70 +1,42 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "calendarWidget" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kalendarwidget"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar Widget"
-          }
-        }
-      }
-    },
-    "calendarWidgetDescription" : {
-      "extractionState" : "manual",
+    "An Overview About Your Upcoming Events." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ein Überblick über Deine bevorstehenden Veranstaltungen."
           }
-        },
-        "en" : {
+        }
+      }
+    },
+    "Calendar Widget" : {
+      "localizations" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "An Overview About Your Upcoming Events."
+            "value" : "Kalendarwidget"
           }
         }
       }
     },
-    "today" : {
-      "extractionState" : "manual",
+    "Today" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Heute"
           }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Today"
-          }
         }
       }
     },
-    "tomorrow" : {
-      "extractionState" : "manual",
+    "Tomorrow" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Morgen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tomorrow"
           }
         }
       }

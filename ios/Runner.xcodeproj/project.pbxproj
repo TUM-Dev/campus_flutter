@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		28169AD32B9BBE7200FCCFDC /* CalendarWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28169AD22B9BBE7200FCCFDC /* CalendarWidgetContent.swift */; };
 		2817D9442B20F31E00ACB7B9 /* firebase_app_id_file.json in Resources */ = {isa = PBXBuildFile; fileRef = 2817D9432B20F31E00ACB7B9 /* firebase_app_id_file.json */; };
 		2844DDE02B9643EF00E20EDA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2844DDDF2B9643EF00E20EDA /* Localizable.xcstrings */; };
 		2844DDE12B9643EF00E20EDA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2844DDDF2B9643EF00E20EDA /* Localizable.xcstrings */; };
@@ -71,6 +72,7 @@
 		0D8DF6E1C389B3771A5A6123 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		28169AD22B9BBE7200FCCFDC /* CalendarWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidgetContent.swift; sourceTree = "<group>"; };
 		2817D9432B20F31E00ACB7B9 /* firebase_app_id_file.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = firebase_app_id_file.json; sourceTree = SOURCE_ROOT; };
 		2844DDDF2B9643EF00E20EDA /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2844DDE22B964B6C00E20EDA /* CalendarEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventView.swift; sourceTree = "<group>"; };
@@ -131,12 +133,13 @@
 				28C6B89A2B6AEB8500DD5E9A /* CalendarWidgetBundle.swift */,
 				28C6B89C2B6AEB8500DD5E9A /* CalendarWidget.swift */,
 				28C6B8A92B6AEDEC00DD5E9A /* CalendarEntry.swift */,
-				28C6B89E2B6AEB8700DD5E9A /* Assets.xcassets */,
-				28C6B8A02B6AEB8700DD5E9A /* Info.plist */,
 				2862C8462B6C205600EF5825 /* CalendarWidgetEntry.swift */,
 				28CAF3F92B6CF54100C1F412 /* CalendarEventType.swift */,
 				2844DDE22B964B6C00E20EDA /* CalendarEventView.swift */,
+				28169AD22B9BBE7200FCCFDC /* CalendarWidgetContent.swift */,
 				2844DDE42B964BAE00E20EDA /* DateExtension.swift */,
+				28C6B89E2B6AEB8700DD5E9A /* Assets.xcassets */,
+				28C6B8A02B6AEB8700DD5E9A /* Info.plist */,
 			);
 			path = CalendarWidget;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				28C6B89B2B6AEB8500DD5E9A /* CalendarWidgetBundle.swift in Sources */,
 				28C6B89D2B6AEB8500DD5E9A /* CalendarWidget.swift in Sources */,
 				28C6B8AB2B6AF13100DD5E9A /* CalendarEntry.swift in Sources */,
+				28169AD32B9BBE7200FCCFDC /* CalendarWidgetContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,4 +11,5 @@ import SwiftUI
 struct CalendarWidgetEntry: TimelineEntry {
     let date: Date
     let entries: [CalendarEntry]
+    let size: WidgetFamily
 }
