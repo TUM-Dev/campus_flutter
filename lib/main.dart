@@ -46,10 +46,9 @@ main() async {
   } else {
     await _initializeMobile();
   }
-  HomeWidget.setAppGroupId("group.de.tum.tca-widget");
   runApp(
-    const ProviderScope(
-      child: CampusApp(),
+    ProviderScope(
+      child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
     ),
   );
 }
@@ -97,8 +96,19 @@ Future<void> _initializeMobile() async {
   );
 }
 
+Future<bool> _initializeHomeWidgets() async {
+  try {
+    HomeWidget.setAppGroupId("group.de.tum.tca-widget");
+    return await HomeWidget.initiallyLaunchedFromHomeWidget() != null;
+  } catch (_) {
+    return false;
+  }
+}
+
 class CampusApp extends ConsumerStatefulWidget {
-  const CampusApp({super.key});
+  const CampusApp({super.key, required this.launchedFromWidget});
+
+  final bool launchedFromWidget;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
@@ -111,26 +121,9 @@ class _CampusAppState extends ConsumerState<CampusApp>
   @override
   void initState() {
     getIt.registerSingleton<RouterService>(RouterService(ref));
-    quickActions = const QuickActions()
-      ..initialize((shortcutType) {
-        final shortcutItemType = EnumParser.typeFromString(shortcutType);
-        if (getIt<RouterService>().isInitialized) {
-          ref.read(routerProvider).go(shortcutItemType.route);
-        } else {
-          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
-        }
-      });
-    HomeWidget.widgetClicked.listen((uri) {
-      if (uri != null) {
-        if (uri.path.contains("calendar")) {
-          if (getIt<RouterService>().isInitialized) {
-            ref.read(routerProvider).go(calendar);
-          } else {
-            getIt<RouterService>().alternativeRoute = calendar;
-          }
-        }
-      }
-    });
+    quickActionsCallback();
+    homeWidgetLaunchCallback();
+    homeWidgetCallback();
     super.initState();
   }
 
@@ -157,8 +150,37 @@ class _CampusAppState extends ConsumerState<CampusApp>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void quickActionsCallback() {
+    quickActions = const QuickActions()
+      ..initialize((shortcutType) {
+        final shortcutItemType = EnumParser.typeFromString(shortcutType);
+        if (getIt<RouterService>().isInitialized) {
+          ref.read(routerProvider).go(shortcutItemType.route);
+        } else {
+          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+        }
+      });
+  }
+
+  void homeWidgetLaunchCallback() {
+    if (widget.launchedFromWidget) {
+      getIt<RouterService>().alternativeRoute = calendar;
+    }
+  }
+
+  void homeWidgetCallback() {
+    HomeWidget.widgetClicked.listen((uri) async {
+      if (uri != null) {
+        if (uri.query.contains("calendar")) {
+          if (getIt<RouterService>().isInitialized) {
+            ref.read(routerProvider).go(calendar);
+          } else {
+            getIt<RouterService>().alternativeRoute = calendar;
+          }
+        }
+      }
+    });
+  }
 
   Locale getDeviceLocale() {
     if (kIsWeb) {
@@ -172,4 +194,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       }
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

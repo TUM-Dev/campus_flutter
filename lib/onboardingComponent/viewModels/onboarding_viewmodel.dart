@@ -134,7 +134,7 @@ class OnboardingViewModel {
 
   void finishOnboarding(WidgetRef ref, BuildContext context) {
     getIt<OnboardingService>().setOnboarded();
-    getIt<RouterService>().isInitialized = true;
+    getIt<RouterService>().setOnboarded();
     ref.read(studentCardViewModel).fetch(false);
     context.go(home);
   }
