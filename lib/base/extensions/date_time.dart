@@ -8,7 +8,7 @@ extension NumberOfWeeks on DateTime {
     return ((dayOfDec28 - dec28.weekday + 10) / 7).floor();
   }
 
-  int weekNumber() {
+  String weekNumber() {
     int dayOfYear = int.parse(DateFormat("D").format(this));
     int woy = ((dayOfYear - weekday + 10) / 7).floor();
     if (woy < 1) {
@@ -16,7 +16,7 @@ extension NumberOfWeeks on DateTime {
     } else if (woy > _numOfWeeks(year)) {
       woy = 1;
     }
-    return woy;
+    return woy.toString().padLeft(2, "0");
   }
 }
 

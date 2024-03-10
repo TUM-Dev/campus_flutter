@@ -1,31 +1,47 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_date_time_picker.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EventCreationScaffold extends ConsumerWidget {
-  const EventCreationScaffold({super.key});
+  const EventCreationScaffold({
+    super.key,
+    required this.calendarEvent,
+  });
+
+  final CalendarEvent? calendarEvent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: CustomBackButton(
           onPressed: () {
-            Navigator.pop(context);
+            ref.invalidate(calendarAdditionViewModel(calendarEvent));
+            context.pop();
           },
         ),
         title: Text(context.localizations.createCalendarEvent),
       ),
-      body: const EventCreationView(),
+      body: EventCreationView(
+        calendarEvent: calendarEvent,
+      ),
     );
   }
 }
 
 class EventCreationView extends ConsumerWidget {
-  const EventCreationView({super.key});
+  const EventCreationView({
+    super.key,
+    required this.calendarEvent,
+  });
+
+  final CalendarEvent? calendarEvent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,30 +51,42 @@ class EventCreationView extends ConsumerWidget {
           children: [
             EventCreationFormField(
               title: context.localizations.title,
-              controller: ref.read(calendarAdditionViewModel).titleController,
+              controller: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .titleController,
               maxLength: 255,
               maxLines: 2,
+              calendarEvent: calendarEvent,
             ),
             EventCreationFormField(
               title: context.localizations.annotation,
-              controller:
-                  ref.read(calendarAdditionViewModel).annotationController,
+              controller: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .annotationController,
               maxLength: 4000,
               maxLines: 200,
+              calendarEvent: calendarEvent,
             ),
             EventCreationDateTimePicker(
               title: context.localizations.from,
-              currentDate: ref.watch(calendarAdditionViewModel).from,
-              onDateSet: ref.read(calendarAdditionViewModel).setFromDate,
-              onTimeOfDaySet:
-                  ref.read(calendarAdditionViewModel).setFromTimeOfDay,
+              currentDate:
+                  ref.watch(calendarAdditionViewModel(calendarEvent)).from,
+              onDateSet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setFromDate,
+              onTimeOfDaySet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setFromTimeOfDay,
             ),
             EventCreationDateTimePicker(
               title: context.localizations.to,
-              currentDate: ref.watch(calendarAdditionViewModel).to,
-              onDateSet: ref.read(calendarAdditionViewModel).setToDate,
-              onTimeOfDaySet:
-                  ref.read(calendarAdditionViewModel).setToTimeOfDay,
+              currentDate:
+                  ref.watch(calendarAdditionViewModel(calendarEvent)).to,
+              onDateSet:
+                  ref.read(calendarAdditionViewModel(calendarEvent)).setToDate,
+              onTimeOfDaySet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setToTimeOfDay,
             ),
             _submitButton(ref),
           ],
@@ -69,14 +97,16 @@ class EventCreationView extends ConsumerWidget {
 
   Widget _submitButton(WidgetRef ref) {
     return StreamBuilder(
-      stream: ref.watch(calendarAdditionViewModel).isValid,
+      stream: ref.watch(calendarAdditionViewModel(calendarEvent)).isValid,
       builder: (context, snapshot) {
         return ElevatedButton(
           onPressed: (snapshot.data ?? false)
-              ? () =>
-                  ref.read(calendarAdditionViewModel).saveEvent().then((value) {
+              ? () => ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .saveEvent()
+                      .then((value) {
                     ref.invalidate(calendarAdditionViewModel);
-                    Navigator.pop(context);
+                    context.pop();
                   })
               : null,
           child: Text(context.localizations.submit),

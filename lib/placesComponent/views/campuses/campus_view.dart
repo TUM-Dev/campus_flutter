@@ -1,8 +1,9 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_viewmodel.dart';
+import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_campus_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
@@ -13,9 +14,9 @@ import 'package:campus_flutter/placesComponent/views/campuses/campus_most_search
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/placesComponent/views/relaxation/relaxations_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AdaptedCampusView extends StatelessWidget {
@@ -59,9 +60,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
 
   @override
   void initState() {
-    ref
-        .read(navigaTumViewModel)
-        .mostSearched(widget.campus.searchStringRooms, false);
+    ref.read(navigaTumCampusViewModel(widget.campus)).mostSearched(false);
     cafeterias =
         ref.read(cafeteriasViewModel).campusCafeterias.value?[widget.campus] ??
             [];
@@ -172,16 +171,13 @@ class _CampusViewState extends ConsumerState<CampusView> {
                       Icons.arrow_forward_ios,
                       size: 15,
                     ),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RelaxationsScaffold(),
-                      ),
-                    ),
+                    onTap: () => context.push(relaxationPlaces),
                   ),
                 ),
               ),
-            const CampusMostSearchedView(),
+            CampusMostSearchedView(
+              campus: widget.campus,
+            ),
           ],
         ),
       ],

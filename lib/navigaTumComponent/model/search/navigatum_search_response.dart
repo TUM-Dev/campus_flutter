@@ -5,8 +5,6 @@ part 'navigatum_search_response.g.dart';
 
 @JsonSerializable()
 class NavigaTumSearchResponse {
-  // TODO: uuid?
-  //final String id;
   final List<NavigaTumSearchResponseSection> sections;
 
   NavigaTumSearchResponse(this.sections);

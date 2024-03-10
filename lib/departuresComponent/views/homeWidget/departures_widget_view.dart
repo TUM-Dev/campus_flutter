@@ -1,17 +1,21 @@
+import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/helpers/card_with_padding.dart';
 import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class DeparturesHomeWidget extends ConsumerStatefulWidget {
   const DeparturesHomeWidget({super.key});
@@ -34,7 +38,36 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
       stream: ref.watch(departureViewModel).departures,
       builder: (context, snapshot) {
         return WidgetFrameView(
-          title: _titleBuilder(),
+          titleWidget: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _titleBuilder(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              InkWell(
+                child: Icon(
+                  Icons.filter_list,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onTap: () => showModalBottomSheet(
+                  builder: (context) => PreferenceSelectionView<Campus>(
+                    data:
+                        ref.read(departureViewModel).getCampusEntries(context),
+                    entry: context.localizations.departure,
+                  ),
+                  context: context,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
+                ),
+              ),
+            ],
+          ),
           child: GestureDetector(
             onTap: () => _onWidgetPressed(context),
             child: ConstrainedBox(
@@ -71,8 +104,8 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
   }
 
   String _titleBuilder() {
-    if (ref.watch(departureViewModel).closestCampus.value?.name != null) {
-      return "${context.localizations.departures} @ ${ref.watch(departureViewModel).closestCampus.value?.name}";
+    if (ref.watch(departureViewModel).widgetCampus.value?.name != null) {
+      return ref.watch(departureViewModel).widgetCampus.value!.name;
     } else {
       return context.localizations.departures;
     }
@@ -123,11 +156,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
 
   _onWidgetPressed(BuildContext context) {
     if (MediaQuery.orientationOf(context) == Orientation.portrait) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const DeparturesDetailsScaffold(),
-        ),
-      );
+      context.push(departures);
     } else {
       ref.read(homeSplitViewModel).selectedWidget.add(
             const DeparturesDetailsScaffold(

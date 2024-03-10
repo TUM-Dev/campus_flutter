@@ -52,7 +52,11 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                 height: 300,
                 child: Card(
                   child: Center(
-                    child: Text(context.localizations.noNewsFound),
+                    child: Text(
+                      context.localizations.noEntriesFound(
+                        context.localizations.news,
+                      ),
+                    ),
                   ),
                 ),
               );

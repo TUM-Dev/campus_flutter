@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/cafeteria_search_viewmodel.dart';
@@ -36,7 +36,8 @@ class GlobalSearchViewModel {
     }
     this.searchString = searchString;
     if (selectedCategories.value.isEmpty) {
-      if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+      if (ref.read(onboardingViewModel).credentials.value ==
+          Credentials.tumId) {
         result.add(SearchCategory.values);
       } else {
         result.add(SearchCategoryExtension.unAuthorizedSearch());
@@ -87,7 +88,7 @@ class GlobalSearchViewModel {
 
   void setSearchCategories(int index) {
     isAuthorized =
-        ref.read(loginViewModel).credentials.value == Credentials.tumId;
+        ref.read(onboardingViewModel).credentials.value == Credentials.tumId;
     switch (index) {
       case 1:
         if (isAuthorized) {

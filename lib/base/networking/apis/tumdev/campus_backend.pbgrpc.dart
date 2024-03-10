@@ -113,10 +113,6 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/GetCanteenHeadCount',
       ($0.GetCanteenHeadCountRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetCanteenHeadCountReply.fromBuffer(value));
-  static final _$iOSDeviceRequestResponse = $grpc.ClientMethod<$0.IOSDeviceRequestResponseRequest, $0.IOSDeviceRequestResponseReply>(
-      '/api.Campus/IOSDeviceRequestResponse',
-      ($0.IOSDeviceRequestResponseRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseReply.fromBuffer(value));
   static final _$createDevice = $grpc.ClientMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
       '/api.Campus/CreateDevice',
       ($0.CreateDeviceRequest value) => value.writeToBuffer(),
@@ -222,10 +218,6 @@ class CampusClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetCanteenHeadCountReply> getCanteenHeadCount($0.GetCanteenHeadCountRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getCanteenHeadCount, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse($0.IOSDeviceRequestResponseRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$iOSDeviceRequestResponse, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.CreateDeviceReply> createDevice($0.CreateDeviceRequest request, {$grpc.CallOptions? options}) {
@@ -403,13 +395,6 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetCanteenHeadCountRequest.fromBuffer(value),
         ($0.GetCanteenHeadCountReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.IOSDeviceRequestResponseRequest, $0.IOSDeviceRequestResponseReply>(
-        'IOSDeviceRequestResponse',
-        iOSDeviceRequestResponse_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseRequest.fromBuffer(value),
-        ($0.IOSDeviceRequestResponseReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
         'CreateDevice',
         createDevice_Pre,
@@ -514,10 +499,6 @@ abstract class CampusServiceBase extends $grpc.Service {
     return getCanteenHeadCount(call, await request);
   }
 
-  $async.Future<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse_Pre($grpc.ServiceCall call, $async.Future<$0.IOSDeviceRequestResponseRequest> request) async {
-    return iOSDeviceRequestResponse(call, await request);
-  }
-
   $async.Future<$0.CreateDeviceReply> createDevice_Pre($grpc.ServiceCall call, $async.Future<$0.CreateDeviceRequest> request) async {
     return createDevice(call, await request);
   }
@@ -549,7 +530,6 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.GetNotificationConfirmReply> getNotificationConfirm($grpc.ServiceCall call, $0.GetNotificationConfirmRequest request);
   $async.Future<$0.GetMemberReply> getMember($grpc.ServiceCall call, $0.GetMemberRequest request);
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount($grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
-  $async.Future<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse($grpc.ServiceCall call, $0.IOSDeviceRequestResponseRequest request);
   $async.Future<$0.CreateDeviceReply> createDevice($grpc.ServiceCall call, $0.CreateDeviceRequest request);
   $async.Future<$0.DeleteDeviceReply> deleteDevice($grpc.ServiceCall call, $0.DeleteDeviceRequest request);
 }

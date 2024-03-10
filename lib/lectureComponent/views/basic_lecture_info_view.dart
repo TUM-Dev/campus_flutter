@@ -1,11 +1,12 @@
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BasicLectureInfoView extends ConsumerWidget {
   const BasicLectureInfoView({
@@ -40,13 +41,11 @@ class BasicLectureInfoView extends ConsumerWidget {
             information: lectureDetails.speaker!,
             iconData: Icons.person,
             trailingWidget: IconButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PersonRoomSearchScaffold(
-                    isRoomSearch: false,
-                    searchString: lectureDetails.speaker?.split(",").first,
-                  ),
+              onPressed: () => context.push(
+                roomSearch,
+                extra: (
+                  lectureDetails.speaker?.split(",").first,
+                  false,
                 ),
               ),
               icon: Icon(

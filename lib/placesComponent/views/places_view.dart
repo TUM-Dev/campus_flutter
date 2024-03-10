@@ -1,12 +1,11 @@
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/cafeterias/cafeterias_view.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_card_view.dart';
-import 'package:campus_flutter/placesComponent/views/relaxation/relaxations_view.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_rooms_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PlacesView extends ConsumerWidget {
   const PlacesView({super.key});
@@ -84,21 +83,21 @@ class PlacesView extends ConsumerWidget {
         _menuCardWrapper(
           context.localizations.studyRooms,
           Icons.school,
-          const StudyRoomsScaffold(),
+          studyRooms,
           isLandscape,
           context,
         ),
         _menuCardWrapper(
           context.localizations.cafeterias,
           Icons.restaurant,
-          const CafeteriasScaffold(),
+          cafeterias,
           isLandscape,
           context,
         ),
         _menuCardWrapper(
           "Relaxation Places",
           Icons.weekend,
-          const RelaxationsScaffold(),
+          relaxationPlaces,
           isLandscape,
           context,
         ),
@@ -107,7 +106,7 @@ class PlacesView extends ConsumerWidget {
   Widget _menuCardWrapper(
     String title,
     IconData iconData,
-    Widget destination,
+    String route,
     bool isLandscape,
     BuildContext context,
   ) {
@@ -116,7 +115,7 @@ class PlacesView extends ConsumerWidget {
         child: _menuCard(
           title,
           iconData,
-          destination,
+          route,
           context,
         ),
       );
@@ -124,7 +123,7 @@ class PlacesView extends ConsumerWidget {
       return _menuCard(
         title,
         iconData,
-        destination,
+        route,
         context,
       );
     }
@@ -133,7 +132,7 @@ class PlacesView extends ConsumerWidget {
   Widget _menuCard(
     String title,
     IconData iconData,
-    Widget destination,
+    String route,
     BuildContext context,
   ) {
     return Card(
@@ -142,11 +141,7 @@ class PlacesView extends ConsumerWidget {
           leading: Icon(iconData),
           title: Text(title),
           trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => destination,
-            ),
-          ),
+          onTap: () => context.push(route),
         ),
       ),
     );

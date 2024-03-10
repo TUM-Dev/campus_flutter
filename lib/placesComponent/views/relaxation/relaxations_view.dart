@@ -1,10 +1,11 @@
 import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
-import 'package:campus_flutter/placesComponent/views/relaxation/relaxation_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -55,12 +56,7 @@ class RelaxationsView extends StatelessWidget {
                 data: relaxationPlaces,
                 tile: (cafeteria) => ListTile(
                   title: Text(cafeteria.name),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RelaxationScaffold(),
-                    ),
-                  ),
+                  onTap: () => context.push(relaxationPlace),
                 ),
               ),
             ),

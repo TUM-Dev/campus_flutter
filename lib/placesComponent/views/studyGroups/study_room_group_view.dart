@@ -179,7 +179,7 @@ class StudyRoomGroupView extends ConsumerWidget {
             studyRoomGroup.coordinate!.longitude,
           ),
           infoWindow: InfoWindow(
-            title: studyRoomGroup.name ?? context.localizations.unknown,
+            title: studyRoomGroup.name,
           ),
         ),
       },
@@ -202,7 +202,7 @@ class StudyRoomGroupView extends ConsumerWidget {
             studyRoomGroup.coordinate!.longitude,
           ),
           infoWindow: InfoWindow(
-            title: studyRoomGroup.name ?? context.localizations.unknown,
+            title: studyRoomGroup.name,
           ),
         ),
       },

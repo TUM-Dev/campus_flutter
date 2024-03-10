@@ -1,8 +1,9 @@
-import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class StudyRoomRowView extends ConsumerWidget {
   const StudyRoomRowView({super.key, required this.studyRoom});
@@ -25,16 +26,8 @@ class StudyRoomRowView extends ConsumerWidget {
         Icons.arrow_forward_ios,
         size: 15,
       ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NavigaTumRoomScaffold(
-              id: studyRoom.roomNoArchitect ?? "null",
-            ),
-          ),
-        );
-      },
+      onTap: () =>
+          context.push(navigaTum, extra: studyRoom.roomNoArchitect ?? "null"),
     );
   }
 

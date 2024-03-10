@@ -6,6 +6,7 @@ class CardWithPadding extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final double? height;
+  final double? elevation;
   final BoxConstraints? boxConstraints;
 
   const CardWithPadding({
@@ -15,6 +16,7 @@ class CardWithPadding extends StatelessWidget {
     this.margin,
     this.padding,
     this.height,
+    this.elevation,
     this.boxConstraints,
   });
 
@@ -25,6 +27,7 @@ class CardWithPadding extends StatelessWidget {
     this.margin,
     this.padding,
     required this.height,
+    this.elevation,
     this.boxConstraints,
   });
 
@@ -35,6 +38,7 @@ class CardWithPadding extends StatelessWidget {
     this.margin,
     this.padding,
     this.height,
+    this.elevation,
     required this.boxConstraints,
   });
 
@@ -44,6 +48,7 @@ class CardWithPadding extends StatelessWidget {
       return ConstrainedBox(
         constraints: boxConstraints!,
         child: Card(
+          elevation: elevation,
           margin: margin,
           color: color,
           child: Padding(
@@ -56,6 +61,7 @@ class CardWithPadding extends StatelessWidget {
       return SizedBox(
         height: height,
         child: Card(
+          elevation: elevation,
           margin: margin,
           color: color,
           child: Padding(

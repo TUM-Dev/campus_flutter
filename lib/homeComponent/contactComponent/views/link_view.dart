@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,12 @@ class LinkView extends ConsumerWidget {
             ),
             child: ListTile(
               leading: const Icon(Icons.school),
-              title: const Center(child: Text("Moodle")),
+              title: const Center(
+                child: AutoSizeText(
+                  "Moodle",
+                  maxLines: 1,
+                ),
+              ),
               onTap: () => UrlLauncher.urlString("https://moodle.tum.de", ref),
             ),
           ),
@@ -35,7 +41,12 @@ class LinkView extends ConsumerWidget {
             ),
             child: ListTile(
               leading: const Icon(Icons.person),
-              title: const Center(child: Text("TUMonline")),
+              title: const Center(
+                child: AutoSizeText(
+                  "TUMonline",
+                  maxLines: 1,
+                ),
+              ),
               onTap: () => UrlLauncher.urlString("https://campus.tum.de", ref),
             ),
           ),

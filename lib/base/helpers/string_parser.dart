@@ -57,6 +57,8 @@ class StringParser {
     switch (degree) {
       case "Bachelor of Science":
         return "B.Sc.";
+      case "Master of Science":
+        return "M.Sc.";
       default:
         return context.localizations.unknown;
     }
@@ -83,7 +85,7 @@ class StringParser {
   static String dateFormatter(DateTime dateTime, BuildContext context) {
     return DateFormat(
       DateFormat.YEAR_MONTH_DAY,
-      context.localizations.localeName,
+      "de",
     ).format(dateTime);
   }
 

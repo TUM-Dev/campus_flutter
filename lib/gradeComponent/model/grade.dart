@@ -9,11 +9,11 @@ part 'grade.g.dart';
 @JsonSerializable()
 class Grade extends Searchable {
   String get id {
-    return "${date.toIso8601String()}-$lvNumber";
+    return "${date?.toIso8601String()}-$lvNumber";
   }
 
   @JsonKey(name: "datum")
-  final DateTime date;
+  final DateTime? date;
   @JsonKey(name: "lv_nummer")
   final String lvNumber;
   @JsonKey(name: "lv_semester")
@@ -82,21 +82,8 @@ class Grade extends Searchable {
 }
 
 @JsonSerializable()
-class GradeData {
-  @JsonKey(name: "rowset")
-  Grades? gradesAttribute;
-
-  GradeData({required this.gradesAttribute});
-
-  factory GradeData.fromJson(Map<String, dynamic> json) =>
-      _$GradeDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GradeDataToJson(this);
-}
-
-@JsonSerializable()
 class Grades {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Grade> personalGrades;
 
   Grades({required this.personalGrades});

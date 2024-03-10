@@ -108,6 +108,8 @@ class ServingLine {
           case "U2":
           case "U8":
             return const Color.fromRGBO(194, 08, 49, 1.0);
+          case "U3":
+            return const Color.fromRGBO(243, 110, 49, 1.0);
           case "U4":
             return const Color.fromRGBO(3, 169, 132, 1.0);
           case "U5":

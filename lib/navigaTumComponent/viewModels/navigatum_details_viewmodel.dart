@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 final navigaTumDetailsViewModel =
     Provider.family<NavigaTumDetailsViewModel, String>(
-  (ref, id) => NavigaTumDetailsViewModel(id, ref),
+  (ref, id) => NavigaTumDetailsViewModel(id),
 );
 
 class NavigaTumDetailsViewModel {
@@ -15,17 +15,16 @@ class NavigaTumDetailsViewModel {
       BehaviorSubject.seeded(null);
 
   final String id;
-  final Ref ref;
 
-  NavigaTumDetailsViewModel(this.id, this.ref);
+  NavigaTumDetailsViewModel(this.id);
 
-  Future fetchDetails(bool forcedRefresh) async {
+  Future fetchDetails(bool forcedRefresh, BuildContext context) async {
     if (id.isEmpty) {
       details.addError("Unable to fetch room details");
       return;
     }
 
-    return NavigaTumService.details(forcedRefresh, id, ref).then(
+    return NavigaTumService.details(forcedRefresh, id, context).then(
       (value) => details.add(value),
       onError: (error) => details.addError(error),
     );

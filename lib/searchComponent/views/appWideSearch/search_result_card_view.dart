@@ -40,7 +40,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFoundSearch(
+                      context.localizations.noEntriesFound(
                         SearchCategoryExtension.localizedEnumTitle(
                           searchCategory,
                           context,
@@ -112,6 +112,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
+      // TODO: figure out for multiple attributes
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(

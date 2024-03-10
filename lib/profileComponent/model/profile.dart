@@ -63,19 +63,6 @@ class Profile {
 }
 
 @JsonSerializable()
-class ProfileData {
-  @JsonKey(name: "rowset")
-  Profiles profilesAttribute;
-
-  ProfileData({required this.profilesAttribute});
-
-  factory ProfileData.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProfileDataToJson(this);
-}
-
-@JsonSerializable()
 class Profiles {
   @JsonKey(name: "row", fromJson: _profileFromJson)
   final Profile profile;

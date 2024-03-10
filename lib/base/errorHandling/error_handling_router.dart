@@ -8,7 +8,7 @@ import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_route
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
 import 'package:campus_flutter/base/extensions/custom_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -22,6 +22,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
     required this.error,
     required this.errorHandlingViewType,
     this.retry,
+    this.retryWithContext,
     this.titleColor,
     this.bodyColor,
   });
@@ -29,6 +30,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
   final Object error;
   final ErrorHandlingViewType errorHandlingViewType;
   final Future<dynamic> Function(bool)? retry;
+  final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
   final Color? titleColor;
   final Color? bodyColor;
 
@@ -46,6 +48,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           dioException: dioException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -57,7 +60,8 @@ class ErrorHandlingRouter extends ConsumerWidget {
             tumOnlineApiException.tumOnlineApiExceptionType !=
                 TumOnlineApiExceptionTokenNotConfirmed();
         final isNotAuthorized =
-            ref.read(loginViewModel).credentials.value != Credentials.tumId;
+            ref.read(onboardingViewModel).credentials.value !=
+                Credentials.tumId;
         if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
           recordFlutterError(
             FlutterErrorDetails(
@@ -70,6 +74,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           tumOnlineApiException: tumOnlineApiException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -83,6 +88,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           searchException: searchException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -96,6 +102,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           campusException: campusException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -110,6 +117,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           typeError: typeError,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -123,6 +131,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           exception: error,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );

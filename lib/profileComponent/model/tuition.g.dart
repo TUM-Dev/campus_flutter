@@ -20,16 +20,6 @@ Map<String, dynamic> _$TuitionToJson(Tuition instance) => <String, dynamic>{
       'semester_id': instance.semesterID,
     };
 
-TuitionData _$TuitionDataFromJson(Map<String, dynamic> json) => TuitionData(
-      profilesAttribute:
-          Tuitions.fromJson(json['rowset'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TuitionDataToJson(TuitionData instance) =>
-    <String, dynamic>{
-      'rowset': instance.profilesAttribute,
-    };
-
 Tuitions _$TuitionsFromJson(Map<String, dynamic> json) => Tuitions(
       tuition: Tuitions._tuitionFromJson(json['row']),
     );

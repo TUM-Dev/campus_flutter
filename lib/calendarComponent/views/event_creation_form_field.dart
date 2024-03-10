@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,12 +11,14 @@ class EventCreationFormField extends ConsumerWidget {
     required this.controller,
     required this.maxLength,
     required this.maxLines,
+    required this.calendarEvent,
   });
 
   final String title;
   final TextEditingController controller;
   final int maxLength;
   final int maxLines;
+  final CalendarEvent? calendarEvent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,8 +45,9 @@ class EventCreationFormField extends ConsumerWidget {
                 maxLength: maxLength,
                 minLines: 1,
                 maxLines: 15,
-                onChanged: (value) =>
-                    ref.read(calendarAdditionViewModel).checkValidity(),
+                onChanged: (value) => ref
+                    .read(calendarAdditionViewModel(calendarEvent))
+                    .checkValidity(),
               ),
             ),
           ),

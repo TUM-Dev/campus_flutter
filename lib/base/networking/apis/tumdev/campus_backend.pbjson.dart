@@ -81,33 +81,6 @@ const DeleteDeviceReply$json = {
 final $typed_data.Uint8List deleteDeviceReplyDescriptor = $convert.base64Decode(
     'ChFEZWxldGVEZXZpY2VSZXBseRIbCglkZXZpY2VfaWQYASABKAlSCGRldmljZUlk');
 
-@$core.Deprecated('Use iOSDeviceRequestResponseRequestDescriptor instead')
-const IOSDeviceRequestResponseRequest$json = {
-  '1': 'IOSDeviceRequestResponseRequest',
-  '2': [
-    {'1': 'request_id', '3': 1, '4': 1, '5': 9, '10': 'requestId'},
-    {'1': 'payload', '3': 2, '4': 1, '5': 9, '10': 'payload'},
-  ],
-};
-
-/// Descriptor for `IOSDeviceRequestResponseRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List iOSDeviceRequestResponseRequestDescriptor = $convert.base64Decode(
-    'Ch9JT1NEZXZpY2VSZXF1ZXN0UmVzcG9uc2VSZXF1ZXN0Eh0KCnJlcXVlc3RfaWQYASABKAlSCX'
-    'JlcXVlc3RJZBIYCgdwYXlsb2FkGAIgASgJUgdwYXlsb2Fk');
-
-@$core.Deprecated('Use iOSDeviceRequestResponseReplyDescriptor instead')
-const IOSDeviceRequestResponseReply$json = {
-  '1': 'IOSDeviceRequestResponseReply',
-  '2': [
-    {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
-  ],
-};
-
-/// Descriptor for `IOSDeviceRequestResponseReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List iOSDeviceRequestResponseReplyDescriptor = $convert.base64Decode(
-    'Ch1JT1NEZXZpY2VSZXF1ZXN0UmVzcG9uc2VSZXBseRIYCgdtZXNzYWdlGAEgASgJUgdtZXNzYW'
-    'dl');
-
 @$core.Deprecated('Use newsDescriptor instead')
 const News$json = {
   '1': 'News',

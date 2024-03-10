@@ -10,11 +10,13 @@ class TumOnlineApiExceptionRouter extends StatelessWidget
     required this.tumOnlineApiException,
     required ErrorHandlingViewType errorHandlingViewType,
     Future<dynamic> Function(bool)? retry,
+    Future<dynamic> Function(bool, BuildContext)? retryWithContext,
     Color? titleColor,
     Color? bodyColor,
   }) {
     this.errorHandlingViewType = errorHandlingViewType;
     this.retry = retry;
+    this.retryWithContext = retryWithContext;
     this.titleColor = titleColor;
     this.bodyColor = bodyColor;
   }
