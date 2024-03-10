@@ -19,8 +19,15 @@ extension Date {
     }
     
     var timeAgo: String {
-        let formatter = RelativeDateTimeFormatter()
+        let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .full
-        return formatter.localizedString(for: self, relativeTo: Date())
+        formatter.allowedUnits = [.year, .month, .day, .hour, .minute, .second]
+        formatter.zeroFormattingBehavior = .dropAll
+        formatter.maximumUnitCount = 1
+        if (Date().timeIntervalSince(self) > 60) {
+            return "\(String(format: formatter.string(from: self, to: Date()) ?? "")) ago"
+        } else {
+            return "moments ago"
+        }
     }
 }

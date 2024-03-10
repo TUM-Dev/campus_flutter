@@ -48,7 +48,7 @@ struct CalendarEntry: Codable, Identifiable {
         case .exercise:
             return Color(red: 255 / 255, green: 152 / 255, blue: 0 / 255)
         default:
-            return Color.accentColor
+            return .accent
         }
     }
 }

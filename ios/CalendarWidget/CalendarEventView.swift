@@ -11,8 +11,7 @@ struct CalendarEventView: View {
     
     let event: CalendarEntry
     let color: Color
-    
-    @State private var height: CGFloat = 0
+    let isFirst: Bool
     
     private var timeFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -20,30 +19,48 @@ struct CalendarEventView: View {
         return formatter
     }
     
+    private var dayNumberFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd. MMM"
+        return formatter
+    }
+    
+    private var dayNameFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter
+    }
+    
     var body: some View {
-        HStack(alignment: .center) {
-            Capsule()
-                .frame(width: 4)
-                .foregroundColor(color)
-            
+        HStack {
             VStack(alignment: .leading) {
-                
-                let timeText = "\(timeFormatter.string(from: event.startDate)) - \(timeFormatter.string(from: event.endDate))"
-                
-                Label(timeText, systemImage: "clock")
-                    .font(.caption2)
-                    .foregroundColor(color)
-                
+                Text(dayNumberFormatter.string(from: event.startDate))
+                    .font(.caption)
+                    .fontWeight(.bold)
+                Text(dayNameFormatter.string(from: event.startDate).capitalized)
+                    .font(.caption)
+            }
+            .frame(width: 45)
+            .opacity(isFirst ? 1 : 0)
+            
+            VStack(alignment: .leading, spacing: 3) {
                 Text(event.title)
                     .font(.caption)
                     .bold()
                     .lineLimit(1)
                 
-                Label(event.location, systemImage: "mappin")
-                    .lineLimit(1)
+                let timeText = "\(timeFormatter.string(from: event.startDate)) - \(timeFormatter.string(from: event.endDate))"
+                
+                Text("\(timeText) | \(event.location)")
                     .font(.caption2)
+                    .lineLimit(1)
             }
+            .padding(6)
+            .foregroundStyle(.white)
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .background(ContainerRelativeShape()
+                            .fill(color))
         }
-        .frame(height: 40)
+        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
     }
 }
