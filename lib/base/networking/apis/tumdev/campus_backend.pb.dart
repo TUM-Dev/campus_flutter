@@ -2554,7 +2554,7 @@ class ListDishesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearYear() => clearField(2);
 
-  /// range 1 - 53
+  /// Must be in the range 1 - 52
   @$pb.TagNumber(3)
   $core.int get week => $_getIZ(2);
   @$pb.TagNumber(3)
@@ -2564,7 +2564,8 @@ class ListDishesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearWeek() => clearField(3);
 
-  /// range 0 (Monday) - 4 (Friday)
+  /// Day of the week
+  /// Days must be in the range 0 (Monday) - 4 (Friday)
   @$pb.TagNumber(4)
   $core.int get day => $_getIZ(3);
   @$pb.TagNumber(4)
