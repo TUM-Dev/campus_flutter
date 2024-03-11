@@ -27,7 +27,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
     this.bodyColor,
   });
 
-  final Object error;
+  final Object? error;
   final ErrorHandlingViewType errorHandlingViewType;
   final Future<dynamic> Function(bool)? retry;
   final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
@@ -122,11 +122,13 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       default:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: error,
-          ),
-        );
+        if (error != null) {
+          recordFlutterError(
+            FlutterErrorDetails(
+              exception: error!,
+            ),
+          );
+        }
         return DefaultErrorRouter(
           exception: error,
           errorHandlingViewType: errorHandlingViewType,

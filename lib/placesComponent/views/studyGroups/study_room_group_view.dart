@@ -194,22 +194,26 @@ class StudyRoomGroupView extends ConsumerWidget {
 
   Widget _landscapeMap(StudyRoomGroup? studyRoomGroup, BuildContext context) {
     return MapWidget.horizontalPadding(
-      markers: {
-        Marker(
-          markerId: const MarkerId("studyRoomMarker"),
-          position: LatLng(
-            studyRoomGroup!.coordinate!.latitude,
-            studyRoomGroup.coordinate!.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: studyRoomGroup.name,
-          ),
-        ),
-      },
-      latLng: LatLng(
-        studyRoomGroup.coordinate?.latitude ?? 0.0,
-        studyRoomGroup.coordinate?.longitude ?? 0.0,
-      ),
+      markers: studyRoomGroup != null
+          ? {
+              Marker(
+                markerId: const MarkerId("studyRoomMarker"),
+                position: LatLng(
+                  studyRoomGroup.coordinate?.latitude ?? 0.0,
+                  studyRoomGroup.coordinate?.longitude ?? 0.0,
+                ),
+                infoWindow: InfoWindow(
+                  title: studyRoomGroup.name,
+                ),
+              ),
+            }
+          : {},
+      latLng: studyRoomGroup != null
+          ? LatLng(
+              studyRoomGroup.coordinate?.latitude ?? 0.0,
+              studyRoomGroup.coordinate?.longitude ?? 0.0,
+            )
+          : null,
       zoom: 15,
       aspectRatio: 2,
     );
