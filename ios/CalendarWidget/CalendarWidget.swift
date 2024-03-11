@@ -13,7 +13,8 @@ struct Provider: TimelineProvider {
         CalendarWidgetEntry(
             date: Date(),
             entries: [
-                CalendarEntry(id: "0", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: "Audimax")
+                CalendarEntry(id: "0", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: "Galileo Audimax"),
+                CalendarEntry(id: "0", title: "Einführung in die Buchführung", status: "Test", startDate: Date.now, endDate: Date.now, location: "Audimax")
             ],
             size: context.family
         )

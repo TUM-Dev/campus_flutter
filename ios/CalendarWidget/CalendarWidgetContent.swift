@@ -22,7 +22,7 @@ struct CalendarWidgetContent: View {
 
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("MMMMdd")
+        formatter.setLocalizedDateFormatFromTemplate("ddMMMMyyyy")
         return formatter
     }
 
