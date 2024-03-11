@@ -91,9 +91,10 @@ service Campus {
     };
   }
 
+  // Returns all dishes for a specific cafeteria, year, week and day
   rpc ListDishes(ListDishesRequest) returns (ListDishesReply) {
     option (google.api.http) = {
-      get: "/dish/allDishes",
+      get: "/dishes",
       response_body: "dish"
     };
   }
@@ -389,9 +390,10 @@ message ListDishesRequest {
   string canteen_id = 1;
   // >=2022 until the current year
   int32 year = 2;
-  // range 1 - 53
+  // Must be in the range 1 - 52
   int32 week = 3;
-  // range 0 (Monday) - 4 (Friday)
+  // Day of the week
+  // Days must be in the range 0 (Monday) - 4 (Friday)
   int32 day = 4;
 }
 
