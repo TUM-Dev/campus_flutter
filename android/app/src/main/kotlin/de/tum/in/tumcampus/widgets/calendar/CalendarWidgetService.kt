@@ -82,7 +82,7 @@ class CalendarWidgetService : RemoteViewsService() {
                         startTime.dayOfMonth.toString()
                 )
                 remoteViews.setTextViewText(
-                        R.id.calendar_widget_date_weekday, startTime.dayOfWeek()
+                        R.id.calendar_widget_date_weekday, startTime.monthOfYear()
                         .getAsShortText(Locale.getDefault())
                 )
                 remoteViews.setViewPadding(R.id.calendar_widget_item, 0, 15, 0, 0)

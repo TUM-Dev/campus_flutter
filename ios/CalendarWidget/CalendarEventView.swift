@@ -21,13 +21,13 @@ struct CalendarEventView: View {
     
     private var dayNumberFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd. MMM"
+        formatter.dateFormat = "dd"
         return formatter
     }
     
-    private var dayNameFormatter: DateFormatter {
+    private var monthNameFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE"
+        formatter.dateFormat = "MMM"
         return formatter
     }
     
@@ -37,10 +37,10 @@ struct CalendarEventView: View {
                 Text(dayNumberFormatter.string(from: event.startDate))
                     .font(.caption)
                     .fontWeight(.bold)
-                Text(dayNameFormatter.string(from: event.startDate).capitalized)
+                Text(monthNameFormatter.string(from: event.startDate).capitalized)
                     .font(.caption)
             }
-            .frame(width: 45)
+            .frame(width: 30)
             .opacity(isFirst ? 1 : 0)
             
             VStack(alignment: .leading, spacing: 3) {

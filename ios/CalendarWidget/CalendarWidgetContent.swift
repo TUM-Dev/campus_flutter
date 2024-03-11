@@ -22,7 +22,7 @@ struct CalendarWidgetContent: View {
 
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("ddMMMMyyyy")
+        formatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
         return formatter
     }
 
@@ -32,7 +32,7 @@ struct CalendarWidgetContent: View {
                 Text(dateFormatter.string(from: Date()))
                     .fontWeight(.semibold)
                     .font(.callout)
-                Text(updatedAt.timeAgo)
+                Text(updatedAt.timeAgo != nil ? "\(updatedAt.timeAgo!) ago" : "moments ago")
                     .font(.footnote)
             }
             .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
