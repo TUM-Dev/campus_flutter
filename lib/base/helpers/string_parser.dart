@@ -48,7 +48,7 @@ class StringParser {
         // TODO: what does it stand for?
         return "BEEDE";
       default:
-        return "Unknown";
+        return "";
     }
   }
 

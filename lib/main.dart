@@ -9,6 +9,7 @@ import 'package:campus_flutter/base/networking/base/connection_checker.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,8 +47,8 @@ main() async {
     await _initializeMobile();
   }
   runApp(
-    const ProviderScope(
-      child: CampusApp(),
+    ProviderScope(
+      child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
     ),
   );
 }
@@ -94,8 +96,19 @@ Future<void> _initializeMobile() async {
   );
 }
 
+Future<bool> _initializeHomeWidgets() async {
+  try {
+    HomeWidget.setAppGroupId("group.de.tum.tca-widget");
+    return await HomeWidget.initiallyLaunchedFromHomeWidget() != null;
+  } catch (_) {
+    return false;
+  }
+}
+
 class CampusApp extends ConsumerStatefulWidget {
-  const CampusApp({super.key});
+  const CampusApp({super.key, required this.launchedFromWidget});
+
+  final bool launchedFromWidget;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
@@ -107,18 +120,10 @@ class _CampusAppState extends ConsumerState<CampusApp>
 
   @override
   void initState() {
-    getIt.registerSingleton<RouterService>(
-      RouterService(ref),
-    );
-    quickActions = const QuickActions();
-    quickActions.initialize((shortcutType) {
-      final shortcutItemType = EnumParser.typeFromString(shortcutType);
-      if (getIt<RouterService>().isInitialized) {
-        ref.read(routerProvider).go(shortcutItemType.route);
-      } else {
-        getIt<RouterService>().alternativeRoute = shortcutItemType.route;
-      }
-    });
+    getIt.registerSingleton<RouterService>(RouterService(ref));
+    quickActionsCallback();
+    homeWidgetLaunchCallback();
+    homeWidgetCallback();
     super.initState();
   }
 
@@ -131,7 +136,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       theme: lightTheme(context),
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
-      locale: ref.watch(customLocale) ?? _getDeviceLocale(),
+      locale: ref.watch(customLocale) ?? getDeviceLocale(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (locale, locales) {
@@ -145,10 +150,39 @@ class _CampusAppState extends ConsumerState<CampusApp>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void quickActionsCallback() {
+    quickActions = const QuickActions()
+      ..initialize((shortcutType) {
+        final shortcutItemType = EnumParser.typeFromString(shortcutType);
+        if (getIt<RouterService>().isInitialized) {
+          ref.read(routerProvider).go(shortcutItemType.route);
+        } else {
+          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+        }
+      });
+  }
 
-  Locale _getDeviceLocale() {
+  void homeWidgetLaunchCallback() {
+    if (widget.launchedFromWidget) {
+      getIt<RouterService>().alternativeRoute = calendar;
+    }
+  }
+
+  void homeWidgetCallback() {
+    HomeWidget.widgetClicked.listen((uri) async {
+      if (uri != null) {
+        if (uri.query.contains("calendar")) {
+          if (getIt<RouterService>().isInitialized) {
+            ref.read(routerProvider).go(calendar);
+          } else {
+            getIt<RouterService>().alternativeRoute = calendar;
+          }
+        }
+      }
+    });
+  }
+
+  Locale getDeviceLocale() {
     if (kIsWeb) {
       return const Locale("en", "DE");
     } else {
@@ -160,4 +194,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       }
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

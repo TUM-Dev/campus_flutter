@@ -20,7 +20,7 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
     this.bodyColor = bodyColor;
   }
 
-  final Object exception;
+  final Object? exception;
 
   @override
   Widget build(BuildContext context) {

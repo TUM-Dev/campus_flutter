@@ -8,28 +8,36 @@ import 'package:go_router/go_router.dart';
 
 class RouterService {
   String? _alternativeRoute;
-  bool isInitialized = false;
+  bool _isInitialized = false;
 
   final WidgetRef ref;
 
   RouterService(this.ref);
 
   Future<String> routingCallback(GoRouterState state) async {
-    if (!isInitialized) {
+    if (!_isInitialized) {
       if (await ref.read(onboardingViewModel).checkLogin() == true) {
         await ref.read(userPreferencesViewModel).loadPreferences();
         await ref.read(studentCardViewModel).fetch(false);
-        isInitialized = true;
+        _isInitialized = true;
         FlutterNativeSplash.remove();
         return _alternativeRoute ?? home;
       } else {
-        isInitialized = true;
+        _isInitialized = true;
         FlutterNativeSplash.remove();
         return onboarding;
       }
     } else {
       return state.fullPath ?? home;
     }
+  }
+
+  void setOnboarded() {
+    _isInitialized = true;
+  }
+
+  get isInitialized {
+    return _isInitialized;
   }
 
   set alternativeRoute(String value) {

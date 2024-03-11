@@ -51,6 +51,7 @@ dependencies:
   firebase_core: ^2.24.0
   flutter_linkify: ^6.0.0
   permission_handler: ^11.1.0
+  home_widget: ^0.4.1
   auto_size_text: ^3.0.0
   go_router: ^13.2.0
   quick_actions: ^1.0.7

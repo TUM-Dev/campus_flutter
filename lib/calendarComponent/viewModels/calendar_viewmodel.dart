@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
 final calendarViewModel = Provider((ref) => CalendarViewModel());
@@ -18,8 +21,28 @@ class CalendarViewModel {
       (response) {
         lastFetched.add(response.$1);
         events.add(response.$2);
+        updateHomeWidget(response.$2);
       },
       onError: (error) => events.addError(error),
+    );
+  }
+
+  Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {
+    await HomeWidget.saveWidgetData(
+      "calendar",
+      jsonEncode(
+        calendarEvents
+            .where((element) => element.startDate.isAfter(DateTime.now()))
+            .toList(),
+      ),
+    );
+    await HomeWidget.saveWidgetData(
+      "calendar_save",
+      DateTime.now().toIso8601String(),
+    );
+    await HomeWidget.updateWidget(
+      iOSName: "CalendarWidget",
+      androidName: "widgets.calendar.CalendarWidget",
     );
   }
 

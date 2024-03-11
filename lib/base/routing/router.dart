@@ -102,14 +102,6 @@ final _router = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: CalendarsView(),
               ),
-              routes: [
-                GoRoute(
-                  path: "eventCreation",
-                  builder: (context, state) => EventCreationScaffold(
-                    calendarEvent: state.extra as CalendarEvent?,
-                  ),
-                ),
-              ],
             ),
           ],
         ),
@@ -239,6 +231,12 @@ final _router = GoRouter(
           isRoomSearch: data.$2 ?? true,
         );
       },
+    ),
+    GoRoute(
+      path: eventCreation,
+      builder: (context, state) => EventCreationScaffold(
+        calendarEvent: state.extra as CalendarEvent?,
+      ),
     ),
   ],
 );

@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -133,18 +134,23 @@ class OnboardingViewModel {
 
   void finishOnboarding(WidgetRef ref, BuildContext context) {
     getIt<OnboardingService>().setOnboarded();
-    getIt<RouterService>().isInitialized = true;
+    getIt<RouterService>().setOnboarded();
     ref.read(studentCardViewModel).fetch(false);
     context.go(home);
   }
 
   Future logout(WidgetRef ref) async {
-    // TODO: Widgets
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
     await getIt<RESTClient>().clearCache();
     await _storage.delete(key: "token");
+    await HomeWidget.saveWidgetData("calendar", null);
+    await HomeWidget.saveWidgetData("calendar_save", null);
+    await HomeWidget.updateWidget(
+      iOSName: "CalendarWidget",
+      androidName: "widgets.calendar.CalendarWidget",
+    );
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }
