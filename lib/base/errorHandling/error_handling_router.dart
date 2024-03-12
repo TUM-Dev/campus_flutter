@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/campus_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
+import 'package:campus_flutter/base/errorHandling/grpc_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
@@ -15,6 +16,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grpc/grpc.dart';
 
 class ErrorHandlingRouter extends ConsumerWidget {
   const ErrorHandlingRouter({
@@ -115,6 +117,15 @@ class ErrorHandlingRouter extends ConsumerWidget {
         );
         return TypeErrorRouter(
           typeError: typeError,
+          errorHandlingViewType: errorHandlingViewType,
+          retry: retry,
+          retryWithContext: retryWithContext,
+          titleColor: titleColor,
+          bodyColor: bodyColor,
+        );
+      case GrpcError grpcError:
+        return GrpcErrorRouter(
+          grpcError: grpcError,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           retryWithContext: retryWithContext,

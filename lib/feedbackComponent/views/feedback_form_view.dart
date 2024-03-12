@@ -112,7 +112,7 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        vertical: context.halfPadding,
+                        vertical: context.halfPadding / 2,
                       ),
                     ),
                     ErrorHandlingRouter(
