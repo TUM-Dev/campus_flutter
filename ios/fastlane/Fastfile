@@ -17,7 +17,8 @@ platform :ios do
     match(
       type: "appstore",
       readonly: true,
-      skip_certificate_matching: true
+      skip_certificate_matching: true,
+      app_identifier: ["de.tum.tca", "de.tum.tca.calendarWidget"]
     )
 
     previous_build_number = latest_testflight_build_number(version: "#{get_version_number(target: "Runner")}", initial_build_number: 0, app_identifier: "de.tum.tca")
@@ -32,6 +33,15 @@ platform :ios do
       use_automatic_signing: false,
       targets: 'Runner',
       profile_name: 'match AppStore de.tum.tca',
+      code_sign_identity: "iPhone Distribution",
+      sdk: "iphoneos*",
+      team_id: "2J3C6P6X3N"
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: 'CalendarWidgetExtension',
+      profile_name: 'match AppStore de.tum.tca.calendarWidget',
       code_sign_identity: "iPhone Distribution",
       sdk: "iphoneos*",
       team_id: "2J3C6P6X3N"
