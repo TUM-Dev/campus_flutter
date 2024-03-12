@@ -20,7 +20,7 @@ platform :ios do
       skip_certificate_matching: true
     )
 
-    previous_build_number = latest_testflight_build_number(version: "#{get_version_number}", initial_build_number: 0, app_identifier: "de.tum.tca")
+    previous_build_number = latest_testflight_build_number(version: "#{get_version_number(target: "Runner")}", initial_build_number: 0, app_identifier: "de.tum.tca")
 
     current_build_number = previous_build_number + 1
 
