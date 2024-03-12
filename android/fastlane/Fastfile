@@ -24,7 +24,7 @@ platform :android do
     productionVersionCodes = google_play_track_version_codes(track: 'production', json_key_data: json_key_data)
     betaVersionCodes = google_play_track_version_codes(track: 'beta', json_key_data: json_key_data)
     internalVersionCodes = google_play_track_version_codes(track: 'internal', json_key_data: json_key_data)
-  
+
     # puts version codes from all tracks into the same array
     versionCodes = [
       productionVersionCodes,
