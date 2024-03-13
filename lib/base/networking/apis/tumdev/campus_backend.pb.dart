@@ -1214,7 +1214,8 @@ class GetDishRatingsRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearCanteenId() => clearField(1);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme)
+  /// Must be available in the given cafeteria
   @$pb.TagNumber(2)
   $core.String get dish => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -1727,7 +1728,7 @@ class CreateDishRatingRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearPoints() => clearField(1);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available in the given cafeteria
   @$pb.TagNumber(2)
   $core.String get canteenId => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -1737,7 +1738,8 @@ class CreateDishRatingRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearCanteenId() => clearField(2);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme)
+  /// Must be available in the given cafeteria
   @$pb.TagNumber(3)
   $core.String get dish => $_getSZ(2);
   @$pb.TagNumber(3)

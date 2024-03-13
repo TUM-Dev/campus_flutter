@@ -270,7 +270,8 @@ message ListCanteenRatingsReply {
 message GetDishRatingsRequest {
   // Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
   string canteen_id = 1;
-  // Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme)
+  // Must be available in the given cafeteria
   string dish = 2;
   // Optional Parameter to define an interval for the ratings (Lower bound)
   google.protobuf.Timestamp from = 3;
@@ -323,9 +324,10 @@ message CreateDishRatingReply {}
 message CreateDishRatingRequest {
   // number in the range 1-5
   int32 points = 1;
-  // Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available in the given cafeteria
   string canteen_id = 2;
-  // Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme)
+  // Must be available in the given cafeteria
   string dish = 3;
   // Optional JPEG image in Base64
   bytes image = 4;
