@@ -53,7 +53,7 @@ class Cache {
     }
   }
 
-  CacheEntry? getString(String uri) {
+  CacheEntry? getWithString(String uri) {
     final hash = fastHash(uri);
     final entry = isar.txnSync(() => isar.cacheEntrys.getSync(hash));
     if (entry != null) {
@@ -69,7 +69,10 @@ class Cache {
     }
   }
 
-  void delete(String key) {}
+  void delete(String key) {
+    final hash = fastHash(key);
+    isar.writeTxnSync(() => isar.cacheEntrys.deleteSync(hash));
+  }
 
   Future<void> resetCache() async {
     return await isar.writeTxn(() => isar.clear());

@@ -29,7 +29,7 @@ class RestCacheInterceptor implements Interceptor {
       if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
       } else {
-        final cacheEntry = cache.getString(key);
+        final cacheEntry = cache.getWithString(key);
 
         /// device is online, fetch every 10 minutes
         if (cacheEntry != null &&
@@ -51,7 +51,7 @@ class RestCacheInterceptor implements Interceptor {
       }
     } else {
       /// if device is offline, the cache is valid for 30 days
-      final cacheEntry = cache.getString(key);
+      final cacheEntry = cache.getWithString(key);
       if (cacheEntry != null &&
           DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
         return handler.resolve(
