@@ -311,5 +311,18 @@
          }
       }
    },
-   "closest":"Nächste"
+   "closest":"Näheste",
+   "noClosestStudyRoom":"Näheste Lernräume nicht ermittelbar!",
+   "cancel":"Abbrechen",
+   "selectAction":"Wähle eine Aktion",
+   "openIn":"In {item} öffnen",
+   "@openIn":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Apple Maps"
+         }
+      }
+   }
 }

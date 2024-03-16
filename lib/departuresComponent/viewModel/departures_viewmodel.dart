@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/departures_preference.dart';

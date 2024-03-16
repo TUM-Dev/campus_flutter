@@ -311,5 +311,18 @@
          }
       }
    },
-   "closest":"Closest"
+   "closest":"Closest",
+   "noClosestStudyRoom":"Closest learning spaces cannot be determined!",
+   "cancel":"Cancel",
+   "selectAction":"Select an action",
+   "openIn":"Open in {item}",
+   "@openIn":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Apple Maps"
+         }
+      }
+   }
 }

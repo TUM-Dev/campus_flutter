@@ -39,13 +39,10 @@ class StringParser {
       case "42":
         return "M.Ed.";
       case "53":
-        // TODO: what does it stand for?
         return "MBD";
       case "60":
-        // TODO: what does it stand for?
         return "BECE";
       case "61":
-        // TODO: what does it stand for?
         return "BEEDE";
       default:
         return "";
@@ -53,14 +50,22 @@ class StringParser {
   }
 
   static String degreeShort(String degree, BuildContext context) {
-    // TODO:
+    // TODO: add missing degrees
     switch (degree) {
       case "Bachelor of Science":
         return "B.Sc.";
       case "Master of Science":
         return "M.Sc.";
+      case "Bachelor of Arts":
+        return "B.A.";
+      case "Master of Arts":
+        return "M.A.";
+      case "Bachelor of Education":
+        return "B.Ed.";
+      case "Master of Education":
+        return "M.Ed.";
       default:
-        return context.localizations.unknown;
+        return "";
     }
   }
 

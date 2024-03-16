@@ -1,10 +1,10 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
-import 'package:campus_flutter/base/helpers/semester_calculator.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/last_updated_text.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
+import 'package:campus_flutter/base/util/semester_calculator.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';

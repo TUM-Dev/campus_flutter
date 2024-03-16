@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  dartx:
+    dependency: transitive
+    description:
+      name: dartx
+      sha256: "8b25435617027257d43e6508b5fe061012880ddfdaa75a71d607c3de2a13d244"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -281,22 +289,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.1"
-  dio_cache_interceptor:
-    dependency: "direct main"
-    description:
-      name: dio_cache_interceptor
-      sha256: fb7905c0d12075d8786a6b63bffd64ae062d053f682cfaf28d145a2686507308
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.0"
-  dio_cache_interceptor_hive_store:
-    dependency: "direct main"
-    description:
-      name: dio_cache_interceptor_hive_store
-      sha256: "449b36541216cb20543228081125ad2995eb9712ec35bd030d85663ea1761895"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.2"
   fake_async:
     dependency: transitive
     description:
@@ -497,7 +489,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_web_plugins:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -553,10 +545,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_windows
-      sha256: a92fae29779d5c6dc60e8411302f5221ade464968fe80a36d330e80a71f087af
+      sha256: "53da08937d07c24b0d9952eb57a3b474e29aae2abf9dd717f7e1230995f13f0e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   get_it:
     dependency: "direct main"
     description:
@@ -577,10 +569,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "170c46e237d6eb0e6e9f0e8b3f56101e14fb64f787016e42edd74c39cf8b176a"
+      sha256: "7ecb2f391edbca5473db591b48555a8912dde60edd0fb3013bd6743033b2d3f8"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.2.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -618,10 +610,10 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: "723aa415ef071f0cc2855434cbdaa871ca6417e6"
+      resolved-ref: "974b8b4cc01daec459197d5d9eef6eb69fb14b78"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
-    version: "2.5.0"
+    version: "2.5.1"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -663,14 +655,6 @@ packages:
       url: "https://github.com/jakobkoerber/grpc-dart.git"
     source: git
     version: "3.2.4"
-  hive:
-    dependency: "direct main"
-    description:
-      name: hive
-      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.3"
   home_widget:
     dependency: "direct main"
     description:
@@ -743,6 +727,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  isar:
+    dependency: "direct main"
+    description:
+      name: isar
+      sha256: "3510ffb73db4bf46935bd8897f7bb96fc41bbdf9ed655275484f95f9123db35d"
+      url: "https://isar-community.dev"
+    source: hosted
+    version: "3.1.4"
+  isar_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: isar_flutter_libs
+      sha256: "2d9a2628e946454a2c623e108dbb1cbb28a5b0bc59588c5c1e5ffa307fa7652d"
+      url: "https://isar-community.dev"
+    source: hosted
+    version: "3.1.4"
+  isar_generator:
+    dependency: "direct dev"
+    description:
+      name: isar_generator
+      sha256: "558fcc50f99467c5aa2237f00890455725da698ce27bab2ed6847eb1634ef1b8"
+      url: "https://isar-community.dev"
+    source: hosted
+    version: "3.1.4"
   js:
     dependency: transitive
     description:
@@ -1360,10 +1368,10 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "21dfed4c2ef3259cd5e7b71c5b2669baf32db90cfd04247363571a1a5546d6fd"
+      sha256: "4151e01aa1d6f17b2bcb19d709b93f231d40c9ce78db52ea195b7b7233ce0149"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.5"
+    version: "24.2.4"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
@@ -1428,6 +1436,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.9"
+  time:
+    dependency: transitive
+    description:
+      name: time
+      sha256: ad8e018a6c9db36cb917a031853a1aae49467a93e0d464683e029537d848c221
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
   timeago:
     dependency: "direct main"
     description:
@@ -1693,6 +1709,14 @@ packages:
       url: "https://github.com/jakobkoerber/xml2json.git"
     source: git
     version: "6.2.2"
+  xxh3:
+    dependency: transitive
+    description:
+      name: xxh3
+      sha256: a92b30944a9aeb4e3d4f3c3d4ddb3c7816ca73475cd603682c4f8149690f56d7
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   yaml:
     dependency: transitive
     description:

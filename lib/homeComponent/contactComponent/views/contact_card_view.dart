@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
+import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
@@ -33,9 +34,12 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
       stream: ref.watch(profileDetailsViewModel).personDetails,
       builder: (context, snapshot) {
         if (snapshot.hasData || snapshot.hasError) {
-          return contactInfo(
-            snapshot.data,
-            ref.read(profileViewModel).profile.value!,
+          return InkWell(
+            onTap: () => NavigationService.openStudentCardSheet(context),
+            child: contactInfo(
+              snapshot.data,
+              ref.read(profileViewModel).profile.value!,
+            ),
           );
         } else {
           return DelayedLoadingIndicator(

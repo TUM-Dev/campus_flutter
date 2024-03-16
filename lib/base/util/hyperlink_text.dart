@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

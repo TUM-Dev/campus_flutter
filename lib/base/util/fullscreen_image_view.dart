@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ImageFullScreenScaffold extends StatelessWidget {
@@ -233,12 +232,8 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
   }
 
   double _getMinusRadius() {
-    if (!kIsWeb) {
-      if (Platform.isIOS) {
-        return radius;
-      } else {
-        return 0;
-      }
+    if (Platform.isIOS) {
+      return radius;
     } else {
       return 0;
     }

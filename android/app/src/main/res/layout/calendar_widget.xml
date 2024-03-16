@@ -73,6 +73,17 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
+        <TextView
+            android:id="@+id/old_data_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/calendar_widget_old_data"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </FrameLayout>
 
 </LinearLayout>

@@ -1,9 +1,9 @@
 import 'package:campus_flutter/base/classes/location.dart' as location;
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/directions_launcher.dart';
-import 'package:campus_flutter/base/helpers/info_row.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/directions_launcher.dart';
+import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
@@ -41,13 +41,13 @@ class CafeteriaScaffold extends ConsumerWidget {
               ),
             ),
           IconButton(
-            onPressed: () => launchDirections(
+            onPressed: () => showDirectionsDialog(
+              cafeteria.name,
               location.Location(
                 latitude: cafeteria.location.latitude,
                 longitude: cafeteria.location.longitude,
               ),
-              cafeteria.name,
-              ref,
+              context,
             ),
             icon: Icon(
               Icons.directions,
@@ -167,8 +167,6 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             children: [
               if (openingHours.$2 != null && openingHours.$1)
                 _openingTimes(openingHours, context),
-              //..._mapAndDirections(),
-              //const PaddedDivider(),*/
               _pickerAndSlider(false),
             ],
           );
@@ -177,7 +175,6 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
     );
   }
 
-  // TODO: optimize flow
   Widget _openingTimes(
     (bool, OpeningHour?) openingHours,
     BuildContext context,

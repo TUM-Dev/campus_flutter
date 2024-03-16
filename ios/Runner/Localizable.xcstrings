@@ -70,6 +70,36 @@
           }
         }
       }
+    },
+    "No lectures planned :)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Veranstaltungen geplant :)"
+          }
+        }
+      }
+    },
+    "Open the application to update the widget" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die Applikation, um das Widget zu aktualisieren"
+          }
+        }
+      }
+    },
+    "This widget was last updated over 2 weeks ago.\nOpen the application to update the data" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Widget wurde zuletzt vor über 2 Wochen aktualisiert.\nÖffne die Applikation, um die Daten zu aktualisieren"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

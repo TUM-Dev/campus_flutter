@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

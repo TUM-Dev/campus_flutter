@@ -10,7 +10,7 @@ class GradeService {
   static Future<({DateTime? saved, List<Grade> data})> fetchGrades(
     bool forcedRefresh,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Grades, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonalGrades()),
@@ -23,7 +23,7 @@ class GradeService {
 
   static Future<({DateTime? saved, List<AverageGrade> data})>
       fetchAverageGrades(bool forcedRefresh) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<AverageGrades, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceAverageGrades()),

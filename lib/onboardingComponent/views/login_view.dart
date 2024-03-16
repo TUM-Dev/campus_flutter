@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +30,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
           MediaQuery.platformBrightnessOf(context) == Brightness.dark
               ? Theme.of(context).canvasColor
               : Colors.white,
-      resizeToAvoidBottomInset: orientation != Orientation.portrait && !kIsWeb,
+      resizeToAvoidBottomInset: orientation != Orientation.portrait,
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: OrientationBuilder(

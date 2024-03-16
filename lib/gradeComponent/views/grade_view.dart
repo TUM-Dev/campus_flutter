@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_rectangle.dart';
 import 'package:flutter/material.dart';

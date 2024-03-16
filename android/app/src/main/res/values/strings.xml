@@ -6,6 +6,7 @@
     <string name="calendar_widget">calendar Widget TUM</string>
     <string name="calendar_widget_select_lectures">Select lectures</string>
     <string name="calendar_widget_no_lectures">No lectures planned :)</string>
+    <string name="calendar_widget_old_data">This widget was last updated over 2 weeks ago.Open the application to update the data</string>
     <string name="IN">in</string>
     <string name="MINUTES">minutes</string>
     <string name="just_now">Just now</string>

@@ -1,15 +1,11 @@
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
-import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 final userPreferencesViewModel = Provider(
   (ref) => UserPreferencesViewModel(ref),
@@ -37,17 +33,6 @@ class UserPreferencesViewModel {
               ref.read(hideFailedGrades.notifier).state = value as bool;
             case UserPreference.locale:
               ref.read(customLocale.notifier).state = Locale(value as String);
-            case UserPreference.defaultMapsApplication:
-              final installedMaps = getIt<List<AvailableMap>>();
-              final matchingMaps = installedMaps.firstWhereOrNull(
-                (e) => e.mapType.name == value as String,
-              );
-              if (matchingMaps != null) {
-                ref.read(selectedMapsApp.notifier).state = matchingMaps;
-              } else {
-                ref.read(selectedMapsApp.notifier).state =
-                    installedMaps.firstOrNull;
-              }
             default:
               break;
           }
@@ -68,9 +53,6 @@ class UserPreferencesViewModel {
         ref.read(hideFailedGrades.notifier).state = value as bool;
       case UserPreference.locale:
         ref.read(customLocale.notifier).state = value as Locale?;
-      case UserPreference.defaultMapsApplication:
-        ref.read(selectedMapsApp.notifier).state = value as AvailableMap?;
-        value = value?.mapName;
       default:
         break;
     }
@@ -83,30 +65,6 @@ class UserPreferencesViewModel {
     for (var userPreference in UserPreference.values) {
       getIt<UserPreferencesService>().reset(userPreference);
     }
-  }
-
-  static List<PopupMenuItem<AvailableMap>> getInstalledMapTypes(
-    BuildContext context,
-  ) {
-    return getIt.get<List<AvailableMap>>().mapIndexed((index, e) {
-      return PopupMenuItem(
-        value: e,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: SvgPicture.asset(
-                e.icon,
-                height: 30,
-                width: 30,
-              ),
-            ),
-            Text(e.mapName),
-          ],
-        ),
-      );
-    }).toList();
   }
 
   static List<DropdownMenuItem<Appearance>> getAppearanceEntries(

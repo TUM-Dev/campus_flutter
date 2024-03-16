@@ -6,6 +6,7 @@
     <string name="calendar_widget">Calendar Widget TUM</string>
     <string name="calendar_widget_select_lectures">Vorlesungen auswählen</string>
     <string name="calendar_widget_no_lectures">Keine Vorlesungen geplannt :)</string>
+    <string name="calendar_widget_old_data">Dieses Widget wurde zuletzt vor über 2 Wochen aktualisiert. Öffne die Applikation, um die Daten zu aktualisieren</string>
     <string name="IN">in</string>
     <string name="MINUTES">Minuten</string>
     <string name="just_now">Jetzt</string>
