@@ -7,7 +7,7 @@
     android:minResizeHeight="110dp"
     android:minWidth="180dp"
     android:minResizeWidth="180dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/appwidget_preview"
     android:previewLayout="@layout/calendar_widget"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"

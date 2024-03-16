@@ -6,26 +6,29 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct CalendarWidgetContent: View {
     @Environment(\.colorScheme) var colorScheme
-
+    
     var availableItems: Int
+    var widgetFamily: WidgetFamily
     var events: [Date: [CalendarEntry]] = [:]
     var updatedAt: Date
-
+    
     init(entry: CalendarWidgetEntry) {
         self.availableItems = entry.size == .systemLarge ? 5 : 2
+        self.widgetFamily = entry.size
         self.updatedAt = entry.date
         self.events = groupEntriesByDate(entries: Array(entry.entries.prefix(availableItems)))
     }
-
+    
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
         return formatter
     }
-
+    
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
@@ -40,20 +43,34 @@ struct CalendarWidgetContent: View {
             .background(.accent)
             .foregroundStyle(.white)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
-
-            ForEach(events.keys.sorted(), id: \.self) { eventDate in
-                ForEach((events[eventDate] ?? []).indices, id: \.self) { eventIndex in
-                    let event = events[eventDate]![eventIndex]
-                    CalendarEventView(event: event, color: event.eventColor, isFirst: eventIndex == 0)
+            
+            if (events.isEmpty) {
+                Spacer()
+                Text("No lectures planned :)")
+                    .font(.footnote)
+                    .padding()
+            } else if (Date().timeIntervalSince(updatedAt) > (14 * 24 * 60 * 60)) {
+                // 14 days * 24 hours * 60 minutes * 60 seconds
+                Spacer()
+                Text(widgetFamily != .systemSmall ? "This widget was last updated over 2 weeks ago.\nOpen the application to update the data" : "Open the application to update the widget")
+                    .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            } else {
+                ForEach(events.keys.sorted(), id: \.self) { eventDate in
+                    ForEach((events[eventDate] ?? []).indices, id: \.self) { eventIndex in
+                        let event = events[eventDate]![eventIndex]
+                        CalendarEventView(event: event, color: event.eventColor, isFirst: eventIndex == 0)
+                    }
                 }
             }
             Spacer()
         }
     }
-
+    
     func groupEntriesByDate(entries: [CalendarEntry]) -> [Date: [CalendarEntry]] {
         var groupedEntries: [Date: [CalendarEntry]] = [:]
-
+        
         for entry in entries {
             let calendar = Calendar.current
             let startDateComponents = calendar.dateComponents([.year, .month, .day], from: entry.startDate)

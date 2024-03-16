@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import android.widget.RemoteViews
 import de.tum.`in`.tumcampus.MainActivity
 import de.tum.`in`.tumcampus.R
@@ -12,6 +13,8 @@ import de.tum.`in`.tumcampus.util.deserializeStringToDate
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetPlugin
 import org.joda.time.DateTime
+import org.joda.time.Days
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.ocpsoft.prettytime.PrettyTime
 import java.util.Locale
@@ -48,32 +51,31 @@ private fun updateAppWidget(
     val p = PrettyTime()
     val widgetData = HomeWidgetPlugin.getData(context)
     val lastSaved = widgetData.getString("calendar_save", null)
-    val lastSavedDate = p.format(deserializeStringToDate(lastSaved).toDate())
-    remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDate)
+    val lastSavedDate = deserializeStringToDate(lastSaved).toLocalDate()
+    val lastSavedDateString = p.format( deserializeStringToDate(lastSaved).toDate())
+    remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDateString)
 
-    // dee
     val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
             context,
             MainActivity::class.java,
             Uri.parse("tumCampusApp://message?homeWidget=calendar"))
     remoteViews.setOnClickPendingIntent(R.id.calendar_widget, pendingIntentWithData)
 
-    // Set up the calendar activity listeners
-    val pendingCalendarIntent = HomeWidgetLaunchIntent.getActivity(context, MainActivity::class.java, Uri.parse("/calendar"))
-    remoteViews.setOnClickPendingIntent(R.id.calendar_widget_header, pendingCalendarIntent)
-    remoteViews.setPendingIntentTemplate(R.id.calendar_widget_listview, pendingCalendarIntent)
+    if (Days.daysBetween(lastSavedDate, LocalDate.now()).days < 14) {
+        // Set up the intent that starts the calendarWidgetService
+        val intent = Intent(context, CalendarWidgetService::class.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+        remoteViews.setRemoteAdapter(R.id.calendar_widget_listview, intent)
 
-    // Set up the intent that starts the calendarWidgetService, which will
-    // provide the departure times for this station
-    val intent = Intent(context, CalendarWidgetService::class.java)
-    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-    intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
-    remoteViews.setRemoteAdapter(R.id.calendar_widget_listview, intent)
-
-    // The empty view is displayed when the collection has no items.
-    // It should be in the same layout used to instantiate the RemoteViews
-    // object above.
-    remoteViews.setEmptyView(R.id.calendar_widget_listview, R.id.empty_list_item)
+        // The empty view is displayed when the collection has no items.
+        // It should be in the same layout used to instantiate the RemoteViews
+        // object above.
+        remoteViews.setEmptyView(R.id.calendar_widget_listview, R.id.empty_list_item)
+    } else {
+        remoteViews.setViewVisibility(R.id.calendar_widget_listview, View.INVISIBLE)
+        remoteViews.setViewVisibility(R.id.old_data_item, View.VISIBLE)
+    }
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
