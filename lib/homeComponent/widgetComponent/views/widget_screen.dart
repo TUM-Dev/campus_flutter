@@ -30,7 +30,6 @@ class WidgetScreen extends ConsumerWidget {
         if (snapshot.hasData) {
           return Column(
             children: [
-              // TODO: hide movies and news if empty
               for (var widget in snapshot.data ?? <HomeScreenWidget>[])
                 if (widget.enabled) HomeViewModel.getWidget(widget.widgetType),
             ],

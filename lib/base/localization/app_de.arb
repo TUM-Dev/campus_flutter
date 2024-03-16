@@ -311,5 +311,6 @@
          }
       }
    },
-   "closest":"Nächste"
+   "closest":"Näheste",
+   "noClosestStudyRoom":"Näheste Lernräume nicht ermittelbar!"
 }

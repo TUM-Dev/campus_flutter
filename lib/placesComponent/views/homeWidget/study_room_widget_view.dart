@@ -46,11 +46,11 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
 
 class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
-  void initState() {
+  void didChangeDependencies() {
     if (widget.closestStudyRoom) {
-      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false);
+      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false, context);
     }
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override

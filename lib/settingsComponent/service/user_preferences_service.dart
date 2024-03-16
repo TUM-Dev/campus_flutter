@@ -20,7 +20,6 @@ class UserPreferencesService {
     }
   }
 
-  // TODO: handle success/failure of saving
   void save(UserPreference userPreference, Object value) {
     if (userPreference.type == String && value is String) {
       sharedPreferences.setString(userPreference.name, value);

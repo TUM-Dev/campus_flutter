@@ -311,5 +311,6 @@
          }
       }
    },
-   "closest":"Closest"
+   "closest":"Closest",
+   "noClosestStudyRoom":"Closest learning spaces cannot be determined!"
 }
