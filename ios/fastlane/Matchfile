@@ -1,4 +1,4 @@
 git_url("git@github.com:TUM-Dev/Campus-Flutter-Match.git")
 storage_mode("git")
 type("appstore")
-app_identifier(["de.tum.tca"])
+app_identifier(["de.tum.tca", "de.tum.tca.calendarWidget"])
