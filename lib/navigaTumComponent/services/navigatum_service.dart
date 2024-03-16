@@ -11,7 +11,7 @@ class NavigaTumService {
     bool forcedRefresh,
     String query,
   ) async {
-    RESTClient restClient = getIt();
+    RestClient restClient = getIt();
     final response =
         await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
       NavigaTumApi(
@@ -30,7 +30,7 @@ class NavigaTumService {
     BuildContext context,
   ) async {
     final response =
-        await getIt<RESTClient>().get<NavigaTumNavigationDetails, NavigaTumApi>(
+        await getIt<RestClient>().get<NavigaTumNavigationDetails, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceDetails(
           id: id,

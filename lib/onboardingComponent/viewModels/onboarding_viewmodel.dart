@@ -143,7 +143,7 @@ class OnboardingViewModel {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
-    await getIt<RESTClient>().clearCache();
+    await getIt<RestClient>().clearCache();
     await _storage.delete(key: "token");
     await HomeWidget.saveWidgetData("calendar", null);
     await HomeWidget.saveWidgetData("calendar_save", null);

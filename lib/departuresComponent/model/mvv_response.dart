@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/read_list_value.dart';
+import 'package:campus_flutter/base/util/read_list_value.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:json_annotation/json_annotation.dart';
 

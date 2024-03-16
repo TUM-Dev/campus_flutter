@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
@@ -5,7 +7,6 @@ import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/model/token.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingService {
@@ -28,13 +29,13 @@ class OnboardingService {
   }
 
   static Future<Token> requestNewToken(bool forcedRefresh, String name) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Token, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
         TumOnlineServiceTokenRequest(
           tumId: name,
-          deviceName: "TCA - ${kIsWeb ? "Web App" : "Mobile"}",
+          deviceName: "TCA - ${Platform.isIOS ? "iOS" : "Android"}",
         ),
       ),
       Token.fromJson,
@@ -45,7 +46,7 @@ class OnboardingService {
   }
 
   static Future<Confirm> confirmToken(bool forcedRefresh) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceTokenConfirmation()),

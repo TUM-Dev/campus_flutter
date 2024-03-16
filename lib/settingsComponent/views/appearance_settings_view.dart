@@ -9,7 +9,6 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +23,7 @@ class AppearanceSettingsView extends ConsumerWidget {
         child: SeparatedList.widgets(
           widgets: [
             _appearanceSelection(context, ref),
-            if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
+            if (Platform.isIOS) _useWebView(context, ref),
             _hideFailedGrades(context, ref),
           ],
         ),

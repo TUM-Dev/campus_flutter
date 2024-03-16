@@ -1,0 +1,76 @@
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/cache/cache.dart';
+import 'package:grpc/grpc.dart';
+import 'package:isar/isar.dart';
+import 'package:protobuf/protobuf.dart';
+
+class GrpcCacheInterceptor implements ClientInterceptor {
+  late Cache cache;
+
+  GrpcCacheInterceptor(Isar isar) {
+    cache = Cache(isar: isar);
+  }
+
+  @override
+  ResponseStream<R> interceptStreaming<Q, R>(
+    ClientMethod<Q, R> method,
+    Stream<Q> requests,
+    CallOptions options,
+    ClientStreamingInvoker<Q, R> invoker,
+  ) {
+    return invoker(method, requests, options);
+  }
+
+  @override
+  ResponseFuture<R> interceptUnary<Q, R>(
+    ClientMethod<Q, R> method,
+    Q request,
+    CallOptions options,
+    ClientUnaryInvoker<Q, R> invoker,
+  ) {
+    final key = method.path;
+    final cachedResponse = cache.getString(key);
+    final factory = _getFactory<R>();
+    if (cachedResponse != null && factory != null) {
+      final data = factory(cachedResponse.data);
+      return ResponseFuture<R>(
+        ClientCall(
+          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
+          Stream.value(request),
+          options,
+          null,
+          true,
+        ),
+      );
+    }
+
+    /// If not found in cache, invoke the actual RPC and cache the response
+    final response = invoker(method, request, options);
+    response.then((data) {
+      cache.addString((data as GeneratedMessage).writeToJson(), key);
+    });
+
+    return response;
+  }
+
+  // TODO: figure out nicer solution or add missing classes
+  R Function(String, [ExtensionRegistry])? _getFactory<R>() {
+    if (R == ListNewsReply) {
+      return ListNewsReply.fromJson as R Function(
+        String, [
+        ExtensionRegistry,
+      ]);
+    } else if (R == ListMoviesReply) {
+      return ListMoviesReply.fromJson as R Function(
+        String, [
+        ExtensionRegistry,
+      ]);
+    } else {
+      return null;
+    }
+  }
+
+  void invalidateCache() {
+    cache.resetCache();
+  }
+}

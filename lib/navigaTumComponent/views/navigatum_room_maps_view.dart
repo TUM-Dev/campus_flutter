@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
-import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
 import 'package:campus_flutter/base/routing/routes.dart';

@@ -152,7 +152,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
   }
 
   void recordFlutterError(FlutterErrorDetails flutterErrorDetails) {
-    if (!kIsWeb && !kDebugMode) {
+    if (!kDebugMode) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(flutterErrorDetails);
     }
   }

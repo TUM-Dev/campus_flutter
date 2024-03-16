@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';

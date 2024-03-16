@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/classes/location.dart';
-import 'package:campus_flutter/base/helpers/directions_launcher.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/directions_launcher.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

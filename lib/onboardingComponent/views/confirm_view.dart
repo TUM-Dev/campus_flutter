@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 
-import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
