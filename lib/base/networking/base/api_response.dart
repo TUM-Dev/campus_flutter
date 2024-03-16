@@ -12,12 +12,12 @@ class ApiResponse<T> {
     if (json is List<dynamic>) {
       return ApiResponse<T>(
         data: create({"data": json}),
-        saved: extras["saved"] as DateTime,
+        saved: extras["saved"] as DateTime?,
       );
     } else {
       return ApiResponse<T>(
         data: create(json),
-        saved: extras["saved"] as DateTime,
+        saved: extras["saved"] as DateTime?,
       );
     }
   }

@@ -75,6 +75,7 @@ class RestCacheInterceptor implements Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final key = response.realUri.toString();
     cache.addString(response.data, key);
+    response.extra = response.extra..addAll({"saved": DateTime.now()});
     handler.next(response);
   }
 }

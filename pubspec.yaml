@@ -13,8 +13,12 @@ dependencies:
   # networking
   dio: ^5.1.2
   # dio_cache_interceptor: ^3.5.0
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  isar:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
+  isar_flutter_libs:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   cached_network_image: ^3.2.3
@@ -87,7 +91,9 @@ dependency_overrides:
 dev_dependencies:
   # code generation
   build_runner: ^2.3.3
-  isar_generator: ^3.1.0+1
+  isar_generator:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
 
   # testing
   flutter_test:

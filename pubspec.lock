@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: ae92f5d747aee634b87f89d9946000c2de774be1d6ac3e58268224348cd0101a
+      sha256: "0b2f2bd91ba804e53a61d757b986f89f1f9eaed5b11e4b2f5a2468d86d6c9fc7"
       url: "https://pub.dev"
     source: hosted
-    version: "61.0.0"
+    version: "67.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: ea3d8652bda62982addfd92fdc2d0214e5f82e43325104990d4f4c4a2a313562
+      sha256: "37577842a27e4338429a1cbc32679d508836510b056f1eedf0c8d20e39c1383d"
       url: "https://pub.dev"
     source: hosted
-    version: "5.13.0"
+    version: "6.4.1"
   ansicolor:
     dependency: transitive
     description:
@@ -253,10 +253,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "1efa911ca7086affd35f463ca2fc1799584fb6aa89883cf0af8e3664d6a02d55"
+      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.6"
   dartx:
     dependency: transitive
     description:
@@ -731,26 +731,26 @@ packages:
     dependency: "direct main"
     description:
       name: isar
-      sha256: "99165dadb2cf2329d3140198363a7e7bff9bbd441871898a87e26914d25cf1ea"
-      url: "https://pub.dev"
+      sha256: "3510ffb73db4bf46935bd8897f7bb96fc41bbdf9ed655275484f95f9123db35d"
+      url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.0+1"
+    version: "3.1.4"
   isar_flutter_libs:
     dependency: "direct main"
     description:
       name: isar_flutter_libs
-      sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
-      url: "https://pub.dev"
+      sha256: "2d9a2628e946454a2c623e108dbb1cbb28a5b0bc59588c5c1e5ffa307fa7652d"
+      url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.0+1"
+    version: "3.1.4"
   isar_generator:
     dependency: "direct dev"
     description:
       name: isar_generator
-      sha256: "76c121e1295a30423604f2f819bc255bc79f852f3bc8743a24017df6068ad133"
-      url: "https://pub.dev"
+      sha256: "558fcc50f99467c5aa2237f00890455725da698ce27bab2ed6847eb1634ef1b8"
+      url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.0+1"
+    version: "3.1.4"
   js:
     dependency: transitive
     description:
