@@ -553,10 +553,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_windows
-      sha256: a92fae29779d5c6dc60e8411302f5221ade464968fe80a36d330e80a71f087af
+      sha256: "53da08937d07c24b0d9952eb57a3b474e29aae2abf9dd717f7e1230995f13f0e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   get_it:
     dependency: "direct main"
     description:
@@ -577,10 +577,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "170c46e237d6eb0e6e9f0e8b3f56101e14fb64f787016e42edd74c39cf8b176a"
+      sha256: "7ecb2f391edbca5473db591b48555a8912dde60edd0fb3013bd6743033b2d3f8"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.2.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -618,10 +618,10 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: "723aa415ef071f0cc2855434cbdaa871ca6417e6"
+      resolved-ref: "974b8b4cc01daec459197d5d9eef6eb69fb14b78"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
-    version: "2.5.0"
+    version: "2.5.1"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -1360,10 +1360,10 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "21dfed4c2ef3259cd5e7b71c5b2669baf32db90cfd04247363571a1a5546d6fd"
+      sha256: "4151e01aa1d6f17b2bcb19d709b93f231d40c9ce78db52ea195b7b7233ce0149"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.5"
+    version: "24.2.4"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:

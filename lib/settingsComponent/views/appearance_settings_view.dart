@@ -8,12 +8,10 @@ import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
-import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 class AppearanceSettingsView extends ConsumerWidget {
   const AppearanceSettingsView({super.key});
@@ -28,8 +26,6 @@ class AppearanceSettingsView extends ConsumerWidget {
             _appearanceSelection(context, ref),
             if (!kIsWeb && Platform.isIOS) _useWebView(context, ref),
             _hideFailedGrades(context, ref),
-            if (!kIsWeb && getIt.get<List<AvailableMap>>().isNotEmpty)
-              const DefaultMapsPickerView(),
           ],
         ),
       ),

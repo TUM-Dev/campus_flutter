@@ -35,13 +35,13 @@ class DirectionsButton extends ConsumerWidget {
         height: 50,
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () => launchDirections(
+          onPressed: () => showDirectionsDialog(
+            name ?? "Destination",
             Location(
               latitude: location?.latitude ?? latitude!,
               longitude: location?.longitude ?? longitude!,
             ),
-            name ?? "Destination",
-            ref,
+            context,
           ),
           child: IconText(
             iconData: Icons.directions,

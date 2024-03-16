@@ -22,7 +22,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:map_launcher/map_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -89,7 +88,6 @@ Future<void> _initializeMobile() async {
   final directory = await getTemporaryDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
-  getIt.registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
   getIt.registerSingleton<RESTClient>(RESTClient.mobileCache(directory));
   getIt.registerSingleton<CachedCampusClient>(
     await CachedCampusClient.createMobileCache(directory),

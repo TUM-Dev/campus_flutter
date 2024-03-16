@@ -1,43 +1,72 @@
 import 'package:campus_flutter/base/classes/location.dart';
-import 'package:campus_flutter/settingsComponent/views/default_maps_picker_view.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:map_launcher/map_launcher.dart';
 
-void launchDirections(Location location, String name, WidgetRef ref) async {
-  if (!kIsWeb) {
-    final selectedMap = ref.read(selectedMapsApp);
-    if (selectedMap != null) {
-      if (await MapLauncher.isMapAvailable(selectedMap.mapType) ?? false) {
-        await MapLauncher.showDirections(
-          mapType: selectedMap.mapType,
-          directionsMode: DirectionsMode.walking,
-          destinationTitle: name,
-          destination: Coords(location.latitude, location.longitude),
+Future<void> showDirectionsDialog(
+  String name,
+  Location location,
+  BuildContext context,
+) async {
+  MapLauncher.installedMaps.then(
+    (value) => showModalBottomSheet(
+      isDismissible: true,
+      showDragHandle: true,
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: context.halfPadding,
+              ),
+              child: Text(context.localizations.selectAction),
+            ),
+            Card(
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) => ListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: SvgPicture.asset(
+                      value[index].icon,
+                      height: 30,
+                      width: 30,
+                    ),
+                  ),
+                  title: Text(
+                    context.localizations.openIn(value[index].mapName),
+                  ),
+                  onTap: () => MapLauncher.showDirections(
+                    mapType: value[index].mapType,
+                    directionsMode: DirectionsMode.walking,
+                    destinationTitle: name,
+                    destination: Coords(location.latitude, location.longitude),
+                  ),
+                ),
+                separatorBuilder: (context, index) => const PaddedDivider(),
+                itemCount: value.length,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: context.padding,
+                bottom: context.padding * 2,
+              ),
+              child: ElevatedButton(
+                onPressed: () => context.pop(),
+                child: Text(context.localizations.cancel),
+              ),
+            ),
+          ],
         );
-      } else {
-        _fallback(name, location);
-      }
-    } else {
-      _fallback(name, location);
-    }
-  }
-}
-
-Future<void> _fallback(String name, Location location) async {
-  if (await MapLauncher.isMapAvailable(MapType.google) ?? false) {
-    await MapLauncher.showDirections(
-      mapType: MapType.google,
-      directionsMode: DirectionsMode.walking,
-      destinationTitle: name,
-      destination: Coords(location.latitude, location.longitude),
-    );
-  } else if (await MapLauncher.isMapAvailable(MapType.apple) ?? false) {
-    await MapLauncher.showDirections(
-      mapType: MapType.apple,
-      directionsMode: DirectionsMode.walking,
-      destinationTitle: name,
-      destination: Coords(location.latitude, location.longitude),
-    );
-  }
+      },
+    ),
+  );
 }

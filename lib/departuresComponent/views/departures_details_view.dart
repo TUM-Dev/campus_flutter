@@ -111,10 +111,10 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       ref.read(departureViewModel).selectedStation.value;
                   if (selectedStation != null &&
                       selectedStation.location != null) {
-                    launchDirections(
-                      selectedStation.location!,
+                    showDirectionsDialog(
                       selectedStation.name,
-                      ref,
+                      selectedStation.location!,
+                      context,
                     );
                   }
                 },

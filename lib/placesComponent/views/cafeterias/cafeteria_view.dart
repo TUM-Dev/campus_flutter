@@ -41,13 +41,13 @@ class CafeteriaScaffold extends ConsumerWidget {
               ),
             ),
           IconButton(
-            onPressed: () => launchDirections(
+            onPressed: () => showDirectionsDialog(
+              cafeteria.name,
               location.Location(
                 latitude: cafeteria.location.latitude,
                 longitude: cafeteria.location.longitude,
               ),
-              cafeteria.name,
-              ref,
+              context,
             ),
             icon: Icon(
               Icons.directions,
@@ -167,8 +167,6 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             children: [
               if (openingHours.$2 != null && openingHours.$1)
                 _openingTimes(openingHours, context),
-              //..._mapAndDirections(),
-              //const PaddedDivider(),*/
               _pickerAndSlider(false),
             ],
           );
@@ -177,7 +175,6 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
     );
   }
 
-  // TODO: optimize flow
   Widget _openingTimes(
     (bool, OpeningHour?) openingHours,
     BuildContext context,
