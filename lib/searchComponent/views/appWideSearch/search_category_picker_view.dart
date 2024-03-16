@@ -19,20 +19,26 @@ class SearchCategoryPickerView extends ConsumerWidget {
           child: HorizontalSlider.height(
             data: _getData(snapshot.data ?? [], ref),
             height: 40,
-            child: (searchCategory) => FilterChip(
-              label: Text(
-                SearchCategoryExtension.localizedEnumTitle(
-                  searchCategory,
-                  context,
-                ),
-              ),
-              onSelected: (selected) {
-                ref.read(searchViewModel).updateCategory(searchCategory);
+            child: (searchCategory) => InkWell(
+              onLongPress: () {
+                ref.read(searchViewModel).selectSingleCategory(searchCategory);
                 ref.read(searchViewModel).triggerSearchAfterUpdate(null);
               },
-              selected: (snapshot.data ?? []).isNotEmpty
-                  ? snapshot.data?.contains(searchCategory) ?? false
-                  : true,
+              child: FilterChip(
+                label: Text(
+                  SearchCategoryExtension.localizedEnumTitle(
+                    searchCategory,
+                    context,
+                  ),
+                ),
+                onSelected: (selected) {
+                  ref.read(searchViewModel).updateCategory(searchCategory);
+                  ref.read(searchViewModel).triggerSearchAfterUpdate(null);
+                },
+                selected: (snapshot.data ?? []).isNotEmpty
+                    ? snapshot.data?.contains(searchCategory) ?? false
+                    : true,
+              ),
             ),
           ),
         );

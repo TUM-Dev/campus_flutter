@@ -21,7 +21,7 @@ class PlaceholderText extends StatelessWidget {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
-      textScaleFactor: MediaQuery.textScaleFactorOf(context),
+      textScaler: MediaQuery.textScalerOf(context),
     )..layout();
     return textPainter.size;
   }
