@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';

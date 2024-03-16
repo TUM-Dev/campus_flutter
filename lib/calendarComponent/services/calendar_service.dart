@@ -10,7 +10,7 @@ class CalendarService {
   static Future<(DateTime?, List<CalendarEvent>)> fetchCalendar(
     bool forcedRefresh,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<CalendarEvents, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceCalendar()),
@@ -24,7 +24,7 @@ class CalendarService {
   static Future<CalendarCreationConfirmation> createCalendarEvent(
     AddedCalendarEvent addedCalendarEvent,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient.getWithException<
         CalendarCreationConfirmationData, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
@@ -45,7 +45,7 @@ class CalendarService {
   static Future<void> deleteCalendarEvent(
     String id,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     restClient.getWithException(
       TumOnlineApi(
         TumOnlineServiceEventDelete(

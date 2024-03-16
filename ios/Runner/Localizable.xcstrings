@@ -1,0 +1,106 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ | %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ | %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ | %2$@"
+          }
+        }
+      }
+    },
+    "%@ ago" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vor %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ ago"
+          }
+        }
+      }
+    },
+    "An Overview About Your Upcoming Events." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Überblick über Deine bevorstehenden Veranstaltungen."
+          }
+        }
+      }
+    },
+    "Calendar Widget" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalendarwidget"
+          }
+        }
+      }
+    },
+    "moments ago" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade eben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "moments ago"
+          }
+        }
+      }
+    },
+    "No lectures planned :)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Veranstaltungen geplant :)"
+          }
+        }
+      }
+    },
+    "Open the application to update the widget" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die Applikation, um das Widget zu aktualisieren"
+          }
+        }
+      }
+    },
+    "This widget was last updated over 2 weeks ago.\nOpen the application to update the data" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Widget wurde zuletzt vor über 2 Wochen aktualisiert.\nÖffne die Applikation, um die Daten zu aktualisieren"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

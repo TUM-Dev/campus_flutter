@@ -52,7 +52,10 @@ class StudyRoomsViewModel {
     );
   }
 
-  Future<void> fetchWidgetStudyRooms(bool forcedRefresh) async {
+  Future<void> fetchWidgetStudyRooms(
+    bool forcedRefresh,
+    BuildContext context,
+  ) async {
     final preferenceId = getIt<UserPreferencesService>().load(
       UserPreference.studyRoom,
     );
@@ -69,7 +72,7 @@ class StudyRoomsViewModel {
           widgetStudyRoom.add(selectedStudyRoom);
         } else {
           LocationService.getLastKnown().then(
-            (position) => _getClosestStudyRoomGroup(position),
+            (position) => _getClosestStudyRoomGroup(position, context),
             onError: (error) => widgetStudyRoom.addError(error),
           );
         }
@@ -78,10 +81,9 @@ class StudyRoomsViewModel {
     );
   }
 
-  _getClosestStudyRoomGroup(Position? position) {
+  _getClosestStudyRoomGroup(Position? position, BuildContext context) {
     if (studyRoomData?.groups == null) {
-      // TODO: localize
-      widgetStudyRoom.addError("Could not get closest study rooms!");
+      widgetStudyRoom.addError(context.localizations.noClosestStudyRoom);
       return;
     }
 
@@ -91,28 +93,28 @@ class StudyRoomsViewModel {
           ) ??
           studyRoomData?.groups?.firstOrNull;
       if (defaultStudyRoom == null) {
-        // TODO: localize
-        widgetStudyRoom.addError("Could not get closest study rooms!");
+        widgetStudyRoom.addError(context.localizations.noClosestStudyRoom);
       } else {
         widgetStudyRoom.add(defaultStudyRoom);
       }
     }
 
     final group = studyRoomData?.groups?.reduce((currentGroup, nextGroup) {
-      final distanceCurrent = currentGroup.coordinate != null
-          ? Geolocator.distanceBetween(
-              currentGroup.coordinate!.latitude,
-              currentGroup.coordinate!.longitude,
-              position!.latitude,
-              position.longitude,
-            )
-          : 0.0;
+      final distanceCurrent =
+          (currentGroup.coordinate != null && position != null)
+              ? Geolocator.distanceBetween(
+                  currentGroup.coordinate!.latitude,
+                  currentGroup.coordinate!.longitude,
+                  position.latitude,
+                  position.longitude,
+                )
+              : 0.0;
 
-      final distanceNext = nextGroup.coordinate != null
+      final distanceNext = (nextGroup.coordinate != null && position != null)
           ? Geolocator.distanceBetween(
               nextGroup.coordinate!.latitude,
               nextGroup.coordinate!.longitude,
-              position!.latitude,
+              position.latitude,
               position.longitude,
             )
           : 0.0;
@@ -214,7 +216,7 @@ class StudyRoomsViewModel {
               : null,
           onTap: () {
             getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
-            fetchWidgetStudyRooms(false);
+            fetchWidgetStudyRooms(false, context);
             context.pop();
           },
         ),

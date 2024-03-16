@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_event_view.dart';

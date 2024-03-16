@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

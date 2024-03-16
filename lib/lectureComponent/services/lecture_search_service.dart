@@ -10,7 +10,7 @@ class LectureSearchService {
     bool forcedRefresh,
     String query,
   ) async {
-    final response = await getIt<RESTClient>()
+    final response = await getIt<RestClient>()
         .getWithException<Lectures, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceLectureSearch(search: query)),
       Lectures.fromJson,

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_view.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';

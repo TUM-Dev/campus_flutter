@@ -57,6 +57,10 @@ class GlobalSearchViewModel {
     selectedCategories.add(categories);
   }
 
+  void selectSingleCategory(SearchCategory searchCategory) {
+    selectedCategories.add([searchCategory]);
+  }
+
   void clear() {
     searchString = "";
     result.add(null);

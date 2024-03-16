@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
+import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_card_view.dart';
 import 'package:flutter/material.dart';

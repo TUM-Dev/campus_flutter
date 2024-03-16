@@ -1,80 +1,28 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
+import 'package:campus_flutter/base/networking/cache/cache.dart';
+import 'package:campus_flutter/base/networking/cache/rest_cache_interceptor.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
 import 'package:campus_flutter/base/networking/base/api_response.dart';
-import 'package:campus_flutter/base/networking/base/custom_cache_interceptor.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
-import 'package:flutter/foundation.dart';
+import 'package:isar/isar.dart';
 import 'package:xml2json/xml2json.dart';
 
-class RESTClient {
+class RestClient {
   late Dio dio;
-  late MemCacheStore memCacheStore;
-  late HiveCacheStore hiveCacheStore;
+  late Cache cache;
 
-  RESTClient.webCache() {
-    memCacheStore = MemCacheStore();
-
-    var cacheOptions = CacheOptions(
-      store: memCacheStore,
-      policy: CachePolicy.forceCache,
-      maxStale: const Duration(minutes: 10),
-      hitCacheOnErrorExcept: [401, 404],
-    );
-
-    final dio = Dio()
-      ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
-
-    dio.options = BaseOptions(
-      responseDecoder: (data, options, body) {
-        final decoded = utf8.decoder.convert(data);
-        if (body.headers["content-type"]?.first.contains("xml") ?? false) {
-          final transformer = Xml2Json();
-          transformer.parse(decoded);
-          return transformer.toParkerWithAttrs(
-            entries: {
-              "row": "rowset",
-              "event": "events",
-              "studium": "studien",
-              "raum": "raeume",
-              "gruppe": "gruppen",
-              "nebenstelle": "telefon_nebenstellen",
-              "card": "cards",
-            },
-          );
-        } else {
-          return decoded;
-        }
-      },
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
-    );
-
-    this.dio = dio;
-  }
-
-  RESTClient.mobileCache(Directory directory) {
-    hiveCacheStore = HiveCacheStore(directory.path);
-
-    /// cache duration is 30 days for offline mode
-    var cacheOptions = CacheOptions(
-      store: hiveCacheStore,
-      policy: CachePolicy.forceCache,
-      maxStale: const Duration(days: 30),
-      hitCacheOnErrorExcept: [401, 404],
-    );
+  RestClient(Isar isar) {
+    final cache = Cache(isar: isar);
+    this.cache = cache;
 
     /// add custom cache interceptor to dio
     final dio = Dio()
       ..interceptors.add(
-        CustomCacheInterceptor(
-          cacheStore: hiveCacheStore,
-          cacheOptions: cacheOptions,
+        RestCacheInterceptor(
+          cache: cache,
         ),
       );
 
@@ -133,7 +81,7 @@ class RESTClient {
       /// check if response is error message by  attempting to decoding it
       throw ApiResponse<U>.fromJson(
         jsonDecode(response.data.toString()),
-        response.headers,
+        response.extra,
         createError,
       ).data;
     } on U catch (e) {
@@ -145,7 +93,7 @@ class RESTClient {
       try {
         return ApiResponse<T>.fromJson(
           jsonDecode(response.data.toString()),
-          response.headers,
+          response.extra,
           createObject,
         );
       } catch (e) {
@@ -175,7 +123,7 @@ class RESTClient {
       /// check if response is error message by  attempting to decoding it
       throw ApiResponse<U>.fromJson(
         jsonDecode(response.data.toString()),
-        response.headers,
+        response.extra,
         createError,
       ).data;
     } on U catch (e) {
@@ -187,7 +135,7 @@ class RESTClient {
       try {
         return ApiResponse<T>.fromJson(
           jsonDecode(response.data.toString()),
-          response.headers,
+          response.extra,
           createObject,
         );
       } catch (e) {
@@ -223,7 +171,7 @@ class RESTClient {
 
       return ApiResponse<T>.fromJson(
         jsonDecode(response.data.toString()),
-        response.headers,
+        response.extra,
         createObject,
       );
     } catch (e) {
@@ -237,10 +185,6 @@ class RESTClient {
   }
 
   clearCache() async {
-    if (kIsWeb) {
-      memCacheStore.clean();
-    } else {
-      hiveCacheStore.clean();
-    }
+    await cache.resetCache();
   }
 }

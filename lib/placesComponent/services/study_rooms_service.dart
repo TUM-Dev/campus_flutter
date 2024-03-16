@@ -8,7 +8,7 @@ class StudyRoomsService {
   static Future<(DateTime?, StudyRoomData)> fetchStudyRooms(
     bool forcedRefresh,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient.get<StudyRoomData, TumDevAppApi>(
       TumDevAppApi(tumDevAppService: TumDevAppServiceRooms()),
       StudyRoomData.fromJson,

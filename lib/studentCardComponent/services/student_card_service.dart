@@ -12,7 +12,7 @@ class StudentCardService {
     bool forcedRefresh,
   ) async {
     try {
-      RESTClient restClient = getIt<RESTClient>();
+      RestClient restClient = getIt<RestClient>();
       final response = await restClient
           .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
         TumOnlineApi(TumOnlineServiceTumCard()),

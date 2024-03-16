@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:flutter/material.dart';
 
 class SeparatedList<T> extends StatelessWidget {

@@ -15,7 +15,7 @@ class MealPlanService {
     bool forcedRefresh,
     Cafeteria cafeteria,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final today = DateTime.now();
     try {
       /// attempt to fetch current weeks meal plan

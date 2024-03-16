@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';

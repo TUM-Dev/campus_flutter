@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/custom_back_button.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';

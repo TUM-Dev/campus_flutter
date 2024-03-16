@@ -1214,7 +1214,8 @@ class GetDishRatingsRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearCanteenId() => clearField(1);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme)
+  /// Must be available in the given cafeteria
   @$pb.TagNumber(2)
   $core.String get dish => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -1727,7 +1728,7 @@ class CreateDishRatingRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearPoints() => clearField(1);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available in the given cafeteria
   @$pb.TagNumber(2)
   $core.String get canteenId => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -1737,7 +1738,8 @@ class CreateDishRatingRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearCanteenId() => clearField(2);
 
-  /// Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  /// Mandatory Name of the dish (EAT-API naming scheme)
+  /// Must be available in the given cafeteria
   @$pb.TagNumber(3)
   $core.String get dish => $_getSZ(2);
   @$pb.TagNumber(3)
@@ -2554,7 +2556,7 @@ class ListDishesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearYear() => clearField(2);
 
-  /// range 1 - 53
+  /// Must be in the range 1 - 52
   @$pb.TagNumber(3)
   $core.int get week => $_getIZ(2);
   @$pb.TagNumber(3)
@@ -2564,7 +2566,8 @@ class ListDishesRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearWeek() => clearField(3);
 
-  /// range 0 (Monday) - 4 (Friday)
+  /// Day of the week
+  /// Days must be in the range 0 (Monday) - 4 (Friday)
   @$pb.TagNumber(4)
   $core.int get day => $_getIZ(3);
   @$pb.TagNumber(4)

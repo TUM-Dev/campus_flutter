@@ -6,7 +6,6 @@ enum UserPreference {
   theme(int),
   browser(bool),
   failedGrades(bool),
-  defaultMapsApplication(String),
   locale(String);
 
   final Type type;

@@ -91,9 +91,10 @@ service Campus {
     };
   }
 
+  // Returns all dishes for a specific cafeteria, year, week and day
   rpc ListDishes(ListDishesRequest) returns (ListDishesReply) {
     option (google.api.http) = {
-      get: "/dish/allDishes",
+      get: "/dishes",
       response_body: "dish"
     };
   }
@@ -269,7 +270,8 @@ message ListCanteenRatingsReply {
 message GetDishRatingsRequest {
   // Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
   string canteen_id = 1;
-  // Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme)
+  // Must be available in the given cafeteria
   string dish = 2;
   // Optional Parameter to define an interval for the ratings (Lower bound)
   google.protobuf.Timestamp from = 3;
@@ -322,9 +324,10 @@ message CreateDishRatingReply {}
 message CreateDishRatingRequest {
   // number in the range 1-5
   int32 points = 1;
-  // Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme "MENSA_GARCHING") Must be available in the given cafeteria
   string canteen_id = 2;
-  // Mandatory Name of the dish (EAT-API naming scheme) Must be available int the given mensa
+  // Mandatory Name of the dish (EAT-API naming scheme)
+  // Must be available in the given cafeteria
   string dish = 3;
   // Optional JPEG image in Base64
   bytes image = 4;
@@ -389,9 +392,10 @@ message ListDishesRequest {
   string canteen_id = 1;
   // >=2022 until the current year
   int32 year = 2;
-  // range 1 - 53
+  // Must be in the range 1 - 52
   int32 week = 3;
-  // range 0 (Monday) - 4 (Friday)
+  // Day of the week
+  // Days must be in the range 0 (Monday) - 4 (Friday)
   int32 day = 4;
 }
 

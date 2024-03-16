@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
+import 'package:campus_flutter/base/util/hyperlink_text.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';

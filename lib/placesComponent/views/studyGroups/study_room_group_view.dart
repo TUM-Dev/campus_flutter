@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
@@ -194,22 +194,26 @@ class StudyRoomGroupView extends ConsumerWidget {
 
   Widget _landscapeMap(StudyRoomGroup? studyRoomGroup, BuildContext context) {
     return MapWidget.horizontalPadding(
-      markers: {
-        Marker(
-          markerId: const MarkerId("studyRoomMarker"),
-          position: LatLng(
-            studyRoomGroup!.coordinate!.latitude,
-            studyRoomGroup.coordinate!.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: studyRoomGroup.name,
-          ),
-        ),
-      },
-      latLng: LatLng(
-        studyRoomGroup.coordinate?.latitude ?? 0.0,
-        studyRoomGroup.coordinate?.longitude ?? 0.0,
-      ),
+      markers: studyRoomGroup != null
+          ? {
+              Marker(
+                markerId: const MarkerId("studyRoomMarker"),
+                position: LatLng(
+                  studyRoomGroup.coordinate?.latitude ?? 0.0,
+                  studyRoomGroup.coordinate?.longitude ?? 0.0,
+                ),
+                infoWindow: InfoWindow(
+                  title: studyRoomGroup.name,
+                ),
+              ),
+            }
+          : {},
+      latLng: studyRoomGroup != null
+          ? LatLng(
+              studyRoomGroup.coordinate?.latitude ?? 0.0,
+              studyRoomGroup.coordinate?.longitude ?? 0.0,
+            )
+          : null,
       zoom: 15,
       aspectRatio: 2,
     );

@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
+import 'package:campus_flutter/base/util/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
@@ -104,14 +104,6 @@ final _router = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: CalendarsView(),
               ),
-              routes: [
-                GoRoute(
-                  path: "eventCreation",
-                  builder: (context, state) => EventCreationScaffold(
-                    calendarEvent: state.extra as CalendarEvent?,
-                  ),
-                ),
-              ],
             ),
           ],
         ),
@@ -251,6 +243,12 @@ final _router = GoRouter(
           isRoomSearch: data.$2 ?? true,
         );
       },
+    ),
+    GoRoute(
+      path: eventCreation,
+      builder: (context, state) => EventCreationScaffold(
+        calendarEvent: state.extra as CalendarEvent?,
+      ),
     ),
   ],
 );

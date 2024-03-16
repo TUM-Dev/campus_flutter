@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/placeholder_text.dart';
-import 'package:campus_flutter/base/helpers/shimmer_view.dart';
+import 'package:campus_flutter/base/util/placeholder_text.dart';
+import 'package:campus_flutter/base/util/shimmer_view.dart';
 import 'package:flutter/material.dart';
 
 class ContactCardLoadingView extends StatelessWidget {

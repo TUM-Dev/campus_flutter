@@ -35,7 +35,7 @@ class Lecture extends Searchable {
   @JsonKey(name: "org_name_betreut")
   final String organisation;
   @JsonKey(name: "org_kennung_betreut")
-  final String organisationTag;
+  final String? organisationTag;
   @JsonKey(name: "vortragende_mitwirkende")
   final String? speaker;
 

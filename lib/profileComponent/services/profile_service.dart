@@ -8,7 +8,7 @@ import 'package:campus_flutter/profileComponent/model/tuition.dart';
 
 class ProfileService {
   static Future<(DateTime?, Profile)> fetchProfile(bool forcedRefresh) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Profiles, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceIdentify()),
@@ -25,7 +25,7 @@ class ProfileService {
     String personGroup,
     String id,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Tuitions, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceTuitionStatus()),

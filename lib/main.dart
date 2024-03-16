@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
-import 'package:campus_flutter/base/helpers/enum_parser.dart';
-import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
-import 'package:campus_flutter/base/networking/apis/tumdev/cached_response.dart';
+import 'package:campus_flutter/base/util/enum_parser.dart';
+import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/networking/base/connection_checker.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
@@ -20,8 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:map_launcher/map_launcher.dart';
-import 'package:hive/hive.dart';
+import 'package:home_widget/home_widget.dart';
+import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,6 +29,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'base/networking/cache/cache_entry.dart';
 
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
@@ -38,21 +40,17 @@ main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await _initializeFirebase();
-  await _initializeGeneral();
-  if (kIsWeb) {
-    await _initializeWeb();
-  } else {
-    await _initializeMobile();
-  }
+  await _initializeNetworkingClients();
+  await _initializeServices();
   runApp(
-    const ProviderScope(
-      child: CampusApp(),
+    ProviderScope(
+      child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
     ),
   );
 }
 
 Future<void> _initializeFirebase() async {
-  if (!kDebugMode && !kIsWeb) {
+  if (!kDebugMode) {
     await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
@@ -62,7 +60,19 @@ Future<void> _initializeFirebase() async {
   }
 }
 
-Future<void> _initializeGeneral() async {
+Future<void> _initializeNetworkingClients() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final isar = await Isar.open(
+    [
+      CacheEntrySchema,
+    ],
+    directory: directory.path,
+  );
+  getIt.registerSingleton<RestClient>(RestClient(isar));
+  getIt.registerSingleton<GrpcClient>(await GrpcClient.createGrpcClient(isar));
+}
+
+Future<void> _initializeServices() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerSingleton<ConnectionChecker>(ConnectionChecker());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
@@ -76,26 +86,19 @@ Future<void> _initializeGeneral() async {
   );
 }
 
-Future<void> _initializeWeb() async {
-  getIt.registerSingleton<RESTClient>(RESTClient.webCache());
-  getIt.registerSingleton<CachedCampusClient>(
-    await CachedCampusClient.createWebCache(),
-  );
-}
-
-Future<void> _initializeMobile() async {
-  final directory = await getTemporaryDirectory();
-  Hive.init(directory.path);
-  Hive.registerAdapter<CacheResponse>(CacheResponseAdapter());
-  getIt.registerSingleton<List<AvailableMap>>(await MapLauncher.installedMaps);
-  getIt.registerSingleton<RESTClient>(RESTClient.mobileCache(directory));
-  getIt.registerSingleton<CachedCampusClient>(
-    await CachedCampusClient.createMobileCache(directory),
-  );
+Future<bool> _initializeHomeWidgets() async {
+  try {
+    HomeWidget.setAppGroupId("group.de.tum.tca-widget");
+    return await HomeWidget.initiallyLaunchedFromHomeWidget() != null;
+  } catch (_) {
+    return false;
+  }
 }
 
 class CampusApp extends ConsumerStatefulWidget {
-  const CampusApp({super.key});
+  const CampusApp({super.key, required this.launchedFromWidget});
+
+  final bool launchedFromWidget;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
@@ -107,18 +110,10 @@ class _CampusAppState extends ConsumerState<CampusApp>
 
   @override
   void initState() {
-    getIt.registerSingleton<RouterService>(
-      RouterService(ref),
-    );
-    quickActions = const QuickActions();
-    quickActions.initialize((shortcutType) {
-      final shortcutItemType = EnumParser.typeFromString(shortcutType);
-      if (getIt<RouterService>().isInitialized) {
-        ref.read(routerProvider).go(shortcutItemType.route);
-      } else {
-        getIt<RouterService>().alternativeRoute = shortcutItemType.route;
-      }
-    });
+    getIt.registerSingleton<RouterService>(RouterService(ref));
+    quickActionsCallback();
+    homeWidgetLaunchCallback();
+    homeWidgetCallback();
     super.initState();
   }
 
@@ -131,7 +126,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
       theme: lightTheme(context),
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
-      locale: ref.watch(customLocale) ?? _getDeviceLocale(),
+      locale: ref.watch(customLocale) ?? getDeviceLocale(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (locale, locales) {
@@ -145,19 +140,47 @@ class _CampusAppState extends ConsumerState<CampusApp>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void quickActionsCallback() {
+    quickActions = const QuickActions()
+      ..initialize((shortcutType) {
+        final shortcutItemType = EnumParser.typeFromString(shortcutType);
+        if (getIt<RouterService>().isInitialized) {
+          ref.read(routerProvider).go(shortcutItemType.route);
+        } else {
+          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+        }
+      });
+  }
 
-  Locale _getDeviceLocale() {
-    if (kIsWeb) {
-      return const Locale("en", "DE");
-    } else {
-      final deviceLocal = Platform.localeName;
-      if (deviceLocal.contains("de")) {
-        return const Locale("de", "DE");
-      } else {
-        return const Locale("en", "DE");
-      }
+  void homeWidgetLaunchCallback() {
+    if (widget.launchedFromWidget) {
+      getIt<RouterService>().alternativeRoute = calendar;
     }
   }
+
+  void homeWidgetCallback() {
+    HomeWidget.widgetClicked.listen((uri) async {
+      if (uri != null) {
+        if (uri.query.contains("calendar")) {
+          if (getIt<RouterService>().isInitialized) {
+            ref.read(routerProvider).go(calendar);
+          } else {
+            getIt<RouterService>().alternativeRoute = calendar;
+          }
+        }
+      }
+    });
+  }
+
+  Locale getDeviceLocale() {
+    final deviceLocal = Platform.localeName;
+    if (deviceLocal.contains("de")) {
+      return const Locale("de", "DE");
+    } else {
+      return const Locale("en", "DE");
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

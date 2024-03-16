@@ -10,7 +10,7 @@ class PersonDetailsService {
     bool forcedRefresh,
     String identNumber,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient.getWithException<PersonDetailsData,
         TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServicePersonDetails(identNumber: identNumber)),

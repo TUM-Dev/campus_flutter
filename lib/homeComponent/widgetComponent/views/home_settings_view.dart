@@ -54,7 +54,7 @@ class HomeSettingsView extends ConsumerWidget {
   }
 
   Widget _listTile(
-    HomeWidget homeWidget,
+    HomeScreenWidget homeWidget,
     int index,
     BuildContext context,
     WidgetRef ref,

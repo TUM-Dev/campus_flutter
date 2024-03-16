@@ -9,7 +9,7 @@ class DeparturesService {
     String station,
     int? walkingTime,
   ) async {
-    RESTClient restClient = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response = await restClient.get<MvvResponse, MvvDeparturesApi>(
       MvvDeparturesApi(station: station, walkingTime: walkingTime),
       MvvResponse.fromJson,

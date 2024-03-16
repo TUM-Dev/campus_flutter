@@ -1,0 +1,2 @@
+-keep class org.joda.** {*;}
+-dontwarn org.joda.**

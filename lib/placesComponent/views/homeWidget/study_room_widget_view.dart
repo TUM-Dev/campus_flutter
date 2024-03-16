@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
@@ -46,11 +46,11 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
 
 class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
-  void initState() {
+  void didChangeDependencies() {
     if (widget.closestStudyRoom) {
-      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false);
+      ref.read(studyRoomsViewModel).fetchWidgetStudyRooms(false, context);
     }
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override

@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v3
@@ -48,5 +48,5 @@ jobs:
       - name: Build Android
         run: flutter build apk
 
-      - name: Build Website
-        run: flutter build web --base-href /
+      #- name: Build Website
+      #  run: flutter build web --base-href /

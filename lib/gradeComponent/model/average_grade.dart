@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'average_grade.g.dart';

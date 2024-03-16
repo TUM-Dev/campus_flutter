@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:flutter/material.dart';

@@ -77,7 +77,7 @@ class Cafeteria extends Searchable {
     if (dateTime.isAtSameDay(today)) {
       return context.localizations.today;
     } else {
-      return DateFormat.EEEE().format(dateTime);
+      return DateFormat.EEEE(context.localizations.localeName).format(dateTime);
     }
   }
 

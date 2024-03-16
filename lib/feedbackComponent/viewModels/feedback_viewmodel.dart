@@ -63,8 +63,7 @@ class FeedbackViewModel {
     FeedbackService.sendFeedback(feedback).then(
       (value) => successfullySent.add(true),
       onError: (error) {
-        final errors = error as StateError;
-        log(errors.stackTrace.toString());
+        log(error.toString());
         successfullySent.addError(error);
       },
     );
