@@ -114,14 +114,11 @@ class NavigationService {
           onPressed: () => WidgetScreen.showHomeSheet(context),
           icon: const Icon(Icons.edit),
         ),
-      // TODO: (Jakob) re-enable digital student card
-      /*
       if (!kIsWeb && MediaQuery.sizeOf(context).width < 600)
         IconButton(
-          onPressed: () => _openStudentCardSheet(context),
+          onPressed: () => openStudentCardSheet(context),
           icon: const Icon(Icons.credit_card),
         ),
-       */
       IconButton(
         onPressed: () => context.push(menuSettings),
         icon: const Icon(Icons.menu),
@@ -158,10 +155,11 @@ class NavigationService {
         ),
       ];
 
-  void _openStudentCardSheet(BuildContext context) {
+  static void openStudentCardSheet(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
       useSafeArea: true,
+      useRootNavigator: true,
       showDragHandle: true,
       context: context,
       builder: (BuildContext context) {

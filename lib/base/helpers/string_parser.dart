@@ -56,6 +56,14 @@ class StringParser {
         return "B.Sc.";
       case "Master of Science":
         return "M.Sc.";
+      case "Bachelor of Arts":
+        return "B.A.";
+      case "Master of Arts":
+        return "M.A.";
+      case "Bachelor of Education":
+        return "B.Ed.";
+      case "Master of Education":
+        return "M.Ed.";
       default:
         return "";
     }
