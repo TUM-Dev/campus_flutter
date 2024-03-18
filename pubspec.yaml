@@ -12,7 +12,6 @@ dependencies:
 
   # networking
   dio: ^5.1.2
-  # dio_cache_interceptor: ^3.5.0
   isar:
     version: ^3.1.0+1
     hosted: https://isar-community.dev/
