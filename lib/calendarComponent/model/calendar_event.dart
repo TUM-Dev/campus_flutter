@@ -35,7 +35,10 @@ class CalendarEvent extends Searchable {
   }
 
   String _dateTimePeriod(BuildContext context) {
-    final start = DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName,).format(startDate);
+    final start = DateFormat(
+      "EE, dd.MM.yyyy, HH:mm",
+      context.localizations.localeName,
+    ).format(startDate);
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
   }

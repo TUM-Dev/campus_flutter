@@ -90,7 +90,7 @@ class StringParser {
   static String dateFormatter(DateTime dateTime, BuildContext context) {
     return DateFormat(
       DateFormat.YEAR_MONTH_DAY,
-        context.localizations.localeName,
+      context.localizations.localeName,
     ).format(dateTime);
   }
 

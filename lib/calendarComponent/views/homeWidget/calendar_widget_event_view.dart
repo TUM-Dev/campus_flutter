@@ -41,8 +41,10 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                 ? context.localizations.today
                 : startDate.isAtSameMomentAs(tomorrowDate)
                     ? context.localizations.tomorrow
-                    : DateFormat("EEEE, d. MMM", context.localizations.localeName,)
-                        .format(calendarEvent.startDate),
+                    : DateFormat(
+                        "EEEE, d. MMM",
+                        context.localizations.localeName,
+                      ).format(calendarEvent.startDate),
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
           Padding(
