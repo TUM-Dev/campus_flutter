@@ -13,10 +13,10 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String startTime = DateFormat(DateFormat.HOUR24_MINUTE, "de")
-        .format(calendarEvent.startDate);
-    final String endTime = DateFormat(DateFormat.HOUR24_MINUTE, "de")
-        .format(calendarEvent.endDate);
+    final String startTime =
+        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.startDate);
+    final String endTime =
+        DateFormat(DateFormat.HOUR24_MINUTE).format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(today.year, today.month, today.day)
@@ -27,7 +27,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
       calendarEvent.startDate.day,
     );
 
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         getIt<CalendarViewService>()
             .showDetails(null, calendarEvent, context, ref);
@@ -36,16 +36,13 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          //const Spacer(),
           Text(
             startDate.isAtSameMomentAs(todayDate)
                 ? context.localizations.today
                 : startDate.isAtSameMomentAs(tomorrowDate)
                     ? context.localizations.tomorrow
-                    : DateFormat(
-                        "EEEE, d. MMM",
-                        "de",
-                      ).format(calendarEvent.startDate),
+                    : DateFormat("EEEE, d. MMM", context.localizations.localeName,)
+                        .format(calendarEvent.startDate),
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
           Padding(
@@ -87,7 +84,6 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
               ),
             ),
           ),
-          //const Spacer()
         ],
       ),
     );
