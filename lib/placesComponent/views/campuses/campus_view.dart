@@ -85,7 +85,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
           child: WidgetFrameView(
             title: context.localizations.map,
             child: Expanded(
-              child: MapWidget.horizontalPadding(
+              child: MapWidget.fullPadding(
                 aspectRatioNeeded: false,
                 markers: ref
                     .read(placesViewModel)

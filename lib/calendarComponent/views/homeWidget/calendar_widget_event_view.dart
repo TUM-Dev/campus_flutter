@@ -1,7 +1,5 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
-import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
@@ -31,16 +29,8 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        if (MediaQuery.orientationOf(context) == Orientation.portrait) {
-          getIt<CalendarViewService>()
-              .showDetails(null, calendarEvent, context, ref);
-        } else {
-          ref.read(homeSplitViewModel).selectedWidget.add(
-                LectureDetailsView(
-                  event: calendarEvent,
-                ),
-              );
-        }
+        getIt<CalendarViewService>()
+            .showDetails(null, calendarEvent, context, ref);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

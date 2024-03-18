@@ -193,7 +193,7 @@ class StudyRoomGroupView extends ConsumerWidget {
   }
 
   Widget _landscapeMap(StudyRoomGroup? studyRoomGroup, BuildContext context) {
-    return MapWidget.horizontalPadding(
+    return MapWidget.fullPadding(
       markers: studyRoomGroup != null
           ? {
               Marker(

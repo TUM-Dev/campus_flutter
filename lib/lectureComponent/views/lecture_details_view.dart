@@ -14,6 +14,7 @@ import 'package:campus_flutter/lectureComponent/views/lecture_meeting_info_view.
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class LectureDetailsScaffold extends StatelessWidget {
   const LectureDetailsScaffold({
@@ -113,21 +114,32 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
         if (lastFetched != null) LastUpdatedText(lastFetched),
-        Expanded(
-          child: Scrollbar(
-            controller: widget.scrollController,
-            child: SingleChildScrollView(
-              controller: widget.scrollController,
-              child: SafeArea(
-                child: Column(
-                  children: _infoCards(lectureDetails),
-                ),
-              ),
+        Expanded(child: body(lectureDetails)),
+      ],
+    );
+  }
+
+  Widget body(LectureDetails lectureDetails) {
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      final infoCards = _infoCards(lectureDetails);
+      return MasonryGridView.count(
+        crossAxisCount: 2,
+        itemCount: infoCards.length,
+        itemBuilder: (context, index) => infoCards[index],
+      );
+    } else {
+      return Scrollbar(
+        controller: widget.scrollController,
+        child: SingleChildScrollView(
+          controller: widget.scrollController,
+          child: SafeArea(
+            child: Column(
+              children: _infoCards(lectureDetails),
             ),
           ),
         ),
-      ],
-    );
+      );
+    }
   }
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {
