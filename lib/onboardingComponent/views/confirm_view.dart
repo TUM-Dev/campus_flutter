@@ -96,90 +96,158 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         backgroundColor: backgroundColor,
         title: Text(context.localizations.checkToken),
       ),
-      body: Column(
-        children: [
-          Text(texts[currentText], textAlign: TextAlign.center),
-          const Spacer(),
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.5,
-            child: AspectRatio(
-              aspectRatio: 0.46,
-              child: VideoPlayer(_videoPlayerController),
-            ),
+      body: _body(),
+    );
+  }
+
+  Widget _body() {
+    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+      return _portraitBody();
+    } else {
+      return _landscapeBody();
+    }
+  }
+
+  Widget _portraitBody() {
+    return Column(
+      children: [
+        _hintText(),
+        const Spacer(),
+        SizedBox(
+          width: MediaQuery.sizeOf(context).width * 0.5,
+          child: AspectRatio(
+            aspectRatio: 0.46,
+            child: VideoPlayer(_videoPlayerController),
           ),
-          const Spacer(flex: 2),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        ),
+        const Spacer(flex: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _tumOnlineButton(),
+            _checkTokenButton(),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        _contactSupportButton(),
+        const Spacer(flex: 2),
+      ],
+    );
+  }
+
+  Widget _landscapeBody() {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () =>
-                    UrlLauncher.urlString("https://campus.tum.de", ref),
-                child: const IconText(
-                  iconData: Icons.language,
-                  label: "TUMOnline",
-                  style: TextStyle(color: Colors.white),
+              const Spacer(),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.25,
+                child: AspectRatio(
+                  aspectRatio: 0.46,
+                  child: VideoPlayer(_videoPlayerController),
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(onboardingViewModel).confirmLogin().then(
-                    (value) {
-                      if (value.confirmed) {
-                        context.push(permissionCheck);
-                      } else {
-                        throw TumOnlineApiException(
-                          tumOnlineApiExceptionType:
-                              TumOnlineApiExceptionTokenNotConfirmed(),
-                        );
-                      }
-                    },
-                    onError: (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          duration: const Duration(seconds: 10),
-                          content: ErrorHandlingRouter(
-                            error: error,
-                            errorHandlingViewType:
-                                ErrorHandlingViewType.textOnly,
-                            titleColor: Colors.white,
-                          ),
-                        ),
-                      );
-                    },
-                  ).catchError((error) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(seconds: 10),
-                        content: ErrorHandlingRouter(
-                          error: error,
-                          errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                          titleColor: Colors.white,
-                        ),
-                      ),
-                    );
-                  });
-                },
-                child: IconText(
-                  iconData: Icons.arrow_forward,
-                  label: context.localizations.checkToken,
-                  style: const TextStyle(color: Colors.white),
-                  leadingIcon: false,
-                ),
-              ),
+              const Spacer(),
             ],
           ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          Center(
-            child: MaterialButton(
-              onPressed: () => context.push(feedback),
-              child: Text(
-                context.localizations.contactSupport,
-                style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: context.padding),
+                child: _hintText(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: context.halfPadding),
+                child: _tumOnlineButton(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: context.halfPadding),
+                child: _checkTokenButton(),
+              ),
+              _contactSupportButton(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _hintText() {
+    return Text(texts[currentText], textAlign: TextAlign.center);
+  }
+
+  Widget _tumOnlineButton() {
+    return ElevatedButton(
+      onPressed: () => UrlLauncher.urlString("https://campus.tum.de", ref),
+      child: const IconText(
+        iconData: Icons.language,
+        label: "TUMOnline",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _checkTokenButton() {
+    return ElevatedButton(
+      onPressed: () {
+        ref.read(onboardingViewModel).confirmLogin().then(
+          (value) {
+            if (value.confirmed) {
+              context.push(permissionCheck);
+            } else {
+              throw TumOnlineApiException(
+                tumOnlineApiExceptionType:
+                    TumOnlineApiExceptionTokenNotConfirmed(),
+              );
+            }
+          },
+          onError: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(seconds: 10),
+                content: ErrorHandlingRouter(
+                  error: error,
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                  titleColor: Colors.white,
+                ),
+              ),
+            );
+          },
+        ).catchError((error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration: const Duration(seconds: 10),
+              content: ErrorHandlingRouter(
+                error: error,
+                errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                titleColor: Colors.white,
               ),
             ),
-          ),
-          const Spacer(flex: 2),
-        ],
+          );
+        });
+      },
+      child: IconText(
+        iconData: Icons.arrow_forward,
+        label: context.localizations.checkToken,
+        style: const TextStyle(color: Colors.white),
+        leadingIcon: false,
+      ),
+    );
+  }
+
+  Widget _contactSupportButton() {
+    return Center(
+      child: MaterialButton(
+        onPressed: () => context.push(feedback),
+        child: Text(
+          context.localizations.contactSupport,
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
       ),
     );
   }

@@ -78,7 +78,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      MapWidget.horizontalPadding(
+                      MapWidget.fullPadding(
                         markers:
                             ref.read(cafeteriasViewModel).mapMakers(context),
                       ),
