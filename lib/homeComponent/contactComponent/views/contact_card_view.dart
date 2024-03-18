@@ -6,14 +6,15 @@ import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
-  const ContactCardView({super.key});
+  const ContactCardView({super.key, required this.profile});
+
+  final Profile profile;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -38,7 +39,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
             onTap: () => NavigationService.openStudentCardSheet(context),
             child: contactInfo(
               snapshot.data,
-              ref.read(profileViewModel).profile.value!,
+              widget.profile,
             ),
           );
         } else {
