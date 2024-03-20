@@ -11,7 +11,7 @@ class Departure {
   @JsonKey(fromJson: StringParser.stringToInt)
   final int countdown;
   @JsonKey(fromJson: plannedDate)
-  final DateTime dateTime;
+  final DateTime? dateTime;
   @JsonKey(fromJson: realDate)
   final DateTime? realDateTime;
   final ServingLine servingLine;
