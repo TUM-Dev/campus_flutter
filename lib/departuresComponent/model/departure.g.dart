@@ -22,7 +22,7 @@ Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
 Map<String, dynamic> _$DepartureToJson(Departure instance) => <String, dynamic>{
       'stopID': instance.stopId,
       'countdown': instance.countdown,
-      'dateTime': instance.dateTime.toIso8601String(),
+      'dateTime': instance.dateTime?.toIso8601String(),
       'realDateTime': instance.realDateTime?.toIso8601String(),
       'servingLine': instance.servingLine,
       'lineInfos': instance.lineInfos,

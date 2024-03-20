@@ -111,16 +111,16 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     }
   }
 
-  Widget timeBuilder(BuildContext context, DateTime dateTime, Color? color) {
-    // TODO: walking distance
+  Widget timeBuilder(BuildContext context, DateTime? dateTime, Color? color) {
+    // TODO: walking distance?
     if (departure.countdown < 1) {
       return Text(
         context.localizations.now,
         style: TextStyle(color: color, fontWeight: FontWeight.w500),
       );
     } else {
-      final hour = NumberFormat("00").format(dateTime.hour);
-      final minute = NumberFormat("00").format(dateTime.minute);
+      final hour = NumberFormat("00").format(dateTime?.hour ?? 00);
+      final minute = NumberFormat("00").format(dateTime?.minute ?? 00);
       return Text(
         "$hour:$minute",
         style: TextStyle(color: color, fontWeight: FontWeight.w500),
