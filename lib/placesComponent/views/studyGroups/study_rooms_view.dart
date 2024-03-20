@@ -76,7 +76,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      MapWidget.horizontalPadding(
+                      MapWidget.fullPadding(
                         markers:
                             ref.read(studyRoomsViewModel).mapMakers(context),
                       ),

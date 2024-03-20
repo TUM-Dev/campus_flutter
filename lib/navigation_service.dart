@@ -151,19 +151,21 @@ class NavigationService {
       ];
 
   static void openStudentCardSheet(BuildContext context) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      useSafeArea: true,
-      useRootNavigator: true,
-      showDragHandle: true,
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: const StudentCardView(),
-        );
-      },
-    );
+    if (MediaQuery.sizeOf(context).width < 600) {
+      showModalBottomSheet(
+        isScrollControlled: true,
+        useSafeArea: true,
+        useRootNavigator: true,
+        showDragHandle: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: const StudentCardView(),
+          );
+        },
+      );
+    }
   }
 }

@@ -20,7 +20,7 @@ class UserPreferencesService {
     }
   }
 
-  void save(UserPreference userPreference, Object value) {
+  void save(UserPreference userPreference, Object? value) {
     if (userPreference.type == String && value is String) {
       sharedPreferences.setString(userPreference.name, value);
     } else if (userPreference.type == int && value is int) {
@@ -29,8 +29,8 @@ class UserPreferencesService {
       sharedPreferences.setBool(userPreference.name, value);
     } else if ((userPreference.type == List<String>) && value is List<String>) {
       sharedPreferences.setStringList(userPreference.name, value);
-    } else {
-      sharedPreferences.setString(userPreference.name, value.toString());
+    } else if (value == null) {
+      sharedPreferences.remove(userPreference.name);
     }
   }
 

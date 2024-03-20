@@ -17,10 +17,10 @@ struct CalendarWidgetContent: View {
     var updatedAt: Date
     
     init(entry: CalendarWidgetEntry) {
-        self.availableItems = entry.size == .systemLarge ? 5 : 2
         self.widgetFamily = entry.size
         self.updatedAt = entry.date
-        self.events = groupEntriesByDate(entries: Array(entry.entries.prefix(availableItems)))
+        self.availableItems = CalendarWidgetContent.getAvailableItems(widgetFamily: entry.size)
+        self.events = CalendarWidgetContent.groupEntriesByDate(entries: Array(entry.entries.prefix(availableItems)))
     }
     
     private var dateFormatter: DateFormatter {
@@ -68,7 +68,7 @@ struct CalendarWidgetContent: View {
         }
     }
     
-    func groupEntriesByDate(entries: [CalendarEntry]) -> [Date: [CalendarEntry]] {
+    static func groupEntriesByDate(entries: [CalendarEntry]) -> [Date: [CalendarEntry]] {
         var groupedEntries: [Date: [CalendarEntry]] = [:]
         
         for entry in entries {
@@ -84,5 +84,16 @@ struct CalendarWidgetContent: View {
             }
         }
         return groupedEntries
+    }
+    
+    static func getAvailableItems(widgetFamily: WidgetFamily) -> Int {
+        switch widgetFamily {
+        case .systemSmall, .systemMedium:
+            return 2
+        case .systemLarge, .systemExtraLarge:
+            return 5
+        default:
+            return 2
+        }
     }
 }
