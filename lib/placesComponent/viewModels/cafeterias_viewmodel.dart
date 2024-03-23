@@ -93,11 +93,19 @@ class CafeteriasViewModel {
         } else {
           LocationService.getLastKnown().then(
             (position) => _getClosestCafeteria(position, value.$2),
-            onError: (error) => widgetCafeteria.addError(error),
+            onError: (error) {
+              widgetCafeteria.addError(error);
+              fetchCafeteriaMenu(forcedRefresh, value.$2.first).then(
+                (menu) => widgetCafeteria.add(
+                  (value.$2.first, menu.firstOrNull),
+                ),
+                onError: (error) => widgetCafeteria.addError(error),
+              );
+            },
           );
         }
       },
-      onError: (error) => campusCafeterias.addError(error),
+      onError: (error) => widgetCafeteria.addError(error),
     );
   }
 
