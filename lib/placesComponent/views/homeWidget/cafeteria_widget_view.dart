@@ -109,7 +109,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
             child: Center(
               child: Text(
                 context.localizations.noEntriesFound(
-                  context.localizations.mealPlan,
+                  context.localizations.mealPlans,
                 ),
               ),
             ),
@@ -131,7 +131,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       return Card(
         child: SizedBox(
           height: 150,
-          child: DelayedLoadingIndicator(name: context.localizations.mealPlan),
+          child: DelayedLoadingIndicator(name: context.localizations.mealPlans),
         ),
       );
     }

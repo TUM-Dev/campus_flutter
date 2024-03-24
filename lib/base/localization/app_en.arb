@@ -198,7 +198,7 @@
          }
       }
    },
-   "mealPlan":"Meal Plan",
+   "mealPlans":"Meal Plans",
    "noEntriesFound":"No {category} Found!",
    "@noEntriesFound":{
       "description":"Category",

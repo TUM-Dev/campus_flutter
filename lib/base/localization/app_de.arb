@@ -198,7 +198,7 @@
          }
       }
    },
-   "mealPlan":"Essensplan",
+   "mealPlans":"Essenspläne",
    "noEntriesFound":"Keine {category} gefunden!",
    "@noEntriesFound":{
       "description":"Category",

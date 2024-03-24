@@ -610,7 +610,7 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: "99ce8f085c3a6e72cabdde7098f0922d6a84bec5"
+      resolved-ref: "2a78f5e5515ae61b937efd115bbbdcd948ecd613"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
     version: "2.5.1"
@@ -659,10 +659,10 @@ packages:
     dependency: "direct main"
     description:
       name: home_widget
-      sha256: c58a9e6d3b94490f1a8d5ddcbeeeeebc79abd0befe5889c26b0713fb09be6857
+      sha256: "29565bfee4b32eaf9e7e8b998d504618b779a74b2b1ac62dd4dac7468e66f1a3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.1"
+    version: "0.5.0"
   html:
     dependency: transitive
     description:
@@ -1705,10 +1705,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "69b906d726277fb1dbbbdde0bf5adc31b2190a6e"
+      resolved-ref: "0fd40aa5ea3af919cd3ec1c66f555c90429b03c3"
       url: "https://github.com/jakobkoerber/xml2json.git"
     source: git
-    version: "6.2.2"
+    version: "6.2.3"
   xxh3:
     dependency: transitive
     description:
