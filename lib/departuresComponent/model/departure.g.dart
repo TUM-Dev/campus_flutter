@@ -9,9 +9,10 @@ part of 'departure.dart';
 Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
       stopId: StringParser.stringToInt(json['stopID'] as String?),
       countdown: StringParser.stringToInt(json['countdown'] as String?),
-      dateTime: Departure.plannedDate(json['dateTime'] as Map<String, dynamic>),
-      realDateTime:
-          Departure.realDate(json['realDateTime'] as Map<String, dynamic>?),
+      dateTime:
+          Departure.departureDate(json['dateTime'] as Map<String, dynamic>?),
+      realDateTime: Departure.departureDate(
+          json['realDateTime'] as Map<String, dynamic>?),
       servingLine:
           ServingLine.fromJson(json['servingLine'] as Map<String, dynamic>),
       lineInfos: json['lineInfos'] == null

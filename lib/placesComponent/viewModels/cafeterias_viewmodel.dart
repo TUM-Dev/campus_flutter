@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/extensions/custom_exception.dart';
+import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';

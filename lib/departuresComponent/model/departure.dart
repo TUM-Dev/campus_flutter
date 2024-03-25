@@ -10,9 +10,9 @@ class Departure {
   final int stopId;
   @JsonKey(fromJson: StringParser.stringToInt)
   final int countdown;
-  @JsonKey(fromJson: plannedDate)
+  @JsonKey(fromJson: departureDate)
   final DateTime? dateTime;
-  @JsonKey(fromJson: realDate)
+  @JsonKey(fromJson: departureDate)
   final DateTime? realDateTime;
   final ServingLine servingLine;
   final LineInfosType? lineInfos;
@@ -20,7 +20,7 @@ class Departure {
   Departure({
     required this.stopId,
     required this.countdown,
-    required this.dateTime,
+    this.dateTime,
     this.realDateTime,
     required this.servingLine,
     this.lineInfos,
@@ -31,17 +31,7 @@ class Departure {
 
   Map<String, dynamic> toJson() => _$DepartureToJson(this);
 
-  static DateTime plannedDate(Map<String, dynamic> json) {
-    return DateTime(
-      int.parse(json["year"]),
-      int.parse(json["month"]),
-      int.parse(json["day"]),
-      int.parse(json["hour"]),
-      int.parse(json["minute"]),
-    );
-  }
-
-  static DateTime? realDate(Map<String, dynamic>? json) {
+  static DateTime? departureDate(Map<String, dynamic>? json) {
     if (json != null) {
       return DateTime(
         int.parse(json["year"]),

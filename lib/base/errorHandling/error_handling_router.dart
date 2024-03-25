@@ -7,7 +7,7 @@ import 'package:campus_flutter/base/errorHandling/grpc_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
-import 'package:campus_flutter/base/extensions/custom_exception.dart';
+import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
