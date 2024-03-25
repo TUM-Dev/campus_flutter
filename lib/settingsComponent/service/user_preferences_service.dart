@@ -7,31 +7,38 @@ class UserPreferencesService {
   UserPreferencesService(this.sharedPreferences);
 
   Object? load<T>(UserPreference userPreference) {
-    if (userPreference.type == String) {
-      return sharedPreferences.getString(userPreference.name);
-    } else if (userPreference.type == int) {
-      return sharedPreferences.getInt(userPreference.name);
-    } else if (userPreference.type == bool) {
-      return sharedPreferences.getBool(userPreference.name);
-    } else if (userPreference.type == List<String>) {
-      return sharedPreferences.getStringList(userPreference.name);
-    } else {
-      return sharedPreferences.get(userPreference.name);
+    try {
+      if (userPreference.type == String) {
+        return sharedPreferences.getString(userPreference.name);
+      } else if (userPreference.type == int) {
+        return sharedPreferences.getInt(userPreference.name);
+      } else if (userPreference.type == bool) {
+        return sharedPreferences.getBool(userPreference.name);
+      } else if (userPreference.type == List<String>) {
+        return sharedPreferences.getStringList(userPreference.name);
+      } else {
+        return sharedPreferences.get(userPreference.name);
+      }
+    } catch (_) {
+      return null;
     }
   }
 
   void save(UserPreference userPreference, Object? value) {
-    if (userPreference.type == String && value is String) {
-      sharedPreferences.setString(userPreference.name, value);
-    } else if (userPreference.type == int && value is int) {
-      sharedPreferences.setInt(userPreference.name, value);
-    } else if (userPreference.type == bool && value is bool) {
-      sharedPreferences.setBool(userPreference.name, value);
-    } else if ((userPreference.type == List<String>) && value is List<String>) {
-      sharedPreferences.setStringList(userPreference.name, value);
-    } else if (value == null) {
-      sharedPreferences.remove(userPreference.name);
-    }
+    try {
+      if (userPreference.type == String && value is String) {
+        sharedPreferences.setString(userPreference.name, value);
+      } else if (userPreference.type == int && value is int) {
+        sharedPreferences.setInt(userPreference.name, value);
+      } else if (userPreference.type == bool && value is bool) {
+        sharedPreferences.setBool(userPreference.name, value);
+      } else if ((userPreference.type == List<String>) &&
+          value is List<String>) {
+        sharedPreferences.setStringList(userPreference.name, value);
+      } else if (value == null) {
+        sharedPreferences.remove(userPreference.name);
+      }
+    } catch (_) {}
   }
 
   void reset(UserPreference userPreference) {
