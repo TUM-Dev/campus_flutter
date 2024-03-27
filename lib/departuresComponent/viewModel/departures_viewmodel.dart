@@ -123,7 +123,6 @@ class DeparturesViewModel {
 
   void fetchDepartures() {
     if (widgetCampus.value != null) {
-      // TODO: calculate walking distance - feasible in Flutter?
       fetch(true);
     }
   }
