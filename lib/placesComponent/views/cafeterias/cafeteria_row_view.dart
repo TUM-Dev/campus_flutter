@@ -1,8 +1,9 @@
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/base/routing/routes.dart' as routes;
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
-import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CafeteriaCardView extends StatelessWidget {
   const CafeteriaCardView({super.key, required this.cafeteria});
@@ -35,11 +36,7 @@ class CafeteriaRowView extends ConsumerWidget {
         Icons.arrow_forward_ios,
         size: 15,
       ),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => CafeteriaScaffold(cafeteria: cafeteria),
-        ),
-      ),
+      onTap: () => context.push(routes.cafeteria, extra: cafeteria),
     );
   }
 }

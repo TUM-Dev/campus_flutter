@@ -4,16 +4,16 @@ import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/model/search/navigatum_search_response.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 
 class NavigaTumService {
   static Future<NavigaTumSearchResponse> search(
     bool forcedRefresh,
     String query,
   ) async {
-    RESTClient mainApi = getIt();
+    RestClient restClient = getIt();
     final response =
-        await mainApi.makeRequest<NavigaTumSearchResponse, NavigaTumApi>(
+        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceSearch(query: query),
       ),
@@ -27,14 +27,14 @@ class NavigaTumService {
   static Future<NavigaTumNavigationDetails> details(
     bool forcedRefresh,
     String id,
-    Ref ref,
+    BuildContext context,
   ) async {
-    final response = await getIt<RESTClient>()
-        .makeRequest<NavigaTumNavigationDetails, NavigaTumApi>(
+    final response =
+        await getIt<RestClient>().get<NavigaTumNavigationDetails, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceDetails(
           id: id,
-          language: ref.read(locale).languageCode,
+          language: Localizations.localeOf(context).languageCode,
         ),
       ),
       NavigaTumNavigationDetails.fromJson,

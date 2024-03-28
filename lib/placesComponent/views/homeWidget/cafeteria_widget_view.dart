@@ -1,18 +1,17 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
-import 'package:campus_flutter/base/helpers/tapable.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
-import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/placesComponent/views/cafeterias/dish_slider_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CafeteriaWidgetView extends ConsumerStatefulWidget {
   const CafeteriaWidgetView({super.key});
@@ -25,72 +24,71 @@ class CafeteriaWidgetView extends ConsumerStatefulWidget {
 class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
   @override
   void initState() {
-    ref.read(cafeteriasViewModel).fetchClosestCafeteria(false);
+    ref.read(cafeteriasViewModel).fetchWidgetCafeteria(false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: ref.watch(cafeteriasViewModel).closestCafeteria,
+      stream: ref.watch(cafeteriasViewModel).widgetCafeteria,
       builder: (context, snapshot) {
         return WidgetFrameView(
           titleWidget: Row(
             children: [
               Expanded(
-                child: Tapable(
+                child: InkWell(
                   child: Text(
                     snapshot.data?.$1.name ?? context.localizations.cafeteria,
                     style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  action: () => snapshot.data != null
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CafeteriaScaffold(
-                              cafeteria: snapshot.data!.$1,
-                            ),
-                          ),
-                        )
+                  onTap: () => snapshot.data != null
+                      ? context.push(cafeteriaWidget, extra: snapshot.data!.$1)
                       : null,
                 ),
               ),
-              if (ref.read(cafeteriasViewModel).closestCafeterias.length > 1)
-                PopupMenuButton<String>(
-                  itemBuilder: (context) =>
-                      ref.read(cafeteriasViewModel).getMenuEntries(),
-                  onSelected: (selected) {
-                    ref.read(cafeteriasViewModel).setClosestCafeteria(selected);
-                  },
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: Theme.of(context).primaryColor,
-                  ),
+              InkWell(
+                child: Icon(
+                  Icons.filter_list,
+                  color: Theme.of(context).primaryColor,
                 ),
+                onTap: () => showModalBottomSheet(
+                  builder: (context) => PreferenceSelectionView<Cafeteria>(
+                    data: ref
+                        .read(cafeteriasViewModel)
+                        .getCafeteriaEntries(context),
+                    entry: context.localizations.cafeteria,
+                  ),
+                  context: context,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
+                ),
+              ),
             ],
           ),
-          subtitle: _openingHours(),
+          subtitle: _openingHours(snapshot.data),
           child: _dynamicContent(snapshot),
         );
       },
     );
   }
 
-  Widget? _openingHours() {
-    final openingHours = ref
-        .read(cafeteriasViewModel)
-        .closestCafeteria
-        .value
-        ?.$1
-        .openingHoursToday;
-    if (openingHours?.$2 != null) {
+  Widget? _openingHours((Cafeteria, CafeteriaMenu?)? value) {
+    if (value != null && value.$2 != null) {
+      final openingHours = value.$1.openingHoursForDate(value.$2!.date);
+      final dayString = value.$1.getDayString(value.$2!.date, context);
       return Padding(
         padding: EdgeInsets.only(left: context.padding),
         child: Text(
-          context.localizations
-              .openToday(openingHours!.$2!.start, openingHours.$2!.end),
+          context.localizations.open(
+            dayString,
+            openingHours.$2!.start,
+            openingHours.$2!.end,
+          ),
         ),
       );
     } else {
@@ -103,13 +101,17 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       final dishes =
           ref.watch(cafeteriasViewModel).getTodayDishes(snapshot.data!.$2);
       if (dishes.isNotEmpty) {
-        return DishSlider(dishes: dishes);
+        return DishSliderView(dishes: dishes);
       } else {
         return Card(
           child: SizedBox(
             height: 150,
             child: Center(
-              child: Text(context.localizations.noMealPlanFound),
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.mealPlans,
+                ),
+              ),
             ),
           ),
         );
@@ -121,7 +123,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           child: ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-            retry: ref.read(cafeteriasViewModel).fetchClosestCafeteria,
+            retry: ref.read(cafeteriasViewModel).fetchWidgetCafeteria,
           ),
         ),
       );
@@ -129,119 +131,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       return Card(
         child: SizedBox(
           height: 150,
-          child: DelayedLoadingIndicator(name: context.localizations.mealPlan),
+          child: DelayedLoadingIndicator(name: context.localizations.mealPlans),
         ),
       );
     }
-  }
-}
-
-class DishSlider extends StatelessWidget {
-  const DishSlider({super.key, required this.dishes, this.inverted = false});
-
-  final List<(Dish, String)> dishes;
-  final bool inverted;
-
-  @override
-  Widget build(BuildContext context) {
-    return HorizontalSlider<(Dish, String)>.height(
-      data: dishes,
-      height: 160,
-      leadingTrailingPadding: !inverted,
-      child: (dish) {
-        return DishCard(
-          dish: dish,
-          inverted: inverted,
-        );
-      },
-    );
-  }
-}
-
-class DishCard extends StatelessWidget {
-  const DishCard({super.key, required this.dish, required this.inverted});
-
-  final (Dish, String) dish;
-  final bool inverted;
-
-  @override
-  Widget build(BuildContext context) {
-    final String? price = CafeteriasViewModel.formatPrice(dish.$1, context);
-    return CardWithPadding(
-      color: inverted ? Theme.of(context).colorScheme.background : null,
-      height: 150,
-      margin: const EdgeInsets.symmetric(vertical: 5.0),
-      child: SizedBox(
-        width: 150,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    dish.$2,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () => _dishInfoAlert(dish.$1, price, context),
-                    icon: Icon(
-                      Icons.info_outline,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerRight,
-                    highlightColor: Colors.transparent,
-                  ),
-                ],
-              ),
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-            Expanded(
-              flex: 3,
-              child: Text(
-                dish.$1.name,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            if (price != null)
-              Expanded(
-                child: Text(
-                  price,
-                  maxLines: 1,
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _dishInfoAlert(Dish dish, String? price, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(dish.name),
-          actionsAlignment: MainAxisAlignment.center,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var label in dish.labels) ...[Text(label)],
-              if (price != null) Text(price),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Okay"),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
-import 'package:campus_flutter/base/helpers/horizontal_slider.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/base/util/horizontal_slider.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -19,20 +19,26 @@ class SearchCategoryPickerView extends ConsumerWidget {
           child: HorizontalSlider.height(
             data: _getData(snapshot.data ?? [], ref),
             height: 40,
-            child: (searchCategory) => FilterChip(
-              label: Text(
-                SearchCategoryExtension.localizedEnumTitle(
-                  searchCategory,
-                  context,
-                ),
-              ),
-              onSelected: (selected) {
-                ref.read(searchViewModel).updateCategory(searchCategory);
+            child: (searchCategory) => InkWell(
+              onLongPress: () {
+                ref.read(searchViewModel).selectSingleCategory(searchCategory);
                 ref.read(searchViewModel).triggerSearchAfterUpdate(null);
               },
-              selected: (snapshot.data ?? []).isNotEmpty
-                  ? snapshot.data?.contains(searchCategory) ?? false
-                  : true,
+              child: FilterChip(
+                label: Text(
+                  SearchCategoryExtension.localizedEnumTitle(
+                    searchCategory,
+                    context,
+                  ),
+                ),
+                onSelected: (selected) {
+                  ref.read(searchViewModel).updateCategory(searchCategory);
+                  ref.read(searchViewModel).triggerSearchAfterUpdate(null);
+                },
+                selected: (snapshot.data ?? []).isNotEmpty
+                    ? snapshot.data?.contains(searchCategory) ?? false
+                    : true,
+              ),
             ),
           ),
         );
@@ -42,7 +48,7 @@ class SearchCategoryPickerView extends ConsumerWidget {
 
   List<SearchCategory> _getData(List<SearchCategory> data, WidgetRef ref) {
     List<SearchCategory> searchCategories = [];
-    if (ref.read(loginViewModel).credentials.value == Credentials.tumId) {
+    if (ref.read(onboardingViewModel).credentials.value == Credentials.tumId) {
       searchCategories = SearchCategory.values.toList();
     } else {
       searchCategories = SearchCategoryExtension.unAuthorizedSearch();

@@ -35,7 +35,7 @@ class Lecture extends Searchable {
   @JsonKey(name: "org_name_betreut")
   final String organisation;
   @JsonKey(name: "org_kennung_betreut")
-  final String organisationTag;
+  final String? organisationTag;
   @JsonKey(name: "vortragende_mitwirkende")
   final String? speaker;
 
@@ -97,21 +97,8 @@ class Lecture extends Searchable {
 }
 
 @JsonSerializable()
-class LectureData {
-  @JsonKey(name: "rowset")
-  Lectures? lecturesAttribute;
-
-  LectureData({required this.lecturesAttribute});
-
-  factory LectureData.fromJson(Map<String, dynamic> json) =>
-      _$LectureDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LectureDataToJson(this);
-}
-
-@JsonSerializable()
 class Lectures {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Lecture> lectures;
 
   Lectures({required this.lectures});

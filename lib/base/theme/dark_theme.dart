@@ -33,8 +33,13 @@ ThemeData darkTheme(BuildContext context) {
     /// custom elevated button styling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.resolveWith((states) => primaryDarkColor),
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return darkGray;
+          } else {
+            return primaryDarkColor;
+          }
+        }),
         foregroundColor:
             MaterialStateProperty.resolveWith((states) => Colors.white),
         shape: MaterialStateProperty.resolveWith(
@@ -99,12 +104,12 @@ ThemeData darkTheme(BuildContext context) {
     navigationBarTheme: NavigationBarThemeData(
       labelTextStyle: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Theme.of(context).textTheme.labelMedium?.copyWith(
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: primaryDarkColor,
                 fontWeight: FontWeight.w500,
               );
         } else {
-          return Theme.of(context).textTheme.labelMedium?.copyWith(
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: navigationIconGrayDark,
                 fontWeight: FontWeight.w500,
               );
@@ -191,6 +196,12 @@ ThemeData darkTheme(BuildContext context) {
           ),
         ),
       ),
+    ),
+
+    /// style for dateTimePicker
+    datePickerTheme: const DatePickerThemeData(
+      surfaceTintColor: darkBackground,
+      backgroundColor: darkBackground,
     ),
   );
 }

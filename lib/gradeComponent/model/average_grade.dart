@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'average_grade.g.dart';
@@ -28,21 +28,8 @@ class AverageGrade {
 }
 
 @JsonSerializable()
-class AverageGradeResponse {
-  @JsonKey(name: "studien")
-  final AverageGrades? averageGradeData;
-
-  AverageGradeResponse({required this.averageGradeData});
-
-  factory AverageGradeResponse.fromJson(Map<String, dynamic> json) =>
-      _$AverageGradeResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AverageGradeResponseToJson(this);
-}
-
-@JsonSerializable()
 class AverageGrades {
-  @JsonKey(name: "studium")
+  @JsonKey(name: "studium", defaultValue: [])
   final List<AverageGrade> averageGrades;
 
   AverageGrades({required this.averageGrades});

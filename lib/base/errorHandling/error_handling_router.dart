@@ -3,18 +3,20 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/campus_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
+import 'package:campus_flutter/base/errorHandling/grpc_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
-import 'package:campus_flutter/base/extensions/custom_exception.dart';
+import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/loginComponent/viewModels/login_viewmodel.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grpc/grpc.dart';
 
 class ErrorHandlingRouter extends ConsumerWidget {
   const ErrorHandlingRouter({
@@ -22,13 +24,15 @@ class ErrorHandlingRouter extends ConsumerWidget {
     required this.error,
     required this.errorHandlingViewType,
     this.retry,
+    this.retryWithContext,
     this.titleColor,
     this.bodyColor,
   });
 
-  final Object error;
+  final Object? error;
   final ErrorHandlingViewType errorHandlingViewType;
   final Future<dynamic> Function(bool)? retry;
+  final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
   final Color? titleColor;
   final Color? bodyColor;
 
@@ -46,6 +50,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           dioException: dioException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -57,7 +62,8 @@ class ErrorHandlingRouter extends ConsumerWidget {
             tumOnlineApiException.tumOnlineApiExceptionType !=
                 TumOnlineApiExceptionTokenNotConfirmed();
         final isNotAuthorized =
-            ref.read(loginViewModel).credentials.value != Credentials.tumId;
+            ref.read(onboardingViewModel).credentials.value !=
+                Credentials.tumId;
         if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
           recordFlutterError(
             FlutterErrorDetails(
@@ -70,6 +76,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           tumOnlineApiException: tumOnlineApiException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -83,6 +90,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           searchException: searchException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -96,6 +104,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           campusException: campusException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -110,19 +119,32 @@ class ErrorHandlingRouter extends ConsumerWidget {
           typeError: typeError,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
+          titleColor: titleColor,
+          bodyColor: bodyColor,
+        );
+      case GrpcError grpcError:
+        return GrpcErrorRouter(
+          grpcError: grpcError,
+          errorHandlingViewType: errorHandlingViewType,
+          retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
       default:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: error,
-          ),
-        );
+        if (error != null) {
+          recordFlutterError(
+            FlutterErrorDetails(
+              exception: error!,
+            ),
+          );
+        }
         return DefaultErrorRouter(
           exception: error,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
+          retryWithContext: retryWithContext,
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
@@ -130,7 +152,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
   }
 
   void recordFlutterError(FlutterErrorDetails flutterErrorDetails) {
-    if (!kIsWeb && !kDebugMode) {
+    if (!kDebugMode) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(flutterErrorDetails);
     }
   }

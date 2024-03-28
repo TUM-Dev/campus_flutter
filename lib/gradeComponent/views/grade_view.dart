@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_rectangle.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +24,7 @@ class GradeRow extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child:
-                    _subtitle(grade.modusShort(context), Icons.edit, context),
+                child: _subtitle(grade.modeShort(context), Icons.edit, context),
               ),
               const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
               Expanded(

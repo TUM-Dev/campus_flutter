@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
@@ -19,7 +20,7 @@ class StudyRoomsScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(context.localizations.studyRooms),
       ),
       body: const StudyRoomsView(),
@@ -75,7 +76,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      MapWidget.horizontalPadding(
+                      MapWidget.fullPadding(
                         markers:
                             ref.read(studyRoomsViewModel).mapMakers(context),
                       ),

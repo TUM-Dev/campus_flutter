@@ -17,8 +17,17 @@ abstract class Api {
 
   bool get needsAuth;
 
-  Future<dio.Response<String>> asResponse({required dio.Dio dioClient}) async {
+  Future<dio.Response<String>> get({required dio.Dio dioClient}) async {
     return dioClient.getUri(
+      asURL(),
+      options: _customDecodingOptions(baseHeaders),
+    );
+  }
+
+  Future<dio.Response<String>> post({
+    required dio.Dio dioClient,
+  }) async {
+    return dioClient.postUri(
       asURL(),
       options: _customDecodingOptions(baseHeaders),
     );

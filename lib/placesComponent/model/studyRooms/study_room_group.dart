@@ -11,7 +11,7 @@ class StudyRoomGroup extends Searchable {
   final String? detail;
   @JsonKey(name: "nr")
   final int id;
-  final String? name;
+  final String name;
   @JsonKey(name: "sortierung")
   final int sorting;
   @JsonKey(name: "raeume")
@@ -60,14 +60,14 @@ class StudyRoomGroup extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: name ?? ""),
+        ComparisonToken(value: name),
         ComparisonToken(value: detail ?? ""),
       ];
 
   StudyRoomGroup({
     this.detail,
     required this.id,
-    this.name,
+    required this.name,
     required this.sorting,
     this.rooms,
   });

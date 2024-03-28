@@ -1,27 +1,28 @@
 import 'dart:io';
 
+import 'package:campus_flutter/base/enums/credentials.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
 import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
-import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
+import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
+import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationService {
   double? _navigationBarHeight;
   double? _leadingWidth;
 
   NavigationService() {
-    if (kIsWeb) {
-      _leadingWidth = 80;
-    } else {
-      if (Platform.isIOS) {
-        _navigationBarHeight = 49;
-      }
+    if (Platform.isIOS) {
+      _navigationBarHeight = 49;
     }
   }
 
@@ -74,28 +75,47 @@ class NavigationService {
     }
   }
 
-  Widget searchButton(BuildContext context) {
+  Widget? floatingActionButton(int index, WidgetRef ref, BuildContext context) {
+    switch (index) {
+      case 3:
+        if (ref.read(onboardingViewModel).credentials.value ==
+            Credentials.tumId) {
+          return FloatingActionButton(
+            onPressed: () => context.push(eventCreation),
+            child: const Icon(Icons.add),
+          );
+        } else {
+          return null;
+        }
+      default:
+        return null;
+    }
+  }
+
+  Widget searchButton(int currentIndex, WidgetRef ref, BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SearchScaffold(),
-        ),
-      ),
+      onPressed: () {
+        ref.read(searchViewModel).setSearchCategories(currentIndex);
+        context.push(search);
+      },
       icon: const Icon(Icons.search),
     );
   }
 
-  List<Widget> actions(BuildContext context) {
+  List<Widget> actions(int currentIndex, BuildContext context) {
     return [
+      if (currentIndex == 0)
+        IconButton(
+          onPressed: () => WidgetScreen.showHomeSheet(context),
+          icon: const Icon(Icons.edit),
+        ),
+      if (MediaQuery.sizeOf(context).width < 600)
+        IconButton(
+          onPressed: () => openStudentCardSheet(context),
+          icon: const Icon(Icons.credit_card),
+        ),
       IconButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const SettingsScaffold(),
-            ),
-          );
-        },
+        onPressed: () => context.push(menuSettings),
         icon: const Icon(Icons.menu),
       ),
     ];
@@ -129,4 +149,23 @@ class NavigationService {
           label: context.localizations.places,
         ),
       ];
+
+  static void openStudentCardSheet(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width < 600) {
+      showModalBottomSheet(
+        isScrollControlled: true,
+        useSafeArea: true,
+        useRootNavigator: true,
+        showDragHandle: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: const StudentCardView(),
+          );
+        },
+      );
+    }
+  }
 }

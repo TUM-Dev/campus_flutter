@@ -9,11 +9,11 @@ part 'grade.g.dart';
 @JsonSerializable()
 class Grade extends Searchable {
   String get id {
-    return "${date.toIso8601String()}-$lvNumber";
+    return "${date?.toIso8601String()}-$lvNumber";
   }
 
   @JsonKey(name: "datum")
-  final DateTime date;
+  final DateTime? date;
   @JsonKey(name: "lv_nummer")
   final String lvNumber;
   @JsonKey(name: "lv_semester")
@@ -27,16 +27,20 @@ class Grade extends Searchable {
   @JsonKey(name: "exam_typ_name")
   final String examType;
   @JsonKey(name: "modus")
-  final String modus;
+  final String mode;
   @JsonKey(name: "studienidentifikator")
   String studyID;
   @JsonKey(name: "studienbezeichnung")
   final String studyDesignation;
   @JsonKey(name: "st_studium_nr")
   final String studyNumber;
+  @JsonKey(name: "abschluss_name")
+  final String degree;
+  @JsonKey(name: "abschluss_name_kurz")
+  final String degreeShort;
 
-  String modusShort(BuildContext context) {
-    switch (modus) {
+  String modeShort(BuildContext context) {
+    switch (mode) {
       case "Schriftlich":
         return context.localizations.written;
       case "Beurteilt/immanenter Prüfungscharakter":
@@ -46,7 +50,7 @@ class Grade extends Searchable {
       case "Mündlich":
         return context.localizations.oral;
       default:
-        return modus;
+        return mode;
     }
   }
 
@@ -58,10 +62,12 @@ class Grade extends Searchable {
     required this.examiner,
     required this.grade,
     required this.examType,
-    required this.modus,
+    required this.mode,
     required this.studyID,
     required this.studyDesignation,
     required this.studyNumber,
+    required this.degree,
+    required this.degreeShort,
   });
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
@@ -75,28 +81,15 @@ class Grade extends Searchable {
         ComparisonToken(value: examiner),
         ComparisonToken(value: grade ?? "", type: ComparisonTokenType.raw),
         ComparisonToken(value: lvNumber),
-        ComparisonToken(value: modus),
+        ComparisonToken(value: mode),
         ComparisonToken(value: semester),
         ComparisonToken(value: studyDesignation),
       ];
 }
 
 @JsonSerializable()
-class GradeData {
-  @JsonKey(name: "rowset")
-  Grades? gradesAttribute;
-
-  GradeData({required this.gradesAttribute});
-
-  factory GradeData.fromJson(Map<String, dynamic> json) =>
-      _$GradeDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GradeDataToJson(this);
-}
-
-@JsonSerializable()
 class Grades {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Grade> personalGrades;
 
   Grades({required this.personalGrades});

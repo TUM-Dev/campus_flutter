@@ -43,29 +43,12 @@ class PersonDetails {
   final ContactInfo? privateContact;
   @JsonKey(name: "image_data")
   final String? imageData;
-  @JsonKey(name: "gruppen", readValue: readValue)
-  final List<Organisation>? organisations;
-  @JsonKey(name: "raeume", readValue: readValue)
-  final List<Room>? rooms;
-  @JsonKey(name: "telefon_nebenstellen", readValue: readValue)
-  final List<PhoneExtension>? phoneExtensions;
-
-  static Object? readValue(Map<dynamic, dynamic> json, String key) {
-    final data = json[key] as List<dynamic>?;
-    if (data != null) {
-      if ((data.first as Map<String, dynamic>).values.first is List<dynamic>) {
-        return (data.first as Map<String, dynamic>).values.first
-            as List<dynamic>;
-      } else {
-        return data.map((e) {
-          final singleData = e as Map<String, dynamic>;
-          return singleData[singleData.keys.first];
-        }).toList();
-      }
-    } else {
-      return null;
-    }
-  }
+  @JsonKey(name: "gruppe", defaultValue: [])
+  final List<Organisation> organisations;
+  @JsonKey(name: "raum", defaultValue: [])
+  final List<Room> rooms;
+  @JsonKey(name: "nebenstelle", defaultValue: [])
+  final List<PhoneExtension> phoneExtensions;
 
   PersonDetails({
     required this.nr,
@@ -79,9 +62,9 @@ class PersonDetails {
     this.officialContact,
     this.privateContact,
     this.imageData,
-    this.organisations,
-    this.rooms,
-    this.phoneExtensions,
+    required this.organisations,
+    required this.rooms,
+    required this.phoneExtensions,
   });
 
   String get fullName {

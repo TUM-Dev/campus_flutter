@@ -69,18 +69,6 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/ListDishes',
       ($0.ListDishesRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ListDishesReply.fromBuffer(value));
-  static final _$listResponsiblePerson = $grpc.ClientMethod<$0.ListResponsiblePersonRequest, $0.ListResponsiblePersonReply>(
-      '/api.Campus/ListResponsiblePerson',
-      ($0.ListResponsiblePersonRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListResponsiblePersonReply.fromBuffer(value));
-  static final _$listMoreInformation = $grpc.ClientMethod<$0.ListMoreInformationRequest, $0.ListMoreInformationReply>(
-      '/api.Campus/ListMoreInformation',
-      ($0.ListMoreInformationRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListMoreInformationReply.fromBuffer(value));
-  static final _$listOpeningTimes = $grpc.ClientMethod<$0.ListOpeningTimesRequest, $0.ListOpeningTimesReply>(
-      '/api.Campus/ListOpeningTimes',
-      ($0.ListOpeningTimesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListOpeningTimesReply.fromBuffer(value));
   static final _$getUpdateNote = $grpc.ClientMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
       '/api.Campus/GetUpdateNote',
       ($0.GetUpdateNoteRequest value) => value.writeToBuffer(),
@@ -113,10 +101,6 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/GetCanteenHeadCount',
       ($0.GetCanteenHeadCountRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetCanteenHeadCountReply.fromBuffer(value));
-  static final _$iOSDeviceRequestResponse = $grpc.ClientMethod<$0.IOSDeviceRequestResponseRequest, $0.IOSDeviceRequestResponseReply>(
-      '/api.Campus/IOSDeviceRequestResponse',
-      ($0.IOSDeviceRequestResponseRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseReply.fromBuffer(value));
   static final _$createDevice = $grpc.ClientMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
       '/api.Campus/CreateDevice',
       ($0.CreateDeviceRequest value) => value.writeToBuffer(),
@@ -180,18 +164,6 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$listDishes, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.ListResponsiblePersonReply> listResponsiblePerson($0.ListResponsiblePersonRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$listResponsiblePerson, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.ListMoreInformationReply> listMoreInformation($0.ListMoreInformationRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$listMoreInformation, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.ListOpeningTimesReply> listOpeningTimes($0.ListOpeningTimesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$listOpeningTimes, request, options: options);
-  }
-
   $grpc.ResponseFuture<$0.GetUpdateNoteReply> getUpdateNote($0.GetUpdateNoteRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getUpdateNote, request, options: options);
   }
@@ -222,10 +194,6 @@ class CampusClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetCanteenHeadCountReply> getCanteenHeadCount($0.GetCanteenHeadCountRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getCanteenHeadCount, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse($0.IOSDeviceRequestResponseRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$iOSDeviceRequestResponse, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.CreateDeviceReply> createDevice($0.CreateDeviceRequest request, {$grpc.CallOptions? options}) {
@@ -326,27 +294,6 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ListDishesRequest.fromBuffer(value),
         ($0.ListDishesReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListResponsiblePersonRequest, $0.ListResponsiblePersonReply>(
-        'ListResponsiblePerson',
-        listResponsiblePerson_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.ListResponsiblePersonRequest.fromBuffer(value),
-        ($0.ListResponsiblePersonReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListMoreInformationRequest, $0.ListMoreInformationReply>(
-        'ListMoreInformation',
-        listMoreInformation_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.ListMoreInformationRequest.fromBuffer(value),
-        ($0.ListMoreInformationReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListOpeningTimesRequest, $0.ListOpeningTimesReply>(
-        'ListOpeningTimes',
-        listOpeningTimes_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.ListOpeningTimesRequest.fromBuffer(value),
-        ($0.ListOpeningTimesReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
         'GetUpdateNote',
         getUpdateNote_Pre,
@@ -403,13 +350,6 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetCanteenHeadCountRequest.fromBuffer(value),
         ($0.GetCanteenHeadCountReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.IOSDeviceRequestResponseRequest, $0.IOSDeviceRequestResponseReply>(
-        'IOSDeviceRequestResponse',
-        iOSDeviceRequestResponse_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.IOSDeviceRequestResponseRequest.fromBuffer(value),
-        ($0.IOSDeviceRequestResponseReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
         'CreateDevice',
         createDevice_Pre,
@@ -474,18 +414,6 @@ abstract class CampusServiceBase extends $grpc.Service {
     return listDishes(call, await request);
   }
 
-  $async.Future<$0.ListResponsiblePersonReply> listResponsiblePerson_Pre($grpc.ServiceCall call, $async.Future<$0.ListResponsiblePersonRequest> request) async {
-    return listResponsiblePerson(call, await request);
-  }
-
-  $async.Future<$0.ListMoreInformationReply> listMoreInformation_Pre($grpc.ServiceCall call, $async.Future<$0.ListMoreInformationRequest> request) async {
-    return listMoreInformation(call, await request);
-  }
-
-  $async.Future<$0.ListOpeningTimesReply> listOpeningTimes_Pre($grpc.ServiceCall call, $async.Future<$0.ListOpeningTimesRequest> request) async {
-    return listOpeningTimes(call, await request);
-  }
-
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote_Pre($grpc.ServiceCall call, $async.Future<$0.GetUpdateNoteRequest> request) async {
     return getUpdateNote(call, await request);
   }
@@ -514,10 +442,6 @@ abstract class CampusServiceBase extends $grpc.Service {
     return getCanteenHeadCount(call, await request);
   }
 
-  $async.Future<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse_Pre($grpc.ServiceCall call, $async.Future<$0.IOSDeviceRequestResponseRequest> request) async {
-    return iOSDeviceRequestResponse(call, await request);
-  }
-
   $async.Future<$0.CreateDeviceReply> createDevice_Pre($grpc.ServiceCall call, $async.Future<$0.CreateDeviceRequest> request) async {
     return createDevice(call, await request);
   }
@@ -538,9 +462,6 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.ListAvailableCanteenTagsReply> listAvailableCanteenTags($grpc.ServiceCall call, $0.ListAvailableCanteenTagsRequest request);
   $async.Future<$0.ListCanteensReply> listCanteens($grpc.ServiceCall call, $0.ListCanteensRequest request);
   $async.Future<$0.ListDishesReply> listDishes($grpc.ServiceCall call, $0.ListDishesRequest request);
-  $async.Future<$0.ListResponsiblePersonReply> listResponsiblePerson($grpc.ServiceCall call, $0.ListResponsiblePersonRequest request);
-  $async.Future<$0.ListMoreInformationReply> listMoreInformation($grpc.ServiceCall call, $0.ListMoreInformationRequest request);
-  $async.Future<$0.ListOpeningTimesReply> listOpeningTimes($grpc.ServiceCall call, $0.ListOpeningTimesRequest request);
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote($grpc.ServiceCall call, $0.GetUpdateNoteRequest request);
   $async.Future<$0.ListMoviesReply> listMovies($grpc.ServiceCall call, $0.ListMoviesRequest request);
   $async.Future<$0.CreateFeedbackReply> createFeedback($grpc.ServiceCall call, $async.Stream<$0.CreateFeedbackRequest> request);
@@ -549,7 +470,6 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.GetNotificationConfirmReply> getNotificationConfirm($grpc.ServiceCall call, $0.GetNotificationConfirmRequest request);
   $async.Future<$0.GetMemberReply> getMember($grpc.ServiceCall call, $0.GetMemberRequest request);
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount($grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
-  $async.Future<$0.IOSDeviceRequestResponseReply> iOSDeviceRequestResponse($grpc.ServiceCall call, $0.IOSDeviceRequestResponseRequest request);
   $async.Future<$0.CreateDeviceReply> createDevice($grpc.ServiceCall call, $0.CreateDeviceRequest request);
   $async.Future<$0.DeleteDeviceReply> deleteDevice($grpc.ServiceCall call, $0.DeleteDeviceRequest request);
 }

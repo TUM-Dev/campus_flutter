@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Widget hinzufügen</string>
+    <string name="app_widget_description">Das ist eine Widget Beschreibung</string>
+    <string name="calendar_widget">Calendar Widget TUM</string>
+    <string name="calendar_widget_select_lectures">Vorlesungen auswählen</string>
+    <string name="calendar_widget_no_lectures">Keine Vorlesungen geplannt :)</string>
+    <string name="calendar_widget_old_data">Dieses Widget wurde zuletzt vor über 2 Wochen aktualisiert. Öffne die Applikation, um die Daten zu aktualisieren</string>
+    <string name="IN">in</string>
+    <string name="MINUTES">Minuten</string>
+    <string name="just_now">Jetzt</string>
+    <string name="yesterday">Gestern</string>
+</resources>

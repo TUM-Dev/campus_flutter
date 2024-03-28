@@ -1,16 +1,17 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
-import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
-import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PersonRoomSearchScaffold extends ConsumerWidget {
   const PersonRoomSearchScaffold({
@@ -26,9 +27,9 @@ class PersonRoomSearchScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: CustomBackButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             if (isRoomSearch) {
               ref.read(navigaTumSearchViewModel).searchResults.add([]);
             } else {
@@ -177,26 +178,17 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                NavigaTumRoomScaffold(id: navigaTumEntity.id),
-                          ),
-                        ),
+                        onTap: () =>
+                            context.push(navigaTum, extra: navigaTumEntity.id),
                       );
                     } else {
                       final person = searchable as Person;
                       return ListTile(
                         title: Text(person.fullNameWithTitle),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PersonDetailsScaffold(
-                              obfuscatedId: person.obfuscatedID,
-                            ),
-                          ),
+                        onTap: () => context.push(
+                          personDetails,
+                          extra: person.obfuscatedID,
                         ),
                       );
                     }

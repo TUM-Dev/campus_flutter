@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class CampusMapScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(campus.name),
         titleSpacing: 0,
       ),

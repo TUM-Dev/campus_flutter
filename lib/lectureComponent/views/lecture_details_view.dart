@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
@@ -13,6 +14,32 @@ import 'package:campus_flutter/lectureComponent/views/lecture_meeting_info_view.
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+class LectureDetailsScaffold extends StatelessWidget {
+  const LectureDetailsScaffold({
+    super.key,
+    this.scrollController,
+    this.event,
+    this.lecture,
+  });
+
+  final CalendarEvent? event;
+  final Lecture? lecture;
+  final ScrollController? scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(leading: const CustomBackButton()),
+      body: LectureDetailsView(
+        event: event,
+        lecture: lecture,
+        scrollController: scrollController,
+      ),
+    );
+  }
+}
 
 class LectureDetailsView extends ConsumerStatefulWidget {
   const LectureDetailsView({
@@ -87,21 +114,32 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 3.0)),
         if (lastFetched != null) LastUpdatedText(lastFetched),
-        Expanded(
-          child: Scrollbar(
-            controller: widget.scrollController,
-            child: SingleChildScrollView(
-              controller: widget.scrollController,
-              child: SafeArea(
-                child: Column(
-                  children: _infoCards(lectureDetails),
-                ),
-              ),
+        Expanded(child: body(lectureDetails)),
+      ],
+    );
+  }
+
+  Widget body(LectureDetails lectureDetails) {
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      final infoCards = _infoCards(lectureDetails);
+      return MasonryGridView.count(
+        crossAxisCount: 2,
+        itemCount: infoCards.length,
+        itemBuilder: (context, index) => infoCards[index],
+      );
+    } else {
+      return Scrollbar(
+        controller: widget.scrollController,
+        child: SingleChildScrollView(
+          controller: widget.scrollController,
+          child: SafeArea(
+            child: Column(
+              children: _infoCards(lectureDetails),
             ),
           ),
         ),
-      ],
-    );
+      );
+    }
   }
 
   List<Widget> _infoCards(LectureDetails lectureDetails) {

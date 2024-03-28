@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/departures_preference.dart';
 import 'package:campus_flutter/departuresComponent/model/mvv_response.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/services/departures_service.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +23,24 @@ import 'package:flutter/material.dart';
 final departureViewModel = Provider((ref) => DeparturesViewModel());
 
 class DeparturesViewModel {
-  final BehaviorSubject<List<Departure>?> departures =
-      BehaviorSubject.seeded(null);
+  final BehaviorSubject<List<Departure>?> departures = BehaviorSubject.seeded(
+    null,
+  );
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
-  final BehaviorSubject<Campus?> closestCampus = BehaviorSubject.seeded(null);
+  final BehaviorSubject<Campus?> widgetCampus = BehaviorSubject.seeded(null);
   final BehaviorSubject<int?> walkingDistance = BehaviorSubject.seeded(null);
   final BehaviorSubject<Station?> selectedStation =
       BehaviorSubject.seeded(null);
 
   Timer? timer;
+
+  setWidgetCampus(Campus campus) {
+    widgetCampus.add(campus);
+    timer?.cancel();
+    assignSelectedStation();
+    getIt<UserPreferencesService>()
+        .save(UserPreference.departure, campus.index);
+  }
 
   setSelectedStation(Station? station) {
     selectedStation.add(station);
@@ -37,45 +50,56 @@ class DeparturesViewModel {
   }
 
   DeparturesViewModel() {
-    calculateClosestCampus();
+    findWidgetCampus(false);
   }
 
-  void calculateClosestCampus() async {
-    try {
-      final location = await LocationService.getLastKnown();
+  void findWidgetCampus(bool fetchClosest) async {
+    final preferenceId = getIt<UserPreferencesService>().load(
+      UserPreference.departure,
+    );
 
-      if (location != null) {
-        final closestCampus = Campus.values.reduce((currentCampus, nextCampus) {
-          final currentDistance = Geolocator.distanceBetween(
-            currentCampus.location.latitude,
-            currentCampus.location.longitude,
-            location.latitude,
-            location.longitude,
-          );
+    if (preferenceId != null && !fetchClosest) {
+      widgetCampus.add(Campus.values[preferenceId as int]);
+      assignSelectedStation();
+    } else {
+      LocationService.getLastKnown().then(
+        (location) {
+          if (location != null) {
+            final closestCampus =
+                Campus.values.reduce((currentCampus, nextCampus) {
+              final currentDistance = Geolocator.distanceBetween(
+                currentCampus.location.latitude,
+                currentCampus.location.longitude,
+                location.latitude,
+                location.longitude,
+              );
 
-          final nextDistance = Geolocator.distanceBetween(
-            nextCampus.location.latitude,
-            nextCampus.location.longitude,
-            location.latitude,
-            location.longitude,
-          );
+              final nextDistance = Geolocator.distanceBetween(
+                nextCampus.location.latitude,
+                nextCampus.location.longitude,
+                location.latitude,
+                location.longitude,
+              );
 
-          return currentDistance < nextDistance ? currentCampus : nextCampus;
-        });
+              return currentDistance < nextDistance
+                  ? currentCampus
+                  : nextCampus;
+            });
 
-        this.closestCampus.add(closestCampus);
-        assignSelectedStation();
-      } else {
-        return;
-      }
-    } catch (e) {
-      log("Departures - $e");
-      return;
+            widgetCampus.add(closestCampus);
+            assignSelectedStation();
+          }
+        },
+        onError: (error) {
+          widgetCampus.add(Campus.garching);
+          assignSelectedStation();
+        },
+      );
     }
   }
 
   Future<void> assignSelectedStation() async {
-    if (closestCampus.value != null) {
+    if (widgetCampus.value != null) {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final data = sharedPreferences.get("departuresPreferences") as String?;
@@ -83,29 +107,28 @@ class DeparturesViewModel {
         final decoded = jsonDecode(data);
         try {
           final preferences = DeparturesPreference.fromJson(decoded);
-          final station = preferences.preferences[closestCampus.value];
+          final station = preferences.preferences[widgetCampus.value];
           if (station != null) {
             setSelectedStation(station);
             return;
           }
         } catch (error) {
-          setSelectedStation(closestCampus.value?.defaultStation);
+          setSelectedStation(widgetCampus.value?.defaultStation);
         }
       }
     }
 
-    setSelectedStation(closestCampus.value?.defaultStation);
+    setSelectedStation(widgetCampus.value?.defaultStation);
   }
 
   void fetchDepartures() {
-    if (closestCampus.value != null) {
-      // TODO: calculate walking distance - feasible in Flutter?
+    if (widgetCampus.value != null) {
       fetch(true);
     }
   }
 
   Future fetch(bool forcedRefresh) async {
-    if (closestCampus.value != null) {
+    if (widgetCampus.value != null) {
       if (selectedStation.value != null) {
         DeparturesService.fetchDepartures(
           true,
@@ -118,7 +141,7 @@ class DeparturesViewModel {
       } else {
         DeparturesService.fetchDepartures(
           true,
-          closestCampus.value!.defaultStation.apiName,
+          widgetCampus.value!.defaultStation.apiName,
           walkingDistance.value,
         ).then(
           (response) => sortDepartures(response),
@@ -134,12 +157,16 @@ class DeparturesViewModel {
     response.data.departures.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
         return departure1.realDateTime!.compareTo(departure2.realDateTime!);
-      } else if (departure1.realDateTime != null) {
-        return departure1.realDateTime!.compareTo(departure2.dateTime);
-      } else if (departure2.realDateTime != null) {
-        return departure1.dateTime.compareTo(departure2.realDateTime!);
+      } else if (departure1.realDateTime != null &&
+          departure2.dateTime != null) {
+        return departure1.realDateTime!.compareTo(departure2.dateTime!);
+      } else if (departure2.realDateTime != null &&
+          departure2.dateTime != null) {
+        return departure1.dateTime!.compareTo(departure2.realDateTime!);
+      } else if (departure1.dateTime != null && departure2.dateTime != null) {
+        return departure1.dateTime!.compareTo(departure2.dateTime!);
       } else {
-        return departure1.dateTime.compareTo(departure2.dateTime);
+        return 0;
       }
     });
 
@@ -165,27 +192,26 @@ class DeparturesViewModel {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
-    if (selectedStation.value != null && closestCampus.value != null) {
+    if (selectedStation.value != null && widgetCampus.value != null) {
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
         final decodedData = jsonDecode(data);
         try {
           DeparturesPreference preferences =
               DeparturesPreference.fromJson(decodedData);
-          preferences.preferences[closestCampus.value!] =
-              selectedStation.value!;
+          preferences.preferences[widgetCampus.value!] = selectedStation.value!;
           final json = jsonEncode(preferences.toJson());
           sharedPreferences.setString("departuresPreferences", json);
         } catch (_) {
           final DeparturesPreference preferences = DeparturesPreference(
-            preferences: {closestCampus.value!: selectedStation.value!},
+            preferences: {widgetCampus.value!: selectedStation.value!},
           );
           final json = jsonEncode(preferences.toJson());
           sharedPreferences.setString("departuresPreferences", json);
         }
       } else {
         final DeparturesPreference preferences = DeparturesPreference(
-          preferences: {closestCampus.value!: selectedStation.value!},
+          preferences: {widgetCampus.value!: selectedStation.value!},
         );
         final json = jsonEncode(preferences.toJson());
         sharedPreferences.setString("departuresPreferences", json);
@@ -193,9 +219,9 @@ class DeparturesViewModel {
     }
   }
 
-  List<PopupMenuEntry<Station>> getMenuEntries() {
-    if (closestCampus.value != null) {
-      return closestCampus.value!.allStations
+  List<PopupMenuEntry<Station>> getStationEntries() {
+    if (widgetCampus.value != null) {
+      return widgetCampus.value!.allStations
           .map(
             (e) => PopupMenuItem(
               value: e,
@@ -212,5 +238,42 @@ class DeparturesViewModel {
     } else {
       return [];
     }
+  }
+
+  List<ListTile> getCampusEntries(BuildContext context) {
+    return Campus.values.map((e) {
+      final isSelected = widgetCampus.value == e &&
+          getIt<UserPreferencesService>().load(
+                UserPreference.departure,
+              ) !=
+              null;
+      return ListTile(
+        dense: true,
+        title: Text(e.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetCampus(e);
+          context.pop();
+        },
+      );
+    }).toList()
+      ..insert(
+        0,
+        ListTile(
+          dense: true,
+          title: Text(context.localizations.closest),
+          trailing: getIt<UserPreferencesService>().load(
+                    UserPreference.departure,
+                  ) ==
+                  null
+              ? const Icon(Icons.check)
+              : null,
+          onTap: () {
+            getIt<UserPreferencesService>().reset(UserPreference.departure);
+            findWidgetCampus(true);
+            context.pop();
+          },
+        ),
+      );
   }
 }

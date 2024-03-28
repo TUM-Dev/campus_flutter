@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/link_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/tuition_view.dart';
@@ -31,12 +31,14 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
           children: [
             ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: MediaQuery.sizeOf(context).height * 0.15,
+                minHeight: MediaQuery.sizeOf(context).height * 0.175,
               ),
               child: CardWithPadding(
                 child: Center(
                   child: snapshot.hasData
-                      ? const ContactCardView()
+                      ? ContactCardView(
+                          profile: snapshot.data!,
+                        )
                       : snapshot.hasError
                           ? const UnauthorizedView()
                           : Container(),

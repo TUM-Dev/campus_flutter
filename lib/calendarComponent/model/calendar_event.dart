@@ -34,13 +34,29 @@ class CalendarEvent extends Searchable {
     return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
   }
 
-  String timeDatePeriod(BuildContext context) {
-    final start =
-        DateFormat("EE, dd.MM.yyyy, HH:mm", context.localizations.localeName)
-            .format(startDate);
-    final end =
-        DateFormat("HH:mm", context.localizations.localeName).format(endDate);
+  String _dateTimePeriod(BuildContext context) {
+    final start = DateFormat(
+      "EE, dd.MM.yyyy, HH:mm",
+      context.localizations.localeName,
+    ).format(startDate);
+    final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
+  }
+
+  String timePeriodText(BuildContext context) {
+    if (startDate.day == endDate.day) {
+      return _dateTimePeriod(context);
+    } else {
+      final start = DateFormat(
+        null,
+        "de",
+      ).format(startDate);
+      final end = DateFormat(
+        null,
+        "de",
+      ).format(endDate);
+      return "$start ${context.localizations.to.toLowerCase()}\n$end";
+    }
   }
 
   bool get isCanceled {
@@ -99,22 +115,11 @@ class CalendarEvent extends Searchable {
 }
 
 @JsonSerializable()
-class CalendarEventsData {
-  final CalendarEvents? events;
-
-  CalendarEventsData({required this.events});
-
-  factory CalendarEventsData.fromJson(Map<String, dynamic> json) =>
-      _$CalendarEventsDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CalendarEventsDataToJson(this);
-}
-
-@JsonSerializable()
 class CalendarEvents {
-  final List<CalendarEvent> event;
+  @JsonKey(name: "event", defaultValue: [])
+  final List<CalendarEvent> events;
 
-  CalendarEvents({required this.event});
+  CalendarEvents({required this.events});
 
   factory CalendarEvents.fromJson(Map<String, dynamic> json) =>
       _$CalendarEventsFromJson(json);

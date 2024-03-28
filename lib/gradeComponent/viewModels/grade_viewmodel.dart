@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
@@ -100,16 +100,16 @@ class GradeViewModel {
             studyProgramGrades.value?.values.first.first.studyID;
         final studyId = e.values.first.first.studyID;
         final studyDesignation = e.values.first.first.studyDesignation;
-        final degree = StringParser.degreeShortFromID(studyId, context);
+        final degreeShort = e.values.first.first.degreeShort;
         return PopupMenuItem(
           value: studyId,
           child: selectedStudyId == studyId
               ? IconText(
                   iconData: Icons.check,
-                  label: "$studyDesignation ($degree)",
+                  label: "$studyDesignation ($degreeShort)",
                   leadingIcon: false,
                 )
-              : Text("$studyDesignation ($degree)"),
+              : Text("$studyDesignation ($degreeShort)"),
         );
       }).toList();
     } else {

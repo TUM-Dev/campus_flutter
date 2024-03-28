@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(leading: const BackButton()),
+      appBar: AppBar(leading: const CustomBackButton()),
       body: studyRoomGroup != null
           ? StudyRoomGroupView(studyRoomGroup, isSplitView)
           : StudyRoomGroupView(null, isSplitView),

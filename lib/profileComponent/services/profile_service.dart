@@ -8,16 +8,16 @@ import 'package:campus_flutter/profileComponent/model/tuition.dart';
 
 class ProfileService {
   static Future<(DateTime?, Profile)> fetchProfile(bool forcedRefresh) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<ProfileData,
-        TumOnlineApi, TumOnlineApiException>(
+    RestClient restClient = getIt<RestClient>();
+    final response = await restClient
+        .getWithException<Profiles, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceIdentify()),
-      ProfileData.fromJson,
+      Profiles.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
     );
 
-    return (response.saved, response.data.profilesAttribute.profile);
+    return (response.saved, response.data.profile);
   }
 
   static Future<(DateTime?, Tuition?)> fetchTuition(
@@ -25,15 +25,15 @@ class ProfileService {
     String personGroup,
     String id,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<TuitionData,
-        TumOnlineApi, TumOnlineApiException>(
+    RestClient restClient = getIt<RestClient>();
+    final response = await restClient
+        .getWithException<Tuitions, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceTuitionStatus()),
-      TuitionData.fromJson,
+      Tuitions.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
     );
 
-    return (response.saved, response.data.profilesAttribute.tuition);
+    return (response.saved, response.data.tuition);
   }
 }

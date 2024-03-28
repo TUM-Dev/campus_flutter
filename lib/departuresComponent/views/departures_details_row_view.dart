@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/helpers/url_launcher.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +14,6 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     return Row(
       children: [
         _lineNumberRectangle(context, ref),
-        if (departure.lineInfos != null) _warningButton(context, ref),
         Expanded(
           child: Text(
             departure.servingLine.direction,
@@ -53,38 +51,6 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     );
   }
 
-  Widget _warningButton(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: () async {
-        if (departure.lineInfos != null) {
-          if (departure.lineInfos?.element != null) {
-            final link = departure
-                    .lineInfos?.element?.lineInfo.additionalLinks?[0].linkURL ??
-                "";
-            UrlLauncher.urlString(link, ref);
-          } else if (departure.lineInfos?.array != null) {
-            final link =
-                departure.lineInfos?.array?[0].additionalLinks?[0].linkURL ??
-                    "";
-            UrlLauncher.urlString(link, ref);
-          }
-        }
-      },
-      child: Row(
-        children: [
-          const Icon(
-            Icons.warning_outlined,
-            color: Color(0xffFFCC01),
-            size: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.halfPadding),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget get _delayText {
     if (departure.servingLine.delay != null) {
       final delay = departure.servingLine.delay!;
@@ -111,16 +77,15 @@ class DeparturesDetailsRowView extends ConsumerWidget {
     }
   }
 
-  Widget timeBuilder(BuildContext context, DateTime dateTime, Color? color) {
-    // TODO: walking distance
+  Widget timeBuilder(BuildContext context, DateTime? dateTime, Color? color) {
     if (departure.countdown < 1) {
       return Text(
         context.localizations.now,
         style: TextStyle(color: color, fontWeight: FontWeight.w500),
       );
     } else {
-      final hour = NumberFormat("00").format(dateTime.hour);
-      final minute = NumberFormat("00").format(dateTime.minute);
+      final hour = NumberFormat("00").format(dateTime?.hour ?? 00);
+      final minute = NumberFormat("00").format(dateTime?.minute ?? 00);
       return Text(
         "$hour:$minute",
         style: TextStyle(color: color, fontWeight: FontWeight.w500),

@@ -1,0 +1,15 @@
+<resources>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+
+    <color name="color_primary">@color/tum_500</color>
+    <color name="color_primary_dark">@color/tum_700</color>
+
+    <color name="tum_500">#0065BD</color>
+    <color name="tum_700">#004C8E</color>
+
+    <color name="text_primary">#030303</color>
+    <color name="text_dark_gray">#a5a5a5</color>
+</resources>

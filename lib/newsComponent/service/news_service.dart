@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/google/protobuf/timestamp.pb.dart';
-import 'package:campus_flutter/base/networking/apis/tumdev/cached_client.dart';
+import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/main.dart';
 
@@ -8,8 +8,8 @@ class NewsService {
     bool forcedRefresh,
   ) async {
     final start = DateTime.now();
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    final news = await mainApi.listNews(
+    GrpcClient restClient = getIt<GrpcClient>();
+    final news = await restClient.listNews(
       ListNewsRequest(
         oldestDateAt: Timestamp.fromDateTime(
           DateTime(start.year, start.month, start.day)
@@ -22,8 +22,8 @@ class NewsService {
 
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     final start = DateTime.now();
-    CachedCampusClient mainApi = getIt<CachedCampusClient>();
-    final news = await mainApi.listNews(ListNewsRequest());
+    GrpcClient restClient = getIt<GrpcClient>();
+    final news = await restClient.listNews(ListNewsRequest());
     return (start, news.news);
   }
 }

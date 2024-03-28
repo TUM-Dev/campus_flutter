@@ -20,7 +20,7 @@ Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
       semesterID: json['semester_id'] as String,
       organisationNumber: json['org_nr_betreut'] as String,
       organisation: json['org_name_betreut'] as String,
-      organisationTag: json['org_kennung_betreut'] as String,
+      organisationTag: json['org_kennung_betreut'] as String?,
       speaker: json['vortragende_mitwirkende'] as String?,
     );
 
@@ -42,21 +42,11 @@ Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{
       'vortragende_mitwirkende': instance.speaker,
     };
 
-LectureData _$LectureDataFromJson(Map<String, dynamic> json) => LectureData(
-      lecturesAttribute: json['rowset'] == null
-          ? null
-          : Lectures.fromJson(json['rowset'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$LectureDataToJson(LectureData instance) =>
-    <String, dynamic>{
-      'rowset': instance.lecturesAttribute,
-    };
-
 Lectures _$LecturesFromJson(Map<String, dynamic> json) => Lectures(
-      lectures: (json['row'] as List<dynamic>)
-          .map((e) => Lecture.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      lectures: (json['row'] as List<dynamic>?)
+              ?.map((e) => Lecture.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$LecturesToJson(Lectures instance) => <String, dynamic>{

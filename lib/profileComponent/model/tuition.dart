@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tuition.g.dart';
@@ -25,19 +25,6 @@ class Tuition {
       _$TuitionFromJson(json);
 
   Map<String, dynamic> toJson() => _$TuitionToJson(this);
-}
-
-@JsonSerializable()
-class TuitionData {
-  @JsonKey(name: "rowset")
-  Tuitions profilesAttribute;
-
-  TuitionData({required this.profilesAttribute});
-
-  factory TuitionData.fromJson(Map<String, dynamic> json) =>
-      _$TuitionDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TuitionDataToJson(this);
 }
 
 @JsonSerializable()

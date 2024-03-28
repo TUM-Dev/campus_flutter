@@ -1,59 +1,37 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/enums/home_widget.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
-import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/recommender_viewmodel.dart';
-import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
-import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
-import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
-import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/home_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/home_settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WidgetScreen extends ConsumerStatefulWidget {
+class WidgetScreen extends ConsumerWidget {
   const WidgetScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WidgetScreenState();
-}
-
-class _WidgetScreenState extends ConsumerState<WidgetScreen> {
-  @override
-  initState() {
-    ref.read(recommenderViewModel).getRecommendations();
-    super.initState();
+  static void showHomeSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.6,
+        child: const HomeSettingsView(),
+      ),
+      showDragHandle: true,
+      isScrollControlled: true,
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-      stream: ref.watch(recommenderViewModel).recommendations,
+      stream: ref.watch(homeViewModel).widgets,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(
             children: [
-              for (var recommendation in snapshot.data!.entries)
-                Builder(
-                  builder: (context) {
-                    switch (recommendation.key) {
-                      case HomeWidget.cafeteria:
-                        return const CafeteriaWidgetView();
-                      case HomeWidget.calendar:
-                        return const CalendarHomeWidgetView();
-                      case HomeWidget.departures:
-                        return const DeparturesHomeWidget();
-                      case HomeWidget.studyRoom:
-                        return const StudyRoomWidgetView.closest();
-                      case HomeWidget.movies:
-                        return const MoviesHomeWidget();
-                      default:
-                        return const SizedBox.shrink();
-                    }
-                  },
-                ),
-              const NewsWidgetView(),
+              for (var widget in snapshot.data ?? <HomeScreenWidget>[])
+                if (widget.enabled) HomeViewModel.getWidget(widget.widgetType),
             ],
           );
         } else if (snapshot.hasError) {

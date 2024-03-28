@@ -1,8 +1,11 @@
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
+import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarViewService {
@@ -31,7 +34,7 @@ class CalendarViewService {
     }
   }
 
-  showModalSheet(
+  showDetails(
     CalendarTapDetails? details,
     CalendarEvent? event,
     BuildContext context,
@@ -48,24 +51,7 @@ class CalendarViewService {
     }
 
     if (calendarEvent != null && calendarEvent.url != null) {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        useSafeArea: true,
-        showDragHandle: true,
-        context: context,
-        builder: (context) {
-          return DraggableScrollableSheet(
-            initialChildSize: 1,
-            minChildSize: 1,
-            builder: (context, scrollController) {
-              return LectureDetailsView(
-                event: calendarEvent,
-                scrollController: scrollController,
-              );
-            },
-          );
-        },
-      );
+      context.push(calendarDetails, extra: calendarEvent);
     } else if (calendarEvent != null) {
       showDialog(
         context: context,
@@ -73,15 +59,30 @@ class CalendarViewService {
           title: Text(
             calendarEvent!.title,
             textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
-          content: Text(
-            calendarEvent.timeDatePeriod(context),
-          ),
+          content: CustomEventView(calendarEvent: calendarEvent),
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Okay"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              ),
+              onPressed: () {
+                ref
+                    .read(calendarViewModel)
+                    .deleteCalendarElement(calendarEvent!.id)
+                    .then((value) => context.pop());
+              },
+              child: Text(context.localizations.delete),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.pop();
+                context.push(eventCreation, extra: calendarEvent);
+              },
+              child: Text(context.localizations.edit),
             ),
           ],
         ),

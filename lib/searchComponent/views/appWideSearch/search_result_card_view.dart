@@ -2,8 +2,8 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
@@ -40,7 +40,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFoundSearch(
+                      context.localizations.noEntriesFound(
                         SearchCategoryExtension.localizedEnumTitle(
                           searchCategory,
                           context,
@@ -112,6 +112,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
+      // TODO: figure out for multiple attributes
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(

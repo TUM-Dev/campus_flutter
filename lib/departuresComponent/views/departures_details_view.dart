@@ -1,9 +1,10 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/card_with_padding.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/directions_launcher.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/last_updated_text.dart';
+import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/directions_launcher.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
@@ -28,7 +29,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
             : Colors.white;
         return Scaffold(
           appBar: AppBar(
-            leading: isSplitView ? null : const BackButton(),
+            leading: isSplitView ? null : const CustomBackButton(),
             backgroundColor: isSplitView ? null : backgroundColor,
             title: Text(
               ref.watch(departureViewModel).selectedStation.value?.name ??
@@ -44,7 +45,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                 },
                 icon: const Icon(Icons.tram),
                 itemBuilder: (context) =>
-                    ref.read(departureViewModel).getMenuEntries(),
+                    ref.read(departureViewModel).getStationEntries(),
               ),
             ],
           ),
@@ -110,10 +111,10 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                       ref.read(departureViewModel).selectedStation.value;
                   if (selectedStation != null &&
                       selectedStation.location != null) {
-                    launchDirections(
-                      selectedStation.location!,
+                    showDirectionsDialog(
                       selectedStation.name,
-                      ref,
+                      selectedStation.location!,
+                      context,
                     );
                   }
                 },

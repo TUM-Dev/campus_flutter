@@ -9,9 +9,9 @@ class NavigaTumSearchService {
     String query,
     bool forcedRefresh,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
+    RestClient restClient = getIt<RestClient>();
     final response =
-        await mainApi.makeRequest<NavigaTumSearchResponse, NavigaTumApi>(
+        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
       NavigaTumApi(
         navigaTumApiService: NavigaTumApiServiceSearch(query: query),
       ),

@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/helpers/hyperlink_text.dart';
+import 'package:campus_flutter/base/util/hyperlink_text.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
-import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ContactView extends ConsumerWidget {
   const ContactView({super.key});
@@ -19,12 +19,11 @@ class ContactView extends ConsumerWidget {
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
-            if (!kIsWeb)
-              HyperLinkListTile(
-                dense: true,
-                link: _betaTester(),
-                label: context.localizations.becomeABetaTester,
-              ),
+            HyperLinkListTile(
+              dense: true,
+              link: _betaTester(),
+              label: context.localizations.becomeABetaTester,
+            ),
             HyperLinkListTile(
               dense: true,
               link: "https://github.com/TUM-Dev",
@@ -33,7 +32,7 @@ class ContactView extends ConsumerWidget {
             const HyperLinkListTile(
               dense: true,
               link: "https://app.tum.de",
-              label: "TUM Dev Website",
+              label: "TUM-Dev Website",
             ),
             HyperLinkListTile(
               dense: true,
@@ -63,12 +62,7 @@ class ContactView extends ConsumerWidget {
         "Feedback",
         style: Theme.of(context).textTheme.bodyMedium,
       ),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const FeedbackFormScaffold(),
-        ),
-      ),
+      onTap: () => context.push(feedback),
     );
   }
 

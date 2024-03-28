@@ -53,21 +53,8 @@ class Person extends Searchable {
 }
 
 @JsonSerializable()
-class PersonData {
-  @JsonKey(name: "rowset")
-  Persons? personAttribute;
-
-  PersonData({required this.personAttribute});
-
-  factory PersonData.fromJson(Map<String, dynamic> json) =>
-      _$PersonDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PersonDataToJson(this);
-}
-
-@JsonSerializable()
 class Persons {
-  @JsonKey(name: "row")
+  @JsonKey(name: "row", defaultValue: [])
   final List<Person> persons;
 
   Persons({required this.persons});

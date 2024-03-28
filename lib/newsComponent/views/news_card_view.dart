@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:campus_flutter/base/helpers/fullscreen_image_view.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class NewsCardView extends ConsumerWidget {
   const NewsCardView({super.key, required this.news, required this.width});
@@ -20,14 +21,7 @@ class NewsCardView extends ConsumerWidget {
     return InkWell(
       onTap: () {
         if (imageUrl.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ImageFullScreenScaffold.network(
-                url: imageUrl,
-              ),
-            ),
-          );
+          context.push(networkImage, extra: (imageUrl, null));
         }
       },
       child: AspectRatio(

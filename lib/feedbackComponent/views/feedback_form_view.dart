@@ -1,12 +1,14 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FeedbackFormScaffold extends ConsumerWidget {
   const FeedbackFormScaffold({super.key});
@@ -15,9 +17,9 @@ class FeedbackFormScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: CustomBackButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
             ref.read(feedbackViewModel).clearForm();
           },
         ),
@@ -110,7 +112,7 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        vertical: context.halfPadding,
+                        vertical: context.halfPadding / 2,
                       ),
                     ),
                     ErrorHandlingRouter(

@@ -3,42 +3,41 @@ import 'package:campus_flutter/navigation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-final currentIndex = StateProvider<int>((ref) => 0);
+class Navigation extends ConsumerWidget {
+  const Navigation({
+    Key? key,
+    required this.navigationShell,
+  }) : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
 
-class Navigation extends StatefulWidget {
-  const Navigation({super.key});
+  final StatefulNavigationShell navigationShell;
 
-  @override
-  State<Navigation> createState() => _NavigationState();
-}
-
-class _NavigationState extends State<Navigation> {
-  late PageController _pageController;
-
-  @override
-  void initState() {
-    _pageController = PageController();
-    super.initState();
+  void _goBranch(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Consumer(
-          builder: (context, ref, child) => getIt<NavigationService>()
-              .title(ref.watch(currentIndex), context),
+        title: getIt<NavigationService>().title(
+          navigationShell.currentIndex,
+          context,
         ),
-        leading: getIt<NavigationService>().searchButton(context),
-        actions: getIt<NavigationService>().actions(context),
+        leading: getIt<NavigationService>().searchButton(
+          navigationShell.currentIndex,
+          ref,
+          context,
+        ),
+        actions: getIt<NavigationService>().actions(
+          navigationShell.currentIndex,
+          context,
+        ),
       ),
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
@@ -52,27 +51,19 @@ class _NavigationState extends State<Navigation> {
             ),
           ),
         ),
-        child: Consumer(
-          builder: (context, ref, child) {
-            return NavigationBar(
-              height: getIt<NavigationService>().navigationBarHeight,
-              selectedIndex: ref.watch(currentIndex),
-              onDestinationSelected: (index) {
-                if (index != ref.read(currentIndex)) {
-                  _pageController.jumpToPage(index);
-                  ref.read(currentIndex.notifier).state = index;
-                }
-              },
-              destinations: getIt<NavigationService>().bottomNavItems(context),
-            );
-          },
+        child: NavigationBar(
+          height: getIt<NavigationService>().navigationBarHeight,
+          selectedIndex: navigationShell.currentIndex,
+          onDestinationSelected: _goBranch,
+          destinations: getIt<NavigationService>().bottomNavItems(context),
         ),
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: getIt<NavigationService>().getContent,
+      floatingActionButton: getIt<NavigationService>().floatingActionButton(
+        navigationShell.currentIndex,
+        ref,
+        context,
       ),
+      body: navigationShell,
     );
   }
 }

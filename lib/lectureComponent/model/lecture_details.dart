@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/helpers/string_parser.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:flutter/widgets.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -114,19 +114,6 @@ class LectureDetails {
       _$LectureDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LectureDetailsToJson(this);
-}
-
-@JsonSerializable()
-class LectureDetailsData {
-  @JsonKey(name: "rowset")
-  LectureDetailsElement lectureDetailsAttribute;
-
-  LectureDetailsData({required this.lectureDetailsAttribute});
-
-  factory LectureDetailsData.fromJson(Map<String, dynamic> json) =>
-      _$LectureDetailsDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LectureDetailsDataToJson(this);
 }
 
 @JsonSerializable()

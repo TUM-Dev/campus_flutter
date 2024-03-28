@@ -1,4 +1,5 @@
-import 'package:campus_flutter/base/helpers/icon_text.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
@@ -23,7 +24,7 @@ class CalendarSearchResultView extends ConsumerWidget {
           children: [
             IconText(
               iconData: Icons.hourglass_top,
-              label: calendarEvent.timeDatePeriod(context),
+              label: calendarEvent.timePeriodText(context),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
@@ -39,12 +40,13 @@ class CalendarSearchResultView extends ConsumerWidget {
             ),
           ],
         ),
+        // TODO:
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => Scaffold(
                 appBar: AppBar(
-                  leading: const BackButton(),
+                  leading: const CustomBackButton(),
                 ),
                 body: SafeArea(
                   child: LectureDetailsView(

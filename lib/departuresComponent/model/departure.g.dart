@@ -9,23 +9,20 @@ part of 'departure.dart';
 Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
       stopId: StringParser.stringToInt(json['stopID'] as String?),
       countdown: StringParser.stringToInt(json['countdown'] as String?),
-      dateTime: Departure.plannedDate(json['dateTime'] as Map<String, dynamic>),
-      realDateTime:
-          Departure.realDate(json['realDateTime'] as Map<String, dynamic>?),
+      dateTime:
+          Departure.departureDate(json['dateTime'] as Map<String, dynamic>?),
+      realDateTime: Departure.departureDate(
+          json['realDateTime'] as Map<String, dynamic>?),
       servingLine:
           ServingLine.fromJson(json['servingLine'] as Map<String, dynamic>),
-      lineInfos: json['lineInfos'] == null
-          ? null
-          : LineInfosType.fromJson(json['lineInfos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DepartureToJson(Departure instance) => <String, dynamic>{
       'stopID': instance.stopId,
       'countdown': instance.countdown,
-      'dateTime': instance.dateTime.toIso8601String(),
+      'dateTime': instance.dateTime?.toIso8601String(),
       'realDateTime': instance.realDateTime?.toIso8601String(),
       'servingLine': instance.servingLine,
-      'lineInfos': instance.lineInfos,
     };
 
 DepartureDateTime _$DepartureDateTimeFromJson(Map<String, dynamic> json) =>
@@ -67,61 +64,4 @@ Map<String, dynamic> _$ServingLineToJson(ServingLine instance) =>
       'direction': instance.direction,
       'name': instance.name,
       'delay': instance.delay,
-    };
-
-LineInfoElement _$LineInfoElementFromJson(Map<String, dynamic> json) =>
-    LineInfoElement(
-      lineInfo:
-          LineInfoContent.fromJson(json['lineInfo'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$LineInfoElementToJson(LineInfoElement instance) =>
-    <String, dynamic>{
-      'lineInfo': instance.lineInfo,
-    };
-
-LineInfoContent _$LineInfoContentFromJson(Map<String, dynamic> json) =>
-    LineInfoContent(
-      infoLinkText: json['infoLinkText'] as String?,
-      infoText: json['infoText'] == null
-          ? null
-          : InfoText.fromJson(json['infoText'] as Map<String, dynamic>),
-      additionalLinks: (json['additionalLinks'] as List<dynamic>?)
-          ?.map((e) => AdditionalLink.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$LineInfoContentToJson(LineInfoContent instance) =>
-    <String, dynamic>{
-      'infoLinkText': instance.infoLinkText,
-      'infoText': instance.infoText,
-      'additionalLinks': instance.additionalLinks,
-    };
-
-AdditionalLink _$AdditionalLinkFromJson(Map<String, dynamic> json) =>
-    AdditionalLink(
-      id: json['ID'] as String,
-      linkURL: json['linkURL'] as String,
-      linkText: json['linkText'] as String,
-      linkTextShort: json['linkTextShort'] as String,
-      linkTarget: json['linkTarget'] as String,
-    );
-
-Map<String, dynamic> _$AdditionalLinkToJson(AdditionalLink instance) =>
-    <String, dynamic>{
-      'ID': instance.id,
-      'linkURL': instance.linkURL,
-      'linkText': instance.linkText,
-      'linkTextShort': instance.linkTextShort,
-      'linkTarget': instance.linkTarget,
-    };
-
-InfoText _$InfoTextFromJson(Map<String, dynamic> json) => InfoText(
-      content: json['content'] as String,
-      subtitle: json['subtitle'] as String,
-    );
-
-Map<String, dynamic> _$InfoTextToJson(InfoText instance) => <String, dynamic>{
-      'content': instance.content,
-      'subtitle': instance.subtitle,
     };

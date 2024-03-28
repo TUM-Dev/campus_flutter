@@ -1,10 +1,10 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/last_updated_text.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
-import 'package:campus_flutter/base/helpers/semester_calculator.dart';
-import 'package:campus_flutter/base/helpers/string_parser.dart';
-import 'package:campus_flutter/base/views/generic_stream_builder.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/last_updated_text.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
+import 'package:campus_flutter/base/util/semester_calculator.dart';
+import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
@@ -12,7 +12,6 @@ import 'package:campus_flutter/gradeComponent/views/chart_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class GradesView extends ConsumerStatefulWidget {
   const GradesView({super.key});
@@ -35,31 +34,40 @@ class _GradesViewState extends ConsumerState<GradesView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GenericStreamBuilder<Map<String, List<Grade>>>(
+    return StreamBuilder(
       stream: ref.watch(gradeVM).studyProgramGrades,
-      dataBuilder: (context, data) {
-        if (data.isEmpty) {
-          return Center(child: Text(context.localizations.noGradesFound));
-        } else {
-          final lastFetched = ref.read(gradeViewModel).lastFetched.value;
-          return OrientationBuilder(
-            builder: (context, constraints) {
-              if (constraints == Orientation.portrait) {
-                return _oneColumnView(data, lastFetched);
-              } else {
-                return _twoColumnView(data, lastFetched);
-              }
-            },
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.grades,
+                ),
+              ),
+            );
+          } else {
+            final lastFetched = ref.read(gradeViewModel).lastFetched.value;
+            return OrientationBuilder(
+              builder: (context, constraints) {
+                if (constraints == Orientation.portrait) {
+                  return _oneColumnView(snapshot.data!, lastFetched);
+                } else {
+                  return _twoColumnView(snapshot.data!, lastFetched);
+                }
+              },
+            );
+          }
+        } else if (snapshot.hasError) {
+          return ErrorHandlingRouter(
+            error: snapshot.error!,
+            errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+            retry: ref.read(gradeViewModel).fetch,
           );
+        } else {
+          return DelayedLoadingIndicator(name: context.localizations.grades);
         }
       },
-      errorBuilder: (context, error) => ErrorHandlingRouter(
-        error: error,
-        errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-        retry: ref.read(gradeViewModel).fetch,
-      ),
-      loadingBuilder: (context) =>
-          DelayedLoadingIndicator(name: context.localizations.grades),
     );
   }
 
@@ -93,9 +101,11 @@ class _GradesViewState extends ConsumerState<GradesView>
               Expanded(
                 flex: 2,
                 child: ChartView(
-                  studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
                   title: data.values.first.firstOrNull?.studyDesignation ??
                       "Unknown",
+                  studyId: data.values.first.firstOrNull?.studyID ?? "Unknown",
+                  degreeShort:
+                      data.values.first.firstOrNull?.degreeShort ?? "Unknown",
                 ),
               ),
               Expanded(
@@ -138,8 +148,10 @@ class DegreeView extends StatelessWidget {
     return Column(
       children: [
         ChartView(
-          studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
           title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown",
+          studyId: degree.values.first.firstOrNull?.studyID ?? "Unknown",
+          degreeShort:
+              degree.values.first.firstOrNull?.degreeShort ?? "Unknown",
         ),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],

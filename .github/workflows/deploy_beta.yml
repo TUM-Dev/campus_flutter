@@ -1,13 +1,13 @@
 name: Deploy Beta to TestFlight and Play Store
 
 on:
+  workflow_dispatch:
   release:
     types: [ published ]
 
 jobs:
   deploy:
-    if: "github.event.release.prerelease"
-    runs-on: macos-latest
+    runs-on: macos-13
 
     strategy:
       matrix:
@@ -40,6 +40,10 @@ jobs:
           flutter pub get
 
       - if: matrix.platform == 'ios'
+        name: Install latest CocoaPods Version
+        run: sudo gem install cocoapods
+
+      - if: matrix.platform == 'ios'
         name: Install CocoaPods
         run: cd ./ios && pod install
 
@@ -49,8 +53,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.MATCH_DEPLOY_KEY }}
 
-      - if: matrix.platform == 'ios'
-        name: Build and Deploy to TestFlight
+      - if: matrix.platform == 'ios' && github.event_name == 'release'
+        name: Build and Deploy With Release Notes to TestFlight
         run: |
           cd ./ios
           bundle exec fastlane ios_beta
@@ -60,6 +64,17 @@ jobs:
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           RELEASE_NOTES: ${{ github.event.release.body }}
+
+      - if: matrix.platform == 'ios' && github.event_name != 'release'
+        name: Build and Deploy to TestFlight
+        run: |
+          cd ./ios
+          bundle exec fastlane ios_beta
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
 
       - if: matrix.platform == 'android'
         name: Deserialize Keystore File

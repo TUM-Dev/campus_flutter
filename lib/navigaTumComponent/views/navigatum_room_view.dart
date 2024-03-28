@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
@@ -19,7 +20,7 @@ class NavigaTumRoomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(context.localizations.roomDetails),
       ),
       body: NavigaTumRoomView(
@@ -44,7 +45,9 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
   @override
   void initState() {
     viewModel = navigaTumDetailsViewModel(widget.id);
-    ref.read(viewModel).fetchDetails(false);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) => ref.read(viewModel).fetchDetails(false, context),
+    );
     super.initState();
   }
 
@@ -67,7 +70,8 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
+            retryWithContext:
+                ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
           );
         } else {
           return DelayedLoadingIndicator(

@@ -10,18 +10,15 @@ class LectureDetailsService {
     String lvNumber,
     bool forcedRefresh,
   ) async {
-    RESTClient mainApi = getIt<RESTClient>();
-    final response = await mainApi.makeRequestWithException<LectureDetailsData,
+    RestClient restClient = getIt<RestClient>();
+    final response = await restClient.getWithException<LectureDetailsElement,
         TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(TumOnlineServiceLectureDetails(lvNr: lvNumber)),
-      LectureDetailsData.fromJson,
+      LectureDetailsElement.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
     );
 
-    return (
-      response.saved,
-      response.data.lectureDetailsAttribute.lectureDetails
-    );
+    return (response.saved, response.data.lectureDetails);
   }
 }

@@ -8,7 +8,7 @@
    "settings":"Einstellungen",
    "settingsAndFeedback":"Einstellungen & Feedback",
    "generalSettings":"Allgemeine Einstellungen",
-   "comingSoon":"demnächst verfügbar",
+   "comingSoon":"Demnächst verfügbar",
    "appearance":"Darstellung",
    "language":"Sprache",
    "theme":"Theme",
@@ -16,13 +16,14 @@
    "hideFailedGrades":"Durchgefallene Noten ausblenden",
    "defaultMapsApplication":"Standard-Kartenanwendung",
    "map":"Karte",
+   "maps":"Karten",
    "contactMore":"Kontakt & Mehr",
    "tokenPermissions":"Berechtigungen für Token",
    "permissionChangePossibleInTUMonline":"Du kannst deine Berechtigungen in TUMOnline ändern",
    "logout":"Abmelden",
    "login":"Anmelden",
    "notLoggedIn":"Nicht angemeldet",
-   "welcomeToTheApp":"Willkommen in der\n TUM-Campus-App",
+   "welcomeToTheApp":"Willkommen in der\n TUM Campus App",
    "enterYourIDToStart":"Gib deine TUM ID ein, um zu starten",
    "continueWithoutID":"Ohne TUM ID fortfahren",
    "unknown":"Unbekannt",
@@ -39,11 +40,11 @@
    },
    "checkPermissions":"Berechtigungen prüfen",
    "done":"Fertig",
+   "studyRoom":"Lernraum",
    "studyRooms":"Lernräume",
    "nearestStudyRooms":"Nächste Lernräume",
    "noNearFreeStudyRoomsFound":"Keine Lernräume in deiner Nähe gefunden",
    "mostSearchedRooms":"Meist gesuchte Räume",
-   "noMoviesFound":"Keine Filme gefunden",
    "tuition":"Tuition",
    "tuitionFees":"Studiengebühren",
    "tuitionPaid":"Bezahlt",
@@ -59,7 +60,7 @@
          }
       }
    },
-   "checkToken":"Token überprüfen",
+   "checkToken":"Token prüfen",
    "tryAgain":"Erneut versuchen",
    "contactSupport":"Support kontaktieren",
    "cafeteria":"Mensa",
@@ -82,8 +83,7 @@
    "lectureLinks":"Veranstaltungslinks",
    "thisMeeting":"Dieser Termin",
    "lectureDetails":"Vorlesungsdetails",
-   "noLecturesSelected":"keine vorlesungen ausgewählt",
-   "noLecturesFound":"keine vorlesungen gefunden",
+   "noLecturesSelected":"Keine Vorlesungen ausgewählt",
    "showDirections":"Wegbeschreibung anzeigen",
    "notAvailableAbbrev":"n. v.",
    "becomeABetaTester":"Werde Beta-Tester",
@@ -158,11 +158,9 @@
          }
       }
    },
-   "noNewsFound":"Keine Nachrichten gefunden",
    "news":"Nachrichten",
    "movies":"Filme",
    "personalData":"Persönliche Daten",
-   "noGradesFound":"Keine Noten gefunden",
    "calendarViewToday":"Heute",
    "calendarViewDay":"Tag",
    "calendarViewWeek":"Woche",
@@ -200,14 +198,12 @@
          }
       }
    },
-   "noRoomsFound":"Keine Räume gefunden",
-   "noMealPlanFound":"Kein Essensplan gefunden",
-   "mealPlan":"Essensplan",
-   "noEntriesFoundSearch":"Keine {searchCategory} gefunden",
-   "@noEntriesFoundSearch":{
-      "description":"Title of Search Category",
+   "mealPlans":"Essenspläne",
+   "noEntriesFound":"Keine {category} gefunden!",
+   "@noEntriesFound":{
+      "description":"Category",
       "placeholders":{
-         "searchCategory":{
+         "category":{
             "type":"String",
             "example":"Grades"
          }
@@ -219,7 +215,6 @@
    "search":"Suche",
    "today":"Heute",
    "tomorrow":"Morgen",
-   "noMapsFound":"Keine Karten gefunden",
    "roomSearch":"Raum Suche",
    "personSearch":"Personen Suche",
    "badResponse":"Ungültige Antwort",
@@ -238,10 +233,14 @@
    "friday":"Freitag",
    "weekend":"Wochenende",
    "openingHours":"Öffnungszeiten",
-   "openToday":"Heute offen von {start} - {end}",
-   "@openToday":{
+   "open":"{day} offen von {start} - {end}",
+   "@open":{
       "description":"Opening Times",
       "placeholders":{
+         "day":{
+            "type":"String",
+            "example":"Monday"
+         },
          "start":{
             "type":"String",
             "example":"11:00"
@@ -274,5 +273,57 @@
    "continueOnboarding":"Weiter",
    "showMore":"Mehr Anzeigen",
    "licenses":"Lizenzen",
-   "privacyPolicy":"Datenschutzrichtlinie"
+   "privacyPolicy":"Datenschutzrichtlinie",
+   "createCalendarEvent":"Kalenderereignis erstellen",
+   "title":"Titel",
+   "annotation":"Bemerkung",
+   "from":"Von",
+   "to":"Bis",
+   "timeFrame":"Zeitrahmen",
+   "delete":"Löschen",
+   "deviceSettings":"Geräte-Einstellungen",
+   "edit":"Editieren",
+   "digitalStudentCard":"Digitale StudentCard",
+   "currentlyInBeta":"Aktuell in Testphase mit eingeschränkter Funktionalität!",
+   "validUntil":"Gültig bis",
+   "libraryBarcode":"Bibliotheks-Barcode",
+   "libraryNumber":"Bibliotheksnummer",
+   "birthday":"Geb.",
+   "studyId":"Matr.Nr.",
+   "locationServiceDisabled":"Ortungsdienst deaktiviert",
+   "permissionDenied":"Erlaubnis verweigert",
+   "onlyLetters":"Achte drauf, nur Buchstaben zu benutzen",
+   "onlyNumbers":"Achte drauf, nur Zahlen zu benutzen",
+   "personDetails":"Details zur Person",
+   "contact":"Kontakt",
+   "room":"Raum",
+   "back":"Zurück",
+   "editHome":"Home Anpassen",
+   "reorderDisable":"Widgets neu anordnen & deaktivieren",
+   "reset":"Zurücksetzen",
+   "selectPreferred":"Wähle deine bevorzugte {item}",
+   "@selectPreferred":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Cafeteria"
+         }
+      }
+   },
+   "closest":"Näheste",
+   "noClosestStudyRoom":"Näheste Lernräume nicht ermittelbar!",
+   "cancel":"Abbrechen",
+   "selectAction":"Wähle eine Aktion",
+   "openIn":"In {item} öffnen",
+   "@openIn":{
+      "description":"Item",
+      "placeholders":{
+         "item":{
+            "type":"String",
+            "example":"Apple Maps"
+         }
+      }
+   },
+   "unknownDirection":"Unbekannte Richtung"
 }

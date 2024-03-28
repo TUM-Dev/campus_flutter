@@ -20,8 +20,6 @@ import 'package:protobuf/protobuf.dart' as $pb;
 ///      service Foo {
 ///        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
 ///      }
-///
-///  The JSON representation for `Empty` is empty JSON object `{}`.
 class Empty extends $pb.GeneratedMessage {
   factory Empty() => create();
   Empty._() : super();

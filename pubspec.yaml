@@ -1,59 +1,77 @@
 name: campus_flutter
-description: A new Flutter project.
+description: "A new Flutter project."
 publish_to: 'none'
-version: 4.4.1
+version: 5.0.1+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
-  cached_network_image: ^3.2.3
-  device_info_plus: ^9.1.1
-  dio: ^5.1.2
-  dio_cache_interceptor: ^3.4.2
-  dio_cache_interceptor_hive_store: ^3.2.1
   flutter:
     sdk: flutter
-  flutter_web_plugins:
-    sdk: flutter
-  flutter_native_splash: ^2.2.19
-  flutter_secure_storage: ^9.0.0
-  geolocator: ^10.0.1
-  hive: ^2.2.3
-  intl: any
+
+  # networking
+  dio: ^5.1.2
+  isar:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
+  isar_flutter_libs:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
-  package_info_plus: ^5.0.0
-  path_provider: ^2.0.15
-  rxdart: ^0.27.7
-  shimmer: ^3.0.0
-  syncfusion_flutter_calendar: ^24.1.41
-  syncfusion_flutter_charts: ^24.1.41
-  url_launcher: ^6.1.10
-  video_player: ^2.6.1
-  xml: ^6.2.2
-  xml2json: ^6.1.0
-  barcode_widget: ^2.0.4
-  lottie: ^2.3.2
-  shared_preferences: ^2.1.2
-  flutter_riverpod: ^2.3.6
-  get_it: ^7.6.0
-  timeago: ^3.4.0
+  cached_network_image: ^3.2.3
   grpc: ^3.2.4
   protobuf: ^3.0.0
-  syncfusion_flutter_datepicker: ^24.1.41
-  google_maps_flutter: ^2.4.0
-  map_launcher: ^3.0.1
+  xml: ^6.2.2
+  xml2json: ^6.1.0
+
+  # state management
+  rxdart: ^0.27.7
+  go_router: ^13.2.0
+  flutter_riverpod: ^2.3.6
+  get_it: ^7.6.0
+
+  # user interface
+  shimmer: ^3.0.0
   flutter_staggered_grid_view: ^0.7.0
-  flutter_localizations:
-    sdk: flutter
   flutter_svg: ^2.0.9
+  flutter_linkify: ^6.0.0
+  home_widget: ^0.5.0
+  auto_size_text: ^3.0.0
+  quick_actions: ^1.0.7
+  flutter_native_splash: ^2.2.19
+  syncfusion_flutter_core: ^25.1.37
+  syncfusion_flutter_calendar: ^25.1.37
+  syncfusion_flutter_charts: ^25.1.37
+  syncfusion_flutter_datepicker: ^25.1.37
+  google_maps_flutter: ^2.5.3
+  video_player: ^2.6.1
+  barcode_widget: ^2.0.4
+  lottie: ^3.0.0
+  timeago: ^3.4.0
+
+  # helpers
+  device_info_plus: ^10.0.1
+  flutter_secure_storage: ^9.0.0
+  geolocator: ^11.0.0
+  package_info_plus: ^6.0.0
+  path_provider: ^2.0.15
+  url_launcher: ^6.1.10
+  permission_handler: ^11.1.0
   uuid: ^4.2.1
   collection: ^1.18.0
+  shared_preferences: ^2.1.2
+  map_launcher: ^3.0.1
+
+  # firebase
   firebase_crashlytics: ^3.4.6
   firebase_core: ^2.24.0
-  flutter_linkify: ^6.0.0
-  permission_handler: ^11.1.0
+
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dependency_overrides:
   xml2json:
@@ -71,11 +89,19 @@ dependency_overrides:
       ref: main
 
 dev_dependencies:
+  # code generation
+  build_runner: ^2.3.3
+  isar_generator:
+    version: ^3.1.0+1
+    hosted: https://isar-community.dev/
+
+  # testing
   flutter_test:
     sdk: flutter
   test: ^1.24.3
+
+  # linting
   flutter_lints: ^3.0.0
-  build_runner: ^2.3.3
   lints: ^3.0.0
 
 flutter:
@@ -85,13 +111,12 @@ flutter:
     - assets/
     - assets/mapStyles/
     - assets/images/logos/tum-logo-blue.png
+    - assets/images/logos/tum-logo-blue-text.png
     - assets/images/logos/tum-logo-rainbow.png
     - assets/images/placeholders/portrait_placeholder.png
     - assets/images/placeholders/movie_placeholder.png
     - assets/images/placeholders/news_placeholder.png
-    - assets/images/errors/error.png
-    - assets/images/errors/error_crop.png
-    - assets/images/errors/error_square.png
+    - assets/images/errors/error.svg
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json
     - assets/lottieFiles/gradient_background_blue_white_speedup.json

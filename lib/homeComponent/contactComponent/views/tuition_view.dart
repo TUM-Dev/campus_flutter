@@ -1,10 +1,11 @@
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
-import 'package:campus_flutter/base/helpers/info_row.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
@@ -51,19 +52,18 @@ class TuitionView extends ConsumerWidget {
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               InfoRow(
                 title: context.localizations.tuitionDueDate,
-                info: DateFormat.yMd(context.localizations.localeName)
-                    .format(snapshot.data!.deadline),
+                info: DateFormat.yMd("de").format(snapshot.data!.deadline),
               ),
               InfoRow(
                 title: context.localizations.tuitionOpenAmount,
-                info: NumberFormat.currency(locale: "de_DE", symbol: '€')
+                info: NumberFormat.currency(locale: "de", symbol: '€')
                     .format(snapshot.data!.amount),
               ),
             ],
           ),
           actions: [
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text("Okay"),
             ),
           ],

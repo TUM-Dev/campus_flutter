@@ -26,16 +26,6 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'kennung': instance.tumID,
     };
 
-ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) => ProfileData(
-      profilesAttribute:
-          Profiles.fromJson(json['rowset'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$ProfileDataToJson(ProfileData instance) =>
-    <String, dynamic>{
-      'rowset': instance.profilesAttribute,
-    };
-
 Profiles _$ProfilesFromJson(Map<String, dynamic> json) => Profiles(
       profile: Profiles._profileFromJson(json['row']),
     );

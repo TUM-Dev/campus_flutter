@@ -1,18 +1,21 @@
+import 'package:campus_flutter/base/classes/location.dart' as location;
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/helpers/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/helpers/info_row.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
+import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/directions_launcher.dart';
+import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/views/cafeterias/dish_grid_view.dart';
 import 'package:campus_flutter/placesComponent/views/directions_button.dart';
-import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -25,8 +28,9 @@ class CafeteriaScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const CustomBackButton(),
         title: Text(cafeteria.name),
+        centerTitle: true,
         actions: [
           if (cafeteria.openingHours != null)
             IconButton(
@@ -36,6 +40,20 @@ class CafeteriaScaffold extends ConsumerWidget {
                 color: context.theme.primaryColor,
               ),
             ),
+          IconButton(
+            onPressed: () => showDirectionsDialog(
+              cafeteria.name,
+              location.Location(
+                latitude: cafeteria.location.latitude,
+                longitude: cafeteria.location.longitude,
+              ),
+              context,
+            ),
+            icon: Icon(
+              Icons.directions,
+              color: context.theme.primaryColor,
+            ),
+          ),
         ],
       ),
       body: CafeteriaView(
@@ -86,7 +104,7 @@ class CafeteriaScaffold extends ConsumerWidget {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
               child: const Text("Okay"),
             ),
           ],
@@ -125,7 +143,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
   void initState() {
     final today = DateTime.now();
     selectedDate = DateTime(today.year, today.month, today.day);
-    openingHours = widget.cafeteria.openingHoursToday;
+    openingHours = widget.cafeteria.openingHoursForDate(today);
     super.initState();
   }
 
@@ -141,7 +159,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                   children: [..._mapAndDirections()],
                 ),
               ),
-              Expanded(child: _pickerAndSlider()),
+              Expanded(child: _pickerAndSlider(true)),
             ],
           );
         } else {
@@ -149,9 +167,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             children: [
               if (openingHours.$2 != null && openingHours.$1)
                 _openingTimes(openingHours, context),
-              ..._mapAndDirections(),
-              const PaddedDivider(),
-              _pickerAndSlider(),
+              _pickerAndSlider(false),
             ],
           );
         }
@@ -167,8 +183,11 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
       return Text(context.localizations.closedToday);
     } else {
       return Text(
-        context.localizations
-            .openToday(openingHours.$2!.start, openingHours.$2!.end),
+        context.localizations.open(
+          widget.cafeteria.getDayString(DateTime.now(), context),
+          openingHours.$2!.start,
+          openingHours.$2!.end,
+        ),
       );
     }
   }
@@ -201,7 +220,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
     ];
   }
 
-  Widget _pickerAndSlider() {
+  Widget _pickerAndSlider(bool isLandscape) {
     return FutureBuilder(
       future: ref
           .read(cafeteriasViewModel)
@@ -210,7 +229,11 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
             return Center(
-              child: Text(context.localizations.noMealPlanFound),
+              child: Text(
+                context.localizations.noEntriesFound(
+                  context.localizations.mealPlans,
+                ),
+              ),
             );
           } else {
             final menu = snapshot.data!;
@@ -221,44 +244,55 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                         element.date.isAfter(selectedDate),
                   ),
                 );
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(context.padding),
-                  child: SizedBox(
-                    height: 80,
-                    child: SfDateRangePicker(
-                      headerHeight: 0,
-                      toggleDaySelection: false,
-                      enablePastDates: false,
-                      allowViewNavigation: false,
-                      initialSelectedDate: menu.first.date,
-                      minDate: menu.first.date,
-                      maxDate: menu.last.date,
-                      monthViewSettings: const DateRangePickerMonthViewSettings(
-                        numberOfWeeksInView: 1,
-                        firstDayOfWeek: 1,
+            return Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(context.padding),
+                    child: SizedBox(
+                      height: 80,
+                      child: SfDateRangePicker(
+                        headerHeight: 0,
+                        toggleDaySelection: false,
+                        enablePastDates: false,
+                        allowViewNavigation: false,
+                        initialSelectedDate: menu.first.date,
+                        minDate: menu.first.date,
+                        maxDate: menu.last.date,
+                        monthViewSettings:
+                            const DateRangePickerMonthViewSettings(
+                          numberOfWeeksInView: 1,
+                          firstDayOfWeek: 1,
+                        ),
+                        onSelectionChanged: (args) => setState(() {
+                          selectedDate = args.value as DateTime;
+                        }),
+                        selectableDayPredicate: (date) {
+                          return date.weekday != DateTime.saturday &&
+                              date.weekday != DateTime.sunday;
+                        },
                       ),
-                      onSelectionChanged: (args) => setState(() {
-                        selectedDate = args.value as DateTime;
-                      }),
-                      selectableDayPredicate: (date) {
-                        return date.weekday != DateTime.saturday &&
-                            date.weekday != DateTime.sunday;
-                      },
                     ),
                   ),
-                ),
-                if (todayMeals.isNotEmpty)
-                  DishSlider(
-                    dishes: todayMeals,
-                    //inverted: true,
-                  ),
-                if (todayMeals.isEmpty)
-                  Center(
-                    child: Text(context.localizations.noMealPlanFound),
-                  ),
-              ],
+                  if (todayMeals.isNotEmpty)
+                    Expanded(
+                      child: DishGridView(
+                        dishes: todayMeals,
+                        isLandscape: isLandscape,
+                        //inverted: true,
+                      ),
+                    ),
+                  if (todayMeals.isEmpty)
+                    Center(
+                      child: Text(
+                        context.localizations.noEntriesFound(
+                          context.localizations.mealPlans,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             );
           }
         } else if (snapshot.hasError) {
@@ -267,7 +301,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
           );
         } else {
-          return const DelayedLoadingIndicator();
+          return DelayedLoadingIndicator(name: context.localizations.mealPlans);
         }
       },
     );

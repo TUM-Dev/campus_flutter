@@ -36,7 +36,7 @@ ThemeData lightTheme(BuildContext context) {
         elevation: const MaterialStatePropertyAll(1.5),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.disabled)) {
-            return Colors.grey.shade300;
+            return lightGray;
           } else {
             return primaryLightColor;
           }
@@ -106,12 +106,12 @@ ThemeData lightTheme(BuildContext context) {
     navigationBarTheme: NavigationBarThemeData(
       labelTextStyle: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
-          return Theme.of(context)
-              .textTheme
-              .labelMedium
-              ?.copyWith(color: primaryLightColor, fontWeight: FontWeight.w500);
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: primaryLightColor,
+                fontWeight: FontWeight.w500,
+              );
         } else {
-          return Theme.of(context).textTheme.labelMedium?.copyWith(
+          return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: navigationIconGrayLight,
                 fontWeight: FontWeight.w500,
               );
@@ -195,6 +195,12 @@ ThemeData lightTheme(BuildContext context) {
           ),
         ),
       ),
+    ),
+
+    /// style for dateTimePicker
+    datePickerTheme: const DatePickerThemeData(
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
     ),
   );
 }
