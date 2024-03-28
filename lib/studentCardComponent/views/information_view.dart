@@ -143,10 +143,12 @@ class InformationView extends StatelessWidget {
         0,
         studentCard.studies.length >= 2 ? 2 : studentCard.studies.length,
       ))
-        Text(
-          "${studyProgram.name} (${studyProgram.degreeShort})",
-        ),
+        Text(_subjectBuilder(studyProgram)),
     ];
+  }
+
+  String _subjectBuilder(Subject studyProgram) {
+    return "${studyProgram.name}${studyProgram.degreeShort != null ? " (${studyProgram.degreeShort})" : ""}";
   }
 
   Widget _validUntil(BuildContext context) {

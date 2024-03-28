@@ -23,6 +23,8 @@ class LastUpdatedText extends ConsumerWidget {
             .textTheme
             .bodySmall
             ?.copyWith(color: Colors.grey.shade600),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
