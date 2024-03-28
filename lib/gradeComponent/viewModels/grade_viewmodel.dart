@@ -106,10 +106,10 @@ class GradeViewModel {
           child: selectedStudyId == studyId
               ? IconText(
                   iconData: Icons.check,
-                  label: "$studyDesignation ($degree)",
+                  label: "$studyDesignation $degree",
                   leadingIcon: false,
                 )
-              : Text("$studyDesignation ($degree)"),
+              : Text("$studyDesignation $degree"),
         );
       }).toList();
     } else {

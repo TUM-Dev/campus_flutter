@@ -32,7 +32,7 @@ class ChartView extends ConsumerWidget {
             child: IconText(
               iconData: Icons.keyboard_arrow_down,
               label:
-                  "$title (${StringParser.degreeShortFromID(studyID, context)})",
+                  "$title ${StringParser.degreeShortFromID(studyID, context)}",
               style: Theme.of(context).textTheme.bodyLarge,
               mainAxisAlignment: MainAxisAlignment.center,
               leadingIcon: false,
