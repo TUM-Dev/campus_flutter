@@ -285,10 +285,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "50fec96118958b97c727d0d8f67255d3683f16cc1f90d9bc917b5d4fe3abeca9"
+      sha256: "0978e9a3e45305a80a7210dbeaf79d6ee8bee33f70c8e542dc654c952070217f"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.2"
+    version: "5.4.2+1"
   fake_async:
     dependency: transitive
     description:
@@ -610,10 +610,10 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: "2a78f5e5515ae61b937efd115bbbdcd948ecd613"
+      resolved-ref: c13a2045826d0465e4014949c11582460072fc87
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
-    version: "2.5.1"
+    version: "2.5.2"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -731,26 +731,26 @@ packages:
     dependency: "direct main"
     description:
       name: isar
-      sha256: "3510ffb73db4bf46935bd8897f7bb96fc41bbdf9ed655275484f95f9123db35d"
+      sha256: "45bbdb3a746fa415e3f85da7abd1a781686d088febf6dbbf85f6952ef3676c44"
       url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
   isar_flutter_libs:
     dependency: "direct main"
     description:
       name: isar_flutter_libs
-      sha256: "2d9a2628e946454a2c623e108dbb1cbb28a5b0bc59588c5c1e5ffa307fa7652d"
+      sha256: f3eb69f560d192e99e5c2194f9bb77a7d82db4eef985da27ab3c9bc8fa280989
       url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
   isar_generator:
     dependency: "direct dev"
     description:
       name: isar_generator
-      sha256: "558fcc50f99467c5aa2237f00890455725da698ce27bab2ed6847eb1634ef1b8"
+      sha256: "46b44b1679c58e31f8232124b0c02dfbd6a8dbf6fd5bc91a5ef6dec68355c399"
       url: "https://isar-community.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
   js:
     dependency: transitive
     description:
@@ -1368,34 +1368,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "4151e01aa1d6f17b2bcb19d709b93f231d40c9ce78db52ea195b7b7233ce0149"
+      sha256: d0fe2dfc6aeac7367b7bebca34adde385395604bbea9a51f898239ec5d007543
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.4"
+    version: "25.1.37"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: ab73109c586f5ec2b01adc2672026a1fb3f93b2b5f6061ba8d7126c119061002
+      sha256: c702a611ebb21f13b7107a470d3751ed852a1ec5de0cae7ef9339ccb761b574f
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.9"
+    version: "25.1.37"
   syncfusion_flutter_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "7666506885ebc8f62bb928ad4588a73e20caaff2b2cf2b2b56f67d98f4113525"
+      sha256: d098e3cf5ee0c5a37b083f2efdb7c6bdfaabf871f68758bb491b10b61b3dd0d7
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.9"
+    version: "25.1.37"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: c010440ccef2beecb988684af3557c57ade8ea300d1177536f01059e3a16ce5d
+      sha256: e5b41308be78c10fe90d7ca5cd60017d2b70bafb756a4cc18f43617c8eaeb069
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.9"
+    version: "25.1.37"
   synchronized:
     dependency: transitive
     description:
