@@ -198,7 +198,7 @@
          }
       }
    },
-   "mealPlan":"Essensplan",
+   "mealPlans":"Essenspläne",
    "noEntriesFound":"Keine {category} gefunden!",
    "@noEntriesFound":{
       "description":"Category",
@@ -324,5 +324,6 @@
             "example":"Apple Maps"
          }
       }
-   }
+   },
+   "unknownDirection":"Unbekannte Richtung"
 }

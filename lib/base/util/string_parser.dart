@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/util/string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:intl/intl.dart';
@@ -11,62 +12,13 @@ class StringParser {
     }
 
     final academicDegreeNumber = splitDegreeNumbers[1];
-
-    switch (academicDegreeNumber) {
-      case "04":
-      case "05":
-      case "06":
-      case "07":
-        return "PhD";
-      case "14":
-      case "19":
-        return "B.Ed.";
-      case "16":
-      case "20":
-      case "28":
-        return "M.Sc.";
-      case "17":
-        return "B.Sc.";
-      case "18":
-        return "MBA";
-      case "29":
-        return "M.A.";
-      case "30":
-        return "B.A.";
-      case "37":
-      case "38":
-      case "39":
-      case "42":
-        return "M.Ed.";
-      case "53":
-        return "MBD";
-      case "60":
-        return "BECE";
-      case "61":
-        return "BEEDE";
-      default:
-        return "";
-    }
+    final degreeShort = degreeIdShort[academicDegreeNumber];
+    return degreeShort != null ? "($degreeShort)" : "";
   }
 
-  static String degreeShort(String degree, BuildContext context) {
-    // TODO: add missing degrees
-    switch (degree) {
-      case "Bachelor of Science":
-        return "B.Sc.";
-      case "Master of Science":
-        return "M.Sc.";
-      case "Bachelor of Arts":
-        return "B.A.";
-      case "Master of Arts":
-        return "M.A.";
-      case "Bachelor of Education":
-        return "B.Ed.";
-      case "Master of Education":
-        return "M.Ed.";
-      default:
-        return "";
-    }
+  static String longDegreeToShortForm(String degree, BuildContext context) {
+    final shortDegree = degreeLongShort[degree];
+    return shortDegree != null ? "($shortDegree)" : "";
   }
 
   static String toFullSemesterName(BuildContext context, String semester) {

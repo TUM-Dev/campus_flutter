@@ -4,7 +4,8 @@ import 'package:campus_flutter/base/routing/routes.dart' as routes;
 
 enum ShortcutItemType {
   home(en: "Home"),
-  mensa(en: "Mensen"),
+  cafeterias(en: "Cafeterias", de: "Mensen"),
+  studyRooms(en: "Study Rooms", de: "Lernräume"),
   calendar(en: "Calendar", de: "Kalendar"),
   grades(en: "Grades", de: "Noten");
 
@@ -26,7 +27,8 @@ extension Routing on ShortcutItemType {
   String? get icon {
     switch (this) {
       case ShortcutItemType.home:
-      case ShortcutItemType.mensa:
+      case ShortcutItemType.cafeterias:
+      case ShortcutItemType.studyRooms:
       case ShortcutItemType.calendar:
       case ShortcutItemType.grades:
         return null;
@@ -45,8 +47,10 @@ extension Routing on ShortcutItemType {
     switch (this) {
       case ShortcutItemType.home:
         return routes.home;
-      case ShortcutItemType.mensa:
+      case ShortcutItemType.cafeterias:
         return routes.cafeterias;
+      case ShortcutItemType.studyRooms:
+        return routes.studyRooms;
       case ShortcutItemType.calendar:
         return routes.calendar;
       case ShortcutItemType.grades:
@@ -57,8 +61,8 @@ extension Routing on ShortcutItemType {
 
 extension ActiveShortcuts on ShortcutItemType {
   static List<ShortcutItemType> get items => [
-        ShortcutItemType.home,
-        ShortcutItemType.mensa,
+        ShortcutItemType.cafeterias,
+        ShortcutItemType.studyRooms,
         ShortcutItemType.calendar,
         ShortcutItemType.grades,
       ];

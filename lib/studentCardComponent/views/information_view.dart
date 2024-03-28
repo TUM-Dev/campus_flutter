@@ -144,7 +144,7 @@ class InformationView extends StatelessWidget {
         studentCard.studies.length >= 2 ? 2 : studentCard.studies.length,
       ))
         Text(
-          "${studyProgram.name} (${StringParser.degreeShort(studyProgram.degree, context)})",
+          "${studyProgram.name} ${StringParser.longDegreeToShortForm(studyProgram.degree, context)}",
         ),
     ];
   }

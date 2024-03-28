@@ -8,6 +8,6 @@ extension FullName on Locale {
       case 'de':
         return 'Deutsch';
     }
-    return 'fullName not defined';
+    return 'Unknown';
   }
 }

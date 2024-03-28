@@ -10,20 +10,18 @@ class Departure {
   final int stopId;
   @JsonKey(fromJson: StringParser.stringToInt)
   final int countdown;
-  @JsonKey(fromJson: plannedDate)
+  @JsonKey(fromJson: departureDate)
   final DateTime? dateTime;
-  @JsonKey(fromJson: realDate)
+  @JsonKey(fromJson: departureDate)
   final DateTime? realDateTime;
   final ServingLine servingLine;
-  final LineInfosType? lineInfos;
 
   Departure({
     required this.stopId,
     required this.countdown,
-    required this.dateTime,
+    this.dateTime,
     this.realDateTime,
     required this.servingLine,
-    this.lineInfos,
   });
 
   factory Departure.fromJson(Map<String, dynamic> json) =>
@@ -31,17 +29,7 @@ class Departure {
 
   Map<String, dynamic> toJson() => _$DepartureToJson(this);
 
-  static DateTime plannedDate(Map<String, dynamic> json) {
-    return DateTime(
-      int.parse(json["year"]),
-      int.parse(json["month"]),
-      int.parse(json["day"]),
-      int.parse(json["hour"]),
-      int.parse(json["minute"]),
-    );
-  }
-
-  static DateTime? realDate(Map<String, dynamic>? json) {
+  static DateTime? departureDate(Map<String, dynamic>? json) {
     if (json != null) {
       return DateTime(
         int.parse(json["year"]),
@@ -125,89 +113,4 @@ class ServingLine {
         return Colors.grey;
     }
   }
-}
-
-/// no @JsonSerializable
-class LineInfosType {
-  final List<LineInfoContent>? array;
-  final LineInfoElement? element;
-
-  LineInfosType({this.array, this.element});
-
-  factory LineInfosType.fromJson(Map<String, dynamic> json) {
-    if (json['lineInfos'] != null) {
-      return LineInfosType(
-        array: (json['lineInfos'] as List)
-            .map((e) => LineInfoContent.fromJson(e))
-            .toList(),
-      );
-    } else if (json['lineInfo'] != null) {
-      return LineInfosType(element: LineInfoElement.fromJson(json));
-    } else {
-      throw const FormatException('Invalid LineInfosType JSON');
-    }
-  }
-
-  Map<String, dynamic> toJson() => {
-        'array': array?.map((e) => e.toJson()).toList(),
-        'element': element?.toJson(),
-      };
-}
-
-@JsonSerializable()
-class LineInfoElement {
-  final LineInfoContent lineInfo;
-
-  LineInfoElement({required this.lineInfo});
-
-  factory LineInfoElement.fromJson(Map<String, dynamic> json) =>
-      _$LineInfoElementFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LineInfoElementToJson(this);
-}
-
-@JsonSerializable()
-class LineInfoContent {
-  final String? infoLinkText;
-  final InfoText? infoText;
-  final List<AdditionalLink>? additionalLinks;
-
-  LineInfoContent({this.infoLinkText, this.infoText, this.additionalLinks});
-
-  factory LineInfoContent.fromJson(Map<String, dynamic> json) =>
-      _$LineInfoContentFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LineInfoContentToJson(this);
-}
-
-@JsonSerializable()
-class AdditionalLink {
-  @JsonKey(name: "ID")
-  final String id;
-  final String linkURL, linkText, linkTextShort, linkTarget;
-
-  AdditionalLink({
-    required this.id,
-    required this.linkURL,
-    required this.linkText,
-    required this.linkTextShort,
-    required this.linkTarget,
-  });
-
-  factory AdditionalLink.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalLinkFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AdditionalLinkToJson(this);
-}
-
-@JsonSerializable()
-class InfoText {
-  final String content, subtitle;
-
-  InfoText({required this.content, required this.subtitle});
-
-  factory InfoText.fromJson(Map<String, dynamic> json) =>
-      _$InfoTextFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InfoTextToJson(this);
 }

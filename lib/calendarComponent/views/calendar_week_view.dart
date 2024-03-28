@@ -6,6 +6,7 @@ import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class CalendarWeekView extends ConsumerWidget {
   const CalendarWeekView({
@@ -20,8 +21,12 @@ class CalendarWeekView extends ConsumerWidget {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        builder: (context, snapshot) {
-          return SfCalendar(
+        builder: (context, snapshot) => SfDateRangePickerTheme(
+          data: const SfDateRangePickerThemeData(
+            headerBackgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+          ),
+          child: SfCalendar(
             view: CalendarView.week,
             controller: calendarController,
             dataSource: MeetingDataSource(
@@ -43,9 +48,11 @@ class CalendarWeekView extends ConsumerWidget {
             },
             firstDayOfWeek: 1,
             showDatePickerButton: true,
-            headerDateFormat: "",
             showWeekNumber: true,
             showNavigationArrow: true,
+            headerStyle: const CalendarHeaderStyle(
+              backgroundColor: Colors.transparent,
+            ),
             timeSlotViewSettings: TimeSlotViewSettings(
               startHour: 7,
               endHour: 22,
@@ -53,8 +60,8 @@ class CalendarWeekView extends ConsumerWidget {
               numberOfDaysInView:
                   MediaQuery.sizeOf(context).width > 600 ? 7 : 4,
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

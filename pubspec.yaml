@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 5.0.0+1
+version: 5.0.1+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -37,13 +37,14 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
   flutter_svg: ^2.0.9
   flutter_linkify: ^6.0.0
-  home_widget: ^0.4.1
+  home_widget: ^0.5.0
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_calendar: "24.2.4"
-  syncfusion_flutter_charts: "24.2.9"
-  syncfusion_flutter_datepicker: "24.2.9"
+  syncfusion_flutter_core: ^25.1.37
+  syncfusion_flutter_calendar: ^25.1.37
+  syncfusion_flutter_charts: ^25.1.37
+  syncfusion_flutter_datepicker: ^25.1.37
   google_maps_flutter: ^2.5.3
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
@@ -51,10 +52,10 @@ dependencies:
   timeago: ^3.4.0
 
   # helpers
-  device_info_plus: ^9.1.1
+  device_info_plus: ^10.0.1
   flutter_secure_storage: ^9.0.0
   geolocator: ^11.0.0
-  package_info_plus: ^5.0.0
+  package_info_plus: ^6.0.0
   path_provider: ^2.0.15
   url_launcher: ^6.1.10
   permission_handler: ^11.1.0

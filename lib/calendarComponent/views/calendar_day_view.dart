@@ -6,6 +6,7 @@ import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class CalendarDayView extends ConsumerWidget {
   const CalendarDayView({super.key, required this.calendarController});
@@ -17,33 +18,42 @@ class CalendarDayView extends ConsumerWidget {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        builder: (context, snapshot) => SfCalendar(
-          controller: calendarController,
-          showDatePickerButton: true,
-          view: CalendarView.day,
-          dataSource: MeetingDataSource(
-            snapshot.data ?? [],
-            context,
+        builder: (context, snapshot) => SfDateRangePickerTheme(
+          data: const SfDateRangePickerThemeData(
+            headerBackgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
           ),
-          onTap: (details) {
-            if (details.targetElement == CalendarElement.appointment) {
-              getIt<CalendarViewService>().showDetails(
-                details,
-                null,
-                context,
-                ref,
-              );
-            } else {
-              ref.read(selectedDate.notifier).state =
-                  (details.date, CalendarView.day);
-            }
-          },
-          headerDateFormat: "EEEE, dd.MM.yyyy",
-          showNavigationArrow: true,
-          timeSlotViewSettings: const TimeSlotViewSettings(
-            startHour: 7,
-            endHour: 22,
-            timeFormat: "HH:mm",
+          child: SfCalendar(
+            controller: calendarController,
+            showDatePickerButton: true,
+            view: CalendarView.day,
+            dataSource: MeetingDataSource(
+              snapshot.data ?? [],
+              context,
+            ),
+            onTap: (details) {
+              if (details.targetElement == CalendarElement.appointment) {
+                getIt<CalendarViewService>().showDetails(
+                  details,
+                  null,
+                  context,
+                  ref,
+                );
+              } else {
+                ref.read(selectedDate.notifier).state =
+                    (details.date, CalendarView.day);
+              }
+            },
+            headerDateFormat: "EEEE, dd.MM.yyyy",
+            headerStyle: const CalendarHeaderStyle(
+              backgroundColor: Colors.transparent,
+            ),
+            showNavigationArrow: true,
+            timeSlotViewSettings: const TimeSlotViewSettings(
+              startHour: 7,
+              endHour: 22,
+              timeFormat: "HH:mm",
+            ),
           ),
         ),
       ),

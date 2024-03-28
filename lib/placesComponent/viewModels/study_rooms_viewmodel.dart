@@ -73,7 +73,13 @@ class StudyRoomsViewModel {
         } else {
           LocationService.getLastKnown().then(
             (position) => _getClosestStudyRoomGroup(position, context),
-            onError: (error) => widgetStudyRoom.addError(error),
+            onError: (error) {
+              if (value.$2.groups?.firstOrNull != null) {
+                widgetStudyRoom.add(value.$2.groups!.first);
+              } else {
+                widgetStudyRoom.add(error);
+              }
+            },
           );
         }
       },
