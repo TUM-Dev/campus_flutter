@@ -11,6 +11,7 @@ import 'package:campus_flutter/onboardingComponent/services/onboarding_service.d
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -151,6 +152,7 @@ class OnboardingViewModel {
       iOSName: "CalendarWidget",
       androidName: "widgets.calendar.CalendarWidget",
     );
+    getIt<UserPreferencesService>().resetAll();
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }

@@ -99,18 +99,6 @@ service Campus {
     };
   }
 
-  rpc ListResponsiblePerson(ListResponsiblePersonRequest) returns (ListResponsiblePersonReply) {
-    option (google.api.http) = {get: "/barrierfree/contacts"};
-  }
-
-  rpc ListMoreInformation(ListMoreInformationRequest) returns (ListMoreInformationReply) {
-    option (google.api.http) = {get: "/barrierfree/moreInformation"};
-  }
-
-  rpc ListOpeningTimes(ListOpeningTimesRequest) returns (ListOpeningTimesReply) {
-    option (google.api.http) = {get: "/openingtimes/{language}"};
-  }
-
   rpc GetUpdateNote(GetUpdateNoteRequest) returns (GetUpdateNoteReply) {
     option (google.api.http) = {get: "/updatenote/{version}"};
   }
@@ -403,19 +391,6 @@ message ListDishesReply {
   repeated string dish = 1;
 }
 
-message ListResponsiblePersonRequest {}
-message ListResponsiblePersonReply {
-  repeated ResponsiblePerson responsible_person = 1;
-}
-
-message ResponsiblePerson {
-  string name = 1;
-  string telephone = 2;
-  string email = 3;
-  string faculty = 4;
-  string tum_id = 5;
-}
-
 message RoomInformationElement {
   int32 room_id = 1;
   string room_code = 2;
@@ -426,38 +401,6 @@ message RoomInformationElement {
   string purpose = 7;
   string campus = 8;
   string name = 9;
-}
-
-message ListMoreInformationRequest {}
-message ListMoreInformationReply {
-  message MoreInformation {
-    string title = 1;
-    string category = 2;
-    string url = 3;
-  }
-  repeated MoreInformation infos = 1;
-}
-
-message ListOpeningTimesRequest {
-  string language = 1;
-}
-
-message ListOpeningTimesReply {
-  repeated OpeningTimesMsgElement facilities = 1;
-}
-
-message OpeningTimesMsgElement {
-  int32 id = 1;
-  string category = 2;
-  string name = 3;
-  string address = 4;
-  string room = 5;
-  string transport_station = 6;
-  string opening_hours = 7;
-  string infos = 8;
-  string url = 9;
-  string language = 10;
-  int32 reference_id = 11;
 }
 
 message GetUpdateNoteRequest {

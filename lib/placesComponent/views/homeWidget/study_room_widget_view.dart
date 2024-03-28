@@ -2,12 +2,10 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -107,11 +105,11 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
     return GestureDetector(
       onTap: () {
         if (snapshot.hasData && snapshot.data != null) {
-          _onPressed(
-            widget.closestStudyRoom
+          context.push(
+            closestStudyRoom,
+            extra: widget.closestStudyRoom
                 ? snapshot.data! as StudyRoomGroup
                 : widget.studyRoomGroup!,
-            context,
           );
         }
       },
@@ -152,18 +150,6 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
           name: context.localizations.nearestStudyRooms,
         ),
       );
-    }
-  }
-
-  _onPressed(StudyRoomGroup studyRoomGroup, BuildContext context) async {
-    if (MediaQuery.orientationOf(context) == Orientation.portrait ||
-        widget.studyRoomGroup != null) {
-      context.push(closestStudyRoom, extra: studyRoomGroup);
-    } else {
-      ref
-          .read(homeSplitViewModel)
-          .selectedWidget
-          .add(StudyRoomGroupView(studyRoomGroup, true));
     }
   }
 

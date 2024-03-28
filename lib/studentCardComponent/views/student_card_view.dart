@@ -9,6 +9,7 @@ import 'package:campus_flutter/studentCardComponent/views/bar_code_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class StudentCardView extends ConsumerWidget {
   const StudentCardView({super.key});
@@ -25,7 +26,7 @@ class StudentCardView extends ConsumerWidget {
                 ref.read(studentCardViewModel).lastFetched.value;
             return Column(
               children: [
-                if (lastFetched != null) LastUpdatedText(lastFetched),
+                _header(lastFetched, context, ref),
                 _warningCard(context),
                 InformationView(studentCard: data),
                 BarCodeView(libraryID: data.libraryID),
@@ -50,6 +51,25 @@ class StudentCardView extends ConsumerWidget {
           return const DelayedLoadingIndicator(name: "StudentCard");
         }
       },
+    );
+  }
+
+  Widget _header(DateTime? lastFetched, BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          padding: EdgeInsets.symmetric(horizontal: context.padding),
+          onPressed: () => ref.read(studentCardViewModel).fetch(true),
+          icon: const Icon(Icons.refresh),
+        ),
+        if (lastFetched != null) Expanded(child: LastUpdatedText(lastFetched)),
+        IconButton(
+          padding: EdgeInsets.symmetric(horizontal: context.padding),
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.close),
+        ),
+      ],
     );
   }
 

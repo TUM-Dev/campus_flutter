@@ -36,7 +36,9 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
               child: CardWithPadding(
                 child: Center(
                   child: snapshot.hasData
-                      ? const ContactCardView()
+                      ? ContactCardView(
+                          profile: snapshot.data!,
+                        )
                       : snapshot.hasError
                           ? const UnauthorizedView()
                           : Container(),

@@ -51,21 +51,25 @@ class RestCacheInterceptor implements Interceptor {
       }
     } else {
       /// if device is offline, the cache is valid for 30 days
-      final cacheEntry = cache.getWithString(key);
-      if (cacheEntry != null &&
-          DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
-        return handler.resolve(
-          Response(
-            data: cacheEntry.data,
-            extra: {
-              "saved": cacheEntry.saved,
-            },
-            statusCode: 304,
-            requestOptions: options,
-          ),
-        );
-      } else {
+      if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
+      } else {
+        final cacheEntry = cache.getWithString(key);
+        if (cacheEntry != null &&
+            DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
+          return handler.resolve(
+            Response(
+              data: cacheEntry.data,
+              extra: {
+                "saved": cacheEntry.saved,
+              },
+              statusCode: 304,
+              requestOptions: options,
+            ),
+          );
+        } else {
+          cache.delete(key);
+        }
       }
     }
     handler.next(options);

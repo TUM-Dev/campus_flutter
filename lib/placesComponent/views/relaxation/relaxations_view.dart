@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/classes/location.dart';
-import 'package:campus_flutter/base/helpers/padded_divider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
@@ -32,7 +32,7 @@ class RelaxationsView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          MapWidget.horizontalPadding(
+          MapWidget.fullPadding(
             markers: relaxationPlaces
                 .map(
                   (e) => Marker(

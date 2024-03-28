@@ -20,32 +20,10 @@ class MapWidget extends ConsumerStatefulWidget {
   }) {
     return MapWidget._(
       markers: markers,
-      horizontalPadding: false,
       controlPadding: controlPadding,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
-      aspectRatioNeeded: aspectRatioNeeded,
-      roundedCorners: roundedCorners,
-    );
-  }
-
-  factory MapWidget.horizontalPadding({
-    required Set<Marker> markers,
-    LatLng? latLng,
-    EdgeInsets? controlPadding,
-    double? zoom,
-    double? aspectRatio,
-    bool aspectRatioNeeded = true,
-    bool roundedCorners = true,
-  }) {
-    return MapWidget._(
-      markers: markers,
-      latLng: latLng,
-      zoom: zoom,
-      aspectRatio: aspectRatio,
-      horizontalPadding: true,
-      controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
     );
@@ -65,7 +43,6 @@ class MapWidget extends ConsumerStatefulWidget {
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
-      horizontalPadding: false,
       padding: EdgeInsets.zero,
       controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
@@ -90,7 +67,6 @@ class MapWidget extends ConsumerStatefulWidget {
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
-      horizontalPadding: false,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
     );
@@ -98,7 +74,6 @@ class MapWidget extends ConsumerStatefulWidget {
 
   const MapWidget._({
     required this.markers,
-    required this.horizontalPadding,
     this.latLng,
     this.zoom,
     this.aspectRatio,
@@ -109,7 +84,6 @@ class MapWidget extends ConsumerStatefulWidget {
   });
 
   final Set<Marker> markers;
-  final bool horizontalPadding;
   final LatLng? latLng;
   final double? zoom;
   final double? aspectRatio;
@@ -166,7 +140,13 @@ class _MapWidgetState extends ConsumerState<MapWidget>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? EdgeInsets.all(context.padding),
+      padding: widget.padding ??
+          EdgeInsets.only(
+            left: context.padding,
+            right: context.padding,
+            bottom: context.padding,
+            top: context.halfPadding,
+          ),
       child: ClipRRect(
         borderRadius: widget.roundedCorners
             ? BorderRadius.circular(15.0)

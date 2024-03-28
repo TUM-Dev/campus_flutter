@@ -198,7 +198,7 @@
          }
       }
    },
-   "mealPlan":"Meal Plan",
+   "mealPlans":"Meal Plans",
    "noEntriesFound":"No {category} Found!",
    "@noEntriesFound":{
       "description":"Category",
@@ -327,5 +327,6 @@
    },
    "delete":"Delete",
    "relaxationPlaces":"Relaxation Places",
-   "more":"More"
+   "more":"More",
+   "unknownDirection":"Unknown Direction"
 }

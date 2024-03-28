@@ -71,7 +71,7 @@ class Cache {
 
   void delete(String key) {
     final hash = fastHash(key);
-    isar.writeTxnSync(() => isar.cacheEntrys.deleteSync(hash));
+    isar.writeTxn(() => isar.cacheEntrys.delete(hash));
   }
 
   Future<void> resetCache() async {

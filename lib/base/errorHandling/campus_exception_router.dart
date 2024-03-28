@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
-import 'package:campus_flutter/base/extensions/custom_exception.dart';
+import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:flutter/material.dart';
 
 class CampusExceptionRouter extends StatelessWidget with ErrorHandlingView {

@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/base/helpers/icon_text.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
@@ -88,7 +87,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
           child: WidgetFrameView(
             title: context.localizations.map,
             child: Expanded(
-              child: MapWidget.horizontalPadding(
+              child: MapWidget.fullPadding(
                 aspectRatioNeeded: false,
                 markers: ref
                     .read(placesViewModel)

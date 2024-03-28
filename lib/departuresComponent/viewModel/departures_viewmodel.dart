@@ -123,7 +123,6 @@ class DeparturesViewModel {
 
   void fetchDepartures() {
     if (widgetCampus.value != null) {
-      // TODO: calculate walking distance - feasible in Flutter?
       fetch(true);
     }
   }
@@ -158,12 +157,16 @@ class DeparturesViewModel {
     response.data.departures.sort((departure1, departure2) {
       if (departure1.realDateTime != null && departure2.realDateTime != null) {
         return departure1.realDateTime!.compareTo(departure2.realDateTime!);
-      } else if (departure1.realDateTime != null) {
-        return departure1.realDateTime!.compareTo(departure2.dateTime);
-      } else if (departure2.realDateTime != null) {
-        return departure1.dateTime.compareTo(departure2.realDateTime!);
+      } else if (departure1.realDateTime != null &&
+          departure2.dateTime != null) {
+        return departure1.realDateTime!.compareTo(departure2.dateTime!);
+      } else if (departure2.realDateTime != null &&
+          departure2.dateTime != null) {
+        return departure1.dateTime!.compareTo(departure2.realDateTime!);
+      } else if (departure1.dateTime != null && departure2.dateTime != null) {
+        return departure1.dateTime!.compareTo(departure2.dateTime!);
       } else {
-        return departure1.dateTime.compareTo(departure2.dateTime);
+        return 0;
       }
     });
 

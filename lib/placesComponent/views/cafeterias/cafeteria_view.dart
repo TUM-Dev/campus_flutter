@@ -231,7 +231,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             return Center(
               child: Text(
                 context.localizations.noEntriesFound(
-                  context.localizations.mealPlan,
+                  context.localizations.mealPlans,
                 ),
               ),
             );
@@ -287,7 +287,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                     Center(
                       child: Text(
                         context.localizations.noEntriesFound(
-                          context.localizations.mealPlan,
+                          context.localizations.mealPlans,
                         ),
                       ),
                     ),
@@ -301,7 +301,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
           );
         } else {
-          return const DelayedLoadingIndicator();
+          return DelayedLoadingIndicator(name: context.localizations.mealPlans);
         }
       },
     );

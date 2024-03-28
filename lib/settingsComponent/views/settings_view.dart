@@ -19,15 +19,39 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView(
-      children: [
-        const GeneralSettingsView(),
-        const AppearanceSettingsView(),
-        const ContactView(),
-        _authenticationButton(context, ref),
-        _versionNumberText(),
-      ],
-    );
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      return Row(
+        children: [
+          const Expanded(
+            child: Column(
+              children: [
+                GeneralSettingsView(),
+                AppearanceSettingsView(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                const ContactView(),
+                _authenticationButton(context, ref),
+                _versionNumberText(),
+              ],
+            ),
+          ),
+        ],
+      );
+    } else {
+      return ListView(
+        children: [
+          const GeneralSettingsView(),
+          const AppearanceSettingsView(),
+          const ContactView(),
+          _authenticationButton(context, ref),
+          _versionNumberText(),
+        ],
+      );
+    }
   }
 
   Widget _authenticationButton(BuildContext context, WidgetRef ref) {

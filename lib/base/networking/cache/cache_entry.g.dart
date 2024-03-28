@@ -49,7 +49,7 @@ const CacheEntrySchema = CollectionSchema(
   getId: _cacheEntryGetId,
   getLinks: _cacheEntryGetLinks,
   attach: _cacheEntryAttach,
-  version: '3.1.4',
+  version: '3.1.5',
 );
 
 int _cacheEntryEstimateSize(

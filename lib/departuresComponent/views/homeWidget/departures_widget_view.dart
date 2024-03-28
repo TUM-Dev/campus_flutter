@@ -8,8 +8,6 @@ import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
-import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
-import 'package:campus_flutter/homeComponent/split_view_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -69,7 +67,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
             ],
           ),
           child: GestureDetector(
-            onTap: () => _onWidgetPressed(context),
+            onTap: () => context.push(departures),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: MediaQuery.of(context).size.height * 0.225,
@@ -152,17 +150,5 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
           ],
       ],
     );
-  }
-
-  _onWidgetPressed(BuildContext context) {
-    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
-      context.push(departures);
-    } else {
-      ref.read(homeSplitViewModel).selectedWidget.add(
-            const DeparturesDetailsScaffold(
-              isSplitView: true,
-            ),
-          );
-    }
   }
 }

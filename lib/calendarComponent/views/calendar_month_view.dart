@@ -6,6 +6,7 @@ import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class CalendarMonthView extends ConsumerWidget {
   const CalendarMonthView({
@@ -20,35 +21,44 @@ class CalendarMonthView extends ConsumerWidget {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        builder: (context, snapshot) => SfCalendar(
-          view: CalendarView.month,
-          controller: calendarController,
-          monthViewSettings: const MonthViewSettings(
-            showAgenda: true,
-            agendaItemHeight: 75,
-            navigationDirection: MonthNavigationDirection.vertical,
+        builder: (context, snapshot) => SfDateRangePickerTheme(
+          data: const SfDateRangePickerThemeData(
+            headerBackgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
           ),
-          dataSource: MeetingDataSource(
-            snapshot.data ?? [],
-            context,
+          child: SfCalendar(
+            view: CalendarView.month,
+            controller: calendarController,
+            monthViewSettings: const MonthViewSettings(
+              showAgenda: true,
+              agendaItemHeight: 75,
+              navigationDirection: MonthNavigationDirection.vertical,
+            ),
+            dataSource: MeetingDataSource(
+              snapshot.data ?? [],
+              context,
+            ),
+            firstDayOfWeek: 1,
+            showDatePickerButton: true,
+            showNavigationArrow: true,
+            headerStyle: const CalendarHeaderStyle(
+              backgroundColor: Colors.transparent,
+            ),
+            onTap: (details) {
+              if (details.targetElement == CalendarElement.appointment) {
+                getIt<CalendarViewService>().showDetails(
+                  details,
+                  null,
+                  context,
+                  ref,
+                );
+              } else {
+                ref.read(selectedDate.notifier).state =
+                    (details.date, CalendarView.month);
+              }
+            },
+            appointmentTimeTextFormat: "HH:mm",
           ),
-          firstDayOfWeek: 1,
-          showDatePickerButton: true,
-          showNavigationArrow: true,
-          onTap: (details) {
-            if (details.targetElement == CalendarElement.appointment) {
-              getIt<CalendarViewService>().showDetails(
-                details,
-                null,
-                context,
-                ref,
-              );
-            } else {
-              ref.read(selectedDate.notifier).state =
-                  (details.date, CalendarView.month);
-            }
-          },
-          appointmentTimeTextFormat: "HH:mm",
         ),
       ),
     );

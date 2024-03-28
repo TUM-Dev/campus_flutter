@@ -53,12 +53,11 @@ class UserPreferencesViewModel {
         ref.read(hideFailedGrades.notifier).state = value as bool;
       case UserPreference.locale:
         ref.read(customLocale.notifier).state = value as Locale?;
+        value = value?.languageCode;
       default:
         break;
     }
-    if (value != null) {
-      getIt<UserPreferencesService>().save(userPreference, value);
-    }
+    getIt<UserPreferencesService>().save(userPreference, value);
   }
 
   void resetUserPreferences() {
