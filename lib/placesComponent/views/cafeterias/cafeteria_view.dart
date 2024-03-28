@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CafeteriaScaffold extends ConsumerWidget {
@@ -252,26 +253,32 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                     padding: EdgeInsets.all(context.padding),
                     child: SizedBox(
                       height: 80,
-                      child: SfDateRangePicker(
-                        headerHeight: 0,
-                        toggleDaySelection: false,
-                        enablePastDates: false,
-                        allowViewNavigation: false,
-                        initialSelectedDate: menu.first.date,
-                        minDate: menu.first.date,
-                        maxDate: menu.last.date,
-                        monthViewSettings:
-                            const DateRangePickerMonthViewSettings(
-                          numberOfWeeksInView: 1,
-                          firstDayOfWeek: 1,
+                      child: SfDateRangePickerTheme(
+                        data: const SfDateRangePickerThemeData(
+                          headerBackgroundColor: Colors.transparent,
+                          backgroundColor: Colors.transparent,
                         ),
-                        onSelectionChanged: (args) => setState(() {
-                          selectedDate = args.value as DateTime;
-                        }),
-                        selectableDayPredicate: (date) {
-                          return date.weekday != DateTime.saturday &&
-                              date.weekday != DateTime.sunday;
-                        },
+                        child: SfDateRangePicker(
+                          headerHeight: 0,
+                          toggleDaySelection: false,
+                          enablePastDates: false,
+                          allowViewNavigation: false,
+                          initialSelectedDate: menu.first.date,
+                          minDate: menu.first.date,
+                          maxDate: menu.last.date,
+                          monthViewSettings:
+                              const DateRangePickerMonthViewSettings(
+                            numberOfWeeksInView: 1,
+                            firstDayOfWeek: 1,
+                          ),
+                          onSelectionChanged: (args) => setState(() {
+                            selectedDate = args.value as DateTime;
+                          }),
+                          selectableDayPredicate: (date) {
+                            return date.weekday != DateTime.saturday &&
+                                date.weekday != DateTime.sunday;
+                          },
+                        ),
                       ),
                     ),
                   ),
