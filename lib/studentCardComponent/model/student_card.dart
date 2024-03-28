@@ -58,14 +58,19 @@ class StudentCard {
 @JsonSerializable()
 class Subject {
   final String name;
-
   @JsonKey(name: "abschluss")
   final String degree;
-
+  @JsonKey(name: "abschluss_kurz")
+  final String? degreeShort;
   @JsonKey(name: "identifikator")
   final String id;
 
-  Subject({required this.name, required this.degree, required this.id});
+  Subject({
+    required this.name,
+    required this.degree,
+    this.degreeShort,
+    required this.id,
+  });
 
   factory Subject.fromJson(Map<String, dynamic> json) =>
       _$SubjectFromJson(json);

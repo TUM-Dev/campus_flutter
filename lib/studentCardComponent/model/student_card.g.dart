@@ -41,12 +41,14 @@ Map<String, dynamic> _$StudentCardToJson(StudentCard instance) =>
 Subject _$SubjectFromJson(Map<String, dynamic> json) => Subject(
       name: json['name'] as String,
       degree: json['abschluss'] as String,
+      degreeShort: json['abschluss_kurz'] as String?,
       id: json['identifikator'] as String,
     );
 
 Map<String, dynamic> _$SubjectToJson(Subject instance) => <String, dynamic>{
       'name': instance.name,
       'abschluss': instance.degree,
+      'abschluss_kurz': instance.degreeShort,
       'identifikator': instance.id,
     };
 
