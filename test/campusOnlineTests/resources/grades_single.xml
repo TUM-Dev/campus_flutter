@@ -14,5 +14,7 @@
         <studienbezeichnung>Wirtschaftsinformatik</studienbezeichnung>
         <st_studium_nr>1024663</st_studium_nr>
         <lv_credits isnull="true"></lv_credits>
+        <abschluss_name>Bachelor of Science</abschluss_name>
+        <abschluss_name_kurz>B.Sc.</abschluss_name_kurz>
     </row>
 </rowset>
