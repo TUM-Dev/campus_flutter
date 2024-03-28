@@ -101,9 +101,11 @@ class _GradesViewState extends ConsumerState<GradesView>
               Expanded(
                 flex: 2,
                 child: ChartView(
-                  studyID: data.values.first.firstOrNull?.studyID ?? "Unknown",
                   title: data.values.first.firstOrNull?.studyDesignation ??
                       "Unknown",
+                  studyId: data.values.first.firstOrNull?.studyID ?? "Unknown",
+                  degreeShort:
+                      data.values.first.firstOrNull?.degreeShort ?? "Unknown",
                 ),
               ),
               Expanded(
@@ -146,8 +148,10 @@ class DegreeView extends StatelessWidget {
     return Column(
       children: [
         ChartView(
-          studyID: degree.values.first.firstOrNull?.studyID ?? "Unknown",
           title: degree.values.first.firstOrNull?.studyDesignation ?? "Unknown",
+          studyId: degree.values.first.firstOrNull?.studyID ?? "Unknown",
+          degreeShort:
+              degree.values.first.firstOrNull?.degreeShort ?? "Unknown",
         ),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],

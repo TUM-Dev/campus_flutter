@@ -1,26 +1,8 @@
-import 'package:campus_flutter/base/util/string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:intl/intl.dart';
 
 class StringParser {
-  static String degreeShortFromID(String studyID, BuildContext context) {
-    final splitDegreeNumbers = studyID.split(" ");
-
-    if (splitDegreeNumbers.length != 3) {
-      return context.localizations.unknown;
-    }
-
-    final academicDegreeNumber = splitDegreeNumbers[1];
-    final degreeShort = degreeIdShort[academicDegreeNumber];
-    return degreeShort != null ? "($degreeShort)" : "";
-  }
-
-  static String longDegreeToShortForm(String degree, BuildContext context) {
-    final shortDegree = degreeLongShort[degree];
-    return shortDegree != null ? "($shortDegree)" : "";
-  }
-
   static String toFullSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
     return context.localizations.fullSemesterName(

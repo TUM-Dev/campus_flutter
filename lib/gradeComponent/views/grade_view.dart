@@ -24,8 +24,7 @@ class GradeRow extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child:
-                    _subtitle(grade.modusShort(context), Icons.edit, context),
+                child: _subtitle(grade.modeShort(context), Icons.edit, context),
               ),
               const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
               Expanded(
