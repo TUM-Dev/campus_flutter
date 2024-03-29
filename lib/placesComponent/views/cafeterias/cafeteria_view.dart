@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/directions_launcher.dart';
 import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/util/places_util.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CafeteriaScaffold extends ConsumerWidget {
@@ -137,13 +139,11 @@ class CafeteriaView extends ConsumerStatefulWidget {
 
 class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
   late DateTime selectedDate;
-  late (bool, OpeningHour?) openingHours;
 
   @override
   void initState() {
     final today = DateTime.now();
     selectedDate = DateTime(today.year, today.month, today.day);
-    openingHours = widget.cafeteria.openingHoursForDate(today);
     super.initState();
   }
 
@@ -163,33 +163,10 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             ],
           );
         } else {
-          return Column(
-            children: [
-              if (openingHours.$2 != null && openingHours.$1)
-                _openingTimes(openingHours, context),
-              _pickerAndSlider(false),
-            ],
-          );
+          return _pickerAndSlider(false);
         }
       },
     );
-  }
-
-  Widget _openingTimes(
-    (bool, OpeningHour?) openingHours,
-    BuildContext context,
-  ) {
-    if (!openingHours.$1) {
-      return Text(context.localizations.closedToday);
-    } else {
-      return Text(
-        context.localizations.open(
-          widget.cafeteria.getDayString(DateTime.now(), context),
-          openingHours.$2!.start,
-          openingHours.$2!.end,
-        ),
-      );
-    }
   }
 
   List<Widget> _mapAndDirections() {
@@ -244,14 +221,24 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                         element.date.isAfter(selectedDate),
                   ),
                 );
-            return Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(context.padding),
-                    child: SizedBox(
-                      height: 80,
+            final Widget? openingHoursWidget = PlacesUtil.openingHours(
+              widget.cafeteria.openingHoursForDate(selectedDate),
+              selectedDate,
+              context,
+            );
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (openingHoursWidget != null) openingHoursWidget,
+                Padding(
+                  padding: EdgeInsets.all(context.padding),
+                  child: SizedBox(
+                    height: 80,
+                    child: SfDateRangePickerTheme(
+                      data: const SfDateRangePickerThemeData(
+                        headerBackgroundColor: Colors.transparent,
+                        backgroundColor: Colors.transparent,
+                      ),
                       child: SfDateRangePicker(
                         headerHeight: 0,
                         toggleDaySelection: false,
@@ -275,24 +262,24 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                       ),
                     ),
                   ),
-                  if (todayMeals.isNotEmpty)
-                    Expanded(
-                      child: DishGridView(
-                        dishes: todayMeals,
-                        isLandscape: isLandscape,
-                        //inverted: true,
+                ),
+                if (todayMeals.isNotEmpty)
+                  Expanded(
+                    child: DishGridView(
+                      dishes: todayMeals,
+                      isLandscape: isLandscape,
+                      //inverted: true,
+                    ),
+                  ),
+                if (todayMeals.isEmpty)
+                  Center(
+                    child: Text(
+                      context.localizations.noEntriesFound(
+                        context.localizations.mealPlans,
                       ),
                     ),
-                  if (todayMeals.isEmpty)
-                    Center(
-                      child: Text(
-                        context.localizations.noEntriesFound(
-                          context.localizations.mealPlans,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                  ),
+              ],
             );
           }
         } else if (snapshot.hasError) {
