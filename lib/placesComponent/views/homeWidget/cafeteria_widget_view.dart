@@ -73,7 +73,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           ),
           subtitle: PlacesUtil.openingHours(
             snapshot.data?.$1.openingHoursForDate(snapshot.data?.$2?.date),
-            snapshot.data?.$2!.date,
+            snapshot.data?.$2?.date,
             context,
           ),
           child: _dynamicContent(snapshot),
