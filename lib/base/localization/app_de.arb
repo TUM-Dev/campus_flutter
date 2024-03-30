@@ -251,6 +251,16 @@
       }
    },
    "closed":"Geschlossen",
+   "closedOn":"{day} geschlossen",
+   "@closedOn":{
+         "description":"Day",
+         "placeholders":{
+            "day":{
+               "type":"String",
+               "example":"Montag"
+            }
+         }
+      },
    "closedToday":"Heute geschlossen",
    "submitFeedback":"Feedback einreichen",
    "yourEmailAddress":"Deine E-Mail-Adresse",
