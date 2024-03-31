@@ -20,7 +20,6 @@
    "contactMore":"Contact & More",
    "tokenPermissions":"Token Permissions",
    "permissionChangePossibleInTUMonline":"You can change your permissions on TUMOnline",
-   "logout":"Logout",
    "login":"Login",
    "notLoggedIn":"Not Logged In",
    "welcomeToTheApp":"Welcome to the TUM Campus App",
@@ -252,6 +251,16 @@
       }
    },
    "closed":"Closed",
+   "closedOn":"Closed on {day}",
+      "@closedOn":{
+            "description":"Day",
+            "placeholders":{
+               "day":{
+                  "type":"String",
+                  "example":"Monday"
+               }
+            }
+         },
    "closedToday":"Closed Today",
    "submitFeedback":"Submit Feedback",
    "yourEmailAddress":"Your Email Address",
