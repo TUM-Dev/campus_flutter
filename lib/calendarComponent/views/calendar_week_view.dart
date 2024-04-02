@@ -3,12 +3,13 @@ import 'package:campus_flutter/calendarComponent/services/calendar_view_service.
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
-class CalendarWeekView extends ConsumerWidget {
+class CalendarWeekView extends ConsumerStatefulWidget {
   const CalendarWeekView({
     super.key,
     required this.calendarController,
@@ -17,7 +18,13 @@ class CalendarWeekView extends ConsumerWidget {
   final CalendarController calendarController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CalendarWeekViewState();
+}
+
+class _CalendarWeekViewState extends ConsumerState<CalendarWeekView> {
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
@@ -27,8 +34,10 @@ class CalendarWeekView extends ConsumerWidget {
             backgroundColor: Colors.transparent,
           ),
           child: SfCalendar(
-            view: CalendarView.week,
-            controller: calendarController,
+            view: ref.read(showWeekends)
+                ? CalendarView.week
+                : CalendarView.workWeek,
+            controller: widget.calendarController,
             dataSource: MeetingDataSource(
               snapshot.data ?? [],
               context,
@@ -53,12 +62,10 @@ class CalendarWeekView extends ConsumerWidget {
             headerStyle: const CalendarHeaderStyle(
               backgroundColor: Colors.transparent,
             ),
-            timeSlotViewSettings: TimeSlotViewSettings(
+            timeSlotViewSettings: const TimeSlotViewSettings(
               startHour: 7,
               endHour: 22,
               timeFormat: "HH:mm",
-              numberOfDaysInView:
-                  MediaQuery.sizeOf(context).width > 600 ? 7 : 4,
             ),
           ),
         ),

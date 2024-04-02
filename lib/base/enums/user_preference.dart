@@ -6,6 +6,7 @@ enum UserPreference {
   theme(int),
   browser(bool),
   failedGrades(bool),
+  weekends(bool),
   locale(String);
 
   final Type type;

@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/main.dart';
@@ -11,6 +12,7 @@ import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_vie
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AppearanceSettingsView extends ConsumerWidget {
   const AppearanceSettingsView({super.key});
@@ -25,6 +27,7 @@ class AppearanceSettingsView extends ConsumerWidget {
             _appearanceSelection(context, ref),
             if (Platform.isIOS) _useWebView(context, ref),
             _hideFailedGrades(context, ref),
+            _showWeeks(context, ref),
           ],
         ),
       ),
@@ -88,6 +91,27 @@ class AppearanceSettingsView extends ConsumerWidget {
                 value,
               );
           ref.read(gradeViewModel).fetch(false);
+        },
+      ),
+    );
+  }
+
+  Widget _showWeeks(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(
+        context.localizations.showWeekends,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: Switch(
+        value: ref.watch(showWeekends),
+        onChanged: (value) {
+          ref.read(userPreferencesViewModel).savePreference(
+                UserPreference.weekends,
+                value,
+              );
+          calendarsKey.currentState?.weekController.view =
+              value ? CalendarView.week : CalendarView.workWeek;
         },
       ),
     );

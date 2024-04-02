@@ -13,6 +13,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
+final showWeekends = StateProvider<bool>((ref) => false);
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});

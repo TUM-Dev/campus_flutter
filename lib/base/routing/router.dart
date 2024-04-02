@@ -99,7 +99,7 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: calendar,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => NoTransitionPage(
                 child: CalendarsView(),
               ),
             ),
