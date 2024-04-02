@@ -77,7 +77,7 @@ class SettingsView extends ConsumerWidget {
                     textAlign: TextAlign.center,
                   )
                 : Text(
-                    context.localizations.logout,
+                    context.localizations.reset,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.red,
                           fontWeight: FontWeight.w500,

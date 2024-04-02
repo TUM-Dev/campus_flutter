@@ -62,7 +62,9 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             value.compareTo(const Duration(seconds: 9, milliseconds: 2)) ==
                 -1) {
           setState(() {
-            currentText = 1;
+            if (mounted) {
+              currentText = 1;
+            }
           });
         } else if (value
                     .compareTo(const Duration(seconds: 9, milliseconds: 3)) ==
@@ -70,13 +72,17 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             value.compareTo(const Duration(seconds: 16, milliseconds: 24)) ==
                 -1) {
           setState(() {
-            currentText = 2;
+            if (mounted) {
+              currentText = 2;
+            }
           });
         } else if (value.compareTo(Duration.zero) == 1 &&
             value.compareTo(const Duration(seconds: 5, milliseconds: 16)) ==
                 -1) {
           setState(() {
-            currentText = 0;
+            if (mounted) {
+              currentText = 0;
+            }
           });
         }
       }
