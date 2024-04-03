@@ -618,7 +618,7 @@ packages:
     description:
       path: "packages/google_maps_flutter/google_maps_flutter_ios"
       ref: main
-      resolved-ref: "76ec0f6a67acefeff16dba1dcbd3ec7323ec7883"
+      resolved-ref: "484270f92f5072c99fc348e6549d12b86b6fe601"
       url: "https://github.com/jakobkoerber/packages.git"
     source: git
     version: "2.5.2"

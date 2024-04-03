@@ -21,7 +21,6 @@ import 'package:go_router/go_router.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final onboardingViewModel = Provider((ref) => OnboardingViewModel());
 
