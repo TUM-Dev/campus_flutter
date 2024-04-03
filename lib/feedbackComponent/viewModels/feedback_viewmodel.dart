@@ -1,6 +1,10 @@
 import 'dart:developer';
 
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/feedbackComponent/services/feedback_service.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
@@ -8,6 +12,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -18,7 +23,6 @@ class FeedbackViewModel {
   BehaviorSubject<bool> activeButton = BehaviorSubject.seeded(false);
   BehaviorSubject<bool?> validEmail = BehaviorSubject.seeded(null);
   BehaviorSubject<bool?> validMessage = BehaviorSubject.seeded(null);
-  BehaviorSubject<bool?> successfullySent = BehaviorSubject.seeded(null);
   final TextEditingController emailAddress = TextEditingController();
   final TextEditingController message = TextEditingController();
 
@@ -34,10 +38,14 @@ class FeedbackViewModel {
     }
   }
 
-  Future<void> sendFeedBack() async {
+  Future<void> sendFeedBack(BuildContext context) async {
     Position? position;
     if (shareLocation.value) {
-      position = await LocationService.getLastKnown();
+      try {
+        position = await LocationService.getLastKnown();
+      } catch (_) {
+        position = null;
+      }
     }
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -61,11 +69,34 @@ class FeedbackViewModel {
     );
 
     FeedbackService.sendFeedback(feedback).then(
-      (value) => successfullySent.add(true),
-      onError: (error) {
-        log(error.toString());
-        successfullySent.addError(error);
+      (value) {
+        context.pushReplacement(feedbackSuccess);
       },
+      onError: (error) => _errorDialog(error, context),
+    );
+  }
+
+  void _errorDialog(dynamic error, BuildContext context) {
+    log(error.runtimeType.toString());
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.localizations.unableToSend,
+          textAlign: TextAlign.center,
+        ),
+        content: ErrorHandlingRouter(
+          error: error,
+          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text(context.localizations.back),
+          ),
+        ],
+      ),
     );
   }
 
@@ -80,7 +111,7 @@ class FeedbackViewModel {
 
   void checkEmailValidity() {
     final RegExp validEmailRegex = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+      r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
     );
     if (emailAddress.value.text.isNotEmpty) {
       if (validEmailRegex.hasMatch(emailAddress.value.text)) {
@@ -104,6 +135,5 @@ class FeedbackViewModel {
     activeButton.add(false);
     validMessage.add(null);
     validEmail.add(null);
-    successfullySent.add(null);
   }
 }

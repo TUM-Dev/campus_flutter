@@ -100,20 +100,18 @@ mixin ErrorHandlingView {
           ),
         );
       case ErrorHandlingViewType.descriptionOnly:
-        return Center(
-          child: _errorMessageText(
-            errorMessage,
-            context,
-            style: TextStyle(color: bodyColor),
-          ),
+        return _errorMessageText(
+          errorMessage,
+          context,
+          style: TextStyle(color: bodyColor),
+          textAlign: TextAlign.center,
         );
       case ErrorHandlingViewType.redDescriptionOnly:
-        return Center(
-          child: _errorMessageText(
-            errorMessage,
-            context,
-            style: const TextStyle(color: Colors.red),
-          ),
+        return _errorMessageText(
+          errorMessage,
+          context,
+          style: const TextStyle(color: Colors.red),
+          textAlign: TextAlign.center,
         );
     }
   }
