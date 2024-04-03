@@ -6,6 +6,7 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/main.dart';
@@ -20,6 +21,7 @@ import 'package:go_router/go_router.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final onboardingViewModel = Provider((ref) => OnboardingViewModel());
 
@@ -153,6 +155,7 @@ class OnboardingViewModel {
       androidName: "widgets.calendar.CalendarWidget",
     );
     getIt<UserPreferencesService>().resetAll();
+    getIt<CalendarColorService>().resetColorPreferences();
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }
