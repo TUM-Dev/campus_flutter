@@ -22,6 +22,8 @@ class CalendarEvent extends Searchable {
   final DateTime endDate;
   final String? location;
 
+  int? color;
+
   Duration get duration {
     return endDate.difference(startDate);
   }
@@ -77,16 +79,24 @@ class CalendarEvent extends Searchable {
     }
   }
 
-  Color getEventColor(BuildContext context) {
-    switch (type) {
-      case CalendarEventType.canceled:
-        return Colors.red;
-      case CalendarEventType.lecture:
-        return Colors.green;
-      case CalendarEventType.exercise:
-        return Colors.orange;
-      default:
-        return Theme.of(context).primaryColor;
+  void setColor(Color color) {
+    this.color = color.value;
+  }
+
+  Color getColor(BuildContext context) {
+    if (color == null) {
+      switch (type) {
+        case CalendarEventType.canceled:
+          return Colors.red;
+        case CalendarEventType.lecture:
+          return Colors.green;
+        case CalendarEventType.exercise:
+          return Colors.orange;
+        default:
+          return Theme.of(context).primaryColor;
+      }
+    } else {
+      return Color(color!);
     }
   }
 
@@ -106,6 +116,7 @@ class CalendarEvent extends Searchable {
     required this.startDate,
     required this.endDate,
     this.location,
+    this.color,
   });
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>

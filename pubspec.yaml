@@ -50,6 +50,7 @@ dependencies:
   barcode_widget: ^2.0.4
   lottie: ^3.0.0
   timeago: ^3.4.0
+  flutter_colorpicker: ^1.0.3
 
   # helpers
   device_info_plus: ^10.0.1

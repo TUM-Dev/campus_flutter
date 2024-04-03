@@ -54,7 +54,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
             decoration: BoxDecoration(
               border: Border(
                 left: BorderSide(
-                  color: calendarEvent.getEventColor(context),
+                  color: calendarEvent.getColor(context),
                   width: 2.0,
                 ),
               ),

@@ -335,5 +335,6 @@
       }
    },
    "unknownDirection":"Unknown Direction",
-   "showWeekends":"Show Weekends"
+   "showWeekends":"Show Weekends",
+   "color":"Color"
 }

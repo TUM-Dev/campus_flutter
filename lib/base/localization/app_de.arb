@@ -335,5 +335,6 @@
       }
    },
    "unknownDirection":"Unbekannte Richtung",
-   "showWeekends":"Wochenenden anzeigen"
+   "showWeekends":"Wochenenden anzeigen",
+   "color":"Farbe"
 }
