@@ -79,8 +79,8 @@ class CalendarEvent extends Searchable {
     }
   }
 
-  void setColor(Color color) {
-    this.color = color.value;
+  void setColor(Color? color) {
+    this.color = color?.value;
   }
 
   Color getColor(BuildContext context) {

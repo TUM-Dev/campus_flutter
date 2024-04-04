@@ -336,5 +336,7 @@
    },
    "unknownDirection":"Unbekannte Richtung",
    "showWeekends":"Wochenenden anzeigen",
-   "color":"Farbe"
+   "color":"Farbe",
+   "resetAll":"Alles zurücksetzen",
+   "resetPreferences":"Einstellungen zurücksetzen"
 }

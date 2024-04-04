@@ -113,4 +113,11 @@ class CalendarViewModel {
     events.add(elements);
     updateHomeWidget(events.value ?? []);
   }
+
+  void updateEventColors() {
+    final elements = events.value;
+    elements?.forEach((element) => element.setColor(null));
+    events.add(elements);
+    updateHomeWidget(events.value ?? []);
+  }
 }
