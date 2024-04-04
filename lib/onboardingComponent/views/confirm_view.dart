@@ -61,29 +61,29 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                 1 &&
             value.compareTo(const Duration(seconds: 9, milliseconds: 2)) ==
                 -1) {
-          setState(() {
-            if (mounted) {
+          if (mounted) {
+            setState(() {
               currentText = 1;
-            }
-          });
+            });
+          }
         } else if (value
                     .compareTo(const Duration(seconds: 9, milliseconds: 3)) ==
                 1 &&
             value.compareTo(const Duration(seconds: 16, milliseconds: 24)) ==
                 -1) {
-          setState(() {
-            if (mounted) {
+          if (mounted) {
+            setState(() {
               currentText = 2;
-            }
-          });
+            });
+          }
         } else if (value.compareTo(Duration.zero) == 1 &&
             value.compareTo(const Duration(seconds: 5, milliseconds: 16)) ==
                 -1) {
-          setState(() {
-            if (mounted) {
+          if (mounted) {
+            setState(() {
               currentText = 0;
-            }
-          });
+            });
+          }
         }
       }
     });
@@ -213,7 +213,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             }
           },
           onError: (error) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
               SnackBar(
                 duration: const Duration(seconds: 10),
                 content: ErrorHandlingRouter(

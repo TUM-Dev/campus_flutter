@@ -159,11 +159,13 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
           _controller.complete(controller);
           Future.delayed(
             const Duration(milliseconds: 250),
-            () => setState(() {
+            () {
               if (mounted) {
-                isMapVisible = true;
+                setState(() {
+                  isMapVisible = true;
+                });
               }
-            }),
+            },
           );
         },
       ),
