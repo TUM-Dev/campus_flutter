@@ -7,17 +7,21 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.lang.reflect.Type
 
-class LocalDateTimeDeserializer : JsonDeserializer<DateTime> {
+class LocalDateTimeDeserializer : JsonDeserializer<DateTime?> {
     override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-    ): DateTime {
+    ): DateTime? {
         return deserializeStringToDate(json?.asString)
     }
 }
 
-fun deserializeStringToDate(dateString: String?): DateTime {
-    val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-    return DateTime.parse(dateString, formatter)
+fun deserializeStringToDate(dateString: String?): DateTime? {
+    return try {
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+        DateTime.parse(dateString, formatter)
+    } catch (_: Exception) {
+        null
+    }
 }

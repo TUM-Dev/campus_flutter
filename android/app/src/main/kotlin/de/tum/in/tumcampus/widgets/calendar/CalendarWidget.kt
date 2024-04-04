@@ -51,8 +51,8 @@ private fun updateAppWidget(
     val p = PrettyTime()
     val widgetData = HomeWidgetPlugin.getData(context)
     val lastSaved = widgetData.getString("calendar_save", null)
-    val lastSavedDate = deserializeStringToDate(lastSaved).toLocalDate()
-    val lastSavedDateString = p.format( deserializeStringToDate(lastSaved).toDate())
+    val lastSavedDate = deserializeStringToDate(lastSaved)?.toLocalDate()
+    val lastSavedDateString = p.format( deserializeStringToDate(lastSaved)?.toDate())
     remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDateString)
 
     val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(

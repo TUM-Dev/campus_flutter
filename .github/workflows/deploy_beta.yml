@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [ ios, android ]
+        platform: [ android ]
       fail-fast: false
 
     steps:
