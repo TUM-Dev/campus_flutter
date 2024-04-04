@@ -338,5 +338,6 @@
    "showWeekends":"Show Weekends",
    "color":"Color",
    "resetAll":"Reset All",
-   "resetPreferences":"Reset Preferences"
+   "resetPreferences":"Reset Preferences",
+   "mostSearchedRooms":"Most Searched Rooms"
 }

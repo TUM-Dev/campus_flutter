@@ -37,7 +37,7 @@ class LectureView extends ConsumerWidget {
             _subtitle(lecture.speaker!, Icons.person, context),
         ],
       ),
-      onTap: () => context.push(lectureDetails, extra: lecture),
+      onTap: () => context.push(lectureDetails, extra: (lecture, null)),
     );
   }
 

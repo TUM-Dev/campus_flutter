@@ -1,13 +1,13 @@
-import 'package:campus_flutter/base/util/custom_back_button.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CalendarSearchResultView extends ConsumerWidget {
   const CalendarSearchResultView({super.key});
@@ -40,23 +40,7 @@ class CalendarSearchResultView extends ConsumerWidget {
             ),
           ],
         ),
-        // TODO:
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => Scaffold(
-                appBar: AppBar(
-                  leading: const CustomBackButton(),
-                ),
-                body: SafeArea(
-                  child: LectureDetailsView(
-                    event: calendarEvent,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+        onTap: () => context.push(lectureDetails, extra: (null, calendarEvent)),
       ),
     );
   }

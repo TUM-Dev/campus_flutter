@@ -152,9 +152,13 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: lectureDetails,
-      builder: (context, state) => LectureDetailsScaffold(
-        lecture: state.extra as Lecture,
-      ),
+      builder: (context, state) {
+        final data = state as (Lecture?, CalendarEvent?);
+        return LectureDetailsScaffold(
+          lecture: data.$1,
+          event: data.$2,
+        );
+      },
     ),
     GoRoute(
       path: calendarDetails,

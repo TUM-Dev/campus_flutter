@@ -338,5 +338,6 @@
    "showWeekends":"Wochenenden anzeigen",
    "color":"Farbe",
    "resetAll":"Alles zurücksetzen",
-   "resetPreferences":"Einstellungen zurücksetzen"
+   "resetPreferences":"Einstellungen zurücksetzen",
+   "mostSearchedRooms":"meistgesuche Räume"
 }
