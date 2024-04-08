@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -80,7 +78,6 @@ class FeedbackViewModel {
   }
 
   void _errorDialog(dynamic error, BuildContext context) {
-    log(error.runtimeType.toString());
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

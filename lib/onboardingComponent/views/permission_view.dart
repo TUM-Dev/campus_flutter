@@ -38,7 +38,7 @@ class PermissionView extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.headlineMedium?.apply(
-                    color: Theme.of(context).primaryColor,
+                    color: context.primaryColor,
                   ),
             ),
             Padding(

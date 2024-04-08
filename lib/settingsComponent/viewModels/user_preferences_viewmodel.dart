@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
@@ -79,7 +80,7 @@ class UserPreferencesViewModel {
             value: e,
             child: IconText(
               iconData: e.icon,
-              iconColor: Theme.of(context).primaryColor,
+              iconColor: context.primaryColor,
               label: Localizations.localeOf(context).languageCode == "de"
                   ? e.german
                   : e.english,

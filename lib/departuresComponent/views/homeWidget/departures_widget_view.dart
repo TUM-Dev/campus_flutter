@@ -49,7 +49,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               InkWell(
                 child: Icon(
                   Icons.filter_list,
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                 ),
                 onTap: () => showModalBottomSheet(
                   builder: (context) => PreferenceSelectionView<Campus>(
@@ -125,7 +125,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               TextSpan(
                 text: station.name,
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

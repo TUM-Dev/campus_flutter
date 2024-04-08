@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
@@ -46,7 +47,7 @@ class LectureView extends ConsumerWidget {
       iconData: iconData,
       label: text,
       style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-      iconColor: Theme.of(context).primaryColor,
+      iconColor: context.primaryColor,
       multipleLines: false,
     );
   }

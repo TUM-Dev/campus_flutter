@@ -28,7 +28,7 @@ class CalendarSearchResultView extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
-              iconColor: Theme.of(context).primaryColor,
+              iconColor: context.primaryColor,
             ),
             IconText(
               iconData: Icons.location_pin,
@@ -36,7 +36,7 @@ class CalendarSearchResultView extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
-              iconColor: Theme.of(context).primaryColor,
+              iconColor: context.primaryColor,
             ),
           ],
         ),

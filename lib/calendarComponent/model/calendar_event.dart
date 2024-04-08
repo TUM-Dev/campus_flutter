@@ -93,7 +93,7 @@ class CalendarEvent extends Searchable {
         case CalendarEventType.exercise:
           return Colors.orange;
         default:
-          return Theme.of(context).primaryColor;
+          return context.primaryColor;
       }
     } else {
       return Color(color!);

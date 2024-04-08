@@ -147,7 +147,7 @@ class OnboardingViewModel {
     getIt<UserPreferencesService>().resetAll();
     getIt<CalendarColorService>().resetColorPreferences();
     ref.read(userPreferencesViewModel).loadPreferences();
-    ref.read(calendarViewModel).updateEventColors();
+    ref.read(calendarViewModel).resetEventColors();
   }
 
   Future logout(WidgetRef ref) async {

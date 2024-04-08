@@ -99,7 +99,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                           .name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: context.primaryColor,
                       ),
                     ),
                   ],

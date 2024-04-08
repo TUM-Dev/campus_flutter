@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
-class CalendarWeekView extends ConsumerStatefulWidget {
+class CalendarWeekView extends ConsumerWidget {
   const CalendarWeekView({
     super.key,
     required this.calendarController,
@@ -18,13 +18,7 @@ class CalendarWeekView extends ConsumerStatefulWidget {
   final CalendarController calendarController;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CalendarWeekViewState();
-}
-
-class _CalendarWeekViewState extends ConsumerState<CalendarWeekView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
@@ -37,7 +31,7 @@ class _CalendarWeekViewState extends ConsumerState<CalendarWeekView> {
             view: ref.read(showWeekends)
                 ? CalendarView.week
                 : CalendarView.workWeek,
-            controller: widget.calendarController,
+            controller: calendarController,
             dataSource: MeetingDataSource(
               snapshot.data ?? [],
               context,

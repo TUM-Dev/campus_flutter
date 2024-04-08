@@ -252,7 +252,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         onPressed: () => context.push(feedback),
         child: Text(
           context.localizations.contactSupport,
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: context.primaryColor),
         ),
       ),
     );

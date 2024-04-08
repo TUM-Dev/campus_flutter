@@ -126,7 +126,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
       children: [
         Text(
           DateFormat.EEEE(context.localizations.localeName).format(today),
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: context.primaryColor),
         ),
         Text(
           DateFormat.MMMd(context.localizations.localeName).format(today),

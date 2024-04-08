@@ -37,7 +37,7 @@ class NavigaTumRoomDetailsView extends ConsumerWidget {
     return ListTile(
       leading: Icon(
         iconData,
-        color: Theme.of(context).primaryColor,
+        color: context.primaryColor,
       ),
       title: Text(detail),
     );
