@@ -40,9 +40,9 @@ class _LectureDetailsScaffoldState
   late Color selectedColor;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     selectedColor = widget.event?.getColor(context) ?? Colors.red;
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
