@@ -21,8 +21,9 @@ final feedbackViewModel = Provider((ref) => FeedbackViewModel(ref));
 class FeedbackViewModel {
   BehaviorSubject<bool> shareLocation = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> activeButton = BehaviorSubject.seeded(false);
-  BehaviorSubject<bool?> validEmail = BehaviorSubject.seeded(null);
+  BehaviorSubject<bool?> validName = BehaviorSubject.seeded(null);
   BehaviorSubject<bool?> validMessage = BehaviorSubject.seeded(null);
+  final TextEditingController name = TextEditingController();
   final TextEditingController emailAddress = TextEditingController();
   final TextEditingController message = TextEditingController();
 
@@ -31,10 +32,11 @@ class FeedbackViewModel {
   FeedbackViewModel(this.ref);
 
   initForm() {
-    final email = ref.read(profileDetailsViewModel).personDetails.value?.email;
-    if (email != null) {
-      emailAddress.text = email;
-      validEmail.add(true);
+    final personDetails = ref.read(profileDetailsViewModel).personDetails.value;
+    if (personDetails != null) {
+      name.text = personDetails.fullName;
+      emailAddress.text = personDetails.email;
+      validName.add(true);
     }
   }
 
@@ -58,6 +60,7 @@ class FeedbackViewModel {
 
     final feedback = CreateFeedbackRequest(
       recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
+      fromName: name.text,
       fromEmail: emailAddress.text,
       message: message.text,
       location: Coordinate(
@@ -109,31 +112,22 @@ class FeedbackViewModel {
     checkButton();
   }
 
-  void checkEmailValidity() {
-    final RegExp validEmailRegex = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    );
-    if (emailAddress.value.text.isNotEmpty) {
-      if (validEmailRegex.hasMatch(emailAddress.value.text)) {
-        validEmail.add(true);
-      } else {
-        validEmail.add(false);
-      }
-    }
-    checkButton();
+  void checkNameValidity() {
+    validName.add(name.value.text.isNotEmpty);
   }
 
   void checkButton() {
     activeButton
-        .add((validEmail.value ?? false) && (validMessage.value ?? false));
+        .add((validName.value ?? false) && (validMessage.value ?? false));
   }
 
   void clearForm() {
+    name.text = "";
     emailAddress.text = "";
     message.text = "";
     shareLocation.add(false);
     activeButton.add(false);
     validMessage.add(null);
-    validEmail.add(null);
+    validName.add(null);
   }
 }

@@ -50,13 +50,13 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
         child: Column(
           children: [
             FeedbackTextField(
-              title: context.localizations.yourEmailAddress,
-              textEditingController: ref.read(feedbackViewModel).emailAddress,
-              validInput: ref.watch(feedbackViewModel).validEmail,
+              title: context.localizations.name,
+              textEditingController: ref.read(feedbackViewModel).name,
+              validInput: ref.watch(feedbackViewModel).validName,
               onChanged: (text) =>
-                  ref.read(feedbackViewModel).checkEmailValidity(),
-              invalidMessage: context.localizations.invalidEmail,
-              decorationMessage: context.localizations.yourEmail,
+                  ref.read(feedbackViewModel).checkNameValidity(),
+              invalidMessage: context.localizations.invalidName,
+              decorationMessage: context.localizations.yourName,
             ),
             FeedbackTextField(
               title: context.localizations.message,
