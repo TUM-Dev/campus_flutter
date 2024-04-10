@@ -9,21 +9,7 @@ class Cache {
 
   Cache({required this.isar});
 
-  void add(String body, Uri uri) {
-    final today = DateTime.now();
-    final cacheEntry = CacheEntry(
-      id: fastHash(uri.toString()),
-      url: uri.toString(),
-      validUntil: today.add(ttl),
-      saved: today,
-      data: body,
-    );
-    isar.writeTxn(
-      () => isar.cacheEntrys.put(cacheEntry),
-    );
-  }
-
-  void addString(String body, String uri) {
+  void add(String body, String uri) {
     final today = DateTime.now();
     final cacheEntry = CacheEntry(
       id: fastHash(uri),
@@ -37,23 +23,7 @@ class Cache {
     );
   }
 
-  CacheEntry? get(Uri uri) {
-    final hash = fastHash(uri.toString());
-    final entry = isar.txnSync(() => isar.cacheEntrys.getSync(hash));
-    if (entry != null) {
-      final today = DateTime.now();
-      if (entry.validUntil.isAfter(today)) {
-        return entry;
-      } else {
-        isar.writeTxnSync(() => isar.cacheEntrys.deleteSync(hash));
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  CacheEntry? getWithString(String uri) {
+  CacheEntry? get(String uri) {
     final hash = fastHash(uri);
     final entry = isar.txnSync(() => isar.cacheEntrys.getSync(hash));
     if (entry != null) {
@@ -61,7 +31,23 @@ class Cache {
       if (entry.validUntil.isAfter(today)) {
         return entry;
       } else {
-        isar.writeTxnSync(() => isar.cacheEntrys.deleteSync(hash));
+        isar.writeTxn(() => isar.cacheEntrys.delete(hash));
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future<CacheEntry?> getAsync(String uri) async {
+    final hash = fastHash(uri);
+    final entry = await isar.txn(() => isar.cacheEntrys.get(hash));
+    if (entry != null) {
+      final today = DateTime.now();
+      if (entry.validUntil.isAfter(today)) {
+        return entry;
+      } else {
+        isar.writeTxn(() => isar.cacheEntrys.delete(hash));
         return null;
       }
     } else {

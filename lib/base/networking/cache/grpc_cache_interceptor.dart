@@ -29,7 +29,7 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     ClientUnaryInvoker<Q, R> invoker,
   ) {
     final key = method.path;
-    final cachedResponse = cache.getWithString(key);
+    final cachedResponse = cache.get(key);
     final factory = _getFactory<R>();
     if (cachedResponse != null && factory != null) {
       final data = factory(cachedResponse.data);
@@ -47,7 +47,7 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     /// If not found in cache, invoke the actual RPC and cache the response
     final response = invoker(method, request, options);
     response.then((data) {
-      cache.addString((data as GeneratedMessage).writeToJson(), key);
+      cache.add((data as GeneratedMessage).writeToJson(), key);
     });
 
     return response;
