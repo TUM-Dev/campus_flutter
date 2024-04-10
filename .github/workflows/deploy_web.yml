@@ -32,9 +32,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:'
-          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:arch:'
 
       - name: Install Flutter Packages
         run: flutter pub get

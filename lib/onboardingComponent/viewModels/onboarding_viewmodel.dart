@@ -6,12 +6,15 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -140,6 +143,13 @@ class OnboardingViewModel {
     context.go(home);
   }
 
+  Future resetPreferences(WidgetRef ref) async {
+    getIt<UserPreferencesService>().resetAll();
+    getIt<CalendarColorService>().resetColorPreferences();
+    ref.read(userPreferencesViewModel).loadPreferences();
+    ref.read(calendarViewModel).resetEventColors();
+  }
+
   Future logout(WidgetRef ref) async {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
@@ -153,6 +163,7 @@ class OnboardingViewModel {
       androidName: "widgets.calendar.CalendarWidget",
     );
     getIt<UserPreferencesService>().resetAll();
+    getIt<CalendarColorService>().resetColorPreferences();
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }

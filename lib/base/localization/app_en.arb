@@ -263,14 +263,14 @@
          },
    "closedToday":"Closed Today",
    "submitFeedback":"Submit Feedback",
-   "yourEmailAddress":"Your Email Address",
+   "name":"Name",
    "message":"Message",
    "shareLocation":"Share Current Location",
    "shareDeviceInformation":"Share Device's Information",
    "submit":"Submit",
-   "yourMessage":"Your Message",
-   "yourEmail":"youremail@tum.de",
-   "invalidEmail":"Invalid Email Address",
+   "yourMessage":"Your Message...",
+   "yourName":"Your Name...",
+   "invalidName":"Invalid Name",
    "invalidMessage":"Invalid Message",
    "unableToSend":"Unable to Send Message!",
    "successfullySent":"Message Successfully Sent!\n Thanks for Your Feedback!",
@@ -334,5 +334,10 @@
          }
       }
    },
-   "unknownDirection":"Unknown Direction"
+   "unknownDirection":"Unknown Direction",
+   "showWeekends":"Show Weekends",
+   "color":"Color",
+   "resetAll":"Reset All",
+   "resetPreferences":"Reset Preferences",
+   "mostSearchedRooms":"Most Searched Rooms"
 }

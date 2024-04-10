@@ -1,2 +1,4 @@
 -keep class org.joda.** {*;}
 -dontwarn org.joda.**
+-keep class org.ocpsoft.prettytime.i18n.**
+-keepnames class ** implements org.ocpsoft.prettytime.TimeUnit

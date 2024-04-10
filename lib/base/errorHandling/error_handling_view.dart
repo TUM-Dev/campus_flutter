@@ -40,7 +40,7 @@ mixin ErrorHandlingView {
                       errorMessage,
                       context,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: titleColor ?? Theme.of(context).primaryColor,
+                            color: titleColor ?? context.primaryColor,
                           ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -86,7 +86,7 @@ mixin ErrorHandlingView {
                 errorMessage,
                 context,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: titleColor ?? Theme.of(context).primaryColor,
+                      color: titleColor ?? context.primaryColor,
                     ),
                 textAlign: TextAlign.center,
               ),
@@ -100,20 +100,18 @@ mixin ErrorHandlingView {
           ),
         );
       case ErrorHandlingViewType.descriptionOnly:
-        return Center(
-          child: _errorMessageText(
-            errorMessage,
-            context,
-            style: TextStyle(color: bodyColor),
-          ),
+        return _errorMessageText(
+          errorMessage,
+          context,
+          style: TextStyle(color: bodyColor),
+          textAlign: TextAlign.center,
         );
       case ErrorHandlingViewType.redDescriptionOnly:
-        return Center(
-          child: _errorMessageText(
-            errorMessage,
-            context,
-            style: const TextStyle(color: Colors.red),
-          ),
+        return _errorMessageText(
+          errorMessage,
+          context,
+          style: const TextStyle(color: Colors.red),
+          textAlign: TextAlign.center,
         );
     }
   }

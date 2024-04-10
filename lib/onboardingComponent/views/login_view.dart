@@ -248,7 +248,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
         style: Theme.of(context)
             .textTheme
             .bodySmall
-            ?.apply(color: Theme.of(context).primaryColor),
+            ?.apply(color: context.primaryColor),
       ),
     );
   }

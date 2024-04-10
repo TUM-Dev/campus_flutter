@@ -263,14 +263,14 @@
       },
    "closedToday":"Heute geschlossen",
    "submitFeedback":"Feedback einreichen",
-   "yourEmailAddress":"Deine E-Mail-Adresse",
+   "name":"Name",
    "message":"Nachricht",
    "shareLocation":"Aktuellen Standort teilen",
    "shareDeviceInformation":"Informationen über das Gerät teilen",
    "submit":"Senden",
    "yourMessage":"Deine Nachricht...",
-   "yourEmail":"deineemail@tum.de",
-   "invalidEmail":"Ungültige E-Mail-Adresse",
+   "yourName":"Dein Name...",
+   "invalidName":"Ungültiger Name",
    "invalidMessage":"Ungültige Nachricht",
    "unableToSend":"Nachricht kann nicht gesendet werden!",
    "successfullySent":"Nachricht erfolgreich gesendet!\n Danke für Dein Feedback!",
@@ -334,5 +334,10 @@
          }
       }
    },
-   "unknownDirection":"Unbekannte Richtung"
+   "unknownDirection":"Unbekannte Richtung",
+   "showWeekends":"Wochenenden anzeigen",
+   "color":"Farbe",
+   "resetAll":"Alles zurücksetzen",
+   "resetPreferences":"Einstellungen zurücksetzen",
+   "mostSearchedRooms":"meistgesuche Räume"
 }

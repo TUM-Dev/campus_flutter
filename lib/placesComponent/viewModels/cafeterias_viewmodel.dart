@@ -277,7 +277,7 @@ class CafeteriasViewModel {
         return "🍰";
 
       default:
-        return " ";
+        return "🍴";
     }
   }
 

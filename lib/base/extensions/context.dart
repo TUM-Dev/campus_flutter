@@ -7,6 +7,8 @@ extension ContextTheme on BuildContext {
   double get halfPadding => 5.0;
 
   double get padding => 15.0;
+
+  Color get primaryColor => Theme.of(this).primaryColor;
 }
 
 extension Localization on BuildContext {

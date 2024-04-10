@@ -11,11 +11,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
-final selectedDate =
-    StateProvider<(DateTime?, CalendarView?)>((ref) => (null, null));
+final selectedDate = StateProvider<(DateTime?, CalendarView?)>(
+  (ref) => (null, null),
+);
+
+final calendarsKey = GlobalKey<_CalendarsViewState>(
+  debugLabel: "calendarsKey",
+);
 
 class CalendarsView extends ConsumerStatefulWidget {
-  const CalendarsView({super.key});
+  CalendarsView({Key? key}) : super(key: calendarsKey);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CalendarsViewState();
