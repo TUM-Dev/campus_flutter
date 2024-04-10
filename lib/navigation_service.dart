@@ -2,13 +2,8 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
-import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
-import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
-import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -18,7 +13,6 @@ import 'package:go_router/go_router.dart';
 
 class NavigationService {
   double? _navigationBarHeight;
-  double? _leadingWidth;
 
   NavigationService() {
     if (Platform.isIOS) {
@@ -27,16 +21,6 @@ class NavigationService {
   }
 
   double? get navigationBarHeight => _navigationBarHeight;
-
-  double? get leadingWidth => _leadingWidth;
-
-  List<Widget> get getContent => [
-        const HomeScreen(),
-        const GradesView(),
-        const LecturesView(),
-        const CalendarsView(),
-        const PlacesScreen(),
-      ];
 
   Widget title(int index, BuildContext context) {
     switch (index) {

@@ -53,7 +53,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               InkWell(
                 child: Icon(
                   Icons.filter_list,
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                 ),
                 onTap: () => showModalBottomSheet(
                   builder: (context) => PreferenceSelectionView<Cafeteria>(

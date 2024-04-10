@@ -90,7 +90,7 @@ class EventCreationDateTimePicker extends StatelessWidget {
       child: Container(
         width: 100,
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: context.primaryColor,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(

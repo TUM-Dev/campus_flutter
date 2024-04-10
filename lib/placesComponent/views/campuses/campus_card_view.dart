@@ -43,14 +43,14 @@ class CampusCardView extends ConsumerWidget {
                       Text(
                         campus.name,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).primaryColor,
+                              color: context.primaryColor,
                               fontWeight: FontWeight.w500,
                             ),
                       ),
                       const Spacer(),
                       Icon(
                         Icons.place,
-                        color: Theme.of(context).primaryColor,
+                        color: context.primaryColor,
                       ),
                     ],
                   ),

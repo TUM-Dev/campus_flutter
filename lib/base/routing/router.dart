@@ -7,6 +7,7 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
+import 'package:campus_flutter/feedbackComponent/views/feedback_success_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
@@ -99,7 +100,7 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: calendar,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => NoTransitionPage(
                 child: CalendarsView(),
               ),
             ),
@@ -140,14 +141,24 @@ final _router = GoRouter(
         GoRoute(
           path: "feedback",
           builder: (context, state) => const FeedbackFormScaffold(),
+          routes: [
+            GoRoute(
+              path: "success",
+              builder: (context, state) => const FeedbackSuccessView(),
+            ),
+          ],
         ),
       ],
     ),
     GoRoute(
       path: lectureDetails,
-      builder: (context, state) => LectureDetailsScaffold(
-        lecture: state.extra as Lecture,
-      ),
+      builder: (context, state) {
+        final data = state as (Lecture?, CalendarEvent?);
+        return LectureDetailsScaffold(
+          lecture: data.$1,
+          event: data.$2,
+        );
+      },
     ),
     GoRoute(
       path: calendarDetails,

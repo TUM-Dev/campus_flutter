@@ -5,26 +5,32 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.google.gson.annotations.SerializedName
 import de.tum.`in`.tumcampus.R
+import de.tum.`in`.tumcampus.util.argbToColor
 import org.joda.time.DateTime
 
 data class WidgetCalendarItem(
-        @SerializedName("nr")
-        val id: String,
-        val title: String,
-        @SerializedName("dtstart")
-        val startDate: DateTime,
-        @SerializedName("dtend")
-        val endDate: DateTime,
-        val location: String,
-        val status: String,
-        var isFirstOnDay: Boolean = false
+    @SerializedName("nr")
+    val id: String,
+    val title: String,
+    @SerializedName("dtstart")
+    val startDate: DateTime,
+    @SerializedName("dtend")
+    val endDate: DateTime,
+    val location: String,
+    val status: String,
+    val color: Long?,
+    var isFirstOnDay: Boolean = false
 ) {
     fun getEventColor(context: Context): Int {
-        return when (type) {
-            CalendarEventType.CANCELED -> Color.parseColor("#F44336")
-            CalendarEventType.LECTURE -> Color.parseColor("#4CAF50")
-            CalendarEventType.EXERCISE -> Color.parseColor("#9800FF")
-            else -> ContextCompat.getColor(context, R.color.color_primary);
+        return if (color == null) {
+            when (type) {
+                CalendarEventType.CANCELED -> Color.parseColor("#F44336")
+                CalendarEventType.LECTURE -> Color.parseColor("#4CAF50")
+                CalendarEventType.EXERCISE -> Color.parseColor("#9800FF")
+                else -> ContextCompat.getColor(context, R.color.color_primary)
+            }
+        } else {
+            argbToColor(color)
         }
     }
 

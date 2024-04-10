@@ -30,6 +30,10 @@ class LocationService {
   }
 
   static Future<Position?> getLastKnown() async {
-    return await Geolocator.getLastKnownPosition();
+    try {
+      return await Geolocator.getLastKnownPosition();
+    } catch (_) {
+      return null;
+    }
   }
 }

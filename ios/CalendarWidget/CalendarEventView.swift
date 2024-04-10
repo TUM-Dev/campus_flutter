@@ -51,9 +51,15 @@ struct CalendarEventView: View {
                 
                 let timeText = "\(timeFormatter.string(from: event.startDate)) - \(timeFormatter.string(from: event.endDate))"
                 
-                Text("\(timeText) | \(event.location)")
-                    .font(.caption2)
-                    .lineLimit(1)
+                if (event.location != nil) {
+                    Text("\(timeText) | \(event.location!)")
+                        .font(.caption2)
+                        .lineLimit(1)
+                } else {
+                    Text(timeText)
+                        .font(.caption2)
+                        .lineLimit(1)
+                }
             }
             .padding(6)
             .foregroundStyle(.white)

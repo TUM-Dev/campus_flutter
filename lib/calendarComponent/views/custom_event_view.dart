@@ -1,8 +1,11 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/views/color_picker_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomEventView extends StatelessWidget {
+class CustomEventView extends ConsumerWidget {
   const CustomEventView({
     super.key,
     required this.calendarEvent,
@@ -11,7 +14,7 @@ class CustomEventView extends StatelessWidget {
   final CalendarEvent calendarEvent;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -31,6 +34,19 @@ class CustomEventView extends StatelessWidget {
             ),
             context,
           ),
+        _infoEntry(
+          context.localizations.color,
+          ColorPickerView(
+            color: calendarEvent.getColor(context),
+            onColorChanged: (color) {
+              ref.read(calendarViewModel).setEventColor(
+                    calendarEvent.lvNr ?? calendarEvent.id,
+                    color,
+                  );
+            },
+          ),
+          context,
+        ),
       ],
     );
   }

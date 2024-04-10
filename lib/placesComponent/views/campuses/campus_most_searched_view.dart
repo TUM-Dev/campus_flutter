@@ -64,8 +64,8 @@ class CampusMostSearchedView extends ConsumerWidget {
             } else {
               return Padding(
                 padding: EdgeInsets.all(context.padding),
-                child: const DelayedLoadingIndicator(
-                  name: "Most Searched Rooms",
+                child: DelayedLoadingIndicator(
+                  name: context.localizations.mostSearchedRooms,
                 ),
               );
             }

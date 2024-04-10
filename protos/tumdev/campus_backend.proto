@@ -472,6 +472,8 @@ message CreateFeedbackRequest {
   Recipient recipient = 1;
   // the email address of the user
   string from_email = 2;
+  // how the person wants to be called
+  string from_name = 8;
   // The actual message
   string message = 3;
   // Optional location which the user can choose (data protection) to attach or not

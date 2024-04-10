@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,6 +23,15 @@ class CalendarViewModel {
     CalendarService.fetchCalendar(forcedRefresh).then(
       (response) {
         lastFetched.add(response.$1);
+        getIt<CalendarColorService>().loadColorPreferences();
+        for (var element in response.$2) {
+          final eventColor = getIt<CalendarColorService>().getColorPreference(
+            element.lvNr ?? element.id,
+          );
+          if (eventColor != null) {
+            element.setColor(eventColor);
+          }
+        }
         events.add(response.$2);
         updateHomeWidget(response.$2);
       },
@@ -85,5 +97,27 @@ class CalendarViewModel {
 
   Future<void> deleteCalendarElement(String id) async {
     await CalendarService.deleteCalendarEvent(id).then((value) => fetch(true));
+  }
+
+  void setEventColor(String key, Color color) {
+    getIt<CalendarColorService>().saveColorPreference(
+      key,
+      color,
+    );
+    final elements = events.value;
+    elements?.forEach((element) {
+      if (element.id == key || element.lvNr == key) {
+        element.setColor(color);
+      }
+    });
+    events.add(elements);
+    updateHomeWidget(events.value ?? []);
+  }
+
+  void resetEventColors() {
+    final elements = events.value;
+    elements?.forEach((element) => element.setColor(null));
+    events.add(elements);
+    updateHomeWidget(events.value ?? []);
   }
 }

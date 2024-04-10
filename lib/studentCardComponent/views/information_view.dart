@@ -108,7 +108,7 @@ class InformationView extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .titleLarge
-          ?.apply(color: Theme.of(context).primaryColor),
+          ?.apply(color: context.primaryColor),
     );
   }
 
@@ -118,7 +118,7 @@ class InformationView extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .titleLarge
-          ?.copyWith(color: Theme.of(context).primaryColor),
+          ?.copyWith(color: context.primaryColor),
     );
   }
 
