@@ -40,7 +40,7 @@ class CalendarSearchResultView extends ConsumerWidget {
             ),
           ],
         ),
-        onTap: () => context.push(lectureDetails, extra: (null, calendarEvent)),
+        onTap: () => context.push(calendarDetails, extra: calendarEvent),
       ),
     );
   }

@@ -217,7 +217,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
-  video_player_avfoundation: 02011213dab73ae3687df27ce441fbbcc82b5579
+  video_player_avfoundation: 2b4384f3b157206b5e150a0083cdc0c905d260d3
 
 PODFILE CHECKSUM: 2dec3f67b1fa3eb41982ef2f40e0d15f34b91a30
 
