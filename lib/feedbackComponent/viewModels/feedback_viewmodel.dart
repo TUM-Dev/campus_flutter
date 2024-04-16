@@ -132,9 +132,11 @@ class FeedbackViewModel {
   }
 
   void checkButton() {
-    activeButton.add((validName.value ?? false) &&
-        (validEmail.value ?? false) &&
-        (validMessage.value ?? false));
+    activeButton.add(
+      (validName.value ?? false) &&
+          (validEmail.value ?? false) &&
+          (validMessage.value ?? false),
+    );
   }
 
   void clearForm() {

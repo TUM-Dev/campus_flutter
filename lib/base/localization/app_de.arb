@@ -49,13 +49,17 @@
    "tuitionPaid":"Bezahlt",
    "tuitionDueDate":"Fälligkeitsdatum",
    "tuitionOpenAmount":"Offener Betrag",
-   "versionNumber":"Version {number}",
+   "versionNumber":"Version {number} ({build})",
    "@versionNumber":{
       "description":"Aktuelle Version der App",
       "placeholders":{
          "number":{
             "type":"String",
             "example":"-.-.-"
+         },
+         "build":{
+            "type":"String",
+            "example":"1"
          }
       }
    },

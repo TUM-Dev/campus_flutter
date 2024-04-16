@@ -49,13 +49,17 @@
    "tuitionPaid":"Tuition Paid",
    "tuitionDueDate":"Due Date",
    "tuitionOpenAmount":"Open Amount",
-   "versionNumber":"Version {number}",
+   "versionNumber":"Version {number} ({build})",
    "@versionNumber":{
       "description":"What version number the app is currently on",
       "placeholders":{
          "number":{
             "type":"String",
             "example":"-.-.-"
+         },
+         "build":{
+            "type":"String",
+             "example":"1"
          }
       }
    },

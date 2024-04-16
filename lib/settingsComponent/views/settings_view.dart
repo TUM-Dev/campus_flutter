@@ -129,10 +129,13 @@ class SettingsView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Text(
-              context.localizations.versionNumber(snapshot.data!.version),
+              context.localizations.versionNumber(
+                snapshot.data!.version,
+                snapshot.data!.buildNumber,
+              ),
             );
           } else {
-            return Text(context.localizations.versionNumber("-.-.-"));
+            return Text(context.localizations.versionNumber("-.-.-", "-"));
           }
         },
       ),
