@@ -62,7 +62,7 @@ mixin ErrorHandlingView {
               const Spacer(),
               if (retry != null && retryWithContext == null) ...[
                 ElevatedButton(
-                  onPressed: retry != null ? () => retry!(true) : null,
+                  onPressed: retry != null ? () => retry?.call(true) : null,
                   child: Text(context.localizations.tryAgain),
                 ),
                 const Spacer(),

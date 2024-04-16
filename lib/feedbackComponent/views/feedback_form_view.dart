@@ -104,7 +104,7 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
     return StreamBuilder(
       stream: ref.watch(feedbackViewModel).showEmailTextField,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data!) {
           return FeedbackTextField(
             title: context.localizations.yourEmailTitle,
             textEditingController: ref.read(feedbackViewModel).emailAddress,

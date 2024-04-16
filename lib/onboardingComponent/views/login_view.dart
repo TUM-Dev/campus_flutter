@@ -207,7 +207,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       ref.read(onboardingViewModel).requestLogin().then(
                         (value) => context.push(confirm),
                         onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
                             SnackBar(
                               duration: const Duration(seconds: 10),
                               content: ErrorHandlingRouter(

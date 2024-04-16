@@ -68,9 +68,7 @@ class SettingsView extends ConsumerWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) => widgets[index],
-          separatorBuilder: (context, index) => const PaddedDivider(
-            height: 0,
-          ),
+          separatorBuilder: (context, index) => const PaddedDivider(height: 0),
           itemCount: widgets.length,
         ),
       ),

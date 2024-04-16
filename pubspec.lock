@@ -562,10 +562,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: ae30b28cc73053f79fd46b15f430db16cae22a0554e6cd25333c840b310b0270
+      sha256: d85128a5dae4ea777324730dc65edd9c9f43155c109d5cc0a69cab74139fbac1
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.9"
+    version: "7.7.0"
   glob:
     dependency: transitive
     description:
@@ -1377,34 +1377,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "74a0ea2350dec01b14a9e2df511d7bfc079f3546c3b623c9bfe02b9af9061d8b"
+      sha256: "24070f4ca1558d994e8232b250a2ce3edc920845c8b0f3597895afc8338c901e"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.40"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: d80656b44dfc24e42affae9e2ad0741c7480454ca414df7541c3def387299d27
+      sha256: f3327077c4816573895b15545ea85b12c6a6cab7f8c2cde1a7eec05c36bfb432
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39+1"
+    version: "25.1.40"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "159b125f55d95534c0c39a5efd644f50a310821191946e15eac50a49032fb42c"
+      sha256: "8e19260d292ed77e1cbd4ee1baafb3c9486079cad856e7891478131d25076039"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.40"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "742bbe6aba9df10553a177e3f6e4a3c07bbea39244e3af3f898864823b003de9"
+      sha256: "04e7cc46b2c0ebfcd76e6082284f7daaf4731df37ddcc876d3073159a6e55d25"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.40"
   synchronized:
     dependency: transitive
     description:
@@ -1545,10 +1545,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_web
-      sha256: "3692a459204a33e04bc94f5fb91158faf4f2c8903281ddd82915adecdb1a901d"
+      sha256: "8d9e750d8c9338601e709cd0885f95825086bd8b642547f26bda435aade95d8a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -1609,10 +1609,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: "821cff3446bbde255e8d03c12fe1f9810c69fee2c26c394545b13d824ba63c2e"
+      sha256: "134e1ad410d67e18a19486ed9512c72dfc6d8ffb284d0e8f2e99e903d1ba8fa3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.13"
+    version: "2.4.14"
   video_player_avfoundation:
     dependency: transitive
     description:

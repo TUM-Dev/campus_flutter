@@ -32,6 +32,7 @@ class CalendarViewModel {
             element.setColor(eventColor);
           }
         }
+        response.$2.removeWhere((element) => element.status == "CANCEL");
         events.add(response.$2);
         updateHomeWidget(response.$2);
       },
