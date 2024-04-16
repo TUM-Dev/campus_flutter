@@ -58,6 +58,7 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
               invalidMessage: context.localizations.invalidName,
               decorationMessage: context.localizations.yourName,
             ),
+            optionalEmailTextField(),
             FeedbackTextField(
               title: context.localizations.message,
               textEditingController: ref.read(feedbackViewModel).message,
@@ -96,6 +97,27 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget optionalEmailTextField() {
+    return StreamBuilder(
+      stream: ref.watch(feedbackViewModel).showEmailTextField,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return FeedbackTextField(
+            title: context.localizations.yourEmailTitle,
+            textEditingController: ref.read(feedbackViewModel).emailAddress,
+            validInput: ref.watch(feedbackViewModel).validEmail,
+            onChanged: (text) =>
+                ref.read(feedbackViewModel).checkEmailValidity(),
+            invalidMessage: context.localizations.invalidEmail,
+            decorationMessage: context.localizations.yourEmail,
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

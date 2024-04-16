@@ -19,7 +19,9 @@ final feedbackViewModel = Provider((ref) => FeedbackViewModel(ref));
 class FeedbackViewModel {
   BehaviorSubject<bool> shareLocation = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> activeButton = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> showEmailTextField = BehaviorSubject.seeded(false);
   BehaviorSubject<bool?> validName = BehaviorSubject.seeded(null);
+  BehaviorSubject<bool?> validEmail = BehaviorSubject.seeded(null);
   BehaviorSubject<bool?> validMessage = BehaviorSubject.seeded(null);
   final TextEditingController name = TextEditingController();
   final TextEditingController emailAddress = TextEditingController();
@@ -35,6 +37,8 @@ class FeedbackViewModel {
       name.text = personDetails.fullName;
       emailAddress.text = personDetails.email;
       validName.add(true);
+    } else {
+      showEmailTextField.add(true);
     }
   }
 
@@ -113,9 +117,24 @@ class FeedbackViewModel {
     validName.add(name.value.text.isNotEmpty);
   }
 
+  void checkEmailValidity() {
+    final RegExp validEmailRegex = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    );
+    if (emailAddress.value.text.isNotEmpty) {
+      if (validEmailRegex.hasMatch(emailAddress.value.text)) {
+        validEmail.add(true);
+      } else {
+        validEmail.add(false);
+      }
+    }
+    checkButton();
+  }
+
   void checkButton() {
-    activeButton
-        .add((validName.value ?? false) && (validMessage.value ?? false));
+    activeButton.add((validName.value ?? false) &&
+        (validEmail.value ?? false) &&
+        (validMessage.value ?? false));
   }
 
   void clearForm() {
@@ -124,7 +143,9 @@ class FeedbackViewModel {
     message.text = "";
     shareLocation.add(false);
     activeButton.add(false);
+    showEmailTextField.add(false);
     validMessage.add(null);
     validName.add(null);
+    validEmail.add(null);
   }
 }
