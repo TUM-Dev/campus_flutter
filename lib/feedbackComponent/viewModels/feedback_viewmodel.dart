@@ -118,9 +118,7 @@ class FeedbackViewModel {
   }
 
   void checkEmailValidity() {
-    final RegExp validEmailRegex = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    );
+    final RegExp validEmailRegex = RegExp(r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$");
     if (emailAddress.value.text.isNotEmpty) {
       if (validEmailRegex.hasMatch(emailAddress.value.text)) {
         validEmail.add(true);
