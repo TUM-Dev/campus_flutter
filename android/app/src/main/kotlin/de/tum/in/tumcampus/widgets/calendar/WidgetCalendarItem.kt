@@ -2,21 +2,28 @@ package de.tum.`in`.tumcampus.widgets.calendar
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.google.gson.annotations.SerializedName
 import de.tum.`in`.tumcampus.R
+import de.tum.`in`.tumcampus.util.DateTimeSerializer
 import de.tum.`in`.tumcampus.util.argbToColor
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.joda.time.DateTime
 
+@Serializable
 data class WidgetCalendarItem(
-    @SerializedName("nr")
+    @SerialName("nr")
     val id: String,
-    val title: String,
-    @SerializedName("dtstart")
-    val startDate: DateTime,
-    @SerializedName("dtend")
-    val endDate: DateTime,
-    val location: String,
     val status: String,
+    val url: String?,
+    val title: String,
+    val description: String?,
+    @Serializable(with = DateTimeSerializer::class)
+    @SerialName("dtstart")
+    val startDate: DateTime,
+    @Serializable(with = DateTimeSerializer::class)
+    @SerialName("dtend")
+    val endDate: DateTime,
+    val location: String?,
     val color: Long?,
     var isFirstOnDay: Boolean = false
 ) {

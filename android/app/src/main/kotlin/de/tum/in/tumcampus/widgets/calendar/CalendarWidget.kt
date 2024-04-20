@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.RemoteViews
 import de.tum.`in`.tumcampus.MainActivity
 import de.tum.`in`.tumcampus.R
-import de.tum.`in`.tumcampus.util.deserializeStringToDate
+import de.tum.`in`.tumcampus.util.DateTimeSerializer
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetPlugin
 import org.joda.time.DateTime
@@ -22,9 +22,9 @@ import java.util.Locale
 
 class CalendarWidget : AppWidgetProvider() {
     override fun onUpdate(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetIds: IntArray
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
     ) {
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
@@ -34,9 +34,9 @@ class CalendarWidget : AppWidgetProvider() {
 }
 
 private fun updateAppWidget(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
+    context: Context,
+    appWidgetManager: AppWidgetManager,
+    appWidgetId: Int
 ) {
     // Instantiate the RemoteViews object for the app widget layout.
     val remoteViews = RemoteViews(context.packageName, R.layout.calendar_widget)
@@ -51,14 +51,17 @@ private fun updateAppWidget(
     val p = PrettyTime()
     val widgetData = HomeWidgetPlugin.getData(context)
     val lastSaved = widgetData.getString("calendar_save", null)
-    val lastSavedDate = deserializeStringToDate(lastSaved)?.toLocalDate()
-    val lastSavedDateString = p.format( deserializeStringToDate(lastSaved)?.toDate())
+
+    val lastSavedDate = DateTimeSerializer.deserializeStringToDate(lastSaved)?.toLocalDate()
+    val lastSavedDateString =
+        p.format(DateTimeSerializer.deserializeStringToDate(lastSaved)?.toDate())
     remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDateString)
 
     val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
-            context,
-            MainActivity::class.java,
-            Uri.parse("tumCampusApp://message?homeWidget=calendar"))
+        context,
+        MainActivity::class.java,
+        Uri.parse("tumCampusApp://message?homeWidget=calendar")
+    )
     remoteViews.setOnClickPendingIntent(R.id.calendar_widget, pendingIntentWithData)
 
     if (Days.daysBetween(lastSavedDate, LocalDate.now()).days < 14) {
