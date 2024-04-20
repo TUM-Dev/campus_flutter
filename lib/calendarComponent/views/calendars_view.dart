@@ -59,12 +59,10 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedCalendarTab = 0;
-                          dayController.displayDate = DateTime.now();
-                        });
-                      },
+                      onPressed: () => ref.read(selectedDate.notifier).state = (
+                        DateTime.now(),
+                        null,
+                      ),
                       child: Text(
                         context.localizations.calendarViewToday,
                         style: Theme.of(context).textTheme.titleMedium,
@@ -158,6 +156,12 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
         weekController.selectedDate = state.$1;
         weekController.displayDate = state.$1;
       default:
+        dayController.selectedDate = state.$1;
+        dayController.displayDate = state.$1;
+        weekController.selectedDate = state.$1;
+        weekController.displayDate = state.$1;
+        monthController.selectedDate = state.$1;
+        monthController.displayDate = state.$1;
     }
   }
 }

@@ -37,14 +37,6 @@ class LectureDetailsScaffold extends ConsumerStatefulWidget {
 
 class _LectureDetailsScaffoldState
     extends ConsumerState<LectureDetailsScaffold> {
-  late Color selectedColor;
-
-  @override
-  void didChangeDependencies() {
-    selectedColor = widget.event?.getColor(context) ?? Colors.red;
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +46,7 @@ class _LectureDetailsScaffoldState
           Padding(
             padding: EdgeInsets.symmetric(horizontal: context.padding),
             child: ColorPickerView(
-              color: widget.event?.getColor(context) ?? context.primaryColor,
+              color: widget.event?.getColor() ?? context.primaryColor,
               onColorChanged: (color) {
                 if (widget.event != null) {
                   ref.read(calendarViewModel).setEventColor(

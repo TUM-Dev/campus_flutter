@@ -34,6 +34,6 @@ class MeetingDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     final appointment = appointments![index]! as CalendarEvent;
-    return appointment.getColor(context);
+    return appointment.getColor();
   }
 }
