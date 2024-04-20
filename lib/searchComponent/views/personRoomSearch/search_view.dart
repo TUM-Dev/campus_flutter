@@ -150,6 +150,7 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
                 )
               : null,
         ),
+        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       ),
     );
   }

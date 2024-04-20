@@ -148,6 +148,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               }
             },
             enableSuggestions: false,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           ),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
@@ -169,6 +170,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               }
             },
             enableSuggestions: false,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           ),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
@@ -187,6 +189,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               }
             },
             enableSuggestions: false,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           ),
         ),
         const Spacer(),
