@@ -8,6 +8,7 @@ import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_v
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_building_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_maps_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -110,23 +111,32 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
     NavigaTumNavigationDetails details, {
     bool isPortrait = true,
   }) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (isPortrait) ...[
-            _name(details.name),
-            _type(details.typeCommonName),
+    return Scrollbar(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (isPortrait) ...[
+              _name(details.name),
+              _type(details.typeCommonName),
+            ],
+            if (details.coordinates.latitude != null &&
+                details.coordinates.longitude != null)
+              DirectionsButton.latLng(
+                name: details.name,
+                latitude: details.coordinates.latitude!,
+                longitude: details.coordinates.longitude!,
+              ),
+            NavigaTumRoomDetailsView(
+              id: details.id,
+              properties: details.additionalProperties.properties,
+            ),
+            if (isPortrait)
+              NavigaTumRoomBuildingView(coordinates: details.coordinates),
+            if ((details.maps.roomfinder?.available ?? []).isNotEmpty)
+              NavigaTumRoomMapsView(maps: ref.read(viewModel).getMaps()),
           ],
-          NavigaTumRoomDetailsView(
-            id: details.id,
-            properties: details.additionalProperties.properties,
-          ),
-          if (isPortrait)
-            NavigaTumRoomBuildingView(coordinates: details.coordinates),
-          if ((details.maps.roomfinder?.available ?? []).isNotEmpty)
-            NavigaTumRoomMapsView(maps: ref.read(viewModel).getMaps()),
-        ],
+        ),
       ),
     );
   }
