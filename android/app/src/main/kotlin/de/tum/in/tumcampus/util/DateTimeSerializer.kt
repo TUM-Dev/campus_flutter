@@ -31,24 +31,3 @@ object DateTimeSerializer : KSerializer<DateTime> {
         }
     }
 }
-
-/*
-class LocalDateTimeDeserializer : JsonDeserializer<DateTime?> {
-    override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-    ): DateTime? {
-        return deserializeStringToDate(json?.asString)
-    }
-}
-
-fun deserializeStringToDate(dateString: String?): DateTime? {
-    return try {
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-        DateTime.parse(dateString, formatter)
-    } catch (_: Exception) {
-        null
-    }
-}
- */
