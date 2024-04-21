@@ -100,7 +100,7 @@ class NavigationService {
         ),
       IconButton(
         onPressed: () => context.push(menuSettings),
-        icon: const Icon(Icons.menu),
+        icon: const Icon(Icons.settings),
       ),
     ];
   }

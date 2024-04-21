@@ -108,8 +108,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           height: 150,
           child: ErrorHandlingRouter(
             error: snapshot.error!,
-            errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-            retry: ref.read(cafeteriasViewModel).fetchWidgetCafeteria,
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            retry: (() =>
+                ref.read(cafeteriasViewModel).fetchWidgetCafeteria(true)),
           ),
         ),
       );

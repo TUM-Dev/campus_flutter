@@ -8,14 +8,12 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
     super.key,
     required this.exception,
     required ErrorHandlingViewType errorHandlingViewType,
-    Future<dynamic> Function(bool)? retry,
-    Future<dynamic> Function(bool, BuildContext)? retryWithContext,
+    Function()? retry,
     Color? titleColor,
     Color? bodyColor,
   }) {
     this.errorHandlingViewType = errorHandlingViewType;
     this.retry = retry;
-    this.retryWithContext = retryWithContext;
     this.titleColor = titleColor;
     this.bodyColor = bodyColor;
   }
@@ -25,9 +23,9 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
   @override
   Widget build(BuildContext context) {
     return exceptionMessage(
-      context,
-      context.localizations.unknownError,
-      context.localizations.pleaseReport,
+      errorMessage: context.localizations.unknownError,
+      fixMessage: context.localizations.pleaseReport,
+      context: context,
     );
   }
 }

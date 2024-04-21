@@ -2,14 +2,34 @@
 <resources>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
+    <string name="app_widget_description">An Overview About Your Upcoming Events.</string>
     <string name="calendar_widget">calendar Widget TUM</string>
     <string name="calendar_widget_select_lectures">Select lectures</string>
     <string name="calendar_widget_no_lectures">No lectures planned :)</string>
     <string name="calendar_widget_old_data">This widget was last updated over 2 weeks ago.Open the application to update the data</string>
     <string name="IN">in</string>
     <string name="MINUTES">minutes</string>
-    <string name="just_now">Just now</string>
+    <string name="just_now">moments ago</string>
     <string name="yesterday">Yesterday</string>
     <string name="event_start_end_format_string" translatable="false">%1$s–%2$s</string>
+    <plurals name="yearsAgo">
+        <item quantity="one">1 year ago</item>
+        <item quantity="other">%d years ago</item>
+    </plurals>
+    <plurals name="monthsAgo">
+        <item quantity="one">1 month ago</item>
+        <item quantity="other">%d months ago</item>
+    </plurals>
+    <plurals name="daysAgo">
+        <item quantity="one">1 day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="hoursAgo">
+        <item quantity="one">1 hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+    <plurals name="minutesAgo">
+        <item quantity="one">1 minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
 </resources>

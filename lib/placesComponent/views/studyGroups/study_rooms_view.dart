@@ -92,7 +92,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(studyRoomsViewModel).fetch,
+            retry: (() => ref.read(studyRoomsViewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(

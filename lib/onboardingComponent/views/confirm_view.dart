@@ -225,7 +225,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             );
           },
         ).catchError((error) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
             SnackBar(
               duration: const Duration(seconds: 10),
               content: ErrorHandlingRouter(

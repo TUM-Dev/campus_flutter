@@ -68,7 +68,7 @@ class SettingsView extends ConsumerWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) => widgets[index],
-          separatorBuilder: (context, index) => const PaddedDivider(),
+          separatorBuilder: (context, index) => const PaddedDivider(height: 0),
           itemCount: widgets.length,
         ),
       ),
@@ -104,7 +104,7 @@ class SettingsView extends ConsumerWidget {
               textAlign: TextAlign.center,
             )
           : Text(
-              context.localizations.resetAll,
+              context.localizations.resetLogin,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
@@ -127,10 +127,13 @@ class SettingsView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Text(
-              context.localizations.versionNumber(snapshot.data!.version),
+              context.localizations.versionNumber(
+                snapshot.data!.version,
+                snapshot.data!.buildNumber,
+              ),
             );
           } else {
-            return Text(context.localizations.versionNumber("-.-.-"));
+            return Text(context.localizations.versionNumber("-.-.-", "-"));
           }
         },
       ),

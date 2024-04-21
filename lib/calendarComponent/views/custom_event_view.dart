@@ -37,7 +37,7 @@ class CustomEventView extends ConsumerWidget {
         _infoEntry(
           context.localizations.color,
           ColorPickerView(
-            color: calendarEvent.getColor(context),
+            color: calendarEvent.getColor(),
             onColorChanged: (color) {
               ref.read(calendarViewModel).setEventColor(
                     calendarEvent.lvNr ?? calendarEvent.id,

@@ -5,16 +5,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 mixin ErrorHandlingView {
   late final ErrorHandlingViewType errorHandlingViewType;
-  late final Future<dynamic> Function(bool)? retry;
-  late final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
+  late final Function()? retry;
   late final Color? titleColor;
   late final Color? bodyColor;
 
-  Widget exceptionMessage(
-    BuildContext context,
-    String errorMessage,
+  Widget exceptionMessage({
+    required String errorMessage,
     String? fixMessage,
-  ) {
+    Function()? retry,
+    String? retryMessage,
+    required BuildContext context,
+  }) {
     switch (errorHandlingViewType) {
       case ErrorHandlingViewType.fullScreen:
       case ErrorHandlingViewType.fullScreenNoImage:
@@ -36,41 +37,44 @@ mixin ErrorHandlingView {
                 flex: 0,
                 child: Column(
                   children: [
-                    _errorMessageText(
-                      errorMessage,
-                      context,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: titleColor ?? context.primaryColor,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (fixMessage != null)
-                      Text(
-                        fixMessage,
+                    Padding(
+                      padding: EdgeInsets.only(bottom: context.padding),
+                      child: _errorMessageText(
+                        errorMessage,
+                        context,
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: bodyColor),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
+                            .headlineMedium
+                            ?.copyWith(
+                              color: titleColor ?? context.primaryColor,
+                            ),
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (fixMessage != null)
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: context.padding),
+                        child: Text(
+                          fixMessage,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: bodyColor),
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                   ],
                 ),
               ),
               const Spacer(),
-              if (retry != null && retryWithContext == null) ...[
+              if (retry != null || this.retry != null) ...[
                 ElevatedButton(
-                  onPressed: retry != null ? () => retry!(true) : null,
-                  child: Text(context.localizations.tryAgain),
-                ),
-                const Spacer(),
-              ],
-              if (retryWithContext != null && retry == null) ...[
-                ElevatedButton(
-                  onPressed: () => retry!(true),
-                  child: Text(context.localizations.tryAgain),
+                  onPressed: () => retry != null ? retry() : this.retry!(),
+                  child: Text(retryMessage ?? context.localizations.tryAgain),
                 ),
                 const Spacer(),
               ],

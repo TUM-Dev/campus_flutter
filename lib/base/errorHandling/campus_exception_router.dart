@@ -8,14 +8,12 @@ class CampusExceptionRouter extends StatelessWidget with ErrorHandlingView {
     super.key,
     required this.campusException,
     required ErrorHandlingViewType errorHandlingViewType,
-    Future<dynamic> Function(bool)? retry,
-    Future<dynamic> Function(bool, BuildContext)? retryWithContext,
+    Function()? retry,
     Color? titleColor,
     Color? bodyColor,
   }) {
     this.errorHandlingViewType = errorHandlingViewType;
     this.retry = retry;
-    this.retryWithContext = retryWithContext;
     this.titleColor = titleColor;
     this.bodyColor = bodyColor;
   }
@@ -24,6 +22,9 @@ class CampusExceptionRouter extends StatelessWidget with ErrorHandlingView {
 
   @override
   Widget build(BuildContext context) {
-    return exceptionMessage(context, campusException.message, null);
+    return exceptionMessage(
+      errorMessage: campusException.message,
+      context: context,
+    );
   }
 }

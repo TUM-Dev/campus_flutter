@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/classes/location.dart' as location;
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/util/directions_launcher.dart';
+import 'package:campus_flutter/base/util/map_launcher.dart';
 import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/places_util.dart';
@@ -10,7 +10,6 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_grid_view.dart';
-import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:collection/collection.dart';
@@ -188,11 +187,6 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         ),
         zoom: 15,
         aspectRatio: 2,
-      ),
-      DirectionsButton.latLng(
-        name: widget.cafeteria.name,
-        latitude: widget.cafeteria.location.latitude,
-        longitude: widget.cafeteria.location.longitude,
       ),
     ];
   }

@@ -29,7 +29,7 @@ class PersonRoomSearchScaffold extends ConsumerWidget {
       appBar: AppBar(
         leading: CustomBackButton(
           onPressed: () {
-            context.pop();
+            context.canPop() ? context.pop() : context.go(search);
             if (isRoomSearch) {
               ref.read(navigaTumSearchViewModel).searchResults.add([]);
             } else {
@@ -150,6 +150,7 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
                 )
               : null,
         ),
+        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       ),
     );
   }

@@ -49,13 +49,17 @@
    "tuitionPaid":"Tuition Paid",
    "tuitionDueDate":"Due Date",
    "tuitionOpenAmount":"Open Amount",
-   "versionNumber":"Version {number}",
+   "versionNumber":"Version {number} ({build})",
    "@versionNumber":{
       "description":"What version number the app is currently on",
       "placeholders":{
          "number":{
             "type":"String",
             "example":"-.-.-"
+         },
+         "build":{
+            "type":"String",
+            "example":"1"
          }
       }
    },
@@ -252,15 +256,15 @@
    },
    "closed":"Closed",
    "closedOn":"Closed on {day}",
-      "@closedOn":{
-            "description":"Day",
-            "placeholders":{
-               "day":{
-                  "type":"String",
-                  "example":"Monday"
-               }
-            }
-         },
+   "@closedOn":{
+      "description":"Day",
+      "placeholders":{
+         "day":{
+            "type":"String",
+            "example":"Monday"
+         }
+      }
+   },
    "closedToday":"Closed Today",
    "submitFeedback":"Submit Feedback",
    "name":"Name",
@@ -270,8 +274,11 @@
    "submit":"Submit",
    "yourMessage":"Your Message...",
    "yourName":"Your Name...",
+   "yourEmailTitle":"Your Email Address",
+   "yourEmail":"youremail@tum.de",
    "invalidName":"Invalid Name",
    "invalidMessage":"Invalid Message",
+   "invalidEmail":"Invalid Email Address",
    "unableToSend":"Unable to Send Message!",
    "successfullySent":"Message Successfully Sent!\n Thanks for Your Feedback!",
    "signInToTumOnline":"1. Sign in to TUMonline\n",
@@ -337,7 +344,25 @@
    "unknownDirection":"Unknown Direction",
    "showWeekends":"Show Weekends",
    "color":"Color",
-   "resetAll":"Reset All",
+   "resetLogin":"Reset & Login",
    "resetPreferences":"Reset Preferences",
-   "mostSearchedRooms":"Most Searched Rooms"
+   "noPermission":"No Permission",
+   "tokenNotConfirmed":"Token Not Confirmed",
+   "loginNeeded":"Login Needed",
+   "rateExceeded":"Request Rate Exceeded",
+   "limitReached":"Token limit Reached, Maximum 10 Tokens per User Allowed",
+   "noUserSpecified":"No User Specified",
+   "noUserFound":"No User Found",
+   "personNotFound":"Person Not Found",
+   "invalidSearch":"Invalid Search",
+   "unknownException":"Unknown Exception",
+   "noPermissionRecovery":"Make sure to enable the right permissions for your token!",
+   "tokenNotConfirmedRecovery":"Go to TumOnline and confirm your token!",
+   "loginNeededRecovery":"This feature can only be used if you log in!",
+   "rateExceededRecovery":"Please try again later!",
+   "limitReachedRecovery":"Please delete one of your tokens!",
+   "noUserSpecifiedRecovery":"Please enter your Tum ID!",
+   "noUserFoundRecovery":"Make sure you entered your Tum ID correctly!",
+   "personNotFoundRecovery":"Make sure you entered the name correctly!",
+   "invalidSearchRecovery":"A search string with less than 4 characters must not contain wildcards or special characters!"
 }

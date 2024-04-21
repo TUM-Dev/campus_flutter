@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
@@ -106,7 +107,7 @@ class EventCreationView extends ConsumerWidget {
                       .saveEvent()
                       .then((value) {
                     ref.invalidate(calendarAdditionViewModel);
-                    context.pop();
+                    context.canPop() ? context.pop() : context.go(calendar);
                   })
               : null,
           child: Text(context.localizations.submit),
