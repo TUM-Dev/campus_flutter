@@ -37,25 +37,35 @@ mixin ErrorHandlingView {
                 flex: 0,
                 child: Column(
                   children: [
-                    _errorMessageText(
-                      errorMessage,
-                      context,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: titleColor ?? context.primaryColor,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (fixMessage != null)
-                      Text(
-                        fixMessage,
+                    Padding(
+                      padding: EdgeInsets.only(bottom: context.padding),
+                      child: _errorMessageText(
+                        errorMessage,
+                        context,
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: bodyColor),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
+                            .headlineMedium
+                            ?.copyWith(
+                              color: titleColor ?? context.primaryColor,
+                            ),
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (fixMessage != null)
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: context.padding),
+                        child: Text(
+                          fixMessage,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(color: bodyColor),
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                   ],
                 ),

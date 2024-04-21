@@ -84,11 +84,12 @@ class OnboardingViewModel {
   Future<bool> checkLogin() async {
     return _storage.read(key: "token").then(
       (value) async {
+        final status = getIt<OnboardingService>().getOnboardingStatus();
         if (value != null) {
           Api.tumToken = value;
           credentials.add(Credentials.tumId);
           return true;
-        } else if (getIt<OnboardingService>().getOnboardingStatus() != null) {
+        } else if (status != null && status) {
           credentials.add(Credentials.noTumId);
           return true;
         } else {
