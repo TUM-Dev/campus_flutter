@@ -1,3 +1,0 @@
--keep class com.ocpsoft.pretty.time.i18n.**
--keep class org.ocpsoft.prettytime.i18n.**
--keepnames class ** implements org.ocpsoft.prettytime.TimeUnit
