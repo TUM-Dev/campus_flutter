@@ -91,12 +91,7 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex'
-    implementation 'joda-time:joda-time:2.12.7'
-    def appcompat_version = "1.6.1"
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
-    implementation 'org.ocpsoft.prettytime:prettytime:5.0.4.Final'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'

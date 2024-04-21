@@ -10,13 +10,15 @@ import android.widget.RemoteViews
 import de.tum.`in`.tumcampus.MainActivity
 import de.tum.`in`.tumcampus.R
 import de.tum.`in`.tumcampus.util.DateTimeSerializer
+import de.tum.`in`.tumcampus.util.timeAgo
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetPlugin
-import org.joda.time.DateTime
-import org.joda.time.Days
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import org.ocpsoft.prettytime.PrettyTime
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.format.TextStyle
 import java.util.Locale
 
 
@@ -42,19 +44,19 @@ private fun updateAppWidget(
     val remoteViews = RemoteViews(context.packageName, R.layout.calendar_widget)
 
     // Set formatted date in the header
-    val localDate = DateTime.now().toLocalDate()
-    val date = DateTimeFormat.longDate().print(localDate)
-    val weekday = localDate.dayOfWeek().getAsText(Locale.getDefault())
+    val localDate = LocalDate.now()
+    val dateFormatter =
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault())
+    val date = localDate.format(dateFormatter)
+    val weekday = localDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
     remoteViews.setTextViewText(R.id.calendar_widget_date, "$weekday, $date")
 
     // Set last saved date in the header
-    val p = PrettyTime()
     val widgetData = HomeWidgetPlugin.getData(context)
     val lastSaved = widgetData.getString("calendar_save", null)
 
-    val lastSavedDate = DateTimeSerializer.deserializeStringToDate(lastSaved)?.toLocalDate()
-    val lastSavedDateString =
-        p.format(DateTimeSerializer.deserializeStringToDate(lastSaved)?.toDate())
+    val lastSavedDate = DateTimeSerializer.deserializeStringToDate(lastSaved)
+    val lastSavedDateString = (lastSavedDate ?: LocalDateTime.now()).timeAgo()
     remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDateString)
 
     val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
@@ -64,7 +66,11 @@ private fun updateAppWidget(
     )
     remoteViews.setOnClickPendingIntent(R.id.calendar_widget, pendingIntentWithData)
 
-    if (Days.daysBetween(lastSavedDate, LocalDate.now()).days < 14) {
+    if (lastSavedDate != null && Period.between(
+            LocalDate.now(),
+            lastSavedDate.toLocalDate(),
+        ).days < 14
+    ) {
         // Set up the intent that starts the calendarWidgetService
         val intent = Intent(context, CalendarWidgetService::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -75,9 +81,10 @@ private fun updateAppWidget(
         // It should be in the same layout used to instantiate the RemoteViews
         // object above.
         remoteViews.setEmptyView(R.id.calendar_widget_listview, R.id.empty_list_item)
+        remoteViews.setViewVisibility(R.id.old_data_item, View.INVISIBLE)
     } else {
-        remoteViews.setViewVisibility(R.id.calendar_widget_listview, View.INVISIBLE)
         remoteViews.setViewVisibility(R.id.old_data_item, View.VISIBLE)
+        remoteViews.setViewVisibility(R.id.calendar_widget_listview, View.INVISIBLE)
     }
 
     // Instruct the widget manager to update the widget

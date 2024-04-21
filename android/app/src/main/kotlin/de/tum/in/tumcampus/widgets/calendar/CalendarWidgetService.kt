@@ -9,8 +9,8 @@ import de.tum.`in`.tumcampus.R
 import de.tum.`in`.tumcampus.util.Const
 import es.antonborri.home_widget.HomeWidgetPlugin
 import kotlinx.serialization.json.Json
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -41,12 +41,11 @@ class CalendarWidgetService : RemoteViewsService() {
 
             for (index in 1 until calendarEvents.size) {
                 val startTime = calendarEvents[index - 1].startDate
-                val lastTime = DateTime(startTime)
 
                 val thisEvent = calendarEvents[index]
-                val thisTime = DateTime(thisEvent.startDate.millis)
+                val thisTime = thisEvent.startDate
 
-                if (!DateTimeUtils.isSameDay(lastTime, thisTime)) {
+                if (!DateTimeUtils.isSameDay(startTime, thisTime)) {
                     thisEvent.isFirstOnDay = true
                 }
             }
@@ -68,7 +67,7 @@ class CalendarWidgetService : RemoteViewsService() {
 
             // Get the lecture for this view
             val currentItem = this.calendarEvents[position]
-            val startTime = DateTime(currentItem.startDate.millis)
+            val startTime = currentItem.startDate
 
             // Setup the date
             if (currentItem.isFirstOnDay) {
@@ -77,8 +76,8 @@ class CalendarWidgetService : RemoteViewsService() {
                     startTime.dayOfMonth.toString()
                 )
                 remoteViews.setTextViewText(
-                    R.id.calendar_widget_date_weekday, startTime.monthOfYear()
-                        .getAsShortText(Locale.getDefault())
+                    R.id.calendar_widget_date_weekday,
+                    startTime.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                 )
                 remoteViews.setViewPadding(R.id.calendar_widget_item, 0, 15, 0, 0)
             } else {
@@ -99,10 +98,9 @@ class CalendarWidgetService : RemoteViewsService() {
             remoteViews.setTextViewText(R.id.calendar_widget_event_title, currentItem.title)
 
             // Setup event time
-            val formatter = DateTimeFormat.shortTime()
-            val startTimeText = formatter.print(startTime)
-            val endTime = DateTime(currentItem.endDate.millis)
-            val endTimeText = formatter.print(endTime)
+            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+            val startTimeText = formatter.format(startTime)
+            val endTimeText = formatter.format(currentItem.endDate)
             val eventTime = applicationContext.getString(
                 R.string.event_start_end_format_string,
                 startTimeText,
@@ -115,7 +113,7 @@ class CalendarWidgetService : RemoteViewsService() {
 
             // Setup action to open calendar
             val fillInIntent = Intent().apply {
-                putExtra(Const.EVENT_TIME, currentItem.startDate.millis)
+                putExtra(Const.EVENT_TIME, currentItem.startDate)
             }
             remoteViews.setOnClickFillInIntent(R.id.calendar_widget_event, fillInIntent)
 

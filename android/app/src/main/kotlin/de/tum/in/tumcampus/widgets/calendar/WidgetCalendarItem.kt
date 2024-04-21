@@ -7,7 +7,7 @@ import de.tum.`in`.tumcampus.util.DateTimeSerializer
 import de.tum.`in`.tumcampus.util.argbToColor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.joda.time.DateTime
+import java.time.LocalDateTime
 
 @Serializable
 data class WidgetCalendarItem(
@@ -19,10 +19,10 @@ data class WidgetCalendarItem(
     val description: String?,
     @Serializable(with = DateTimeSerializer::class)
     @SerialName("dtstart")
-    val startDate: DateTime,
+    val startDate: LocalDateTime,
     @Serializable(with = DateTimeSerializer::class)
     @SerialName("dtend")
-    val endDate: DateTime,
+    val endDate: LocalDateTime,
     val location: String?,
     val color: Long?,
     var isFirstOnDay: Boolean = false
