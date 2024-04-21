@@ -31,7 +31,6 @@ class CalendarWidgetService : RemoteViewsService() {
             val widgetData = HomeWidgetPlugin.getData(applicationContext)
             val data = widgetData.getString("calendar", null)
             if (data != null) {
-                println(data)
                 calendarEvents = Json.decodeFromString<Array<WidgetCalendarItem>>(data).asList()
             }
 
