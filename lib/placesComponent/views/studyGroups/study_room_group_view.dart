@@ -7,7 +7,6 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
-import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
 import 'package:collection/collection.dart';
@@ -115,8 +114,6 @@ class StudyRoomGroupView extends ConsumerWidget {
             if (orientation == Orientation.portrait) ...[
               if (studyRoomGroup?.coordinate != null)
                 _portraitMap(studyRoomGroup, context),
-              if (studyRoomGroup?.coordinate != null)
-                _directionsButton(studyRoomGroup!),
             ],
             WidgetFrameView(
               title: context.localizations.rooms,
@@ -147,13 +144,7 @@ class StudyRoomGroupView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Column(
-            children: [
-              _landscapeMap(studyRoomGroup, context),
-              if (studyRoomGroup?.coordinate != null)
-                _directionsButton(studyRoomGroup!),
-            ],
-          ),
+          child: _landscapeMap(studyRoomGroup, context),
         ),
         Expanded(
           child: _body(
@@ -216,14 +207,6 @@ class StudyRoomGroupView extends ConsumerWidget {
           : null,
       zoom: 15,
       aspectRatio: 2,
-    );
-  }
-
-  Widget _directionsButton(StudyRoomGroup studyRoomGroup) {
-    return DirectionsButton.latLng(
-      latitude: studyRoomGroup.coordinate!.latitude,
-      longitude: studyRoomGroup.coordinate!.longitude,
-      name: studyRoomGroup.name,
     );
   }
 }
