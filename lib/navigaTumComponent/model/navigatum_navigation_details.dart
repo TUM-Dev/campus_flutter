@@ -20,6 +20,9 @@ class NavigaTumNavigationDetails {
   final NavigaTumNavigationCoordinates coordinates;
   final NavigaTumNavigationMaps maps;
 
+  bool get hasCoordinates =>
+      coordinates.latitude != null && coordinates.longitude != null;
+
   NavigaTumNavigationDetails(
     this.id,
     this.name,

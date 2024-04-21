@@ -1,31 +1,64 @@
+import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/util/directions_launcher.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_building_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_maps_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/placesComponent/views/directions_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NavigaTumRoomScaffold extends StatelessWidget {
+class NavigaTumRoomScaffold extends ConsumerWidget {
   const NavigaTumRoomScaffold({super.key, required this.id});
 
   final String id;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
         title: Text(context.localizations.roomDetails),
+        actions: [
+          StreamBuilder(
+            stream: ref.watch(navigaTumDetailsViewModel(id)).details,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data!.hasCoordinates) {
+                return _directionsButton(snapshot.data!, context);
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+        ],
       ),
       body: NavigaTumRoomView(
         id: id,
+      ),
+    );
+  }
+
+  Widget _directionsButton(
+    NavigaTumNavigationDetails details,
+    BuildContext context,
+  ) {
+    return IconButton(
+      onPressed: () => showDirectionsDialog(
+        details.name,
+        Location(
+          latitude: details.coordinates.latitude!,
+          longitude: details.coordinates.longitude!,
+        ),
+        context,
+      ),
+      icon: Icon(
+        Icons.directions,
+        color: context.theme.primaryColor,
       ),
     );
   }
@@ -120,13 +153,6 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
               _name(details.name),
               _type(details.typeCommonName),
             ],
-            if (details.coordinates.latitude != null &&
-                details.coordinates.longitude != null)
-              DirectionsButton.latLng(
-                name: details.name,
-                latitude: details.coordinates.latitude!,
-                longitude: details.coordinates.longitude!,
-              ),
             NavigaTumRoomDetailsView(
               id: details.id,
               properties: details.additionalProperties.properties,
