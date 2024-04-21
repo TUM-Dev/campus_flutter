@@ -344,7 +344,7 @@
    "unknownDirection":"Unknown Direction",
    "showWeekends":"Show Weekends",
    "color":"Color",
-   "resetAll":"Reset All",
+   "resetLogin":"Reset & Login",
    "resetPreferences":"Reset Preferences",
    "mostSearchedRooms":"Most Searched Rooms"
 }

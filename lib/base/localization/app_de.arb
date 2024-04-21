@@ -344,7 +344,7 @@
    "unknownDirection":"Unbekannte Richtung",
    "showWeekends":"Wochenenden anzeigen",
    "color":"Farbe",
-   "resetAll":"Alles zurücksetzen",
+   "resetLogin":"Zurücksetzen & Anmelden",
    "resetPreferences":"Einstellungen zurücksetzen",
    "mostSearchedRooms":"meistgesuche Räume"
 }
