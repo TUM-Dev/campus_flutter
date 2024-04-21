@@ -1,5 +1,7 @@
 package de.tum.`in`.tumcampus.util
 
+import android.content.Context
+import de.tum.`in`.tumcampus.R
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -10,11 +12,11 @@ object DateTimeUtils {
      * @return true if both dates are on the same day
      */
     fun isSameDay(first: LocalDateTime, second: LocalDateTime) =
-            first.year == second.year && first.dayOfYear == second.dayOfYear
+        first.year == second.year && first.dayOfYear == second.dayOfYear
 
 }
 
-fun LocalDateTime.timeAgo(): String {
+fun LocalDateTime.timeAgo(context: Context): String {
     val now = LocalDateTime.now()
     val duration = Duration.between(this, now)
 
@@ -25,11 +27,11 @@ fun LocalDateTime.timeAgo(): String {
     val minutes = duration.toMinutes()
 
     return when {
-        years > 0 -> "$years year${if (years > 1) "s" else ""} ago"
-        months > 0 -> "$months month${if (months > 1) "s" else ""} ago"
-        days > 0 -> "$days day${if (days > 1) "s" else ""} ago"
-        hours > 0 -> "$hours hour${if (hours > 1) "s" else ""} ago"
-        minutes > 0 -> "$minutes minute${if (minutes > 1) "s" else ""} ago"
-        else -> "moments ago"
+        years > 0 -> context.resources.getQuantityString(R.plurals.yearsAgo, years.toInt())
+        months > 0 -> context.resources.getQuantityString(R.plurals.monthsAgo, months.toInt())
+        days > 0 -> context.resources.getQuantityString(R.plurals.daysAgo, days.toInt())
+        hours > 0 -> context.resources.getQuantityString(R.plurals.hoursAgo, hours.toInt())
+        minutes > 0 -> context.resources.getQuantityString(R.plurals.minutesAgo, minutes.toInt())
+        else -> context.resources.getString(R.string.just_now)
     }
 }

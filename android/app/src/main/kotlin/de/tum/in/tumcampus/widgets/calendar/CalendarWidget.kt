@@ -56,7 +56,7 @@ private fun updateAppWidget(
     val lastSaved = widgetData.getString("calendar_save", null)
 
     val lastSavedDate = DateTimeSerializer.deserializeStringToDate(lastSaved)
-    val lastSavedDateString = (lastSavedDate ?: LocalDateTime.now()).timeAgo()
+    val lastSavedDateString = (lastSavedDate ?: LocalDateTime.now()).timeAgo(context)
     remoteViews.setTextViewText(R.id.calendar_widget_updated_on, lastSavedDateString)
 
     val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
