@@ -45,7 +45,7 @@ class StudentCardView extends ConsumerWidget {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(studentCardViewModel).fetch,
+            retry: (() => ref.read(studentCardViewModel).fetch(true)),
           );
         } else {
           return const DelayedLoadingIndicator(name: "StudentCard");

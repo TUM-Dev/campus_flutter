@@ -104,8 +104,9 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retryWithContext:
-                ref.read(navigaTumDetailsViewModel(widget.id)).fetchDetails,
+            retry: (() => ref
+                .read(navigaTumDetailsViewModel(widget.id))
+                .fetchDetails(true, context)),
           );
         } else {
           return DelayedLoadingIndicator(

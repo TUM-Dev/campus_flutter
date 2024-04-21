@@ -84,7 +84,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                       return ErrorHandlingRouter(
                         error: snapshot.error!,
                         errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                        retry: ref.read(departureViewModel).fetch,
+                        retry: (() => ref.read(departureViewModel).fetch(true)),
                       );
                     } else {
                       return DelayedLoadingIndicator(

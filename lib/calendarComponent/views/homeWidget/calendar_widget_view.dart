@@ -45,7 +45,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                  retry: ref.read(calendarViewModel).fetch,
+                  retry: (() => ref.read(calendarViewModel).fetch(true)),
                 ),
               );
             } else {

@@ -257,14 +257,14 @@
    "closed":"Geschlossen",
    "closedOn":"{day} geschlossen",
    "@closedOn":{
-         "description":"Day",
-         "placeholders":{
-            "day":{
-               "type":"String",
-               "example":"Montag"
-            }
+      "description":"Day",
+      "placeholders":{
+         "day":{
+            "type":"String",
+            "example":"Montag"
          }
-      },
+      }
+   },
    "closedToday":"Heute geschlossen",
    "submitFeedback":"Feedback einreichen",
    "name":"Name",
@@ -346,5 +346,23 @@
    "color":"Farbe",
    "resetLogin":"Zurücksetzen & Anmelden",
    "resetPreferences":"Einstellungen zurücksetzen",
-   "mostSearchedRooms":"meistgesuche Räume"
+   "noPermission":"Keine Berechtigung",
+   "tokenNotConfirmed":"Token nicht bestätigt",
+   "loginNeeded":"Login benötigt",
+   "rateExceeded":"Anfragequote überschritten",
+   "limitReached":"Token-Limit erreicht, maximal 10 Token pro Benutzer erlaubt",
+   "noUserSpecified":"Kein Benutzer spezifiziert",
+   "noUserFound":"Kein Benutzer gefunden",
+   "personNotFound":"Person nicht gefunden",
+   "invalidSearch":"Ungültige Suche",
+   "unknownException":"Unbekannter Fehler",
+   "noPermissionRecovery":"Stelle sicher, dass du die richtigen Berechtigungen für deinen Token aktivierst!",
+   "tokenNotConfirmedRecovery":"Gehe zu TumOnline und bestätige deinen Token!",
+   "loginNeededRecovery":"Diese Funktion kann nur genutzt werden, wenn du dich anmeldest!",
+   "rateExceededRecovery":"Bitte versuche es später noch einmal!",
+   "limitReachedRecovery":"Bitte lösche einen deiner Token!",
+   "noUserSpecifiedRecovery":"Bitte gib deine Tum ID ein!",
+   "noUserFoundRecovery":"Überprüfe, ob du deine Tum ID richtig eingegeben hast!",
+   "personNotFoundRecovery":"Überprüfe, ob du den Namen richtig eingegeben hast!",
+   "invalidSearchRecovery":"Ein Suchbegriff mit weniger als 4 Zeichen darf keine Wildcards oder Sonderzeichen enthalten!"
 }

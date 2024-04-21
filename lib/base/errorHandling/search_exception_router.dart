@@ -8,14 +8,12 @@ class SearchExceptionRouter extends StatelessWidget with ErrorHandlingView {
     super.key,
     required this.searchException,
     required ErrorHandlingViewType errorHandlingViewType,
-    Future<dynamic> Function(bool)? retry,
-    Future<dynamic> Function(bool, BuildContext)? retryWithContext,
+    Function()? retry,
     Color? titleColor,
     Color? bodyColor,
   }) {
     this.errorHandlingViewType = errorHandlingViewType;
     this.retry = retry;
-    this.retryWithContext = retryWithContext;
     this.titleColor = titleColor;
     this.bodyColor = bodyColor;
   }
@@ -24,6 +22,9 @@ class SearchExceptionRouter extends StatelessWidget with ErrorHandlingView {
 
   @override
   Widget build(BuildContext context) {
-    return exceptionMessage(context, searchException.message, null);
+    return exceptionMessage(
+      errorMessage: searchException.message,
+      context: context,
+    );
   }
 }

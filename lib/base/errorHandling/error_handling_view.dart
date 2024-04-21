@@ -5,16 +5,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 mixin ErrorHandlingView {
   late final ErrorHandlingViewType errorHandlingViewType;
-  late final Future<dynamic> Function(bool)? retry;
-  late final Future<dynamic> Function(bool, BuildContext)? retryWithContext;
+  late final Function()? retry;
   late final Color? titleColor;
   late final Color? bodyColor;
 
-  Widget exceptionMessage(
-    BuildContext context,
-    String errorMessage,
+  Widget exceptionMessage({
+    required String errorMessage,
     String? fixMessage,
-  ) {
+    Function()? retry,
+    String? retryMessage,
+    required BuildContext context,
+  }) {
     switch (errorHandlingViewType) {
       case ErrorHandlingViewType.fullScreen:
       case ErrorHandlingViewType.fullScreenNoImage:
@@ -60,19 +61,10 @@ mixin ErrorHandlingView {
                 ),
               ),
               const Spacer(),
-              if (retry != null && retryWithContext == null) ...[
+              if (retry != null || this.retry != null) ...[
                 ElevatedButton(
-                  onPressed: retry != null ? () => retry?.call(true) : null,
-                  child: Text(context.localizations.tryAgain),
-                ),
-                const Spacer(),
-              ],
-              if (retryWithContext != null && retry == null) ...[
-                ElevatedButton(
-                  onPressed: () => retryWithContext != null
-                      ? () => retryWithContext?.call(true, context)
-                      : null,
-                  child: Text(context.localizations.tryAgain),
+                  onPressed: () => retry != null ? retry() : this.retry!(),
+                  child: Text(retryMessage ?? context.localizations.tryAgain),
                 ),
                 const Spacer(),
               ],

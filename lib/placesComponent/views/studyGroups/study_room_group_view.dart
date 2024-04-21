@@ -82,7 +82,7 @@ class StudyRoomGroupView extends ConsumerWidget {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(studyRoomsViewModel).fetch,
+            retry: (() => ref.read(studyRoomsViewModel).fetch(true)),
           );
         } else {
           return const DelayedLoadingIndicator(name: "Study Rooms");

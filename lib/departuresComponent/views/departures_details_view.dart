@@ -140,7 +140,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
       return ErrorHandlingRouter(
         error: widget.snapshot.error!,
         errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-        retry: ref.read(departureViewModel).fetch,
+        retry: (() => ref.read(departureViewModel).fetch(true)),
       );
     } else {
       return DelayedLoadingIndicator(name: context.localizations.departures);
