@@ -26,11 +26,11 @@ class StudyRoom extends Searchable {
   @JsonKey(name: "belegung_durch")
   final String? occupiedBy;
   @JsonKey(name: "belegung_fuer")
-  final int occupiedFor;
+  final int? occupiedFor;
   @JsonKey(name: "belegung_ab", fromJson: DateTime.tryParse)
   final DateTime? occupiedFrom;
   @JsonKey(name: "belegung_in")
-  final int occupiedIn;
+  final int? occupiedIn;
   @JsonKey(name: "belegung_bis", fromJson: DateTime.tryParse)
   final DateTime? occupiedUntil;
   @JsonKey(name: "raum_nr_architekt")

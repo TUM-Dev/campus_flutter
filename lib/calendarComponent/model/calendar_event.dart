@@ -14,7 +14,7 @@ class CalendarEvent extends Searchable {
   final String id;
   final String status;
   final String? url;
-  final String title;
+  final String? title;
   final String? description;
   @JsonKey(name: "dtstart")
   final DateTime startDate;
@@ -80,7 +80,7 @@ class CalendarEvent extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title),
+        if (title != null) ComparisonToken(value: title!),
         if (location != null) ComparisonToken(value: location!),
       ];
 
@@ -88,7 +88,7 @@ class CalendarEvent extends Searchable {
     required this.id,
     required this.status,
     this.url,
-    required this.title,
+    this.title,
     this.description,
     required this.startDate,
     required this.endDate,

@@ -38,7 +38,7 @@ class CalendarAdditionViewModel {
   }
 
   CalendarAdditionViewModel.edit(this.ref, CalendarEvent calendarEvent) {
-    titleController.text = calendarEvent.title;
+    titleController.text = calendarEvent.title ?? "";
     annotationController.text = calendarEvent.description ?? "";
     from = BehaviorSubject.seeded(calendarEvent.startDate);
     to = BehaviorSubject.seeded(calendarEvent.endDate);

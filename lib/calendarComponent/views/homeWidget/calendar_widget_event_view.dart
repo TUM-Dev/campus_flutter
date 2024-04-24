@@ -65,7 +65,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    calendarEvent.title,
+                    calendarEvent.title ?? "-",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium,

@@ -57,7 +57,7 @@ class CalendarViewService {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            calendarEvent!.title,
+            calendarEvent!.title ?? "-",
             textAlign: TextAlign.center,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,

@@ -18,7 +18,7 @@ class CalendarSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.calendar,
       viewModel: calendarSearchViewModel,
       body: (calendarEvent) => ListTile(
-        title: Text(calendarEvent.title),
+        title: Text(calendarEvent.title ?? "-"),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
