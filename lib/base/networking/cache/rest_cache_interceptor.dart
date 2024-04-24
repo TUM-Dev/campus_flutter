@@ -29,14 +29,14 @@ class RestCacheInterceptor implements Interceptor {
       if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
       } else {
-        final cacheEntry = await cache.getAsync(key);
+        final cacheEntry = await cache.get(key);
 
         /// device is online, fetch every 10 minutes
         if (cacheEntry != null &&
             DateTime.now().difference(cacheEntry.saved).inMinutes <= 10) {
           return handler.resolve(
             Response(
-              data: cacheEntry.data,
+              data: cacheEntry.body,
               extra: {
                 "saved": cacheEntry.saved,
               },
@@ -54,12 +54,12 @@ class RestCacheInterceptor implements Interceptor {
       if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
       } else {
-        final cacheEntry = await cache.getAsync(key);
+        final cacheEntry = await cache.get(key);
         if (cacheEntry != null &&
             DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
           return handler.resolve(
             Response(
-              data: cacheEntry.data,
+              data: cacheEntry.body,
               extra: {
                 "saved": cacheEntry.saved,
               },

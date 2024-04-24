@@ -2,20 +2,20 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/cache/cache.dart';
+import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/cache/rest_cache_interceptor.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
 import 'package:campus_flutter/base/networking/base/api_response.dart';
 import 'package:dio/dio.dart';
-import 'package:isar/isar.dart';
 import 'package:xml2json/xml2json.dart';
 
 class RestClient {
   late Dio dio;
   late Cache cache;
 
-  RestClient(Isar isar) {
-    final cache = Cache(isar: isar);
+  RestClient(CacheDatabase cacheDatabase) {
+    final cache = Cache(cacheDatabase: cacheDatabase);
     this.cache = cache;
 
     /// add custom cache interceptor to dio

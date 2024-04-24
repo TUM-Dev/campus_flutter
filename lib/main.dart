@@ -23,8 +23,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -61,10 +59,13 @@ Future<void> _initializeFirebase() async {
 }
 
 Future<void> _initializeNetworkingClients() async {
-  final directory = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open([CacheEntrySchema], directory: directory.path);
-  getIt.registerSingleton<RestClient>(RestClient(isar));
-  getIt.registerSingleton<GrpcClient>(await GrpcClient.createGrpcClient(isar));
+  final cacheDatabase = CacheDatabase();
+  getIt.registerSingleton<RestClient>(
+    RestClient(cacheDatabase),
+  );
+  getIt.registerSingleton<GrpcClient>(
+    await GrpcClient.createGrpcClient(cacheDatabase),
+  );
 }
 
 Future<void> _initializeServices() async {

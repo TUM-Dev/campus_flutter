@@ -1,14 +1,8 @@
-import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
-import 'package:campus_flutter/base/networking/cache/cache.dart';
-import 'package:grpc/grpc.dart';
-import 'package:isar/isar.dart';
-import 'package:protobuf/protobuf.dart';
-
-class GrpcCacheInterceptor implements ClientInterceptor {
+/*class GrpcCacheInterceptor implements ClientInterceptor {
   late Cache cache;
 
-  GrpcCacheInterceptor(Isar isar) {
-    cache = Cache(isar: isar);
+  GrpcCacheInterceptor(CacheDatabase cacheDatabase) {
+    cache = Cache(cacheDatabase: cacheDatabase);
   }
 
   @override
@@ -32,7 +26,7 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     final cachedResponse = cache.get(key);
     final factory = _getFactory<R>();
     if (cachedResponse != null && factory != null) {
-      final data = factory(cachedResponse.data);
+      final data = factory(cachedResponse.body);
       return ResponseFuture<R>(
         ClientCall(
           ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
@@ -73,4 +67,4 @@ class GrpcCacheInterceptor implements ClientInterceptor {
   void invalidateCache() {
     cache.resetCache();
   }
-}
+}*/

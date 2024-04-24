@@ -6,10 +6,10 @@ PODS:
   - Firebase/Crashlytics (10.24.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 10.24.0)
-  - firebase_core (2.30.0):
+  - firebase_core (2.30.1):
     - Firebase/CoreOnly (= 10.24.0)
     - Flutter
-  - firebase_crashlytics (3.5.2):
+  - firebase_crashlytics (3.5.3):
     - Firebase/Crashlytics (= 10.24.0)
     - firebase_core
     - Flutter
@@ -77,8 +77,6 @@ PODS:
     - GoogleUtilities/Privacy
   - home_widget (0.0.1):
     - Flutter
-  - isar_flutter_libs (1.0.0):
-    - Flutter
   - map_launcher (0.0.1):
     - Flutter
   - nanopb (2.30910.0):
@@ -104,6 +102,21 @@ PODS:
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - "sqlite3 (3.45.3+1)":
+    - "sqlite3/common (= 3.45.3+1)"
+  - "sqlite3/common (3.45.3+1)"
+  - "sqlite3/fts5 (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/perf-threadsafe (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/rtree (3.45.3+1)":
+    - sqlite3/common
+  - sqlite3_flutter_libs (0.0.1):
+    - Flutter
+    - "sqlite3 (~> 3.45.3+1)"
+    - sqlite3/fts5
+    - sqlite3/perf-threadsafe
+    - sqlite3/rtree
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player_avfoundation (0.0.1):
@@ -120,7 +133,6 @@ DEPENDENCIES:
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - home_widget (from `.symlinks/plugins/home_widget/ios`)
-  - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
   - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -128,6 +140,7 @@ DEPENDENCIES:
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
+  - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
 
@@ -147,6 +160,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PromisesSwift
+    - sqlite3
 
 EXTERNAL SOURCES:
   device_info_plus:
@@ -167,8 +181,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   home_widget:
     :path: ".symlinks/plugins/home_widget/ios"
-  isar_flutter_libs:
-    :path: ".symlinks/plugins/isar_flutter_libs/ios"
   map_launcher:
     :path: ".symlinks/plugins/map_launcher/ios"
   package_info_plus:
@@ -183,6 +195,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
+  sqlite3_flutter_libs:
+    :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player_avfoundation:
@@ -191,8 +205,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Firebase: 91fefd38712feb9186ea8996af6cbdef41473442
-  firebase_core: 66b99b4fb4e5d7cc4e88d4c195fe986681f3466a
-  firebase_crashlytics: 7ccf6bc9a3310a5c53bca1150203f9b91b42732a
+  firebase_core: 7f1e1156934d0da3be260174812842df9420e4ab
+  firebase_crashlytics: ebdef8302c866c08f5de5d19ba2a566c68dd0a44
   FirebaseCore: 11dc8a16dfb7c5e3c3f45ba0e191a33ac4f50894
   FirebaseCoreExtension: af5fd85e817ea9d19f9a2659a376cf9cf99f03c0
   FirebaseCoreInternal: bcb5acffd4ea05e12a783ecf835f2210ce3dc6af
@@ -209,7 +223,6 @@ SPEC CHECKSUMS:
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   home_widget: 0434835a4c9a75704264feff6be17ea40e0f0d57
-  isar_flutter_libs: b69f437aeab9c521821c3f376198c4371fa21073
   map_launcher: 5fde49ac9a52672bf99da746599f507b4490d7b5
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
@@ -220,6 +233,8 @@ SPEC CHECKSUMS:
   quick_actions_ios: d24571db7345d2e48d094db8d077a015a568002d
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
+  sqlite3_flutter_libs: 9bfe005308998aeca155330bbc2ea6dddf834a3b
   url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
   video_player_avfoundation: 2b4384f3b157206b5e150a0083cdc0c905d260d3
 
