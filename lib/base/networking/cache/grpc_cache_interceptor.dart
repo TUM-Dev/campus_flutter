@@ -1,4 +1,10 @@
-/*class GrpcCacheInterceptor implements ClientInterceptor {
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
+import 'package:campus_flutter/base/networking/cache/cache.dart';
+import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
+import 'package:grpc/grpc.dart';
+import 'package:protobuf/protobuf.dart';
+
+class GrpcCacheInterceptor implements ClientInterceptor {
   late Cache cache;
 
   GrpcCacheInterceptor(CacheDatabase cacheDatabase) {
@@ -15,6 +21,7 @@
     return invoker(method, requests, options);
   }
 
+  // TODO(Jakob): figure out possibility to access cache
   @override
   ResponseFuture<R> interceptUnary<Q, R>(
     ClientMethod<Q, R> method,
@@ -24,7 +31,7 @@
   ) {
     final key = method.path;
     final cachedResponse = cache.get(key);
-    final factory = _getFactory<R>();
+    /*final factory = _getFactory<R>();
     if (cachedResponse != null && factory != null) {
       final data = factory(cachedResponse.body);
       return ResponseFuture<R>(
@@ -36,7 +43,7 @@
           true,
         ),
       );
-    }
+    }*/
 
     /// If not found in cache, invoke the actual RPC and cache the response
     final response = invoker(method, request, options);
@@ -67,4 +74,4 @@
   void invalidateCache() {
     cache.resetCache();
   }
-}*/
+}

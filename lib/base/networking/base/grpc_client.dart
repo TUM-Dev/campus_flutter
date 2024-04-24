@@ -3,13 +3,15 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/cache/grpc_cache_interceptor.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class GrpcClient extends CampusClient {
   static Future<GrpcClient> createGrpcClient(
-      CacheDatabase cacheDatabase) async {
+    CacheDatabase cacheDatabase,
+  ) async {
     return GrpcClient(cacheDatabase, await _callOptions());
   }
 
@@ -17,7 +19,7 @@ class GrpcClient extends CampusClient {
       : super(
           _channel(),
           options: callOptions,
-          //interceptors: [GrpcCacheInterceptor(cacheDatabase)],
+          interceptors: [GrpcCacheInterceptor(cacheDatabase)],
         );
 
   static Future<CallOptions> _callOptions() async {
