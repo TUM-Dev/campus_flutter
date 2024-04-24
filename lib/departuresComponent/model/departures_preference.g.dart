@@ -25,6 +25,7 @@ Map<String, dynamic> _$DeparturesPreferenceToJson(
 const _$CampusEnumMap = {
   Campus.stammgelaende: 'stammgelaende',
   Campus.olympiapark: 'olympiapark',
+  Campus.klinikumRechts: 'klinikumRechts',
   Campus.grosshadern: 'grosshadern',
   Campus.garching: 'garching',
   Campus.freising: 'freising',
