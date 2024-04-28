@@ -107,7 +107,7 @@ class NavigationService {
   }
 
   PreferredSizeWidget? bottom(BuildContext context, WidgetRef ref) {
-    final message = ref.watch(hasMessage);
+    final message = ref.watch(hasStatusMessage);
     if (message.$1 && message.$2 != null) {
       return PreferredSize(
         preferredSize: Size(

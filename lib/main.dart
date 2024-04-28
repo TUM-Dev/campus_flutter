@@ -37,7 +37,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
-final hasMessage = StateProvider<(bool, RemoteConfigMessage?)>(
+final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
   (ref) => (false, null),
 );
 
@@ -174,13 +174,18 @@ class _CampusAppState extends ConsumerState<CampusApp>
     Set<String> updatedKeys,
     Map<String, RemoteConfigValue> values,
   ) {
+    var shouldClear = true;
     for (var updatedKey in updatedKeys) {
       if (values[updatedKey]?.asBool() ?? false) {
-        ref.read(hasMessage.notifier).state = (
+        shouldClear = false;
+        ref.read(hasStatusMessage.notifier).state = (
           true,
           RemoteConfigMessage.fromString(updatedKey),
         );
       }
+    }
+    if (shouldClear) {
+      ref.read(hasStatusMessage.notifier).state = (false, null);
     }
   }
 
