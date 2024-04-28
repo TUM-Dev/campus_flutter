@@ -38,6 +38,7 @@ class Navigation extends ConsumerWidget {
           navigationShell.currentIndex,
           context,
         ),
+        bottom: getIt<NavigationService>().bottom(context, ref),
       ),
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(

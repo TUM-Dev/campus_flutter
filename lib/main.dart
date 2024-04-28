@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
+import 'package:campus_flutter/base/enums/remote_config_message.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
@@ -18,6 +19,7 @@ import 'package:campus_flutter/onboardingComponent/services/onboarding_service.d
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +37,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
+final hasMessage = StateProvider<(bool, RemoteConfigMessage?)>(
+  (ref) => (false, null),
+);
 
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +62,13 @@ Future<void> _initializeFirebase() async {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ),
+    );
   }
 }
 
@@ -109,6 +121,7 @@ class _CampusAppState extends ConsumerState<CampusApp>
   @override
   void initState() {
     getIt.registerSingleton<RouterService>(RouterService(ref));
+    firebaseCallback();
     quickActionsCallback();
     homeWidgetLaunchCallback();
     homeWidgetCallback();
@@ -136,6 +149,39 @@ class _CampusAppState extends ConsumerState<CampusApp>
       },
       routerConfig: ref.watch(routerProvider),
     );
+  }
+
+  void firebaseCallback() {
+    if (!kDebugMode) {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      remoteConfig.fetchAndActivate();
+      remoteConfig.fetchAndActivate().then((value) {
+        if (value) {
+          _handleFirebaseValues(
+            RemoteConfigMessage.keys,
+            remoteConfig.getAll(),
+          );
+        }
+      });
+      remoteConfig.onConfigUpdated.listen((event) async {
+        await remoteConfig.activate();
+        _handleFirebaseValues(event.updatedKeys, remoteConfig.getAll());
+      });
+    }
+  }
+
+  void _handleFirebaseValues(
+    Set<String> updatedKeys,
+    Map<String, RemoteConfigValue> values,
+  ) {
+    for (var updatedKey in updatedKeys) {
+      if (values[updatedKey]?.asBool() ?? false) {
+        ref.read(hasMessage.notifier).state = (
+          true,
+          RemoteConfigMessage.fromString(updatedKey),
+        );
+      }
+    }
   }
 
   void quickActionsCallback() {

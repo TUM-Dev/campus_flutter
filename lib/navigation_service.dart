@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
@@ -103,6 +104,38 @@ class NavigationService {
         icon: const Icon(Icons.settings),
       ),
     ];
+  }
+
+  PreferredSizeWidget? bottom(BuildContext context, WidgetRef ref) {
+    final message = ref.watch(hasMessage);
+    if (message.$1 && message.$2 != null) {
+      return PreferredSize(
+        preferredSize: Size(
+          MediaQuery.sizeOf(context).width,
+          30 + context.halfPadding,
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: context.halfPadding),
+          child: Container(
+            color: context.primaryColor,
+            height: 30,
+            width: MediaQuery.sizeOf(context).width,
+            child: Center(
+              child: Text(
+                message.$2!.message(context),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return null;
+    }
   }
 
   List<NavigationDestination> bottomNavItems(BuildContext context) =>

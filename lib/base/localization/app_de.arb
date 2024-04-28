@@ -364,5 +364,7 @@
    "noUserSpecifiedRecovery":"Bitte gib deine Tum ID ein!",
    "noUserFoundRecovery":"Überprüfe, ob du deine Tum ID richtig eingegeben hast!",
    "personNotFoundRecovery":"Überprüfe, ob du den Namen richtig eingegeben hast!",
-   "invalidSearchRecovery":"Ein Suchbegriff mit weniger als 4 Zeichen darf keine Wildcards oder Sonderzeichen enthalten!"
+   "invalidSearchRecovery":"Ein Suchbegriff mit weniger als 4 Zeichen darf keine Wildcards oder Sonderzeichen enthalten!",
+   "tumOnlineDegraded":"TUMonline Services sind derzeit beeinträchtigt!",
+   "tumOnlineMaintenance":"TUMonline Services werden derzeit gewartet!"
 }
