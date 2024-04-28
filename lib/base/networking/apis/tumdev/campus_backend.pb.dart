@@ -3299,6 +3299,7 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
     $core.String? osVersion,
     $core.String? appVersion,
     $core.List<$core.int>? attachment,
+    $core.String? fromName,
   }) {
     final $result = create();
     if (recipient != null) {
@@ -3322,6 +3323,9 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
     if (attachment != null) {
       $result.attachment = attachment;
     }
+    if (fromName != null) {
+      $result.fromName = fromName;
+    }
     return $result;
   }
   CreateFeedbackRequest._() : super();
@@ -3336,6 +3340,7 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'osVersion')
     ..aOS(6, _omitFieldNames ? '' : 'appVersion')
     ..a<$core.List<$core.int>>(7, _omitFieldNames ? '' : 'attachment', $pb.PbFieldType.OY)
+    ..aOS(8, _omitFieldNames ? '' : 'fromName')
     ..hasRequiredFields = false
   ;
 
@@ -3433,6 +3438,16 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
   $core.bool hasAttachment() => $_has(6);
   @$pb.TagNumber(7)
   void clearAttachment() => clearField(7);
+
+  /// how the person wants to be called
+  @$pb.TagNumber(8)
+  $core.String get fromName => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set fromName($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasFromName() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearFromName() => clearField(8);
 }
 
 class Coordinate extends $pb.GeneratedMessage {

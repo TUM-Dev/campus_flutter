@@ -34,6 +34,7 @@ const relaxationPlace = "$relaxationPlaces/relaxationPlace";
 /// Settings
 const menuSettings = "/menu+settings";
 const feedback = "$menuSettings/feedback";
+const feedbackSuccess = "$feedback/success";
 
 /// General
 const search = "/search";

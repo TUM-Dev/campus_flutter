@@ -1,4 +1,8 @@
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 
 class TumOnlineApiException implements ApiException {
   final TumOnlineApiExceptionType tumOnlineApiExceptionType;
@@ -42,52 +46,52 @@ class TumOnlineApiException implements ApiException {
   }
 
   @override
-  String get message {
+  String message(BuildContext context) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
-        return "No Permission";
+        return context.localizations.noPermission;
       case TumOnlineApiExceptionTokenNotConfirmed _:
-        return "Token Not Confirmed";
+        return context.localizations.tokenNotConfirmed;
       case TumOnlineApiExceptionInvalidToken _:
-        return "Token Invalid";
+        return context.localizations.loginNeeded;
       case TumOnlineApiExceptionRequestRate _:
-        return "Request Rate Exceeded";
+        return context.localizations.rateExceeded;
       case TumOnlineApiExceptionTokenLimitReached _:
-        return "Token limit Reached, Maximum 10 Tokens per User Allowed";
+        return context.localizations.limitReached;
       case TumOnlineApiExceptionNoUserSpecified _:
-        return "No User Specified";
+        return context.localizations.noUserSpecified;
       case TumOnlineApiExceptionNoUserFound _:
-        return "No User Found";
+        return context.localizations.noUserFound;
       case TumOnlineApiExceptionPersonNotFound _:
-        return "Person Not Found";
+        return context.localizations.personNotFound;
       case TumOnlineApiExceptionInvalidSearchString _:
-        return "Invalid Search";
+        return context.localizations.invalidSearch;
       case TumOnlineApiExceptionUnknown _:
-        return "Unknown Exception";
+        return context.localizations.unknownException;
     }
   }
 
   @override
-  String? get recoverySuggestion {
+  String? recoverySuggestion(BuildContext context) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
-        return "Make sure to enable the right permissions for your token!";
+        return context.localizations.noPermissionRecovery;
       case TumOnlineApiExceptionTokenNotConfirmed _:
-        return "Go to TumOnline and confirm your token!";
+        return context.localizations.tokenNotConfirmedRecovery;
       case TumOnlineApiExceptionInvalidToken _:
-        return "Try creating a new token!";
+        return context.localizations.loginNeededRecovery;
       case TumOnlineApiExceptionRequestRate _:
-        return "Please try again later!";
+        return context.localizations.rateExceededRecovery;
       case TumOnlineApiExceptionTokenLimitReached _:
-        return "Please delete one of your tokens!";
+        return context.localizations.limitReachedRecovery;
       case TumOnlineApiExceptionNoUserSpecified _:
-        return "Please enter your Tum ID!";
+        return context.localizations.noUserSpecifiedRecovery;
       case TumOnlineApiExceptionNoUserFound _:
-        return "Make sure you entered your Tum ID correctly!";
+        return context.localizations.noUserFoundRecovery;
       case TumOnlineApiExceptionPersonNotFound _:
-        return "Make sure you entered the name correctly!";
+        return context.localizations.personNotFoundRecovery;
       case TumOnlineApiExceptionInvalidSearchString _:
-        return "A search string with less than 4 characters must not contain wildcards or special characters!";
+        return context.localizations.invalidSearchRecovery;
       case TumOnlineApiExceptionUnknown unknown:
         return unknown.message;
     }
@@ -96,6 +100,26 @@ class TumOnlineApiException implements ApiException {
   @override
   String toString() {
     return "TumOnlineException: $message";
+  }
+
+  @override
+  Function()? overwriteRetry(BuildContext context) {
+    switch (tumOnlineApiExceptionType) {
+      case TumOnlineApiExceptionInvalidToken _:
+        return (() => context.go(onboarding));
+      default:
+        return null;
+    }
+  }
+
+  @override
+  String? overwriteRetryMessage(BuildContext context) {
+    switch (tumOnlineApiExceptionType) {
+      case TumOnlineApiExceptionInvalidToken _:
+        return context.localizations.login;
+      default:
+        return null;
+    }
   }
 }
 

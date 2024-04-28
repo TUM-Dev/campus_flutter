@@ -40,7 +40,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(placesViewModel).fetch,
+            retry: (() => ref.read(placesViewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(

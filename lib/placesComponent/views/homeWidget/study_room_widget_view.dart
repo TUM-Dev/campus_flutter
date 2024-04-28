@@ -73,7 +73,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                 InkWell(
                   child: Icon(
                     Icons.filter_list,
-                    color: Theme.of(context).primaryColor,
+                    color: context.primaryColor,
                   ),
                   onTap: () => showModalBottomSheet(
                     builder: (context) =>

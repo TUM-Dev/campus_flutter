@@ -43,11 +43,10 @@ Future<void> showDirectionsDialog(
                   title: Text(
                     context.localizations.openIn(value[index].mapName),
                   ),
-                  onTap: () => MapLauncher.showDirections(
+                  onTap: () => MapLauncher.showMarker(
                     mapType: value[index].mapType,
-                    directionsMode: DirectionsMode.walking,
-                    destinationTitle: name,
-                    destination: Coords(location.latitude, location.longitude),
+                    title: name,
+                    coords: Coords(location.latitude, location.longitude),
                   ),
                 ),
                 separatorBuilder: (context, index) => const PaddedDivider(),

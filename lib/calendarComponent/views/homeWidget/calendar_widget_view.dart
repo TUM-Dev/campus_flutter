@@ -45,7 +45,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                  retry: ref.read(calendarViewModel).fetch,
+                  retry: (() => ref.read(calendarViewModel).fetch(true)),
                 ),
               );
             } else {
@@ -126,7 +126,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
       children: [
         Text(
           DateFormat.EEEE(context.localizations.localeName).format(today),
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: context.primaryColor),
         ),
         Text(
           DateFormat.MMMd(context.localizations.localeName).format(today),

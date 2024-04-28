@@ -2,13 +2,33 @@
 <resources>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Widget hinzufügen</string>
-    <string name="app_widget_description">Das ist eine Widget Beschreibung</string>
+    <string name="app_widget_description">Ein Überblick über Deine bevorstehenden Veranstaltungen.</string>
     <string name="calendar_widget">Calendar Widget TUM</string>
     <string name="calendar_widget_select_lectures">Vorlesungen auswählen</string>
     <string name="calendar_widget_no_lectures">Keine Vorlesungen geplannt :)</string>
     <string name="calendar_widget_old_data">Dieses Widget wurde zuletzt vor über 2 Wochen aktualisiert. Öffne die Applikation, um die Daten zu aktualisieren</string>
     <string name="IN">in</string>
     <string name="MINUTES">Minuten</string>
-    <string name="just_now">Jetzt</string>
+    <string name="just_now">Gerade eben</string>
     <string name="yesterday">Gestern</string>
+    <plurals name="yearsAgo">
+        <item quantity="one">Vor 1 Jahr</item>
+        <item quantity="other">Vor %d Jahren</item>
+    </plurals>
+    <plurals name="monthsAgo">
+        <item quantity="one">Vor 1 Monaten</item>
+        <item quantity="other">Vor %d Monaten</item>
+    </plurals>
+    <plurals name="daysAgo">
+        <item quantity="one">Vor 1 Tag</item>
+        <item quantity="other">Vor %d Tagen</item>
+    </plurals>
+    <plurals name="hoursAgo">
+        <item quantity="one">Vor 1 Stunde</item>
+        <item quantity="other">Vor %d Stunden</item>
+    </plurals>
+    <plurals name="minutesAgo">
+        <item quantity="one">Vor 1 Minute</item>
+        <item quantity="other">Vor %d Minuten</item>
+    </plurals>
 </resources>

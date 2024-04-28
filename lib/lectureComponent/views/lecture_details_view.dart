@@ -4,6 +4,8 @@ import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/base/views/color_picker_view.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewmodel.dart';
@@ -16,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class LectureDetailsScaffold extends StatelessWidget {
+class LectureDetailsScaffold extends ConsumerStatefulWidget {
   const LectureDetailsScaffold({
     super.key,
     this.scrollController,
@@ -29,13 +31,38 @@ class LectureDetailsScaffold extends StatelessWidget {
   final ScrollController? scrollController;
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _LectureDetailsScaffoldState();
+}
+
+class _LectureDetailsScaffoldState
+    extends ConsumerState<LectureDetailsScaffold> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const CustomBackButton()),
+      appBar: AppBar(
+        leading: const CustomBackButton(),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.padding),
+            child: ColorPickerView(
+              color: widget.event?.getColor() ?? context.primaryColor,
+              onColorChanged: (color) {
+                if (widget.event != null) {
+                  ref.read(calendarViewModel).setEventColor(
+                        widget.event!.lvNr ?? widget.event!.id,
+                        color,
+                      );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
       body: LectureDetailsView(
-        event: event,
-        lecture: lecture,
-        scrollController: scrollController,
+        event: widget.event,
+        lecture: widget.lecture,
+        scrollController: widget.scrollController,
       ),
     );
   }
@@ -79,7 +106,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(viewModel).fetch,
+            retry: (() => ref.read(viewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(

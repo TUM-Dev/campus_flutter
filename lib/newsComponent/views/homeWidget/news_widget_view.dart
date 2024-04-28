@@ -68,7 +68,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                  retry: ref.read(newsViewModel).fetch,
+                  retry: (() => ref.read(newsViewModel).fetch(true)),
                 ),
               ),
             );

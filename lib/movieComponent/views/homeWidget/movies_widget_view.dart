@@ -54,7 +54,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
         child: ErrorHandlingRouter(
           error: snapshot.error!,
           errorHandlingViewType: ErrorHandlingViewType.textOnly,
-          retry: ref.read(movieViewModel).fetch,
+          retry: (() => ref.read(movieViewModel).fetch(true)),
         ),
       );
     } else {

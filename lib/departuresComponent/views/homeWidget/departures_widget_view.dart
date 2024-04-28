@@ -49,7 +49,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               InkWell(
                 child: Icon(
                   Icons.filter_list,
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                 ),
                 onTap: () => showModalBottomSheet(
                   builder: (context) => PreferenceSelectionView<Campus>(
@@ -84,7 +84,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                       return ErrorHandlingRouter(
                         error: snapshot.error!,
                         errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                        retry: ref.read(departureViewModel).fetch,
+                        retry: (() => ref.read(departureViewModel).fetch(true)),
                       );
                     } else {
                       return DelayedLoadingIndicator(
@@ -125,7 +125,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               TextSpan(
                 text: station.name,
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

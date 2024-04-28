@@ -88,6 +88,9 @@ class DeparturesViewModel {
 
             widgetCampus.add(closestCampus);
             assignSelectedStation();
+          } else {
+            widgetCampus.add(Campus.garching);
+            assignSelectedStation();
           }
         },
         onError: (error) {

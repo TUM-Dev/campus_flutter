@@ -61,23 +61,29 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                 1 &&
             value.compareTo(const Duration(seconds: 9, milliseconds: 2)) ==
                 -1) {
-          setState(() {
-            currentText = 1;
-          });
+          if (mounted) {
+            setState(() {
+              currentText = 1;
+            });
+          }
         } else if (value
                     .compareTo(const Duration(seconds: 9, milliseconds: 3)) ==
                 1 &&
             value.compareTo(const Duration(seconds: 16, milliseconds: 24)) ==
                 -1) {
-          setState(() {
-            currentText = 2;
-          });
+          if (mounted) {
+            setState(() {
+              currentText = 2;
+            });
+          }
         } else if (value.compareTo(Duration.zero) == 1 &&
             value.compareTo(const Duration(seconds: 5, milliseconds: 16)) ==
                 -1) {
-          setState(() {
-            currentText = 0;
-          });
+          if (mounted) {
+            setState(() {
+              currentText = 0;
+            });
+          }
         }
       }
     });
@@ -207,7 +213,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             }
           },
           onError: (error) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
               SnackBar(
                 duration: const Duration(seconds: 10),
                 content: ErrorHandlingRouter(
@@ -219,7 +225,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             );
           },
         ).catchError((error) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
             SnackBar(
               duration: const Duration(seconds: 10),
               content: ErrorHandlingRouter(
@@ -246,7 +252,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         onPressed: () => context.push(feedback),
         child: Text(
           context.localizations.contactSupport,
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: context.primaryColor),
         ),
       ),
     );

@@ -48,6 +48,8 @@ class EventCreationFormField extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(calendarAdditionViewModel(calendarEvent))
                     .checkValidity(),
+                onTapOutside: (_) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
               ),
             ),
           ),

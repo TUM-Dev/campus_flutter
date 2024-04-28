@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_rectangle.dart';
@@ -44,7 +45,7 @@ class GradeRow extends StatelessWidget {
       iconData: iconData,
       label: text,
       style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-      iconColor: Theme.of(context).primaryColor,
+      iconColor: context.primaryColor,
       multipleLines: false,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
@@ -31,6 +32,8 @@ class UserPreferencesViewModel {
               ref.read(useWebView.notifier).state = value as bool;
             case UserPreference.failedGrades:
               ref.read(hideFailedGrades.notifier).state = value as bool;
+            case UserPreference.weekends:
+              ref.read(showWeekends.notifier).state = value as bool;
             case UserPreference.locale:
               ref.read(customLocale.notifier).state = Locale(value as String);
             default:
@@ -51,6 +54,8 @@ class UserPreferencesViewModel {
         ref.read(useWebView.notifier).state = value as bool;
       case UserPreference.failedGrades:
         ref.read(hideFailedGrades.notifier).state = value as bool;
+      case UserPreference.weekends:
+        ref.read(showWeekends.notifier).state = value as bool;
       case UserPreference.locale:
         ref.read(customLocale.notifier).state = value as Locale?;
         value = value?.languageCode;
@@ -75,7 +80,7 @@ class UserPreferencesViewModel {
             value: e,
             child: IconText(
               iconData: e.icon,
-              iconColor: Theme.of(context).primaryColor,
+              iconColor: context.primaryColor,
               label: Localizations.localeOf(context).languageCode == "de"
                   ? e.german
                   : e.english,

@@ -16,7 +16,7 @@ class HomeSettingsView extends ConsumerWidget {
           style: Theme.of(context)
               .textTheme
               .titleLarge
-              ?.apply(color: Theme.of(context).primaryColor),
+              ?.apply(color: context.primaryColor),
         ),
         Text(context.localizations.reorderDisable),
         Padding(

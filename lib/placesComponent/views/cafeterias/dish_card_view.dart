@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
@@ -35,7 +36,7 @@ class DishCardView extends StatelessWidget {
                     onPressed: () => _dishInfoAlert(dish.$1, price, context),
                     icon: Icon(
                       Icons.info_outline,
-                      color: Theme.of(context).primaryColor,
+                      color: context.primaryColor,
                     ),
                     padding: EdgeInsets.zero,
                     alignment: Alignment.centerRight,

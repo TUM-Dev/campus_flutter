@@ -96,46 +96,11 @@ class MapWidget extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends ConsumerState<MapWidget>
-    with WidgetsBindingObserver {
+class _MapWidgetState extends ConsumerState<MapWidget> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
   bool isMapVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _setMapStyle();
-  }
-
-  Future _setMapStyle({bool platformChanged = false}) async {
-    final controller = await _controller.future;
-    setBrightness(controller, platformChanged);
-  }
-
-  void setBrightness(GoogleMapController controller, bool platformChanged) {
-    final brightness = Theme.of(context).brightness;
-    if (brightness == (platformChanged ? Brightness.light : Brightness.dark)) {
-      controller.setMapStyle(getIt.get<MapThemeService>().darkTheme);
-    } else {
-      controller.setMapStyle(getIt.get<MapThemeService>().lightTheme);
-    }
-  }
-
-  @override
-  void didChangePlatformBrightness() {
-    setState(() {
-      _setMapStyle(platformChanged: true);
-    });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +132,9 @@ class _MapWidgetState extends ConsumerState<MapWidget>
       opacity: isMapVisible ? 1.0 : 0.01,
       duration: const Duration(milliseconds: 200),
       child: GoogleMap(
+        style: Theme.of(context).brightness == Brightness.light
+            ? getIt.get<MapThemeService>().lightTheme
+            : getIt.get<MapThemeService>().darkTheme,
         mapType: MapType.normal,
         padding: widget.controlPadding ?? EdgeInsets.zero,
         initialCameraPosition: CameraPosition(
@@ -191,9 +159,13 @@ class _MapWidgetState extends ConsumerState<MapWidget>
           _controller.complete(controller);
           Future.delayed(
             const Duration(milliseconds: 250),
-            () => setState(() {
-              isMapVisible = true;
-            }),
+            () {
+              if (mounted) {
+                setState(() {
+                  isMapVisible = true;
+                });
+              }
+            },
           );
         },
       ),

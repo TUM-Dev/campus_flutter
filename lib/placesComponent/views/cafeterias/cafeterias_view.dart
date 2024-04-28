@@ -94,7 +94,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(cafeteriasViewModel).fetch,
+            retry: (() => ref.read(cafeteriasViewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(

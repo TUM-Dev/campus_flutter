@@ -29,7 +29,7 @@ class RestCacheInterceptor implements Interceptor {
       if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
       } else {
-        final cacheEntry = cache.getWithString(key);
+        final cacheEntry = await cache.getAsync(key);
 
         /// device is online, fetch every 10 minutes
         if (cacheEntry != null &&
@@ -54,7 +54,7 @@ class RestCacheInterceptor implements Interceptor {
       if (options.extra["forcedRefresh"] == "true") {
         cache.delete(key);
       } else {
-        final cacheEntry = cache.getWithString(key);
+        final cacheEntry = await cache.getAsync(key);
         if (cacheEntry != null &&
             DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
           return handler.resolve(
@@ -78,7 +78,7 @@ class RestCacheInterceptor implements Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final key = response.realUri.toString();
-    cache.addString(response.data, key);
+    cache.add(response.data, key);
     response.extra = response.extra..addAll({"saved": DateTime.now()});
     handler.next(response);
   }
