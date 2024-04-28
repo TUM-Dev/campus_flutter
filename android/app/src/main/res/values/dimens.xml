@@ -4,4 +4,5 @@
     <dimen name="material_small_padding">8dp</dimen>
     <dimen name="material_tiny_padding">4dp</dimen>
     <dimen name="card_view_corner_radius">2dp</dimen>
+    <dimen name="min_tablet_width_dp">600dp</dimen>
 </resources>
