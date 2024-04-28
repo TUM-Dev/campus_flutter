@@ -13,13 +13,13 @@ struct Provider: TimelineProvider {
         CalendarWidgetEntry(
             date: Date(),
             entries: [
-                CalendarEntry(id: "0", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: "Galileo Audimax"),
-                CalendarEntry(id: "0", title: "Einführung in die Buchführung", status: "Test", startDate: Date.now, endDate: Date.now, location: "Audimax")
+                CalendarEntry(id: "0", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: "Galileo Audimax", color: nil),
+                CalendarEntry(id: "0", title: "Einführung in die Buchführung", status: "Test", startDate: Date.now, endDate: Date.now, location: "Audimax", color: nil)
             ],
             size: context.family
         )
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (CalendarWidgetEntry) -> ()) {
         if context.isPreview{
             let entry = placeholder(in: context)
@@ -42,7 +42,7 @@ struct Provider: TimelineProvider {
             }
         }
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarWidgetEntry>) -> ()) {
         getSnapshot(in: context) { (entry) in
             let timeline = Timeline(entries: [entry], policy: .atEnd)
@@ -53,7 +53,7 @@ struct Provider: TimelineProvider {
 
 struct CalendarWidget: Widget {
     let kind: String = "CalendarWidget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {

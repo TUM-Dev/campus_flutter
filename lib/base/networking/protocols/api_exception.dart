@@ -1,13 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'api_exception.g.dart';
 
 abstract class ApiException implements Exception {
-  final String message;
-  final String? recoverySuggestion;
+  String message(BuildContext context);
 
-  @pragma("vm:entry-point")
-  ApiException([this.message = "", this.recoverySuggestion]);
+  String? recoverySuggestion(BuildContext context);
+
+  Function()? overwriteRetry(BuildContext context);
+
+  String? overwriteRetryMessage(BuildContext context);
 }
 
 @JsonSerializable()

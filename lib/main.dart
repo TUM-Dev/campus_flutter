@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
+import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
 import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/networking/base/connection_checker.dart';
@@ -11,6 +12,7 @@ import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/navigation_service.dart';
@@ -29,8 +31,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'base/networking/cache/cache_entry.dart';
 
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
@@ -62,12 +62,7 @@ Future<void> _initializeFirebase() async {
 
 Future<void> _initializeNetworkingClients() async {
   final directory = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open(
-    [
-      CacheEntrySchema,
-    ],
-    directory: directory.path,
-  );
+  final isar = await Isar.open([CacheEntrySchema], directory: directory.path);
   getIt.registerSingleton<RestClient>(RestClient(isar));
   getIt.registerSingleton<GrpcClient>(await GrpcClient.createGrpcClient(isar));
 }
@@ -83,6 +78,9 @@ Future<void> _initializeServices() async {
   );
   getIt.registerSingleton<UserPreferencesService>(
     UserPreferencesService(sharedPreferences),
+  );
+  getIt.registerSingleton<CalendarColorService>(
+    CalendarColorService(sharedPreferences),
   );
 }
 

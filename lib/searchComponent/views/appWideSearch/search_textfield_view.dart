@@ -43,6 +43,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
                 )
               : null,
         ),
+        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       ),
     );
   }

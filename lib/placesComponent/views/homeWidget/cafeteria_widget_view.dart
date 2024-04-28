@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/places_util.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
@@ -52,7 +53,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               InkWell(
                 child: Icon(
                   Icons.filter_list,
-                  color: Theme.of(context).primaryColor,
+                  color: context.primaryColor,
                 ),
                 onTap: () => showModalBottomSheet(
                   builder: (context) => PreferenceSelectionView<Cafeteria>(
@@ -70,30 +71,15 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               ),
             ],
           ),
-          subtitle: _openingHours(snapshot.data),
+          subtitle: PlacesUtil.openingHours(
+            snapshot.data?.$1.openingHoursForDate(snapshot.data?.$2?.date),
+            snapshot.data?.$2?.date,
+            context,
+          ),
           child: _dynamicContent(snapshot),
         );
       },
     );
-  }
-
-  Widget? _openingHours((Cafeteria, CafeteriaMenu?)? value) {
-    if (value != null && value.$2 != null) {
-      final openingHours = value.$1.openingHoursForDate(value.$2!.date);
-      final dayString = value.$1.getDayString(value.$2!.date, context);
-      return Padding(
-        padding: EdgeInsets.only(left: context.padding),
-        child: Text(
-          context.localizations.open(
-            dayString,
-            openingHours.$2!.start,
-            openingHours.$2!.end,
-          ),
-        ),
-      );
-    } else {
-      return null;
-    }
   }
 
   Widget _dynamicContent(AsyncSnapshot<(Cafeteria, CafeteriaMenu?)?> snapshot) {
@@ -122,8 +108,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           height: 150,
           child: ErrorHandlingRouter(
             error: snapshot.error!,
-            errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-            retry: ref.read(cafeteriasViewModel).fetchWidgetCafeteria,
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            retry: (() =>
+                ref.read(cafeteriasViewModel).fetchWidgetCafeteria(true)),
           ),
         ),
       );

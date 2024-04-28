@@ -11,11 +11,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
-final selectedDate =
-    StateProvider<(DateTime?, CalendarView?)>((ref) => (null, null));
+final selectedDate = StateProvider<(DateTime?, CalendarView?)>(
+  (ref) => (null, null),
+);
+
+final calendarsKey = GlobalKey<_CalendarsViewState>(
+  debugLabel: "calendarsKey",
+);
 
 class CalendarsView extends ConsumerStatefulWidget {
-  const CalendarsView({super.key});
+  CalendarsView({Key? key}) : super(key: calendarsKey);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CalendarsViewState();
@@ -54,12 +59,10 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedCalendarTab = 0;
-                          dayController.displayDate = DateTime.now();
-                        });
-                      },
+                      onPressed: () => ref.read(selectedDate.notifier).state = (
+                        DateTime.now(),
+                        null,
+                      ),
                       child: Text(
                         context.localizations.calendarViewToday,
                         style: Theme.of(context).textTheme.titleMedium,
@@ -121,7 +124,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(calendarViewModel).fetch,
+            retry: (() => ref.read(calendarViewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(
@@ -153,6 +156,12 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
         weekController.selectedDate = state.$1;
         weekController.displayDate = state.$1;
       default:
+        dayController.selectedDate = state.$1;
+        dayController.displayDate = state.$1;
+        weekController.selectedDate = state.$1;
+        weekController.displayDate = state.$1;
+        monthController.selectedDate = state.$1;
+        monthController.displayDate = state.$1;
     }
   }
 }

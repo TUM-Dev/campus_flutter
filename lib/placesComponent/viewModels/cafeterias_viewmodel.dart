@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
@@ -93,15 +92,15 @@ class CafeteriasViewModel {
         } else {
           LocationService.getLastKnown().then(
             (position) => _getClosestCafeteria(position, value.$2),
-            onError: (error) {
-              widgetCafeteria.addError(error);
-              fetchCafeteriaMenu(forcedRefresh, value.$2.first).then(
-                (menu) => widgetCafeteria.add(
-                  (value.$2.first, menu.firstOrNull),
-                ),
-                onError: (error) => widgetCafeteria.addError(error),
-              );
-            },
+            onError: (error) => fetchCafeteriaMenu(
+              forcedRefresh,
+              value.$2.first,
+            ).then(
+              (menu) => widgetCafeteria.add(
+                (value.$2.first, menu.firstOrNull),
+              ),
+              onError: (error) => widgetCafeteria.addError(error),
+            ),
           );
         }
       },
@@ -217,9 +216,7 @@ class CafeteriasViewModel {
   ) {
     return MealPlanService.getCafeteriaMenu(forcedRefresh, cafeteria).then(
       (response) => response.$2,
-      onError: (error) => Future<List<CafeteriaMenu>>.error(
-        CampusException("Unable to fetch meal plan"),
-      ),
+      onError: (error) => error,
     );
   }
 
@@ -280,7 +277,7 @@ class CafeteriasViewModel {
         return "🍰";
 
       default:
-        return " ";
+        return "🍴";
     }
   }
 

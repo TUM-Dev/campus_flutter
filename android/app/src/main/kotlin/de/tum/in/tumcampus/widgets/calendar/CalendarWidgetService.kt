@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.google.gson.GsonBuilder
 import de.tum.`in`.tumcampus.util.DateTimeUtils
-import de.tum.`in`.tumcampus.util.LocalDateTimeDeserializer
 import de.tum.`in`.tumcampus.R
 import de.tum.`in`.tumcampus.util.Const
 import es.antonborri.home_widget.HomeWidgetPlugin
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
+import kotlinx.serialization.json.Json
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,7 +21,7 @@ class CalendarWidgetService : RemoteViewsService() {
     }
 
     private class CalendarRemoteViewFactory(
-            private val applicationContext: Context
+        private val applicationContext: Context
     ) : RemoteViewsFactory {
         private var calendarEvents: List<WidgetCalendarItem> = ArrayList()
 
@@ -31,12 +30,9 @@ class CalendarWidgetService : RemoteViewsService() {
         override fun onDataSetChanged() {
             val widgetData = HomeWidgetPlugin.getData(applicationContext)
             val data = widgetData.getString("calendar", null)
-            val gson = GsonBuilder()
-                    .registerTypeAdapter(DateTime::class.java, LocalDateTimeDeserializer())
-                    .create()
-            val parsedEvents = gson.fromJson(data, Array<WidgetCalendarItem>::class.java).asList()
-
-            calendarEvents = parsedEvents
+            if (data != null) {
+                calendarEvents = Json.decodeFromString<Array<WidgetCalendarItem>>(data).asList()
+            }
 
             // Set isFirstOnDay flags
             if (calendarEvents.isNotEmpty()) {
@@ -44,15 +40,13 @@ class CalendarWidgetService : RemoteViewsService() {
             }
 
             for (index in 1 until calendarEvents.size) {
-                val (_, _, startTime) = calendarEvents[index - 1]
-                val lastTime = DateTime(startTime)
+                val startTime = calendarEvents[index - 1].startDate
 
                 val thisEvent = calendarEvents[index]
-                val thisTime = DateTime(thisEvent.startDate.millis)
+                val thisTime = thisEvent.startDate
 
-                if (!DateTimeUtils.isSameDay(lastTime, thisTime)) {
+                if (!DateTimeUtils.isSameDay(startTime, thisTime)) {
                     thisEvent.isFirstOnDay = true
-
                 }
             }
         }
@@ -67,23 +61,23 @@ class CalendarWidgetService : RemoteViewsService() {
             }
 
             val remoteViews = RemoteViews(
-                    applicationContext.packageName,
-                    R.layout.calendar_widget_item
+                applicationContext.packageName,
+                R.layout.calendar_widget_item
             )
 
             // Get the lecture for this view
             val currentItem = this.calendarEvents[position]
-            val startTime = DateTime(currentItem.startDate.millis)
+            val startTime = currentItem.startDate
 
             // Setup the date
             if (currentItem.isFirstOnDay) {
                 remoteViews.setTextViewText(
-                        R.id.calendar_widget_date_day,
-                        startTime.dayOfMonth.toString()
+                    R.id.calendar_widget_date_day,
+                    startTime.dayOfMonth.toString()
                 )
                 remoteViews.setTextViewText(
-                        R.id.calendar_widget_date_weekday, startTime.monthOfYear()
-                        .getAsShortText(Locale.getDefault())
+                    R.id.calendar_widget_date_weekday,
+                    startTime.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                 )
                 remoteViews.setViewPadding(R.id.calendar_widget_item, 0, 15, 0, 0)
             } else {
@@ -94,20 +88,23 @@ class CalendarWidgetService : RemoteViewsService() {
             }
 
             // Setup event color
-            remoteViews.setInt(R.id.calendar_widget_event, "setBackgroundColor", currentItem.getEventColor(applicationContext))
+            remoteViews.setInt(
+                R.id.calendar_widget_event,
+                "setBackgroundColor",
+                currentItem.getEventColor(applicationContext)
+            )
 
             // Setup event title
             remoteViews.setTextViewText(R.id.calendar_widget_event_title, currentItem.title)
 
             // Setup event time
-            val formatter = DateTimeFormat.shortTime()
-            val startTimeText = formatter.print(startTime)
-            val endTime = DateTime(currentItem.endDate.millis)
-            val endTimeText = formatter.print(endTime)
+            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+            val startTimeText = formatter.format(startTime)
+            val endTimeText = formatter.format(currentItem.endDate)
             val eventTime = applicationContext.getString(
-                    R.string.event_start_end_format_string,
-                    startTimeText,
-                    endTimeText
+                R.string.event_start_end_format_string,
+                startTimeText,
+                endTimeText
             )
             remoteViews.setTextViewText(R.id.calendar_widget_event_time, eventTime)
 
@@ -116,7 +113,7 @@ class CalendarWidgetService : RemoteViewsService() {
 
             // Setup action to open calendar
             val fillInIntent = Intent().apply {
-                putExtra(Const.EVENT_TIME, currentItem.startDate.millis)
+                putExtra(Const.EVENT_TIME, currentItem.startDate)
             }
             remoteViews.setOnClickFillInIntent(R.id.calendar_widget_event, fillInIntent)
 

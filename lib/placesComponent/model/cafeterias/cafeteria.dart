@@ -1,10 +1,6 @@
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/extensions/date_time.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cafeteria.g.dart';
@@ -55,8 +51,8 @@ class Cafeteria extends Searchable {
     return name;
   }
 
-  (bool, OpeningHour?) openingHoursForDate(DateTime dateTime) {
-    switch (dateTime.weekday) {
+  (bool, OpeningHour?) openingHoursForDate(DateTime? dateTime) {
+    switch (dateTime?.weekday) {
       case 1:
         return (true, openingHours?.mon);
       case 2:
@@ -69,15 +65,6 @@ class Cafeteria extends Searchable {
         return (true, openingHours?.fri);
       default:
         return (false, null);
-    }
-  }
-
-  String getDayString(DateTime dateTime, BuildContext context) {
-    final today = DateTime.now();
-    if (dateTime.isAtSameDay(today)) {
-      return context.localizations.today;
-    } else {
-      return DateFormat.EEEE(context.localizations.localeName).format(dateTime);
     }
   }
 

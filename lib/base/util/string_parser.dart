@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/extensions/date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:intl/intl.dart';
@@ -56,5 +57,14 @@ class StringParser {
 
   static int? optStringToOptInt(String? number) {
     return number != null ? int.tryParse(number) : null;
+  }
+
+  static String getDayString(DateTime dateTime, BuildContext context) {
+    final today = DateTime.now();
+    if (dateTime.isAtSameDay(today)) {
+      return context.localizations.today;
+    } else {
+      return DateFormat.EEEE(context.localizations.localeName).format(dateTime);
+    }
   }
 }

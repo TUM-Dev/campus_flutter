@@ -23,7 +23,7 @@ class MeetingDataSource extends CalendarDataSource {
   @override
   String getSubject(int index) {
     final calendarEvent = cast<CalendarEvent>(appointments![index])!;
-    return "${calendarEvent.title}\n${calendarEvent.location}";
+    return "${calendarEvent.title}\n${calendarEvent.location ?? ""}";
   }
 
   @override
@@ -34,6 +34,6 @@ class MeetingDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     final appointment = appointments![index]! as CalendarEvent;
-    return appointment.getEventColor(context);
+    return appointment.getColor();
   }
 }

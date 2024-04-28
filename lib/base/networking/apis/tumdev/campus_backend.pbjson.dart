@@ -687,6 +687,7 @@ const CreateFeedbackRequest$json = {
   '2': [
     {'1': 'recipient', '3': 1, '4': 1, '5': 14, '6': '.api.CreateFeedbackRequest.Recipient', '10': 'recipient'},
     {'1': 'from_email', '3': 2, '4': 1, '5': 9, '10': 'fromEmail'},
+    {'1': 'from_name', '3': 8, '4': 1, '5': 9, '10': 'fromName'},
     {'1': 'message', '3': 3, '4': 1, '5': 9, '10': 'message'},
     {'1': 'location', '3': 4, '4': 1, '5': 11, '6': '.api.Coordinate', '10': 'location'},
     {'1': 'os_version', '3': 5, '4': 1, '5': 9, '10': 'osVersion'},
@@ -709,10 +710,11 @@ const CreateFeedbackRequest_Recipient$json = {
 final $typed_data.Uint8List createFeedbackRequestDescriptor = $convert.base64Decode(
     'ChVDcmVhdGVGZWVkYmFja1JlcXVlc3QSQgoJcmVjaXBpZW50GAEgASgOMiQuYXBpLkNyZWF0ZU'
     'ZlZWRiYWNrUmVxdWVzdC5SZWNpcGllbnRSCXJlY2lwaWVudBIdCgpmcm9tX2VtYWlsGAIgASgJ'
-    'Uglmcm9tRW1haWwSGAoHbWVzc2FnZRgDIAEoCVIHbWVzc2FnZRIrCghsb2NhdGlvbhgEIAEoCz'
-    'IPLmFwaS5Db29yZGluYXRlUghsb2NhdGlvbhIdCgpvc192ZXJzaW9uGAUgASgJUglvc1ZlcnNp'
-    'b24SHwoLYXBwX3ZlcnNpb24YBiABKAlSCmFwcFZlcnNpb24SHgoKYXR0YWNobWVudBgHIAEoDF'
-    'IKYXR0YWNobWVudCIpCglSZWNpcGllbnQSCwoHVFVNX0RFVhAAEg8KC1RVTV9DT05UQUNUEAE=');
+    'Uglmcm9tRW1haWwSGwoJZnJvbV9uYW1lGAggASgJUghmcm9tTmFtZRIYCgdtZXNzYWdlGAMgAS'
+    'gJUgdtZXNzYWdlEisKCGxvY2F0aW9uGAQgASgLMg8uYXBpLkNvb3JkaW5hdGVSCGxvY2F0aW9u'
+    'Eh0KCm9zX3ZlcnNpb24YBSABKAlSCW9zVmVyc2lvbhIfCgthcHBfdmVyc2lvbhgGIAEoCVIKYX'
+    'BwVmVyc2lvbhIeCgphdHRhY2htZW50GAcgASgMUgphdHRhY2htZW50IikKCVJlY2lwaWVudBIL'
+    'CgdUVU1fREVWEAASDwoLVFVNX0NPTlRBQ1QQAQ==');
 
 @$core.Deprecated('Use coordinateDescriptor instead')
 const Coordinate$json = {

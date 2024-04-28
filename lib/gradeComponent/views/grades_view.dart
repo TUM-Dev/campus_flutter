@@ -62,7 +62,7 @@ class _GradesViewState extends ConsumerState<GradesView>
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(gradeViewModel).fetch,
+            retry: (() => ref.read(gradeViewModel).fetch(true)),
           );
         } else {
           return DelayedLoadingIndicator(name: context.localizations.grades);

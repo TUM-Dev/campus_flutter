@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/enums/calendar_event_type.dart';
+import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -21,6 +21,8 @@ class CalendarEvent extends Searchable {
   @JsonKey(name: "dtend")
   final DateTime endDate;
   final String? location;
+
+  int? color;
 
   Duration get duration {
     return endDate.difference(startDate);
@@ -63,30 +65,15 @@ class CalendarEvent extends Searchable {
     return status == "CANCEL";
   }
 
-  CalendarEventType get type {
-    if (isCanceled) {
-      return CalendarEventType.canceled;
-    } else if (title.endsWith("VO") ||
-        title.endsWith("VU") ||
-        title.endsWith("VI")) {
-      return CalendarEventType.lecture;
-    } else if (title.endsWith("UE")) {
-      return CalendarEventType.exercise;
-    } else {
-      return CalendarEventType.other;
-    }
+  void setColor(Color? color) {
+    this.color = color?.value;
   }
 
-  Color getEventColor(BuildContext context) {
-    switch (type) {
-      case CalendarEventType.canceled:
-        return Colors.red;
-      case CalendarEventType.lecture:
-        return Colors.green;
-      case CalendarEventType.exercise:
-        return Colors.orange;
-      default:
-        return Theme.of(context).primaryColor;
+  Color getColor() {
+    if (color == null) {
+      return primaryLightColor;
+    } else {
+      return Color(color!);
     }
   }
 
@@ -106,6 +93,7 @@ class CalendarEvent extends Searchable {
     required this.startDate,
     required this.endDate,
     this.location,
+    this.color,
   });
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) =>

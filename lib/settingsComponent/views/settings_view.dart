@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/appearance_settings_view.dart';
@@ -13,6 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
+final showWeekends = StateProvider<bool>((ref) => false);
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
@@ -34,7 +36,7 @@ class SettingsView extends ConsumerWidget {
             child: Column(
               children: [
                 const ContactView(),
-                _authenticationButton(context, ref),
+                _resetButtons(context, ref),
                 _versionNumberText(),
               ],
             ),
@@ -47,46 +49,74 @@ class SettingsView extends ConsumerWidget {
           const GeneralSettingsView(),
           const AppearanceSettingsView(),
           const ContactView(),
-          _authenticationButton(context, ref),
+          _resetButtons(context, ref),
           _versionNumberText(),
         ],
       );
     }
   }
 
-  Widget _authenticationButton(BuildContext context, WidgetRef ref) {
-    final login = ref.read(onboardingViewModel).credentials.value;
+  Widget _resetButtons(BuildContext context, WidgetRef ref) {
+    final List<Widget> widgets = [
+      _resetPreferencesButton(context, ref),
+      _resetAllButton(context, ref),
+    ];
     return WidgetFrameView(
-      child: GestureDetector(
-        onTap: () {
-          if (login != Credentials.none) {
-            ref.read(onboardingViewModel).logout(ref);
-          }
-          context.go(onboarding);
-        },
-        child: Card(
-          child: ListTile(
-            dense: true,
-            title: login != Credentials.tumId
-                ? Text(
-                    context.localizations.login,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
-                        ),
-                    textAlign: TextAlign.center,
-                  )
-                : Text(
-                    context.localizations.logout,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
-          ),
+      child: Card(
+        child: ListView.separated(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => widgets[index],
+          separatorBuilder: (context, index) => const PaddedDivider(height: 0),
+          itemCount: widgets.length,
         ),
       ),
+    );
+  }
+
+  Widget _resetPreferencesButton(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      onTap: () => ref.read(onboardingViewModel).resetPreferences(ref),
+      dense: true,
+      title: Text(
+        context.localizations.resetPreferences,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _resetAllButton(BuildContext context, WidgetRef ref) {
+    final loginStatus = ref.read(onboardingViewModel).credentials.value;
+    return ListTile(
+      dense: true,
+      title: loginStatus != Credentials.tumId
+          ? Text(
+              context.localizations.login,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                  ),
+              textAlign: TextAlign.center,
+            )
+          : Text(
+              context.localizations.resetLogin,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+      onTap: () {
+        if (loginStatus != Credentials.none) {
+          ref.read(onboardingViewModel).logout(ref);
+        }
+        context.go(onboarding);
+      },
     );
   }
 
@@ -97,10 +127,13 @@ class SettingsView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Text(
-              context.localizations.versionNumber(snapshot.data!.version),
+              context.localizations.versionNumber(
+                snapshot.data!.version,
+                snapshot.data!.buildNumber,
+              ),
             );
           } else {
-            return Text(context.localizations.versionNumber("-.-.-"));
+            return Text(context.localizations.versionNumber("-.-.-", "-"));
           }
         },
       ),

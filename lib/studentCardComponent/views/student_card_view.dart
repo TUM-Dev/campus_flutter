@@ -45,7 +45,7 @@ class StudentCardView extends ConsumerWidget {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: ref.read(studentCardViewModel).fetch,
+            retry: (() => ref.read(studentCardViewModel).fetch(true)),
           );
         } else {
           return const DelayedLoadingIndicator(name: "StudentCard");
@@ -76,17 +76,17 @@ class StudentCardView extends ConsumerWidget {
   Widget _warningCard(BuildContext context) {
     return CardWithPadding(
       elevation: 0,
-      color: Theme.of(context).primaryColor.withOpacity(0.2),
+      color: context.primaryColor.withOpacity(0.2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.warning, color: Theme.of(context).primaryColor),
+          Icon(Icons.warning, color: context.primaryColor),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
           Expanded(
             child: Text(
               context.localizations.currentlyInBeta,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: context.primaryColor),
               textAlign: TextAlign.center,
             ),
           ),

@@ -33,13 +33,15 @@ class FeedbackTextField extends ConsumerWidget {
           child: CardWithPadding(
             child: TextFormField(
               controller: textEditingController,
-              minLines: expanded ? 3 : null,
-              maxLines: expanded ? 6 : null,
+              minLines: expanded ? 4 : null,
+              maxLines: expanded ? 8 : null,
               onChanged: onChanged,
               decoration: InputDecoration(
                 hintText: decorationMessage,
                 errorText: (snapshot.data ?? true) ? null : invalidMessage,
               ),
+              onTapOutside: (_) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
             ),
           ),
         );

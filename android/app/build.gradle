@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "org.jetbrains.kotlin.plugin.serialization"
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
@@ -71,7 +72,7 @@ android {
                 signingConfig signingConfigs.release
                 minifyEnabled true
                 shrinkResources true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                proguardFile getDefaultProguardFile('proguard-android.txt')
             } else {
                 signingConfig signingConfigs.debug
             }
@@ -89,12 +90,7 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex'
-    implementation 'joda-time:joda-time:2.12.6'
-    def appcompat_version = "1.6.1"
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'org.ocpsoft.prettytime:prettytime:5.0.4.Final'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'

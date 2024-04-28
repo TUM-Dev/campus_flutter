@@ -35,9 +35,9 @@ class Grade extends Searchable {
   @JsonKey(name: "st_studium_nr")
   final String studyNumber;
   @JsonKey(name: "abschluss_name")
-  final String degree;
+  final String? degree;
   @JsonKey(name: "abschluss_name_kurz")
-  final String degreeShort;
+  final String? degreeShort;
 
   String modeShort(BuildContext context) {
     switch (mode) {
@@ -66,8 +66,8 @@ class Grade extends Searchable {
     required this.studyID,
     required this.studyDesignation,
     required this.studyNumber,
-    required this.degree,
-    required this.degreeShort,
+    this.degree,
+    this.degreeShort,
   });
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);

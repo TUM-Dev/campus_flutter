@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 5.0.1+1
+version: 5.0.3+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -50,12 +50,16 @@ dependencies:
   barcode_widget: ^2.0.4
   lottie: ^3.0.0
   timeago: ^3.4.0
+  flutter_colorpicker:
+    git:
+      url: https://github.com/mchome/flutter_colorpicker.git
+      ref: master
 
   # helpers
   device_info_plus: ^10.0.1
   flutter_secure_storage: ^9.0.0
   geolocator: ^11.0.0
-  package_info_plus: ^6.0.0
+  package_info_plus: ^7.0.0
   path_provider: ^2.0.15
   url_launcher: ^6.1.10
   permission_handler: ^11.1.0
@@ -82,11 +86,6 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/grpc-dart.git
       ref: master
-  google_maps_flutter_ios:
-    git:
-      url: https://github.com/jakobkoerber/packages.git
-      path: packages/google_maps_flutter/google_maps_flutter_ios
-      ref: main
 
 dev_dependencies:
   # code generation

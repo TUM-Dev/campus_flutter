@@ -9,14 +9,12 @@ class DioExceptionRouter extends StatelessWidget with ErrorHandlingView {
     super.key,
     required this.dioException,
     required ErrorHandlingViewType errorHandlingViewType,
-    Future<dynamic> Function(bool)? retry,
-    Future<dynamic> Function(bool, BuildContext)? retryWithContext,
+    Function()? retry,
     Color? titleColor,
     Color? bodyColor,
   }) {
     this.errorHandlingViewType = errorHandlingViewType;
     this.retry = retry;
-    this.retryWithContext = retryWithContext;
     this.titleColor = titleColor;
     this.bodyColor = bodyColor;
   }
@@ -28,42 +26,42 @@ class DioExceptionRouter extends StatelessWidget with ErrorHandlingView {
     switch (dioException.type) {
       case DioExceptionType.badResponse:
         return exceptionMessage(
-          context,
-          context.localizations.badResponse,
-          context.localizations.pleaseTryAgain,
+          errorMessage: context.localizations.badResponse,
+          fixMessage: context.localizations.pleaseTryAgain,
+          context: context,
         );
       case DioExceptionType.connectionError:
         return exceptionMessage(
-          context,
-          context.localizations.connectionError,
-          context.localizations.makeSureInternetConnection,
+          errorMessage: context.localizations.connectionError,
+          fixMessage: context.localizations.makeSureInternetConnection,
+          context: context,
         );
       case DioExceptionType.cancel:
         return exceptionMessage(
-          context,
-          context.localizations.requestCancelled,
-          context.localizations.pleaseReport,
+          errorMessage: context.localizations.requestCancelled,
+          fixMessage: context.localizations.pleaseReport,
+          context: context,
         );
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return exceptionMessage(
-          context,
-          context.localizations.connectionTimeout,
-          context.localizations.makeSureInternetConnection,
+          errorMessage: context.localizations.connectionTimeout,
+          fixMessage: context.localizations.makeSureInternetConnection,
+          context: context,
         );
       default:
         if (dioException.error.toString().contains("SocketException")) {
           return exceptionMessage(
-            context,
-            context.localizations.connectionError,
-            context.localizations.makeSureInternetConnection,
+            fixMessage: context.localizations.connectionError,
+            errorMessage: context.localizations.makeSureInternetConnection,
+            context: context,
           );
         } else {
           return exceptionMessage(
-            context,
-            context.localizations.unknownError,
-            context.localizations.pleaseReport,
+            fixMessage: context.localizations.unknownError,
+            errorMessage: context.localizations.pleaseReport,
+            context: context,
           );
         }
     }

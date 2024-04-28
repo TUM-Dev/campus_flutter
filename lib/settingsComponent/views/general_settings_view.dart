@@ -34,7 +34,7 @@ class GeneralSettingsView extends ConsumerWidget {
   Widget _tokenPermission(BuildContext context) {
     return ListTile(
       dense: true,
-      leading: Icon(Icons.key, size: 20, color: Theme.of(context).primaryColor),
+      leading: Icon(Icons.key, size: 20, color: context.primaryColor),
       title: Text(
         context.localizations.tokenPermissions,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -50,7 +50,7 @@ class GeneralSettingsView extends ConsumerWidget {
       leading: Icon(
         Icons.language,
         size: 20,
-        color: Theme.of(context).primaryColor,
+        color: context.primaryColor,
       ),
       title: Text(
         context.localizations.language,
@@ -87,7 +87,7 @@ class GeneralSettingsView extends ConsumerWidget {
       leading: Icon(
         Icons.settings,
         size: 20,
-        color: Theme.of(context).primaryColor,
+        color: context.primaryColor,
       ),
       title: Text(context.localizations.deviceSettings),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
