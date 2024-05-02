@@ -15,15 +15,16 @@ class BarCodeView extends StatelessWidget {
         initiallyExpanded: true,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: context.halfPadding),
-            child: BarcodeWidget(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              data: libraryID,
-              barcode: Barcode.code39(),
-              color: Theme.of(context).colorScheme.onSurface,
-              drawText: false,
+            padding: EdgeInsets.symmetric(horizontal: context.padding),
+            child: Container(
+              color: Colors.white,
+              child: BarcodeWidget(
+                height: 70,
+                padding: EdgeInsets.all(context.halfPadding),
+                data: libraryID,
+                barcode: Barcode.code39(),
+                drawText: false,
+              ),
             ),
           ),
           Padding(
