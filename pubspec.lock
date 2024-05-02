@@ -69,10 +69,10 @@ packages:
     dependency: transitive
     description:
       name: barcode
-      sha256: "1fe4a55344505850517ce72d4a3a7b9ccf51b0dc1631ee7e552f6eacc4947f96"
+      sha256: ab180ce22c6555d77d45f0178a523669db67f95856e3378259ef2ffeb43e6003
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.7"
+    version: "2.2.8"
   barcode_widget:
     dependency: "direct main"
     description:
@@ -173,10 +173,10 @@ packages:
     dependency: transitive
     description:
       name: cached_network_image_web
-      sha256: "42a835caa27c220d1294311ac409a43361088625a4f23c820b006dd9bffb3316"
+      sha256: "205d6a9f1862de34b93184f22b9d2d94586b2f05c581d546695e3d8f6a805cd7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   characters:
     dependency: transitive
     description:
@@ -546,10 +546,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: f15d1536cd01b1399578f1da1eb5d566e7a718db6a3648f2c24d2e2f859f0692
+      sha256: "80cd39a94100957431a6dd37cebd686f6d446bbc9a884d90c9a07b34fd28b923"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.4"
+    version: "4.5.5"
   geolocator_apple:
     dependency: transitive
     description:
@@ -602,10 +602,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "466425a64508ca00983882f523400d9169365cb9b464e2e2419f3b6545ff9c51"
+      sha256: "9e0f7d1a3e7dc5010903e330fbc5497872c4c3cf6626381d69083cc1d5113c1e"
       url: "https://pub.dev"
     source: hosted
-    version: "14.0.1"
+    version: "14.0.2"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -634,10 +634,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_android
-      sha256: "256b3c974e415bd17555ceff76a5d0badd2cbfd29febfc23070993358f639550"
+      sha256: "0bcadb80eba39afda77dede89a6caafd3b68f2786b90491eceea4a01c3db181c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.8.0"
   google_maps_flutter_ios:
     dependency: transitive
     description:
@@ -658,10 +658,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_web
-      sha256: "861c6dd430123e58bb1154342345c5bfa36064120c8ec3dbc0d0b7522add1861"
+      sha256: "0c0d5c723d94b295cf86dd1c45ff91d2ac1fff7c05ddca4f01bef9fa0a014690"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.6+2"
+    version: "0.5.7"
   googleapis_auth:
     dependency: transitive
     description:
@@ -1027,10 +1027,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_android
-      sha256: "1acac6bae58144b442f11e66621c062aead9c99841093c38f5bcdcc24c1c3474"
+      sha256: "8bb852cd759488893805c3161d0b2b5db55db52f773dbb014420b304055ba2c5"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.5"
+    version: "12.0.6"
   permission_handler_apple:
     dependency: transitive
     description:
@@ -1336,10 +1336,10 @@ packages:
     dependency: transitive
     description:
       name: sqflite
-      sha256: "5ce2e1a15e822c3b4bfb5400455775e421da7098eed8adc8f26298ada7c9308c"
+      sha256: a43e5a27235518c03ca238e7b4732cf35eabe863a369ceba6cbefa537a66f16d
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.3+1"
   sqflite_common:
     dependency: transitive
     description:
@@ -1392,34 +1392,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: e06aff78dd2040a3239d59b8543020afd4bfcfde5d66d028d6ac04a84ed0e4b0
+      sha256: "9f26ec19fb2f4f018a7512d02dee619a485aac6c89e77fe315b1b66076fc5b40"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.41"
+    version: "25.1.42"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: b0af93cd77b64a759158bfed7c119c3072c8e8fbde6bf3fdc5e815fa4fdfc87c
+      sha256: "75253e2d32ce2e739c8efe0aec52668334d880e2a96f6d0d2b4422f49af7c608"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.41+2"
+    version: "25.1.42+1"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "708425f534ef04253334763c8b75acc79eaec2d9b325bcd862575ea0a2207d87"
+      sha256: fc61878342caee6da7979ca0ca9bb178f1eb5ca9b836dada34b83caa39e4bfed
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.41"
+    version: "25.1.42"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: b6abaa80a6dff16552a5b7a7b3879094d285ae5a49a33466d4d1a62041e250dd
+      sha256: "90398b38bceedc34575823ea27d6a1927934852ff2de8f1c1326e35d5b186b58"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.41"
+    version: "25.1.42"
   synchronized:
     dependency: transitive
     description:
