@@ -110,9 +110,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   ),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   _tumIdTextFields(context, ref),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                  ),
                   _loginButton(context, ref),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -135,62 +132,29 @@ class _LoginViewState extends ConsumerState<LoginView> {
       children: [
         const Spacer(),
         Expanded(
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: "go",
-              border: OutlineInputBorder(),
-            ),
-            inputFormatters: [LengthLimitingTextInputFormatter(2)],
-            controller: ref.read(onboardingViewModel).textEditingController1,
-            onChanged: (text) {
-              ref.read(onboardingViewModel).checkTumId(context);
-              if (text.length == 2) {
-                FocusScope.of(context).nextFocus();
-              }
-            },
-            enableSuggestions: false,
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          child: _loginTextField(
+            "go",
+            TextInputType.text,
+            2,
+            ref.read(onboardingViewModel).textEditingController1,
           ),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
         Expanded(
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: "42",
-              border: OutlineInputBorder(),
-            ),
-            keyboardType: TextInputType.number,
-            inputFormatters: [LengthLimitingTextInputFormatter(2)],
-            controller: ref.read(onboardingViewModel).textEditingController2,
-            onChanged: (text) {
-              ref.read(onboardingViewModel).checkTumId(context);
-              if (text.length == 2 && int.tryParse(text) != null) {
-                FocusScope.of(context).nextFocus();
-              } else if (text.isEmpty) {
-                FocusScope.of(context).previousFocus();
-              }
-            },
-            enableSuggestions: false,
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          child: _loginTextField(
+            "42",
+            TextInputType.number,
+            2,
+            ref.read(onboardingViewModel).textEditingController2,
           ),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
         Expanded(
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: "tum",
-              border: OutlineInputBorder(),
-            ),
-            controller: ref.read(onboardingViewModel).textEditingController3,
-            inputFormatters: [LengthLimitingTextInputFormatter(3)],
-            onChanged: (text) {
-              ref.read(onboardingViewModel).checkTumId(context);
-              if (text.isEmpty) {
-                FocusScope.of(context).previousFocus();
-              }
-            },
-            enableSuggestions: false,
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          child: _loginTextField(
+            "tum",
+            TextInputType.text,
+            3,
+            ref.read(onboardingViewModel).textEditingController3,
           ),
         ),
         const Spacer(),
@@ -198,50 +162,83 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Widget _loginButton(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: ref.watch(onboardingViewModel).tumIdValid,
-      builder: (context, snapshot) {
-        return Column(
-          children: [
-            if (snapshot.hasError) _textFieldError(snapshot.error!),
-            ElevatedButton(
-              onPressed: (snapshot.data != null && snapshot.data!)
-                  ? () {
-                      ref.read(onboardingViewModel).requestLogin().then(
-                        (value) => context.push(confirm),
-                        onError: (error) {
-                          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                            SnackBar(
-                              duration: const Duration(seconds: 10),
-                              content: ErrorHandlingRouter(
-                                error: error,
-                                errorHandlingViewType:
-                                    ErrorHandlingViewType.textOnly,
-                                titleColor: Colors.white,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  : null,
-              child: Text(
-                context.tr("login"),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: Colors.white),
-              ),
-            ),
-          ],
-        );
+  Widget _loginTextField(
+    String hintText,
+    TextInputType keyboardType,
+    int maxLength,
+    TextEditingController controller,
+  ) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: hintText,
+        // TODO: improve hint style
+        hintStyle: TextStyle(color: Colors.grey.shade700),
+        border: const OutlineInputBorder(),
+      ),
+      keyboardType: keyboardType,
+      inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
+      controller: controller,
+      onChanged: (text) {
+        ref.read(onboardingViewModel).checkTumId(context);
+        if (text.length == maxLength) {
+          FocusScope.of(context).nextFocus();
+        }
       },
+      enableSuggestions: false,
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+    );
+  }
+
+  Widget _loginButton(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: StreamBuilder(
+        stream: ref.watch(onboardingViewModel).tumIdValid,
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              if (snapshot.hasError) _textFieldError(snapshot.error!),
+              ElevatedButton(
+                onPressed: (snapshot.data != null && snapshot.data!)
+                    ? () {
+                        ref.read(onboardingViewModel).requestLogin().then(
+                          (value) => context.push(confirm),
+                          onError: (error) {
+                            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                              SnackBar(
+                                duration: const Duration(seconds: 10),
+                                content: ErrorHandlingRouter(
+                                  error: error,
+                                  errorHandlingViewType:
+                                      ErrorHandlingViewType.textOnly,
+                                  titleColor: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    : null,
+                child: Text(
+                  context.tr("login"),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(color: Colors.white),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
   Widget _textFieldError(Object error) {
-    return Text(error.toString(), style: const TextStyle(color: Colors.red));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Text(error.toString(), style: const TextStyle(color: Colors.red)),
+    );
   }
 
   Widget _skipLoginButton(BuildContext context, WidgetRef ref) {

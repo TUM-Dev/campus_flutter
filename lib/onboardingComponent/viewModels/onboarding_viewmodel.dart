@@ -42,43 +42,40 @@ class OnboardingViewModel {
   }
 
   void checkTumId(BuildContext context) {
-    final RegExp lettersRegex = RegExp(r'^[a-zA-Z]+$');
-    final RegExp numberRegex = RegExp(r'^[0-9]+$');
+    final RegExp lettersRegex = RegExp(r'^$|^[a-z]+$');
+    final RegExp numberRegex = RegExp(r'^$|^[0-9]+$');
 
-    validateField(
-      textEditingController1.text,
-      lettersRegex,
-      context.tr("onlyLetters"),
-    );
-    validateField(
-      textEditingController2.text,
-      numberRegex,
-      context.tr("onlyNumbers"),
-    );
-    validateField(
-      textEditingController3.text,
-      lettersRegex,
-      context.tr("onlyLetters"),
-    );
+    if (!lettersRegex.hasMatch(textEditingController1.text)) {
+      tumIdValid.addError(context.tr("onlyLetters"));
+      return;
+    }
 
-    validateLength(textEditingController1.text, 2);
-    validateLength(textEditingController2.text, 2);
-    validateLength(textEditingController3.text, 3);
+    if (lettersRegex.hasMatch(textEditingController1.text)) {
+      tumIdValid.add(false);
+      return;
+    }
+
+    if (!numberRegex.hasMatch(textEditingController2.text)) {
+      tumIdValid.addError(context.tr("onlyNumbers"));
+      return;
+    }
+
+    if (lettersRegex.hasMatch(textEditingController2.text)) {
+      tumIdValid.add(false);
+      return;
+    }
+
+    if (!lettersRegex.hasMatch(textEditingController3.text)) {
+      tumIdValid.addError(context.tr("onlyLetters"));
+      return;
+    }
+
+    if (lettersRegex.hasMatch(textEditingController3.text)) {
+      tumIdValid.add(false);
+      return;
+    }
 
     tumIdValid.add(true);
-  }
-
-  void validateField(String text, RegExp regex, String errorMessage) {
-    if (!regex.hasMatch(text)) {
-      tumIdValid.addError(errorMessage);
-      tumIdValid.add(false);
-    }
-  }
-
-  void validateLength(String text, int length) {
-    if (text.length != length) {
-      tumIdValid.add(false);
-    }
   }
 
   Future<bool> checkLogin() async {
@@ -151,7 +148,7 @@ class OnboardingViewModel {
     ref.read(calendarViewModel).resetEventColors();
   }
 
-  Future logout(BuildContext context, WidgetRef ref) async {
+  Future logout(WidgetRef ref) async {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);

@@ -113,7 +113,7 @@ class SettingsView extends ConsumerWidget {
             ),
       onTap: () {
         if (loginStatus != Credentials.none) {
-          ref.read(onboardingViewModel).logout(context, ref);
+          ref.read(onboardingViewModel).logout(ref);
         }
         context.go(onboarding);
       },
