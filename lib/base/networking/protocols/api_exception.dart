@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'api_exception.g.dart';
 
 abstract class ApiException implements Exception {
-  String message(BuildContext context, WidgetRef ref);
+  String message(BuildContext? context, WidgetRef? ref);
 
   String? recoverySuggestion(BuildContext context, WidgetRef ref);
 
