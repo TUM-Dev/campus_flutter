@@ -49,33 +49,58 @@ class TumOnlineApiException implements ApiException {
   }
 
   @override
-  String message(BuildContext context, WidgetRef ref) {
-    switch (tumOnlineApiExceptionType) {
-      case TumOnlineApiExceptionNoPermission _:
-        return context.tr("noPermission");
-      case TumOnlineApiExceptionTokenNotConfirmed _:
-        return context.tr("tokenNotConfirmed");
-      case TumOnlineApiExceptionInvalidToken _:
-        if (ref.read(onboardingViewModel).credentials.value ==
-            Credentials.tumId) {
-          return context.tr("tokenInvalid");
-        } else {
-          return context.tr("loginNeeded");
-        }
-      case TumOnlineApiExceptionRequestRate _:
-        return context.tr("rateExceeded");
-      case TumOnlineApiExceptionTokenLimitReached _:
-        return context.tr("limitReached");
-      case TumOnlineApiExceptionNoUserSpecified _:
-        return context.tr("noUserSpecified");
-      case TumOnlineApiExceptionNoUserFound _:
-        return context.tr("noUserFound");
-      case TumOnlineApiExceptionPersonNotFound _:
-        return context.tr("personNotFound");
-      case TumOnlineApiExceptionInvalidSearchString _:
-        return context.tr("invalidSearch");
-      case TumOnlineApiExceptionUnknown _:
-        return context.tr("unknownException");
+  String message(BuildContext? context, WidgetRef? ref) {
+    if (context != null && ref != null) {
+      switch (tumOnlineApiExceptionType) {
+        case TumOnlineApiExceptionNoPermission _:
+          return context.tr("noPermission");
+        case TumOnlineApiExceptionTokenNotConfirmed _:
+          return context.tr("tokenNotConfirmed");
+        case TumOnlineApiExceptionInvalidToken _:
+          if (ref.read(onboardingViewModel).credentials.value ==
+              Credentials.tumId) {
+            return context.tr("tokenInvalid");
+          } else {
+            return context.tr("loginNeeded");
+          }
+        case TumOnlineApiExceptionRequestRate _:
+          return context.tr("rateExceeded");
+        case TumOnlineApiExceptionTokenLimitReached _:
+          return context.tr("limitReached");
+        case TumOnlineApiExceptionNoUserSpecified _:
+          return context.tr("noUserSpecified");
+        case TumOnlineApiExceptionNoUserFound _:
+          return context.tr("noUserFound");
+        case TumOnlineApiExceptionPersonNotFound _:
+          return context.tr("personNotFound");
+        case TumOnlineApiExceptionInvalidSearchString _:
+          return context.tr("invalidSearch");
+        case TumOnlineApiExceptionUnknown _:
+          return context.tr("unknownException");
+      }
+    } else {
+      switch (tumOnlineApiExceptionType) {
+        case TumOnlineApiExceptionNoPermission _:
+          return tr("noPermission");
+        case TumOnlineApiExceptionTokenNotConfirmed _:
+          return tr("tokenNotConfirmed");
+        case TumOnlineApiExceptionInvalidToken _:
+          return tr("tokenInvalid");
+        case TumOnlineApiExceptionRequestRate _:
+          return tr("rateExceeded");
+        case TumOnlineApiExceptionTokenLimitReached _:
+          return tr("limitReached");
+        case TumOnlineApiExceptionNoUserSpecified _:
+          return tr("noUserSpecified");
+        case TumOnlineApiExceptionNoUserFound _:
+          return tr("noUserFound");
+        case TumOnlineApiExceptionPersonNotFound _:
+          return tr("personNotFound");
+        case TumOnlineApiExceptionInvalidSearchString _:
+          return tr("invalidSearch");
+        case TumOnlineApiExceptionUnknown _:
+          return tr("unknownException");
+      }
     }
   }
 
@@ -112,7 +137,7 @@ class TumOnlineApiException implements ApiException {
 
   @override
   String toString() {
-    return "TumOnlineException: $message";
+    return "TumOnlineException: ${message(null, null)}";
   }
 
   @override
