@@ -5,7 +5,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.d
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/places_view.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,8 +44,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>
           );
         } else {
           return DelayedLoadingIndicator(
-            name:
-                "${context.localizations.cafeterias} & ${context.localizations.studyRooms}",
+            name: "${context.tr("cafeterias")} & ${context.tr("studyRooms")}",
           );
         }
       },

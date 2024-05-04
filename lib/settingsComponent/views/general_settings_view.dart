@@ -4,9 +4,8 @@ import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +17,7 @@ class GeneralSettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-      title: context.localizations.generalSettings,
+      title: context.tr("generalSettings"),
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
@@ -36,7 +35,7 @@ class GeneralSettingsView extends ConsumerWidget {
       dense: true,
       leading: Icon(Icons.key, size: 20, color: context.primaryColor),
       title: Text(
-        context.localizations.tokenPermissions,
+        context.tr("tokenPermissions"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
@@ -53,19 +52,23 @@ class GeneralSettingsView extends ConsumerWidget {
         color: context.primaryColor,
       ),
       title: Text(
-        context.localizations.language,
+        context.tr("language"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: DropdownButton<Locale?>(
         onChanged: (Locale? newLocale) {
+          if (newLocale != null) {
+            context.setLocale(newLocale);
+          }
           ref.read(userPreferencesViewModel).savePreference(
                 UserPreference.locale,
                 newLocale,
               );
         },
-        value: ref.watch(customLocale),
+        // TODO: figure out system option with new localization
+        value: context.locale,
         items: () {
-          final availableLocales = AppLocalizations.supportedLocales
+          final availableLocales = context.supportedLocales
               .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
               .toList();
           availableLocales.insert(
@@ -89,7 +92,7 @@ class GeneralSettingsView extends ConsumerWidget {
         size: 20,
         color: context.primaryColor,
       ),
-      title: Text(context.localizations.deviceSettings),
+      title: Text(context.tr("deviceSettings")),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => openAppSettings(),
     );

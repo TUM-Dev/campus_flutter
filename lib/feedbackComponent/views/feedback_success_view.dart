@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,14 +25,14 @@ class FeedbackSuccessView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.padding * 2),
             child: Text(
-              context.localizations.successfullySent,
+              context.tr("successfullySent"),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           ElevatedButton(
             onPressed: () => context.pop(),
-            child: Text(context.localizations.back),
+            child: Text(context.tr("back")),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ContactCardErrorView extends StatelessWidget {
@@ -19,7 +19,7 @@ class ContactCardErrorView extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(left: 15)),
           Expanded(
             child: Text(
-              context.localizations.profileError,
+              context.tr("profileError"),
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

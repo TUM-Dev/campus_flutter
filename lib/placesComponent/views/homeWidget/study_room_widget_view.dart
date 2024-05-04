@@ -7,6 +7,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +65,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
               children: [
                 Expanded(
                   child: Text(
-                    context.localizations.studyRooms,
+                    context.tr("studyRooms"),
                     style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -81,7 +82,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                       data: ref
                           .read(studyRoomsViewModel)
                           .getStudyRoomEntries(context),
-                      entry: context.localizations.studyRoom,
+                      entry: context.tr("studyRoom"),
                     ),
                     context: context,
                     useRootNavigator: true,
@@ -133,7 +134,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
       } else {
         return ListTile(
           title: Center(
-            child: Text(context.localizations.noNearFreeStudyRoomsFound),
+            child: Text(context.tr("noNearFreeStudyRoomsFound")),
           ),
         );
       }
@@ -147,7 +148,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
     } else {
       return ListTile(
         title: DelayedLoadingIndicator(
-          name: context.localizations.nearestStudyRooms,
+          name: context.tr("nearestStudyRooms"),
         ),
       );
     }
@@ -167,7 +168,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   Widget _freeRooms(StudyRoomGroup studyRoomGroup) {
     final freeRooms = ref.read(studyRoomsViewModel).freeRooms(studyRoomGroup);
     return Text(
-      context.localizations.nfreeRooms(freeRooms),
+      context.plural("nFreeRooms", freeRooms),
       style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 enum RemoteConfigMessage {
@@ -17,9 +17,9 @@ enum RemoteConfigMessage {
   String message(BuildContext context) {
     switch (this) {
       case RemoteConfigMessage.tumOnlineDegraded:
-        return context.localizations.tumOnlineDegraded;
+        return context.tr("tumOnlineDegraded");
       case RemoteConfigMessage.tumOnlineMaintenance:
-        return context.localizations.tumOnlineMaintenance;
+        return context.tr("tumOnlineMaintenance");
     }
   }
 

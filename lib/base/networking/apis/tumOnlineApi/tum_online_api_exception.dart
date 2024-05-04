@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -52,30 +52,30 @@ class TumOnlineApiException implements ApiException {
   String message(BuildContext context, WidgetRef ref) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
-        return context.localizations.noPermission;
+        return context.tr("noPermission");
       case TumOnlineApiExceptionTokenNotConfirmed _:
-        return context.localizations.tokenNotConfirmed;
+        return context.tr("tokenNotConfirmed");
       case TumOnlineApiExceptionInvalidToken _:
         if (ref.read(onboardingViewModel).credentials.value ==
             Credentials.tumId) {
-          return context.localizations.tokenInvalid;
+          return context.tr("tokenInvalid");
         } else {
-          return context.localizations.loginNeeded;
+          return context.tr("loginNeeded");
         }
       case TumOnlineApiExceptionRequestRate _:
-        return context.localizations.rateExceeded;
+        return context.tr("rateExceeded");
       case TumOnlineApiExceptionTokenLimitReached _:
-        return context.localizations.limitReached;
+        return context.tr("limitReached");
       case TumOnlineApiExceptionNoUserSpecified _:
-        return context.localizations.noUserSpecified;
+        return context.tr("noUserSpecified");
       case TumOnlineApiExceptionNoUserFound _:
-        return context.localizations.noUserFound;
+        return context.tr("noUserFound");
       case TumOnlineApiExceptionPersonNotFound _:
-        return context.localizations.personNotFound;
+        return context.tr("personNotFound");
       case TumOnlineApiExceptionInvalidSearchString _:
-        return context.localizations.invalidSearch;
+        return context.tr("invalidSearch");
       case TumOnlineApiExceptionUnknown _:
-        return context.localizations.unknownException;
+        return context.tr("unknownException");
     }
   }
 
@@ -83,28 +83,28 @@ class TumOnlineApiException implements ApiException {
   String? recoverySuggestion(BuildContext context, WidgetRef ref) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
-        return context.localizations.noPermissionRecovery;
+        return context.tr("noPermissionRecovery");
       case TumOnlineApiExceptionTokenNotConfirmed _:
-        return context.localizations.tokenNotConfirmedRecovery;
+        return context.tr("tokenNotConfirmedRecovery");
       case TumOnlineApiExceptionInvalidToken _:
         if (ref.read(onboardingViewModel).credentials.value ==
             Credentials.tumId) {
-          return context.localizations.tokenInvalidRecovery;
+          return context.tr("tokenInvalidRecovery");
         } else {
-          return context.localizations.loginNeededRecovery;
+          return context.tr("loginNeededRecovery");
         }
       case TumOnlineApiExceptionRequestRate _:
-        return context.localizations.rateExceededRecovery;
+        return context.tr("rateExceededRecovery");
       case TumOnlineApiExceptionTokenLimitReached _:
-        return context.localizations.limitReachedRecovery;
+        return context.tr("limitReachedRecovery");
       case TumOnlineApiExceptionNoUserSpecified _:
-        return context.localizations.noUserSpecifiedRecovery;
+        return context.tr("noUserSpecifiedRecovery");
       case TumOnlineApiExceptionNoUserFound _:
-        return context.localizations.noUserFoundRecovery;
+        return context.tr("noUserFoundRecovery");
       case TumOnlineApiExceptionPersonNotFound _:
-        return context.localizations.personNotFoundRecovery;
+        return context.tr("personNotFoundRecovery");
       case TumOnlineApiExceptionInvalidSearchString _:
-        return context.localizations.invalidSearchRecovery;
+        return context.tr("invalidSearchRecovery");
       case TumOnlineApiExceptionUnknown unknown:
         return unknown.message;
     }
@@ -129,7 +129,7 @@ class TumOnlineApiException implements ApiException {
   String? overwriteRetryMessage(BuildContext context) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionInvalidToken _:
-        return context.localizations.login;
+        return context.tr("login");
       default:
         return null;
     }

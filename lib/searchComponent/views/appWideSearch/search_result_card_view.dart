@@ -9,6 +9,7 @@ import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_details_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,11 +41,14 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFound(
-                        SearchCategoryExtension.localizedEnumTitle(
-                          searchCategory,
-                          context,
-                        ),
+                      context.tr(
+                        "noEntriesFound",
+                        args: [
+                          SearchCategoryExtension.localizedEnumTitle(
+                            searchCategory,
+                            context,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -108,7 +112,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
       dense: true,
       title: Center(
         child: Text(
-          context.localizations.showMore,
+          context.tr("showMore"),
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),

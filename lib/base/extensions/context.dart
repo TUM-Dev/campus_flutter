@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension ContextTheme on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -9,8 +8,4 @@ extension ContextTheme on BuildContext {
   double get padding => 15.0;
 
   Color get primaryColor => Theme.of(this).primaryColor;
-}
-
-extension Localization on BuildContext {
-  AppLocalizations get localizations => AppLocalizations.of(this)!;
 }

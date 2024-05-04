@@ -1,8 +1,8 @@
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 part 'grade.g.dart';
 
@@ -42,13 +42,13 @@ class Grade extends Searchable {
   String modeShort(BuildContext context) {
     switch (mode) {
       case "Schriftlich":
-        return context.localizations.written;
+        return context.tr("written");
       case "Beurteilt/immanenter Prüfungscharakter":
-        return context.localizations.graded;
+        return context.tr("graded");
       case "Schriftlich und Mündlich":
-        return context.localizations.writtenAndOral;
+        return context.tr("writtenAndOral");
       case "Mündlich":
-        return context.localizations.oral;
+        return context.tr("oral");
       default:
         return mode;
     }

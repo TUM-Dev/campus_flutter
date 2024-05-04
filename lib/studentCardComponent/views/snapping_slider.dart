@@ -1,6 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SnappingSlider extends StatefulWidget {
@@ -77,7 +77,7 @@ class _SnappingSliderState extends State<SnappingSlider> {
     return Column(
       children: [
         Text(
-          context.localizations.libraryBarcode,
+          context.tr("libraryBarcode"),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const Spacer(),
@@ -89,7 +89,7 @@ class _SnappingSliderState extends State<SnappingSlider> {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           height: 100,
         ),
-        Text("${context.localizations.libraryNumber}: ${widget.libraryID}"),
+        Text("${context.tr("libraryNumber")}: ${widget.libraryID}"),
         const Spacer(),
       ],
     );

@@ -3,11 +3,10 @@ import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/util/info_row.dart';
 import 'package:campus_flutter/profileComponent/model/tuition.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class TuitionView extends ConsumerWidget {
   const TuitionView({super.key});
@@ -20,7 +19,7 @@ class TuitionView extends ConsumerWidget {
         return Card(
           child: ListTile(
             leading: const Icon(Icons.euro),
-            title: Text(context.localizations.tuitionFees),
+            title: Text(context.tr("tuitionFees")),
             trailing: _tuitionStatus(context, snapshot),
             onTap: () => _alertDialog(context, snapshot),
           ),
@@ -35,7 +34,7 @@ class TuitionView extends ConsumerWidget {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            context.localizations.tuitionFees,
+            context.tr("tuitionFees"),
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
@@ -51,11 +50,11 @@ class TuitionView extends ConsumerWidget {
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               InfoRow(
-                title: context.localizations.tuitionDueDate,
+                title: context.tr("tuitionDueDate"),
                 info: DateFormat.yMd("de").format(snapshot.data!.deadline),
               ),
               InfoRow(
-                title: context.localizations.tuitionOpenAmount,
+                title: context.tr("tuitionOpenAmount"),
                 info: NumberFormat.currency(locale: "de", symbol: '€')
                     .format(snapshot.data!.amount),
               ),
@@ -81,7 +80,7 @@ class TuitionView extends ConsumerWidget {
       if (snapshot.data?.amount == 0.0) {
         return IconText(
           iconData: Icons.check,
-          label: context.localizations.tuitionPaid,
+          label: context.tr("tuitionPaid"),
           style: Theme.of(context)
               .textTheme
               .bodyMedium
@@ -101,9 +100,9 @@ class TuitionView extends ConsumerWidget {
       }
     } else {
       return DelayedLoadingIndicator(
-        name: context.localizations.tuition,
+        name: context.tr("tuition"),
         alternativeLoadingIndicator: Text(
-          context.localizations.notAvailableAbbrev,
+          context.tr("notAvailableAbbrev"),
           style: Theme.of(context)
               .textTheme
               .bodyMedium

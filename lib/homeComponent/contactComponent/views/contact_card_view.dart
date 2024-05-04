@@ -7,9 +7,9 @@ import 'package:campus_flutter/personDetailedComponent/model/person_details.dart
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key, required this.profile});
@@ -44,7 +44,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.personalData,
+            name: context.tr("personalData"),
             alternativeLoadingIndicator: const ContactCardLoadingView(),
             delayWidget: Container(),
           );

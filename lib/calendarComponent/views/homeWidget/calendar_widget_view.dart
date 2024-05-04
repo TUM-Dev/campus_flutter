@@ -6,9 +6,9 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_event_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 
 class CalendarHomeWidgetView extends ConsumerStatefulWidget {
@@ -29,7 +29,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      title: context.localizations.calendar,
+      title: context.tr("calendar"),
       child: CardWithPadding(
         height: 220,
         child: StreamBuilder(
@@ -50,7 +50,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               );
             } else {
               return DelayedLoadingIndicator(
-                name: context.localizations.events,
+                name: context.tr("events"),
               );
             }
           },
@@ -65,7 +65,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
         children: [
           _todayWidget(),
           Center(
-            child: Text(context.localizations.noUpcomingEvents),
+            child: Text(context.tr("noUpcomingEvents")),
           ),
         ],
       );
@@ -125,11 +125,11 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          DateFormat.EEEE(context.localizations.localeName).format(today),
+          DateFormat.EEEE(context.locale.languageCode).format(today),
           style: TextStyle(color: context.primaryColor),
         ),
         Text(
-          DateFormat.MMMd(context.localizations.localeName).format(today),
+          DateFormat.MMMd(context.locale.languageCode).format(today),
           style: Theme.of(context).textTheme.headlineSmall,
         ),
       ],

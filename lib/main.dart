@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/remote_config_message.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
@@ -19,6 +17,8 @@ import 'package:campus_flutter/onboardingComponent/services/onboarding_service.d
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_logger/easy_logger.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -28,7 +28,6 @@ import 'package:home_widget/home_widget.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -44,14 +43,28 @@ final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await _initializeLocalization();
   await _initializeFirebase();
   await _initializeNetworkingClients();
   await _initializeServices();
   runApp(
-    ProviderScope(
-      child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('de')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: ProviderScope(
+        child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
+      ),
     ),
   );
+}
+
+Future<void> _initializeLocalization() async {
+  EasyLocalization.logger.enableLevels = [
+    LevelMessages.error,
+    LevelMessages.warning,
+  ];
+  await EasyLocalization.ensureInitialized();
 }
 
 Future<void> _initializeFirebase() async {
@@ -137,9 +150,9 @@ class _CampusAppState extends ConsumerState<CampusApp>
       theme: lightTheme(context),
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
-      locale: ref.watch(customLocale) ?? getDeviceLocale(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      locale: context.locale,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
       localeResolutionCallback: (locale, locales) {
         quickActions.setShortcutItems(<ShortcutItem>[
           for (var shortcutItemType in ActiveShortcuts.items)
@@ -219,15 +232,6 @@ class _CampusAppState extends ConsumerState<CampusApp>
         }
       }
     });
-  }
-
-  Locale getDeviceLocale() {
-    final deviceLocal = Platform.localeName;
-    if (deviceLocal.contains("de")) {
-      return const Locale("de", "DE");
-    } else {
-      return const Locale("en", "DE");
-    }
   }
 
   @override

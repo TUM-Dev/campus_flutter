@@ -9,6 +9,7 @@ import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_vi
 import 'package:campus_flutter/personSearchComponent/model/person.dart';
 import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,9 +39,7 @@ class PersonRoomSearchScaffold extends ConsumerWidget {
           },
         ),
         title: Text(
-          isRoomSearch
-              ? context.localizations.roomSearch
-              : context.localizations.personSearch,
+          isRoomSearch ? context.tr("roomSearch") : context.tr("personSearch"),
         ),
       ),
       body: PersonRoomSearchView(
@@ -126,7 +125,7 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
           }
         },
         decoration: InputDecoration(
-          hintText: context.localizations.search,
+          hintText: context.tr("search"),
           suffixIcon: showClearButton
               ? GestureDetector(
                   onTap: () {
@@ -211,15 +210,15 @@ class _SearchViewState extends ConsumerState<PersonRoomSearchView> {
               child: Center(
                 child: DelayedLoadingIndicator(
                   name: widget.isRoomSearch
-                      ? context.localizations.rooms
-                      : context.localizations.persons,
+                      ? context.tr("rooms")
+                      : context.tr("persons"),
                 ),
               ),
             );
           } else {
             return Expanded(
               child: Center(
-                child: Text(context.localizations.enterQueryStart),
+                child: Text(context.tr("enterQueryStart")),
               ),
             );
           }

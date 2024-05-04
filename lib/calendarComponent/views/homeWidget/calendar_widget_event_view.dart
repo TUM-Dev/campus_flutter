@@ -2,9 +2,9 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class CalendarHomeWidgetEventView extends ConsumerWidget {
   const CalendarHomeWidgetEventView({super.key, required this.calendarEvent});
@@ -38,12 +38,12 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
         children: [
           Text(
             startDate.isAtSameMomentAs(todayDate)
-                ? context.localizations.today
+                ? context.tr("today")
                 : startDate.isAtSameMomentAs(tomorrowDate)
-                    ? context.localizations.tomorrow
+                    ? context.tr("tomorrow")
                     : DateFormat(
                         "EEEE, d. MMM",
-                        context.localizations.localeName,
+                        context.locale.languageCode,
                       ).format(calendarEvent.startDate),
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
@@ -77,7 +77,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
-                    calendarEvent.location ?? context.localizations.unknown,
+                    calendarEvent.location ?? context.tr("unknown"),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelSmall,

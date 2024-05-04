@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,7 +54,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                         ),
                         Text(
-                          context.localizations.welcomeToTheApp,
+                          context.tr("welcomeToTheApp"),
                           style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.center,
                         ),
@@ -61,7 +62,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                         ),
                         Text(
-                          context.localizations.enterYourIDToStart,
+                          context.tr("enterYourIDToStart"),
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -97,13 +98,13 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                   ),
                   Text(
-                    context.localizations.welcomeToTheApp,
+                    context.tr("welcomeToTheApp"),
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
                   const Spacer(),
                   Text(
-                    context.localizations.enterYourIDToStart,
+                    context.tr("enterYourIDToStart"),
                     style: Theme.of(context).textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -226,7 +227,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     }
                   : null,
               child: Text(
-                context.localizations.login,
+                context.tr("login"),
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
@@ -247,7 +248,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return GestureDetector(
       onTap: () => ref.read(onboardingViewModel).skip(context),
       child: Text(
-        context.localizations.continueWithoutID,
+        context.tr("continueWithoutID"),
         style: Theme.of(context)
             .textTheme
             .bodySmall

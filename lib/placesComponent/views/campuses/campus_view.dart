@@ -12,7 +12,7 @@ import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_row_vi
 import 'package:campus_flutter/placesComponent/views/campuses/campus_most_searched_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -83,7 +83,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
       children: [
         Expanded(
           child: WidgetFrameView(
-            title: context.localizations.map,
+            title: context.tr("map"),
             child: Expanded(
               child: MapWidget.fullPadding(
                 aspectRatioNeeded: false,
@@ -126,7 +126,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
               WidgetFrameView(
                 titleWidget: IconText(
                   iconData: Icons.location_pin,
-                  label: context.localizations.cafeterias,
+                  label: context.tr("cafeterias"),
                   style: Theme.of(context).textTheme.titleMedium,
                   leadingIcon: false,
                 ),
@@ -141,7 +141,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
               WidgetFrameView(
                 titleWidget: IconText(
                   iconData: Icons.location_pin,
-                  label: context.localizations.studyRooms,
+                  label: context.tr("studyRooms"),
                   iconColor: Colors.red,
                   style: Theme.of(context).textTheme.titleMedium,
                   leadingIcon: false,

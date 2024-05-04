@@ -14,6 +14,7 @@ import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_view
 import 'package:campus_flutter/lectureComponent/views/lecture_links_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_meeting_info_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -110,7 +111,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.lectureDetails,
+            name: context.tr("lectureDetails"),
           );
         }
       },

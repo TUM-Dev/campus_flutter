@@ -289,6 +289,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.3+1"
+  easy_localization:
+    dependency: "direct main"
+    description:
+      name: easy_localization
+      sha256: "432698c31a488dd64c56d4759f20d04844baba5e9e4f2cb1abb9676257918b17"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6"
+  easy_logger:
+    dependency: "direct main"
+    description:
+      name: easy_logger
+      sha256: c764a6e024846f33405a2342caf91c62e357c24b02c04dbc712ef232bf30ffb7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -424,7 +440,7 @@ packages:
     source: hosted
     version: "3.0.2"
   flutter_localizations:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"

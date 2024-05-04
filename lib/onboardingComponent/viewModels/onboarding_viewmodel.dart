@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
@@ -16,6 +15,7 @@ import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -48,17 +48,17 @@ class OnboardingViewModel {
     validateField(
       textEditingController1.text,
       lettersRegex,
-      context.localizations.onlyLetters,
+      context.tr("onlyLetters"),
     );
     validateField(
       textEditingController2.text,
       numberRegex,
-      context.localizations.onlyNumbers,
+      context.tr("onlyNumbers"),
     );
     validateField(
       textEditingController3.text,
       lettersRegex,
-      context.localizations.onlyLetters,
+      context.tr("onlyLetters"),
     );
 
     validateLength(textEditingController1.text, 2);

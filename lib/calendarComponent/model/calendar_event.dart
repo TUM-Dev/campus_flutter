@@ -1,9 +1,8 @@
 import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_event.g.dart';
@@ -39,7 +38,7 @@ class CalendarEvent extends Searchable {
   String _dateTimePeriod(BuildContext context) {
     final start = DateFormat(
       "EE, dd.MM.yyyy, HH:mm",
-      context.localizations.localeName,
+      context.locale.languageCode,
     ).format(startDate);
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
@@ -57,7 +56,7 @@ class CalendarEvent extends Searchable {
         null,
         "de",
       ).format(endDate);
-      return "$start ${context.localizations.to.toLowerCase()}\n$end";
+      return "$start ${context.tr("to").toLowerCase()}\n$end";
     }
   }
 

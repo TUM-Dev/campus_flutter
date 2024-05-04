@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BarCodeView extends StatelessWidget {
@@ -11,7 +12,7 @@ class BarCodeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
-        title: Text(context.localizations.libraryBarcode),
+        title: Text(context.tr("libraryBarcode")),
         initiallyExpanded: true,
         children: [
           Padding(
@@ -33,7 +34,7 @@ class BarCodeView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.halfPadding),
             child: Text(
-              "${context.localizations.libraryNumber}: $libraryID",
+              "${context.tr("libraryNumber")}: $libraryID",
               style: Theme.of(context).textTheme.labelLarge,
             ),
           ),

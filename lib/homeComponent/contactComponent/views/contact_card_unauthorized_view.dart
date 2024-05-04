@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:go_router/go_router.dart';
 
 class ContactCardUnauthorizedView extends StatelessWidget {
@@ -23,7 +23,7 @@ class ContactCardUnauthorizedView extends StatelessWidget {
             const Padding(padding: EdgeInsets.only(left: 15)),
             Expanded(
               child: Text(
-                context.localizations.notLoggedIn,
+                context.tr("notLoggedIn"),
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),

@@ -7,6 +7,7 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,9 +42,9 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
   @override
   void didChangeDependencies() {
     texts = [
-      context.localizations.signInToTumOnline,
-      context.localizations.selectTokenManagement,
-      context.localizations.activateToken,
+      context.tr("signInToTumOnline"),
+      context.tr("selectTokenManagement"),
+      context.tr("activateToken"),
     ];
     super.didChangeDependencies();
   }
@@ -100,7 +101,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
       appBar: AppBar(
         leading: const CustomBackButton(),
         backgroundColor: backgroundColor,
-        title: Text(context.localizations.checkToken),
+        title: Text(context.tr("checkToken")),
       ),
       body: _body(),
     );
@@ -239,7 +240,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
       },
       child: IconText(
         iconData: Icons.arrow_forward,
-        label: context.localizations.checkToken,
+        label: context.tr("checkToken"),
         style: const TextStyle(color: Colors.white),
         leadingIcon: false,
       ),
@@ -251,7 +252,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
       child: MaterialButton(
         onPressed: () => context.push(feedback),
         child: Text(
-          context.localizations.contactSupport,
+          context.tr("contactSupport"),
           style: TextStyle(color: context.primaryColor),
         ),
       ),
