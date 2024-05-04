@@ -1,7 +1,10 @@
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api_exception.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class TumOnlineApiException implements ApiException {
@@ -46,14 +49,19 @@ class TumOnlineApiException implements ApiException {
   }
 
   @override
-  String message(BuildContext context) {
+  String message(BuildContext context, WidgetRef ref) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
         return context.localizations.noPermission;
       case TumOnlineApiExceptionTokenNotConfirmed _:
         return context.localizations.tokenNotConfirmed;
       case TumOnlineApiExceptionInvalidToken _:
-        return context.localizations.loginNeeded;
+        if (ref.read(onboardingViewModel).credentials.value ==
+            Credentials.tumId) {
+          return context.localizations.tokenInvalid;
+        } else {
+          return context.localizations.loginNeeded;
+        }
       case TumOnlineApiExceptionRequestRate _:
         return context.localizations.rateExceeded;
       case TumOnlineApiExceptionTokenLimitReached _:
@@ -72,14 +80,19 @@ class TumOnlineApiException implements ApiException {
   }
 
   @override
-  String? recoverySuggestion(BuildContext context) {
+  String? recoverySuggestion(BuildContext context, WidgetRef ref) {
     switch (tumOnlineApiExceptionType) {
       case TumOnlineApiExceptionNoPermission _:
         return context.localizations.noPermissionRecovery;
       case TumOnlineApiExceptionTokenNotConfirmed _:
         return context.localizations.tokenNotConfirmedRecovery;
       case TumOnlineApiExceptionInvalidToken _:
-        return context.localizations.loginNeededRecovery;
+        if (ref.read(onboardingViewModel).credentials.value ==
+            Credentials.tumId) {
+          return context.localizations.tokenInvalidRecovery;
+        } else {
+          return context.localizations.loginNeededRecovery;
+        }
       case TumOnlineApiExceptionRequestRate _:
         return context.localizations.rateExceededRecovery;
       case TumOnlineApiExceptionTokenLimitReached _:
