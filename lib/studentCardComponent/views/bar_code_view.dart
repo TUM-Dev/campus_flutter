@@ -17,10 +17,13 @@ class BarCodeView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: context.padding),
             child: Container(
-              color: Colors.white,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+              ),
               child: BarcodeWidget(
                 height: 70,
-                padding: EdgeInsets.all(context.halfPadding),
+                padding: const EdgeInsets.all(10),
                 data: libraryID,
                 barcode: Barcode.code39(),
                 drawText: false,
