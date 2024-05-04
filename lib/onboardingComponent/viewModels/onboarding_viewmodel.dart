@@ -151,7 +151,7 @@ class OnboardingViewModel {
     ref.read(calendarViewModel).resetEventColors();
   }
 
-  Future logout(WidgetRef ref) async {
+  Future logout(BuildContext context, WidgetRef ref) async {
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
@@ -163,8 +163,7 @@ class OnboardingViewModel {
       iOSName: "CalendarWidget",
       androidName: "widgets.calendar.CalendarWidget",
     );
-    getIt<UserPreferencesService>().resetAll();
-    getIt<CalendarColorService>().resetColorPreferences();
+    await resetPreferences(ref);
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }

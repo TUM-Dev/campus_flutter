@@ -1,10 +1,8 @@
-import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,26 +58,11 @@ class GeneralSettingsView extends ConsumerWidget {
           if (newLocale != null) {
             context.setLocale(newLocale);
           }
-          ref.read(userPreferencesViewModel).savePreference(
-                UserPreference.locale,
-                newLocale,
-              );
         },
-        // TODO: figure out system option with new localization
         value: context.locale,
-        items: () {
-          final availableLocales = context.supportedLocales
-              .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
-              .toList();
-          availableLocales.insert(
-            0,
-            const DropdownMenuItem(
-              value: null,
-              child: Text("System"),
-            ),
-          );
-          return availableLocales;
-        }(),
+        items: context.supportedLocales
+            .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
+            .toList(),
       ),
     );
   }

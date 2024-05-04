@@ -34,8 +34,6 @@ class UserPreferencesViewModel {
               ref.read(hideFailedGrades.notifier).state = value as bool;
             case UserPreference.weekends:
               ref.read(showWeekends.notifier).state = value as bool;
-            case UserPreference.locale:
-              ref.read(customLocale.notifier).state = Locale(value as String);
             default:
               break;
           }
@@ -56,8 +54,6 @@ class UserPreferencesViewModel {
         ref.read(hideFailedGrades.notifier).state = value as bool;
       case UserPreference.weekends:
         ref.read(showWeekends.notifier).state = value as bool;
-      case UserPreference.locale:
-        value = (value as Locale?)?.languageCode;
       default:
         break;
     }
