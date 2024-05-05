@@ -302,10 +302,159 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
 
 abstract class _$CacheDatabase extends GeneratedDatabase {
   _$CacheDatabase(QueryExecutor e) : super(e);
+  _$CacheDatabaseManager get managers => _$CacheDatabaseManager(this);
   late final $CacheEntryTable cacheEntry = $CacheEntryTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [cacheEntry];
+}
+
+typedef $$CacheEntryTableInsertCompanionBuilder = CacheEntryCompanion Function({
+  required int id,
+  required String url,
+  required DateTime validUntil,
+  required DateTime saved,
+  required String body,
+  Value<int> rowid,
+});
+typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
+  Value<int> id,
+  Value<String> url,
+  Value<DateTime> validUntil,
+  Value<DateTime> saved,
+  Value<String> body,
+  Value<int> rowid,
+});
+
+class $$CacheEntryTableTableManager extends RootTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableProcessedTableManager,
+    $$CacheEntryTableInsertCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder> {
+  $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$CacheEntryTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$CacheEntryTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<String> url = const Value.absent(),
+            Value<DateTime> validUntil = const Value.absent(),
+            Value<DateTime> saved = const Value.absent(),
+            Value<String> body = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required int id,
+            required String url,
+            required DateTime validUntil,
+            required DateTime saved,
+            required String body,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion.insert(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$CacheEntryTableProcessedTableManager extends ProcessedTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableProcessedTableManager,
+    $$CacheEntryTableInsertCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder> {
+  $$CacheEntryTableProcessedTableManager(super.$state);
+}
+
+class $$CacheEntryTableFilterComposer
+    extends FilterComposer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get url => $state.composableBuilder(
+      column: $state.table.url,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get validUntil => $state.composableBuilder(
+      column: $state.table.validUntil,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get saved => $state.composableBuilder(
+      column: $state.table.saved,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$CacheEntryTableOrderingComposer
+    extends OrderingComposer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get url => $state.composableBuilder(
+      column: $state.table.url,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get validUntil => $state.composableBuilder(
+      column: $state.table.validUntil,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get saved => $state.composableBuilder(
+      column: $state.table.saved,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class _$CacheDatabaseManager {
+  final _$CacheDatabase _db;
+  _$CacheDatabaseManager(this._db);
+  $$CacheEntryTableTableManager get cacheEntry =>
+      $$CacheEntryTableTableManager(_db, _db.cacheEntry);
 }

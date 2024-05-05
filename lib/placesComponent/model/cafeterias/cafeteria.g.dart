@@ -19,8 +19,8 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
     };
 
 Queue _$QueueFromJson(Map<String, dynamic> json) => Queue(
-      current: json['current'] as int,
-      percent: json['percent'] as int,
+      current: (json['current'] as num).toInt(),
+      percent: (json['percent'] as num).toInt(),
     );
 
 Map<String, dynamic> _$QueueToJson(Queue instance) => <String, dynamic>{
