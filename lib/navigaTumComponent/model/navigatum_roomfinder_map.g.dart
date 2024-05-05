@@ -12,10 +12,10 @@ NavigaTumRoomFinderMap _$NavigaTumRoomFinderMapFromJson(
       id: json['id'] as String,
       name: json['name'] as String,
       imageUrl: json['file'] as String,
-      height: json['height'] as int,
-      width: json['width'] as int,
-      x: json['x'] as int,
-      y: json['y'] as int,
+      height: (json['height'] as num).toInt(),
+      width: (json['width'] as num).toInt(),
+      x: (json['x'] as num).toInt(),
+      y: (json['y'] as num).toInt(),
       scale: json['scale'] as String,
     );
 

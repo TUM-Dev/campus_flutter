@@ -8,7 +8,7 @@ part of 'navigatum_overlay_map.dart';
 
 NavigaTumOverlayMap _$NavigaTumOverlayMapFromJson(Map<String, dynamic> json) =>
     NavigaTumOverlayMap(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['floor'] as String,
       json['file'] as String,
       json['name'] as String,
