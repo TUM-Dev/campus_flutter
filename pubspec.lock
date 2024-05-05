@@ -779,26 +779,26 @@ packages:
     dependency: "direct main"
     description:
       name: isar
-      sha256: "45bbdb3a746fa415e3f85da7abd1a781686d088febf6dbbf85f6952ef3676c44"
-      url: "https://isar-community.dev"
+      sha256: e7135ff16ae4e4624bce608757b2d22aeeeb09225d9f16ec3e3a5c9f3d05e66a
+      url: "https://pub.isar-community.dev"
     source: hosted
-    version: "3.1.5"
+    version: "3.1.7"
   isar_flutter_libs:
     dependency: "direct main"
     description:
       name: isar_flutter_libs
-      sha256: f3eb69f560d192e99e5c2194f9bb77a7d82db4eef985da27ab3c9bc8fa280989
-      url: "https://isar-community.dev"
+      sha256: cb2cc60aac929ca190c0332d10417cab405f666dc96773ab66eb2958866a5e20
+      url: "https://pub.isar-community.dev"
     source: hosted
-    version: "3.1.5"
+    version: "3.1.7"
   isar_generator:
     dependency: "direct dev"
     description:
       name: isar_generator
-      sha256: "46b44b1679c58e31f8232124b0c02dfbd6a8dbf6fd5bc91a5ef6dec68355c399"
-      url: "https://isar-community.dev"
+      sha256: "9409d8c95abc67953165dea302f75d957cd40965fcbcd0134ab2b2e4c5e35042"
+      url: "https://pub.isar-community.dev"
     source: hosted
-    version: "3.1.5"
+    version: "3.1.7"
   js:
     dependency: transitive
     description:
