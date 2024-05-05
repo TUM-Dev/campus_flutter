@@ -36,6 +36,7 @@ class FeedbackViewModel {
     if (personDetails != null) {
       name.text = personDetails.fullName;
       emailAddress.text = personDetails.email;
+      validEmail.add(true);
       validName.add(true);
     } else {
       showEmailTextField.add(true);
