@@ -6,6 +6,7 @@ import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.d
 import 'package:campus_flutter/calendarComponent/views/calendar_day_view.dart';
 import 'package:campus_flutter/calendarComponent/views/calendar_month_view.dart';
 import 'package:campus_flutter/calendarComponent/views/calendar_week_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -64,7 +65,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                         null,
                       ),
                       child: Text(
-                        context.localizations.calendarViewToday,
+                        context.tr("calendarViewToday"),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -78,19 +79,19 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                           ButtonSegment(
                             value: 0,
                             label: Text(
-                              context.localizations.calendarViewDay,
+                              context.tr("calendarViewDay"),
                             ),
                           ),
                           ButtonSegment(
                             value: 1,
                             label: Text(
-                              context.localizations.calendarViewWeek,
+                              context.tr("calendarViewWeek"),
                             ),
                           ),
                           ButtonSegment(
                             value: 2,
                             label: Text(
-                              context.localizations.calendarViewMonth,
+                              context.tr("calendarViewMonth"),
                             ),
                           ),
                         ],
@@ -128,7 +129,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.calendar,
+            name: context.tr("calendar"),
           );
         }
       },

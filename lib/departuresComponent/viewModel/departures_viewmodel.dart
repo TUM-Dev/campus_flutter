@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
@@ -13,6 +12,7 @@ import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/services/departures_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -264,7 +264,7 @@ class DeparturesViewModel {
         0,
         ListTile(
           dense: true,
-          title: Text(context.localizations.closest),
+          title: Text(context.tr("closest")),
           trailing: getIt<UserPreferencesService>().load(
                     UserPreference.departure,
                   ) ==

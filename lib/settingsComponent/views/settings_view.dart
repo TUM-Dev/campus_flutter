@@ -5,8 +5,8 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/appearance_settings_view.dart';
 import 'package:campus_flutter/settingsComponent/views/contact_view.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/settingsComponent/views/general_settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -80,7 +80,7 @@ class SettingsView extends ConsumerWidget {
       onTap: () => ref.read(onboardingViewModel).resetPreferences(ref),
       dense: true,
       title: Text(
-        context.localizations.resetPreferences,
+        context.tr("resetPreferences"),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Colors.red,
               fontWeight: FontWeight.w500,
@@ -96,7 +96,7 @@ class SettingsView extends ConsumerWidget {
       dense: true,
       title: loginStatus != Credentials.tumId
           ? Text(
-              context.localizations.login,
+              context.tr("login"),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
@@ -104,7 +104,7 @@ class SettingsView extends ConsumerWidget {
               textAlign: TextAlign.center,
             )
           : Text(
-              context.localizations.resetLogin,
+              context.tr("resetLogin"),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
@@ -127,13 +127,15 @@ class SettingsView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Text(
-              context.localizations.versionNumber(
-                snapshot.data!.version,
-                snapshot.data!.buildNumber,
+              context.tr(
+                "versionNumber",
+                args: [snapshot.data!.version, snapshot.data!.buildNumber],
               ),
             );
           } else {
-            return Text(context.localizations.versionNumber("-.-.-", "-"));
+            return Text(
+              context.tr("versionNumber", args: ["-.-.-", "-"]),
+            );
           }
         },
       ),

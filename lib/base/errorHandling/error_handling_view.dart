@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -74,7 +75,7 @@ mixin ErrorHandlingView {
               if (retry != null || this.retry != null) ...[
                 ElevatedButton(
                   onPressed: () => retry != null ? retry() : this.retry!(),
-                  child: Text(retryMessage ?? context.localizations.tryAgain),
+                  child: Text(retryMessage ?? context.tr("tryAgain")),
                 ),
                 const Spacer(),
               ],

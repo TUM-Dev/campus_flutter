@@ -9,8 +9,10 @@ class TumOnlineServiceTokenRequest extends TumOnlineService {
   TumOnlineServiceTokenRequest({required this.tumId, required this.deviceName});
 
   @override
-  Map<String, String> getParameters() =>
-      {"pUsername": tumId, "pTokenName": deviceName};
+  Map<String, String> getParameters() => {
+        "pUsername": tumId,
+        "pTokenName": deviceName,
+      };
 }
 
 class TumOnlineServiceTokenConfirmation extends TumOnlineService {}

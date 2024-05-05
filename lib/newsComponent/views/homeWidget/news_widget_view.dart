@@ -5,9 +5,9 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
 import 'package:campus_flutter/newsComponent/views/news_card_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class NewsWidgetView extends ConsumerStatefulWidget {
   const NewsWidgetView({super.key});
@@ -26,7 +26,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      title: context.localizations.latestNews,
+      title: context.tr("latestNews"),
       child: StreamBuilder(
         stream: ref.watch(newsViewModel).news,
         builder: (context, snapshot) {
@@ -53,8 +53,9 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                 child: Card(
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFound(
-                        context.localizations.news,
+                      context.tr(
+                        "noEntriesFound",
+                        args: [context.tr("news")],
                       ),
                     ),
                   ),
@@ -77,7 +78,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
               height: 300,
               child: Card(
                 child: DelayedLoadingIndicator(
-                  name: context.localizations.news,
+                  name: context.tr("news"),
                 ),
               ),
             );

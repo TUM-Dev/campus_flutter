@@ -10,6 +10,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class PersonDetailsScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text(context.localizations.personDetails),
+        title: Text(context.tr("personDetails")),
       ),
       body: PersonDetailsView(
         obfuscatedId: obfuscatedId,
@@ -68,7 +69,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         } else {
           return Center(
             child: DelayedLoadingIndicator(
-              name: context.localizations.personDetails,
+              name: context.tr("personDetails"),
             ),
           );
         }
@@ -117,7 +118,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
 
   Widget _contact(PersonDetails personDetails) {
     return WidgetFrameView(
-      title: context.localizations.contact,
+      title: context.tr("contact"),
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
@@ -141,7 +142,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 ),
                 title: Text(
                   personDetails.phoneExtensions.first.phoneNumber ??
-                      context.localizations.unknown,
+                      context.tr("unknown"),
                   style: const TextStyle(
                     decoration: TextDecoration.underline,
                   ),
@@ -174,7 +175,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
 
   Widget _room(PersonDetails personDetails) {
     return WidgetFrameView(
-      title: context.localizations.room,
+      title: context.tr("room"),
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
@@ -185,7 +186,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
               ),
               title: Text(
                 personDetails.rooms.first.shortLocationDescription ??
-                    context.localizations.unknown,
+                    context.tr("unknown"),
               ),
               trailing: const Icon(
                 Icons.arrow_forward_ios,
@@ -205,8 +206,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 color: context.theme.primaryColor,
               ),
               title: Text(
-                personDetails.rooms.first.floorName ??
-                    context.localizations.unknown,
+                personDetails.rooms.first.floorName ?? context.tr("unknown"),
               ),
             ),
             ListTile(
@@ -215,8 +215,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 color: context.theme.primaryColor,
               ),
               title: Text(
-                personDetails.rooms.first.buildingName ??
-                    context.localizations.unknown,
+                personDetails.rooms.first.buildingName ?? context.tr("unknown"),
               ),
             ),
           ],

@@ -3,6 +3,7 @@ import 'package:campus_flutter/lectureComponent/viewModels/lecture_details_viewm
 import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,15 +17,15 @@ class LectureMeetingInfoView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return LectureInfoCardView(
       icon: Icons.calendar_month,
-      title: context.localizations.thisMeeting,
+      title: context.tr("thisMeeting"),
       widgets: [
         BasicLectureInfoRowView(
           information: ref.read(viewModel).event!.timePeriodText(context),
           iconData: Icons.hourglass_top,
         ),
         BasicLectureInfoRowView(
-          information: ref.read(viewModel).event!.location ??
-              context.localizations.unknown,
+          information:
+              ref.read(viewModel).event!.location ?? context.tr("unknown"),
           iconData: Icons.location_on,
           trailingWidget: IconButton(
             onPressed: () => context.push(

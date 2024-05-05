@@ -1,7 +1,7 @@
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_coordinates.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -18,7 +18,7 @@ class NavigaTumRoomBuildingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      title: context.localizations.building,
+      title: context.tr("building"),
       child: isLandScape ? Expanded(child: _map()) : _map(),
     );
   }

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
@@ -16,6 +15,7 @@ import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -42,43 +42,39 @@ class OnboardingViewModel {
   }
 
   void checkTumId(BuildContext context) {
-    final RegExp lettersRegex = RegExp(r'^[a-zA-Z]+$');
+    final RegExp lettersRegex = RegExp(r'^[a-z]+$');
     final RegExp numberRegex = RegExp(r'^[0-9]+$');
 
-    validateField(
-      textEditingController1.text,
-      lettersRegex,
-      context.localizations.onlyLetters,
-    );
-    validateField(
-      textEditingController2.text,
-      numberRegex,
-      context.localizations.onlyNumbers,
-    );
-    validateField(
-      textEditingController3.text,
-      lettersRegex,
-      context.localizations.onlyLetters,
-    );
+    if (textEditingController1.text.isEmpty ||
+        textEditingController2.text.isEmpty ||
+        textEditingController3.text.isEmpty) {
+      tumIdValid.add(false);
+      return;
+    }
 
-    validateLength(textEditingController1.text, 2);
-    validateLength(textEditingController2.text, 2);
-    validateLength(textEditingController3.text, 3);
+    if (!lettersRegex.hasMatch(textEditingController1.text)) {
+      tumIdValid.addError(context.tr("onlyLetters"));
+      return;
+    }
+
+    if (!numberRegex.hasMatch(textEditingController2.text)) {
+      tumIdValid.addError(context.tr("onlyNumbers"));
+      return;
+    }
+
+    if (!lettersRegex.hasMatch(textEditingController3.text)) {
+      tumIdValid.addError(context.tr("onlyLetters"));
+      return;
+    }
+
+    if (textEditingController1.text.length != 2 ||
+        textEditingController2.text.length != 2 ||
+        textEditingController3.text.length != 3) {
+      tumIdValid.add(false);
+      return;
+    }
 
     tumIdValid.add(true);
-  }
-
-  void validateField(String text, RegExp regex, String errorMessage) {
-    if (!regex.hasMatch(text)) {
-      tumIdValid.addError(errorMessage);
-      tumIdValid.add(false);
-    }
-  }
-
-  void validateLength(String text, int length) {
-    if (text.length != length) {
-      tumIdValid.add(false);
-    }
   }
 
   Future<bool> checkLogin() async {
@@ -163,8 +159,7 @@ class OnboardingViewModel {
       iOSName: "CalendarWidget",
       androidName: "widgets.calendar.CalendarWidget",
     );
-    getIt<UserPreferencesService>().resetAll();
-    getIt<CalendarColorService>().resetColorPreferences();
+    await resetPreferences(ref);
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }

@@ -10,6 +10,7 @@ import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +22,7 @@ class StudyRoomsScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text(context.localizations.studyRooms),
+        title: Text(context.tr("studyRooms")),
       ),
       body: const StudyRoomsView(),
     );
@@ -96,7 +97,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.studyRooms,
+            name: context.tr("studyRooms"),
           );
         }
       },
@@ -105,7 +106,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
 
   Widget _studyRoomList(List<StudyRoomGroup> studyRoomGroups, bool portrait) {
     return WidgetFrameView(
-      title: portrait ? context.localizations.studyRooms : null,
+      title: portrait ? context.tr("studyRooms") : null,
       child: Column(
         children: [
           Card(

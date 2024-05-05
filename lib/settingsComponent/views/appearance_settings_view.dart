@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
@@ -10,6 +9,7 @@ import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -20,7 +20,7 @@ class AppearanceSettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-      title: context.localizations.appearance,
+      title: context.tr("appearance"),
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
@@ -38,7 +38,7 @@ class AppearanceSettingsView extends ConsumerWidget {
     return ListTile(
       dense: true,
       title: Text(
-        context.localizations.theme,
+        context.tr("theme"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: DropdownButton(
@@ -60,7 +60,7 @@ class AppearanceSettingsView extends ConsumerWidget {
     return ListTile(
       dense: true,
       title: Text(
-        context.localizations.useWebView,
+        context.tr("useWebView"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: Switch(
@@ -80,7 +80,7 @@ class AppearanceSettingsView extends ConsumerWidget {
     return ListTile(
       dense: true,
       title: Text(
-        context.localizations.hideFailedGrades,
+        context.tr("hideFailedGrades"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: Switch(
@@ -100,7 +100,7 @@ class AppearanceSettingsView extends ConsumerWidget {
     return ListTile(
       dense: true,
       title: Text(
-        context.localizations.showWeekends,
+        context.tr("showWeekends"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: Switch(

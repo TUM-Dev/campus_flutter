@@ -10,7 +10,7 @@ import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_row_view.dart';
 import 'package:collection/collection.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -107,7 +107,7 @@ class StudyRoomGroupView extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                studyRoomGroup?.name ?? context.localizations.unknown,
+                studyRoomGroup?.name ?? context.tr("unknown"),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -116,7 +116,7 @@ class StudyRoomGroupView extends ConsumerWidget {
                 _portraitMap(studyRoomGroup, context),
             ],
             WidgetFrameView(
-              title: context.localizations.rooms,
+              title: context.tr("rooms"),
               subtitle:
                   lastFetched != null ? LastUpdatedText(lastFetched) : null,
               child: Card(

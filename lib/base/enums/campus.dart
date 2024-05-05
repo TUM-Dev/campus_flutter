@@ -4,7 +4,7 @@ import 'package:campus_flutter/departuresComponent/model/station.dart';
 enum Campus {
   stammgelaende("Stammgelände"),
   olympiapark("Campus Olympiapark"),
-  // klinikumRechts("Klinikum rechts der Isar"),
+  klinikumRechts("Klinikum rechts der Isar"),
   grosshadern("Klinikum Großhadern"),
   garching("Garching Forschungszentrum"),
   freising("Campus Freising");
@@ -20,7 +20,7 @@ extension CampusExtension on Campus {
       Campus.stammgelaende,
       Campus.garching,
       Campus.olympiapark,
-      // Campus.klinikumRechts,
+      Campus.klinikumRechts,
       Campus.freising,
     ];
   }
@@ -31,8 +31,8 @@ extension CampusExtension on Campus {
         return "Stammgelände";
       case Campus.olympiapark:
         return "Olympiapark";
-      /* case Campus.klinikumRechts:
-        return "Klinikum Isar"; */
+      case Campus.klinikumRechts:
+        return "Klinikum Isar";
       case Campus.grosshadern:
         return "Großhadern";
       case Campus.garching:
@@ -48,8 +48,8 @@ extension CampusExtension on Campus {
         return "assets/images/campus/campus-stamm.jpeg";
       case Campus.olympiapark:
         return "assets/images/campus/campus-olympia.jpg";
-      /* case Campus.klinikumRechts:
-        return "assets/images/campus/campus-klinikum.jpg"; */
+      case Campus.klinikumRechts:
+        return "assets/images/campus/campus-klinikum.jpg";
       case Campus.garching:
         return "assets/images/campus/campus-garching.jpeg";
       case Campus.freising:
@@ -71,11 +71,11 @@ extension CampusExtension on Campus {
           latitude: 48.17957305879896,
           longitude: 11.546601863009668,
         );
-      /* case Campus.klinikumRechts:
+      case Campus.klinikumRechts:
         return Location(
           latitude: 48.13760759635786,
           longitude: 11.60083902677729,
-        ); */
+        );
       case Campus.grosshadern:
         return Location(
           latitude: 48.1116433849602,
@@ -118,7 +118,7 @@ extension CampusExtension on Campus {
             longitude: 11.555783595899824,
           ),
         );
-      /* case Campus.klinikumRechts:
+      case Campus.klinikumRechts:
         return Station(
           name: "Max-Weber-Platz",
           apiName: "91000580",
@@ -126,7 +126,7 @@ extension CampusExtension on Campus {
             latitude: 48.13573243097588,
             longitude: 11.599014647301777,
           ),
-        ); */
+        );
       case Campus.grosshadern:
         return Station(
           name: "Klinikum Großhadern",
@@ -181,7 +181,7 @@ extension CampusExtension on Campus {
         ];
       case Campus.olympiapark:
         return [defaultStation];
-      /* case Campus.klinikumRechts:
+      case Campus.klinikumRechts:
         return [
           defaultStation,
           Station(
@@ -192,7 +192,7 @@ extension CampusExtension on Campus {
               longitude: 11.600075277341709,
             ),
           ),
-        ]; */
+        ];
       case Campus.grosshadern:
         return [
           defaultStation,

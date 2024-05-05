@@ -6,9 +6,9 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
 import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class MoviesHomeWidget extends ConsumerStatefulWidget {
   const MoviesHomeWidget({super.key});
@@ -61,7 +61,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
       return Card(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.34,
-          child: DelayedLoadingIndicator(name: context.localizations.movies),
+          child: DelayedLoadingIndicator(name: context.tr("movies")),
         ),
       );
     }

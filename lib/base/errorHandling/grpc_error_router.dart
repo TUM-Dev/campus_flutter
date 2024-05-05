@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
@@ -24,7 +24,7 @@ class GrpcErrorRouter extends StatelessWidget with ErrorHandlingView {
   @override
   Widget build(BuildContext context) {
     return exceptionMessage(
-      errorMessage: grpcError.message ?? context.localizations.unknownError,
+      errorMessage: grpcError.message ?? context.tr("unknownError"),
       context: context,
     );
   }

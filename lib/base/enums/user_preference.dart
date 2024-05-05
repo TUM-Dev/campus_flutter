@@ -7,8 +7,7 @@ enum UserPreference {
   calendarColors(String),
   browser(bool),
   failedGrades(bool),
-  weekends(bool),
-  locale(String);
+  weekends(bool);
 
   final Type type;
 

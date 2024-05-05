@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +30,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
           });
         },
         decoration: InputDecoration(
-          hintText: context.localizations.search,
+          hintText: context.tr("search"),
           suffixIcon: showIcon
               ? GestureDetector(
                   onTap: () {

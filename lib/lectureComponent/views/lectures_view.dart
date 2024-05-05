@@ -5,9 +5,9 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/viewModels/lecture_viewmodel.dart';
 import 'package:campus_flutter/lectureComponent/views/semester_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class LecturesView extends ConsumerStatefulWidget {
   const LecturesView({super.key});
@@ -36,8 +36,9 @@ class _LecturesViewState extends ConsumerState<LecturesView>
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.localizations.noEntriesFound(
-                  context.localizations.lecture,
+                context.tr(
+                  "noEntriesFound",
+                  args: [context.tr("lecture")],
                 ),
               ),
             );
@@ -67,7 +68,7 @@ class _LecturesViewState extends ConsumerState<LecturesView>
             retry: (() => ref.read(lectureViewModel).fetch(true)),
           );
         } else {
-          return DelayedLoadingIndicator(name: context.localizations.lectures);
+          return DelayedLoadingIndicator(name: context.tr("lectures"));
         }
       },
     );

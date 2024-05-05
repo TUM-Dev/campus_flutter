@@ -4,9 +4,9 @@ import 'package:campus_flutter/calendarComponent/services/calendar_service.dart'
 import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
 import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
 import 'package:campus_flutter/profileComponent/services/profile_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:go_router/go_router.dart';
 
 class PermissionCheckView extends ConsumerStatefulWidget {
@@ -55,7 +55,7 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: widget.isSettingsView ? const CustomBackButton() : null,
-        title: Text(context.localizations.checkPermissions),
+        title: Text(context.tr("checkPermissions")),
         backgroundColor: backgroundColor,
       ),
       body: Padding(
@@ -65,22 +65,22 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
             Expanded(
               flex: 0,
               child: Text(
-                context.localizations.permissionChangePossibleInTUMonline,
+                context.tr("permissionChangePossibleInTUMonline"),
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
             ),
             const Spacer(),
-            _permissionCheck(context.localizations.calendar, fetchCalendar),
+            _permissionCheck(context.tr("calendar"), fetchCalendar),
             const Spacer(),
-            _permissionCheck(context.localizations.lectures, fetchLecture),
+            _permissionCheck(context.tr("lectures"), fetchLecture),
             const Spacer(),
-            _permissionCheck(context.localizations.grades, fetchGrades),
+            _permissionCheck(context.tr("grades"), fetchGrades),
             const Spacer(),
-            _permissionCheck(context.localizations.tuition, fetchTuition),
+            _permissionCheck(context.tr("tuition"), fetchTuition),
             const Spacer(),
             _permissionCheck(
-              context.localizations.identification,
+              context.tr("identification"),
               fetchProfile,
             ),
             const Spacer(flex: 3),
@@ -99,8 +99,8 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
                 },
                 child: Text(
                   widget.isSettingsView
-                      ? context.localizations.back
-                      : context.localizations.continueOnboarding,
+                      ? context.tr("back")
+                      : context.tr("continueOnboarding"),
                 ),
               ),
             ),

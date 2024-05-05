@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/home_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,19 +13,19 @@ class HomeSettingsView extends ConsumerWidget {
     return Column(
       children: [
         Text(
-          context.localizations.editHome,
+          context.tr("editHome"),
           style: Theme.of(context)
               .textTheme
               .titleLarge
               ?.apply(color: context.primaryColor),
         ),
-        Text(context.localizations.reorderDisable),
+        Text(context.tr("reorderDisable")),
         Padding(
           padding: EdgeInsets.symmetric(vertical: context.halfPadding),
         ),
         TextButton(
           onPressed: () => ref.read(homeViewModel).reset(),
-          child: Text(context.localizations.reset),
+          child: Text(context.tr("reset")),
         ),
         _list(ref),
       ],

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/util/string_parser.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture_details.g.dart';
@@ -64,17 +64,17 @@ class LectureDetails {
   String eventType(BuildContext context) {
     switch (eventTypeDefault) {
       case "Vorlesung":
-        return context.localizations.lecture;
+        return context.tr("lecture");
       case "Tutorium":
-        return context.localizations.tutorial;
+        return context.tr("tutorial");
       case "Übung":
-        return context.localizations.exercise;
+        return context.tr("exercise");
       case "Praktikum":
-        return context.localizations.practicalCourse;
+        return context.tr("practicalCourse");
       case "Seminar":
-        return context.localizations.seminar;
+        return context.tr("seminar");
       case "Vorlesung mit integrierten Übungen":
-        return context.localizations.lectureWithIntegratedExcercises;
+        return context.tr("lectureWithIntegratedExcercises");
       default:
         return eventTypeDefault;
     }

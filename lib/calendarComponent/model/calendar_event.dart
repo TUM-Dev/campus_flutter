@@ -1,9 +1,8 @@
 import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_event.g.dart';
@@ -14,7 +13,7 @@ class CalendarEvent extends Searchable {
   final String id;
   final String status;
   final String? url;
-  final String title;
+  final String? title;
   final String? description;
   @JsonKey(name: "dtstart")
   final DateTime startDate;
@@ -39,7 +38,7 @@ class CalendarEvent extends Searchable {
   String _dateTimePeriod(BuildContext context) {
     final start = DateFormat(
       "EE, dd.MM.yyyy, HH:mm",
-      context.localizations.localeName,
+      context.locale.languageCode,
     ).format(startDate);
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
@@ -57,7 +56,7 @@ class CalendarEvent extends Searchable {
         null,
         "de",
       ).format(endDate);
-      return "$start ${context.localizations.to.toLowerCase()}\n$end";
+      return "$start ${context.tr("to").toLowerCase()}\n$end";
     }
   }
 
@@ -80,7 +79,7 @@ class CalendarEvent extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title),
+        if (title != null) ComparisonToken(value: title!),
         if (location != null) ComparisonToken(value: location!),
       ];
 
@@ -88,7 +87,7 @@ class CalendarEvent extends Searchable {
     required this.id,
     required this.status,
     this.url,
-    required this.title,
+    this.title,
     this.description,
     required this.startDate,
     required this.endDate,

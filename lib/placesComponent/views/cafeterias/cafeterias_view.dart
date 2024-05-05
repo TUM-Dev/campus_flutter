@@ -10,6 +10,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.d
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_row_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +22,7 @@ class CafeteriasScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text(context.localizations.cafeterias),
+        title: Text(context.tr("cafeterias")),
       ),
       body: const CafeteriasView(),
     );
@@ -98,7 +99,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.cafeterias,
+            name: context.tr("cafeterias"),
           );
         }
       },
@@ -107,7 +108,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
 
   Widget _cafeteriaList(List<Cafeteria> cafeterias, bool portrait) {
     return WidgetFrameView(
-      title: portrait ? context.localizations.cafeterias : null,
+      title: portrait ? context.tr("cafeterias") : null,
       child: Card(
         child: SeparatedList.list(
           data: cafeterias,

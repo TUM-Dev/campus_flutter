@@ -10,6 +10,7 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.d
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_slider_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +41,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
               Expanded(
                 child: InkWell(
                   child: Text(
-                    snapshot.data?.$1.name ?? context.localizations.cafeteria,
+                    snapshot.data?.$1.name ?? context.tr("cafeteria"),
                     style: Theme.of(context).textTheme.titleMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -60,7 +61,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     data: ref
                         .read(cafeteriasViewModel)
                         .getCafeteriaEntries(context),
-                    entry: context.localizations.cafeteria,
+                    entry: context.tr("cafeteria"),
                   ),
                   context: context,
                   useRootNavigator: true,
@@ -94,8 +95,9 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
             height: 150,
             child: Center(
               child: Text(
-                context.localizations.noEntriesFound(
-                  context.localizations.mealPlans,
+                context.tr(
+                  "noEntriesFound",
+                  args: [context.tr("mealPlans")],
                 ),
               ),
             ),
@@ -118,7 +120,7 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
       return Card(
         child: SizedBox(
           height: 150,
-          child: DelayedLoadingIndicator(name: context.localizations.mealPlans),
+          child: DelayedLoadingIndicator(name: context.tr("mealPlans")),
         ),
       );
     }

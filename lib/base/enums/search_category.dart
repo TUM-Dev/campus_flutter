@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 enum SearchCategory {
@@ -25,27 +25,27 @@ extension SearchCategoryExtension on SearchCategory {
   ) {
     switch (searchCategory) {
       case SearchCategory.cafeterias:
-        return context.localizations.cafeterias;
+        return context.tr("cafeterias");
       case SearchCategory.calendar:
-        return context.localizations.calendar;
+        return context.tr("calendar");
       case SearchCategory.grade:
-        return context.localizations.grades;
+        return context.tr("grades");
       case SearchCategory.movie:
-        return context.localizations.movies;
+        return context.tr("movies");
       case SearchCategory.news:
-        return context.localizations.news;
+        return context.tr("news");
       case SearchCategory.studyRoom:
-        return context.localizations.studyRooms;
+        return context.tr("studyRooms");
       case SearchCategory.lectures:
-        return context.localizations.lectures;
+        return context.tr("lectures");
       case SearchCategory.personalLectures:
-        return context.localizations.personalLectures;
+        return context.tr("personalLectures");
       case SearchCategory.persons:
-        return context.localizations.persons;
+        return context.tr("persons");
       case SearchCategory.rooms:
-        return context.localizations.rooms;
+        return context.tr("rooms");
       default:
-        return context.localizations.unknown;
+        return context.tr("unknown");
     }
   }
 

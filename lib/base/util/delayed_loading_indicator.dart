@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DelayedLoadingIndicator extends StatelessWidget {
@@ -27,8 +27,8 @@ class DelayedLoadingIndicator extends StatelessWidget {
                   const CircularProgressIndicator.adaptive(),
                   Text(
                     name != null
-                        ? context.localizations.loadingName(name!)
-                        : context.localizations.loading,
+                        ? context.tr("loadingName", args: [name!])
+                        : context.tr("loading"),
                   ),
                 ],
               ),

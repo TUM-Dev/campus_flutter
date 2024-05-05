@@ -1,5 +1,4 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
@@ -10,6 +9,7 @@ import 'package:campus_flutter/gradeComponent/model/grade.dart';
 import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
 import 'package:campus_flutter/gradeComponent/views/chart_view.dart';
 import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,8 +41,9 @@ class _GradesViewState extends ConsumerState<GradesView>
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.localizations.noEntriesFound(
-                  context.localizations.grades,
+                context.tr(
+                  "noEntriesFound",
+                  args: [context.tr("grades")],
                 ),
               ),
             );
@@ -65,7 +66,7 @@ class _GradesViewState extends ConsumerState<GradesView>
             retry: (() => ref.read(gradeViewModel).fetch(true)),
           );
         } else {
-          return DelayedLoadingIndicator(name: context.localizations.grades);
+          return DelayedLoadingIndicator(name: context.tr("grades"));
         }
       },
     );

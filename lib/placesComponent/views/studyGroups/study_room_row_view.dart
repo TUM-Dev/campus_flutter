@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +14,7 @@ class StudyRoomRowView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(
-        "${studyRoom.name ?? context.localizations.unknown} (${studyRoom.code ?? context.localizations.unknown})",
+        "${studyRoom.name ?? context.tr("unknown")} (${studyRoom.code ?? context.tr("unknown")})",
       ),
       subtitle: Text(
         studyRoom.localizedStatus(context),
@@ -32,7 +32,7 @@ class StudyRoomRowView extends ConsumerWidget {
   }
 
   Color _statusColor(String status, BuildContext context) {
-    if (status == context.localizations.free) {
+    if (status == context.tr("free")) {
       return Colors.green;
     } else {
       return Colors.red;

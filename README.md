@@ -77,7 +77,6 @@ To ensure that campus_flutter runs on every supported platform, we need to make 
 | Package                 | Reason                                    | Link                                         |
 |-------------------------|-------------------------------------------|----------------------------------------------|
 | gRPC                    | Caching                                   | https://github.com/jakobkoerber/grpc-dart |
-| Google Maps Flutter iOS | Enable usage of SDK in ARM iOS Simulators | https://github.com/jakobkoerber/packages |
 | Xml2Json                | Fix Parsing of XML to JSON                | https://github.com/jakobkoerber/xml2json |
 
 
