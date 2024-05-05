@@ -42,16 +42,18 @@ class OnboardingViewModel {
   }
 
   void checkTumId(BuildContext context) {
-    final RegExp lettersRegex = RegExp(r'^$|^[a-z]+$');
-    final RegExp numberRegex = RegExp(r'^$|^[0-9]+$');
+    final RegExp lettersRegex = RegExp(r'^[a-z]+$');
+    final RegExp numberRegex = RegExp(r'^[0-9]+$');
 
-    if (!lettersRegex.hasMatch(textEditingController1.text)) {
-      tumIdValid.addError(context.tr("onlyLetters"));
+    if (textEditingController1.text.isEmpty ||
+        textEditingController2.text.isEmpty ||
+        textEditingController3.text.isEmpty) {
+      tumIdValid.add(false);
       return;
     }
 
-    if (lettersRegex.hasMatch(textEditingController1.text)) {
-      tumIdValid.add(false);
+    if (!lettersRegex.hasMatch(textEditingController1.text)) {
+      tumIdValid.addError(context.tr("onlyLetters"));
       return;
     }
 
@@ -60,17 +62,14 @@ class OnboardingViewModel {
       return;
     }
 
-    if (lettersRegex.hasMatch(textEditingController2.text)) {
-      tumIdValid.add(false);
-      return;
-    }
-
     if (!lettersRegex.hasMatch(textEditingController3.text)) {
       tumIdValid.addError(context.tr("onlyLetters"));
       return;
     }
 
-    if (lettersRegex.hasMatch(textEditingController3.text)) {
+    if (textEditingController1.text.length != 2 ||
+        textEditingController2.text.length != 2 ||
+        textEditingController3.text.length != 3) {
       tumIdValid.add(false);
       return;
     }

@@ -171,8 +171,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return TextField(
       decoration: InputDecoration(
         hintText: hintText,
-        // TODO: improve hint style
-        hintStyle: TextStyle(color: Colors.grey.shade700),
+        hintStyle: TextStyle(
+          color: MediaQuery.platformBrightnessOf(context) == Brightness.dark
+              ? Colors.grey.shade700
+              : Colors.grey.shade400,
+        ),
         border: const OutlineInputBorder(),
       ),
       keyboardType: keyboardType,
@@ -180,7 +183,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
       controller: controller,
       onChanged: (text) {
         ref.read(onboardingViewModel).checkTumId(context);
-        if (text.length == maxLength) {
+        if (text.length == maxLength && maxLength != 3) {
           FocusScope.of(context).nextFocus();
         }
       },
@@ -191,7 +194,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   Widget _loginButton(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.only(top: 10.0),
       child: StreamBuilder(
         stream: ref.watch(onboardingViewModel).tumIdValid,
         builder: (context, snapshot) {
