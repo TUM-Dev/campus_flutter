@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TypeErrorRouter extends StatelessWidget with ErrorHandlingView {
@@ -23,8 +23,8 @@ class TypeErrorRouter extends StatelessWidget with ErrorHandlingView {
   @override
   Widget build(BuildContext context) {
     return exceptionMessage(
-      errorMessage: context.localizations.decodingError,
-      fixMessage: context.localizations.pleaseReport,
+      errorMessage: context.tr("decodingError"),
+      fixMessage: context.tr("pleaseReport"),
       context: context,
     );
   }

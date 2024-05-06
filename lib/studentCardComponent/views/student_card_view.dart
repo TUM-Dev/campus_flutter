@@ -7,6 +7,7 @@ import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/bar_code_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,8 +36,9 @@ class StudentCardView extends ConsumerWidget {
           } else {
             return Center(
               child: Text(
-                context.localizations.noEntriesFound(
-                  "StudentCard",
+                context.tr(
+                  "noEntriesFound",
+                  args: ["StudentCard"],
                 ),
               ),
             );
@@ -85,7 +87,7 @@ class StudentCardView extends ConsumerWidget {
           const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
           Expanded(
             child: Text(
-              context.localizations.currentlyInBeta,
+              context.tr("currentlyInBeta"),
               style: TextStyle(color: context.primaryColor),
               textAlign: TextAlign.center,
             ),

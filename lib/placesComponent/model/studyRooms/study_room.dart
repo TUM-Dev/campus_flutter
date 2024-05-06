@@ -1,7 +1,7 @@
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_attribute.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,11 +26,11 @@ class StudyRoom extends Searchable {
   @JsonKey(name: "belegung_durch")
   final String? occupiedBy;
   @JsonKey(name: "belegung_fuer")
-  final int occupiedFor;
+  final int? occupiedFor;
   @JsonKey(name: "belegung_ab", fromJson: DateTime.tryParse)
   final DateTime? occupiedFrom;
   @JsonKey(name: "belegung_in")
-  final int occupiedIn;
+  final int? occupiedIn;
   @JsonKey(name: "belegung_bis", fromJson: DateTime.tryParse)
   final DateTime? occupiedUntil;
   @JsonKey(name: "raum_nr_architekt")
@@ -44,15 +44,18 @@ class StudyRoom extends Searchable {
   String localizedStatus(BuildContext context) {
     switch (status) {
       case "frei":
-        return context.localizations.free;
+        return context.tr("free");
       case "belegt":
         if (occupiedUntil != null) {
-          return context.localizations.occupiedUntil(occupiedUntil!);
+          return context.tr(
+            "occupiedUntil",
+            args: [DateFormat.Hm().format(occupiedUntil!)],
+          );
         } else {
-          return context.localizations.unknown;
+          return context.tr("unknown");
         }
       default:
-        return context.localizations.unknown;
+        return context.tr("unknown");
     }
   }
 

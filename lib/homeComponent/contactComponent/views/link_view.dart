@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class LinkView extends ConsumerWidget {
               leading: const Icon(Icons.school),
               title: Center(
                 child: AutoSizeText(
-                  context.localizations.studyRooms,
+                  context.tr("studyRooms"),
                   maxLines: 1,
                 ),
               ),
@@ -44,7 +45,7 @@ class LinkView extends ConsumerWidget {
               leading: const Icon(Icons.restaurant),
               title: Center(
                 child: AutoSizeText(
-                  context.localizations.cafeterias,
+                  context.tr("cafeterias"),
                   maxLines: 1,
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ Future<void> showDirectionsDialog(
               padding: EdgeInsets.only(
                 bottom: context.halfPadding,
               ),
-              child: Text(context.localizations.selectAction),
+              child: Text(context.tr("selectAction")),
             ),
             Card(
               child: ListView.separated(
@@ -41,7 +42,7 @@ Future<void> showDirectionsDialog(
                     ),
                   ),
                   title: Text(
-                    context.localizations.openIn(value[index].mapName),
+                    context.tr("openIn", args: [value[index].mapName]),
                   ),
                   onTap: () => MapLauncher.showMarker(
                     mapType: value[index].mapType,
@@ -60,7 +61,7 @@ Future<void> showDirectionsDialog(
               ),
               child: ElevatedButton(
                 onPressed: () => context.pop(),
-                child: Text(context.localizations.cancel),
+                child: Text(context.tr("cancel")),
               ),
             ),
           ],

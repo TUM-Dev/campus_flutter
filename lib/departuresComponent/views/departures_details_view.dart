@@ -10,6 +10,7 @@ import 'package:campus_flutter/departuresComponent/model/departure.dart';
 import 'package:campus_flutter/departuresComponent/model/station.dart';
 import 'package:campus_flutter/departuresComponent/viewModel/departures_viewmodel.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_row_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -33,7 +34,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
             backgroundColor: isSplitView ? null : backgroundColor,
             title: Text(
               ref.watch(departureViewModel).selectedStation.value?.name ??
-                  context.localizations.departures,
+                  context.tr("departures"),
             ),
             actions: [
               PopupMenuButton<Station>(
@@ -89,7 +90,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                 null) ...[
               Text.rich(
                 TextSpan(
-                  text: context.localizations.station,
+                  text: context.tr("station"),
                   children: [
                     TextSpan(
                       text: ref
@@ -120,7 +121,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                 },
                 child: IconText(
                   iconData: Icons.open_in_new,
-                  label: context.localizations.showDirections,
+                  label: context.tr("showDirections"),
                 ),
               ),
             ],
@@ -143,7 +144,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
         retry: (() => ref.read(departureViewModel).fetch(true)),
       );
     } else {
-      return DelayedLoadingIndicator(name: context.localizations.departures);
+      return DelayedLoadingIndicator(name: context.tr("departures"));
     }
   }
 
@@ -155,18 +156,18 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
           SizedBox(
             width: 50,
             child: Text(
-              context.localizations.line,
+              context.tr("line"),
               style: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 7.5)),
           Text(
-            context.localizations.direction,
+            context.tr("direction"),
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           const Spacer(),
           Text(
-            context.localizations.departure,
+            context.tr("departure"),
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
         ],

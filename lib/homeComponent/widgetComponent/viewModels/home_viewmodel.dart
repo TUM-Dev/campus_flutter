@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/enums/widget_type.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
 import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
 import 'package:campus_flutter/main.dart';
@@ -10,6 +9,7 @@ import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.d
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
@@ -89,17 +89,17 @@ class HomeViewModel {
   static String getTitle(WidgetType widgetType, BuildContext context) {
     switch (widgetType) {
       case WidgetType.cafeterias:
-        return context.localizations.cafeteria;
+        return context.tr("cafeteria");
       case WidgetType.calendar:
-        return context.localizations.calendar;
+        return context.tr("calendar");
       case WidgetType.departures:
-        return context.localizations.departures;
+        return context.tr("departures");
       case WidgetType.studyRooms:
-        return context.localizations.nearestStudyRooms;
+        return context.tr("nearestStudyRooms");
       case WidgetType.movies:
-        return context.localizations.movies;
+        return context.tr("movies");
       case WidgetType.news:
-        return context.localizations.news;
+        return context.tr("news");
     }
   }
 

@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,22 +34,22 @@ class NavigationService {
         );
       case 1:
         return Text(
-          context.localizations.grades,
+          context.tr("grades"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 2:
         return Text(
-          context.localizations.lectures,
+          context.tr("lectures"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 3:
         return Text(
-          context.localizations.calendar,
+          context.tr("calendar"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 4:
         return Text(
-          context.localizations.places,
+          context.tr("places"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       default:
@@ -105,32 +107,64 @@ class NavigationService {
     ];
   }
 
+  PreferredSizeWidget? bottom(BuildContext context, WidgetRef ref) {
+    final message = ref.watch(hasStatusMessage);
+    if (message.$1 && message.$2 != null) {
+      return PreferredSize(
+        preferredSize: Size(
+          MediaQuery.sizeOf(context).width,
+          30 + context.halfPadding,
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: context.halfPadding),
+          child: Container(
+            color: context.primaryColor,
+            height: 30,
+            width: MediaQuery.sizeOf(context).width,
+            child: Center(
+              child: Text(
+                message.$2!.message(context),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
   List<NavigationDestination> bottomNavItems(BuildContext context) =>
       <NavigationDestination>[
         NavigationDestination(
           icon: const Icon(Icons.house_outlined),
           selectedIcon: const Icon(Icons.house),
-          label: context.localizations.home,
+          label: context.tr("home"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.school_outlined),
           selectedIcon: const Icon(Icons.school),
-          label: context.localizations.grades,
+          label: context.tr("grades"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.class_outlined),
           selectedIcon: const Icon(Icons.class_),
-          label: context.localizations.lectures,
+          label: context.tr("lectures"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.calendar_month_outlined),
           selectedIcon: const Icon(Icons.calendar_month),
-          label: context.localizations.calendar,
+          label: context.tr("calendar"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.place_outlined),
           selectedIcon: const Icon(Icons.place),
-          label: context.localizations.places,
+          label: context.tr("places"),
         ),
       ];
 

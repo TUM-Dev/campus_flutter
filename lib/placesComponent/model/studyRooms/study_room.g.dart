@@ -9,18 +9,18 @@ part of 'study_room.dart';
 StudyRoom _$StudyRoomFromJson(Map<String, dynamic> json) => StudyRoom(
       buildingCode: json['gebaeude_code'] as String?,
       buildingName: json['gebaeude_name'] as String?,
-      buildingNumber: json['gebaeude_nr'] as int,
+      buildingNumber: (json['gebaeude_nr'] as num).toInt(),
       code: json['raum_code'] as String?,
-      id: json['raum_nr'] as int,
+      id: (json['raum_nr'] as num).toInt(),
       name: json['raum_name'] as String?,
       number: json['raum_nummer'] as String?,
       occupiedBy: json['belegung_durch'] as String?,
-      occupiedFor: json['belegung_fuer'] as int,
+      occupiedFor: (json['belegung_fuer'] as num?)?.toInt(),
       occupiedFrom: DateTime.tryParse(json['belegung_ab'] as String),
-      occupiedIn: json['belegung_in'] as int,
+      occupiedIn: (json['belegung_in'] as num?)?.toInt(),
       occupiedUntil: DateTime.tryParse(json['belegung_bis'] as String),
       roomNoArchitect: json['raum_nr_architekt'] as String?,
-      resNo: json['res_nr'] as int,
+      resNo: (json['res_nr'] as num).toInt(),
       status: json['status'] as String?,
       attributes: (json['attribute'] as List<dynamic>?)
           ?.map((e) => StudyRoomAttribute.fromJson(e as Map<String, dynamic>))

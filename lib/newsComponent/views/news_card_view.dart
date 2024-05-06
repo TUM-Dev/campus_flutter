@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -94,7 +94,10 @@ class NewsCardView extends ConsumerWidget {
                         ),
                         Expanded(
                           child: Text(
-                            context.localizations.source(news.sourceTitle),
+                            context.tr(
+                              "noEntriesFound",
+                              args: [news.sourceTitle],
+                            ),
                             style: Theme.of(context).textTheme.bodySmall,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

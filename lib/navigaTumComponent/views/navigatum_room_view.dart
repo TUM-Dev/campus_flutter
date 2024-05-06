@@ -10,6 +10,7 @@ import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_v
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_building_view.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_maps_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +24,7 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text(context.localizations.roomDetails),
+        title: Text(context.tr("roomDetails")),
         actions: [
           StreamBuilder(
             stream: ref.watch(navigaTumDetailsViewModel(id)).details,
@@ -110,7 +111,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           );
         } else {
           return DelayedLoadingIndicator(
-            name: context.localizations.roomDetails,
+            name: context.tr("roomDetails"),
           );
         }
       },

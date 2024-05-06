@@ -13,6 +13,7 @@ import 'package:campus_flutter/placesComponent/views/cafeterias/dish_grid_view.d
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +71,7 @@ class CafeteriaScaffold extends ConsumerWidget {
         final openingHours = cafeteria.openingHours;
         return AlertDialog(
           title: Text(
-            context.localizations.openingHours,
+            context.tr("openingHours"),
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
@@ -78,28 +79,28 @@ class CafeteriaScaffold extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               InfoRow(
-                title: context.localizations.monday,
+                title: context.tr("monday"),
                 info: _openingHourStringBuilder(openingHours?.mon, context),
               ),
               InfoRow(
-                title: context.localizations.tuesday,
+                title: context.tr("tuesday"),
                 info: _openingHourStringBuilder(openingHours?.tue, context),
               ),
               InfoRow(
-                title: context.localizations.wednesday,
+                title: context.tr("wednesday"),
                 info: _openingHourStringBuilder(openingHours?.wed, context),
               ),
               InfoRow(
-                title: context.localizations.thursday,
+                title: context.tr("thursday"),
                 info: _openingHourStringBuilder(openingHours?.thu, context),
               ),
               InfoRow(
-                title: context.localizations.friday,
+                title: context.tr("friday"),
                 info: _openingHourStringBuilder(openingHours?.fri, context),
               ),
               InfoRow(
-                title: context.localizations.weekend,
-                info: context.localizations.closed,
+                title: context.tr("weekend"),
+                info: context.tr("closed"),
               ),
             ],
           ),
@@ -120,7 +121,7 @@ class CafeteriaScaffold extends ConsumerWidget {
     BuildContext context,
   ) {
     if (openingHour == null) {
-      return context.localizations.unknown;
+      return context.tr("unknown");
     } else {
       return "${openingHour.start} - ${openingHour.end}";
     }
@@ -201,8 +202,9 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.localizations.noEntriesFound(
-                  context.localizations.mealPlans,
+                context.tr(
+                  "noEntriesFound",
+                  args: [context.tr("mealPlans")],
                 ),
               ),
             );
@@ -268,8 +270,9 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                 if (todayMeals.isEmpty)
                   Center(
                     child: Text(
-                      context.localizations.noEntriesFound(
-                        context.localizations.mealPlans,
+                      context.tr(
+                        "noEntriesFound",
+                        args: [context.tr("mealPlans")],
                       ),
                     ),
                   ),
@@ -282,7 +285,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
           );
         } else {
-          return DelayedLoadingIndicator(name: context.localizations.mealPlans);
+          return DelayedLoadingIndicator(name: context.tr("mealPlans"));
         }
       },
     );

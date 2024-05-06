@@ -1,7 +1,7 @@
 import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
 import 'package:campus_flutter/lectureComponent/views/detailed_lecture_info_row_view.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoView extends StatelessWidget {
@@ -16,21 +16,21 @@ class DetailedLectureInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return LectureInfoCardView(
       icon: Icons.info_outline_rounded,
-      title: context.localizations.detailedLectureInformation,
+      title: context.tr("detailedLectureInformation"),
       widgets: [
         if (lectureDetails.courseContents != null)
           DetailedLectureInfoRowView(
-            title: context.localizations.courseContents,
+            title: context.tr("courseContents"),
             information: lectureDetails.courseContents!,
           ),
         if (lectureDetails.courseObjective != null)
           DetailedLectureInfoRowView(
-            title: context.localizations.courseObjective,
+            title: context.tr("courseObjective"),
             information: lectureDetails.courseObjective!,
           ),
         if (lectureDetails.note != null)
           DetailedLectureInfoRowView(
-            title: context.localizations.note,
+            title: context.tr("note"),
             information: lectureDetails.note!,
           ),
       ],

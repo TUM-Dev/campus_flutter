@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_campus_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +21,7 @@ class CampusMostSearchedView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-      title: context.localizations.mostSearchedRooms,
+      title: context.tr("mostSearchedRooms"),
       child: Card(
         child: StreamBuilder(
           stream:
@@ -32,8 +33,9 @@ class CampusMostSearchedView extends ConsumerWidget {
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.localizations.noEntriesFound(
-                        context.localizations.rooms,
+                      context.tr(
+                        "noEntriesFound",
+                        args: [context.tr("rooms")],
                       ),
                     ),
                   ),
@@ -65,7 +67,7 @@ class CampusMostSearchedView extends ConsumerWidget {
               return Padding(
                 padding: EdgeInsets.all(context.padding),
                 child: DelayedLoadingIndicator(
-                  name: context.localizations.mostSearchedRooms,
+                  name: context.tr("mostSearchedRooms"),
                 ),
               );
             }

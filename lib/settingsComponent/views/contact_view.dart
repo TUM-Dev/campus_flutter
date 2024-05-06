@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/hyperlink_text.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/views/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,19 +15,19 @@ class ContactView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-      title: context.localizations.contactMore,
+      title: context.tr("contactMore"),
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
             HyperLinkListTile(
               dense: true,
               link: _betaTester(),
-              label: context.localizations.becomeABetaTester,
+              label: context.tr("becomeABetaTester"),
             ),
             HyperLinkListTile(
               dense: true,
               link: "https://github.com/TUM-Dev",
-              label: context.localizations.usOnGitHub,
+              label: context.tr("usOnGitHub"),
             ),
             const HyperLinkListTile(
               dense: true,
@@ -37,7 +37,7 @@ class ContactView extends ConsumerWidget {
             HyperLinkListTile(
               dense: true,
               link: "https://www.tum.app/privacy",
-              label: context.localizations.privacyPolicy,
+              label: context.tr("privacyPolicy"),
             ),
             _licensesButton(context),
             _feedbackButton(context),
@@ -70,7 +70,7 @@ class ContactView extends ConsumerWidget {
     return ListTile(
       dense: true,
       title: Text(
-        context.localizations.licenses,
+        context.tr("licenses"),
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       onTap: () => showLicensePage(context: context),

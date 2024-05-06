@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -96,7 +97,7 @@ class PlacesView extends ConsumerWidget {
   Widget _studyRoomsTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.school),
-      title: Text(context.localizations.studyRooms),
+      title: Text(context.tr("studyRooms")),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => context.push(studyRooms),
     );
@@ -105,7 +106,7 @@ class PlacesView extends ConsumerWidget {
   Widget _cafeteriasTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.restaurant),
-      title: Text(context.localizations.cafeterias),
+      title: Text(context.tr("cafeterias")),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => context.push(cafeterias),
     );

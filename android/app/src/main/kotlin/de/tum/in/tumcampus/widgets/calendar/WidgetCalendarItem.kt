@@ -14,17 +14,17 @@ data class WidgetCalendarItem(
     @SerialName("nr")
     val id: String,
     val status: String,
-    val url: String?,
+    val url: String? = null,
     val title: String,
-    val description: String?,
+    val description: String? = null,
     @Serializable(with = DateTimeSerializer::class)
     @SerialName("dtstart")
     val startDate: LocalDateTime,
     @Serializable(with = DateTimeSerializer::class)
     @SerialName("dtend")
     val endDate: LocalDateTime,
-    val location: String?,
-    val color: Long?,
+    val location: String? = null,
+    val color: Long? = null,
     var isFirstOnDay: Boolean = false
 ) {
     fun getEventColor(context: Context): Int {

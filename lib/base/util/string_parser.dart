@@ -1,31 +1,46 @@
 import 'package:campus_flutter/base/extensions/date_time.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:intl/intl.dart';
 
 class StringParser {
   static String toFullSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
-    return context.localizations.fullSemesterName(
-      semester.substring(2),
-      2000 + yearOffset,
-      yearOffset + 1,
-    );
+    if (semester.substring(2) == "W") {
+      return context.tr(
+        "fullWinter",
+        args: [(2000 + yearOffset).toString(), (yearOffset + 1).toString()],
+      );
+    } else if (semester.substring(2) == "S") {
+      return context.tr(
+        "fullSummer",
+        args: [(2000 + yearOffset).toString(), (yearOffset + 1).toString()],
+      );
+    } else {
+      return context.tr("unknown");
+    }
   }
 
   static String toShortSemesterName(BuildContext context, String semester) {
     final yearOffset = int.parse(semester.substring(0, 2));
-    return context.localizations.shortSemesterName(
-      semester.substring(2),
-      2000 + yearOffset,
-      yearOffset + 1,
-    );
+    if (semester.substring(2) == "W") {
+      return context.tr(
+        "shortWinter",
+        args: [(2000 + yearOffset).toString(), (yearOffset + 1).toString()],
+      );
+    } else if (semester.substring(2) == "S") {
+      return context.tr(
+        "shortSummer",
+        args: [(2000 + yearOffset).toString(), (yearOffset + 1).toString()],
+      );
+    } else {
+      return context.tr("unknown");
+    }
   }
 
   static String dateFormatter(DateTime dateTime, BuildContext context) {
     return DateFormat(
       DateFormat.YEAR_MONTH_DAY,
-      context.localizations.localeName,
+      context.locale.languageCode,
     ).format(dateTime);
   }
 
@@ -62,9 +77,9 @@ class StringParser {
   static String getDayString(DateTime dateTime, BuildContext context) {
     final today = DateTime.now();
     if (dateTime.isAtSameDay(today)) {
-      return context.localizations.today;
+      return context.tr("today");
     } else {
-      return DateFormat.EEEE(context.localizations.localeName).format(dateTime);
+      return DateFormat.EEEE(context.locale.languageCode).format(dateTime);
     }
   }
 }

@@ -9,10 +9,12 @@ part of 'study_room_group.dart';
 StudyRoomGroup _$StudyRoomGroupFromJson(Map<String, dynamic> json) =>
     StudyRoomGroup(
       detail: json['detail'] as String?,
-      id: json['nr'] as int,
+      id: (json['nr'] as num).toInt(),
       name: json['name'] as String,
-      sorting: json['sortierung'] as int,
-      rooms: (json['raeume'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      sorting: (json['sortierung'] as num).toInt(),
+      rooms: (json['raeume'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
     );
 
 Map<String, dynamic> _$StudyRoomGroupToJson(StudyRoomGroup instance) =>

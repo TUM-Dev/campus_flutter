@@ -1,8 +1,12 @@
+import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
+import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_error_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/link_view.dart';
 import 'package:campus_flutter/homeComponent/contactComponent/views/tuition_view.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/unauthorized_view.dart';
+import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_unauthorized_view.dart';
+import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,13 +39,7 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
               ),
               child: CardWithPadding(
                 child: Center(
-                  child: snapshot.hasData
-                      ? ContactCardView(
-                          profile: snapshot.data!,
-                        )
-                      : snapshot.hasError
-                          ? const UnauthorizedView()
-                          : Container(),
+                  child: _body(snapshot),
                 ),
               ),
             ),
@@ -51,5 +49,19 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
         );
       },
     );
+  }
+
+  Widget _body(AsyncSnapshot<Profile?> snapshot) {
+    if (ref.read(onboardingViewModel).credentials.value != Credentials.tumId) {
+      return const ContactCardUnauthorizedView();
+    } else {
+      if (snapshot.hasData) {
+        return ContactCardView(profile: snapshot.data!);
+      } else if (snapshot.hasError) {
+        return const ContactCardErrorView();
+      } else {
+        return Container();
+      }
+    }
   }
 }

@@ -11,6 +11,7 @@ import 'package:campus_flutter/departuresComponent/views/departures_details_row_
 import 'package:campus_flutter/homeComponent/widgetComponent/views/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -55,7 +56,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                   builder: (context) => PreferenceSelectionView<Campus>(
                     data:
                         ref.read(departureViewModel).getCampusEntries(context),
-                    entry: context.localizations.departure,
+                    entry: context.tr("departure"),
                   ),
                   context: context,
                   useRootNavigator: true,
@@ -88,7 +89,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                       );
                     } else {
                       return DelayedLoadingIndicator(
-                        name: context.localizations.departures,
+                        name: context.tr("departures"),
                       );
                     }
                   },
@@ -105,7 +106,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
     if (ref.watch(departureViewModel).widgetCampus.value?.name != null) {
       return ref.watch(departureViewModel).widgetCampus.value!.name;
     } else {
-      return context.localizations.departures;
+      return context.tr("departures");
     }
   }
 
@@ -119,7 +120,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
       children: [
         RichText(
           text: TextSpan(
-            text: "${context.localizations.station} ",
+            text: "${context.tr("station")} ",
             style: Theme.of(context).textTheme.bodyMedium,
             children: [
               TextSpan(

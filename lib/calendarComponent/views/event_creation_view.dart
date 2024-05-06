@@ -1,10 +1,10 @@
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_date_time_picker.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_form_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +27,7 @@ class EventCreationScaffold extends ConsumerWidget {
             context.pop();
           },
         ),
-        title: Text(context.localizations.createCalendarEvent),
+        title: Text(context.tr("createCalendarEvent")),
       ),
       body: EventCreationView(
         calendarEvent: calendarEvent,
@@ -51,7 +51,7 @@ class EventCreationView extends ConsumerWidget {
         child: Column(
           children: [
             EventCreationFormField(
-              title: context.localizations.title,
+              title: context.tr("title"),
               controller: ref
                   .read(calendarAdditionViewModel(calendarEvent))
                   .titleController,
@@ -60,7 +60,7 @@ class EventCreationView extends ConsumerWidget {
               calendarEvent: calendarEvent,
             ),
             EventCreationFormField(
-              title: context.localizations.annotation,
+              title: context.tr("annotation"),
               controller: ref
                   .read(calendarAdditionViewModel(calendarEvent))
                   .annotationController,
@@ -69,7 +69,7 @@ class EventCreationView extends ConsumerWidget {
               calendarEvent: calendarEvent,
             ),
             EventCreationDateTimePicker(
-              title: context.localizations.from,
+              title: context.tr("from"),
               currentDate:
                   ref.watch(calendarAdditionViewModel(calendarEvent)).from,
               onDateSet: ref
@@ -80,7 +80,7 @@ class EventCreationView extends ConsumerWidget {
                   .setFromTimeOfDay,
             ),
             EventCreationDateTimePicker(
-              title: context.localizations.to,
+              title: context.tr("to"),
               currentDate:
                   ref.watch(calendarAdditionViewModel(calendarEvent)).to,
               onDateSet:
@@ -110,7 +110,7 @@ class EventCreationView extends ConsumerWidget {
                     context.canPop() ? context.pop() : context.go(calendar);
                   })
               : null,
-          child: Text(context.localizations.submit),
+          child: Text(context.tr("submit")),
         );
       },
     );

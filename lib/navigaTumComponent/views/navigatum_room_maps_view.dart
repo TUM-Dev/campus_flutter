@@ -6,7 +6,7 @@ import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_s
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,7 +18,7 @@ class NavigaTumRoomMapsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      title: context.localizations.map,
+      title: context.tr("map"),
       child: CardWithPadding(
         child: maps.isNotEmpty
             ? HorizontalSlider.aspectRatio(
@@ -48,8 +48,9 @@ class NavigaTumRoomMapsView extends StatelessWidget {
               )
             : Center(
                 child: Text(
-                  context.localizations.noEntriesFound(
-                    context.localizations.maps,
+                  context.tr(
+                    "noEntriesFound",
+                    args: [context.tr("maps")],
                   ),
                 ),
               ),

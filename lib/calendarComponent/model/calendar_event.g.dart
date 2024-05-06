@@ -11,12 +11,12 @@ CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
       id: json['nr'] as String,
       status: json['status'] as String,
       url: json['url'] as String?,
-      title: json['title'] as String,
+      title: json['title'] as String?,
       description: json['description'] as String?,
       startDate: DateTime.parse(json['dtstart'] as String),
       endDate: DateTime.parse(json['dtend'] as String),
       location: json['location'] as String?,
-      color: json['color'] as int?,
+      color: (json['color'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CalendarEventToJson(CalendarEvent instance) =>

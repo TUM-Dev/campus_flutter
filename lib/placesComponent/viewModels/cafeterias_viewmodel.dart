@@ -1,6 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
@@ -12,12 +11,12 @@ import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart'
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -194,7 +193,7 @@ class CafeteriasViewModel {
         0,
         ListTile(
           dense: true,
-          title: Text(context.localizations.closest),
+          title: Text(context.tr("closest")),
           trailing: getIt<UserPreferencesService>().load(
                     UserPreference.cafeteria,
                   ) ==

@@ -3,8 +3,8 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 class InformationView extends StatelessWidget {
@@ -33,12 +33,12 @@ class InformationView extends StatelessWidget {
                     _name(context),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow(
-                      context.localizations.birthday,
+                      context.tr("birthday"),
                       DateFormat("dd.MM.yyyy", "de")
                           .format(studentCard.birthday),
                     ),
                     _infoEntryRow(
-                      context.localizations.studyId,
+                      context.tr("studyId"),
                       studentCard.studyID,
                     ),
                     _infoEntryRow(
@@ -104,7 +104,7 @@ class InformationView extends StatelessWidget {
 
   Widget _title(BuildContext context) {
     return Text(
-      context.localizations.digitalStudentCard,
+      context.tr("digitalStudentCard"),
       style: Theme.of(context)
           .textTheme
           .titleLarge
@@ -153,7 +153,7 @@ class InformationView extends StatelessWidget {
 
   Widget _validUntil(BuildContext context) {
     return Text(
-      "${context.localizations.validUntil}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
+      "${context.tr("validUntil")}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
       style: Theme.of(context)
           .textTheme
           .bodyLarge

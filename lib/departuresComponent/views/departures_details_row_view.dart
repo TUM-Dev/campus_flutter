@@ -1,8 +1,7 @@
 import 'package:campus_flutter/departuresComponent/model/departure.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 
 class DeparturesDetailsRowView extends ConsumerWidget {
   const DeparturesDetailsRowView({super.key, required this.departure});
@@ -80,7 +79,7 @@ class DeparturesDetailsRowView extends ConsumerWidget {
   Widget timeBuilder(BuildContext context, DateTime? dateTime, Color? color) {
     if (departure.countdown < 1) {
       return Text(
-        context.localizations.now,
+        context.tr("now"),
         style: TextStyle(color: color, fontWeight: FontWeight.w500),
       );
     } else {
