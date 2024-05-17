@@ -17,8 +17,6 @@ ThemeData darkTheme(BuildContext context) {
       onSecondary: almostWhite,
       error: Colors.red,
       onError: almostWhite,
-      background: darkBackground,
-      onBackground: almostWhite,
       surface: darkBackground,
       onSurface: almostWhite,
     ),
@@ -33,16 +31,16 @@ ThemeData darkTheme(BuildContext context) {
     /// custom elevated button styling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled)) {
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
             return darkGray;
           } else {
             return primaryDarkColor;
           }
         }),
         foregroundColor:
-            MaterialStateProperty.resolveWith((states) => Colors.white),
-        shape: MaterialStateProperty.resolveWith(
+            WidgetStateProperty.resolveWith((states) => Colors.white),
+        shape: WidgetStateProperty.resolveWith(
           (states) => RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -102,8 +100,8 @@ ThemeData darkTheme(BuildContext context) {
 
     /// remove indicator and tint, color selected icon + label
     navigationBarTheme: NavigationBarThemeData(
-      labelTextStyle: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: primaryDarkColor,
                 fontWeight: FontWeight.w500,
@@ -115,8 +113,8 @@ ThemeData darkTheme(BuildContext context) {
               );
         }
       }),
-      iconTheme: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return const IconThemeData(color: primaryDarkColor);
         } else {
           return const IconThemeData(color: navigationIconGrayDark);
@@ -161,8 +159,8 @@ ThemeData darkTheme(BuildContext context) {
       showCheckmark: false,
       labelStyle: const TextStyle(color: Colors.white),
       side: BorderSide.none,
-      color: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      color: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryDarkColor;
         } else {
           return darkGray;
@@ -173,24 +171,24 @@ ThemeData darkTheme(BuildContext context) {
     /// style for segmented button
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        foregroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return Colors.white;
           } else {
             return primaryDarkColor;
           }
         }),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return primaryDarkColor;
           } else {
             return Colors.transparent;
           }
         }),
-        side: const MaterialStatePropertyAll(
+        side: const WidgetStatePropertyAll(
           BorderSide(color: darkGray, width: 0.5),
         ),
-        shape: MaterialStatePropertyAll(
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),

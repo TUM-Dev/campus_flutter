@@ -67,7 +67,7 @@ class CalendarViewService {
           actions: [
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
               ),
               onPressed: () {
                 ref
