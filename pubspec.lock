@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: "2350805d7afefb0efe7acd325cb19d3ae8ba4039b906eade3807ffb69938a01f"
+      sha256: e4be6711f96d3d4eebe79728897d645b7a5585bbfdd6d534878d202c171266d7
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.33"
+    version: "1.3.34"
   analyzer:
     dependency: transitive
     description:
@@ -333,10 +333,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "372d94ced114b9c40cb85e18c50ac94a7e998c8eec630c50d7aec047847d27bf"
+      sha256: "4b5100e2dbc3fe72c2d4241a046d3f01457fe11293283a324f5c52575e3406f8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.31.0"
+    version: "2.31.1"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -357,42 +357,42 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_crashlytics
-      sha256: "8954a6493e05f73c87da1b15bab4970a5b325f138e254a0e1c18b4f97554720c"
+      sha256: a67dd0c9fe65a3615c9239d189b0c6f4f2a76e17eb945c5a4b688dff8dd21f86
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.5"
+    version: "3.5.6"
   firebase_crashlytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_crashlytics_platform_interface
-      sha256: "82f5e203cb0a83ccfce7d9b02de63c94e2f56fae96788df4b7446ca2cc81dac7"
+      sha256: fc31c00e24ef7b091da8dfd2e7c9dc205f8ca343f68825c15ac8d702e015aec9
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.33"
+    version: "3.6.34"
   firebase_remote_config:
     dependency: "direct main"
     description:
       name: firebase_remote_config
-      sha256: "63d4b6c0f9e08e3927c9a6a93ab75e6381f75b16385feff940f7dbd836540652"
+      sha256: e685eb602a528b9ad2ae5c09f244728a484c4289dbf273af03042e737e752a6e
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.5"
+    version: "4.4.6"
   firebase_remote_config_platform_interface:
     dependency: transitive
     description:
       name: firebase_remote_config_platform_interface
-      sha256: "57e3eb7c53f0d540019ef0a02b3bf9361d5caf01f5546f1f7d27ee81b1d31e2a"
+      sha256: "86621fa95c515491d1914cee690475c84dc46dd87a71cf16a8df4e280aa1c123"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.33"
+    version: "1.4.34"
   firebase_remote_config_web:
     dependency: transitive
     description:
       name: firebase_remote_config_web
-      sha256: "82f11cc38dafadd97003d07780c9f88410de89d84766c559e8ec9a7b8650d436"
+      sha256: ee05916a72d9630a838df0cc581b006991eee949690a9f212731a981be864234
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.5"
+    version: "1.6.6"
   fixnum:
     dependency: transitive
     description:
@@ -419,10 +419,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "92bdb69a313a56c391ef148c12ef6539bd31253d"
+      resolved-ref: ce6aee9dd62ad8a67271e2d40f0278c99ac53d5a
       url: "https://github.com/mchome/flutter_colorpicker.git"
     source: git
-    version: "1.0.3"
+    version: "1.1.0"
   flutter_linkify:
     dependency: "direct main"
     description:
@@ -472,10 +472,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_secure_storage
-      sha256: "8496a89eea74e23f92581885f876455d9d460e71201405dffe5f55dfe1155864"
+      sha256: "165164745e6afb5c0e3e3fcc72a012fb9e58496fb26ffb92cf22e16a821e85d0"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.1"
+    version: "9.2.2"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
@@ -488,10 +488,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_secure_storage_macos
-      sha256: b768a7dab26d6186b68e2831b3104f8968154f0f4fdbf66e7c2dd7bdf299daaf
+      sha256: "1693ab11121a5f925bbea0be725abfcfbbcf36c1e29e571f84a0c0f436147a81"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   flutter_secure_storage_platform_interface:
     dependency: transitive
     description:
@@ -618,10 +618,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "7685acd06244ba4be60f455c5cafe5790c63dc91fc03f7385b1e922a6b85b17c"
+      sha256: "6ad5662b014c06c20fa46ab78715c96b2222a7fe4f87bf77e0289592c2539e86"
       url: "https://pub.dev"
     source: hosted
-    version: "14.1.1"
+    version: "14.1.3"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -883,10 +883,10 @@ packages:
     dependency: "direct main"
     description:
       name: lottie
-      sha256: "46def1e76c4fbfd4643e823980112cfe94a2ba1d9152fe54701c0bf30be4f4cd"
+      sha256: "6a24ade5d3d918c306bb1c21a6b9a04aab0489d51a2582522eea820b4093b62b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   map_launcher:
     dependency: "direct main"
     description:
@@ -1408,34 +1408,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: bc96dbc3089d4172ef259a3ae3f254bdb07e71ef6ce3f8a3532a9b575490e45e
+      sha256: "398f8debce35a001cdbad74b23ede8ffba3d5b6668b2b348d15dfbd2dc2b00b2"
       url: "https://pub.dev"
     source: hosted
-    version: "25.2.4"
+    version: "25.2.5"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: "01ff26c73725cb4f9d04492daae4d0365c2ed2cbf43cd83132a24f47d4d4931c"
+      sha256: "150f09ec4588a5405f0b5d1a711b282bee770ea523ecddf30ebf7321aac7830f"
       url: "https://pub.dev"
     source: hosted
-    version: "25.2.4"
+    version: "25.2.5"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "9e8bac2367d03bd902844f59e866c0e7b1e10b0b8fa5a6a926c0d8ae8c344533"
+      sha256: "63108a33f9b0d89f7b6b56cce908b8e519fe433dbbe0efcf41ad3e8bb2081bd9"
       url: "https://pub.dev"
     source: hosted
-    version: "25.2.4"
+    version: "25.2.5"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "88ef2e85f5ccc7cb521c5784e646b5c5d4aecf2d9373e543719a14d7bcfaae4a"
+      sha256: c2bda86a6137a64168584a36959bad9141cc9305f274b2a15f233074b92700a4
       url: "https://pub.dev"
     source: hosted
-    version: "25.2.4"
+    version: "25.2.5"
   synchronized:
     dependency: transitive
     description:
@@ -1536,10 +1536,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "360a6ed2027f18b73c8d98e159dda67a61b7f2e0f6ec26e86c3ada33b0621775"
+      sha256: "17cd5e205ea615e2c6ea7a77323a11712dffa0720a8a90540db57a01347f9ad9"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.2"
   url_launcher_ios:
     dependency: transitive
     description:
