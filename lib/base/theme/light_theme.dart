@@ -17,8 +17,6 @@ ThemeData lightTheme(BuildContext context) {
       onSecondary: almostBlack,
       error: Colors.red,
       onError: almostBlack,
-      background: lightBackground,
-      onBackground: lightGray,
       surface: lightBackground,
       onSurface: almostBlack,
     ),
@@ -33,17 +31,17 @@ ThemeData lightTheme(BuildContext context) {
     /// custom elevated button styling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        elevation: const MaterialStatePropertyAll(1.5),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled)) {
+        elevation: const WidgetStatePropertyAll(1.5),
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
             return lightGray;
           } else {
             return primaryLightColor;
           }
         }),
         foregroundColor:
-            MaterialStateProperty.resolveWith((states) => Colors.white),
-        shape: MaterialStateProperty.resolveWith(
+            WidgetStateProperty.resolveWith((states) => Colors.white),
+        shape: WidgetStateProperty.resolveWith(
           (states) => RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -104,8 +102,8 @@ ThemeData lightTheme(BuildContext context) {
 
     /// remove indicator and tint, color selected icon + label
     navigationBarTheme: NavigationBarThemeData(
-      labelTextStyle: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: primaryLightColor,
                 fontWeight: FontWeight.w500,
@@ -117,8 +115,8 @@ ThemeData lightTheme(BuildContext context) {
               );
         }
       }),
-      iconTheme: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return const IconThemeData(color: primaryLightColor);
         } else {
           return const IconThemeData(color: navigationIconGrayLight);
@@ -160,8 +158,8 @@ ThemeData lightTheme(BuildContext context) {
       showCheckmark: false,
       labelStyle: const TextStyle(color: Colors.white),
       side: BorderSide.none,
-      color: MaterialStateColor.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      color: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryLightColor;
         } else {
           return lightGray;
@@ -172,24 +170,24 @@ ThemeData lightTheme(BuildContext context) {
     /// style for segmented button
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        foregroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return Colors.white;
           } else {
             return primaryLightColor;
           }
         }),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return primaryLightColor;
           } else {
             return Colors.transparent;
           }
         }),
-        side: const MaterialStatePropertyAll(
+        side: const WidgetStatePropertyAll(
           BorderSide(color: lightGray, width: 0.5),
         ),
-        shape: MaterialStatePropertyAll(
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
