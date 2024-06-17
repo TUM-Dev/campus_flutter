@@ -74,6 +74,7 @@ class DishCardView extends StatelessWidget {
         return AlertDialog(
           title: Text(dish.name),
           actionsAlignment: MainAxisAlignment.center,
+          scrollable: true,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
