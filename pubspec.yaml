@@ -12,12 +12,9 @@ dependencies:
 
   # networking
   dio: ^5.1.2
-  isar:
-    version: ^3.1.7
-    hosted: https://pub.isar-community.dev/
-  isar_flutter_libs:
-      version: ^3.1.7
-      hosted: https://pub.isar-community.dev/
+  drift: ^2.17.0
+  sqlite3: ^2.4.2
+  sqlite3_flutter_libs: ^0.5.21
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   cached_network_image: ^3.2.3
@@ -41,10 +38,10 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_core: ^25.1.37
-  syncfusion_flutter_calendar: ^25.1.37
-  syncfusion_flutter_charts: ^25.1.37
-  syncfusion_flutter_datepicker: ^25.1.37
+  syncfusion_flutter_core: ^26.1.35
+  syncfusion_flutter_calendar: ^26.1.35
+  syncfusion_flutter_charts: ^26.1.35
+  syncfusion_flutter_datepicker: ^26.1.35
   google_maps_flutter: ^2.5.3
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
@@ -61,6 +58,7 @@ dependencies:
   geolocator: ^12.0.0
   package_info_plus: ^8.0.0
   path_provider: ^2.0.15
+  path: ^1.9.0
   url_launcher: ^6.1.10
   permission_handler: ^11.1.0
   uuid: ^4.2.1
@@ -69,9 +67,9 @@ dependencies:
   map_launcher: ^3.0.1
 
   # firebase
-  firebase_crashlytics: ^3.4.6
-  firebase_core: ^2.24.0
-  firebase_remote_config: ^4.4.4
+  firebase_crashlytics: ^4.0.1
+  firebase_core: ^3.1.0
+  firebase_remote_config: ^5.0.1
 
   # localization
   easy_localization: ^3.0.6
@@ -90,10 +88,8 @@ dependency_overrides:
 
 dev_dependencies:
   # code generation
-  build_runner: ^2.3.3
-  isar_generator:
-    version: ^3.1.7
-    hosted: https://pub.isar-community.dev/
+  build_runner: ^2.4.9
+  drift_dev: ^2.17.0
 
   # testing
   flutter_test:

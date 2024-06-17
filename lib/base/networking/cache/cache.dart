@@ -1,54 +1,59 @@
-import 'package:isar/isar.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
+import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/util/fast_hash.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:drift/drift.dart';
 
 class Cache {
-  final Isar isar;
+  final CacheDatabase cacheDatabase;
 
-  final Duration ttl = const Duration(days: 30);
+  final Duration onlineTtl = const Duration(minutes: 10);
 
-  Cache({required this.isar});
+  final Duration offlineTtl = const Duration(days: 30);
 
-  void add(String body, String uri) {
+  Cache({required this.cacheDatabase});
+
+  void add(String body, String key) {
     final today = DateTime.now();
-    final cacheEntry = CacheEntry(
-      id: fastHash(uri),
-      url: uri,
-      validUntil: today.add(ttl),
-      saved: today,
-      data: body,
-    );
-    isar.writeTxn(
-      () => isar.cacheEntrys.put(cacheEntry),
+    final id = fastHash(key);
+
+    cacheDatabase.managers.cacheEntry.create(
+      (o) => CacheEntryCompanion.insert(
+        id: id,
+        url: key,
+        validUntil: today.add(offlineTtl),
+        saved: today,
+        body: body,
+      ),
+      mode: InsertMode.replace,
     );
   }
 
-  CacheEntry? get(String uri) {
-    final hash = fastHash(uri);
-    final entry = isar.txnSync(() => isar.cacheEntrys.getSync(hash));
-    if (entry != null) {
-      final today = DateTime.now();
-      if (entry.validUntil.isAfter(today)) {
-        return entry;
-      } else {
-        isar.writeTxn(() => isar.cacheEntrys.delete(hash));
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
+  Future<CacheEntryData?> get(String key) async {
+    final id = fastHash(key);
 
-  Future<CacheEntry?> getAsync(String uri) async {
-    final hash = fastHash(uri);
-    final entry = await isar.txn(() => isar.cacheEntrys.get(hash));
+    final entry = await cacheDatabase.managers.cacheEntry
+        .filter((f) => f.id.equals(id))
+        .limit(1)
+        .getSingleOrNull();
+
     if (entry != null) {
       final today = DateTime.now();
-      if (entry.validUntil.isAfter(today)) {
-        return entry;
+      if (getIt<ConnectionService>().hasInternet() &&
+          !key.contains("tumCard")) {
+        if (entry.saved.isAfter(today.subtract(onlineTtl))) {
+          return entry;
+        } else {
+          delete(key);
+          return null;
+        }
       } else {
-        isar.writeTxn(() => isar.cacheEntrys.delete(hash));
-        return null;
+        if (entry.validUntil.isAfter(today)) {
+          return entry;
+        } else {
+          delete(key);
+          return null;
+        }
       }
     } else {
       return null;
@@ -56,11 +61,11 @@ class Cache {
   }
 
   void delete(String key) {
-    final hash = fastHash(key);
-    isar.writeTxn(() => isar.cacheEntrys.delete(hash));
+    final id = fastHash(key);
+    cacheDatabase.managers.cacheEntry.filter((f) => f.id.equals(id)).delete();
   }
 
   Future<void> resetCache() async {
-    return await isar.writeTxn(() => isar.clear());
+    await cacheDatabase.managers.cacheEntry.delete();
   }
 }

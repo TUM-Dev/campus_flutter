@@ -1,14 +1,16 @@
-import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'dart:async';
+
+import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/networking/cache/cache.dart';
+import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:grpc/grpc.dart';
-import 'package:isar/isar.dart';
 import 'package:protobuf/protobuf.dart';
 
 class GrpcCacheInterceptor implements ClientInterceptor {
   late Cache cache;
 
-  GrpcCacheInterceptor(Isar isar) {
-    cache = Cache(isar: isar);
+  GrpcCacheInterceptor(CacheDatabase cacheDatabase) {
+    cache = Cache(cacheDatabase: cacheDatabase);
   }
 
   @override
@@ -31,26 +33,24 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     final key = method.path;
     final cachedResponse = cache.get(key);
     final factory = _getFactory<R>();
-    if (cachedResponse != null && factory != null) {
-      final data = factory(cachedResponse.data);
-      return ResponseFuture<R>(
-        ClientCall(
-          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
-          Stream.value(request),
-          options,
-          null,
-          true,
-        ),
-      );
+
+    Future<R?> isCached() async {
+      final response = await cachedResponse;
+      if (response != null && factory != null) {
+        return factory(response.body);
+      } else {
+        final response = invoker(method, request, options);
+        response.then((data) {
+          cache.add((data as GeneratedMessage).writeToJson(), key);
+        });
+
+        return response;
+      }
     }
 
-    /// If not found in cache, invoke the actual RPC and cache the response
-    final response = invoker(method, request, options);
-    response.then((data) {
-      cache.add((data as GeneratedMessage).writeToJson(), key);
-    });
-
-    return response;
+    return ResponseFuture<R>(
+      ClientCall(method, Stream.value(request), options, null, isCached()),
+    );
   }
 
   // TODO: figure out nicer solution or add missing classes

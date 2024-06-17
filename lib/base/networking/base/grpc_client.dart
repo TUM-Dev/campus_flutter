@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:campus_flutter/base/networking/cache/grpc_cache_interceptor.dart';
+import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/networking/cache/grpc_cache_interceptor.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class GrpcClient extends CampusClient {
-  static Future<GrpcClient> createGrpcClient(Isar isar) async {
-    return GrpcClient(isar, await _callOptions());
+  static Future<GrpcClient> createGrpcClient(
+    CacheDatabase cacheDatabase,
+  ) async {
+    return GrpcClient(cacheDatabase, await _callOptions());
   }
 
-  GrpcClient(Isar isar, CallOptions callOptions)
+  GrpcClient(CacheDatabase cacheDatabase, CallOptions callOptions)
       : super(
           _channel(),
           options: callOptions,
-          interceptors: [GrpcCacheInterceptor(isar)],
+          interceptors: [GrpcCacheInterceptor(cacheDatabase)],
         );
 
   static Future<CallOptions> _callOptions() async {
@@ -33,10 +35,6 @@ class GrpcClient extends CampusClient {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       osVersion = androidInfo.version.toString();
       deviceId = androidInfo.serialNumber;
-    } else if (Platform.isMacOS) {
-      MacOsDeviceInfo macInfo = await deviceInfo.macOsInfo;
-      osVersion = macInfo.osRelease;
-      deviceId = macInfo.model;
     }
     return CallOptions(
       metadata: {

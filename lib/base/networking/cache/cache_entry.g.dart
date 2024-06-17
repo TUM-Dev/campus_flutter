@@ -2,804 +2,459 @@
 
 part of 'cache_entry.dart';
 
-// **************************************************************************
-// IsarCollectionGenerator
-// **************************************************************************
+// ignore_for_file: type=lint
+class $CacheEntryTable extends CacheEntry
+    with TableInfo<$CacheEntryTable, CacheEntryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CacheEntryTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _urlMeta = const VerificationMeta('url');
+  @override
+  late final GeneratedColumn<String> url = GeneratedColumn<String>(
+      'url', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _validUntilMeta =
+      const VerificationMeta('validUntil');
+  @override
+  late final GeneratedColumn<DateTime> validUntil = GeneratedColumn<DateTime>(
+      'valid_until', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _savedMeta = const VerificationMeta('saved');
+  @override
+  late final GeneratedColumn<DateTime> saved = GeneratedColumn<DateTime>(
+      'saved', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _bodyMeta = const VerificationMeta('body');
+  @override
+  late final GeneratedColumn<String> body = GeneratedColumn<String>(
+      'body', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, url, validUntil, saved, body];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cache_entry';
+  @override
+  VerificationContext validateIntegrity(Insertable<CacheEntryData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('url')) {
+      context.handle(
+          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
+    } else if (isInserting) {
+      context.missing(_urlMeta);
+    }
+    if (data.containsKey('valid_until')) {
+      context.handle(
+          _validUntilMeta,
+          validUntil.isAcceptableOrUnknown(
+              data['valid_until']!, _validUntilMeta));
+    } else if (isInserting) {
+      context.missing(_validUntilMeta);
+    }
+    if (data.containsKey('saved')) {
+      context.handle(
+          _savedMeta, saved.isAcceptableOrUnknown(data['saved']!, _savedMeta));
+    } else if (isInserting) {
+      context.missing(_savedMeta);
+    }
+    if (data.containsKey('body')) {
+      context.handle(
+          _bodyMeta, body.isAcceptableOrUnknown(data['body']!, _bodyMeta));
+    } else if (isInserting) {
+      context.missing(_bodyMeta);
+    }
+    return context;
+  }
 
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  CacheEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CacheEntryData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      url: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}url'])!,
+      validUntil: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_until'])!,
+      saved: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}saved'])!,
+      body: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+    );
+  }
 
-extension GetCacheEntryCollection on Isar {
-  IsarCollection<CacheEntry> get cacheEntrys => this.collection();
-}
-
-const CacheEntrySchema = CollectionSchema(
-  name: r'CacheEntry',
-  id: 1901957776030515961,
-  properties: {
-    r'data': PropertySchema(
-      id: 0,
-      name: r'data',
-      type: IsarType.string,
-    ),
-    r'saved': PropertySchema(
-      id: 1,
-      name: r'saved',
-      type: IsarType.dateTime,
-    ),
-    r'url': PropertySchema(
-      id: 2,
-      name: r'url',
-      type: IsarType.string,
-    ),
-    r'validUntil': PropertySchema(
-      id: 3,
-      name: r'validUntil',
-      type: IsarType.dateTime,
-    )
-  },
-  estimateSize: _cacheEntryEstimateSize,
-  serialize: _cacheEntrySerialize,
-  deserialize: _cacheEntryDeserialize,
-  deserializeProp: _cacheEntryDeserializeProp,
-  idName: r'id',
-  indexes: {},
-  links: {},
-  embeddedSchemas: {},
-  getId: _cacheEntryGetId,
-  getLinks: _cacheEntryGetLinks,
-  attach: _cacheEntryAttach,
-  version: '3.1.7',
-);
-
-int _cacheEntryEstimateSize(
-  CacheEntry object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  bytesCount += 3 + object.data.length * 3;
-  bytesCount += 3 + object.url.length * 3;
-  return bytesCount;
-}
-
-void _cacheEntrySerialize(
-  CacheEntry object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.data);
-  writer.writeDateTime(offsets[1], object.saved);
-  writer.writeString(offsets[2], object.url);
-  writer.writeDateTime(offsets[3], object.validUntil);
-}
-
-CacheEntry _cacheEntryDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  final object = CacheEntry(
-    data: reader.readString(offsets[0]),
-    id: id,
-    saved: reader.readDateTime(offsets[1]),
-    url: reader.readString(offsets[2]),
-    validUntil: reader.readDateTime(offsets[3]),
-  );
-  return object;
-}
-
-P _cacheEntryDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readString(offset)) as P;
-    case 1:
-      return (reader.readDateTime(offset)) as P;
-    case 2:
-      return (reader.readString(offset)) as P;
-    case 3:
-      return (reader.readDateTime(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
+  @override
+  $CacheEntryTable createAlias(String alias) {
+    return $CacheEntryTable(attachedDatabase, alias);
   }
 }
 
-Id _cacheEntryGetId(CacheEntry object) {
-  return object.id;
-}
-
-List<IsarLinkBase<dynamic>> _cacheEntryGetLinks(CacheEntry object) {
-  return [];
-}
-
-void _cacheEntryAttach(IsarCollection<dynamic> col, Id id, CacheEntry object) {}
-
-extension CacheEntryQueryWhereSort
-    on QueryBuilder<CacheEntry, CacheEntry, QWhere> {
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-}
-
-extension CacheEntryQueryWhere
-    on QueryBuilder<CacheEntry, CacheEntry, QWhereClause> {
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
+class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
+  final int id;
+  final String url;
+  final DateTime validUntil;
+  final DateTime saved;
+  final String body;
+  const CacheEntryData(
+      {required this.id,
+      required this.url,
+      required this.validUntil,
+      required this.saved,
+      required this.body});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['url'] = Variable<String>(url);
+    map['valid_until'] = Variable<DateTime>(validUntil);
+    map['saved'] = Variable<DateTime>(saved);
+    map['body'] = Variable<String>(body);
+    return map;
   }
 
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
+  CacheEntryCompanion toCompanion(bool nullToAbsent) {
+    return CacheEntryCompanion(
+      id: Value(id),
+      url: Value(url),
+      validUntil: Value(validUntil),
+      saved: Value(saved),
+      body: Value(body),
+    );
   }
 
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+  factory CacheEntryData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CacheEntryData(
+      id: serializer.fromJson<int>(json['id']),
+      url: serializer.fromJson<String>(json['url']),
+      validUntil: serializer.fromJson<DateTime>(json['validUntil']),
+      saved: serializer.fromJson<DateTime>(json['saved']),
+      body: serializer.fromJson<String>(json['body']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'url': serializer.toJson<String>(url),
+      'validUntil': serializer.toJson<DateTime>(validUntil),
+      'saved': serializer.toJson<DateTime>(saved),
+      'body': serializer.toJson<String>(body),
+    };
+  }
+
+  CacheEntryData copyWith(
+          {int? id,
+          String? url,
+          DateTime? validUntil,
+          DateTime? saved,
+          String? body}) =>
+      CacheEntryData(
+        id: id ?? this.id,
+        url: url ?? this.url,
+        validUntil: validUntil ?? this.validUntil,
+        saved: saved ?? this.saved,
+        body: body ?? this.body,
       );
-    });
+  @override
+  String toString() {
+    return (StringBuffer('CacheEntryData(')
+          ..write('id: $id, ')
+          ..write('url: $url, ')
+          ..write('validUntil: $validUntil, ')
+          ..write('saved: $saved, ')
+          ..write('body: $body')
+          ..write(')'))
+        .toString();
   }
 
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+  @override
+  int get hashCode => Object.hash(id, url, validUntil, saved, body);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CacheEntryData &&
+          other.id == this.id &&
+          other.url == this.url &&
+          other.validUntil == this.validUntil &&
+          other.saved == this.saved &&
+          other.body == this.body);
+}
 
-  QueryBuilder<CacheEntry, CacheEntry, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
+class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
+  final Value<int> id;
+  final Value<String> url;
+  final Value<DateTime> validUntil;
+  final Value<DateTime> saved;
+  final Value<String> body;
+  final Value<int> rowid;
+  const CacheEntryCompanion({
+    this.id = const Value.absent(),
+    this.url = const Value.absent(),
+    this.validUntil = const Value.absent(),
+    this.saved = const Value.absent(),
+    this.body = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CacheEntryCompanion.insert({
+    required int id,
+    required String url,
+    required DateTime validUntil,
+    required DateTime saved,
+    required String body,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        url = Value(url),
+        validUntil = Value(validUntil),
+        saved = Value(saved),
+        body = Value(body);
+  static Insertable<CacheEntryData> custom({
+    Expression<int>? id,
+    Expression<String>? url,
+    Expression<DateTime>? validUntil,
+    Expression<DateTime>? saved,
+    Expression<String>? body,
+    Expression<int>? rowid,
   }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (url != null) 'url': url,
+      if (validUntil != null) 'valid_until': validUntil,
+      if (saved != null) 'saved': saved,
+      if (body != null) 'body': body,
+      if (rowid != null) 'rowid': rowid,
     });
+  }
+
+  CacheEntryCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? url,
+      Value<DateTime>? validUntil,
+      Value<DateTime>? saved,
+      Value<String>? body,
+      Value<int>? rowid}) {
+    return CacheEntryCompanion(
+      id: id ?? this.id,
+      url: url ?? this.url,
+      validUntil: validUntil ?? this.validUntil,
+      saved: saved ?? this.saved,
+      body: body ?? this.body,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (url.present) {
+      map['url'] = Variable<String>(url.value);
+    }
+    if (validUntil.present) {
+      map['valid_until'] = Variable<DateTime>(validUntil.value);
+    }
+    if (saved.present) {
+      map['saved'] = Variable<DateTime>(saved.value);
+    }
+    if (body.present) {
+      map['body'] = Variable<String>(body.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CacheEntryCompanion(')
+          ..write('id: $id, ')
+          ..write('url: $url, ')
+          ..write('validUntil: $validUntil, ')
+          ..write('saved: $saved, ')
+          ..write('body: $body, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
   }
 }
 
-extension CacheEntryQueryFilter
-    on QueryBuilder<CacheEntry, CacheEntry, QFilterCondition> {
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'data',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'data',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> dataIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'data',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> idEqualTo(
-      Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> savedEqualTo(
-      DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'saved',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> savedGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'saved',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> savedLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'saved',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> savedBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'saved',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'url',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'url',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'url',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> urlIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'url',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> validUntilEqualTo(
-      DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'validUntil',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition>
-      validUntilGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'validUntil',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition>
-      validUntilLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'validUntil',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterFilterCondition> validUntilBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'validUntil',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+abstract class _$CacheDatabase extends GeneratedDatabase {
+  _$CacheDatabase(QueryExecutor e) : super(e);
+  _$CacheDatabaseManager get managers => _$CacheDatabaseManager(this);
+  late final $CacheEntryTable cacheEntry = $CacheEntryTable(this);
+  @override
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  @override
+  List<DatabaseSchemaEntity> get allSchemaEntities => [cacheEntry];
 }
 
-extension CacheEntryQueryObject
-    on QueryBuilder<CacheEntry, CacheEntry, QFilterCondition> {}
+typedef $$CacheEntryTableInsertCompanionBuilder = CacheEntryCompanion Function({
+  required int id,
+  required String url,
+  required DateTime validUntil,
+  required DateTime saved,
+  required String body,
+  Value<int> rowid,
+});
+typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
+  Value<int> id,
+  Value<String> url,
+  Value<DateTime> validUntil,
+  Value<DateTime> saved,
+  Value<String> body,
+  Value<int> rowid,
+});
 
-extension CacheEntryQueryLinks
-    on QueryBuilder<CacheEntry, CacheEntry, QFilterCondition> {}
-
-extension CacheEntryQuerySortBy
-    on QueryBuilder<CacheEntry, CacheEntry, QSortBy> {
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByData() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByDataDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortBySaved() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saved', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortBySavedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saved', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByUrl() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByUrlDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByValidUntil() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'validUntil', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> sortByValidUntilDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'validUntil', Sort.desc);
-    });
-  }
+class $$CacheEntryTableTableManager extends RootTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableProcessedTableManager,
+    $$CacheEntryTableInsertCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder> {
+  $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$CacheEntryTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$CacheEntryTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<String> url = const Value.absent(),
+            Value<DateTime> validUntil = const Value.absent(),
+            Value<DateTime> saved = const Value.absent(),
+            Value<String> body = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required int id,
+            required String url,
+            required DateTime validUntil,
+            required DateTime saved,
+            required String body,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion.insert(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+        ));
 }
 
-extension CacheEntryQuerySortThenBy
-    on QueryBuilder<CacheEntry, CacheEntry, QSortThenBy> {
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByData() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByDataDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenBySaved() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saved', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenBySavedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saved', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByUrl() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByUrlDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByValidUntil() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'validUntil', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CacheEntry, CacheEntry, QAfterSortBy> thenByValidUntilDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'validUntil', Sort.desc);
-    });
-  }
+class $$CacheEntryTableProcessedTableManager extends ProcessedTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableProcessedTableManager,
+    $$CacheEntryTableInsertCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder> {
+  $$CacheEntryTableProcessedTableManager(super.$state);
 }
 
-extension CacheEntryQueryWhereDistinct
-    on QueryBuilder<CacheEntry, CacheEntry, QDistinct> {
-  QueryBuilder<CacheEntry, CacheEntry, QDistinct> distinctByData(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'data', caseSensitive: caseSensitive);
-    });
-  }
+class $$CacheEntryTableFilterComposer
+    extends FilterComposer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, CacheEntry, QDistinct> distinctBySaved() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'saved');
-    });
-  }
+  ColumnFilters<String> get url => $state.composableBuilder(
+      column: $state.table.url,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, CacheEntry, QDistinct> distinctByUrl(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'url', caseSensitive: caseSensitive);
-    });
-  }
+  ColumnFilters<DateTime> get validUntil => $state.composableBuilder(
+      column: $state.table.validUntil,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, CacheEntry, QDistinct> distinctByValidUntil() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'validUntil');
-    });
-  }
+  ColumnFilters<DateTime> get saved => $state.composableBuilder(
+      column: $state.table.saved,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
-extension CacheEntryQueryProperty
-    on QueryBuilder<CacheEntry, CacheEntry, QQueryProperty> {
-  QueryBuilder<CacheEntry, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
-    });
-  }
+class $$CacheEntryTableOrderingComposer
+    extends OrderingComposer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, String, QQueryOperations> dataProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'data');
-    });
-  }
+  ColumnOrderings<String> get url => $state.composableBuilder(
+      column: $state.table.url,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, DateTime, QQueryOperations> savedProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'saved');
-    });
-  }
+  ColumnOrderings<DateTime> get validUntil => $state.composableBuilder(
+      column: $state.table.validUntil,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, String, QQueryOperations> urlProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'url');
-    });
-  }
+  ColumnOrderings<DateTime> get saved => $state.composableBuilder(
+      column: $state.table.saved,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  QueryBuilder<CacheEntry, DateTime, QQueryOperations> validUntilProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'validUntil');
-    });
-  }
+  ColumnOrderings<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class _$CacheDatabaseManager {
+  final _$CacheDatabase _db;
+  _$CacheDatabaseManager(this._db);
+  $$CacheEntryTableTableManager get cacheEntry =>
+      $$CacheEntryTableTableManager(_db, _db.cacheEntry);
 }

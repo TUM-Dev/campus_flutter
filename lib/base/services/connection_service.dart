@@ -1,10 +1,10 @@
 import 'dart:io';
 
-class ConnectionChecker {
+class ConnectionService {
   bool _hasInternet = true;
   DateTime? _dateTime;
 
-  ConnectionChecker() {
+  ConnectionService() {
     checkConnection();
   }
 

@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/enums/shortcut_item.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
 import 'package:campus_flutter/base/networking/base/grpc_client.dart';
-import 'package:campus_flutter/base/networking/base/connection_checker.dart';
+import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
@@ -25,8 +25,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -86,15 +84,18 @@ Future<void> _initializeFirebase() async {
 }
 
 Future<void> _initializeNetworkingClients() async {
-  final directory = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open([CacheEntrySchema], directory: directory.path);
-  getIt.registerSingleton<RestClient>(RestClient(isar));
-  getIt.registerSingleton<GrpcClient>(await GrpcClient.createGrpcClient(isar));
+  final cacheDatabase = CacheDatabase();
+  getIt.registerSingleton<RestClient>(
+    RestClient(cacheDatabase),
+  );
+  getIt.registerSingleton<GrpcClient>(
+    await GrpcClient.createGrpcClient(cacheDatabase),
+  );
 }
 
 Future<void> _initializeServices() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  getIt.registerSingleton<ConnectionChecker>(ConnectionChecker());
+  getIt.registerSingleton<ConnectionService>(ConnectionService());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<CalendarViewService>(CalendarViewService());
