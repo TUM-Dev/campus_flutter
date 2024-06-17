@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/enums/shortcut_item.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
 import 'package:campus_flutter/base/networking/base/grpc_client.dart';
-import 'package:campus_flutter/base/networking/base/connection_checker.dart';
+import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
@@ -95,7 +95,7 @@ Future<void> _initializeNetworkingClients() async {
 
 Future<void> _initializeServices() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  getIt.registerSingleton<ConnectionChecker>(ConnectionChecker());
+  getIt.registerSingleton<ConnectionService>(ConnectionService());
   getIt.registerSingleton<MapThemeService>(MapThemeService());
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<CalendarViewService>(CalendarViewService());

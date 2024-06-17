@@ -1,6 +1,4 @@
 import 'package:campus_flutter/base/networking/cache/cache.dart';
-import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/base/networking/base/connection_checker.dart';
 import 'package:dio/dio.dart';
 
 class RestCacheInterceptor implements Interceptor {
@@ -20,56 +18,26 @@ class RestCacheInterceptor implements Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final hasConnection = await getIt<ConnectionChecker>().checkConnection();
     final key = options.uri.toString();
 
-    /// checks if device has a working internet connection
-    if (hasConnection && !options.path.contains("tumCard")) {
-      /// if forcedRefresh parameter is passed the cache is invalidated
-      if (options.extra["forcedRefresh"] == "true") {
-        cache.delete(key);
-      } else {
-        final cacheEntry = await cache.get(key);
-
-        /// device is online, fetch every 10 minutes
-        if (cacheEntry != null &&
-            DateTime.now().difference(cacheEntry.saved).inMinutes <= 10) {
-          return handler.resolve(
-            Response(
-              data: cacheEntry.body,
-              extra: {
-                "saved": cacheEntry.saved,
-              },
-              statusCode: 304,
-              requestOptions: options,
-            ),
-          );
-        } else {
-          /// if older than than 10 minutes -> invalidate cache
-          cache.delete(key);
-        }
-      }
+    /// if forcedRefresh parameter is passed the cache is invalidated
+    if (options.extra["forcedRefresh"] == "true") {
+      cache.delete(key);
     } else {
-      /// if device is offline, the cache is valid for 30 days
-      if (options.extra["forcedRefresh"] == "true") {
-        cache.delete(key);
-      } else {
-        final cacheEntry = await cache.get(key);
-        if (cacheEntry != null &&
-            DateTime.now().difference(cacheEntry.saved).inDays <= 30) {
-          return handler.resolve(
-            Response(
-              data: cacheEntry.body,
-              extra: {
-                "saved": cacheEntry.saved,
-              },
-              statusCode: 304,
-              requestOptions: options,
-            ),
-          );
-        } else {
-          cache.delete(key);
-        }
+      final cacheEntry = await cache.get(key);
+
+      /// device is online, fetch every 10 minutes
+      if (cacheEntry != null) {
+        return handler.resolve(
+          Response(
+            data: cacheEntry.body,
+            extra: {
+              "saved": cacheEntry.saved,
+            },
+            statusCode: 304,
+            requestOptions: options,
+          ),
+        );
       }
     }
     handler.next(options);

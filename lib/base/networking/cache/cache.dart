@@ -1,39 +1,59 @@
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
+import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/util/fast_hash.dart';
+import 'package:campus_flutter/main.dart';
+import 'package:drift/drift.dart';
 
 class Cache {
   final CacheDatabase cacheDatabase;
 
-  final Duration ttl = const Duration(days: 30);
+  final Duration onlineTtl = const Duration(minutes: 10);
+
+  final Duration offlineTtl = const Duration(days: 30);
 
   Cache({required this.cacheDatabase});
 
-  void add(String body, String uri) {
+  void add(String body, String key) {
     final today = DateTime.now();
-    final id = fastHash(uri);
-    cacheDatabase.into(cacheDatabase.cacheEntry).insert(
-          CacheEntryCompanion.insert(
-            id: id,
-            url: uri,
-            validUntil: today.add(ttl),
-            saved: today,
-            body: body,
-          ),
-        );
+    final id = fastHash(key);
+
+    cacheDatabase.managers.cacheEntry.create(
+      (o) => CacheEntryCompanion.insert(
+        id: id,
+        url: key,
+        validUntil: today.add(offlineTtl),
+        saved: today,
+        body: body,
+      ),
+      mode: InsertMode.replace,
+    );
   }
 
-  Future<CacheEntryData?> get(String uri) async {
-    final id = fastHash(uri);
-    final entry = await (cacheDatabase.select(cacheDatabase.cacheEntry)
-          ..where((tbl) => tbl.id.equals(id)))
+  Future<CacheEntryData?> get(String key) async {
+    final id = fastHash(key);
+
+    final entry = await cacheDatabase.managers.cacheEntry
+        .filter((f) => f.id.equals(id))
+        .limit(1)
         .getSingleOrNull();
+
     if (entry != null) {
       final today = DateTime.now();
-      if (entry.validUntil.isAfter(today)) {
-        return entry;
+      if (getIt<ConnectionService>().hasInternet() &&
+          !key.contains("tumCard")) {
+        if (entry.saved.isAfter(today.subtract(onlineTtl))) {
+          return entry;
+        } else {
+          delete(key);
+          return null;
+        }
       } else {
-        cacheDatabase.delete(cacheDatabase.cacheEntry).delete(entry);
-        return null;
+        if (entry.validUntil.isAfter(today)) {
+          return entry;
+        } else {
+          delete(key);
+          return null;
+        }
       }
     } else {
       return null;
@@ -41,13 +61,11 @@ class Cache {
   }
 
   void delete(String key) {
-    final hash = fastHash(key);
-    (cacheDatabase.delete(cacheDatabase.cacheEntry)
-          ..where((tbl) => tbl.id.equals(hash)))
-        .go();
+    final id = fastHash(key);
+    cacheDatabase.managers.cacheEntry.filter((f) => f.id.equals(id)).delete();
   }
 
   Future<void> resetCache() async {
-    cacheDatabase.delete(cacheDatabase.cacheEntry);
+    await cacheDatabase.managers.cacheEntry.delete();
   }
 }
