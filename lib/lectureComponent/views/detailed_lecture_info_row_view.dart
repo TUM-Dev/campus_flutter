@@ -28,7 +28,7 @@ class DetailedLectureInfoRowView extends ConsumerWidget {
                 .titleSmall
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Linkify(
+          SelectableLinkify(
             text: information.replaceAll(r'\\n', "\n").replaceAll(r'\t', "\t"),
             onOpen: (link) => UrlLauncher.urlString(link.url, ref),
           ),
