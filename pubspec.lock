@@ -731,7 +731,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "5a3fd17229a2deec54d41d77736a68aaac324597"
+      resolved-ref: c62fe87eda8ba7c3fa000e091128e32954796c73
       url: "https://github.com/jakobkoerber/grpc-dart.git"
     source: git
     version: "4.0.0"
@@ -1003,10 +1003,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "9c96da072b421e98183f9ea7464898428e764bc0ce5567f27ec8693442e72514"
+      sha256: bca87b0165ffd7cdb9cad8edd22d18d2201e886d9a9f19b4fb3452ea7df3a72a
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.5"
+    version: "2.2.6"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -1163,10 +1163,10 @@ packages:
     dependency: transitive
     description:
       name: quick_actions_android
-      sha256: cfb55d5d995bb5ed5699379d82941557e9f7fc4beb22286183b45feb77c07b01
+      sha256: "554914f18f4d7142aefcdbe0ba8e0a92303e4418264d213b5d0beedd43d7ced3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.13"
+    version: "1.0.14"
   quick_actions_ios:
     dependency: transitive
     description:
