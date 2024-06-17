@@ -15,7 +15,7 @@ class DishCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? price = CafeteriasViewModel.formatPrice(dish.$1, context);
     return CardWithPadding(
-      color: inverted ? Theme.of(context).colorScheme.background : null,
+      color: inverted ? Theme.of(context).colorScheme.surface : null,
       height: 150,
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       child: SizedBox(
@@ -74,6 +74,7 @@ class DishCardView extends StatelessWidget {
         return AlertDialog(
           title: Text(dish.name),
           actionsAlignment: MainAxisAlignment.center,
+          scrollable: true,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

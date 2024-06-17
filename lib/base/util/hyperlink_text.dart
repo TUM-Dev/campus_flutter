@@ -40,17 +40,21 @@ class _HyperlinkTextState extends ConsumerState<HyperLinkListTile> {
   Widget build(BuildContext context) {
     return ListTile(
       dense: widget.dense,
-      title: Row(
-        children: [
-          RichText(
-            text: TextSpan(
+      title: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
               text: widget.label,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
-          const Icon(Icons.open_in_new, size: 15),
-        ],
+            WidgetSpan(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: const Icon(Icons.open_in_new, size: 15),
+              ),
+            ),
+          ],
+        ),
       ),
       onTap: () {
         if (widget.link != null) {
