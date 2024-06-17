@@ -35,10 +35,6 @@ class GrpcClient extends CampusClient {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       osVersion = androidInfo.version.toString();
       deviceId = androidInfo.serialNumber;
-    } else if (Platform.isMacOS) {
-      MacOsDeviceInfo macInfo = await deviceInfo.macOsInfo;
-      osVersion = macInfo.osRelease;
-      deviceId = macInfo.model;
     }
     return CallOptions(
       metadata: {

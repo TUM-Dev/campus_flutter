@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/networking/cache/cache.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
@@ -21,7 +23,6 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     return invoker(method, requests, options);
   }
 
-  // TODO(Jakob): figure out possibility to access cache
   @override
   ResponseFuture<R> interceptUnary<Q, R>(
     ClientMethod<Q, R> method,
@@ -31,27 +32,25 @@ class GrpcCacheInterceptor implements ClientInterceptor {
   ) {
     final key = method.path;
     final cachedResponse = cache.get(key);
-    /*final factory = _getFactory<R>();
-    if (cachedResponse != null && factory != null) {
-      final data = factory(cachedResponse.body);
-      return ResponseFuture<R>(
-        ClientCall(
-          ClientMethod<Q, R>(method.path, (value) => [], (value) => data),
-          Stream.value(request),
-          options,
-          null,
-          true,
-        ),
-      );
-    }*/
+    final factory = _getFactory<R>();
 
-    /// If not found in cache, invoke the actual RPC and cache the response
-    final response = invoker(method, request, options);
-    response.then((data) {
-      cache.add((data as GeneratedMessage).writeToJson(), key);
-    });
+    Future<R?> isCached() async {
+      final response = await cachedResponse;
+      if (response != null && factory != null) {
+        return factory(response.body);
+      } else {
+        final response = invoker(method, request, options);
+        response.then((data) {
+          cache.add((data as GeneratedMessage).writeToJson(), key);
+        });
 
-    return response;
+        return response;
+      }
+    }
+
+    return ResponseFuture<R>(
+      ClientCall(method, Stream.value(request), options, null, isCached()),
+    );
   }
 
   // TODO: figure out nicer solution or add missing classes

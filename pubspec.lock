@@ -731,7 +731,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "4a2e19ec906beef0658706aa69c6be5c19459eb2"
+      resolved-ref: "5a3fd17229a2deec54d41d77736a68aaac324597"
       url: "https://github.com/jakobkoerber/grpc-dart.git"
     source: git
     version: "4.0.0"
