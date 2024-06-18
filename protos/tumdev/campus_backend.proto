@@ -21,14 +21,14 @@ service Campus {
 
   rpc ListNewsSources(ListNewsSourcesRequest) returns (ListNewsSourcesReply) {
     option (google.api.http) = {
-      get: "/news/sources",
+      get: "/news/sources"
       response_body: "sources"
     };
   }
 
   rpc ListNews(ListNewsRequest) returns (ListNewsReply) {
     option (google.api.http) = {
-      get: "/news",
+      get: "/news"
       response_body: "news"
     };
   }
@@ -36,57 +36,57 @@ service Campus {
   // This endpoint retrieves Canteen Ratings from the Backend.
   rpc ListCanteenRatings(ListCanteenRatingsRequest) returns (ListCanteenRatingsReply) {
     option (google.api.http) = {
-      post: "/canteen/rating/get",
-      body: "*",
+      post: "/canteen/rating/get"
+      body: "*"
     };
   }
 
   // Allows to query ratings for a specific dish in a specific cafeteria.
   rpc GetDishRatings(GetDishRatingsRequest) returns (GetDishRatingsReply) {
     option (google.api.http) = {
-      post: "/dish/rating/get",
-      body: "*",
+      post: "/dish/rating/get"
+      body: "*"
     };
   }
 
   rpc CreateCanteenRating(CreateCanteenRatingRequest) returns (CreateCanteenRatingReply) {
     option (google.api.http) = {
-      post: "/canteen/rating/new",
-      body: "*",
+      post: "/canteen/rating/new"
+      body: "*"
     };
   }
 
   rpc CreateDishRating(CreateDishRatingRequest) returns (CreateDishRatingReply) {
     option (google.api.http) = {
-      post: "/dish/rating/new",
-      body: "*",
+      post: "/dish/rating/new"
+      body: "*"
     };
   }
 
   rpc ListAvailableDishTags(ListAvailableDishTagsRequest) returns (ListAvailableDishTagsReply) {
     option (google.api.http) = {
-      get: "/dish/rating/allRatingTags",
+      get: "/dish/rating/allRatingTags"
       response_body: "rating_tags"
     };
   }
 
   rpc ListNameTags(ListNameTagsRequest) returns (ListNameTagsReply) {
     option (google.api.http) = {
-      get: "/dish/rating/allDishTags",
+      get: "/dish/rating/allDishTags"
       response_body: "rating_tags"
     };
   }
 
   rpc ListAvailableCanteenTags(ListAvailableCanteenTagsRequest) returns (ListAvailableCanteenTagsReply) {
     option (google.api.http) = {
-      get: "/canteen/rating/allRatingTags",
+      get: "/canteen/rating/allRatingTags"
       response_body: "rating_tags"
     };
   }
 
   rpc ListCanteens(ListCanteensRequest) returns (ListCanteensReply) {
     option (google.api.http) = {
-      get: "/canteen/allCanteens",
+      get: "/canteen/allCanteens"
       response_body: "canteen"
     };
   }
@@ -94,7 +94,7 @@ service Campus {
   // Returns all dishes for a specific cafeteria, year, week and day
   rpc ListDishes(ListDishesRequest) returns (ListDishesReply) {
     option (google.api.http) = {
-      get: "/dishes",
+      get: "/dishes"
       response_body: "dish"
     };
   }
@@ -109,8 +109,8 @@ service Campus {
 
   rpc CreateFeedback(stream CreateFeedbackRequest) returns (CreateFeedbackReply) {
     option (google.api.http) = {
-      post: "/feedback",
-      body: "attachment",
+      post: "/feedback"
+      body: "attachment"
     };
   }
 
@@ -137,8 +137,8 @@ service Campus {
   // Create an device (Android/iOS/Windows) for push notifications
   rpc CreateDevice(CreateDeviceRequest) returns (CreateDeviceReply) {
     option (google.api.http) = {
-      post: "/device",
-      body: "*",
+      post: "/device"
+      body: "*"
     };
   }
 
