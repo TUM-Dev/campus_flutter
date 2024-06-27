@@ -9,14 +9,14 @@ PODS:
   - Firebase/RemoteConfig (10.27.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.27.0)
-  - firebase_core (3.1.0):
+  - firebase_core (3.1.1):
     - Firebase/CoreOnly (= 10.27.0)
     - Flutter
-  - firebase_crashlytics (4.0.1):
+  - firebase_crashlytics (4.0.2):
     - Firebase/Crashlytics (= 10.27.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (5.0.1):
+  - firebase_remote_config (5.0.2):
     - Firebase/RemoteConfig (= 10.27.0)
     - firebase_core
     - Flutter
@@ -72,7 +72,7 @@ PODS:
     - Flutter
   - google_maps_flutter_ios (0.0.1):
     - Flutter
-    - GoogleMaps (< 9.0, >= 8.4)
+    - GoogleMaps (< 10.0, >= 8.4)
   - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
@@ -233,9 +233,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
-  firebase_core: 483cfad66d24d8f3c233f31db4263830c625c909
-  firebase_crashlytics: 8f04c663c8734f97c4ccbe81b8511ce7060e3b28
-  firebase_remote_config: 3c103e81a3fba5f50c0a522d65a49e5695d57fbc
+  firebase_core: f8d0424c45e0f1e596811085fc12c638d628457c
+  firebase_crashlytics: 39ca2155bac4fa2eec0aec9f0eb5e938a08bca23
+  firebase_remote_config: 962876d64b52d7710d756ea85e27c768002dc628
   FirebaseABTesting: 589bc28c0ab3e5554336895a34aa262e24276665
   FirebaseCore: a2b95ae4ce7c83ceecfbbbe3b6f1cddc7415a808
   FirebaseCoreExtension: f63147b723e2a700fe0f34ec6fb7f358d6fe83e0
@@ -250,7 +250,7 @@ SPEC CHECKSUMS:
   flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
-  google_maps_flutter_ios: c454f18e0e22df6ac0e9f2a4df340858f5a3680c
+  google_maps_flutter_ios: 5bc2be60ad012e79b182ce0fb0ef5030a50fb03e
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
