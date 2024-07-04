@@ -10,19 +10,17 @@ import io.flutter.embedding.android.FlutterActivity
 class MainActivity : FlutterActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requestedOrientation = if (isTablet(this)) {
-            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        if (isPhone(this)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+
+        super.onCreate(savedInstanceState)
     }
 }
 
-fun isTablet(context: Context): Boolean {
+fun isPhone(context: Context): Boolean {
     val resources = context.resources
     val configuration = resources.configuration
     val screenWidthDp = configuration.screenWidthDp
-    return screenWidthDp >= resources.getDimension(R.dimen.min_tablet_width_dp)
+    return screenWidthDp <= resources.getDimension(R.dimen.min_tablet_width_dp)
 }
