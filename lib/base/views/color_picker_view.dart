@@ -36,7 +36,7 @@ class _ColorPickerViewState extends State<ColorPickerView> {
               titlePadding: const EdgeInsets.all(0),
               contentPadding: const EdgeInsets.all(0),
               content: SingleChildScrollView(
-                child: ColorPicker(
+                child: HueRingPicker(
                   pickerColor: selectedColor,
                   onColorChanged: (color) {
                     setState(() {

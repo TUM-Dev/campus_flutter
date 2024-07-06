@@ -85,6 +85,10 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/grpc-dart.git
       ref: master
+  flutter_linkify:
+    git:
+      url: https://github.com/jakobkoerber/flutter_linkify
+      ref: master
 
 dev_dependencies:
   # code generation
