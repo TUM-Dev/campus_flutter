@@ -466,10 +466,11 @@ packages:
   flutter_linkify:
     dependency: "direct main"
     description:
-      name: flutter_linkify
-      sha256: "74669e06a8f358fee4512b4320c0b80e51cffc496607931de68d28f099254073"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "9645389c2c05ee6796995090305ba695f06be5ec"
+      url: "https://github.com/jakobkoerber/flutter_linkify"
+    source: git
     version: "6.0.0"
   flutter_lints:
     dependency: "direct dev"
