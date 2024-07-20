@@ -4349,6 +4349,250 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
   $1.Timestamp ensureTimestamp() => $_ensure(3);
 }
 
+class ListStudentClubRequest extends $pb.GeneratedMessage {
+  factory ListStudentClubRequest() => create();
+  ListStudentClubRequest._() : super();
+  factory ListStudentClubRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ListStudentClubRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListStudentClubRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ListStudentClubRequest clone() => ListStudentClubRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ListStudentClubRequest copyWith(void Function(ListStudentClubRequest) updates) => super.copyWith((message) => updates(message as ListStudentClubRequest)) as ListStudentClubRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ListStudentClubRequest create() => ListStudentClubRequest._();
+  ListStudentClubRequest createEmptyInstance() => create();
+  static $pb.PbList<ListStudentClubRequest> createRepeated() => $pb.PbList<ListStudentClubRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ListStudentClubRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListStudentClubRequest>(create);
+  static ListStudentClubRequest? _defaultInstance;
+}
+
+class ListStudentClubReply extends $pb.GeneratedMessage {
+  factory ListStudentClubReply({
+    $core.Iterable<StudentClubCollection>? collections,
+  }) {
+    final $result = create();
+    if (collections != null) {
+      $result.collections.addAll(collections);
+    }
+    return $result;
+  }
+  ListStudentClubReply._() : super();
+  factory ListStudentClubReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ListStudentClubReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListStudentClubReply', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..pc<StudentClubCollection>(1, _omitFieldNames ? '' : 'collections', $pb.PbFieldType.PM, subBuilder: StudentClubCollection.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ListStudentClubReply clone() => ListStudentClubReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ListStudentClubReply copyWith(void Function(ListStudentClubReply) updates) => super.copyWith((message) => updates(message as ListStudentClubReply)) as ListStudentClubReply;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ListStudentClubReply create() => ListStudentClubReply._();
+  ListStudentClubReply createEmptyInstance() => create();
+  static $pb.PbList<ListStudentClubReply> createRepeated() => $pb.PbList<ListStudentClubReply>();
+  @$core.pragma('dart2js:noInline')
+  static ListStudentClubReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListStudentClubReply>(create);
+  static ListStudentClubReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<StudentClubCollection> get collections => $_getList(0);
+}
+
+class StudentClub extends $pb.GeneratedMessage {
+  factory StudentClub({
+    $core.String? name,
+    $core.String? description,
+    $core.String? linkUrl,
+    $core.String? coverUrl,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (description != null) {
+      $result.description = description;
+    }
+    if (linkUrl != null) {
+      $result.linkUrl = linkUrl;
+    }
+    if (coverUrl != null) {
+      $result.coverUrl = coverUrl;
+    }
+    return $result;
+  }
+  StudentClub._() : super();
+  factory StudentClub.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StudentClub.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StudentClub', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOS(2, _omitFieldNames ? '' : 'description')
+    ..aOS(3, _omitFieldNames ? '' : 'linkUrl')
+    ..aOS(4, _omitFieldNames ? '' : 'coverUrl')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  StudentClub clone() => StudentClub()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  StudentClub copyWith(void Function(StudentClub) updates) => super.copyWith((message) => updates(message as StudentClub)) as StudentClub;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static StudentClub create() => StudentClub._();
+  StudentClub createEmptyInstance() => create();
+  static $pb.PbList<StudentClub> createRepeated() => $pb.PbList<StudentClub>();
+  @$core.pragma('dart2js:noInline')
+  static StudentClub getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StudentClub>(create);
+  static StudentClub? _defaultInstance;
+
+  /// The name of the club
+  @$pb.TagNumber(1)
+  $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set name($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearName() => clearField(1);
+
+  /// How the club describes itsself
+  @$pb.TagNumber(2)
+  $core.String get description => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set description($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDescription() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDescription() => clearField(2);
+
+  /// Where the clubs main internet presence is
+  @$pb.TagNumber(3)
+  $core.String get linkUrl => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set linkUrl($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLinkUrl() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLinkUrl() => clearField(3);
+
+  /// Where to find a image for this club
+  @$pb.TagNumber(4)
+  $core.String get coverUrl => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set coverUrl($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasCoverUrl() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearCoverUrl() => clearField(4);
+}
+
+class StudentClubCollection extends $pb.GeneratedMessage {
+  factory StudentClubCollection({
+    $core.String? title,
+    $core.String? description,
+    $core.Iterable<StudentClub>? clubs,
+  }) {
+    final $result = create();
+    if (title != null) {
+      $result.title = title;
+    }
+    if (description != null) {
+      $result.description = description;
+    }
+    if (clubs != null) {
+      $result.clubs.addAll(clubs);
+    }
+    return $result;
+  }
+  StudentClubCollection._() : super();
+  factory StudentClubCollection.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StudentClubCollection.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StudentClubCollection', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'title')
+    ..aOS(2, _omitFieldNames ? '' : 'description')
+    ..pc<StudentClub>(3, _omitFieldNames ? '' : 'clubs', $pb.PbFieldType.PM, subBuilder: StudentClub.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  StudentClubCollection clone() => StudentClubCollection()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  StudentClubCollection copyWith(void Function(StudentClubCollection) updates) => super.copyWith((message) => updates(message as StudentClubCollection)) as StudentClubCollection;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static StudentClubCollection create() => StudentClubCollection._();
+  StudentClubCollection createEmptyInstance() => create();
+  static $pb.PbList<StudentClubCollection> createRepeated() => $pb.PbList<StudentClubCollection>();
+  @$core.pragma('dart2js:noInline')
+  static StudentClubCollection getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StudentClubCollection>(create);
+  static StudentClubCollection? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get title => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set title($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTitle() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTitle() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get description => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set description($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDescription() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDescription() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<StudentClub> get clubs => $_getList(2);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

@@ -146,6 +146,11 @@ service Campus {
   rpc DeleteDevice(DeleteDeviceRequest) returns (DeleteDeviceReply) {
     option (google.api.http) = {delete: "/device/{device_id}"};
   }
+
+  // Delete a device from push notifications
+  rpc ListStudentClub(ListStudentClubRequest) returns (ListStudentClubReply) {
+    option (google.api.http) = {delete: "/student_clubs"};
+  }
 }
 
 enum DeviceType {
@@ -558,4 +563,23 @@ message GetCanteenHeadCountReply {
   float percent = 3;
   // A time stamp indicating how up to date the response is. Only valid in case percent != -1.
   google.protobuf.Timestamp timestamp = 4;
+}
+message ListStudentClubRequest {}
+message ListStudentClubReply {
+  repeated StudentClubCollection collections = 1;
+}
+message StudentClub {
+  // The name of the club
+  string name = 1;
+  // How the club describes itsself
+  optional string description = 2;
+  // Where the clubs main internet presence is
+  optional string link_url = 3;
+  // Where to find a image for this club
+  optional string cover_url = 4;
+}
+message StudentClubCollection {
+  string title = 1;
+  string description = 2;
+  repeated StudentClub clubs = 3;
 }

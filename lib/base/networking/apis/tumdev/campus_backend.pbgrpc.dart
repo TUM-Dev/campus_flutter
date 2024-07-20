@@ -109,6 +109,10 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/DeleteDevice',
       ($0.DeleteDeviceRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.DeleteDeviceReply.fromBuffer(value));
+  static final _$listStudentClub = $grpc.ClientMethod<$0.ListStudentClubRequest, $0.ListStudentClubReply>(
+      '/api.Campus/ListStudentClub',
+      ($0.ListStudentClubRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListStudentClubReply.fromBuffer(value));
 
   CampusClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -202,6 +206,10 @@ class CampusClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.DeleteDeviceReply> deleteDevice($0.DeleteDeviceRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteDevice, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ListStudentClubReply> listStudentClub($0.ListStudentClubRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listStudentClub, request, options: options);
   }
 }
 
@@ -364,6 +372,13 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteDeviceRequest.fromBuffer(value),
         ($0.DeleteDeviceReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListStudentClubRequest, $0.ListStudentClubReply>(
+        'ListStudentClub',
+        listStudentClub_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.ListStudentClubRequest.fromBuffer(value),
+        ($0.ListStudentClubReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.ListNewsAlertsReply> listNewsAlerts_Pre($grpc.ServiceCall call, $async.Future<$0.ListNewsAlertsRequest> request) async {
@@ -450,6 +465,10 @@ abstract class CampusServiceBase extends $grpc.Service {
     return deleteDevice(call, await request);
   }
 
+  $async.Future<$0.ListStudentClubReply> listStudentClub_Pre($grpc.ServiceCall call, $async.Future<$0.ListStudentClubRequest> request) async {
+    return listStudentClub(call, await request);
+  }
+
   $async.Future<$0.ListNewsAlertsReply> listNewsAlerts($grpc.ServiceCall call, $0.ListNewsAlertsRequest request);
   $async.Future<$0.ListNewsSourcesReply> listNewsSources($grpc.ServiceCall call, $0.ListNewsSourcesRequest request);
   $async.Future<$0.ListNewsReply> listNews($grpc.ServiceCall call, $0.ListNewsRequest request);
@@ -472,4 +491,5 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount($grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
   $async.Future<$0.CreateDeviceReply> createDevice($grpc.ServiceCall call, $0.CreateDeviceRequest request);
   $async.Future<$0.DeleteDeviceReply> deleteDevice($grpc.ServiceCall call, $0.DeleteDeviceRequest request);
+  $async.Future<$0.ListStudentClubReply> listStudentClub($grpc.ServiceCall call, $0.ListStudentClubRequest request);
 }
