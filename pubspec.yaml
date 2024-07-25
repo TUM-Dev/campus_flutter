@@ -24,7 +24,7 @@ dependencies:
   xml2json: ^6.1.0
 
   # state management
-  rxdart: ^0.27.7
+  rxdart: ^0.28.0
   go_router: ^14.0.1
   flutter_riverpod: ^2.3.6
   get_it: ^7.6.0
