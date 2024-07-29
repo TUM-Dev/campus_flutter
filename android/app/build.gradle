@@ -90,7 +90,7 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'
