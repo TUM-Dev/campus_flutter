@@ -175,6 +175,17 @@ class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
         saved: saved ?? this.saved,
         body: body ?? this.body,
       );
+  CacheEntryData copyWithCompanion(CacheEntryCompanion data) {
+    return CacheEntryData(
+      id: data.id.present ? data.id.value : this.id,
+      url: data.url.present ? data.url.value : this.url,
+      validUntil:
+          data.validUntil.present ? data.validUntil.value : this.validUntil,
+      saved: data.saved.present ? data.saved.value : this.saved,
+      body: data.body.present ? data.body.value : this.body,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CacheEntryData(')
@@ -302,7 +313,7 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
 
 abstract class _$CacheDatabase extends GeneratedDatabase {
   _$CacheDatabase(QueryExecutor e) : super(e);
-  _$CacheDatabaseManager get managers => _$CacheDatabaseManager(this);
+  $CacheDatabaseManager get managers => $CacheDatabaseManager(this);
   late final $CacheEntryTable cacheEntry = $CacheEntryTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -311,7 +322,7 @@ abstract class _$CacheDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [cacheEntry];
 }
 
-typedef $$CacheEntryTableInsertCompanionBuilder = CacheEntryCompanion Function({
+typedef $$CacheEntryTableCreateCompanionBuilder = CacheEntryCompanion Function({
   required int id,
   required String url,
   required DateTime validUntil,
@@ -334,8 +345,7 @@ class $$CacheEntryTableTableManager extends RootTableManager<
     CacheEntryData,
     $$CacheEntryTableFilterComposer,
     $$CacheEntryTableOrderingComposer,
-    $$CacheEntryTableProcessedTableManager,
-    $$CacheEntryTableInsertCompanionBuilder,
+    $$CacheEntryTableCreateCompanionBuilder,
     $$CacheEntryTableUpdateCompanionBuilder> {
   $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
       : super(TableManagerState(
@@ -345,9 +355,7 @@ class $$CacheEntryTableTableManager extends RootTableManager<
               $$CacheEntryTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CacheEntryTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> url = const Value.absent(),
             Value<DateTime> validUntil = const Value.absent(),
@@ -363,7 +371,7 @@ class $$CacheEntryTableTableManager extends RootTableManager<
             body: body,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required int id,
             required String url,
             required DateTime validUntil,
@@ -380,18 +388,6 @@ class $$CacheEntryTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$CacheEntryTableProcessedTableManager extends ProcessedTableManager<
-    _$CacheDatabase,
-    $CacheEntryTable,
-    CacheEntryData,
-    $$CacheEntryTableFilterComposer,
-    $$CacheEntryTableOrderingComposer,
-    $$CacheEntryTableProcessedTableManager,
-    $$CacheEntryTableInsertCompanionBuilder,
-    $$CacheEntryTableUpdateCompanionBuilder> {
-  $$CacheEntryTableProcessedTableManager(super.$state);
 }
 
 class $$CacheEntryTableFilterComposer
@@ -452,9 +448,9 @@ class $$CacheEntryTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$CacheDatabaseManager {
+class $CacheDatabaseManager {
   final _$CacheDatabase _db;
-  _$CacheDatabaseManager(this._db);
+  $CacheDatabaseManager(this._db);
   $$CacheEntryTableTableManager get cacheEntry =>
       $$CacheEntryTableTableManager(_db, _db.cacheEntry);
 }

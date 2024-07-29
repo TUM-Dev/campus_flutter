@@ -910,3 +910,64 @@ final $typed_data.Uint8List getCanteenHeadCountReplyDescriptor = $convert.base64
     '9jb3VudBgCIAEoDVIIbWF4Q291bnQSGAoHcGVyY2VudBgDIAEoAlIHcGVyY2VudBI4Cgl0aW1l'
     'c3RhbXAYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgl0aW1lc3RhbXA=');
 
+@$core.Deprecated('Use listStudentClubRequestDescriptor instead')
+const ListStudentClubRequest$json = {
+  '1': 'ListStudentClubRequest',
+};
+
+/// Descriptor for `ListStudentClubRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listStudentClubRequestDescriptor = $convert.base64Decode(
+    'ChZMaXN0U3R1ZGVudENsdWJSZXF1ZXN0');
+
+@$core.Deprecated('Use listStudentClubReplyDescriptor instead')
+const ListStudentClubReply$json = {
+  '1': 'ListStudentClubReply',
+  '2': [
+    {'1': 'collections', '3': 1, '4': 3, '5': 11, '6': '.api.StudentClubCollection', '10': 'collections'},
+  ],
+};
+
+/// Descriptor for `ListStudentClubReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listStudentClubReplyDescriptor = $convert.base64Decode(
+    'ChRMaXN0U3R1ZGVudENsdWJSZXBseRI8Cgtjb2xsZWN0aW9ucxgBIAMoCzIaLmFwaS5TdHVkZW'
+    '50Q2x1YkNvbGxlY3Rpb25SC2NvbGxlY3Rpb25z');
+
+@$core.Deprecated('Use studentClubDescriptor instead')
+const StudentClub$json = {
+  '1': 'StudentClub',
+  '2': [
+    {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'description', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'description', '17': true},
+    {'1': 'link_url', '3': 3, '4': 1, '5': 9, '9': 1, '10': 'linkUrl', '17': true},
+    {'1': 'cover_url', '3': 4, '4': 1, '5': 9, '9': 2, '10': 'coverUrl', '17': true},
+  ],
+  '8': [
+    {'1': '_description'},
+    {'1': '_link_url'},
+    {'1': '_cover_url'},
+  ],
+};
+
+/// Descriptor for `StudentClub`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List studentClubDescriptor = $convert.base64Decode(
+    'CgtTdHVkZW50Q2x1YhISCgRuYW1lGAEgASgJUgRuYW1lEiUKC2Rlc2NyaXB0aW9uGAIgASgJSA'
+    'BSC2Rlc2NyaXB0aW9uiAEBEh4KCGxpbmtfdXJsGAMgASgJSAFSB2xpbmtVcmyIAQESIAoJY292'
+    'ZXJfdXJsGAQgASgJSAJSCGNvdmVyVXJsiAEBQg4KDF9kZXNjcmlwdGlvbkILCglfbGlua191cm'
+    'xCDAoKX2NvdmVyX3VybA==');
+
+@$core.Deprecated('Use studentClubCollectionDescriptor instead')
+const StudentClubCollection$json = {
+  '1': 'StudentClubCollection',
+  '2': [
+    {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
+    {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
+    {'1': 'clubs', '3': 3, '4': 3, '5': 11, '6': '.api.StudentClub', '10': 'clubs'},
+  ],
+};
+
+/// Descriptor for `StudentClubCollection`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List studentClubCollectionDescriptor = $convert.base64Decode(
+    'ChVTdHVkZW50Q2x1YkNvbGxlY3Rpb24SFAoFdGl0bGUYASABKAlSBXRpdGxlEiAKC2Rlc2NyaX'
+    'B0aW9uGAIgASgJUgtkZXNjcmlwdGlvbhImCgVjbHVicxgDIAMoCzIQLmFwaS5TdHVkZW50Q2x1'
+    'YlIFY2x1YnM=');
+
