@@ -74,10 +74,11 @@ protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/times
 
 To ensure that campus_flutter runs on every supported platform, we need to make some modifications to packages.
 
-| Package                 | Reason                                    | Link                                         |
-|-------------------------|-------------------------------------------|----------------------------------------------|
-| gRPC                    | Caching                                   | https://github.com/jakobkoerber/grpc-dart |
-| Xml2Json                | Fix Parsing of XML to JSON                | https://github.com/jakobkoerber/xml2json |
+| Package         | Reason                              | Link                                         |
+|-----------------|-------------------------------------|----------------------------------------------|
+| gRPC            | Caching                             | https://github.com/jakobkoerber/grpc-dart |
+| Xml2Json        | Fix Parsing of XML to JSON          | https://github.com/jakobkoerber/xml2json |
+| flutter_linkify | Fix Selection Menu and Text Scaling | https://github.com/jakobkoerber/flutter_linkify |
 
 
 
