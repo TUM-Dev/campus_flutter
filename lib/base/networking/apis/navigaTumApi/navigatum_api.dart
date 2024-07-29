@@ -24,7 +24,7 @@ class NavigaTumApi extends Api {
       case NavigaTumApiServiceSearch _:
         return "api/search";
       case NavigaTumApiServiceDetails details:
-        return "api/get/${details.id}";
+        return "api/locations/${details.id}";
       case NavigaTumApiServiceImages images:
         return "cdn/maps/roomfinder/${images.id}";
       case NavigaTumApiServiceOverlayImages overlayImages:
