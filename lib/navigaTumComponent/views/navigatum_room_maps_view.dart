@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
-import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_serivce.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
