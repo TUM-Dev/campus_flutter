@@ -4,8 +4,6 @@ import 'package:campus_flutter/base/enums/widget_type.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
 import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/movieComponent/views/homeWidget/movies_widget_view.dart';
-import 'package:campus_flutter/newsComponent/views/homeWidget/news_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
@@ -79,10 +77,6 @@ class HomeViewModel {
         return const DeparturesHomeWidget();
       case WidgetType.studyRooms:
         return const StudyRoomWidgetView.closest();
-      case WidgetType.movies:
-        return const MoviesHomeWidget();
-      case WidgetType.news:
-        return const NewsWidgetView();
     }
   }
 
@@ -96,10 +90,6 @@ class HomeViewModel {
         return context.tr("departures");
       case WidgetType.studyRooms:
         return context.tr("nearestStudyRooms");
-      case WidgetType.movies:
-        return context.tr("movies");
-      case WidgetType.news:
-        return context.tr("news");
     }
   }
 
@@ -108,8 +98,6 @@ class HomeViewModel {
         HomeScreenWidget(widgetType: WidgetType.calendar),
         HomeScreenWidget(widgetType: WidgetType.departures),
         HomeScreenWidget(widgetType: WidgetType.studyRooms),
-        HomeScreenWidget(widgetType: WidgetType.movies),
-        HomeScreenWidget(widgetType: WidgetType.news),
       ];
 
   void reset() {

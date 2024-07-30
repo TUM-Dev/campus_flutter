@@ -2,7 +2,7 @@ enum WidgetType {
   cafeterias,
   calendar,
   departures,
-  studyRooms,
-  movies,
-  news;
+  studyRooms;
+  //movies,
+  //news;
 }

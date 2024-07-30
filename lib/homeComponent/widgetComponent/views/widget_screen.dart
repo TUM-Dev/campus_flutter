@@ -14,7 +14,7 @@ class WidgetScreen extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       builder: (context) => SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.6,
+        height: MediaQuery.sizeOf(context).height * 0.45,
         child: const HomeSettingsView(),
       ),
       showDragHandle: true,
