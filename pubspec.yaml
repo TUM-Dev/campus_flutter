@@ -89,6 +89,16 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/flutter_linkify
       ref: master
+  syncfusion_flutter_core:
+    git:
+      url: https://github.com/jakobkoerber/flutter-widgets.git
+      path: packages/syncfusion_flutter_core
+      ref: master
+  syncfusion_flutter_charts:
+    git:
+      url: https://github.com/jakobkoerber/flutter-widgets.git
+      path: packages/syncfusion_flutter_charts
+      ref: master
 
 dev_dependencies:
   # code generation

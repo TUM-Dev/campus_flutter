@@ -42,10 +42,10 @@ packages:
     dependency: transitive
     description:
       name: ansicolor
-      sha256: "8bf17a8ff6ea17499e40a2d2542c2f481cd7615760c6d34065cb22bfd22e6880"
+      sha256: "50e982d500bc863e1d703448afdbf9e5a72eb48840a4f766fa361ffd6877055f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   archive:
     dependency: transitive
     description:
@@ -362,10 +362,10 @@ packages:
     dependency: transitive
     description:
       name: ffi
-      sha256: "493f37e7df1804778ff3a53bd691d8692ddf69702cf4c1c1096a2e41b4779e21"
+      sha256: "16ed7b077ef01ad6170a3d0c57caa4a112a38d7a2ed5602e0aca9ca6f3d98da6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   file:
     dependency: transitive
     description:
@@ -1017,10 +1017,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "490539678396d4c3c0b06efdaab75ae60675c3e0c66f72bc04c2e2c1e0e2abeb"
+      sha256: "6f01f8e37ec30b07bc424b4deabac37cacb1bc7e2e515ad74486039918a37eb7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.9"
+    version: "2.2.10"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -1249,10 +1249,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "776786cff96324851b656777648f36ac772d88bc4c669acff97b7fce5de3c849"
+      sha256: c4b35f6cb8f63c147312c054ce7c2254c8066745125264f0c88739c417fc9d9f
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.1"
+    version: "2.5.2"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -1462,34 +1462,36 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "6bd294a933eb2c71e0ff0b5cc2899603d46b55bdc9d7d327d7307403fdc9a81a"
+      sha256: eb9bddedd443e9b7f591d2f14babaf26ce146a3dd4d9f106a22c4775e194ba23
       url: "https://pub.dev"
     source: hosted
-    version: "26.2.8"
+    version: "26.2.9"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
-      name: syncfusion_flutter_charts
-      sha256: ea8e9bfd2c4449e5743925f6f44642574c066e0391f7aae75f8328ae5f52fa05
-      url: "https://pub.dev"
-    source: hosted
-    version: "26.2.8"
+      path: "packages/syncfusion_flutter_charts"
+      ref: master
+      resolved-ref: a4364d6ba335b127d652a4de51b60cd026c53f15
+      url: "https://github.com/jakobkoerber/flutter-widgets.git"
+    source: git
+    version: "25.2.5"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
-      name: syncfusion_flutter_core
-      sha256: "266e71319ebf7e7a1b7cf8bf79b5f8ed2730f50d4de4bca6ff670a6b2dbba62a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "26.2.8"
+      path: "packages/syncfusion_flutter_core"
+      ref: master
+      resolved-ref: a4364d6ba335b127d652a4de51b60cd026c53f15
+      url: "https://github.com/jakobkoerber/flutter-widgets.git"
+    source: git
+    version: "25.2.7"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "0a56939bd893332fe170eeba4f4adbe078a4a63fecf1613a7c664df434f72a4f"
+      sha256: "1c9469fbbeefb82b67dc8a48121e81a5860930516dec6c0ec33f3141063a1a07"
       url: "https://pub.dev"
     source: hosted
-    version: "26.2.8"
+    version: "26.2.9"
   synchronized:
     dependency: transitive
     description:
@@ -1766,10 +1768,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "015002c060f1ae9f41a818f2d5640389cc05283e368be19dc8d77cecb43c40c9"
+      sha256: "68d1e89a91ed61ad9c370f9f8b6effed9ae5e0ede22a270bdfa6daf79fc2290a"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.3"
+    version: "5.5.4"
   win32_registry:
     dependency: transitive
     description:
