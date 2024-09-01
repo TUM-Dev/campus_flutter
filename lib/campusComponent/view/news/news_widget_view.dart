@@ -1,13 +1,14 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/campusComponent/view/news/news_card_view.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/newsComponent/viewModel/news_viewmodel.dart';
-import 'package:campus_flutter/newsComponent/views/news_card_view.dart';
+import 'package:campus_flutter/campusComponent/viewmodel/news_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class NewsWidgetView extends ConsumerStatefulWidget {
   const NewsWidgetView({super.key});
@@ -35,15 +36,38 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
             if (fiveNews.isNotEmpty) {
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  return HorizontalSlider.height(
-                    data: fiveNews,
-                    height: 300,
-                    child: (news) {
-                      return NewsCardView(
-                        news: news,
-                        width: constraints.maxWidth * 0.8,
-                      );
-                    },
+                  final width = constraints.maxWidth * 0.8;
+                  const height = 300.00;
+                  return SizedBox(
+                    height: height,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 11),
+                      child: CarouselView(
+                        itemExtent: width,
+                        shrinkExtent: width,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        children: [
+                          for (var news in fiveNews)
+                            NewsCardView(
+                              news: news,
+                              width: 0,
+                              isCarousel: true,
+                            ),
+                        ],
+                        onTap: (index) {
+                          final news = snapshot.data![index];
+                          final imageUrl =
+                              news.imageUrl.toString().contains("src_1.png")
+                                  ? news.link.toString()
+                                  : news.imageUrl.toString();
+                          if (imageUrl.isNotEmpty) {
+                            context.push(networkImage, extra: (imageUrl, null));
+                          }
+                        },
+                      ),
+                    ),
                   );
                 },
               );

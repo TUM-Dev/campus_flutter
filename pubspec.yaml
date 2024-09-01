@@ -125,6 +125,7 @@ flutter:
     - assets/images/placeholders/portrait_placeholder.png
     - assets/images/placeholders/movie_placeholder.png
     - assets/images/placeholders/news_placeholder.png
+    - assets/images/placeholders/student_club_placeholder.png
     - assets/images/errors/error.svg
     - assets/lottieFiles/gradient_background_blue_red.json
     - assets/lottieFiles/gradient_background_blue_white.json

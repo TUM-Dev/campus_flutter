@@ -221,5 +221,9 @@
   "personNotFoundRecovery": "Make sure you entered the name correctly!",
   "invalidSearchRecovery": "A search string with less than 4 characters must not contain wildcards or special characters!",
   "tumOnlineDegraded": "TUMonline Services are currently degraded!",
-  "tumOnlineMaintenance": "TUMonline Services are currently under maintenance!"
+  "tumOnlineMaintenance": "TUMonline Services are currently under maintenance!",
+  "campus": "Campus",
+  "studies": "Studies",
+  "suggested": "Suggested {}",
+  "viewAll": "View All"
 }

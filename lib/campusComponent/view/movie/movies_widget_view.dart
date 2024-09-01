@@ -1,24 +1,24 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
-import 'package:campus_flutter/movieComponent/viewModel/movies_viewmodel.dart';
-import 'package:campus_flutter/movieComponent/views/homeWidget/movie_card_view.dart';
+import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
+import 'package:campus_flutter/campusComponent/view/movie/movie_card_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesHomeWidget extends ConsumerStatefulWidget {
-  const MoviesHomeWidget({super.key});
+class MovieWidgetView extends ConsumerStatefulWidget {
+  const MovieWidgetView({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _MoviesHomeWidgetState();
 }
 
-class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
+class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
   @override
   void initState() {
     ref.read(movieViewModel).fetch(false);
@@ -41,12 +41,31 @@ class _MoviesHomeWidgetState extends ConsumerState<MoviesHomeWidget> {
 
   Widget body(AsyncSnapshot<List<Movie>?> snapshot) {
     if (snapshot.hasData) {
-      return HorizontalSlider<Movie>.height(
-        data: snapshot.data!,
-        height: MediaQuery.of(context).size.height * 0.34,
-        child: (data) {
-          return MovieCardView(movie: data);
-        },
+      final height = MediaQuery.of(context).size.height * 0.34;
+      final width = height * 250 / 470;
+      return SizedBox(
+        height: height,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 11),
+          child: CarouselView(
+            itemExtent: width,
+            shrinkExtent: width,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            children: [
+              for (var data in snapshot.data!)
+                MovieCardView(
+                  movie: data,
+                  isCarousel: true,
+                ),
+            ],
+            onTap: (index) => UrlLauncher.urlString(
+              snapshot.data![index].additionalInformationUrl,
+              ref,
+            ),
+          ),
+        ),
       );
     } else if (snapshot.hasError) {
       return SizedBox(

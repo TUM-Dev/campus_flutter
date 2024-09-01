@@ -1,0 +1,98 @@
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
+import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
+import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+class StudentClubWidgetView extends ConsumerStatefulWidget {
+  const StudentClubWidgetView({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _StudentClubWidgetViewState();
+}
+
+class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
+  @override
+  void initState() {
+    ref.read(studentClubViewModel).fetchStudentClubs(false);
+    ref.read(movieViewModel).fetch(false);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetFrameView(
+      titleWidget: Row(
+        children: [
+          Text(
+            context.tr("suggested", args: ["Student Clubs"]),
+            style: Theme.of(context).textTheme.titleMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const Spacer(),
+          InkWell(
+            child: Text(
+              context.tr("viewAll"),
+              style: Theme.of(context).textTheme.titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () => context.push(studentClubs),
+          ),
+        ],
+      ),
+      //title: "Suggested Student Clubs",
+      child: SizedBox(
+        height: 200,
+        child: StreamBuilder(
+          stream: ref.watch(studentClubViewModel).suggestions,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 11),
+                child: CarouselView(
+                  itemExtent: 200,
+                  shrinkExtent: 200,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  children: [
+                    for (var studentClub in snapshot.data!)
+                      StudentClubItemView(
+                        studentClub: studentClub,
+                        isCarousel: true,
+                      ),
+                  ],
+                  onTap: (index) => UrlLauncher.urlString(
+                    snapshot.data![index].linkUrl,
+                    ref,
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return const Card(
+                child: DelayedLoadingIndicator(
+                  name: "Student Clubs",
+                ),
+              );
+            } else {
+              return const Card(
+                child: DelayedLoadingIndicator(
+                  name: "Student Clubs",
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+}

@@ -10,11 +10,8 @@ const cafeteriaWidget = "/cafeteriaWidget";
 const closestStudyRoom = "/closestStudyRoom";
 const fullScreenImage = "/fullScreenImage";
 
-/// Grades tab
-const grades = "/grades";
-
-/// Lectures tab
-const lectures = "/lectures";
+/// Studies tab
+const studies = "/studies";
 const lectureDetails = "/lectureDetails";
 
 /// Calendar tab
@@ -22,10 +19,14 @@ const calendar = "/calendar";
 const calendarDetails = "/calendarDetails";
 const eventCreation = "$calendar/eventCreation";
 
+/// Campus tab
+const campus = "/campus";
+const studentClubs = "/studentClubs";
+
 /// Places tab
 const places = "/places";
-const campus = "/campus";
-const campusMap = "$campus/map";
+const place = "/place";
+const campusMap = "$place/map";
 const cafeterias = "/cafeterias";
 const studyRooms = "/studyRooms";
 

@@ -8,8 +8,8 @@ class MovieService {
     bool forcedRefresh,
   ) async {
     final start = DateTime.now();
-    GrpcClient restClient = getIt<GrpcClient>();
-    final response = await restClient.listMovies(
+    GrpcClient grpcClient = getIt<GrpcClient>();
+    final response = await grpcClient.listMovies(
       ListMoviesRequest(
         oldestDateAt: Timestamp.fromDateTime(
           DateTime(start.year, start.month, start.day),

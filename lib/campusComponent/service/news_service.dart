@@ -8,8 +8,8 @@ class NewsService {
     bool forcedRefresh,
   ) async {
     final start = DateTime.now();
-    GrpcClient restClient = getIt<GrpcClient>();
-    final news = await restClient.listNews(
+    GrpcClient grpcClient = getIt<GrpcClient>();
+    final news = await grpcClient.listNews(
       ListNewsRequest(
         oldestDateAt: Timestamp.fromDateTime(
           DateTime(start.year, start.month, start.day)
@@ -22,8 +22,8 @@ class NewsService {
 
   static Future<(DateTime?, List<News>)> fetchNews(bool forcedRefresh) async {
     final start = DateTime.now();
-    GrpcClient restClient = getIt<GrpcClient>();
-    final news = await restClient.listNews(ListNewsRequest());
+    GrpcClient grpcClient = getIt<GrpcClient>();
+    final news = await grpcClient.listNews(ListNewsRequest());
     return (start, news.news);
   }
 }

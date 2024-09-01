@@ -5,14 +5,14 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
+import 'package:campus_flutter/campusComponent/screen/campus_screen.dart';
+import 'package:campus_flutter/campusComponent/screen/student_clubs_screen.dart';
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_success_view.dart';
-import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
-import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/lectureComponent/model/lecture.dart';
 import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
-import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
@@ -34,6 +34,7 @@ import 'package:campus_flutter/placesComponent/views/studyGroups/study_rooms_vie
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -79,19 +80,9 @@ final _router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: grades,
+              path: studies,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: GradesView(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: lectures,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: LecturesView(),
+                child: Text("Studies"),
               ),
             ),
           ],
@@ -102,6 +93,16 @@ final _router = GoRouter(
               path: calendar,
               pageBuilder: (context, state) => NoTransitionPage(
                 child: CalendarsView(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: campus,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: CampusScreen(),
               ),
             ),
           ],
@@ -162,6 +163,10 @@ final _router = GoRouter(
         event: state.extra as CalendarEvent,
         scrollController: null,
       ),
+    ),
+    GoRoute(
+      path: studentClubs,
+      builder: (context, state) => const StudentClubsScreen(),
     ),
     GoRoute(
       path: studyRooms,
