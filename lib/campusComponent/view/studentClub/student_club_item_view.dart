@@ -18,18 +18,18 @@ class StudentClubItemView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (isCarousel) {
-      return body();
+      return body(context);
     } else {
       return InkWell(
         onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
-        child: body(),
+        child: body(context),
       );
     }
   }
 
-  Widget body() {
+  Widget body(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).cardTheme.color,
       child: Column(
         children: [
           if (studentClub.coverUrl.contains("svg"))

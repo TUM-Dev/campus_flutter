@@ -32,7 +32,7 @@ class MovieCardView extends ConsumerWidget {
 
   Widget body(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).cardTheme.color,
       child: AspectRatio(
         aspectRatio: 250 / 470,
         child: Column(
