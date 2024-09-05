@@ -3,6 +3,4 @@ enum WidgetType {
   calendar,
   departures,
   studyRooms;
-  //movies,
-  //news;
 }
