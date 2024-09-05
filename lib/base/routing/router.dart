@@ -177,7 +177,7 @@ final _router = GoRouter(
       builder: (context, state) => const CafeteriasScaffold(),
     ),
     GoRoute(
-      path: campus,
+      path: place,
       builder: (context, state) => CampusScaffold(
         campus: state.extra as Campus,
       ),
