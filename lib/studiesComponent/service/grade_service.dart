@@ -2,8 +2,8 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
-import 'package:campus_flutter/gradeComponent/model/average_grade.dart';
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
+import 'package:campus_flutter/studiesComponent/model/average_grade.dart';
+import 'package:campus_flutter/studiesComponent/model/grade.dart';
 import 'package:campus_flutter/main.dart';
 
 class GradeService {

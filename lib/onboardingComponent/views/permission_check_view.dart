@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
-import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
-import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
+import 'package:campus_flutter/studiesComponent/service/grade_service.dart';
+import 'package:campus_flutter/studiesComponent/service/lecture_service.dart';
 import 'package:campus_flutter/profileComponent/services/profile_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

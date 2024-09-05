@@ -1,7 +1,7 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
-import 'package:campus_flutter/lectureComponent/services/lecture_details_service.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture_details.dart';
+import 'package:campus_flutter/studiesComponent/service/lecture_details_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 

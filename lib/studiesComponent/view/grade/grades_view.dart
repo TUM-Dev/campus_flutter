@@ -1,14 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
-import 'package:campus_flutter/base/util/padded_divider.dart';
-import 'package:campus_flutter/base/util/semester_calculator.dart';
-import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/gradeComponent/viewModels/grade_viewmodel.dart';
-import 'package:campus_flutter/gradeComponent/views/chart_view.dart';
-import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
+import 'package:campus_flutter/studiesComponent/model/grade.dart';
+import 'package:campus_flutter/studiesComponent/view/semester_view.dart';
+import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
+import 'package:campus_flutter/studiesComponent/view/grade/chart_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -156,35 +153,6 @@ class DegreeView extends StatelessWidget {
         ),
         for (var semester in degree.entries) SemesterView(semester: semester),
       ],
-    );
-  }
-}
-
-class SemesterView extends StatelessWidget {
-  const SemesterView({super.key, required this.semester});
-
-  final MapEntry<String, List<Grade>> semester;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ExpansionTile(
-        title: Text(StringParser.toFullSemesterName(context, semester.key)),
-        initiallyExpanded:
-            (semester.key == SemesterCalculator.getCurrentSemester() ||
-                semester.key == SemesterCalculator.getPriorSemester()),
-        children: [
-          for (var index = 0; index < semester.value.length; index++)
-            Column(
-              children: [
-                GradeRow(grade: semester.value[index]),
-                (index != semester.value.length - 1
-                    ? const PaddedDivider()
-                    : const SizedBox.shrink()),
-              ],
-            ),
-        ],
-      ),
     );
   }
 }

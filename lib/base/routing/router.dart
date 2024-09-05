@@ -10,8 +10,6 @@ import 'package:campus_flutter/campusComponent/screen/student_clubs_screen.dart'
 import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_success_view.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
 import 'package:campus_flutter/homeComponent/home_screen.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
@@ -34,7 +32,9 @@ import 'package:campus_flutter/placesComponent/views/studyGroups/study_rooms_vie
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
-import 'package:flutter/material.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/screen/studies_screen.dart';
+import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_details_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -82,7 +82,7 @@ final _router = GoRouter(
             GoRoute(
               path: studies,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: Text("Studies"),
+                child: StudiesScreen(),
               ),
             ),
           ],

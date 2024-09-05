@@ -1,5 +1,5 @@
-import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/services/lecture_service.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/service/lecture_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 

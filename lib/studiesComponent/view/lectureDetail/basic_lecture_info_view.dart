@@ -1,9 +1,9 @@
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture_details.dart';
-import 'package:campus_flutter/lectureComponent/views/basic_lecture_info_row_view.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_info_card_view.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture_details.dart';
+import 'package:campus_flutter/studiesComponent/view/lectureDetail/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_info_card_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

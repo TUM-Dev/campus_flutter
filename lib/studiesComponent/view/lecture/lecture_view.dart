@@ -1,23 +1,22 @@
-import 'dart:core';
-
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/gradeComponent/views/grade_rectangle.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class GradeRow extends StatelessWidget {
-  const GradeRow({super.key, required this.grade});
+class LectureView extends ConsumerWidget {
+  const LectureView({super.key, required this.lecture, this.isSearch = false});
 
-  final Grade grade;
+  final Lecture lecture;
+  final bool isSearch;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      leading: GradeRectangle(grade: grade.grade),
-      title: Text(
-        grade.title,
-      ),
+      title: Text(lecture.title),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -25,18 +24,21 @@ class GradeRow extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _subtitle(grade.modeShort(context), Icons.edit, context),
+                child:
+                    _subtitle(lecture.eventType(context), Icons.edit, context),
               ),
               const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
               Expanded(
-                child: _subtitle(grade.lvNumber, Icons.numbers, context),
+                child: _subtitle(lecture.sws, Icons.access_time, context),
               ),
             ],
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          _subtitle(grade.examiner, Icons.person, context),
+          if (lecture.speaker != null)
+            _subtitle(lecture.speaker!, Icons.person, context),
         ],
       ),
+      onTap: () => context.push(lectureDetails, extra: lecture),
     );
   }
 
