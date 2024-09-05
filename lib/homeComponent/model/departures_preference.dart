@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-import 'package:campus_flutter/departuresComponent/model/station.dart';
+import 'package:campus_flutter/homeComponent/model/station.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'departures_preference.g.dart';

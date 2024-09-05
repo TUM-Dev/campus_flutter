@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_loading_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_loading_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
 import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';

@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/enums/widget_type.dart';
 import 'package:campus_flutter/calendarComponent/views/homeWidget/calendar_widget_view.dart';
-import 'package:campus_flutter/departuresComponent/views/homeWidget/departures_widget_view.dart';
+import 'package:campus_flutter/homeComponent/view/departure/departures_widget_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/home_widget.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/viewModels/home_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/viewmodel/home_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

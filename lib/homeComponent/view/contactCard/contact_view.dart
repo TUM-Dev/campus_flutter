@@ -1,10 +1,10 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_error_view.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_view.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/link_view.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/tuition_view.dart';
-import 'package:campus_flutter/homeComponent/contactComponent/views/contact_card_unauthorized_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_error_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/link_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/tuition_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_unauthorized_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/profileComponent/model/profile.dart';
 import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';

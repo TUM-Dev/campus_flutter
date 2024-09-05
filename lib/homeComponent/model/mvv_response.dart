@@ -1,4 +1,4 @@
-import 'package:campus_flutter/departuresComponent/model/departure.dart';
+import 'package:campus_flutter/homeComponent/model/departure.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'mvv_response.g.dart';

@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/classes/location.dart';
-import 'package:campus_flutter/departuresComponent/model/station.dart';
+import 'package:campus_flutter/homeComponent/model/station.dart';
 
 enum Campus {
   stammgelaende("Stammgelände"),

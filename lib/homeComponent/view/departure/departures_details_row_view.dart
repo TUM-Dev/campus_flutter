@@ -1,4 +1,4 @@
-import 'package:campus_flutter/departuresComponent/model/departure.dart';
+import 'package:campus_flutter/homeComponent/model/departure.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

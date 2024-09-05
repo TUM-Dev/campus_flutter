@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movie_card_view.dart';
 import 'package:easy_localization/easy_localization.dart';

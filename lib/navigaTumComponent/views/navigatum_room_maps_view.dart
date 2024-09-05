@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
