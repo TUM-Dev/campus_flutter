@@ -49,7 +49,6 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
           ),
         ],
       ),
-      //title: "Suggested Student Clubs",
       child: SizedBox(
         height: 200,
         child: StreamBuilder(

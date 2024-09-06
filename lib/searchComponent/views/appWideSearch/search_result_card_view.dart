@@ -74,7 +74,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                     );
                   },
                   separatorBuilder: (context, index) => const PaddedDivider(
-                    height: 5,
+                    height: 0,
                   ),
                   itemCount: itemCount,
                 );
