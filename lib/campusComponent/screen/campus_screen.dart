@@ -8,6 +8,25 @@ class CampusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.portrait) {
+          return body();
+        } else {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Spacer(),
+              Expanded(flex: 2, child: body()),
+              const Spacer(),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget body() {
     return const SingleChildScrollView(
       child: Column(
         children: [

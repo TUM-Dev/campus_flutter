@@ -41,7 +41,7 @@ class StudentClubsScreen extends ConsumerWidget {
                           right: 11,
                         ),
                         child: GridView.count(
-                          crossAxisCount: 2,
+                          crossAxisCount: crossAxisCount(context),
                           children: [
                             for (var studentClub in collection.clubs)
                               Padding(
@@ -84,5 +84,13 @@ class StudentClubsScreen extends ConsumerWidget {
         );
       },
     );
+  }
+
+  int crossAxisCount(BuildContext context) {
+    return MediaQuery.orientationOf(context) == Orientation.landscape
+        ? 6
+        : MediaQuery.sizeOf(context).width > 600
+            ? 4
+            : 2;
   }
 }

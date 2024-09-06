@@ -18,8 +18,10 @@ class StudentClubSearchViewModel implements SearchViewModel<StudentClubSearch> {
 
   List<StudentClubSearch> studentClubData = [];
 
-  Future studentClubSearch(
-      {bool forcedRefresh = false, required String query}) async {
+  Future studentClubSearch({
+    bool forcedRefresh = false,
+    required String query,
+  }) async {
     if (studentClubData.isEmpty) {
       return StudentClubService.fetchStudentClubs(forcedRefresh).then(
         (value) {

@@ -35,16 +35,15 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
             final fiveNews = ref.watch(newsViewModel).latestFiveNews();
             if (fiveNews.isNotEmpty) {
               return LayoutBuilder(
-                builder: (context, constraints) {
-                  final width = constraints.maxWidth * 0.8;
+                builder: (context, boxConstrains) {
                   const height = 300.00;
                   return SizedBox(
                     height: height,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 11),
                       child: CarouselView(
-                        itemExtent: width,
-                        shrinkExtent: width,
+                        itemExtent: width(boxConstrains, context),
+                        shrinkExtent: width(boxConstrains, context),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -110,5 +109,15 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
         },
       ),
     );
+  }
+
+  double width(BoxConstraints boxConstrains, BuildContext context) {
+    if (boxConstrains.maxWidth > 800) {
+      return boxConstrains.maxWidth * 0.45;
+    } else if (boxConstrains.maxWidth > 600) {
+      return boxConstrains.maxWidth * 0.6;
+    } else {
+      return boxConstrains.maxWidth * 0.8;
+    }
   }
 }
