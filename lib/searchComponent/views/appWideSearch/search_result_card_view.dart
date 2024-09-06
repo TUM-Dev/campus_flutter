@@ -59,17 +59,22 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (index == itemCount - 1) {
-                      return _showMoreButton(
-                        snapshot.data!,
-                        context,
-                      );
-                    } else {
-                      return body(snapshot.data![index]);
-                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: () {
+                        if (index == itemCount - 1) {
+                          return _showMoreButton(
+                            snapshot.data!,
+                            context,
+                          );
+                        } else {
+                          return body(snapshot.data![index]);
+                        }
+                      }(),
+                    );
                   },
                   separatorBuilder: (context, index) => const PaddedDivider(
-                    height: 0,
+                    height: 5,
                   ),
                   itemCount: itemCount,
                 );
