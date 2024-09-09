@@ -1,8 +1,7 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-
-import 'package:campus_flutter/personDetailedComponent/model/person_details.dart';
-import 'package:campus_flutter/personDetailedComponent/services/person_details_service.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
+import 'package:campus_flutter/personComponent/services/person_details_service.dart';
+import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 

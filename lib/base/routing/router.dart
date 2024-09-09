@@ -19,7 +19,7 @@ import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/navigation.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
-import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
+import 'package:campus_flutter/personComponent/views/person_details_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';

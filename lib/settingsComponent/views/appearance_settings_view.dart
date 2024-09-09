@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
-import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';

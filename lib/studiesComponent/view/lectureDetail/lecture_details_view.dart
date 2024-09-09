@@ -5,7 +5,7 @@ import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
-import 'package:campus_flutter/base/views/color_picker_view.dart';
+import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture_details.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/basic_lecture_info_view.dart';

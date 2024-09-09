@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/views/color_picker_view.dart';
+import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
-import 'package:campus_flutter/base/views/seperated_list.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';

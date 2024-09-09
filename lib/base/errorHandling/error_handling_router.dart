@@ -1,13 +1,11 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/campus_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/grpc_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
-import 'package:campus_flutter/base/extensions/campus_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
@@ -84,19 +82,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
         );
         return SearchExceptionRouter(
           searchException: searchException,
-          errorHandlingViewType: errorHandlingViewType,
-          retry: retry,
-          titleColor: titleColor,
-          bodyColor: bodyColor,
-        );
-      case CampusException campusException:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: campusException,
-          ),
-        );
-        return CampusExceptionRouter(
-          campusException: campusException,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           titleColor: titleColor,

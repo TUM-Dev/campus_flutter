@@ -1,7 +1,7 @@
-import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room_group.g.dart';
@@ -17,34 +17,34 @@ class StudyRoomGroup extends Searchable {
   @JsonKey(name: "raeume")
   final List<int>? rooms;
 
-  Location? get coordinate {
+  LatLng? get coordinate {
     switch (id) {
       case 44:
-        return Location(
-          latitude: 48.24926355557732,
-          longitude: 11.633834370828435,
+        return const LatLng(
+          48.24926355557732,
+          11.633834370828435,
         );
       case 46:
-        return Location(latitude: 48.2629811953867, longitude: 11.6668123);
+        return const LatLng(48.2629811953867, 11.6668123);
       case 47:
-        return Location(
-          latitude: 48.26250533403169,
-          longitude: 11.668024666454896,
+        return const LatLng(
+          48.26250533403169,
+          11.668024666454896,
         );
       case 60:
-        return Location(
-          latitude: 48.14778663798231,
-          longitude: 11.56695764027295,
+        return const LatLng(
+          48.14778663798231,
+          11.56695764027295,
         );
       case 97:
-        return Location(
-          latitude: 48.26696368721545,
-          longitude: 11.670222023419445,
+        return const LatLng(
+          48.26696368721545,
+          11.670222023419445,
         );
       case 130:
-        return Location(
-          latitude: 48.39535098293569,
-          longitude: 11.724272313959853,
+        return const LatLng(
+          48.39535098293569,
+          11.724272313959853,
         );
       default:
         return null;

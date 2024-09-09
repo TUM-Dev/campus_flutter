@@ -3,8 +3,8 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/profileComponent/model/profile.dart';
-import 'package:campus_flutter/profileComponent/model/tuition.dart';
+import 'package:campus_flutter/personComponent/model/profile/profile.dart';
+import 'package:campus_flutter/personComponent/model/profile/tuition.dart';
 
 class ProfileService {
   static Future<(DateTime?, Profile)> fetchProfile(bool forcedRefresh) async {

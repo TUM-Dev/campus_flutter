@@ -6,8 +6,8 @@ import 'package:campus_flutter/homeComponent/view/contactCard/link_view.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/tuition_view.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_unauthorized_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:campus_flutter/profileComponent/model/profile.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/personComponent/model/profile/profile.dart';
+import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

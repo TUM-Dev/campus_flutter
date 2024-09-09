@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
-import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/person_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/cafeteria_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/grades_search_viewmodel.dart';

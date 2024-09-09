@@ -1,6 +1,6 @@
-import 'package:campus_flutter/profileComponent/model/profile.dart';
-import 'package:campus_flutter/profileComponent/model/tuition.dart';
-import 'package:campus_flutter/profileComponent/services/profile_service.dart';
+import 'package:campus_flutter/personComponent/model/profile/profile.dart';
+import 'package:campus_flutter/personComponent/model/profile/tuition.dart';
+import 'package:campus_flutter/personComponent/services/profile_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 

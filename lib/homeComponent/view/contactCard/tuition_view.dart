@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/util/info_row.dart';
-import 'package:campus_flutter/profileComponent/model/tuition.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/personComponent/model/profile/tuition.dart';
+import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

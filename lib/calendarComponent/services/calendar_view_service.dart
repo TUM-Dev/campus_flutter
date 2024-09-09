@@ -73,7 +73,13 @@ class CalendarViewService {
                 ref
                     .read(calendarViewModel)
                     .deleteCalendarElement(calendarEvent!.id)
-                    .then((value) => context.pop());
+                    .then(
+                  (value) {
+                    if (context.mounted) {
+                      context.pop();
+                    }
+                  },
+                );
               },
               child: Text(context.tr("delete")),
             ),
