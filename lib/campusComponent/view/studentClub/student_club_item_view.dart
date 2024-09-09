@@ -35,12 +35,15 @@ class StudentClubItemView extends ConsumerWidget {
           if (studentClub.coverUrl.contains("svg"))
             Expanded(
               flex: 4,
-              child: SvgPicture.network(
-                studentClub.coverUrl,
-                fit: BoxFit.cover,
-                placeholderBuilder: (context) => Image.asset(
-                  "assets/images/placeholders/student_club_placeholder.png",
+              child: Container(
+                color: Colors.white,
+                child: SvgPicture.network(
+                  studentClub.coverUrl,
                   fit: BoxFit.cover,
+                  placeholderBuilder: (context) => Image.asset(
+                    "assets/images/placeholders/student_club_placeholder.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -48,6 +51,13 @@ class StudentClubItemView extends ConsumerWidget {
             Expanded(
               flex: 4,
               child: CachedNetworkImage(
+                imageBuilder: (context, imageProvider) => Container(
+                  color: Colors.white,
+                  child: Image(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 imageUrl: studentClub.coverUrl,
                 fit: BoxFit.cover,
                 errorWidget: (context, _, __) => Image.asset(

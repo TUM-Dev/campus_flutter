@@ -37,18 +37,28 @@ class StudentClubSearchResultView extends ConsumerWidget {
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: () {
         if (imageUrl.contains("svg")) {
-          return SvgPicture.network(
+          return Container(
             width: 80,
             height: 50,
-            imageUrl,
-            fit: BoxFit.cover,
-            placeholderBuilder: (context) => Image.asset(
-              "assets/images/placeholders/student_club_placeholder.png",
+            color: Colors.white,
+            child: SvgPicture.network(
+              imageUrl,
               fit: BoxFit.cover,
+              placeholderBuilder: (context) => Image.asset(
+                "assets/images/placeholders/student_club_placeholder.png",
+                fit: BoxFit.cover,
+              ),
             ),
           );
         } else {
           return CachedNetworkImage(
+            imageBuilder: (context, imageProvider) => Container(
+              color: Colors.white,
+              child: Image(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
             width: 80,
             height: 50,
             imageUrl: imageUrl,
