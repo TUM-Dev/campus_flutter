@@ -712,10 +712,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
-      sha256: "4f6930fd668bf5d40feb2695d5695dbc0c35e5542b557a34ad35be491686d2ba"
+      sha256: "8ba5daee8b5d2230fea17a7903047ce4dc45fb1f0726356a1d8eb541e30c7d05"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.9.1"
   google_maps_flutter_web:
     dependency: transitive
     description:
@@ -745,10 +745,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: c63c97840167512f6a5fa0877d25503cd539f138
+      resolved-ref: e036378d975804b0e995a2d07c2aa0e52cfef910
       url: "https://github.com/jakobkoerber/grpc-dart.git"
     source: git
-    version: "4.0.2"
+    version: "4.0.2-wip"
   home_widget:
     dependency: "direct main"
     description:
