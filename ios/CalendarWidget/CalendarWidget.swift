@@ -21,26 +21,26 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (CalendarWidgetEntry) -> ()) {
-        //if context.isPreview{
-        let entry = placeholder(in: context)
-        completion(entry)
-        /*} else {
-         let userDefaults = UserDefaults(suiteName: "group.de.tum.tca-widget")
-         let calendarJson = userDefaults?.string(forKey: "calendar") ?? ""
-         let calendarSaved = userDefaults?.string(forKey: "calendar_save")
-         let data = Data(calendarJson.utf8)
-         do {
-         let decoder = JSONDecoder()
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-         let entries = try decoder.decode([CalendarEntry].self, from: data)
-         let entry = CalendarWidgetEntry(date: dateFormatter.date(from: calendarSaved ?? "") ?? Date(), entries: entries, size: context.family)
-         completion(entry)
-         } catch {
-         completion(Entry(date: Date(), entries: [], size: context.family))
-         }
-         }*/
+        if context.isPreview{
+            let entry = placeholder(in: context)
+            completion(entry)
+        } else {
+            let userDefaults = UserDefaults(suiteName: "group.de.tum.tca-widget")
+            let calendarJson = userDefaults?.string(forKey: "calendar") ?? ""
+            let calendarSaved = userDefaults?.string(forKey: "calendar_save")
+            let data = Data(calendarJson.utf8)
+            do {
+                let decoder = JSONDecoder()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                decoder.dateDecodingStrategy = .formatted(dateFormatter)
+                let entries = try decoder.decode([CalendarEntry].self, from: data)
+                let entry = CalendarWidgetEntry(date: dateFormatter.date(from: calendarSaved ?? "") ?? Date(), entries: entries, size: context.family)
+                completion(entry)
+            } catch {
+                completion(Entry(date: Date(), entries: [], size: context.family))
+            }
+        }
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarWidgetEntry>) -> ()) {
