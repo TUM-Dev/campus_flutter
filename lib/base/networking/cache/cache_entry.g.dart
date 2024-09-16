@@ -339,57 +339,6 @@ typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
   Value<int> rowid,
 });
 
-class $$CacheEntryTableTableManager extends RootTableManager<
-    _$CacheDatabase,
-    $CacheEntryTable,
-    CacheEntryData,
-    $$CacheEntryTableFilterComposer,
-    $$CacheEntryTableOrderingComposer,
-    $$CacheEntryTableCreateCompanionBuilder,
-    $$CacheEntryTableUpdateCompanionBuilder> {
-  $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$CacheEntryTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> url = const Value.absent(),
-            Value<DateTime> validUntil = const Value.absent(),
-            Value<DateTime> saved = const Value.absent(),
-            Value<String> body = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CacheEntryCompanion(
-            id: id,
-            url: url,
-            validUntil: validUntil,
-            saved: saved,
-            body: body,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required int id,
-            required String url,
-            required DateTime validUntil,
-            required DateTime saved,
-            required String body,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CacheEntryCompanion.insert(
-            id: id,
-            url: url,
-            validUntil: validUntil,
-            saved: saved,
-            body: body,
-            rowid: rowid,
-          ),
-        ));
-}
-
 class $$CacheEntryTableFilterComposer
     extends FilterComposer<_$CacheDatabase, $CacheEntryTable> {
   $$CacheEntryTableFilterComposer(super.$state);
@@ -447,6 +396,82 @@ class $$CacheEntryTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
+
+class $$CacheEntryTableTableManager extends RootTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableCreateCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder,
+    (
+      CacheEntryData,
+      BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>
+    ),
+    CacheEntryData,
+    PrefetchHooks Function()> {
+  $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$CacheEntryTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> url = const Value.absent(),
+            Value<DateTime> validUntil = const Value.absent(),
+            Value<DateTime> saved = const Value.absent(),
+            Value<String> body = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required int id,
+            required String url,
+            required DateTime validUntil,
+            required DateTime saved,
+            required String body,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CacheEntryCompanion.insert(
+            id: id,
+            url: url,
+            validUntil: validUntil,
+            saved: saved,
+            body: body,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$CacheEntryTableProcessedTableManager = ProcessedTableManager<
+    _$CacheDatabase,
+    $CacheEntryTable,
+    CacheEntryData,
+    $$CacheEntryTableFilterComposer,
+    $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableCreateCompanionBuilder,
+    $$CacheEntryTableUpdateCompanionBuilder,
+    (
+      CacheEntryData,
+      BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>
+    ),
+    CacheEntryData,
+    PrefetchHooks Function()>;
 
 class $CacheDatabaseManager {
   final _$CacheDatabase _db;
