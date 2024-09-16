@@ -10,6 +10,7 @@ import WidgetKit
 
 struct CalendarWidgetContent: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     
     var availableItems: Int
     var widgetFamily: WidgetFamily
@@ -40,8 +41,9 @@ struct CalendarWidgetContent: View {
             }
             .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            .background(.accent)
+            .widgetAccentable(false)
             .foregroundStyle(.white)
+            .background(Color.accent.widgetAccentable(true))
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
             
             if (events.isEmpty) {
