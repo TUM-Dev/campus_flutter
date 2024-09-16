@@ -71,13 +71,3 @@ struct CalendarWidget: Widget {
         .description("An Overview About Your Upcoming Events.")
     }
 }
-
-struct CalendarWidgetPreviews: PreviewProvider {
-    let kind: String = "CalendarWidget"
-    
-    static var previews: some View {
-        CalendarWidgetContent(entry: CalendarWidgetEntry(date: Date(), entries: [], size: .systemSmall))
-            .containerBackground(Color.widgetBackground, for: .widget)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-}
