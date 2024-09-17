@@ -1,4 +1,6 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
@@ -62,7 +64,12 @@ class CampusMostSearchedView extends ConsumerWidget {
                 );
               }
             } else if (snapshot.hasError) {
-              return const Text("Error");
+              return ListTile(
+                title: ErrorHandlingRouter(
+                  error: snapshot.error!,
+                  errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+                ),
+              );
             } else {
               return Padding(
                 padding: EdgeInsets.all(context.padding),
