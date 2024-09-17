@@ -10,7 +10,6 @@ import WidgetKit
 
 struct CalendarWidgetContent: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     
     var availableItems: Int
     var widgetFamily: WidgetFamily
