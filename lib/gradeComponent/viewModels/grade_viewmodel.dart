@@ -62,6 +62,10 @@ class GradeViewModel {
       studyProgramGrades.add({});
     }
 
+    response.removeWhere(
+      (element) => element.lvNumber.toLowerCase().contains("mid"),
+    );
+
     if (ref.read(hideFailedGrades)) {
       response.removeWhere((element) {
         final parsedGrade = StringParser.optStringToOptDouble(element.grade);
