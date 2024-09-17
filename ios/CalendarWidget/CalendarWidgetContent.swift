@@ -26,7 +26,7 @@ struct CalendarWidgetContent: View {
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
+        formatter.setLocalizedDateFormatFromTemplate(widgetFamily == .systemSmall ? "MMMM d" : "MMMM d, yyyy")
         return formatter
     }
     
