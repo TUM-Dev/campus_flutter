@@ -69,7 +69,10 @@ class CalendarEvent extends Searchable {
   }
 
   Color getColor() {
-    if (color == null) {
+    if (description != null &&
+        description!.toLowerCase().contains("prüfungstermin")) {
+      return Colors.orange;
+    } else if (color == null) {
       return primaryLightColor;
     } else {
       return Color(color!);
