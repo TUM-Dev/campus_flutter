@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/campusComponent/model/student_club_collection.dart';
 import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class StudentClubsScreen extends ConsumerWidget {
                 tabs: [
                   for (var collection
                       in snapshot.data ?? <StudentClubCollection>[])
-                    Tab(text: collection.title),
+                    Tab(text: collection.parsedTitle),
                 ],
               ),
             ),

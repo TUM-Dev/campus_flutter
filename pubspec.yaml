@@ -38,10 +38,10 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_core: ^26.1.35
-  syncfusion_flutter_calendar: ^26.1.35
-  syncfusion_flutter_charts: ^26.1.35
-  syncfusion_flutter_datepicker: ^26.1.35
+  syncfusion_flutter_core: ^27.1.48
+  syncfusion_flutter_calendar: ^27.1.48
+  syncfusion_flutter_charts: ^27.1.48
+  syncfusion_flutter_datepicker: ^27.1.48
   google_maps_flutter: ^2.5.3
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
@@ -65,6 +65,7 @@ dependencies:
   collection: ^1.18.0
   shared_preferences: ^2.1.2
   map_launcher: ^3.0.1
+  html: ^0.15.4
 
   # firebase
   firebase_crashlytics: ^4.0.1
@@ -88,16 +89,6 @@ dependency_overrides:
   flutter_linkify:
     git:
       url: https://github.com/jakobkoerber/flutter_linkify
-      ref: master
-  syncfusion_flutter_core:
-    git:
-      url: https://github.com/jakobkoerber/flutter-widgets.git
-      path: packages/syncfusion_flutter_core
-      ref: master
-  syncfusion_flutter_charts:
-    git:
-      url: https://github.com/jakobkoerber/flutter-widgets.git
-      path: packages/syncfusion_flutter_charts
       ref: master
 
 dev_dependencies:

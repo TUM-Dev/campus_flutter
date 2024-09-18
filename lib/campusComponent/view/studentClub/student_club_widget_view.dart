@@ -32,7 +32,7 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
       titleWidget: Row(
         children: [
           Text(
-            context.tr("suggested", args: ["Student Clubs"]),
+            "Student Clubs",
             style: Theme.of(context).textTheme.titleMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -40,7 +40,7 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
           const Spacer(),
           InkWell(
             child: Text(
-              context.tr("viewAll"),
+              context.tr("all"),
               style: Theme.of(context).textTheme.titleMedium,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
