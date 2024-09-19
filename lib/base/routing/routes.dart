@@ -22,6 +22,8 @@ const eventCreation = "$calendar/eventCreation";
 /// Campus tab
 const campus = "/campus";
 const studentClubs = "/studentClubs";
+const news = "/news";
+const movies = "/movies";
 
 /// Places tab
 const places = "/places";

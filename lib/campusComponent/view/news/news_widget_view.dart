@@ -27,7 +27,26 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      title: context.tr("latestNews"),
+      titleWidget: Row(
+        children: [
+          Text(
+            context.tr("news"),
+            style: Theme.of(context).textTheme.titleMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const Spacer(),
+          InkWell(
+            child: Text(
+              context.tr("all"),
+              style: Theme.of(context).textTheme.titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () => context.push(news),
+          ),
+        ],
+      ),
       child: StreamBuilder(
         stream: ref.watch(newsViewModel).news,
         builder: (context, snapshot) {

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
@@ -9,6 +10,7 @@ import 'package:campus_flutter/campusComponent/view/movie/movie_card_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MovieWidgetView extends ConsumerStatefulWidget {
   const MovieWidgetView({super.key});
@@ -33,7 +35,29 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
         if (snapshot.hasData && snapshot.data!.isEmpty) {
           return const SizedBox.shrink();
         } else {
-          return WidgetFrameView(title: "TU Film", child: body(snapshot));
+          return WidgetFrameView(
+            titleWidget: Row(
+              children: [
+                Text(
+                  "TU Film",
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const Spacer(),
+                InkWell(
+                  child: Text(
+                    context.tr("all"),
+                    style: Theme.of(context).textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: () => context.push(movies),
+                ),
+              ],
+            ),
+            child: body(snapshot),
+          );
         }
       },
     );

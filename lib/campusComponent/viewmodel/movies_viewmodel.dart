@@ -6,8 +6,7 @@ import 'package:rxdart/rxdart.dart';
 final movieViewModel = Provider((ref) => MovieViewModel());
 
 class MovieViewModel {
-  BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);
-
+  final BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {

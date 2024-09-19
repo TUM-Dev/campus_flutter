@@ -32,35 +32,37 @@ class MovieCardView extends ConsumerWidget {
 
   Widget body(BuildContext context) {
     return Container(
-      color: Theme.of(context).cardTheme.color,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: isCarousel
+            ? BorderRadius.zero
+            : const BorderRadius.all(Radius.circular(12)),
+      ),
+      clipBehavior: Clip.antiAlias,
       child: AspectRatio(
         aspectRatio: 250 / 470,
         child: Column(
           children: [
             Expanded(
               flex: 8,
-              child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(10)),
-                child: CachedNetworkImage(
-                  imageUrl: movie.coverUrl.toString(),
+              child: CachedNetworkImage(
+                imageUrl: movie.coverUrl.toString(),
+                fit: BoxFit.fill,
+                height: double.infinity,
+                width: double.infinity,
+                fadeOutDuration: Duration.zero,
+                fadeInDuration: Duration.zero,
+                placeholder: (context, string) => Image.asset(
+                  "assets/images/placeholders/movie_placeholder.png",
                   fit: BoxFit.fill,
                   height: double.infinity,
                   width: double.infinity,
-                  fadeOutDuration: Duration.zero,
-                  fadeInDuration: Duration.zero,
-                  placeholder: (context, string) => Image.asset(
-                    "assets/images/placeholders/movie_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    "assets/images/placeholders/movie_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/images/placeholders/movie_placeholder.png",
+                  fit: BoxFit.fill,
+                  height: double.infinity,
+                  width: double.infinity,
                 ),
               ),
             ),

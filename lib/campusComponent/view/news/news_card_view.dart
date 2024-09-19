@@ -39,7 +39,10 @@ class NewsCardView extends ConsumerWidget {
 
   Widget body(String imageUrl, BuildContext context) {
     return Container(
-      color: Theme.of(context).cardTheme.color,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Theme.of(context).cardTheme.color,
+      ),
       child: AspectRatio(
         aspectRatio: 1.1,
         child: Column(

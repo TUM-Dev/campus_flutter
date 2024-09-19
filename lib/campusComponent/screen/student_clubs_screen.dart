@@ -1,10 +1,14 @@
+import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
+import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/model/student_club_collection.dart';
 import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,6 +25,15 @@ class StudentClubsScreen extends ConsumerWidget {
           child: Scaffold(
             appBar: AppBar(
               title: const Text("Student Clubs"),
+              actions: [
+                IconButton(
+                  onPressed: () => UrlLauncher.urlString(
+                    studentClubUrl(context),
+                    ref,
+                  ),
+                  icon: const Icon(Icons.open_in_new),
+                ),
+              ],
               bottom: TabBar(
                 isScrollable: true,
                 tabs: [
@@ -88,10 +101,21 @@ class StudentClubsScreen extends ConsumerWidget {
   }
 
   int crossAxisCount(BuildContext context) {
-    return MediaQuery.orientationOf(context) == Orientation.landscape
-        ? 6
-        : MediaQuery.sizeOf(context).width > 600
-            ? 4
-            : 2;
+    switch (DeviceService.getType(context)) {
+      case Device.landscapeTablet:
+        return 6;
+      case Device.portraitTablet:
+        return 4;
+      case Device.phone:
+        return 2;
+    }
+  }
+
+  String studentClubUrl(BuildContext context) {
+    if (context.locale.languageCode == "de") {
+      return "https://www.sv.tum.de/sv/hochschulgruppen/";
+    } else {
+      return "https://www.sv.tum.de/en/sv/student-groups/";
+    }
   }
 }
