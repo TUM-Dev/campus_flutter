@@ -221,5 +221,9 @@
   "personNotFoundRecovery": "Überprüfe, ob du den Namen richtig eingegeben hast!",
   "invalidSearchRecovery": "Ein Suchbegriff mit weniger als 4 Zeichen darf keine Wildcards oder Sonderzeichen enthalten!",
   "tumOnlineDegraded": "TUMonline Services sind derzeit beeinträchtigt!",
-  "tumOnlineMaintenance": "TUMonline Services werden derzeit gewartet!"
+  "tumOnlineMaintenance": "TUMonline Services werden derzeit gewartet!",
+  "campus": "Campus",
+  "studies": "Studium",
+  "suggested": "Interessante {}",
+  "all": "Alle"
 }

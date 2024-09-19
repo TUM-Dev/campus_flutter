@@ -74,7 +74,7 @@ ThemeData darkTheme(BuildContext context) {
     cardTheme: CardTheme(
       color: const Color(0xff252525),
       surfaceTintColor: Colors.transparent,
-      elevation: 1,
+      shadowColor: Colors.transparent,
       margin: EdgeInsets.symmetric(
         vertical: context.halfPadding,
         horizontal: context.padding,

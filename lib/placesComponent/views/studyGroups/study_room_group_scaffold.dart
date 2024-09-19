@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/map_launcher.dart';
@@ -6,6 +5,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class StudyRoomGroupScaffold extends ConsumerWidget {
   factory StudyRoomGroupScaffold(StudyRoomGroup? studyRoomGroup) {
@@ -43,9 +43,9 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
             IconButton(
               onPressed: () => showDirectionsDialog(
                 studyRoomGroup!.name,
-                Location(
-                  latitude: studyRoomGroup!.coordinate!.latitude,
-                  longitude: studyRoomGroup!.coordinate!.longitude,
+                LatLng(
+                  studyRoomGroup!.coordinate!.latitude,
+                  studyRoomGroup!.coordinate!.longitude,
                 ),
                 context,
               ),

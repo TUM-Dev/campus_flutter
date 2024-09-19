@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/classes/location.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
@@ -13,6 +12,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NavigaTumRoomScaffold extends ConsumerWidget {
   const NavigaTumRoomScaffold({super.key, required this.id});
@@ -51,9 +51,9 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
     return IconButton(
       onPressed: () => showDirectionsDialog(
         details.name,
-        Location(
-          latitude: details.coordinates.latitude!,
-          longitude: details.coordinates.longitude!,
+        LatLng(
+          details.coordinates.latitude!,
+          details.coordinates.longitude!,
         ),
         context,
       ),

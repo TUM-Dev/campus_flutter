@@ -10,8 +10,8 @@ import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.d
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/profileComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
@@ -128,7 +128,11 @@ class OnboardingViewModel {
   Future<void> requestLocation(WidgetRef ref, BuildContext context) async {
     Permission.location.request().then(
       (value) {
-        finishOnboarding(ref, context);
+        {
+          if (context.mounted) {
+            finishOnboarding(ref, context);
+          }
+        }
       },
     );
   }

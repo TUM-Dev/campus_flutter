@@ -1,4 +1,4 @@
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_coordinates.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:easy_localization/easy_localization.dart';

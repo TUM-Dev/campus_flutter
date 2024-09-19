@@ -1,4 +1,3 @@
-import 'package:campus_flutter/base/classes/location.dart' as location;
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
@@ -45,9 +44,9 @@ class CafeteriaScaffold extends ConsumerWidget {
           IconButton(
             onPressed: () => showDirectionsDialog(
               cafeteria.name,
-              location.Location(
-                latitude: cafeteria.location.latitude,
-                longitude: cafeteria.location.longitude,
+              LatLng(
+                cafeteria.location.latitude,
+                cafeteria.location.longitude,
               ),
               context,
             ),

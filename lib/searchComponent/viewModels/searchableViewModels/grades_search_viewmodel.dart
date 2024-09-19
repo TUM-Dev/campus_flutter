@@ -1,5 +1,5 @@
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/gradeComponent/services/grade_service.dart';
+import 'package:campus_flutter/studiesComponent/model/grade.dart';
+import 'package:campus_flutter/studiesComponent/service/grade_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';

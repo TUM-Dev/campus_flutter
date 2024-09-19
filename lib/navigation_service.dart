@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_screen.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_screen.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
@@ -34,17 +34,17 @@ class NavigationService {
         );
       case 1:
         return Text(
-          context.tr("grades"),
+          context.tr("studies"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 2:
         return Text(
-          context.tr("lectures"),
+          context.tr("calendar"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 3:
         return Text(
-          context.tr("calendar"),
+          context.tr("campus"),
           style: Theme.of(context).textTheme.titleLarge,
         );
       case 4:
@@ -63,7 +63,7 @@ class NavigationService {
 
   Widget? floatingActionButton(int index, WidgetRef ref, BuildContext context) {
     switch (index) {
-      case 3:
+      case 2:
         if (ref.read(onboardingViewModel).credentials.value ==
             Credentials.tumId) {
           return FloatingActionButton(
@@ -149,17 +149,17 @@ class NavigationService {
         NavigationDestination(
           icon: const Icon(Icons.school_outlined),
           selectedIcon: const Icon(Icons.school),
-          label: context.tr("grades"),
-        ),
-        NavigationDestination(
-          icon: const Icon(Icons.class_outlined),
-          selectedIcon: const Icon(Icons.class_),
-          label: context.tr("lectures"),
+          label: context.tr("studies"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.calendar_month_outlined),
           selectedIcon: const Icon(Icons.calendar_month),
           label: context.tr("calendar"),
+        ),
+        NavigationDestination(
+          icon: const Icon(Icons.campaign_outlined),
+          selectedIcon: const Icon(Icons.campaign),
+          label: context.tr("campus"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.place_outlined),

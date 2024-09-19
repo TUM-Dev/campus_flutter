@@ -205,19 +205,25 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 onPressed: (snapshot.data != null && snapshot.data!)
                     ? () {
                         ref.read(onboardingViewModel).requestLogin().then(
-                          (value) => context.push(confirm),
+                          (value) {
+                            if (context.mounted) {
+                              context.push(confirm);
+                            }
+                          },
                           onError: (error) {
-                            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 10),
-                                content: ErrorHandlingRouter(
-                                  error: error,
-                                  errorHandlingViewType:
-                                      ErrorHandlingViewType.textOnly,
-                                  titleColor: Colors.white,
+                            if (context.mounted) {
+                              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                                SnackBar(
+                                  duration: const Duration(seconds: 10),
+                                  content: ErrorHandlingRouter(
+                                    error: error,
+                                    errorHandlingViewType:
+                                        ErrorHandlingViewType.textOnly,
+                                    titleColor: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           },
                         );
                       }

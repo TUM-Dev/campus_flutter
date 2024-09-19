@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
@@ -59,14 +59,19 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (index == itemCount - 1) {
-                      return _showMoreButton(
-                        snapshot.data!,
-                        context,
-                      );
-                    } else {
-                      return body(snapshot.data![index]);
-                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: () {
+                        if (index == itemCount - 1) {
+                          return _showMoreButton(
+                            snapshot.data!,
+                            context,
+                          );
+                        } else {
+                          return body(snapshot.data![index]);
+                        }
+                      }(),
+                    );
                   },
                   separatorBuilder: (context, index) => const PaddedDivider(
                     height: 0,

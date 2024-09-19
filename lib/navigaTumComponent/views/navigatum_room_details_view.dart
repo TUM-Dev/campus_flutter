@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/views/seperated_list.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_property.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
