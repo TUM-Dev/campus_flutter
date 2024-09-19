@@ -60,7 +60,7 @@ class CampusCardView extends ConsumerWidget {
           ),
         ),
       ),
-      onTap: () => context.push(routes.campus, extra: campus),
+      onTap: () => context.push(routes.place, extra: campus),
     );
   }
 }

@@ -132,7 +132,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _tumOnlineButton(),
-            _checkTokenButton(),
+            _checkTokenButton(context),
           ],
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -174,7 +174,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: context.halfPadding),
-                child: _checkTokenButton(),
+                child: _checkTokenButton(context),
               ),
               _contactSupportButton(),
             ],
@@ -199,13 +199,15 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
     );
   }
 
-  Widget _checkTokenButton() {
+  Widget _checkTokenButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         ref.read(onboardingViewModel).confirmLogin().then(
           (value) {
             if (value.confirmed) {
-              context.push(permissionCheck);
+              if (context.mounted) {
+                context.push(permissionCheck);
+              }
             } else {
               throw TumOnlineApiException(
                 tumOnlineApiExceptionType:
@@ -214,29 +216,35 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
             }
           },
           onError: (error) {
-            ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-              SnackBar(
-                duration: const Duration(seconds: 10),
-                content: ErrorHandlingRouter(
-                  error: error,
-                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                  titleColor: Colors.white,
+            if (context.mounted) {
+              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 10),
+                  content: ErrorHandlingRouter(
+                    error: error,
+                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                    titleColor: Colors.white,
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           },
-        ).catchError((error) {
-          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-            SnackBar(
-              duration: const Duration(seconds: 10),
-              content: ErrorHandlingRouter(
-                error: error,
-                errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                titleColor: Colors.white,
-              ),
-            ),
-          );
-        });
+        ).catchError(
+          (error) {
+            if (context.mounted) {
+              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 10),
+                  content: ErrorHandlingRouter(
+                    error: error,
+                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                    titleColor: Colors.white,
+                  ),
+                ),
+              );
+            }
+          },
+        );
       },
       child: IconText(
         iconData: Icons.arrow_forward,

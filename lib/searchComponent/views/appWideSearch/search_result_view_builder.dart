@@ -8,6 +8,7 @@ import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/n
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/news_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/person_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/personal_lecture_search_result_view.dart';
+import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/student_club_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/resultViews/study_room_search_result_view.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,8 @@ class SearchResultViewBuilder extends StatelessWidget {
         return const MovieSearchResultView();
       case SearchCategory.news:
         return const NewsSearchResultView();
+      case SearchCategory.studentClub:
+        return const StudentClubSearchResultView();
       case SearchCategory.studyRoom:
         return const StudyRoomSearchResultView();
       case SearchCategory.lectures:

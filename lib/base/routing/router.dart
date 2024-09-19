@@ -5,14 +5,14 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
-import 'package:campus_flutter/departuresComponent/views/departures_details_view.dart';
+import 'package:campus_flutter/campusComponent/screen/campus_screen.dart';
+import 'package:campus_flutter/campusComponent/screen/movie_screen.dart';
+import 'package:campus_flutter/campusComponent/screen/news_screen.dart';
+import 'package:campus_flutter/campusComponent/screen/student_clubs_screen.dart';
+import 'package:campus_flutter/homeComponent/view/departure/departures_details_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_success_view.dart';
-import 'package:campus_flutter/gradeComponent/views/grades_view.dart';
-import 'package:campus_flutter/homeComponent/home_screen.dart';
-import 'package:campus_flutter/lectureComponent/model/lecture.dart';
-import 'package:campus_flutter/lectureComponent/views/lecture_details_view.dart';
-import 'package:campus_flutter/lectureComponent/views/lectures_view.dart';
+import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
@@ -21,7 +21,7 @@ import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/navigation.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
-import 'package:campus_flutter/personDetailedComponent/views/person_details_view.dart';
+import 'package:campus_flutter/personComponent/views/person_details_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_view.dart';
@@ -34,6 +34,9 @@ import 'package:campus_flutter/placesComponent/views/studyGroups/study_rooms_vie
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
 import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
+import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/screen/studies_screen.dart';
+import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_details_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -79,19 +82,9 @@ final _router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: grades,
+              path: studies,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: GradesView(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: lectures,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: LecturesView(),
+                child: StudiesScreen(),
               ),
             ),
           ],
@@ -102,6 +95,16 @@ final _router = GoRouter(
               path: calendar,
               pageBuilder: (context, state) => NoTransitionPage(
                 child: CalendarsView(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: campus,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: CampusScreen(),
               ),
             ),
           ],
@@ -164,6 +167,18 @@ final _router = GoRouter(
       ),
     ),
     GoRoute(
+      path: studentClubs,
+      builder: (context, state) => const StudentClubsScreen(),
+    ),
+    GoRoute(
+      path: news,
+      builder: (context, state) => const NewsScreen(),
+    ),
+    GoRoute(
+      path: movies,
+      builder: (context, state) => const MovieScreen(),
+    ),
+    GoRoute(
       path: studyRooms,
       builder: (context, state) => const StudyRoomsScaffold(),
     ),
@@ -172,7 +187,7 @@ final _router = GoRouter(
       builder: (context, state) => const CafeteriasScaffold(),
     ),
     GoRoute(
-      path: campus,
+      path: place,
       builder: (context, state) => CampusScaffold(
         campus: state.extra as Campus,
       ),

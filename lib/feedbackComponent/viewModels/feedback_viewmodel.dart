@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dar
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/feedbackComponent/services/feedback_service.dart';
-import 'package:campus_flutter/personDetailedComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +76,15 @@ class FeedbackViewModel {
 
     FeedbackService.sendFeedback(feedback).then(
       (value) {
-        context.pushReplacement(feedbackSuccess);
+        if (context.mounted) {
+          context.pushReplacement(feedbackSuccess);
+        }
       },
-      onError: (error) => _errorDialog(error, context),
+      onError: (error) {
+        if (context.mounted) {
+          _errorDialog(error, context);
+        }
+      },
     );
   }
 

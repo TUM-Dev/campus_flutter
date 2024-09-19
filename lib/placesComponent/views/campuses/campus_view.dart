@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
-import 'package:campus_flutter/base/views/seperated_list.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_campus_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';

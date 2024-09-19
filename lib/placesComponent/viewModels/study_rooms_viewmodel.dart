@@ -72,7 +72,11 @@ class StudyRoomsViewModel {
           widgetStudyRoom.add(selectedStudyRoom);
         } else {
           LocationService.getLastKnown().then(
-            (position) => _getClosestStudyRoomGroup(position, context),
+            (position) {
+              if (context.mounted) {
+                _getClosestStudyRoomGroup(position, context);
+              }
+            },
             onError: (error) {
               if (value.$2.groups?.firstOrNull != null) {
                 widgetStudyRoom.add(value.$2.groups!.first);

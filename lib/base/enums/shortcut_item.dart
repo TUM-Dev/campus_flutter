@@ -7,7 +7,7 @@ enum ShortcutItemType {
   cafeterias(en: "Cafeterias", de: "Mensen"),
   studyRooms(en: "Study Rooms", de: "Lernräume"),
   calendar(en: "Calendar", de: "Kalendar"),
-  grades(en: "Grades", de: "Noten");
+  studies(en: "Studies", de: "Studium");
 
   final String en;
   final String? de;
@@ -30,7 +30,7 @@ extension Routing on ShortcutItemType {
       case ShortcutItemType.cafeterias:
       case ShortcutItemType.studyRooms:
       case ShortcutItemType.calendar:
-      case ShortcutItemType.grades:
+      case ShortcutItemType.studies:
         return null;
     }
   }
@@ -53,8 +53,8 @@ extension Routing on ShortcutItemType {
         return routes.studyRooms;
       case ShortcutItemType.calendar:
         return routes.calendar;
-      case ShortcutItemType.grades:
-        return routes.grades;
+      case ShortcutItemType.studies:
+        return routes.studies;
     }
   }
 }
@@ -64,6 +64,6 @@ extension ActiveShortcuts on ShortcutItemType {
         ShortcutItemType.cafeterias,
         ShortcutItemType.studyRooms,
         ShortcutItemType.calendar,
-        ShortcutItemType.grades,
+        ShortcutItemType.studies,
       ];
 }

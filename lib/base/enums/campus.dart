@@ -1,5 +1,5 @@
-import 'package:campus_flutter/base/classes/location.dart';
-import 'package:campus_flutter/departuresComponent/model/station.dart';
+import 'package:campus_flutter/homeComponent/model/station.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 enum Campus {
   stammgelaende("Stammgelände"),
@@ -59,42 +59,42 @@ extension CampusExtension on Campus {
     }
   }
 
-  Location get location {
+  LatLng get location {
     switch (this) {
       case Campus.stammgelaende:
-        return Location(
-          latitude: 48.14887567648079,
-          longitude: 11.568029074814328,
+        return const LatLng(
+          48.14887567648079,
+          11.568029074814328,
         );
       case Campus.olympiapark:
-        return Location(
-          latitude: 48.17957305879896,
-          longitude: 11.546601863009668,
+        return const LatLng(
+          48.17957305879896,
+          11.546601863009668,
         );
       case Campus.klinikumRechts:
-        return Location(
-          latitude: 48.13760759635786,
-          longitude: 11.60083902677729,
+        return const LatLng(
+          48.13760759635786,
+          11.60083902677729,
         );
       case Campus.grosshadern:
-        return Location(
-          latitude: 48.1116433849602,
-          longitude: 11.47027262422505,
+        return const LatLng(
+          48.1116433849602,
+          11.47027262422505,
         );
       case Campus.garching:
-        return Location(
-          latitude: 48.26513710129958,
-          longitude: 11.671590834492283,
+        return const LatLng(
+          48.26513710129958,
+          11.671590834492283,
         );
       case Campus.freising:
-        return Location(
-          latitude: 48.39549985559942,
-          longitude: 11.727904526510946,
+        return const LatLng(
+          48.39549985559942,
+          11.727904526510946,
         );
     }
   }
 
-  Map<Campus, Location> getAll() {
+  Map<Campus, LatLng> getAll() {
     return Map.fromEntries(Campus.values.map((e) => MapEntry(e, e.location)));
   }
 
@@ -104,54 +104,54 @@ extension CampusExtension on Campus {
         return Station(
           name: "Technische Universität",
           apiName: "91000095",
-          location: Location(
-            latitude: 48.148145129847244,
-            longitude: 11.566048520744298,
+          location: const LatLng(
+            48.148145129847244,
+            11.566048520744298,
           ),
         );
       case Campus.olympiapark:
         return Station(
           name: "Olympiazentrum",
           apiName: "91000350",
-          location: Location(
-            latitude: 48.17946648767361,
-            longitude: 11.555783595899824,
+          location: const LatLng(
+            48.17946648767361,
+            11.555783595899824,
           ),
         );
       case Campus.klinikumRechts:
         return Station(
           name: "Max-Weber-Platz",
           apiName: "91000580",
-          location: Location(
-            latitude: 48.13573243097588,
-            longitude: 11.599014647301777,
+          location: const LatLng(
+            48.13573243097588,
+            11.599014647301777,
           ),
         );
       case Campus.grosshadern:
         return Station(
           name: "Klinikum Großhadern",
           apiName: "91001540",
-          location: Location(
-            latitude: 48.10889880944028,
-            longitude: 11.47363212095666,
+          location: const LatLng(
+            48.10889880944028,
+            11.47363212095666,
           ),
         );
       case Campus.garching:
         return Station(
           name: "Forschungszentrum",
           apiName: "1000460",
-          location: Location(
-            latitude: 48.26519145730091,
-            longitude: 11.671545161597082,
+          location: const LatLng(
+            48.26519145730091,
+            11.671545161597082,
           ),
         );
       case Campus.freising:
         return Station(
           name: "Freising, Weihenstephan",
           apiName: "1002911",
-          location: Location(
-            latitude: 48.39799498961109,
-            longitude: 11.723989661968458,
+          location: const LatLng(
+            48.39799498961109,
+            11.723989661968458,
           ),
         );
     }
@@ -165,17 +165,17 @@ extension CampusExtension on Campus {
           Station(
             name: "Theresienstraße",
             apiName: "91000120",
-            location: Location(
-              latitude: 48.1512235719802,
-              longitude: 11.564211669898931,
+            location: const LatLng(
+              48.1512235719802,
+              11.564211669898931,
             ),
           ),
           Station(
             name: "Pinakotheken",
             apiName: "91000051",
-            location: Location(
-              latitude: 48.148780089472,
-              longitude: 11.571870970398924,
+            location: const LatLng(
+              48.148780089472,
+              11.571870970398924,
             ),
           ),
         ];
@@ -187,9 +187,9 @@ extension CampusExtension on Campus {
           Station(
             name: "Friedensengel/Villa Stuck",
             apiName: "91000073",
-            location: Location(
-              latitude: 48.14074544433942,
-              longitude: 11.600075277341709,
+            location: const LatLng(
+              48.14074544433942,
+              11.600075277341709,
             ),
           ),
         ];
@@ -199,17 +199,17 @@ extension CampusExtension on Campus {
           Station(
             name: "Klinikum Großhadern Ost",
             apiName: "91001472",
-            location: Location(
-              latitude: 48.11092668280441,
-              longitude: 11.473909030506093,
+            location: const LatLng(
+              48.11092668280441,
+              11.473909030506093,
             ),
           ),
           Station(
             name: "Klinikum Großhadern Nord",
             apiName: "91001474",
-            location: Location(
-              latitude: 48.11250562334001,
-              longitude: 11.467122898318992,
+            location: const LatLng(
+              48.11250562334001,
+              11.467122898318992,
             ),
           ),
         ];
@@ -219,9 +219,9 @@ extension CampusExtension on Campus {
           Station(
             name: "Lichtenbergstraße",
             apiName: "1002070",
-            location: Location(
-              latitude: 48.26777168760462,
-              longitude: 11.665502685140389,
+            location: const LatLng(
+              48.26777168760462,
+              11.665502685140389,
             ),
           ),
         ];
@@ -231,17 +231,17 @@ extension CampusExtension on Campus {
           Station(
             name: "Freising, Forstzentrum",
             apiName: "1009413",
-            location: Location(
-              latitude: 48.39924842116169,
-              longitude: 11.716601891310122,
+            location: const LatLng(
+              48.39924842116169,
+              11.716601891310122,
             ),
           ),
           Station(
             name: "Freising, Weihenstephaner Berg",
             apiName: "1002617",
-            location: Location(
-              latitude: 48.39581877364193,
-              longitude: 11.725859432987532,
+            location: const LatLng(
+              48.39581877364193,
+              11.725859432987532,
             ),
           ),
         ];

@@ -1,8 +1,8 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/extensions/locale_fullname.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/base/views/seperated_list.dart';
-import 'package:campus_flutter/homeComponent/widgetComponent/views/widget_frame_view.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -56,7 +56,10 @@ class SearchResultDetailsView<S extends Searchable> extends StatelessWidget {
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             itemCount: data.length,
-            itemBuilder: (context, index) => body(data[index]),
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: body(data[index]),
+            ),
             separatorBuilder: (BuildContext context, int index) =>
                 const PaddedDivider(height: 0),
           ),

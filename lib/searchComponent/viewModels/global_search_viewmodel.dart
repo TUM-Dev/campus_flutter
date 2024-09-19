@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
-import 'package:campus_flutter/personSearchComponent/viewModel/person_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/person_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/cafeteria_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/calendar_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/grades_search_viewmodel.dart';
@@ -10,6 +10,7 @@ import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/l
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/movie_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/news_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/student_club_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/study_room_search_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
@@ -96,18 +97,15 @@ class GlobalSearchViewModel {
     switch (index) {
       case 1:
         if (isAuthorized) {
-          selectedCategories.add([SearchCategory.grade]);
+          selectedCategories.add([
+            SearchCategory.grade,
+            SearchCategory.personalLectures,
+            SearchCategory.lectures,
+          ]);
         } else {
           selectedCategories.add([]);
         }
       case 2:
-        if (isAuthorized) {
-          selectedCategories
-              .add([SearchCategory.personalLectures, SearchCategory.lectures]);
-        } else {
-          selectedCategories.add([]);
-        }
-      case 3:
         if (isAuthorized) {
           selectedCategories.add([
             SearchCategory.calendar,
@@ -115,6 +113,12 @@ class GlobalSearchViewModel {
         } else {
           selectedCategories.add([]);
         }
+      case 3:
+        selectedCategories.add([
+          SearchCategory.news,
+          SearchCategory.movie,
+          SearchCategory.studentClub,
+        ]);
       case 4:
         selectedCategories.add([
           SearchCategory.studyRoom,
@@ -145,6 +149,10 @@ class GlobalSearchViewModel {
         ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
       case SearchCategory.news:
         ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
+      case SearchCategory.studentClub:
+        ref
+            .read(studentClubSearchViewModel)
+            .studentClubSearch(query: this.searchString);
       case SearchCategory.studyRoom:
         ref
             .read(studyRoomSearchViewModel)
@@ -181,6 +189,10 @@ class GlobalSearchViewModel {
         ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
       case SearchCategory.news:
         ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
+      case SearchCategory.studentClub:
+        ref
+            .read(studentClubSearchViewModel)
+            .studentClubSearch(query: this.searchString);
       case SearchCategory.studyRoom:
         ref
             .read(studyRoomSearchViewModel)

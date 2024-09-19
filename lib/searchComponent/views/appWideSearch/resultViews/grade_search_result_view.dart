@@ -1,5 +1,5 @@
-import 'package:campus_flutter/gradeComponent/model/grade.dart';
-import 'package:campus_flutter/gradeComponent/views/grade_view.dart';
+import 'package:campus_flutter/studiesComponent/model/grade.dart';
+import 'package:campus_flutter/studiesComponent/view/grade/grade_view.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/grades_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_card_view.dart';

@@ -11,7 +11,8 @@ enum SearchCategory {
   personalLectures,
   grade,
   movie,
-  news;
+  news,
+  studentClub;
 }
 
 extension SearchCategoryExtension on SearchCategory {
@@ -44,6 +45,8 @@ extension SearchCategoryExtension on SearchCategory {
         return context.tr("persons");
       case SearchCategory.rooms:
         return context.tr("rooms");
+      case SearchCategory.studentClub:
+        return "Student Clubs";
       default:
         return context.tr("unknown");
     }
@@ -56,6 +59,7 @@ extension SearchCategoryExtension on SearchCategory {
       SearchCategory.cafeterias,
       SearchCategory.movie,
       SearchCategory.news,
+      SearchCategory.studentClub,
     ];
   }
 }
