@@ -30,6 +30,21 @@ class DeviceType extends $pb.ProtobufEnum {
   const DeviceType._($core.int v, $core.String n) : super(v, n);
 }
 
+class Language extends $pb.ProtobufEnum {
+  static const Language German = Language._(0, _omitEnumNames ? '' : 'German');
+  static const Language English = Language._(1, _omitEnumNames ? '' : 'English');
+
+  static const $core.List<Language> values = <Language> [
+    German,
+    English,
+  ];
+
+  static final $core.Map<$core.int, Language> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Language? valueOf($core.int value) => _byValue[value];
+
+  const Language._($core.int v, $core.String n) : super(v, n);
+}
+
 class CreateFeedbackRequest_Recipient extends $pb.ProtobufEnum {
   static const CreateFeedbackRequest_Recipient TUM_DEV = CreateFeedbackRequest_Recipient._(0, _omitEnumNames ? '' : 'TUM_DEV');
   static const CreateFeedbackRequest_Recipient TUM_CONTACT = CreateFeedbackRequest_Recipient._(1, _omitEnumNames ? '' : 'TUM_CONTACT');
