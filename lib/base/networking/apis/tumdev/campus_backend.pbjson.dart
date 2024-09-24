@@ -27,6 +27,19 @@ const DeviceType$json = {
 final $typed_data.Uint8List deviceTypeDescriptor = $convert.base64Decode(
     'CgpEZXZpY2VUeXBlEgcKA0lPUxAAEgsKB0FORFJPSUQQARILCgdXSU5ET1dTEAI=');
 
+@$core.Deprecated('Use languageDescriptor instead')
+const Language$json = {
+  '1': 'Language',
+  '2': [
+    {'1': 'German', '2': 0},
+    {'1': 'English', '2': 1},
+  ],
+};
+
+/// Descriptor for `Language`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List languageDescriptor = $convert.base64Decode(
+    'CghMYW5ndWFnZRIKCgZHZXJtYW4QABILCgdFbmdsaXNoEAE=');
+
 @$core.Deprecated('Use createDeviceRequestDescriptor instead')
 const CreateDeviceRequest$json = {
   '1': 'CreateDeviceRequest',
@@ -913,11 +926,18 @@ final $typed_data.Uint8List getCanteenHeadCountReplyDescriptor = $convert.base64
 @$core.Deprecated('Use listStudentClubRequestDescriptor instead')
 const ListStudentClubRequest$json = {
   '1': 'ListStudentClubRequest',
+  '2': [
+    {'1': 'language', '3': 1, '4': 1, '5': 14, '6': '.api.Language', '9': 0, '10': 'language', '17': true},
+  ],
+  '8': [
+    {'1': '_language'},
+  ],
 };
 
 /// Descriptor for `ListStudentClubRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listStudentClubRequestDescriptor = $convert.base64Decode(
-    'ChZMaXN0U3R1ZGVudENsdWJSZXF1ZXN0');
+    'ChZMaXN0U3R1ZGVudENsdWJSZXF1ZXN0Ei4KCGxhbmd1YWdlGAEgASgOMg0uYXBpLkxhbmd1YW'
+    'dlSABSCGxhbmd1YWdliAEBQgsKCV9sYW5ndWFnZQ==');
 
 @$core.Deprecated('Use listStudentClubReplyDescriptor instead')
 const ListStudentClubReply$json = {
@@ -962,6 +982,7 @@ const StudentClubCollection$json = {
     {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
     {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
     {'1': 'clubs', '3': 3, '4': 3, '5': 11, '6': '.api.StudentClub', '10': 'clubs'},
+    {'1': 'unstable_collection_id', '3': 4, '4': 1, '5': 4, '10': 'unstableCollectionId'},
   ],
 };
 
@@ -969,5 +990,6 @@ const StudentClubCollection$json = {
 final $typed_data.Uint8List studentClubCollectionDescriptor = $convert.base64Decode(
     'ChVTdHVkZW50Q2x1YkNvbGxlY3Rpb24SFAoFdGl0bGUYASABKAlSBXRpdGxlEiAKC2Rlc2NyaX'
     'B0aW9uGAIgASgJUgtkZXNjcmlwdGlvbhImCgVjbHVicxgDIAMoCzIQLmFwaS5TdHVkZW50Q2x1'
-    'YlIFY2x1YnM=');
+    'YlIFY2x1YnMSNAoWdW5zdGFibGVfY29sbGVjdGlvbl9pZBgEIAEoBFIUdW5zdGFibGVDb2xsZW'
+    'N0aW9uSWQ=');
 
