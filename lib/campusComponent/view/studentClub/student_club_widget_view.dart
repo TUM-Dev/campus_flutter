@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
@@ -20,10 +22,10 @@ class StudentClubWidgetView extends ConsumerStatefulWidget {
 
 class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
   @override
-  void initState() {
-    ref.read(studentClubViewModel).fetchStudentClubs(false);
+  void didChangeDependencies() {
+    ref.read(studentClubViewModel).fetchStudentClubs(false, context);
     ref.read(movieViewModel).fetch(false);
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -77,9 +79,10 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Card(
-                child: DelayedLoadingIndicator(
-                  name: "Student Clubs",
+              return Card(
+                child: ErrorHandlingRouter(
+                  error: Error(),
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
                 ),
               );
             } else {
