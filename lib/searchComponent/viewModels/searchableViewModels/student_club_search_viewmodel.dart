@@ -23,7 +23,7 @@ class StudentClubSearchViewModel implements SearchViewModel<StudentClubSearch> {
     required String query,
   }) async {
     if (studentClubData.isEmpty) {
-      return StudentClubService.fetchStudentClubs(forcedRefresh).then(
+      return StudentClubService.fetchStudentClubs(null, forcedRefresh).then(
         (value) {
           studentClubData = value.$2
               .expand((e) => e.clubs)
