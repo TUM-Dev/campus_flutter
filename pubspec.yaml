@@ -102,8 +102,8 @@ dev_dependencies:
   test: ^1.24.3
 
   # linting
-  flutter_lints: ^4.0.0
-  lints: ^4.0.0
+  flutter_lints: ^5.0.0
+  lints: ^5.0.0
 
 flutter:
   uses-material-design: true
