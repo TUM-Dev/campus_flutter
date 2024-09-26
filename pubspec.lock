@@ -648,10 +648,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: d85128a5dae4ea777324730dc65edd9c9f43155c109d5cc0a69cab74139fbac1
+      sha256: ff97e5e7b2e82e63c82f5658c6ba2605ea831f0f7489b0d2fb255d817ec4eb5e
       url: "https://pub.dev"
     source: hosted
-    version: "7.7.0"
+    version: "8.0.0"
   glob:
     dependency: transitive
     description:
@@ -696,10 +696,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_android
-      sha256: "36e75af1d0bd4c7391eacdaedf9ca7632c5b9709c5ec618b04489b79ea2b3f82"
+      sha256: "10cf27bee8c560f8e69992b3a0f27ddf1d7acbea622ddb13ef3f587848a73f26"
       url: "https://pub.dev"
     source: hosted
-    version: "2.14.6"
+    version: "2.14.7"
   google_maps_flutter_ios:
     dependency: transitive
     description:
@@ -1169,18 +1169,18 @@ packages:
     dependency: "direct main"
     description:
       name: quick_actions
-      sha256: b17da113df7a7005977f64adfa58ccc49c829d3ccc6e8e770079a8c7fbf2da9e
+      sha256: "2c1d9a91f3218b4e987a7e1e95ba0415b7f48a2cb3ffacc027a1e3d3c117223f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.7"
+    version: "1.0.8"
   quick_actions_android:
     dependency: transitive
     description:
       name: quick_actions_android
-      sha256: "54a581491b90ff2e1be94af84a40c05e806e232184bb32afa2df57b07c4d6882"
+      sha256: "6932eeb970c6f7aed60708faf0ecea7068af84ee642c3bf308a0629abe90399b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.15"
+    version: "1.0.16"
   quick_actions_ios:
     dependency: transitive
     description:
@@ -1462,34 +1462,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: c501e463e69ed6f69323ead6b3b47873e5f25d00ec481fe2429f9ebbac92271b
+      sha256: "992d51b58453362df5ef789f3ffc89ede1f52e6788fe71e342c2ef5c2a6b58eb"
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.48"
+    version: "27.1.50"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: cdc207291ad0caf34cb9e20caa8938ff65f67a413b3a86a14d3a7b341a772100
+      sha256: "68eac622c9ad73618ddddbb5b8185792f590258e7400cf1f606c97f892c4a724"
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.48"
+    version: "27.1.50"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "4347f4d2f5d89461df2c53e6fbf53aef38c7f05ed79b0760d935fb1ec836213b"
+      sha256: efbc44bdef33bf8f469c5ac7830df9631972721e157021db14bd78cdb1047fe1
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.48"
+    version: "27.1.50"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "239331a866e57794925d29f9a68af0f52b2d1942001588e11f49729de2c670b0"
+      sha256: c54e0f4a56e713f68b4bdcac36f23c68cf35f3b0a02f0a9abb230c42ab64b3c6
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.48"
+    version: "27.1.50"
   synchronized:
     dependency: transitive
     description:
@@ -1606,10 +1606,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: "9a1a42d5d2d95400c795b2914c36fdcb525870c752569438e4ebb09a2b5d90de"
+      sha256: "769549c999acdb42b8bcfa7c43d72bf79a382ca7441ab18a808e101149daf672"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   url_launcher_platform_interface:
     dependency: transitive
     description:

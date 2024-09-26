@@ -4350,12 +4350,21 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
 }
 
 class ListStudentClubRequest extends $pb.GeneratedMessage {
-  factory ListStudentClubRequest() => create();
+  factory ListStudentClubRequest({
+    Language? language,
+  }) {
+    final $result = create();
+    if (language != null) {
+      $result.language = language;
+    }
+    return $result;
+  }
   ListStudentClubRequest._() : super();
   factory ListStudentClubRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ListStudentClubRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListStudentClubRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api'), createEmptyInstance: create)
+    ..e<Language>(1, _omitFieldNames ? '' : 'language', $pb.PbFieldType.OE, defaultOrMaker: Language.German, valueOf: Language.valueOf, enumValues: Language.values)
     ..hasRequiredFields = false
   ;
 
@@ -4379,6 +4388,17 @@ class ListStudentClubRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ListStudentClubRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListStudentClubRequest>(create);
   static ListStudentClubRequest? _defaultInstance;
+
+  /// Language of the student clubs and categories
+  /// Defaults to german
+  @$pb.TagNumber(1)
+  Language get language => $_getN(0);
+  @$pb.TagNumber(1)
+  set language(Language v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasLanguage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLanguage() => clearField(1);
 }
 
 class ListStudentClubReply extends $pb.GeneratedMessage {
@@ -4526,6 +4546,7 @@ class StudentClubCollection extends $pb.GeneratedMessage {
     $core.String? title,
     $core.String? description,
     $core.Iterable<StudentClub>? clubs,
+    $fixnum.Int64? unstableCollectionId,
   }) {
     final $result = create();
     if (title != null) {
@@ -4537,6 +4558,9 @@ class StudentClubCollection extends $pb.GeneratedMessage {
     if (clubs != null) {
       $result.clubs.addAll(clubs);
     }
+    if (unstableCollectionId != null) {
+      $result.unstableCollectionId = unstableCollectionId;
+    }
     return $result;
   }
   StudentClubCollection._() : super();
@@ -4547,6 +4571,7 @@ class StudentClubCollection extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'title')
     ..aOS(2, _omitFieldNames ? '' : 'description')
     ..pc<StudentClub>(3, _omitFieldNames ? '' : 'clubs', $pb.PbFieldType.PM, subBuilder: StudentClub.create)
+    ..a<$fixnum.Int64>(4, _omitFieldNames ? '' : 'unstableCollectionId', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..hasRequiredFields = false
   ;
 
@@ -4591,6 +4616,17 @@ class StudentClubCollection extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(3)
   $core.List<StudentClub> get clubs => $_getList(2);
+
+  /// id of the collection.
+  /// Might not be stable over time because of scraping
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get unstableCollectionId => $_getI64(3);
+  @$pb.TagNumber(4)
+  set unstableCollectionId($fixnum.Int64 v) { $_setInt64(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasUnstableCollectionId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearUnstableCollectionId() => clearField(4);
 }
 
 
