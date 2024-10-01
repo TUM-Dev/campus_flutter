@@ -3,14 +3,13 @@
     android:description="@string/app_widget_description"
     android:initialKeyguardLayout="@layout/calendar_widget"
     android:initialLayout="@layout/calendar_widget"
+    android:minWidth="270dp"
     android:minHeight="110dp"
+    android:minResizeWidth="270dp"
     android:minResizeHeight="110dp"
-    android:minWidth="180dp"
-    android:minResizeWidth="180dp"
     android:previewImage="@drawable/appwidget_preview"
     android:previewLayout="@layout/calendar_widget"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
-    android:widgetCategory="home_screen" />
-    <!-- android:targetCellWidth="1"
+    android:widgetCategory="home_screen" /><!-- android:targetCellWidth="1"
     android:targetCellHeight="1" -->
