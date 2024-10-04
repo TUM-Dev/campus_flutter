@@ -7,8 +7,8 @@ import 'package:drift/drift.dart';
 class Cache {
   final CacheDatabase cacheDatabase;
 
-  final Duration onlineTtl = const Duration(minutes: 10);
-
+  final Duration onlineTtl = Duration(minutes: 10);
+  final Duration onlineStudentCardTtl = Duration(hours: 3);
   final Duration offlineTtl = const Duration(days: 30);
 
   Cache({required this.cacheDatabase});
@@ -39,13 +39,21 @@ class Cache {
 
     if (entry != null) {
       final today = DateTime.now();
-      if (getIt<ConnectionService>().hasInternet() &&
-          !key.contains("tumCard")) {
-        if (entry.saved.isAfter(today.subtract(onlineTtl))) {
-          return entry;
+      if (getIt<ConnectionService>().hasInternet()) {
+        if (!key.contains("tumCard")) {
+          if (entry.saved.isAfter(today.subtract(onlineTtl))) {
+            return entry;
+          } else {
+            delete(key);
+            return null;
+          }
         } else {
-          delete(key);
-          return null;
+          if (entry.saved.isAfter(today.subtract(onlineStudentCardTtl))) {
+            return entry;
+          } else {
+            delete(key);
+            return null;
+          }
         }
       } else {
         if (entry.validUntil.isAfter(today)) {
