@@ -77,7 +77,7 @@ class TuitionView extends ConsumerWidget {
     AsyncSnapshot<Tuition?> snapshot,
   ) {
     if (snapshot.hasData) {
-      if (snapshot.data?.amount == 0.0) {
+      if (snapshot.data?.amount <= 0.0) {
         return IconText(
           iconData: Icons.check,
           label: context.tr("tuitionPaid"),
