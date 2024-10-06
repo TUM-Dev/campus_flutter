@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+const newsWidgetHeight = 300.00;
+
 class NewsWidgetView extends ConsumerStatefulWidget {
   const NewsWidgetView({super.key});
 
@@ -53,41 +55,36 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
           if (snapshot.hasData) {
             final fiveNews = ref.watch(newsViewModel).latestFiveNews();
             if (fiveNews.isNotEmpty) {
-              return LayoutBuilder(
-                builder: (context, boxConstrains) {
-                  const height = 300.00;
-                  return SizedBox(
-                    height: height,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 11),
-                      child: CarouselView(
-                        itemExtent: width(boxConstrains, context),
-                        shrinkExtent: width(boxConstrains, context),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        children: [
-                          for (var news in fiveNews)
-                            NewsCardView(
-                              news: news,
-                              width: 0,
-                              isCarousel: true,
-                            ),
-                        ],
-                        onTap: (index) {
-                          final news = snapshot.data![index];
-                          final imageUrl =
-                              news.imageUrl.toString().contains("src_1.png")
-                                  ? news.link.toString()
-                                  : news.imageUrl.toString();
-                          if (imageUrl.isNotEmpty) {
-                            context.push(networkImage, extra: (imageUrl, null));
-                          }
-                        },
-                      ),
+              return SizedBox(
+                height: newsWidgetHeight,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11),
+                  child: CarouselView(
+                    itemExtent: width(),
+                    shrinkExtent: width(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  );
-                },
+                    children: [
+                      for (var news in fiveNews)
+                        NewsCardView(
+                          news: news,
+                          width: 0,
+                          isCarousel: true,
+                        ),
+                    ],
+                    onTap: (index) {
+                      final news = snapshot.data![index];
+                      final imageUrl =
+                          news.imageUrl.toString().contains("src_1.png")
+                              ? news.link.toString()
+                              : news.imageUrl.toString();
+                      if (imageUrl.isNotEmpty) {
+                        context.push(networkImage, extra: (imageUrl, null));
+                      }
+                    },
+                  ),
+                ),
               );
             } else {
               return SizedBox(
@@ -130,13 +127,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
     );
   }
 
-  double width(BoxConstraints boxConstrains, BuildContext context) {
-    if (boxConstrains.maxWidth > 800) {
-      return boxConstrains.maxWidth * 0.45;
-    } else if (boxConstrains.maxWidth > 600) {
-      return boxConstrains.maxWidth * 0.6;
-    } else {
-      return boxConstrains.maxWidth * 0.8;
-    }
+  double width() {
+    return newsWidgetHeight * (3 / 5) * 2;
   }
 }

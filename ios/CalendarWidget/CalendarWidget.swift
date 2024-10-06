@@ -66,7 +66,7 @@ struct CalendarWidget: Widget {
                     .widgetURL(URL(string: "tumCampusApp://message?homeWidget=calendar"))
             }
         }
-        .contentMarginsDisabled()
+        .supportedFamilies([.systemMedium, .systemLarge, .systemExtraLarge])
         .configurationDisplayName("Calendar Widget")
         .description("An Overview About Your Upcoming Events.")
     }

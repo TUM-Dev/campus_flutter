@@ -66,8 +66,8 @@ struct CalendarEventView: View {
             .foregroundStyle(.white)
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             .background(ContainerRelativeShape()
-                .fill(color).widgetAccentable(true))
+                .fill(color).widgetAccentable(true)
+                .clipShape(RoundedRectangle(cornerRadius: 10)))
         }
-        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
     }
 }

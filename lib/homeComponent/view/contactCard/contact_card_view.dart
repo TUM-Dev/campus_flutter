@@ -74,17 +74,24 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  data?.fullName ?? profile.fullName,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  "StudentCard".toUpperCase(),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700,
+                      ),
                 ),
                 Text(
-                  profile.tumID ?? "go42tum",
+                  data?.fullName ?? profile.fullName,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 if (data != null)
                   AutoSizeText(
                     data.email,
                     maxLines: 1,
                   ),
+                Text(
+                  profile.tumID ?? "go42tum",
+                ),
               ],
             ),
           ),

@@ -31,19 +31,16 @@ struct CalendarWidgetContent: View {
     
     var body: some View {
         VStack {
-            VStack(alignment: .leading) {
+            HStack {
                 Text(dateFormatter.string(from: Date()))
                     .fontWeight(.semibold)
                     .font(.callout)
+                Spacer()
                 Text(updatedAt.timeAgo != nil ? "\(updatedAt.timeAgo!) ago" : "moments ago")
                     .font(.footnote)
             }
-            .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
             .widgetAccentable(false)
-            .foregroundStyle(.white)
-            .background(Color.accent.widgetAccentable(true))
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
             
             if (events.isEmpty) {
                 Spacer()

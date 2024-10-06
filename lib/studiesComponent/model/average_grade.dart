@@ -13,7 +13,7 @@ class AverageGrade {
     name: "avg_grade_weighted_by_credits",
     fromJson: StringParser.stringToDouble,
   )
-  final double averageGrade;
+  final double? averageGrade;
 
   AverageGrade({
     required this.id,

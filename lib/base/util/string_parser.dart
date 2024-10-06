@@ -44,12 +44,12 @@ class StringParser {
     ).format(dateTime);
   }
 
-  static double stringToDouble(String? number) {
+  static double? stringToDouble(String? number) {
     if (number != null) {
       number = number.replaceAll(",", ".");
-      return double.tryParse(number) ?? 0.0;
+      return double.tryParse(number);
     } else {
-      return 0.0;
+      return null;
     }
   }
 
