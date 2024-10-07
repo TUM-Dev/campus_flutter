@@ -170,7 +170,6 @@ class _CampusAppState extends ConsumerState<CampusApp>
   void firebaseCallback() {
     if (!kDebugMode) {
       final remoteConfig = FirebaseRemoteConfig.instance;
-      remoteConfig.fetchAndActivate();
       remoteConfig.fetchAndActivate().then((value) {
         if (value) {
           _handleFirebaseValues(
