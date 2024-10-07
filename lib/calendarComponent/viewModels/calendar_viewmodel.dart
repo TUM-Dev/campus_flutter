@@ -4,13 +4,12 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
-final calendarViewModel = Provider((ref) => CalendarViewModel(ref));
+final calendarViewModel = Provider((ref) => CalendarViewModel());
 
 class CalendarViewModel {
   final BehaviorSubject<List<CalendarEvent>?> events =
@@ -18,10 +17,6 @@ class CalendarViewModel {
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
   final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
       widgetEvents = BehaviorSubject.seeded(null);
-
-  final Ref ref;
-
-  CalendarViewModel(this.ref);
 
   Future fetch(bool forcedRefresh) async {
     CalendarService.fetchCalendar(forcedRefresh).then(
@@ -38,14 +33,12 @@ class CalendarViewModel {
             element.setColor(eventColor);
           }
 
-          if (!ref.read(showHiddenCalendarEntries)) {
-            final eventVisibility =
-                getIt<CalendarPreferenceService>().getVisibilityPreference(
-              element.lvNr ?? element.id,
-            );
-            if (eventVisibility != null) {
-              element.isVisible = eventVisibility;
-            }
+          final eventVisibility =
+              getIt<CalendarPreferenceService>().getVisibilityPreference(
+            element.lvNr ?? element.id,
+          );
+          if (eventVisibility != null) {
+            element.isVisible = eventVisibility;
           }
         }
         events.add(response.$2);
@@ -163,6 +156,7 @@ class CalendarViewModel {
   void resetPreferences() {
     _resetEventColors();
     _resetVisibility();
+    fetch(true);
   }
 
   void _resetEventColors() {

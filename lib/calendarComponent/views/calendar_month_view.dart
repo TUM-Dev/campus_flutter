@@ -37,6 +37,7 @@ class CalendarMonthView extends ConsumerWidget {
             dataSource: MeetingDataSource(
               snapshot.data ?? [],
               context,
+              ref,
             ),
             firstDayOfWeek: 1,
             showDatePickerButton: true,

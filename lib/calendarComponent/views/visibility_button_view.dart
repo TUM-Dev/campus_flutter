@@ -32,7 +32,7 @@ class _VisibilityButtonViewState extends ConsumerState<VisibilityButtonView> {
         });
       },
       child: Icon(
-        (isVisible) ? Icons.visibility_off : Icons.visibility,
+        (isVisible) ? Icons.visibility : Icons.visibility_off,
       ),
     );
   }
