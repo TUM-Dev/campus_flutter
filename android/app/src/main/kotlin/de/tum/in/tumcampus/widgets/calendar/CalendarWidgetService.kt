@@ -9,6 +9,7 @@ import de.tum.`in`.tumcampus.R
 import de.tum.`in`.tumcampus.util.Const
 import es.antonborri.home_widget.HomeWidgetPlugin
 import kotlinx.serialization.json.Json
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
@@ -32,6 +33,10 @@ class CalendarWidgetService : RemoteViewsService() {
             val data = widgetData.getString("calendar", null)
             if (data != null) {
                 calendarEvents = Json.decodeFromString<Array<WidgetCalendarItem>>(data).asList()
+            }
+
+            calendarEvents.filter { widgetCalendarItem ->
+                widgetCalendarItem.endDate.isAfter(LocalDateTime.now())
             }
 
             // Set isFirstOnDay flags

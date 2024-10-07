@@ -34,7 +34,8 @@ struct Provider: TimelineProvider {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)
-                let entries = try decoder.decode([CalendarEntry].self, from: data)
+                var entries = try decoder.decode([CalendarEntry].self, from: data)
+                entries = entries.filter({ $0.endDate > Date() })
                 let entry = CalendarWidgetEntry(date: dateFormatter.date(from: calendarSaved ?? "") ?? Date(), entries: entries, size: context.family)
                 completion(entry)
             } catch {

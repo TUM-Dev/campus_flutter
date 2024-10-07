@@ -63,7 +63,7 @@ class CalendarViewModel {
             .where(
               (element) =>
                   (element.isVisible ?? true) &&
-                  element.startDate.isAfter(DateTime.now()),
+                  element.endDate.isAfter(DateTime.now()),
             )
             .toList(),
       ),
