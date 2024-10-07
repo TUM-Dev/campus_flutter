@@ -89,9 +89,10 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                     data.email,
                     maxLines: 1,
                   ),
-                Text(
-                  profile.tumID ?? "go42tum",
-                ),
+                if (profile.tumID != null)
+                  Text(
+                    profile.tumID!,
+                  ),
               ],
             ),
           ),
