@@ -7,6 +7,7 @@ class MeetingDataSource extends CalendarDataSource {
   final BuildContext context;
 
   MeetingDataSource(List<CalendarEvent> source, this.context) {
+    source.retainWhere((element) => element.isVisible ?? true);
     appointments = source;
   }
 

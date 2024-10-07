@@ -22,6 +22,7 @@ class CalendarEvent extends Searchable {
   final String? location;
 
   int? color;
+  bool? isVisible;
 
   Duration get duration {
     return endDate.difference(startDate);

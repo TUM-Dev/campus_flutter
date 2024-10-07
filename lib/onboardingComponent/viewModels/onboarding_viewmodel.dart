@@ -5,7 +5,7 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
-import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
@@ -146,9 +146,9 @@ class OnboardingViewModel {
 
   Future resetPreferences(WidgetRef ref) async {
     getIt<UserPreferencesService>().resetAll();
-    getIt<CalendarColorService>().resetColorPreferences();
+    getIt<CalendarPreferenceService>().resetPreferences();
     ref.read(userPreferencesViewModel).loadPreferences();
-    ref.read(calendarViewModel).resetEventColors();
+    ref.read(calendarViewModel).resetPreferences();
   }
 
   Future logout(WidgetRef ref) async {
