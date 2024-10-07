@@ -34,6 +34,9 @@ class UserPreferencesViewModel {
               ref.read(hideFailedGrades.notifier).state = value as bool;
             case UserPreference.weekends:
               ref.read(showWeekends.notifier).state = value as bool;
+            case UserPreference.hiddenCalendarEntries:
+              ref.read(showHiddenCalendarEntries.notifier).state =
+                  value as bool;
             default:
               break;
           }
@@ -54,6 +57,8 @@ class UserPreferencesViewModel {
         ref.read(hideFailedGrades.notifier).state = value as bool;
       case UserPreference.weekends:
         ref.read(showWeekends.notifier).state = value as bool;
+      case UserPreference.hiddenCalendarEntries:
+        ref.read(showHiddenCalendarEntries.notifier).state = value as bool;
       default:
         break;
     }

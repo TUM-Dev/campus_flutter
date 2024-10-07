@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
@@ -25,9 +24,10 @@ class AppearanceSettingsView extends ConsumerWidget {
         child: SeparatedList.widgets(
           widgets: [
             _appearanceSelection(context, ref),
-            if (Platform.isIOS) _useWebView(context, ref),
+            _useWebView(context, ref),
             _hideFailedGrades(context, ref),
-            _showWeeks(context, ref),
+            _showWeekends(context, ref),
+            _showHiddenCalendarEntries(context, ref),
           ],
         ),
       ),
@@ -96,7 +96,7 @@ class AppearanceSettingsView extends ConsumerWidget {
     );
   }
 
-  Widget _showWeeks(BuildContext context, WidgetRef ref) {
+  Widget _showWeekends(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       title: Text(
@@ -112,6 +112,26 @@ class AppearanceSettingsView extends ConsumerWidget {
               );
           calendarsKey.currentState?.weekController.view =
               value ? CalendarView.week : CalendarView.workWeek;
+        },
+      ),
+    );
+  }
+
+  Widget _showHiddenCalendarEntries(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(
+        context.tr("showHiddenCalendarEntries"),
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: Switch(
+        value: ref.watch(showHiddenCalendarEntries),
+        onChanged: (value) {
+          ref.read(userPreferencesViewModel).savePreference(
+                UserPreference.hiddenCalendarEntries,
+                value,
+              );
+          ref.read(calendarViewModel).fetch(false);
         },
       ),
     );

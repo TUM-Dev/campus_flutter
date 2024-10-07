@@ -196,6 +196,7 @@
   "openIn": "Open in {}",
   "unknownDirection": "Unknown Direction",
   "showWeekends": "Show Weekends",
+  "showHiddenCalendarEntries": "Show Hidden Calendar Entries",
   "color": "Color",
   "resetLogin": "Reset & Login",
   "resetPreferences": "Reset Preferences",
@@ -225,5 +226,6 @@
   "campus": "Campus",
   "studies": "Studies",
   "suggested": "Suggested {}",
-  "all": "All"
+  "all": "All",
+  "visibility": "Visibility"
 }
