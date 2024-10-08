@@ -2,6 +2,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/calendarComponent/views/visibility_button_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,18 +36,34 @@ class CustomEventView extends ConsumerWidget {
             ),
             context,
           ),
-        _infoEntry(
-          context.tr("color"),
-          ColorPickerView(
-            color: calendarEvent.getColor(),
-            onColorChanged: (color) {
-              ref.read(calendarViewModel).setEventColor(
-                    calendarEvent.lvNr ?? calendarEvent.id,
-                    color,
-                  );
-            },
-          ),
-          context,
+        Row(
+          children: [
+            Expanded(
+              child: _infoEntry(
+                context.tr("color"),
+                ColorPickerView(
+                  color: calendarEvent.getColor(),
+                  onColorChanged: (color) {
+                    ref.read(calendarViewModel).setEventColor(
+                          calendarEvent.lvNr ?? calendarEvent.id,
+                          color,
+                        );
+                  },
+                ),
+                context,
+              ),
+            ),
+            Expanded(
+              child: _infoEntry(
+                context.tr("visibility"),
+                VisibilityButtonView(
+                  id: calendarEvent.lvNr ?? calendarEvent.id,
+                  isVisible: calendarEvent.isVisible,
+                ),
+                context,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -62,7 +79,10 @@ class CustomEventView extends ConsumerWidget {
             title,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          child,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: context.halfPadding),
+            child: child,
+          ),
         ],
       ),
     );

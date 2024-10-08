@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:campus_flutter/calendarComponent/services/calendar_color_service.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
@@ -12,27 +12,35 @@ import 'package:rxdart/rxdart.dart';
 final calendarViewModel = Provider((ref) => CalendarViewModel());
 
 class CalendarViewModel {
-  BehaviorSubject<List<CalendarEvent>?> events = BehaviorSubject.seeded(null);
-
-  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
-
-  BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?> widgetEvents =
+  final BehaviorSubject<List<CalendarEvent>?> events =
       BehaviorSubject.seeded(null);
+  final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
+  final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
+      widgetEvents = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
     CalendarService.fetchCalendar(forcedRefresh).then(
       (response) {
         lastFetched.add(response.$1);
-        getIt<CalendarColorService>().loadColorPreferences();
+        response.$2.removeWhere((element) => element.isCanceled);
+        getIt<CalendarPreferenceService>().loadPreferences();
         for (var element in response.$2) {
-          final eventColor = getIt<CalendarColorService>().getColorPreference(
+          final eventColor =
+              getIt<CalendarPreferenceService>().getColorPreference(
             element.lvNr ?? element.id,
           );
           if (eventColor != null) {
             element.setColor(eventColor);
           }
+
+          final eventVisibility =
+              getIt<CalendarPreferenceService>().getVisibilityPreference(
+            element.lvNr ?? element.id,
+          );
+          if (eventVisibility != null) {
+            element.isVisible = eventVisibility;
+          }
         }
-        response.$2.removeWhere((element) => element.isCanceled);
         events.add(response.$2);
         updateHomeWidget(response.$2);
       },
@@ -45,7 +53,11 @@ class CalendarViewModel {
       "calendar",
       jsonEncode(
         calendarEvents
-            .where((element) => element.startDate.isAfter(DateTime.now()))
+            .where(
+              (element) =>
+                  (element.isVisible ?? true) &&
+                  element.endDate.isAfter(DateTime.now()),
+            )
             .toList(),
       ),
     );
@@ -65,9 +77,9 @@ class CalendarViewModel {
 
     final filteredEvents = events.value
             ?.where(
-              (element) => element.startDate.isAfter(
-                DateTime.now(),
-              ),
+              (element) =>
+                  element.startDate.isAfter(DateTime.now()) &&
+                  (element.isVisible ?? true),
             )
             .toList() ??
         [];
@@ -101,13 +113,13 @@ class CalendarViewModel {
   }
 
   void setEventColor(String key, Color color) {
-    getIt<CalendarColorService>().saveColorPreference(
+    getIt<CalendarPreferenceService>().saveColorPreference(
       key,
       color,
     );
     final elements = events.value;
     elements?.forEach((element) {
-      if (element.id == key || element.lvNr == key) {
+      if (element.lvNr == key || element.id == key) {
         element.setColor(color);
       }
     });
@@ -115,7 +127,45 @@ class CalendarViewModel {
     updateHomeWidget(events.value ?? []);
   }
 
-  void resetEventColors() {
+  void toggleEventVisibility(String key) {
+    var preference = getIt<CalendarPreferenceService>().getVisibilityPreference(
+      key,
+    );
+
+    if (preference != null) {
+      preference = !preference;
+    } else {
+      preference = false;
+    }
+
+    getIt<CalendarPreferenceService>().saveVisibilityPreference(
+      key,
+      preference,
+    );
+
+    final elements = events.value;
+    elements?.forEach((element) {
+      if (element.lvNr == key || element.id == key) {
+        element.isVisible = preference;
+      }
+    });
+    events.add(elements);
+    updateHomeWidget(events.value ?? []);
+  }
+
+  void resetPreferences() {
+    _resetEventColors();
+    _resetVisibility();
+  }
+
+  void _resetEventColors() {
+    final elements = events.value;
+    elements?.forEach((element) => element.setColor(null));
+    events.add(elements);
+    updateHomeWidget(events.value ?? []);
+  }
+
+  void _resetVisibility() {
     final elements = events.value;
     elements?.forEach((element) => element.setColor(null));
     events.add(elements);

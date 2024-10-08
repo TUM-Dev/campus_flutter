@@ -196,6 +196,7 @@
   "openIn": "In {} öffnen",
   "unknownDirection": "Unbekannte Richtung",
   "showWeekends": "Wochenenden anzeigen",
+  "showHiddenCalendarEntries": "Versteckte Kalendareintrage anzeigen",
   "color": "Farbe",
   "resetLogin": "Zurücksetzen & Anmelden",
   "resetPreferences": "Einstellungen zurücksetzen",
@@ -225,5 +226,6 @@
   "campus": "Campus",
   "studies": "Studium",
   "suggested": "Interessante {}",
-  "all": "Alle"
+  "all": "Alle",
+  "visibility": "Sichtbarkeit"
 }

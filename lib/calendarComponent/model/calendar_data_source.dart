@@ -1,13 +1,24 @@
 import 'package:campus_flutter/base/extensions/cast.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MeetingDataSource extends CalendarDataSource {
   final BuildContext context;
+  final WidgetRef ref;
 
-  MeetingDataSource(List<CalendarEvent> source, this.context) {
-    appointments = source;
+  MeetingDataSource(List<CalendarEvent> source, this.context, this.ref) {
+    if (!ref.read(showHiddenCalendarEntries)) {
+      appointments = source
+          .where(
+            (element) => element.isVisible ?? true,
+          )
+          .toList();
+    } else {
+      appointments = source;
+    }
   }
 
   @override

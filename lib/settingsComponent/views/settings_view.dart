@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/appearance_settings_view.dart';
+import 'package:campus_flutter/settingsComponent/views/calendar_settings_view.dart';
 import 'package:campus_flutter/settingsComponent/views/contact_view.dart';
 import 'package:campus_flutter/settingsComponent/views/general_settings_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,6 +16,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 final useWebView = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
 final showWeekends = StateProvider<bool>((ref) => false);
+final showHiddenCalendarEntries = StateProvider<bool>((ref) => false);
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
@@ -29,6 +31,7 @@ class SettingsView extends ConsumerWidget {
               children: [
                 GeneralSettingsView(),
                 AppearanceSettingsView(),
+                CalendarSettingsView(),
               ],
             ),
           ),
@@ -48,6 +51,7 @@ class SettingsView extends ConsumerWidget {
         children: [
           const GeneralSettingsView(),
           const AppearanceSettingsView(),
+          const CalendarSettingsView(),
           const ContactView(),
           _resetButtons(context, ref),
           _versionNumberText(),

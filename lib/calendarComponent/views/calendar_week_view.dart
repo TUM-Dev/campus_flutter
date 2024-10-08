@@ -35,6 +35,7 @@ class CalendarWeekView extends ConsumerWidget {
             dataSource: MeetingDataSource(
               snapshot.data ?? [],
               context,
+              ref,
             ),
             onTap: (details) {
               if (details.targetElement == CalendarElement.appointment) {

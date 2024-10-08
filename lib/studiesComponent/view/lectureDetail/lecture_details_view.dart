@@ -6,6 +6,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
+import 'package:campus_flutter/calendarComponent/views/visibility_button_view.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture_details.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/basic_lecture_info_view.dart';
@@ -19,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class LectureDetailsScaffold extends ConsumerStatefulWidget {
+class LectureDetailsScaffold extends ConsumerWidget {
   const LectureDetailsScaffold({
     super.key,
     this.scrollController,
@@ -32,38 +33,35 @@ class LectureDetailsScaffold extends ConsumerStatefulWidget {
   final ScrollController? scrollController;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LectureDetailsScaffoldState();
-}
-
-class _LectureDetailsScaffoldState
-    extends ConsumerState<LectureDetailsScaffold> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.padding),
-            child: ColorPickerView(
-              color: widget.event?.getColor() ?? context.primaryColor,
-              onColorChanged: (color) {
-                if (widget.event != null) {
-                  ref.read(calendarViewModel).setEventColor(
-                        widget.event!.lvNr ?? widget.event!.id,
-                        color,
-                      );
-                }
-              },
-            ),
-          ),
-        ],
+        actions: event != null
+            ? [
+                VisibilityButtonView(
+                  id: event!.lvNr ?? event!.id,
+                  isVisible: event!.isVisible,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: context.padding),
+                  child: ColorPickerView(
+                    color: event?.getColor() ?? context.primaryColor,
+                    onColorChanged: (color) {
+                      ref.read(calendarViewModel).setEventColor(
+                            event!.lvNr ?? event!.id,
+                            color,
+                          );
+                    },
+                  ),
+                ),
+              ]
+            : null,
       ),
       body: LectureDetailsView(
-        event: widget.event,
-        lecture: widget.lecture,
-        scrollController: widget.scrollController,
+        event: event,
+        lecture: lecture,
+        scrollController: scrollController,
       ),
     );
   }
