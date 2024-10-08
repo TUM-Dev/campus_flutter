@@ -77,9 +77,9 @@ class CalendarViewModel {
 
     final filteredEvents = events.value
             ?.where(
-              (element) => element.startDate.isAfter(
-                DateTime.now(),
-              ),
+              (element) =>
+                  element.startDate.isAfter(DateTime.now()) &&
+                  (element.isVisible ?? true),
             )
             .toList() ??
         [];
@@ -156,7 +156,6 @@ class CalendarViewModel {
   void resetPreferences() {
     _resetEventColors();
     _resetVisibility();
-    fetch(true);
   }
 
   void _resetEventColors() {

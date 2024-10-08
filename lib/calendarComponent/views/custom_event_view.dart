@@ -79,7 +79,10 @@ class CustomEventView extends ConsumerWidget {
             title,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          child,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: context.halfPadding),
+            child: child,
+          ),
         ],
       ),
     );
