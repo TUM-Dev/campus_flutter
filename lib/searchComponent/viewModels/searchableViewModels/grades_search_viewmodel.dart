@@ -2,13 +2,13 @@ import 'package:campus_flutter/studiesComponent/model/grade.dart';
 import 'package:campus_flutter/studiesComponent/service/grade_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/category_search_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
 
-class GradesSearchViewModel implements SearchViewModel<Grade> {
+class GradesSearchViewModel implements CategorySearchViewModel<Grade> {
   @override
   BehaviorSubject<List<Grade>?> searchResults = BehaviorSubject.seeded(null);
 

@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/campus.dart';
+import 'package:campus_flutter/base/enums/search_type.dart';
 import 'package:campus_flutter/base/util/fullscreen_image_view.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
@@ -31,8 +32,8 @@ import 'package:campus_flutter/placesComponent/views/campuses/campus_scaffold.da
 import 'package:campus_flutter/placesComponent/views/places_screen.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_room_group_scaffold.dart';
 import 'package:campus_flutter/placesComponent/views/studyGroups/study_rooms_view.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_scaffold.dart';
-import 'package:campus_flutter/searchComponent/views/personRoomSearch/search_view.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/views/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/screen/studies_screen.dart';
@@ -220,7 +221,22 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: search,
-      builder: (context, state) => const SearchScaffold(),
+      builder: (context, state) => SearchScaffold(
+        viewModel:
+            searchViewModel((SearchType.general, state.extra as String?)),
+      ),
+    ),
+    GoRoute(
+      path: roomSearch,
+      builder: (context, state) => SearchScaffold(
+        viewModel: searchViewModel((SearchType.room, state.extra as String?)),
+      ),
+    ),
+    GoRoute(
+      path: personSearch,
+      builder: (context, state) => SearchScaffold(
+        viewModel: searchViewModel((SearchType.person, state.extra as String?)),
+      ),
     ),
     GoRoute(
       path: studyRoom,
@@ -243,16 +259,6 @@ final _router = GoRouter(
       builder: (context, state) => ImageFullScreenScaffold.imageData(
         imageData: state.extra as String,
       ),
-    ),
-    GoRoute(
-      path: roomSearch,
-      builder: (context, state) {
-        final data = state.extra as (String?, bool?);
-        return PersonRoomSearchScaffold(
-          searchString: data.$1,
-          isRoomSearch: data.$2 ?? true,
-        );
-      },
     ),
     GoRoute(
       path: eventCreation,

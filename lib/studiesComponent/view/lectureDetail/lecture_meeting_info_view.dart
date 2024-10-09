@@ -30,10 +30,7 @@ class LectureMeetingInfoView extends ConsumerWidget {
           trailingWidget: IconButton(
             onPressed: () => context.push(
               roomSearch,
-              extra: (
-                ref.read(viewModel).event!.location,
-                null,
-              ),
+              extra: ref.read(viewModel).event!.location,
             ),
             icon: Icon(
               Icons.search,
