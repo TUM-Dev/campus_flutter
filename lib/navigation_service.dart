@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:campus_flutter/base/enums/credentials.dart';
+import 'package:campus_flutter/base/enums/search_type.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_screen.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/student_card_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -81,7 +82,9 @@ class NavigationService {
   Widget searchButton(int currentIndex, WidgetRef ref, BuildContext context) {
     return IconButton(
       onPressed: () {
-        ref.read(searchViewModel).setSearchCategories(currentIndex);
+        ref
+            .read(searchViewModel((SearchType.general, null)))
+            .setSearchCategories(currentIndex);
         context.push(search);
       },
       icon: const Icon(Icons.search),

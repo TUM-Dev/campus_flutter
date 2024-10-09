@@ -1,6 +1,6 @@
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/services/navigatum_search_service.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/category_search_viewmodel.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 final navigaTumSearchViewModel = Provider((ref) => NavigaTumSearchViewModel());
 
 class NavigaTumSearchViewModel
-    implements SearchViewModel<NavigaTumNavigationEntity> {
+    implements CategorySearchViewModel<NavigaTumNavigationEntity> {
   @override
   BehaviorSubject<List<NavigaTumNavigationEntity>?> searchResults =
       BehaviorSubject.seeded(null);

@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
+import 'package:campus_flutter/base/enums/search_type.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/person_search_viewmodel.dart';
@@ -12,30 +13,55 @@ import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/n
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/personal_lecture_seach_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/student_club_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/study_room_search_viewmodel.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final searchViewModel = Provider((ref) => GlobalSearchViewModel(ref));
+final searchViewModel = Provider.family<SearchViewModel, (SearchType, String?)>(
+  (ref, data) => data.$2 != null
+      ? SearchViewModel(ref, searchType: data.$1, searchString: data.$2!)
+      : SearchViewModel(ref, searchType: data.$1),
+);
 
-class GlobalSearchViewModel {
+class SearchViewModel {
   BehaviorSubject<List<SearchCategory>?> result = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SearchCategory>> selectedCategories =
       BehaviorSubject.seeded([]);
 
-  String searchString = "";
+  late final TextEditingController searchTextController;
+  final SearchType searchType;
+  final Ref ref;
 
   bool isAuthorized = false;
 
-  final Ref ref;
+  SearchViewModel(
+    this.ref, {
+    required this.searchType,
+    String? searchString,
+  }) {
+    searchTextController = TextEditingController(text: searchString);
+    selectedCategories.add(_initialSearchCategories());
+    triggerSearchAfterUpdate();
+  }
 
-  GlobalSearchViewModel(this.ref);
+  _initialSearchCategories() {
+    switch (searchType) {
+      case SearchType.general:
+        return <SearchCategory>[];
+      case SearchType.room:
+        return [SearchCategory.rooms, SearchCategory.studyRoom];
+      case SearchType.person:
+        return [SearchCategory.persons];
+    }
+  }
 
-  void search(String searchString) async {
+  void _search() async {
+    final searchString = searchTextController.text;
     if (searchString.isEmpty) {
       clear();
       return;
     }
-    this.searchString = searchString;
+    searchTextController.text = searchString;
     if (selectedCategories.value.isEmpty) {
       if (ref.read(onboardingViewModel).credentials.value ==
           Credentials.tumId) {
@@ -63,29 +89,26 @@ class GlobalSearchViewModel {
   }
 
   void clear() {
-    searchString = "";
+    searchTextController.clear();
     result.add(null);
   }
 
-  void triggerSearchAfterUpdate(String? searchString) {
-    if (searchString != null) {
-      this.searchString = searchString;
-    }
-    search(this.searchString);
+  void triggerSearchAfterUpdate() {
+    _search();
     if (selectedCategories.value.isEmpty) {
       for (var category in SearchCategory.values) {
         if (isAuthorized) {
-          _authorizedSearchTriggerBuilder(searchString, category);
+          _authorizedSearchTriggerBuilder(category);
         } else {
-          _unauthorizedSearchTriggerBuilder(searchString, category);
+          _unauthorizedSearchTriggerBuilder(category);
         }
       }
     } else {
       for (var selectedCategory in selectedCategories.value) {
         if (isAuthorized) {
-          _authorizedSearchTriggerBuilder(searchString, selectedCategory);
+          _authorizedSearchTriggerBuilder(selectedCategory);
         } else {
-          _unauthorizedSearchTriggerBuilder(searchString, selectedCategory);
+          _unauthorizedSearchTriggerBuilder(selectedCategory);
         }
       }
     }
@@ -130,77 +153,57 @@ class GlobalSearchViewModel {
     }
   }
 
-  void _authorizedSearchTriggerBuilder(
-    String? searchString,
-    SearchCategory searchCategory,
-  ) {
+  void _authorizedSearchTriggerBuilder(SearchCategory searchCategory) {
+    final searchString = searchTextController.text;
     switch (searchCategory) {
       case SearchCategory.grade:
-        ref.read(gradesSearchViewModel).gradesSearch(query: this.searchString);
+        ref.read(gradesSearchViewModel).gradesSearch(query: searchString);
       case SearchCategory.cafeterias:
-        ref
-            .read(cafeteriaSearchViewModel)
-            .cafeteriaSearch(query: this.searchString);
+        ref.read(cafeteriaSearchViewModel).cafeteriaSearch(query: searchString);
       case SearchCategory.calendar:
-        ref
-            .read(calendarSearchViewModel)
-            .calendarSearch(query: this.searchString);
+        ref.read(calendarSearchViewModel).calendarSearch(query: searchString);
       case SearchCategory.movie:
-        ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
+        ref.read(movieSearchViewModel).movieSearch(query: searchString);
       case SearchCategory.news:
-        ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
+        ref.read(newsSearchViewModel).newsSearch(query: searchString);
       case SearchCategory.studentClub:
         ref
             .read(studentClubSearchViewModel)
-            .studentClubSearch(query: this.searchString);
+            .studentClubSearch(query: searchString);
       case SearchCategory.studyRoom:
-        ref
-            .read(studyRoomSearchViewModel)
-            .studyRoomSearch(query: this.searchString);
+        ref.read(studyRoomSearchViewModel).studyRoomSearch(query: searchString);
       case SearchCategory.lectures:
-        ref
-            .read(lectureSearchViewModel)
-            .lectureSearch(query: this.searchString);
+        ref.read(lectureSearchViewModel).lectureSearch(query: searchString);
       case SearchCategory.personalLectures:
         ref
             .read(personalLectureSearchViewModel)
-            .personalLectureSearch(query: this.searchString);
+            .personalLectureSearch(query: searchString);
       case SearchCategory.persons:
-        ref.read(personSearchViewModel).personSearch(query: this.searchString);
+        ref.read(personSearchViewModel).personSearch(query: searchString);
       case SearchCategory.rooms:
-        ref
-            .read(navigaTumSearchViewModel)
-            .navigaTumSearch(query: this.searchString);
+        ref.read(navigaTumSearchViewModel).navigaTumSearch(query: searchString);
       default:
         return;
     }
   }
 
-  void _unauthorizedSearchTriggerBuilder(
-    String? searchString,
-    SearchCategory searchCategory,
-  ) {
+  void _unauthorizedSearchTriggerBuilder(SearchCategory searchCategory) {
+    final searchString = searchTextController.text;
     switch (searchCategory) {
       case SearchCategory.cafeterias:
-        ref
-            .read(cafeteriaSearchViewModel)
-            .cafeteriaSearch(query: this.searchString);
+        ref.read(cafeteriaSearchViewModel).cafeteriaSearch(query: searchString);
       case SearchCategory.movie:
-        ref.read(movieSearchViewModel).movieSearch(query: this.searchString);
+        ref.read(movieSearchViewModel).movieSearch(query: searchString);
       case SearchCategory.news:
-        ref.read(newsSearchViewModel).newsSearch(query: this.searchString);
+        ref.read(newsSearchViewModel).newsSearch(query: searchString);
       case SearchCategory.studentClub:
         ref
             .read(studentClubSearchViewModel)
-            .studentClubSearch(query: this.searchString);
+            .studentClubSearch(query: searchString);
       case SearchCategory.studyRoom:
-        ref
-            .read(studyRoomSearchViewModel)
-            .studyRoomSearch(query: this.searchString);
+        ref.read(studyRoomSearchViewModel).studyRoomSearch(query: searchString);
       case SearchCategory.rooms:
-        ref
-            .read(navigaTumSearchViewModel)
-            .navigaTumSearch(query: this.searchString);
+        ref.read(navigaTumSearchViewModel).navigaTumSearch(query: searchString);
       default:
         return;
     }

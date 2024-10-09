@@ -1,13 +1,16 @@
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchTextField extends ConsumerStatefulWidget {
-  const SearchTextField({super.key, required this.textEditingController});
+  const SearchTextField({
+    super.key,
+    required this.viewModel,
+  });
 
-  final TextEditingController textEditingController;
+  final Provider<SearchViewModel> viewModel;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -22,11 +25,16 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.padding),
       child: TextField(
-        controller: widget.textEditingController,
+        controller: ref.watch(widget.viewModel).searchTextController,
         onChanged: (searchString) {
-          ref.read(searchViewModel).triggerSearchAfterUpdate(searchString);
+          ref.read(widget.viewModel).triggerSearchAfterUpdate();
           setState(() {
-            showIcon = widget.textEditingController.value.text.isNotEmpty;
+            showIcon = ref
+                .read(widget.viewModel)
+                .searchTextController
+                .value
+                .text
+                .isNotEmpty;
           });
         },
         decoration: InputDecoration(
@@ -34,8 +42,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
           suffixIcon: showIcon
               ? GestureDetector(
                   onTap: () {
-                    ref.read(searchViewModel).clear();
-                    widget.textEditingController.clear();
+                    ref.read(widget.viewModel).clear();
                     setState(() {
                       showIcon = false;
                     });
