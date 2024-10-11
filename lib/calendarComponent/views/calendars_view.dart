@@ -41,7 +41,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
     ref
         .read(selectedDate.notifier)
         .addListener((state) => _selectedDateListener(state));
-    _selectedCalendarTab = 0;
+    _selectedCalendarTab = ref.read(calendarViewModel).getTabPreference();
     super.initState();
   }
 
@@ -98,9 +98,14 @@ class _CalendarsViewState extends ConsumerState<CalendarsView>
                         selected: {
                           _selectedCalendarTab,
                         },
-                        onSelectionChanged: (newSelection) => setState(() {
-                          _selectedCalendarTab = newSelection.first;
-                        }),
+                        onSelectionChanged: (newSelection) {
+                          setState(() {
+                            _selectedCalendarTab = newSelection.first;
+                          });
+                          ref.read(calendarViewModel).saveTabPreference(
+                                _selectedCalendarTab,
+                              );
+                        },
                       ),
                     ),
                   ],
