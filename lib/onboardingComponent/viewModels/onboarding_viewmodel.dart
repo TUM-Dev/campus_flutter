@@ -12,8 +12,8 @@ import 'package:campus_flutter/onboardingComponent/services/onboarding_service.d
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
-import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +147,7 @@ class OnboardingViewModel {
   Future resetPreferences(WidgetRef ref) async {
     getIt<UserPreferencesService>().resetAll();
     getIt<CalendarPreferenceService>().resetPreferences();
-    ref.read(userPreferencesViewModel).loadPreferences();
+    ref.read(settingsViewModel).loadPreferences();
     ref.read(calendarViewModel).resetPreferences();
   }
 

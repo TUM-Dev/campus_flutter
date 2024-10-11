@@ -6,7 +6,7 @@ import 'package:campus_flutter/homeComponent/view/departure/departures_widget_vi
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/cafeteria_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

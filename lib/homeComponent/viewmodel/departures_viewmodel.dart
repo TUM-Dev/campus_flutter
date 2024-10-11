@@ -11,7 +11,7 @@ import 'package:campus_flutter/homeComponent/model/mvv_response.dart';
 import 'package:campus_flutter/homeComponent/model/station.dart';
 import 'package:campus_flutter/homeComponent/service/departures_service.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

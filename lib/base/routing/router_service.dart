@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
-import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,7 @@ class RouterService {
   Future<String> routingCallback(GoRouterState state) async {
     if (!_isInitialized) {
       if (await ref.read(onboardingViewModel).checkLogin() == true) {
-        await ref.read(userPreferencesViewModel).loadPreferences();
+        await ref.read(settingsViewModel).loadPreferences();
         await ref.read(studentCardViewModel).fetch(false);
         _isInitialized = true;
         FlutterNativeSplash.remove();

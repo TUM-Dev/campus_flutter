@@ -16,7 +16,7 @@ import 'package:campus_flutter/calendarComponent/services/calendar_view_service.
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_logger/easy_logger.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
