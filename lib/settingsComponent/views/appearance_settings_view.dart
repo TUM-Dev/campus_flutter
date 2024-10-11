@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/settingsComponent/viewModels/user_preferences_viewmodel.dart';
+import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,14 +39,14 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: DropdownButton(
         onChanged: (Appearance? newAppearance) {
           if (newAppearance != null) {
-            ref.read(userPreferencesViewModel).savePreference(
+            ref.read(settingsViewModel).savePreference(
                   UserPreference.theme,
                   newAppearance,
                 );
           }
         },
         value: ref.watch(appearance),
-        items: UserPreferencesViewModel.getAppearanceEntries(context),
+        items: SettingsViewModel.getAppearanceEntries(context),
       ),
     );
   }
@@ -61,7 +61,7 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(useWebView),
         onChanged: (showWebView) {
-          ref.read(userPreferencesViewModel).savePreference(
+          ref.read(settingsViewModel).savePreference(
                 UserPreference.browser,
                 showWebView,
               );
@@ -81,7 +81,7 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(hideFailedGrades),
         onChanged: (value) {
-          ref.read(userPreferencesViewModel).savePreference(
+          ref.read(settingsViewModel).savePreference(
                 UserPreference.failedGrades,
                 value,
               );
