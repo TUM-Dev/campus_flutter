@@ -81,22 +81,6 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/CreateFeedback',
       ($0.CreateFeedbackRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.CreateFeedbackReply.fromBuffer(value));
-  static final _$getUploadStatus = $grpc.ClientMethod<$0.GetUploadStatusRequest, $0.GetUploadStatusReply>(
-      '/api.Campus/GetUploadStatus',
-      ($0.GetUploadStatusRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetUploadStatusReply.fromBuffer(value));
-  static final _$getNotification = $grpc.ClientMethod<$0.GetNotificationRequest, $0.GetNotificationReply>(
-      '/api.Campus/GetNotification',
-      ($0.GetNotificationRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNotificationReply.fromBuffer(value));
-  static final _$getNotificationConfirm = $grpc.ClientMethod<$0.GetNotificationConfirmRequest, $0.GetNotificationConfirmReply>(
-      '/api.Campus/GetNotificationConfirm',
-      ($0.GetNotificationConfirmRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetNotificationConfirmReply.fromBuffer(value));
-  static final _$getMember = $grpc.ClientMethod<$0.GetMemberRequest, $0.GetMemberReply>(
-      '/api.Campus/GetMember',
-      ($0.GetMemberRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetMemberReply.fromBuffer(value));
   static final _$getCanteenHeadCount = $grpc.ClientMethod<$0.GetCanteenHeadCountRequest, $0.GetCanteenHeadCountReply>(
       '/api.Campus/GetCanteenHeadCount',
       ($0.GetCanteenHeadCountRequest value) => value.writeToBuffer(),
@@ -178,22 +162,6 @@ class CampusClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.CreateFeedbackReply> createFeedback($async.Stream<$0.CreateFeedbackRequest> request, {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$createFeedback, request, options: options).single;
-  }
-
-  $grpc.ResponseFuture<$0.GetUploadStatusReply> getUploadStatus($0.GetUploadStatusRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getUploadStatus, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.GetNotificationReply> getNotification($0.GetNotificationRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getNotification, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.GetNotificationConfirmReply> getNotificationConfirm($0.GetNotificationConfirmRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getNotificationConfirm, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$0.GetMemberReply> getMember($0.GetMemberRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getMember, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.GetCanteenHeadCountReply> getCanteenHeadCount($0.GetCanteenHeadCountRequest request, {$grpc.CallOptions? options}) {
@@ -323,34 +291,6 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.CreateFeedbackRequest.fromBuffer(value),
         ($0.CreateFeedbackReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetUploadStatusRequest, $0.GetUploadStatusReply>(
-        'GetUploadStatus',
-        getUploadStatus_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.GetUploadStatusRequest.fromBuffer(value),
-        ($0.GetUploadStatusReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetNotificationRequest, $0.GetNotificationReply>(
-        'GetNotification',
-        getNotification_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.GetNotificationRequest.fromBuffer(value),
-        ($0.GetNotificationReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetNotificationConfirmRequest, $0.GetNotificationConfirmReply>(
-        'GetNotificationConfirm',
-        getNotificationConfirm_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.GetNotificationConfirmRequest.fromBuffer(value),
-        ($0.GetNotificationConfirmReply value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetMemberRequest, $0.GetMemberReply>(
-        'GetMember',
-        getMember_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.GetMemberRequest.fromBuffer(value),
-        ($0.GetMemberReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetCanteenHeadCountRequest, $0.GetCanteenHeadCountReply>(
         'GetCanteenHeadCount',
         getCanteenHeadCount_Pre,
@@ -437,22 +377,6 @@ abstract class CampusServiceBase extends $grpc.Service {
     return listMovies(call, await request);
   }
 
-  $async.Future<$0.GetUploadStatusReply> getUploadStatus_Pre($grpc.ServiceCall call, $async.Future<$0.GetUploadStatusRequest> request) async {
-    return getUploadStatus(call, await request);
-  }
-
-  $async.Future<$0.GetNotificationReply> getNotification_Pre($grpc.ServiceCall call, $async.Future<$0.GetNotificationRequest> request) async {
-    return getNotification(call, await request);
-  }
-
-  $async.Future<$0.GetNotificationConfirmReply> getNotificationConfirm_Pre($grpc.ServiceCall call, $async.Future<$0.GetNotificationConfirmRequest> request) async {
-    return getNotificationConfirm(call, await request);
-  }
-
-  $async.Future<$0.GetMemberReply> getMember_Pre($grpc.ServiceCall call, $async.Future<$0.GetMemberRequest> request) async {
-    return getMember(call, await request);
-  }
-
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount_Pre($grpc.ServiceCall call, $async.Future<$0.GetCanteenHeadCountRequest> request) async {
     return getCanteenHeadCount(call, await request);
   }
@@ -484,10 +408,6 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote($grpc.ServiceCall call, $0.GetUpdateNoteRequest request);
   $async.Future<$0.ListMoviesReply> listMovies($grpc.ServiceCall call, $0.ListMoviesRequest request);
   $async.Future<$0.CreateFeedbackReply> createFeedback($grpc.ServiceCall call, $async.Stream<$0.CreateFeedbackRequest> request);
-  $async.Future<$0.GetUploadStatusReply> getUploadStatus($grpc.ServiceCall call, $0.GetUploadStatusRequest request);
-  $async.Future<$0.GetNotificationReply> getNotification($grpc.ServiceCall call, $0.GetNotificationRequest request);
-  $async.Future<$0.GetNotificationConfirmReply> getNotificationConfirm($grpc.ServiceCall call, $0.GetNotificationConfirmRequest request);
-  $async.Future<$0.GetMemberReply> getMember($grpc.ServiceCall call, $0.GetMemberRequest request);
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount($grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
   $async.Future<$0.CreateDeviceReply> createDevice($grpc.ServiceCall call, $0.CreateDeviceRequest request);
   $async.Future<$0.DeleteDeviceReply> deleteDevice($grpc.ServiceCall call, $0.DeleteDeviceRequest request);

@@ -3,7 +3,7 @@ import 'package:campus_flutter/campusComponent/service/student_club_service.dart
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/category_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,7 +11,8 @@ import 'package:rxdart/rxdart.dart';
 final studentClubSearchViewModel =
     Provider((ref) => StudentClubSearchViewModel());
 
-class StudentClubSearchViewModel implements SearchViewModel<StudentClubSearch> {
+class StudentClubSearchViewModel
+    implements CategorySearchViewModel<StudentClubSearch> {
   @override
   BehaviorSubject<List<StudentClubSearch>?> searchResults =
       BehaviorSubject.seeded(null);
