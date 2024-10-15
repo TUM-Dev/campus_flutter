@@ -1,10 +1,10 @@
-import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 
 class NavigaTumApi extends Api {
-  final NavigaTumApiService navigaTumApiService;
+  final NavigaTumApiEndpoint navigaTumApiEndpoint;
 
-  NavigaTumApi({required this.navigaTumApiService});
+  NavigaTumApi({required this.navigaTumApiEndpoint});
 
   @override
   String get baseURL => "nav.tum.de";
@@ -13,21 +13,21 @@ class NavigaTumApi extends Api {
   bool get needsAuth => false;
 
   @override
-  Map<String, String> get parameters => navigaTumApiService.getParameters();
+  Map<String, String> get parameters => navigaTumApiEndpoint.getParameters();
 
   @override
   String get path => "";
 
   @override
   String get paths {
-    switch (navigaTumApiService) {
-      case NavigaTumApiServiceSearch _:
+    switch (navigaTumApiEndpoint) {
+      case NavigaTumApiEndpointSearch _:
         return "api/search";
-      case NavigaTumApiServiceDetails details:
+      case NavigaTumApiEndpointDetails details:
         return "api/locations/${details.id}";
-      case NavigaTumApiServiceImages images:
+      case NavigaTumApiEndpointImages images:
         return "cdn/maps/roomfinder/${images.id}";
-      case NavigaTumApiServiceOverlayImages overlayImages:
+      case NavigaTumApiEndpointOverlayImages overlayImages:
         return "cdn/maps/roomfinder/${overlayImages.id}";
     }
   }

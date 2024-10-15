@@ -1,11 +1,11 @@
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:intl/intl.dart';
 
 class TumOnlineApi extends Api {
-  final TumOnlineService tumOnlineService;
+  final TumOnlineEndpoint tumOnlineEndpoint;
 
-  TumOnlineApi(this.tumOnlineService);
+  TumOnlineApi(this.tumOnlineEndpoint);
 
   @override
   final path = "/tumonline/";
@@ -15,64 +15,64 @@ class TumOnlineApi extends Api {
 
   @override
   String get paths {
-    switch (tumOnlineService) {
-      case TumOnlineServicePersonSearch _:
+    switch (tumOnlineEndpoint) {
+      case TumOnlineEndpointPersonSearch _:
         return "${path}wbservicesbasic.personenSuche";
-      case TumOnlineServiceTokenRequest _:
+      case TumOnlineEndpointTokenRequest _:
         return "${path}wbservicesbasic.requestToken";
-      case TumOnlineServiceTokenConfirmation _:
+      case TumOnlineEndpointTokenConfirmation _:
         return "${path}wbservicesbasic.isTokenConfirmed";
-      case TumOnlineServiceTuitionStatus _:
+      case TumOnlineEndpointTuitionStatus _:
         return "${path}wbservicesbasic.studienbeitragsstatus";
-      case TumOnlineServiceCalendar _:
+      case TumOnlineEndpointCalendar _:
         return "${path}wbservicesbasic.kalender";
-      case TumOnlineServicePersonDetails _:
+      case TumOnlineEndpointPersonDetails _:
         return "${path}wbservicesbasic.personenDetails";
-      case TumOnlineServicePersonalLectures _:
+      case TumOnlineEndpointPersonalLectures _:
         return "${path}wbservicesbasic.veranstaltungenEigene";
-      case TumOnlineServicePersonalGrades _:
+      case TumOnlineEndpointPersonalGrades _:
         return "${path}wbservicesbasic.noten";
-      case TumOnlineServiceLectureSearch _:
+      case TumOnlineEndpointLectureSearch _:
         return "${path}wbservicesbasic.veranstaltungenSuche";
-      case TumOnlineServiceLectureDetails _:
+      case TumOnlineEndpointLectureDetails _:
         return "${path}wbservicesbasic.veranstaltungenDetails";
-      case TumOnlineServiceIdentify _:
+      case TumOnlineEndpointIdentify _:
         return "${path}wbservicesbasic.id";
-      case TumOnlineServiceSecretUpload _:
+      case TumOnlineEndpointSecretUpload _:
         return "${path}wbservicesbasic.secretUpload";
-      case TumOnlineServiceProfileImage _:
+      case TumOnlineEndpointProfileImage _:
         return "${path}visitenkarte.showImage";
-      case TumOnlineServiceAverageGrades _:
+      case TumOnlineEndpointAverageGrades _:
         return "${path}wbservicesbasic.absNoten";
-      case TumOnlineServiceTumCard _:
+      case TumOnlineEndpointTumCard _:
         return "${path}wbservicesbasic.tumCard";
-      case TumOnlineServiceEventCreate _:
+      case TumOnlineEndpointEventCreate _:
         return "${path}wbservicesbasic.terminCreate";
-      case TumOnlineServiceEventDelete _:
+      case TumOnlineEndpointEventDelete _:
         return "${path}wbservicesbasic.terminDelete";
     }
   }
 
   @override
-  Map<String, String> get parameters => tumOnlineService.getParameters();
+  Map<String, String> get parameters => tumOnlineEndpoint.getParameters();
 
   @override
   bool get needsAuth {
-    switch (tumOnlineService) {
-      case TumOnlineServicePersonSearch _:
-      case TumOnlineServiceTokenConfirmation _:
-      case TumOnlineServiceTuitionStatus _:
-      case TumOnlineServiceCalendar _:
-      case TumOnlineServicePersonDetails _:
-      case TumOnlineServicePersonalLectures _:
-      case TumOnlineServicePersonalGrades _:
-      case TumOnlineServiceLectureSearch _:
-      case TumOnlineServiceLectureDetails _:
-      case TumOnlineServiceIdentify _:
-      case TumOnlineServiceTumCard _:
-      case TumOnlineServiceAverageGrades _:
-      case TumOnlineServiceEventCreate _:
-      case TumOnlineServiceEventDelete _:
+    switch (tumOnlineEndpoint) {
+      case TumOnlineEndpointPersonSearch _:
+      case TumOnlineEndpointTokenConfirmation _:
+      case TumOnlineEndpointTuitionStatus _:
+      case TumOnlineEndpointCalendar _:
+      case TumOnlineEndpointPersonDetails _:
+      case TumOnlineEndpointPersonalLectures _:
+      case TumOnlineEndpointPersonalGrades _:
+      case TumOnlineEndpointLectureSearch _:
+      case TumOnlineEndpointLectureDetails _:
+      case TumOnlineEndpointIdentify _:
+      case TumOnlineEndpointTumCard _:
+      case TumOnlineEndpointAverageGrades _:
+      case TumOnlineEndpointEventCreate _:
+      case TumOnlineEndpointEventDelete _:
         return true;
       default:
         return false;

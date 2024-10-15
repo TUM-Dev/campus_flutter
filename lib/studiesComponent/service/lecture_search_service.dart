@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/main.dart';
@@ -12,7 +12,7 @@ class LectureSearchService {
   ) async {
     final response = await getIt<RestClient>()
         .getWithException<Lectures, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceLectureSearch(search: query)),
+      TumOnlineApi(TumOnlineEndpointLectureSearch(search: query)),
       Lectures.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
