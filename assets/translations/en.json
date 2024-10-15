@@ -227,5 +227,6 @@
   "studies": "Studies",
   "suggested": "Suggested {}",
   "all": "All",
-  "visibility": "Visibility"
+  "visibility": "Visibility",
+  "utilizationAt": "Utilization at {}%"
 }

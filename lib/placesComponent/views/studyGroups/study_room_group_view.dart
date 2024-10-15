@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
@@ -105,7 +106,7 @@ class StudyRoomGroupView extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: context.padding),
               child: Text(
                 studyRoomGroup?.name ?? context.tr("unknown"),
                 style: Theme.of(context).textTheme.titleLarge,

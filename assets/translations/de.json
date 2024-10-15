@@ -227,5 +227,6 @@
   "studies": "Studium",
   "suggested": "Interessante {}",
   "all": "Alle",
-  "visibility": "Sichtbarkeit"
+  "visibility": "Sichtbarkeit",
+  "utilizationAt": "Auslastung bei {}%"
 }

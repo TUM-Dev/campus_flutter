@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
@@ -13,7 +13,7 @@ class CalendarService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<CalendarEvents, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceCalendar()),
+      TumOnlineApi(TumOnlineEndpointCalendar()),
       CalendarEvents.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
@@ -28,7 +28,7 @@ class CalendarService {
     final response = await restClient.getWithException<
         CalendarCreationConfirmationData, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
-        TumOnlineServiceEventCreate(
+        TumOnlineEndpointEventCreate(
           title: addedCalendarEvent.title,
           annotation: addedCalendarEvent.annotation,
           from: TumOnlineApi.dateFormat.format(addedCalendarEvent.from),
@@ -48,7 +48,7 @@ class CalendarService {
     RestClient restClient = getIt<RestClient>();
     restClient.getWithException(
       TumOnlineApi(
-        TumOnlineServiceEventDelete(
+        TumOnlineEndpointEventDelete(
           eventId: id,
         ),
       ),
