@@ -16,10 +16,10 @@ class NavigaTumApi extends Api {
   Map<String, String> get parameters => navigaTumApiEndpoint.getParameters();
 
   @override
-  String get slug => "";
+  String get path => "";
 
   @override
-  String get path {
+  String get slug {
     switch (navigaTumApiEndpoint) {
       case NavigaTumApiEndpointSearch _:
         return "api/search";

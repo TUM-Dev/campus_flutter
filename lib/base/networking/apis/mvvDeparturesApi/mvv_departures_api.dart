@@ -31,8 +31,8 @@ class MvvDeparturesApi extends Api {
       };
 
   @override
-  String get slug => "/ng/";
+  String get path => "ng/";
 
   @override
-  String get path => "${slug}XML_DM_REQUEST";
+  String get slug => "XML_DM_REQUEST";
 }

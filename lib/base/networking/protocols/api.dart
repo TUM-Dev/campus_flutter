@@ -5,13 +5,13 @@ abstract class Api {
 
   String get domain;
 
-  String get slug;
+  String get path;
 
   Map<String, String> get baseHeaders {
     return {};
   }
 
-  String get path;
+  String get slug;
 
   Map<String, String> get parameters;
 
@@ -37,9 +37,9 @@ abstract class Api {
     if (needsAuth) {
       var finalParameters = parameters;
       finalParameters.addAll({"pToken": tumToken});
-      return Uri.https(domain, path, finalParameters);
+      return Uri.https(domain, path + slug, finalParameters);
     } else {
-      return Uri.https(domain, path, parameters);
+      return Uri.https(domain, path + slug, parameters);
     }
   }
 
@@ -49,6 +49,6 @@ abstract class Api {
 
   @override
   String toString() {
-    return domain + slug + path;
+    return domain + path + slug;
   }
 }

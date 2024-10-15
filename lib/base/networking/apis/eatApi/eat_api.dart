@@ -10,23 +10,23 @@ class EatApi extends Api {
   String get domain => "tum-dev.github.io";
 
   @override
-  String get slug => "/eat-api/";
+  String get path => "eat-api/";
 
   @override
-  String get path {
+  String get slug {
     switch (eatApiEndpoint) {
       case EatApiEndpointCanteens _:
-        return "${slug}enums/canteens.json";
+        return "enums/canteens.json";
       case EatApiEndpointLanguages _:
-        return "${slug}enums/languages.json";
+        return "enums/languages.json";
       case EatApiEndpointLabels _:
-        return "${slug}enums/labels.json";
+        return "enums/labels.json";
       case EatApiEndpointAll _:
-        return "${slug}all.json";
+        return "all.json";
       case EatApiEndpointAllRef _:
-        return "${slug}all_ref.json";
+        return "all_ref.json";
       case EatApiEndpointMenu menu:
-        return "$slug${menu.location}/${menu.year}/${menu.week.toString().padLeft(1, "0")}.json";
+        return "${menu.location}/${menu.year}/${menu.week.toString().padLeft(1, "0")}.json";
     }
   }
 

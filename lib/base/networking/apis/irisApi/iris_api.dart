@@ -16,8 +16,8 @@ class IrisApi extends Api {
   Map<String, String> get parameters => irisApiEndpoint.getParameters();
 
   @override
-  String get slug => "";
+  String get path => "";
 
   @override
-  String get path => "api";
+  String get slug => "api";
 }
