@@ -8,48 +8,48 @@ class TumOnlineApi extends Api {
   TumOnlineApi(this.tumOnlineEndpoint);
 
   @override
-  final path = "/tumonline/";
+  final slug = "/tumonline/";
 
   @override
-  String get baseURL => "campus.tum.de";
+  String get domain => "campus.tum.de";
 
   @override
-  String get paths {
+  String get path {
     switch (tumOnlineEndpoint) {
       case TumOnlineEndpointPersonSearch _:
-        return "${path}wbservicesbasic.personenSuche";
+        return "${slug}wbservicesbasic.personenSuche";
       case TumOnlineEndpointTokenRequest _:
-        return "${path}wbservicesbasic.requestToken";
+        return "${slug}wbservicesbasic.requestToken";
       case TumOnlineEndpointTokenConfirmation _:
-        return "${path}wbservicesbasic.isTokenConfirmed";
+        return "${slug}wbservicesbasic.isTokenConfirmed";
       case TumOnlineEndpointTuitionStatus _:
-        return "${path}wbservicesbasic.studienbeitragsstatus";
+        return "${slug}wbservicesbasic.studienbeitragsstatus";
       case TumOnlineEndpointCalendar _:
-        return "${path}wbservicesbasic.kalender";
+        return "${slug}wbservicesbasic.kalender";
       case TumOnlineEndpointPersonDetails _:
-        return "${path}wbservicesbasic.personenDetails";
+        return "${slug}wbservicesbasic.personenDetails";
       case TumOnlineEndpointPersonalLectures _:
-        return "${path}wbservicesbasic.veranstaltungenEigene";
+        return "${slug}wbservicesbasic.veranstaltungenEigene";
       case TumOnlineEndpointPersonalGrades _:
-        return "${path}wbservicesbasic.noten";
+        return "${slug}wbservicesbasic.noten";
       case TumOnlineEndpointLectureSearch _:
-        return "${path}wbservicesbasic.veranstaltungenSuche";
+        return "${slug}wbservicesbasic.veranstaltungenSuche";
       case TumOnlineEndpointLectureDetails _:
-        return "${path}wbservicesbasic.veranstaltungenDetails";
+        return "${slug}wbservicesbasic.veranstaltungenDetails";
       case TumOnlineEndpointIdentify _:
-        return "${path}wbservicesbasic.id";
+        return "${slug}wbservicesbasic.id";
       case TumOnlineEndpointSecretUpload _:
-        return "${path}wbservicesbasic.secretUpload";
+        return "${slug}wbservicesbasic.secretUpload";
       case TumOnlineEndpointProfileImage _:
-        return "${path}visitenkarte.showImage";
+        return "${slug}visitenkarte.showImage";
       case TumOnlineEndpointAverageGrades _:
-        return "${path}wbservicesbasic.absNoten";
+        return "${slug}wbservicesbasic.absNoten";
       case TumOnlineEndpointTumCard _:
-        return "${path}wbservicesbasic.tumCard";
+        return "${slug}wbservicesbasic.tumCard";
       case TumOnlineEndpointEventCreate _:
-        return "${path}wbservicesbasic.terminCreate";
+        return "${slug}wbservicesbasic.terminCreate";
       case TumOnlineEndpointEventDelete _:
-        return "${path}wbservicesbasic.terminDelete";
+        return "${slug}wbservicesbasic.terminDelete";
     }
   }
 

@@ -7,7 +7,7 @@ class IrisApi extends Api {
   IrisApi({required this.irisApiEndpoint});
 
   @override
-  String get baseURL => "iris.asta.tum.de";
+  String get domain => "iris.asta.tum.de";
 
   @override
   bool get needsAuth => false;
@@ -16,8 +16,8 @@ class IrisApi extends Api {
   Map<String, String> get parameters => irisApiEndpoint.getParameters();
 
   @override
-  String get path => "";
+  String get slug => "";
 
   @override
-  String get paths => "api";
+  String get path => "api";
 }

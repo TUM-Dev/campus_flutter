@@ -7,7 +7,7 @@ class NavigaTumApi extends Api {
   NavigaTumApi({required this.navigaTumApiEndpoint});
 
   @override
-  String get baseURL => "nav.tum.de";
+  String get domain => "nav.tum.de";
 
   @override
   bool get needsAuth => false;
@@ -16,10 +16,10 @@ class NavigaTumApi extends Api {
   Map<String, String> get parameters => navigaTumApiEndpoint.getParameters();
 
   @override
-  String get path => "";
+  String get slug => "";
 
   @override
-  String get paths {
+  String get path {
     switch (navigaTumApiEndpoint) {
       case NavigaTumApiEndpointSearch _:
         return "api/search";
