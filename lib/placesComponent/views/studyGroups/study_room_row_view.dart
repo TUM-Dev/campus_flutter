@@ -19,7 +19,7 @@ class StudyRoomRowView extends ConsumerWidget {
       subtitle: Text(
         studyRoom.localizedStatus(context),
         style: TextStyle(
-          color: _statusColor(studyRoom.localizedStatus(context), context),
+          color: studyRoom.color,
         ),
       ),
       trailing: const Icon(
@@ -29,13 +29,5 @@ class StudyRoomRowView extends ConsumerWidget {
       onTap: () =>
           context.push(navigaTum, extra: studyRoom.roomNoArchitect ?? "null"),
     );
-  }
-
-  Color _statusColor(String status, BuildContext context) {
-    if (status == context.tr("free")) {
-      return Colors.green;
-    } else {
-      return Colors.red;
-    }
   }
 }

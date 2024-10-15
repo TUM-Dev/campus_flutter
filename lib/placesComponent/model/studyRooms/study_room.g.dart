@@ -25,6 +25,9 @@ StudyRoom _$StudyRoomFromJson(Map<String, dynamic> json) => StudyRoom(
       attributes: (json['attribute'] as List<dynamic>?)
           ?.map((e) => StudyRoomAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
+      suggestedColor: json['color'] as String?,
+      percent: (json['percent'] as num?)?.toDouble(),
+      subtitle: json['subtitle'] as String?,
     );
 
 Map<String, dynamic> _$StudyRoomToJson(StudyRoom instance) => <String, dynamic>{
@@ -44,4 +47,7 @@ Map<String, dynamic> _$StudyRoomToJson(StudyRoom instance) => <String, dynamic>{
       'res_nr': instance.resNo,
       'status': instance.status,
       'attribute': instance.attributes,
+      'color': instance.suggestedColor,
+      'percent': instance.percent,
+      'subtitle': instance.subtitle,
     };
