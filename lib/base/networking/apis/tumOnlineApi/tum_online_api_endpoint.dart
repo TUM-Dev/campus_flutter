@@ -6,7 +6,10 @@ class TumOnlineEndpointTokenRequest extends TumOnlineEndpoint {
   final String tumId;
   final String deviceName;
 
-  TumOnlineEndpointTokenRequest({required this.tumId, required this.deviceName});
+  TumOnlineEndpointTokenRequest({
+    required this.tumId,
+    required this.deviceName,
+  });
 
   @override
   Map<String, String> getParameters() => {
