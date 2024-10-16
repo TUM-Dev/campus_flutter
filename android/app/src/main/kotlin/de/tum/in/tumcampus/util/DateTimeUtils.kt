@@ -27,11 +27,20 @@ fun LocalDateTime.timeAgo(context: Context): String {
     val minutes = duration.toMinutes()
 
     return when {
-        years > 0 -> context.resources.getQuantityString(R.plurals.yearsAgo, years.toInt())
-        months > 0 -> context.resources.getQuantityString(R.plurals.monthsAgo, months.toInt())
-        days > 0 -> context.resources.getQuantityString(R.plurals.daysAgo, days.toInt())
-        hours > 0 -> context.resources.getQuantityString(R.plurals.hoursAgo, hours.toInt())
-        minutes > 0 -> context.resources.getQuantityString(R.plurals.minutesAgo, minutes.toInt())
+        years > 0 -> formattedTimeAgo(context, R.plurals.yearsAgo, years.toInt())
+        months > 0 -> formattedTimeAgo(context, R.plurals.monthsAgo, months.toInt())
+        days > 0 -> formattedTimeAgo(context, R.plurals.daysAgo, days.toInt())
+        hours > 0 -> formattedTimeAgo(context, R.plurals.hoursAgo, hours.toInt())
+        minutes > 0 -> formattedTimeAgo(context, R.plurals.minutesAgo, minutes.toInt())
         else -> context.resources.getString(R.string.just_now)
+    }
+}
+
+fun formattedTimeAgo(context: Context, id: Int, number: Int): String {
+    val quantityString = context.resources.getQuantityString(id, number)
+    return if (quantityString.contains("%d", ignoreCase = false)) {
+        String.format(quantityString, number)
+    } else {
+        quantityString
     }
 }
