@@ -13,9 +13,7 @@ class StudyRoomRowView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(
-        "${studyRoom.name ?? context.tr("unknown")} (${studyRoom.code ?? context.tr("unknown")})",
-      ),
+      title: Text(title(studyRoom, context)),
       subtitle: Text(
         studyRoom.localizedStatus(context),
         style: TextStyle(
@@ -29,5 +27,17 @@ class StudyRoomRowView extends ConsumerWidget {
       onTap: () =>
           context.push(navigaTum, extra: studyRoom.roomNoArchitect ?? "null"),
     );
+  }
+
+  String title(StudyRoom studyRoom, BuildContext context) {
+    if (studyRoom.name == null && studyRoom.roomNoArchitect == null) {
+      return context.tr("unknownStudyRoom");
+    } else if (studyRoom.name != null && studyRoom.roomNoArchitect == null) {
+      return studyRoom.roomNoArchitect!;
+    } else if (studyRoom.name == null && studyRoom.roomNoArchitect != null) {
+      return studyRoom.name!;
+    } else {
+      return "${studyRoom.name} (${studyRoom.roomNoArchitect})";
+    }
   }
 }

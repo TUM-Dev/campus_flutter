@@ -76,7 +76,11 @@ class StudyRoom extends Searchable {
           return context.tr(
             "utilizationAt",
             args: [
-              percent!.isNegative ? "0" : (percent! * 100).round().toString(),
+              percent!.isNegative
+                  ? "0"
+                  : percent! > 1
+                      ? "100"
+                      : (percent! * 100).round().toString(),
             ],
           );
         } else {
