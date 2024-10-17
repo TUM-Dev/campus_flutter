@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
+        android:textColor="?android:attr/textColorPrimary"
         android:visibility="gone"
         tools:text="Month"
         tools:visibility="visible" />
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="8" />
@@ -39,6 +41,7 @@
             android:layout_marginTop="-6dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="13sp"
             tools:text="Do." />
 

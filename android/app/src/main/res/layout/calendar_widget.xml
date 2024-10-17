@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/calendar_widget"
+    style="@style/Widget.AppWidget.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_content_rounded_corners_background"
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin">
+    android:padding="@dimen/widget_margin"
+    android:theme="@style/Theme.AppWidget.AppWidgetContainer">
 
     <LinearLayout
         android:id="@+id/calendar_widget_header"
@@ -24,7 +25,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:textAlignment="viewStart"
-            android:textColor="@color/text_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp"
             tools:text="Date" />
 
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="viewEnd"
-            android:textColor="@color/text_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="14sp"
             tools:text="Date" />
 
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/calendar_widget_no_lectures"
-            android:textColor="@color/text_dark_gray"
+            android:textColor="?android:attr/textColorPrimary"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -69,7 +70,7 @@
             android:layout_gravity="center"
             android:text="@string/calendar_widget_old_data"
             android:textAlignment="center"
-            android:textColor="@color/text_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:visibility="gone"
             tools:visibility="visible" />
 

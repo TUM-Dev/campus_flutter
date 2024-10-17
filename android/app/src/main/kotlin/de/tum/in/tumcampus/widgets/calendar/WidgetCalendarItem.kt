@@ -25,6 +25,7 @@ data class WidgetCalendarItem(
     val endDate: LocalDateTime,
     val location: String? = null,
     val color: Long? = null,
+    val isVisible: Boolean? = null,
     var isFirstOnDay: Boolean = false
 ) {
     fun getEventColor(context: Context): Int {
