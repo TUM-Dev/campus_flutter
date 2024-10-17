@@ -20,18 +20,18 @@ fun LocalDateTime.timeAgo(context: Context): String {
     val now = LocalDateTime.now()
     val duration = Duration.between(this, now)
 
-    val years = duration.toDays() / 365
-    val months = duration.toDays() / 30
-    val days = duration.toDays()
-    val hours = duration.toHours()
-    val minutes = duration.toMinutes()
+    val years = (duration.toDays() / 365).toInt()
+    val months = (duration.toDays() / 30).toInt()
+    val days = duration.toDays().toInt()
+    val hours = duration.toHours().toInt()
+    val minutes = duration.toMinutes().toInt()
 
     return when {
-        years > 0 -> context.resources.getQuantityString(R.plurals.yearsAgo, years.toInt())
-        months > 0 -> context.resources.getQuantityString(R.plurals.monthsAgo, months.toInt())
-        days > 0 -> context.resources.getQuantityString(R.plurals.daysAgo, days.toInt())
-        hours > 0 -> context.resources.getQuantityString(R.plurals.hoursAgo, hours.toInt())
-        minutes > 0 -> context.resources.getQuantityString(R.plurals.minutesAgo, minutes.toInt())
+        years > 0 -> context.resources.getQuantityString(R.plurals.yearsAgo, years, years)
+        months > 0 -> context.resources.getQuantityString(R.plurals.monthsAgo, months, months)
+        days > 0 -> context.resources.getQuantityString(R.plurals.daysAgo, days, days)
+        hours > 0 -> context.resources.getQuantityString(R.plurals.hoursAgo, hours, hours)
+        minutes > 0 -> context.resources.getQuantityString(R.plurals.minutesAgo, minutes, minutes)
         else -> context.resources.getString(R.string.just_now)
     }
 }
