@@ -340,61 +340,78 @@ typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
 });
 
 class $$CacheEntryTableFilterComposer
-    extends FilterComposer<_$CacheDatabase, $CacheEntryTable> {
-  $$CacheEntryTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get url => $state.composableBuilder(
-      column: $state.table.url,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get validUntil => $state.composableBuilder(
-      column: $state.table.validUntil,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<DateTime> get validUntil => $composableBuilder(
+      column: $table.validUntil, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get saved => $state.composableBuilder(
-      column: $state.table.saved,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<DateTime> get saved => $composableBuilder(
+      column: $table.saved, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get body => $state.composableBuilder(
-      column: $state.table.body,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get body => $composableBuilder(
+      column: $table.body, builder: (column) => ColumnFilters(column));
 }
 
 class $$CacheEntryTableOrderingComposer
-    extends OrderingComposer<_$CacheDatabase, $CacheEntryTable> {
-  $$CacheEntryTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get url => $state.composableBuilder(
-      column: $state.table.url,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get validUntil => $state.composableBuilder(
-      column: $state.table.validUntil,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<DateTime> get validUntil => $composableBuilder(
+      column: $table.validUntil, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get saved => $state.composableBuilder(
-      column: $state.table.saved,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<DateTime> get saved => $composableBuilder(
+      column: $table.saved, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get body => $state.composableBuilder(
-      column: $state.table.body,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get body => $composableBuilder(
+      column: $table.body, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CacheEntryTableAnnotationComposer
+    extends Composer<_$CacheDatabase, $CacheEntryTable> {
+  $$CacheEntryTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get url =>
+      $composableBuilder(column: $table.url, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get validUntil => $composableBuilder(
+      column: $table.validUntil, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get saved =>
+      $composableBuilder(column: $table.saved, builder: (column) => column);
+
+  GeneratedColumn<String> get body =>
+      $composableBuilder(column: $table.body, builder: (column) => column);
 }
 
 class $$CacheEntryTableTableManager extends RootTableManager<
@@ -403,6 +420,7 @@ class $$CacheEntryTableTableManager extends RootTableManager<
     CacheEntryData,
     $$CacheEntryTableFilterComposer,
     $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableAnnotationComposer,
     $$CacheEntryTableCreateCompanionBuilder,
     $$CacheEntryTableUpdateCompanionBuilder,
     (
@@ -415,10 +433,12 @@ class $$CacheEntryTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CacheEntryTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CacheEntryTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CacheEntryTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CacheEntryTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CacheEntryTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> url = const Value.absent(),
@@ -464,6 +484,7 @@ typedef $$CacheEntryTableProcessedTableManager = ProcessedTableManager<
     CacheEntryData,
     $$CacheEntryTableFilterComposer,
     $$CacheEntryTableOrderingComposer,
+    $$CacheEntryTableAnnotationComposer,
     $$CacheEntryTableCreateCompanionBuilder,
     $$CacheEntryTableUpdateCompanionBuilder,
     (
