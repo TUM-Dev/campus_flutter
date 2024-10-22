@@ -43,11 +43,8 @@ class BasicLectureInfoView extends ConsumerWidget {
             iconData: Icons.person,
             trailingWidget: IconButton(
               onPressed: () => context.push(
-                roomSearch,
-                extra: (
-                  lectureDetails.speaker?.split(",").first,
-                  false,
-                ),
+                personSearch,
+                extra: lectureDetails.speaker?.split(",").first,
               ),
               icon: Icon(
                 Icons.search,

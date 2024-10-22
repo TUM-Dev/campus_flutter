@@ -7,7 +7,8 @@ enum ShortcutItemType {
   cafeterias(en: "Cafeterias", de: "Mensen"),
   studyRooms(en: "Study Rooms", de: "Lernräume"),
   calendar(en: "Calendar", de: "Kalendar"),
-  studies(en: "Studies", de: "Studium");
+  studies(en: "Studies", de: "Studium"),
+  roomSearch(en: "Room Search", de: "Raumsuche");
 
   final String en;
   final String? de;
@@ -24,16 +25,7 @@ extension Routing on ShortcutItemType {
     return isGerman ? de! : en;
   }
 
-  String? get icon {
-    switch (this) {
-      case ShortcutItemType.home:
-      case ShortcutItemType.cafeterias:
-      case ShortcutItemType.studyRooms:
-      case ShortcutItemType.calendar:
-      case ShortcutItemType.studies:
-        return null;
-    }
-  }
+  String? get icon => null;
 
   ShortcutItem shortcutItem(Locale? locale) {
     return ShortcutItem(
@@ -55,6 +47,8 @@ extension Routing on ShortcutItemType {
         return routes.calendar;
       case ShortcutItemType.studies:
         return routes.studies;
+      case ShortcutItemType.roomSearch:
+        return routes.roomSearch;
     }
   }
 }
@@ -62,7 +56,7 @@ extension Routing on ShortcutItemType {
 extension ActiveShortcuts on ShortcutItemType {
   static List<ShortcutItemType> get items => [
         ShortcutItemType.cafeterias,
-        ShortcutItemType.studyRooms,
+        ShortcutItemType.roomSearch,
         ShortcutItemType.calendar,
         ShortcutItemType.studies,
       ];
