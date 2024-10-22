@@ -8,7 +8,8 @@ enum UserPreference {
   browser(bool),
   failedGrades(bool),
   weekends(bool),
-  hiddenCalendarEntries(bool);
+  hiddenCalendarEntries(bool),
+  calendarTab(int);
 
   final Type type;
 

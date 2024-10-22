@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId "de.tum.in.tumcampus"
-        minSdkVersion 26
+        minSdkVersion 29
         targetSdkVersion flutter.targetSdkVersion
         ndkVersion "27.0.12077973"
         versionCode flutterVersionCode.toInteger()
