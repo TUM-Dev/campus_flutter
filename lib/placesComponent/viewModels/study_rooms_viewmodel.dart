@@ -7,7 +7,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart'
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
