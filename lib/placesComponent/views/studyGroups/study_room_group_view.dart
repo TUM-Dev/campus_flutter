@@ -1,8 +1,9 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
@@ -101,11 +102,12 @@ class StudyRoomGroupView extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () => ref.read(studyRoomsViewModel).fetch(true),
       child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: context.padding),
               child: Text(
                 studyRoomGroup?.name ?? context.tr("unknown"),
                 style: Theme.of(context).textTheme.titleLarge,
@@ -120,9 +122,13 @@ class StudyRoomGroupView extends ConsumerWidget {
               subtitle:
                   lastFetched != null ? LastUpdatedText(lastFetched) : null,
               child: Card(
-                child: SeparatedList.list(
-                  data: studyRooms ?? [],
-                  tile: (studyRoom) => StudyRoomRowView(studyRoom: studyRoom),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => StudyRoomRowView(studyRoom: studyRooms![index]),
+                  separatorBuilder: (context, index) => PaddedDivider(height: 0,),
+                  itemCount: (studyRooms ?? []).length,
                 ),
               ),
             ),

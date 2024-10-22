@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/model/token.dart';
@@ -33,7 +33,7 @@ class OnboardingService {
     final response = await restClient
         .getWithException<Token, TumOnlineApi, TumOnlineApiException>(
       TumOnlineApi(
-        TumOnlineServiceTokenRequest(
+        TumOnlineEndpointTokenRequest(
           tumId: name,
           deviceName: "TCA - ${Platform.isIOS ? "iOS" : "Android"}",
         ),
@@ -49,7 +49,7 @@ class OnboardingService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceTokenConfirmation()),
+      TumOnlineApi(TumOnlineEndpointTokenConfirmation()),
       Confirm.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,

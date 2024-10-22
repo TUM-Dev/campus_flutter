@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/extensions/date_time.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
-import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
@@ -21,7 +21,7 @@ class MealPlanService {
       /// attempt to fetch current weeks meal plan
       final response = await restClient.get<MealPlan, EatApi>(
         EatApi(
-          EatApiServiceMenu(
+          EatApiEndpointMenu(
             location: cafeteria.id,
             year: today.year,
             week: today.weekNumber(),
@@ -39,7 +39,7 @@ class MealPlanService {
       try {
         final nextWeekResponse = await restClient.get<MealPlan, EatApi>(
           EatApi(
-            EatApiServiceMenu(
+            EatApiEndpointMenu(
               location: cafeteria.id,
               year: nextWeek.year,
               week: nextWeek.weekNumber(),
@@ -67,7 +67,7 @@ class MealPlanService {
         final nextWeek = today.add(const Duration(days: 7));
         final response = await restClient.get<MealPlan, EatApi>(
           EatApi(
-            EatApiServiceMenu(
+            EatApiEndpointMenu(
               location: cafeteria.id,
               year: nextWeek.year,
               week: nextWeek.weekNumber(),

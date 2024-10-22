@@ -13,13 +13,11 @@ class StudyRoomRowView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(
-        "${studyRoom.name ?? context.tr("unknown")} (${studyRoom.code ?? context.tr("unknown")})",
-      ),
+      title: Text(title(studyRoom, context)),
       subtitle: Text(
         studyRoom.localizedStatus(context),
         style: TextStyle(
-          color: _statusColor(studyRoom.localizedStatus(context), context),
+          color: studyRoom.color,
         ),
       ),
       trailing: const Icon(
@@ -31,11 +29,15 @@ class StudyRoomRowView extends ConsumerWidget {
     );
   }
 
-  Color _statusColor(String status, BuildContext context) {
-    if (status == context.tr("free")) {
-      return Colors.green;
+  String title(StudyRoom studyRoom, BuildContext context) {
+    if (studyRoom.name == null && studyRoom.roomNoArchitect == null) {
+      return context.tr("unknownStudyRoom");
+    } else if (studyRoom.name != null && studyRoom.roomNoArchitect == null) {
+      return studyRoom.roomNoArchitect!;
+    } else if (studyRoom.name == null && studyRoom.roomNoArchitect != null) {
+      return studyRoom.name!;
     } else {
-      return Colors.red;
+      return "${studyRoom.name} (${studyRoom.roomNoArchitect})";
     }
   }
 }
