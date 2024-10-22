@@ -12,23 +12,23 @@
     <string name="just_now">Gerade eben</string>
     <string name="yesterday">Gestern</string>
     <plurals name="yearsAgo">
-        <item quantity="one">Vor 1 Jahr</item>
+        <item quantity="one">Vor %d Jahr</item>
         <item quantity="other">Vor %d Jahren</item>
     </plurals>
     <plurals name="monthsAgo">
-        <item quantity="one">Vor 1 Monaten</item>
+        <item quantity="one">Vor %d Monaten</item>
         <item quantity="other">Vor %d Monaten</item>
     </plurals>
     <plurals name="daysAgo">
-        <item quantity="one">Vor 1 Tag</item>
+        <item quantity="one">Vor %d Tag</item>
         <item quantity="other">Vor %d Tagen</item>
     </plurals>
     <plurals name="hoursAgo">
-        <item quantity="one">Vor 1 Stunde</item>
+        <item quantity="one">Vor %d Stunde</item>
         <item quantity="other">Vor %d Stunden</item>
     </plurals>
     <plurals name="minutesAgo">
-        <item quantity="one">Vor 1 Minute</item>
+        <item quantity="one">Vor %d Minute</item>
         <item quantity="other">Vor %d Minuten</item>
     </plurals>
 </resources>
