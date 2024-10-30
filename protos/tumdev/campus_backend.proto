@@ -114,22 +114,6 @@ service Campus {
     };
   }
 
-  rpc GetUploadStatus(GetUploadStatusRequest) returns (GetUploadStatusReply) {
-    option (google.api.http) = {get: "/device/uploaded/{lrz_id}"};
-  }
-
-  rpc GetNotification(GetNotificationRequest) returns (GetNotificationReply) {
-    option (google.api.http) = {get: "/notifications/{notification_id}"};
-  }
-
-  rpc GetNotificationConfirm(GetNotificationConfirmRequest) returns (GetNotificationConfirmReply) {
-    option (google.api.http) = {get: "/notifications/confirm/{notification_id}"};
-  }
-
-  rpc GetMember(GetMemberRequest) returns (GetMemberReply) {
-    option (google.api.http) = {get: "/members/{lrz_id}"};
-  }
-
   rpc GetCanteenHeadCount(GetCanteenHeadCountRequest) returns (GetCanteenHeadCountReply) {
     option (google.api.http) = {get: "/canteen/headCount/{canteen_id}"};
   }
@@ -147,9 +131,9 @@ service Campus {
     option (google.api.http) = {delete: "/device/{device_id}"};
   }
 
-  // Delete a device from push notifications
+  // List all avaliable student clubs
   rpc ListStudentClub(ListStudentClubRequest) returns (ListStudentClubReply) {
-    option (google.api.http) = {delete: "/student_clubs"};
+    option (google.api.http) = {get: "/student_clubs"};
   }
 }
 
@@ -519,34 +503,12 @@ message GetMemberReply {
   int32 member_id = 3;
 }
 
-message GetUploadStatusRequest {
-  string lrz_id = 1;
-}
-
 message GetUploadStatusReply {
   string fcm_token = 1;
   string public_key = 2;
   bool student_id = 3;
   bool employee_id = 4;
   bool external_id = 5;
-}
-
-message GetNotificationRequest {
-  int32 notification_id = 1;
-}
-message GetNotificationReply {
-  int32 notification_id = 1;
-  int32 type = 2;
-  string title = 3;
-  string description = 4;
-  string signature = 5;
-}
-
-message GetNotificationConfirmRequest {
-  int32 notification_id = 1;
-}
-message GetNotificationConfirmReply {
-  string status = 1;
 }
 
 message GetCanteenHeadCountRequest {

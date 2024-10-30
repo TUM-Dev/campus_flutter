@@ -805,18 +805,6 @@ final $typed_data.Uint8List getMemberReplyDescriptor = $convert.base64Decode(
     'Cg5HZXRNZW1iZXJSZXBseRIVCgZscnpfaWQYASABKAlSBWxyeklkEhIKBG5hbWUYAiABKAlSBG'
     '5hbWUSGwoJbWVtYmVyX2lkGAMgASgFUghtZW1iZXJJZA==');
 
-@$core.Deprecated('Use getUploadStatusRequestDescriptor instead')
-const GetUploadStatusRequest$json = {
-  '1': 'GetUploadStatusRequest',
-  '2': [
-    {'1': 'lrz_id', '3': 1, '4': 1, '5': 9, '10': 'lrzId'},
-  ],
-};
-
-/// Descriptor for `GetUploadStatusRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getUploadStatusRequestDescriptor = $convert.base64Decode(
-    'ChZHZXRVcGxvYWRTdGF0dXNSZXF1ZXN0EhUKBmxyel9pZBgBIAEoCVIFbHJ6SWQ=');
-
 @$core.Deprecated('Use getUploadStatusReplyDescriptor instead')
 const GetUploadStatusReply$json = {
   '1': 'GetUploadStatusReply',
@@ -835,63 +823,6 @@ final $typed_data.Uint8List getUploadStatusReplyDescriptor = $convert.base64Deco
     'B1YmxpY19rZXkYAiABKAlSCXB1YmxpY0tleRIdCgpzdHVkZW50X2lkGAMgASgIUglzdHVkZW50'
     'SWQSHwoLZW1wbG95ZWVfaWQYBCABKAhSCmVtcGxveWVlSWQSHwoLZXh0ZXJuYWxfaWQYBSABKA'
     'hSCmV4dGVybmFsSWQ=');
-
-@$core.Deprecated('Use getNotificationRequestDescriptor instead')
-const GetNotificationRequest$json = {
-  '1': 'GetNotificationRequest',
-  '2': [
-    {'1': 'notification_id', '3': 1, '4': 1, '5': 5, '10': 'notificationId'},
-  ],
-};
-
-/// Descriptor for `GetNotificationRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNotificationRequestDescriptor = $convert.base64Decode(
-    'ChZHZXROb3RpZmljYXRpb25SZXF1ZXN0EicKD25vdGlmaWNhdGlvbl9pZBgBIAEoBVIObm90aW'
-    'ZpY2F0aW9uSWQ=');
-
-@$core.Deprecated('Use getNotificationReplyDescriptor instead')
-const GetNotificationReply$json = {
-  '1': 'GetNotificationReply',
-  '2': [
-    {'1': 'notification_id', '3': 1, '4': 1, '5': 5, '10': 'notificationId'},
-    {'1': 'type', '3': 2, '4': 1, '5': 5, '10': 'type'},
-    {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
-    {'1': 'description', '3': 4, '4': 1, '5': 9, '10': 'description'},
-    {'1': 'signature', '3': 5, '4': 1, '5': 9, '10': 'signature'},
-  ],
-};
-
-/// Descriptor for `GetNotificationReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNotificationReplyDescriptor = $convert.base64Decode(
-    'ChRHZXROb3RpZmljYXRpb25SZXBseRInCg9ub3RpZmljYXRpb25faWQYASABKAVSDm5vdGlmaW'
-    'NhdGlvbklkEhIKBHR5cGUYAiABKAVSBHR5cGUSFAoFdGl0bGUYAyABKAlSBXRpdGxlEiAKC2Rl'
-    'c2NyaXB0aW9uGAQgASgJUgtkZXNjcmlwdGlvbhIcCglzaWduYXR1cmUYBSABKAlSCXNpZ25hdH'
-    'VyZQ==');
-
-@$core.Deprecated('Use getNotificationConfirmRequestDescriptor instead')
-const GetNotificationConfirmRequest$json = {
-  '1': 'GetNotificationConfirmRequest',
-  '2': [
-    {'1': 'notification_id', '3': 1, '4': 1, '5': 5, '10': 'notificationId'},
-  ],
-};
-
-/// Descriptor for `GetNotificationConfirmRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNotificationConfirmRequestDescriptor = $convert.base64Decode(
-    'Ch1HZXROb3RpZmljYXRpb25Db25maXJtUmVxdWVzdBInCg9ub3RpZmljYXRpb25faWQYASABKA'
-    'VSDm5vdGlmaWNhdGlvbklk');
-
-@$core.Deprecated('Use getNotificationConfirmReplyDescriptor instead')
-const GetNotificationConfirmReply$json = {
-  '1': 'GetNotificationConfirmReply',
-  '2': [
-    {'1': 'status', '3': 1, '4': 1, '5': 9, '10': 'status'},
-  ],
-};
-
-/// Descriptor for `GetNotificationConfirmReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getNotificationConfirmReplyDescriptor = $convert.base64Decode(
-    'ChtHZXROb3RpZmljYXRpb25Db25maXJtUmVwbHkSFgoGc3RhdHVzGAEgASgJUgZzdGF0dXM=');
 
 @$core.Deprecated('Use getCanteenHeadCountRequestDescriptor instead')
 const GetCanteenHeadCountRequest$json = {
