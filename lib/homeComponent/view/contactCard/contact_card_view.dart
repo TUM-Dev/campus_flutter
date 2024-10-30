@@ -116,7 +116,6 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     if (snapshot.hasData) {
       return Image.memory(
         base64DecodeImageData(snapshot.data!.first.image),
-        scale: 0.9,
       ).image;
     } else {
       return const AssetImage(
