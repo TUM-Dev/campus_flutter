@@ -6,10 +6,13 @@ import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
 import 'package:campus_flutter/personComponent/model/profile/profile.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
+import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+const double contactImageSize = 100;
 
 class ContactCardView extends ConsumerStatefulWidget {
   const ContactCardView({super.key, required this.profile});
@@ -25,7 +28,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   @override
   void initState() {
     ref.read(profileDetailsViewModel).fetch(false);
-    ref.read(studentCardViewModel);
+    ref.read(studentCardViewModel).fetch(false);
     super.initState();
   }
 
@@ -58,15 +61,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: data?.imageData != null
-                ? Image.memory(base64DecodeImageData(data!.imageData!)).image
-                : const AssetImage(
-                    'assets/images/placeholders/portrait_placeholder.png',
-                  ),
-            backgroundColor: Theme.of(context).cardTheme.color,
-            radius: 50,
-          ),
+          profilePicture(),
           const Padding(padding: EdgeInsets.only(left: 15)),
           Expanded(
             child: Column(
@@ -99,5 +94,35 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         ],
       ),
     );
+  }
+
+  Widget profilePicture() {
+    return StreamBuilder(
+      stream: ref.watch(studentCardViewModel).studentCard,
+      builder: (context, snapshot) {
+        if (snapshot.hasData || snapshot.hasError) {
+          return CircleAvatar(
+            backgroundImage: imageData(snapshot),
+            backgroundColor: Theme.of(context).cardTheme.color,
+            radius: contactImageSize / 2,
+          );
+        } else {
+          return SizedBox(height: contactImageSize, width: contactImageSize);
+        }
+      },
+    );
+  }
+
+  ImageProvider<Object> imageData(AsyncSnapshot<List<StudentCard>?> snapshot) {
+    if (snapshot.hasData) {
+      return Image.memory(
+        base64DecodeImageData(snapshot.data!.first.image),
+        scale: 0.9,
+      ).image;
+    } else {
+      return const AssetImage(
+        'assets/images/placeholders/portrait_placeholder.png',
+      );
+    }
   }
 }
