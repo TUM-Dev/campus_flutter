@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/util/placeholder_text.dart';
 import 'package:campus_flutter/base/util/shimmer_view.dart';
+import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_view.dart';
 import 'package:flutter/material.dart';
 
 class ContactCardLoadingView extends StatelessWidget {
@@ -11,11 +12,9 @@ class ContactCardLoadingView extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage(
-              'assets/images/placeholders/portrait_placeholder.png',
-            ),
-            radius: 50,
+          const SizedBox(
+            width: contactImageSize,
+            height: contactImageSize,
           ),
           const Padding(padding: EdgeInsets.only(left: 15)),
           Column(
