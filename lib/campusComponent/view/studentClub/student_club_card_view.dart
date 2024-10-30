@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 class StudentClubCardView extends ConsumerWidget {
   const StudentClubCardView({
     super.key,
-    required this.studentClub
+    required this.studentClub,
   });
 
   final StudentClub studentClub;
@@ -17,9 +17,9 @@ class StudentClubCardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-        onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
-        child: body(context),
-      );
+      onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
+      child: body(context),
+    );
   }
 
   Widget body(BuildContext context) {

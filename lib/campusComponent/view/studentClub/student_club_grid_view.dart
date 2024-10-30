@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
-import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
+import 'package:campus_flutter/campusComponent/view/studentClub/student_club_card_view.dart';
 import 'package:flutter/material.dart';
 
 class StudentClubGridView extends StatelessWidget {

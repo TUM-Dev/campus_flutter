@@ -1,15 +1,11 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/view/studentClub/student_club_grid_view.dart';
-import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
-import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
