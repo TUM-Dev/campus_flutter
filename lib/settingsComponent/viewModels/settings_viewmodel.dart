@@ -3,19 +3,19 @@ import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/main.dart';
-import 'package:campus_flutter/settingsComponent/service/user_preferences_service.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userPreferencesViewModel = Provider(
-  (ref) => UserPreferencesViewModel(ref),
+final settingsViewModel = Provider(
+  (ref) => SettingsViewModel(ref),
 );
 
-class UserPreferencesViewModel {
+class SettingsViewModel {
   final Ref ref;
 
-  UserPreferencesViewModel(this.ref);
+  SettingsViewModel(this.ref);
 
   Future<void> loadPreferences() async {
     return Future(() async {

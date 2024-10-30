@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
@@ -151,6 +153,20 @@ class CalendarViewModel {
     });
     events.add(elements);
     updateHomeWidget(events.value ?? []);
+  }
+
+  int getTabPreference() {
+    return (getIt<UserPreferencesService>().load(
+          UserPreference.calendarTab,
+        ) as int?) ??
+        0;
+  }
+
+  void saveTabPreference(int currentTab) {
+    getIt<UserPreferencesService>().save(
+      UserPreference.calendarTab,
+      currentTab,
+    );
   }
 
   void resetPreferences() {
