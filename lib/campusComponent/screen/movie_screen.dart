@@ -1,9 +1,8 @@
-import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/grid_utility.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movie_grid_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
@@ -37,7 +36,7 @@ class MovieScreen extends ConsumerWidget {
               return MovieGridView(
                 movies: snapshot.data!,
                 padding: EdgeInsets.all(context.padding),
-                crossAxisCount: crossAxisCount(context),
+                crossAxisCount: GridUtility.campusCrossAxisCount(context),
                 withinScrollView: false,
               );
             } else if (snapshot.hasError) {
@@ -58,16 +57,5 @@ class MovieScreen extends ConsumerWidget {
         );
       },
     );
-  }
-
-  int crossAxisCount(BuildContext context) {
-    switch (DeviceService.getType(context)) {
-      case Device.landscapeTablet:
-        return 6;
-      case Device.portraitTablet:
-        return 4;
-      case Device.phone:
-        return 2;
-    }
   }
 }

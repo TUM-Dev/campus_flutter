@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/util/grid_utility.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movie_grid_view.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
@@ -66,24 +67,13 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
   Widget body(AsyncSnapshot<List<Movie>?> snapshot) {
     if (snapshot.hasData) {
       return MovieGridView(
-        movies: snapshot.data!.take(4).toList(),
+        movies: snapshot.data!
+            .take(GridUtility.campusNumberOfItems(context))
+            .toList(),
         padding: EdgeInsets.symmetric(horizontal: context.padding),
-        crossAxisCount: 2,
+        crossAxisCount: GridUtility.campusPaddedCrossAxisCount(context),
         withinScrollView: true,
       );
-      /*return GridView.count(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: context.padding),
-        crossAxisCount: 2,
-        mainAxisSpacing: context.padding,
-        crossAxisSpacing: context.padding,
-        childAspectRatio: 250 / 470,
-        children: [
-          for (var data in snapshot.data!.take(4).toList())
-            MovieCardView(movie: data),
-        ],
-      );*/
     } else if (snapshot.hasError) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.34,

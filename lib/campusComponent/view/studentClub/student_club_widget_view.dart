@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/base/util/grid_utility.dart';
 import 'package:campus_flutter/campusComponent/view/studentClub/student_club_grid_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
@@ -54,9 +55,11 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return StudentClubGridView(
-              studentClubs: snapshot.data!,
+              studentClubs: snapshot.data!
+                  .take(GridUtility.campusNumberOfItems(context))
+                  .toList(),
               padding: EdgeInsets.symmetric(horizontal: context.padding),
-              crossAxisCount: 2,
+              crossAxisCount: GridUtility.campusPaddedCrossAxisCount(context),
               withinScrollView: true,
             );
           } else if (snapshot.hasError) {

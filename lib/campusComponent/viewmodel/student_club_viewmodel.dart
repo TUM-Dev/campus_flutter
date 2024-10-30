@@ -24,7 +24,7 @@ class StudentClubViewModel {
         final studentClubs = value.$2.expand((e) => e.clubs).toList();
         studentClubs.removeWhere((studentClub) => studentClub.coverUrl.isEmpty);
         studentClubs.shuffle();
-        suggestions.add(studentClubs.take(6).toList());
+        suggestions.add(studentClubs);
       },
       onError: (error) {
         collections.addError(error);
