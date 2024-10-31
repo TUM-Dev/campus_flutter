@@ -62,6 +62,7 @@ class StudentClubCardView extends ConsumerWidget {
                 ),
               ),
             ),
+          Divider(height: 0),
           Expanded(
             flex: 2,
             child: Center(
