@@ -41,10 +41,21 @@ class SearchViewModel {
   }) {
     searchTextController = TextEditingController(text: searchString);
     selectedCategories.add(_initialSearchCategories());
+    _checkAuthorizationStatus();
+    _resetSearchResult();
     triggerSearchAfterUpdate();
   }
 
-  _initialSearchCategories() {
+  void _checkAuthorizationStatus() {
+    isAuthorized =
+        ref.read(onboardingViewModel).credentials.value == Credentials.tumId;
+  }
+
+  void _resetSearchResult() {
+    result.add(null);
+  }
+
+  List<SearchCategory> _initialSearchCategories() {
     switch (searchType) {
       case SearchType.general:
         return <SearchCategory>[];
@@ -82,10 +93,12 @@ class SearchViewModel {
       categories.add(searchCategory);
     }
     selectedCategories.add(categories);
+    triggerSearchAfterUpdate();
   }
 
   void selectSingleCategory(SearchCategory searchCategory) {
     selectedCategories.add([searchCategory]);
+    triggerSearchAfterUpdate();
   }
 
   void clear() {
@@ -115,8 +128,6 @@ class SearchViewModel {
   }
 
   void setSearchCategories(int index) {
-    isAuthorized =
-        ref.read(onboardingViewModel).credentials.value == Credentials.tumId;
     switch (index) {
       case 1:
         if (isAuthorized) {
@@ -149,7 +160,7 @@ class SearchViewModel {
           SearchCategory.rooms,
         ]);
       default:
-        selectedCategories.add([]);
+        break;
     }
   }
 
@@ -158,20 +169,8 @@ class SearchViewModel {
     switch (searchCategory) {
       case SearchCategory.grade:
         ref.read(gradesSearchViewModel).gradesSearch(query: searchString);
-      case SearchCategory.cafeterias:
-        ref.read(cafeteriaSearchViewModel).cafeteriaSearch(query: searchString);
       case SearchCategory.calendar:
         ref.read(calendarSearchViewModel).calendarSearch(query: searchString);
-      case SearchCategory.movie:
-        ref.read(movieSearchViewModel).movieSearch(query: searchString);
-      case SearchCategory.news:
-        ref.read(newsSearchViewModel).newsSearch(query: searchString);
-      case SearchCategory.studentClub:
-        ref
-            .read(studentClubSearchViewModel)
-            .studentClubSearch(query: searchString);
-      case SearchCategory.studyRoom:
-        ref.read(studyRoomSearchViewModel).studyRoomSearch(query: searchString);
       case SearchCategory.lectures:
         ref.read(lectureSearchViewModel).lectureSearch(query: searchString);
       case SearchCategory.personalLectures:
@@ -180,10 +179,8 @@ class SearchViewModel {
             .personalLectureSearch(query: searchString);
       case SearchCategory.persons:
         ref.read(personSearchViewModel).personSearch(query: searchString);
-      case SearchCategory.rooms:
-        ref.read(navigaTumSearchViewModel).navigaTumSearch(query: searchString);
       default:
-        return;
+        _unauthorizedSearchTriggerBuilder(searchCategory);
     }
   }
 
