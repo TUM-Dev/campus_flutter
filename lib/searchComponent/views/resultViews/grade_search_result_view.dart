@@ -16,8 +16,8 @@ class GradeSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<GradesSearchViewModel, Grade>(
       searchCategory: SearchCategory.grade,
-      viewModel: viewModel,
-      categoryViewModel: gradesSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: gradesSearchViewModel,
       body: (grade) => GradeRow(grade: grade),
     );
   }

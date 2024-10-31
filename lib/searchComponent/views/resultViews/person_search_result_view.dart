@@ -17,8 +17,8 @@ class PersonSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<PersonSearchViewModel, Person>(
       searchCategory: SearchCategory.persons,
-      viewModel: viewModel,
-      categoryViewModel: personSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: personSearchViewModel,
       body: (person) => ListTile(
         title: Text(person.fullNameWithTitle),
         trailing: const Icon(

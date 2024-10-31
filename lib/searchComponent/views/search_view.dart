@@ -11,11 +11,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class SearchView extends ConsumerWidget {
   const SearchView({
     super.key,
-    required this.viewModel,
+    required this.searchVM,
     required this.showContent,
   });
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
   final bool showContent;
 
   @override
@@ -27,9 +27,9 @@ class SearchView extends ConsumerWidget {
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SearchTextField(viewModel: viewModel),
+                  SearchTextField(searchVM: searchVM),
                   SearchCategoryPickerView(
-                    viewModel: viewModel,
+                    searchVM: searchVM,
                   ),
                   _search(ref),
                 ],
@@ -42,10 +42,10 @@ class SearchView extends ConsumerWidget {
   Widget _search(WidgetRef ref) {
     return Expanded(
       child: StreamBuilder(
-        stream: ref.watch(viewModel).result,
+        stream: ref.watch(searchVM).result,
         builder: (context, snapshot) {
           if (!snapshot.hasData &&
-              ref.read(viewModel).searchTextController.text.isEmpty) {
+              ref.read(searchVM).searchTextController.text.isEmpty) {
             return Center(
               child: Text(context.tr("enterQueryStart")),
             );
@@ -56,7 +56,7 @@ class SearchView extends ConsumerWidget {
                 crossAxisCount: 2,
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (context, index) => SearchResultViewBuilder(
-                  viewModel: viewModel,
+                  searchVM: searchVM,
                   searchCategory: snapshot.data![index],
                 ),
               );
@@ -68,7 +68,7 @@ class SearchView extends ConsumerWidget {
                     for (var result in snapshot.data ??
                         const Iterable<SearchCategory>.empty())
                       SearchResultViewBuilder(
-                        viewModel: viewModel,
+                        searchVM: searchVM,
                         searchCategory: result,
                       ),
                   ],

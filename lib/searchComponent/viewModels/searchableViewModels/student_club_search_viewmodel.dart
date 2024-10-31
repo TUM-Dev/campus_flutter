@@ -12,7 +12,7 @@ final studentClubSearchViewModel =
     Provider((ref) => StudentClubSearchViewModel());
 
 class StudentClubSearchViewModel
-    implements CategorySearchViewModel<StudentClubSearch> {
+    implements SearchCategoryViewModel<StudentClubSearch> {
   @override
   BehaviorSubject<List<StudentClubSearch>?> searchResults =
       BehaviorSubject.seeded(null);

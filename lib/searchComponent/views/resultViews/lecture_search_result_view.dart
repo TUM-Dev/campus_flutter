@@ -16,8 +16,8 @@ class LectureSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<LectureSearchViewModel, Lecture>(
       searchCategory: SearchCategory.lectures,
-      viewModel: viewModel,
-      categoryViewModel: lectureSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: lectureSearchViewModel,
       body: (lecture) => LectureView(
         lecture: lecture,
         isSearch: true,

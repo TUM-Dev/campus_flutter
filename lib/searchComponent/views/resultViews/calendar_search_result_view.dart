@@ -20,8 +20,8 @@ class CalendarSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<CalendarSearchViewModel, CalendarEvent>(
       searchCategory: SearchCategory.calendar,
-      viewModel: viewModel,
-      categoryViewModel: calendarSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: calendarSearchViewModel,
       body: (calendarEvent) => ListTile(
         title: Text(calendarEvent.title ?? "-"),
         subtitle: Column(

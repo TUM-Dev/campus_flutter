@@ -18,8 +18,8 @@ class NewsSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<NewsSearchViewModel, NewsSearch>(
       searchCategory: SearchCategory.news,
-      viewModel: viewModel,
-      categoryViewModel: newsSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: newsSearchViewModel,
       body: (newsSearch) {
         final imageUrl =
             newsSearch.news.imageUrl.toString().contains("src_1.png")

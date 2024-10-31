@@ -10,7 +10,7 @@ final personalLectureSearchViewModel =
     Provider((ref) => PersonalLectureSearchViewModel());
 
 class PersonalLectureSearchViewModel
-    implements CategorySearchViewModel<Lecture> {
+    implements SearchCategoryViewModel<Lecture> {
   @override
   BehaviorSubject<List<Lecture>?> searchResults = BehaviorSubject.seeded(null);
 

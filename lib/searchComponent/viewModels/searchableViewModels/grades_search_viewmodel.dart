@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 final gradesSearchViewModel = Provider((ref) => GradesSearchViewModel());
 
-class GradesSearchViewModel implements CategorySearchViewModel<Grade> {
+class GradesSearchViewModel implements SearchCategoryViewModel<Grade> {
   @override
   BehaviorSubject<List<Grade>?> searchResults = BehaviorSubject.seeded(null);
 

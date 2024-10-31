@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 final navigaTumSearchViewModel = Provider((ref) => NavigaTumSearchViewModel());
 
 class NavigaTumSearchViewModel
-    implements CategorySearchViewModel<NavigaTumNavigationEntity> {
+    implements SearchCategoryViewModel<NavigaTumNavigationEntity> {
   @override
   BehaviorSubject<List<NavigaTumNavigationEntity>?> searchResults =
       BehaviorSubject.seeded(null);

@@ -17,8 +17,8 @@ class StudentClubSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<StudentClubSearchViewModel, StudentClubSearch>(
       searchCategory: SearchCategory.studentClub,
-      viewModel: viewModel,
-      categoryViewModel: studentClubSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: studentClubSearchViewModel,
       body: (studentClubSearch) {
         return ListTile(
           leading: image(studentClubSearch.studentClub.coverUrl),

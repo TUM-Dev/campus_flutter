@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/speaker.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,11 @@ class LectureView extends ConsumerWidget {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           if (lecture.speaker != null)
-            _subtitle(lecture.speaker!, Icons.person, context),
+            _subtitle(
+              Speaker.getSpeakerName(lecture.speaker!),
+              Icons.person,
+              context,
+            ),
         ],
       ),
       onTap: () => context.push(lectureDetails, extra: lecture),

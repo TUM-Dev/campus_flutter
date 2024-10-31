@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchScaffold extends ConsumerWidget {
-  const SearchScaffold({super.key, required this.viewModel});
+  const SearchScaffold({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,13 +17,13 @@ class SearchScaffold extends ConsumerWidget {
       appBar: AppBar(
         title: Text(context.tr("search")),
         leading: CustomBackButton(
-          beforeOnPressed: (viewModel.argument as (SearchType, String?)).$1 ==
+          beforeOnPressed: (searchVM.argument as (SearchType, String?)).$1 ==
                   SearchType.general
-              ? ref.read(viewModel).clear
+              ? ref.read(searchVM).clear
               : null,
         ),
       ),
-      body: SearchView(viewModel: viewModel, showContent: true),
+      body: SearchView(searchVM: searchVM, showContent: true),
     );
   }
 }

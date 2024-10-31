@@ -17,8 +17,8 @@ class CafeteriasSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<CafeteriaSearchViewModel, Cafeteria>(
       searchCategory: SearchCategory.cafeterias,
-      viewModel: viewModel,
-      categoryViewModel: cafeteriaSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: cafeteriaSearchViewModel,
       body: (cafeteria) => ListTile(
         title: Text(cafeteria.name),
         trailing: const Icon(

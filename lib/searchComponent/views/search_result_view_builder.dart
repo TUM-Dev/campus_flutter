@@ -17,38 +17,38 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SearchResultViewBuilder extends StatelessWidget {
   const SearchResultViewBuilder({
     super.key,
-    required this.viewModel,
+    required this.searchVM,
     required this.searchCategory,
   });
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
   final SearchCategory searchCategory;
 
   @override
   Widget build(BuildContext context) {
     switch (searchCategory) {
       case SearchCategory.grade:
-        return GradeSearchResultView(viewModel: viewModel);
+        return GradeSearchResultView(viewModel: searchVM);
       case SearchCategory.cafeterias:
-        return CafeteriasSearchResultView(viewModel: viewModel);
+        return CafeteriasSearchResultView(viewModel: searchVM);
       case SearchCategory.calendar:
-        return CalendarSearchResultView(viewModel: viewModel);
+        return CalendarSearchResultView(viewModel: searchVM);
       case SearchCategory.movie:
-        return MovieSearchResultView(viewModel: viewModel);
+        return MovieSearchResultView(viewModel: searchVM);
       case SearchCategory.news:
-        return NewsSearchResultView(viewModel: viewModel);
+        return NewsSearchResultView(viewModel: searchVM);
       case SearchCategory.studentClub:
-        return StudentClubSearchResultView(viewModel: viewModel);
+        return StudentClubSearchResultView(viewModel: searchVM);
       case SearchCategory.studyRoom:
-        return StudyRoomSearchResultView(viewModel: viewModel);
+        return StudyRoomSearchResultView(viewModel: searchVM);
       case SearchCategory.lectures:
-        return LectureSearchResultView(viewModel: viewModel);
+        return LectureSearchResultView(viewModel: searchVM);
       case SearchCategory.personalLectures:
-        return PersonalLectureSearchResultView(viewModel: viewModel);
+        return PersonalLectureSearchResultView(viewModel: searchVM);
       case SearchCategory.persons:
-        return PersonSearchResultView(viewModel: viewModel);
+        return PersonSearchResultView(viewModel: searchVM);
       case SearchCategory.rooms:
-        return NavigaTumSearchResultView(viewModel: viewModel);
+        return NavigaTumSearchResultView(viewModel: searchVM);
       default:
         return Container();
     }

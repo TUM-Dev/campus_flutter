@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 final personSearchViewModel = Provider((ref) => PersonSearchViewModel());
 
-class PersonSearchViewModel implements CategorySearchViewModel<Person> {
+class PersonSearchViewModel implements SearchCategoryViewModel<Person> {
   @override
   BehaviorSubject<List<Person>?> searchResults = BehaviorSubject.seeded(null);
 

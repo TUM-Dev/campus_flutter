@@ -18,8 +18,8 @@ class NavigaTumSearchResultView extends ConsumerWidget {
     return SearchResultCardView<NavigaTumSearchViewModel,
         NavigaTumNavigationEntity>(
       searchCategory: SearchCategory.rooms,
-      viewModel: viewModel,
-      categoryViewModel: navigaTumSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: navigaTumSearchViewModel,
       body: (entity) => ListTile(
         title: Text(entity.getFormattedName()),
         subtitle: Text(entity.getFormattedName()),

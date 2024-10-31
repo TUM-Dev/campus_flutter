@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 final lectureSearchViewModel = Provider((ref) => LectureSearchViewModel());
 
-class LectureSearchViewModel implements CategorySearchViewModel<Lecture> {
+class LectureSearchViewModel implements SearchCategoryViewModel<Lecture> {
   @override
   BehaviorSubject<List<Lecture>?> searchResults = BehaviorSubject.seeded(null);
 

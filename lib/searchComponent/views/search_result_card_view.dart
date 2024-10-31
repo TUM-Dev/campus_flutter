@@ -13,18 +13,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchResultCardView<T extends CategorySearchViewModel<S>,
+class SearchResultCardView<T extends SearchCategoryViewModel<S>,
     S extends Searchable> extends ConsumerWidget {
   const SearchResultCardView({
     super.key,
-    required this.viewModel,
-    required this.categoryViewModel,
+    required this.searchVM,
+    required this.searchCategoryVM,
     required this.searchCategory,
     required this.body,
   });
 
-  final Provider<SearchViewModel> viewModel;
-  final Provider<CategorySearchViewModel<S>> categoryViewModel;
+  final Provider<SearchViewModel> searchVM;
+  final Provider<SearchCategoryViewModel<S>> searchCategoryVM;
   final SearchCategory searchCategory;
   final Widget Function(S searchable) body;
 
@@ -36,7 +36,7 @@ class SearchResultCardView<T extends CategorySearchViewModel<S>,
       child: Card(
         child: StreamBuilder(
           stream: ref
-              .watch<CategorySearchViewModel<S>>(categoryViewModel)
+              .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
               .searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -106,7 +106,7 @@ class SearchResultCardView<T extends CategorySearchViewModel<S>,
   }
 
   int _calculateItemLength(List<S>? data, WidgetRef ref) {
-    final selectedCategories = ref.read(viewModel).selectedCategories.value;
+    final selectedCategories = ref.read(searchVM).selectedCategories.value;
     if (selectedCategories.contains(searchCategory) &&
         selectedCategories.length == 1) {
       return (data!.length >= 9 ? 9 : data.length) + 1;
@@ -124,7 +124,7 @@ class SearchResultCardView<T extends CategorySearchViewModel<S>,
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
-      // TODO: figure out for multiple attributes
+      // TODO(@jakobkoerber): figure out for multiple attributes
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(

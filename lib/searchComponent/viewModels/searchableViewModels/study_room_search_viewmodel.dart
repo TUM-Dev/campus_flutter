@@ -14,7 +14,7 @@ import 'package:rxdart/rxdart.dart';
 final studyRoomSearchViewModel = Provider((ref) => StudyRoomSearchViewModel());
 
 class StudyRoomSearchViewModel
-    implements CategorySearchViewModel<StudyRoomSearchResult> {
+    implements SearchCategoryViewModel<StudyRoomSearchResult> {
   @override
   BehaviorSubject<List<StudyRoomSearchResult>?> searchResults =
       BehaviorSubject.seeded(null);

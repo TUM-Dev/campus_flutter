@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 
 final newsSearchViewModel = Provider((ref) => NewsSearchViewModel());
 
-class NewsSearchViewModel implements CategorySearchViewModel<NewsSearch> {
+class NewsSearchViewModel implements SearchCategoryViewModel<NewsSearch> {
   @override
   BehaviorSubject<List<NewsSearch>?> searchResults =
       BehaviorSubject.seeded(null);

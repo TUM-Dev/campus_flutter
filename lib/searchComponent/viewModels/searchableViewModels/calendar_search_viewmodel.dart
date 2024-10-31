@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 
 class CalendarSearchViewModel
-    implements CategorySearchViewModel<CalendarEvent> {
+    implements SearchCategoryViewModel<CalendarEvent> {
   @override
   BehaviorSubject<List<CalendarEvent>?> searchResults =
       BehaviorSubject.seeded(null);

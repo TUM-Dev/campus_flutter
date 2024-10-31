@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SearchTextField extends ConsumerStatefulWidget {
   const SearchTextField({
     super.key,
-    required this.viewModel,
+    required this.searchVM,
   });
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -25,12 +25,12 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.padding),
       child: TextField(
-        controller: ref.watch(widget.viewModel).searchTextController,
+        controller: ref.watch(widget.searchVM).searchTextController,
         onChanged: (searchString) {
-          ref.read(widget.viewModel).triggerSearchAfterUpdate();
+          ref.read(widget.searchVM).triggerSearchAfterUpdate();
           setState(() {
             showIcon = ref
-                .read(widget.viewModel)
+                .read(widget.searchVM)
                 .searchTextController
                 .value
                 .text
@@ -42,7 +42,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
           suffixIcon: showIcon
               ? GestureDetector(
                   onTap: () {
-                    ref.read(widget.viewModel).clear();
+                    ref.read(widget.searchVM).clear();
                     setState(() {
                       showIcon = false;
                     });

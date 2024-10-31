@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 
-class CafeteriaSearchViewModel implements CategorySearchViewModel<Cafeteria> {
+class CafeteriaSearchViewModel implements SearchCategoryViewModel<Cafeteria> {
   @override
   BehaviorSubject<List<Cafeteria>?> searchResults =
       BehaviorSubject.seeded(null);

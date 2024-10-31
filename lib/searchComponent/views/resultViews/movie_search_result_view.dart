@@ -17,8 +17,8 @@ class MovieSearchResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<MovieSearchViewModel, MovieSearch>(
       searchCategory: SearchCategory.movie,
-      viewModel: viewModel,
-      categoryViewModel: movieSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: movieSearchViewModel,
       body: (movieSearch) => ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(5),

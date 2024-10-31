@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 
 final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
 
-class MovieSearchViewModel implements CategorySearchViewModel<MovieSearch> {
+class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
   @override
   BehaviorSubject<List<MovieSearch>?> searchResults =
       BehaviorSubject.seeded(null);

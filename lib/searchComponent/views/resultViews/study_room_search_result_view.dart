@@ -16,8 +16,8 @@ class StudyRoomSearchResultView extends ConsumerWidget {
     return SearchResultCardView<StudyRoomSearchViewModel,
         StudyRoomSearchResult>(
       searchCategory: SearchCategory.studyRoom,
-      viewModel: viewModel,
-      categoryViewModel: studyRoomSearchViewModel,
+      searchVM: viewModel,
+      searchCategoryVM: studyRoomSearchViewModel,
       body: (studyRoomSearchResult) =>
           StudyRoomWidgetView(studyRoomSearchResult.studyRoomGroup),
     );
