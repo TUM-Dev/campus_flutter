@@ -63,16 +63,22 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
               withinScrollView: true,
             );
           } else if (snapshot.hasError) {
-            return Card(
-              child: ErrorHandlingRouter(
-                error: Error(),
-                errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            return AspectRatio(
+              aspectRatio: 2,
+              child: Card(
+                child: ErrorHandlingRouter(
+                  error: Error(),
+                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                ),
               ),
             );
           } else {
-            return const Card(
-              child: DelayedLoadingIndicator(
-                name: "Student Clubs",
+            return const AspectRatio(
+              aspectRatio: 2,
+              child: Card(
+                child: DelayedLoadingIndicator(
+                  name: "Student Clubs",
+                ),
               ),
             );
           }

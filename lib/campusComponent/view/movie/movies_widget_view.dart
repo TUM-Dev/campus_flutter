@@ -75,18 +75,20 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
         withinScrollView: true,
       );
     } else if (snapshot.hasError) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.34,
-        child: ErrorHandlingRouter(
-          error: snapshot.error!,
-          errorHandlingViewType: ErrorHandlingViewType.textOnly,
-          retry: (() => ref.read(movieViewModel).fetch(true)),
+      return AspectRatio(
+        aspectRatio: 2,
+        child: Card(
+          child: ErrorHandlingRouter(
+            error: Error(),
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            retry: (() => ref.read(movieViewModel).fetch(true)),
+          ),
         ),
       );
     } else {
-      return Card(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.34,
+      return AspectRatio(
+        aspectRatio: 2,
+        child: Card(
           child: DelayedLoadingIndicator(name: context.tr("movies")),
         ),
       );
