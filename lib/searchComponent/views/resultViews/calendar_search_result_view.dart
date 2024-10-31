@@ -12,15 +12,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class CalendarSearchResultView extends ConsumerWidget {
-  const CalendarSearchResultView({super.key, required this.viewModel});
+  const CalendarSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<CalendarSearchViewModel, CalendarEvent>(
       searchCategory: SearchCategory.calendar,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: calendarSearchViewModel,
       body: (calendarEvent) => ListTile(
         title: Text(calendarEvent.title ?? "-"),

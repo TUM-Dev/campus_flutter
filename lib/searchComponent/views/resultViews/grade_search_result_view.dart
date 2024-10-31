@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GradeSearchResultView extends ConsumerWidget {
-  const GradeSearchResultView({super.key, required this.viewModel});
+  const GradeSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<GradesSearchViewModel, Grade>(
       searchCategory: SearchCategory.grade,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: gradesSearchViewModel,
       body: (grade) => GradeRow(grade: grade),
     );

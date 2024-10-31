@@ -10,15 +10,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class NewsSearchResultView extends ConsumerWidget {
-  const NewsSearchResultView({super.key, required this.viewModel});
+  const NewsSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<NewsSearchViewModel, NewsSearch>(
       searchCategory: SearchCategory.news,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: newsSearchViewModel,
       body: (newsSearch) {
         final imageUrl =

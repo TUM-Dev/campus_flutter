@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieSearchResultView extends ConsumerWidget {
-  const MovieSearchResultView({super.key, required this.viewModel});
+  const MovieSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<MovieSearchViewModel, MovieSearch>(
       searchCategory: SearchCategory.movie,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: movieSearchViewModel,
       body: (movieSearch) => ListTile(
         leading: ClipRRect(

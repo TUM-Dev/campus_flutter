@@ -9,16 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class NavigaTumSearchResultView extends ConsumerWidget {
-  const NavigaTumSearchResultView({super.key, required this.viewModel});
+  const NavigaTumSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<NavigaTumSearchViewModel,
         NavigaTumNavigationEntity>(
       searchCategory: SearchCategory.rooms,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: navigaTumSearchViewModel,
       body: (entity) => ListTile(
         title: Text(entity.getFormattedName()),

@@ -9,15 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StudentClubSearchResultView extends ConsumerWidget {
-  const StudentClubSearchResultView({super.key, required this.viewModel});
+  const StudentClubSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<StudentClubSearchViewModel, StudentClubSearch>(
       searchCategory: SearchCategory.studentClub,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: studentClubSearchViewModel,
       body: (studentClubSearch) {
         return ListTile(

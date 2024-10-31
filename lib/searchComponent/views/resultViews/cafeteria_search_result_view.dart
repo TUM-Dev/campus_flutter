@@ -9,15 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class CafeteriasSearchResultView extends ConsumerWidget {
-  const CafeteriasSearchResultView({super.key, required this.viewModel});
+  const CafeteriasSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<CafeteriaSearchViewModel, Cafeteria>(
       searchCategory: SearchCategory.cafeterias,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: cafeteriaSearchViewModel,
       body: (cafeteria) => ListTile(
         title: Text(cafeteria.name),

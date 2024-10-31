@@ -28,27 +28,27 @@ class SearchResultViewBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (searchCategory) {
       case SearchCategory.grade:
-        return GradeSearchResultView(viewModel: searchVM);
+        return GradeSearchResultView(searchVM: searchVM);
       case SearchCategory.cafeterias:
-        return CafeteriasSearchResultView(viewModel: searchVM);
+        return CafeteriasSearchResultView(searchVM: searchVM);
       case SearchCategory.calendar:
-        return CalendarSearchResultView(viewModel: searchVM);
+        return CalendarSearchResultView(searchVM: searchVM);
       case SearchCategory.movie:
-        return MovieSearchResultView(viewModel: searchVM);
+        return MovieSearchResultView(searchVM: searchVM);
       case SearchCategory.news:
-        return NewsSearchResultView(viewModel: searchVM);
+        return NewsSearchResultView(searchVM: searchVM);
       case SearchCategory.studentClub:
-        return StudentClubSearchResultView(viewModel: searchVM);
+        return StudentClubSearchResultView(searchVM: searchVM);
       case SearchCategory.studyRoom:
-        return StudyRoomSearchResultView(viewModel: searchVM);
+        return StudyRoomSearchResultView(searchVM: searchVM);
       case SearchCategory.lectures:
-        return LectureSearchResultView(viewModel: searchVM);
+        return LectureSearchResultView(searchVM: searchVM);
       case SearchCategory.personalLectures:
-        return PersonalLectureSearchResultView(viewModel: searchVM);
+        return PersonalLectureSearchResultView(searchVM: searchVM);
       case SearchCategory.persons:
-        return PersonSearchResultView(viewModel: searchVM);
+        return PersonSearchResultView(searchVM: searchVM);
       case SearchCategory.rooms:
-        return NavigaTumSearchResultView(viewModel: searchVM);
+        return NavigaTumSearchResultView(searchVM: searchVM);
       default:
         return Container();
     }

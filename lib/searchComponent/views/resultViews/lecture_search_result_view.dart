@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LectureSearchResultView extends ConsumerWidget {
-  const LectureSearchResultView({super.key, required this.viewModel});
+  const LectureSearchResultView({super.key, required this.searchVM});
 
-  final Provider<SearchViewModel> viewModel;
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<LectureSearchViewModel, Lecture>(
       searchCategory: SearchCategory.lectures,
-      searchVM: viewModel,
+      searchVM: searchVM,
       searchCategoryVM: lectureSearchViewModel,
       body: (lecture) => LectureView(
         lecture: lecture,
