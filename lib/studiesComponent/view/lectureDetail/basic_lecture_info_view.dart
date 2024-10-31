@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/speaker.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture_details.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/basic_lecture_info_row_view.dart';
@@ -37,14 +38,30 @@ class BasicLectureInfoView extends ConsumerWidget {
           information: lectureDetails.organisation,
           iconData: Icons.import_contacts,
         ),
-        if (lectureDetails.speaker != null)
+        if (lecture?.speaker != null)
           BasicLectureInfoRowView(
-            information: lectureDetails.speaker!,
+            information: Speaker.getSpeakerName(lecture!.speaker!),
             iconData: Icons.person,
             trailingWidget: IconButton(
               onPressed: () => context.push(
                 personSearch,
-                extra: lectureDetails.speaker?.split(",").first,
+                extra: Speaker.getSpeakerName(lecture!.speaker!),
+              ),
+              icon: Icon(
+                Icons.search,
+                size: 20,
+                color: context.theme.primaryColor,
+              ),
+            ),
+          ),
+        if (lecture?.speaker == null)
+          BasicLectureInfoRowView(
+            information: Speaker.getSpeakerName(lectureDetails.speaker!),
+            iconData: Icons.person,
+            trailingWidget: IconButton(
+              onPressed: () => context.push(
+                personSearch,
+                extra: Speaker.getSpeakerName(lectureDetails.speaker!),
               ),
               icon: Icon(
                 Icons.search,
