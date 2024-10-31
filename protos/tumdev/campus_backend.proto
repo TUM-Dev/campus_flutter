@@ -131,9 +131,9 @@ service Campus {
     option (google.api.http) = {delete: "/device/{device_id}"};
   }
 
-  // Delete a device from push notifications
+  // List all avaliable student clubs
   rpc ListStudentClub(ListStudentClubRequest) returns (ListStudentClubReply) {
-    option (google.api.http) = {delete: "/student_clubs"};
+    option (google.api.http) = {get: "/student_clubs"};
   }
 }
 
