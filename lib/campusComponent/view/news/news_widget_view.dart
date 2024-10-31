@@ -40,7 +40,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
           const Spacer(),
           InkWell(
             child: Text(
-              context.tr("all"),
+              context.tr("more"),
               style: Theme.of(context).textTheme.titleMedium,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
