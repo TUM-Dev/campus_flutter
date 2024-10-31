@@ -5,7 +5,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
-import 'package:campus_flutter/searchComponent/protocols/category_search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_category_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/search_result_details_view.dart';
