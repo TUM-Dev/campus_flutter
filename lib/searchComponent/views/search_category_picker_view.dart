@@ -31,7 +31,8 @@ class SearchCategoryPickerView extends ConsumerWidget {
                     context,
                   ),
                 ),
-                onSelected: (selected) => ref.read(searchVM).updateCategory(searchCategory),
+                onSelected: (selected) =>
+                    ref.read(searchVM).updateCategory(searchCategory),
                 selected: (snapshot.data ?? []).isNotEmpty
                     ? snapshot.data?.contains(searchCategory) ?? false
                     : true,

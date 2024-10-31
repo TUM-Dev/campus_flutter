@@ -222,8 +222,7 @@ final _router = GoRouter(
     GoRoute(
       path: search,
       builder: (context, state) => SearchScaffold(
-        searchVM:
-            searchViewModel((SearchType.general, state.extra as String?)),
+        searchVM: searchViewModel((SearchType.general, state.extra as String?)),
       ),
     ),
     GoRoute(
