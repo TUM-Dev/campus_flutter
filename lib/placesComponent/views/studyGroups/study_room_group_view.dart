@@ -126,8 +126,11 @@ class StudyRoomGroupView extends ConsumerWidget {
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => StudyRoomRowView(studyRoom: studyRooms![index]),
-                  separatorBuilder: (context, index) => PaddedDivider(height: 0,),
+                  itemBuilder: (context, index) =>
+                      StudyRoomRowView(studyRoom: studyRooms![index]),
+                  separatorBuilder: (context, index) => PaddedDivider(
+                    height: 0,
+                  ),
                   itemCount: (studyRooms ?? []).length,
                 ),
               ),
