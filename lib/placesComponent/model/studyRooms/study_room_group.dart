@@ -1,4 +1,6 @@
+import 'package:campus_flutter/base/util/read_list_value.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
+import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_opening_hours.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,6 +18,18 @@ class StudyRoomGroup extends Searchable {
   final int sorting;
   @JsonKey(name: "raeume")
   final List<int>? rooms;
+  @JsonKey(name: "opening_hours", readValue: readListValue)
+  final List<StudyRoomOpeningHours> openingHours;
+
+  List<String>? get openToday {
+    final currentDay = DateTime.now().weekday;
+    for (var openingHour in openingHours) {
+      if (openingHour.days.contains(currentDay)) {
+        return [openingHour.startString, openingHour.endString];
+      }
+    }
+    return null;
+  }
 
   LatLng? get coordinate {
     switch (id) {
@@ -70,6 +84,7 @@ class StudyRoomGroup extends Searchable {
     required this.name,
     required this.sorting,
     this.rooms,
+    required this.openingHours,
   });
 
   factory StudyRoomGroup.fromJson(Map<String, dynamic> json) =>

@@ -153,11 +153,12 @@ class StudyRoomsViewModel {
       rooms.sort((room1, room2) {
         Map<String, int> statusOrder = {
           "frei": 0,
-          "belegt": 1,
-          "unbekannt": 2,
+          "WAAS": 1,
+          "belegt": 2,
+          "unbekannt": 3,
         };
-        int statusValue1 = statusOrder[room1.status] ?? 3;
-        int statusValue2 = statusOrder[room2.status] ?? 3;
+        int statusValue1 = statusOrder[room1.status] ?? 4;
+        int statusValue2 = statusOrder[room2.status] ?? 4;
         return statusValue1.compareTo(statusValue2);
       });
       studyRooms[group] = rooms;
@@ -192,7 +193,7 @@ class StudyRoomsViewModel {
 
   int freeRooms(StudyRoomGroup studyRoomGroup) {
     List<StudyRoom> data = studyRooms.value?[studyRoomGroup] ?? [];
-    return data.where((element) => element.status == "frei").length;
+    return data.where((element) => element.isAvailable).length;
   }
 
   List<ListTile> getStudyRoomEntries(BuildContext context) {

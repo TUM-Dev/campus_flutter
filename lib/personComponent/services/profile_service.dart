@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/main.dart';
@@ -11,7 +11,7 @@ class ProfileService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Profiles, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceIdentify()),
+      TumOnlineApi(TumOnlineEndpointIdentify()),
       Profiles.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
@@ -28,7 +28,7 @@ class ProfileService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Tuitions, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceTuitionStatus()),
+      TumOnlineApi(TumOnlineEndpointTuitionStatus()),
       Tuitions.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,

@@ -15,6 +15,9 @@ StudyRoomGroup _$StudyRoomGroupFromJson(Map<String, dynamic> json) =>
       rooms: (json['raeume'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
+      openingHours: (readListValue(json, 'opening_hours') as List<dynamic>)
+          .map((e) => StudyRoomOpeningHours.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$StudyRoomGroupToJson(StudyRoomGroup instance) =>
@@ -24,4 +27,5 @@ Map<String, dynamic> _$StudyRoomGroupToJson(StudyRoomGroup instance) =>
       'name': instance.name,
       'sortierung': instance.sorting,
       'raeume': instance.rooms,
+      'opening_hours': instance.openingHours,
     };
