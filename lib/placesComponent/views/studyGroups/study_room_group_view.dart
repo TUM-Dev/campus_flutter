@@ -106,13 +106,7 @@ class StudyRoomGroupView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: context.padding),
-              child: Text(
-                studyRoomGroup?.name ?? context.tr("unknown"),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
+            _header(context),
             if (orientation == Orientation.portrait) ...[
               if (studyRoomGroup?.coordinate != null)
                 _portraitMap(studyRoomGroup, context),
@@ -137,6 +131,29 @@ class StudyRoomGroupView extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _header(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: context.padding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            studyRoomGroup?.name ?? context.tr("unknown"),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          Text(
+            studyRoomGroup?.openToday != null
+                ? context.tr(
+                    "open",
+                    args: [context.tr("today"), ...studyRoomGroup!.openToday!],
+                  )
+                : context.tr("closedToday"),
+          ),
+        ],
       ),
     );
   }
