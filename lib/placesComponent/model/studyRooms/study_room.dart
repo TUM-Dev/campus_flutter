@@ -40,6 +40,23 @@ class StudyRoom extends Searchable {
   final String? status;
   @JsonKey(name: "attribute")
   final List<StudyRoomAttribute>? attributes;
+  @JsonKey(name: "color")
+  final String? suggestedColor;
+  final double? percent;
+  final String? subtitle;
+
+  Color get color {
+    if (suggestedColor != null) {
+      final hexColor = int.tryParse("0xff${suggestedColor!.substring(1)}");
+      return hexColor != null ? Color(hexColor) : Colors.green;
+    } else {
+      if (status == "frei") {
+        return Colors.green;
+      } else {
+        return Colors.red;
+      }
+    }
+  }
 
   String localizedStatus(BuildContext context) {
     switch (status) {
@@ -54,13 +71,28 @@ class StudyRoom extends Searchable {
         } else {
           return context.tr("unknown");
         }
+      case "WAAS":
+        if (percent != null) {
+          return context.tr(
+            "utilizationAt",
+            args: [
+              percent!.isNegative
+                  ? "0"
+                  : percent! > 1
+                      ? "100"
+                      : (percent! * 100).round().toString(),
+            ],
+          );
+        } else {
+          return context.tr("unknown");
+        }
       default:
         return context.tr("unknown");
     }
   }
 
   bool get isAvailable {
-    return status == "frei";
+    return status == "frei" || (percent != null && percent! < 100);
   }
 
   @override
@@ -98,6 +130,9 @@ class StudyRoom extends Searchable {
     required this.resNo,
     this.status,
     this.attributes,
+    this.suggestedColor,
+    this.percent,
+    this.subtitle,
   });
 
   factory StudyRoom.fromJson(Map<String, dynamic> json) =>

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart' as dio;
 abstract class Api {
   static String tumToken = "";
 
-  String get baseURL;
+  String get domain;
 
   String get path;
 
@@ -11,7 +11,7 @@ abstract class Api {
     return {};
   }
 
-  String get paths;
+  String get slug;
 
   Map<String, String> get parameters;
 
@@ -37,9 +37,9 @@ abstract class Api {
     if (needsAuth) {
       var finalParameters = parameters;
       finalParameters.addAll({"pToken": tumToken});
-      return Uri.https(baseURL, paths, finalParameters);
+      return Uri.https(domain, path + slug, finalParameters);
     } else {
-      return Uri.https(baseURL, paths, parameters);
+      return Uri.https(domain, path + slug, parameters);
     }
   }
 
@@ -49,6 +49,6 @@ abstract class Api {
 
   @override
   String toString() {
-    return baseURL + path + paths;
+    return domain + path + slug;
   }
 }

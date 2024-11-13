@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
@@ -15,7 +15,7 @@ class StudentCardService {
       RestClient restClient = getIt<RestClient>();
       final response = await restClient
           .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineServiceTumCard()),
+        TumOnlineApi(TumOnlineEndpointTumCard()),
         StudentCards.fromJson,
         TumOnlineApiException.fromJson,
         forcedRefresh,

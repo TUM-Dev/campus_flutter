@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/horizontal_slider.dart';
 import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
-import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_endpoint.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
@@ -28,16 +28,16 @@ class NavigaTumRoomMapsView extends StatelessWidget {
                   return InkWell(
                     child: CachedNetworkImage(
                       imageUrl: NavigaTumApi(
-                        navigaTumApiService:
-                            NavigaTumApiServiceImages(id: map.imageUrl),
+                        navigaTumApiEndpoint:
+                            NavigaTumApiEndpointImages(id: map.imageUrl),
                       ).asURL().toString(),
                     ),
                     onTap: () => context.push(
                       networkImage,
                       extra: (
                         NavigaTumApi(
-                          navigaTumApiService:
-                              NavigaTumApiServiceImages(id: map.imageUrl),
+                          navigaTumApiEndpoint:
+                              NavigaTumApiEndpointImages(id: map.imageUrl),
                         ).asURL().toString(),
                         map
                       ),

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_service.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/studiesComponent/model/average_grade.dart';
 import 'package:campus_flutter/studiesComponent/model/grade.dart';
@@ -13,7 +13,7 @@ class GradeService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Grades, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServicePersonalGrades()),
+      TumOnlineApi(TumOnlineEndpointPersonalGrades()),
       Grades.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,
@@ -26,7 +26,7 @@ class GradeService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<AverageGrades, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineServiceAverageGrades()),
+      TumOnlineApi(TumOnlineEndpointAverageGrades()),
       AverageGrades.fromJson,
       TumOnlineApiException.fromJson,
       forcedRefresh,

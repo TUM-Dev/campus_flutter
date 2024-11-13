@@ -7,15 +7,15 @@ class MovieService {
   static Future<(DateTime?, List<Movie>)> fetchMovies(
     bool forcedRefresh,
   ) async {
-    final start = DateTime.now();
+    final currentDate = DateTime.now();
     GrpcClient grpcClient = getIt<GrpcClient>();
     final response = await grpcClient.listMovies(
       ListMoviesRequest(
         oldestDateAt: Timestamp.fromDateTime(
-          DateTime(start.year, start.month, start.day),
+          currentDate,
         ),
       ),
     );
-    return (start, response.movies);
+    return (currentDate, response.movies);
   }
 }

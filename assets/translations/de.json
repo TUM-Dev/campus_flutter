@@ -33,6 +33,7 @@
   "done": "Fertig",
   "studyRoom": "Lernraum",
   "studyRooms": "Lernräume",
+  "unknownStudyRoom": "Unbekannter Lernraum",
   "nearestStudyRooms": "Nächste Lernräume",
   "noNearFreeStudyRoomsFound": "Keine Lernräume in deiner Nähe gefunden",
   "mostSearchedRooms": "Meist gesuchte Räume",
@@ -131,6 +132,9 @@
   "wednesday": "Mittwoch",
   "thursday": "Donnerstag",
   "friday": "Freitag",
+  "saturday": "Samstag",
+  "sunday": "Sonntag",
+  "fromTo": "{} - {}",
   "weekend": "Wochenende",
   "openingHours": "Öffnungszeiten",
   "open": "{} offen von {} - {}",
@@ -195,8 +199,8 @@
   "selectAction": "Wähle eine Aktion",
   "openIn": "In {} öffnen",
   "unknownDirection": "Unbekannte Richtung",
-  "showWeekends": "Wochenenden anzeigen",
-  "showHiddenCalendarEntries": "Versteckte Kalendareintrage anzeigen",
+  "showWeekends": "Wochenenden",
+  "showHiddenCalendarEntries": "Versteckte Kalendareintrage",
   "color": "Farbe",
   "resetLogin": "Zurücksetzen & Anmelden",
   "resetPreferences": "Einstellungen zurücksetzen",
@@ -227,5 +231,6 @@
   "studies": "Studium",
   "suggested": "Interessante {}",
   "more": "Mehr",
-  "visibility": "Sichtbarkeit"
+  "visibility": "Sichtbarkeit",
+  "utilizationAt": "Auslastung bei {}%"
 }
