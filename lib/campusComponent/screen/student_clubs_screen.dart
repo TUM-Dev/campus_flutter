@@ -1,12 +1,13 @@
 import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/model/student_club_collection.dart';
-import 'package:campus_flutter/campusComponent/view/studentClub/student_club_item_view.dart';
+import 'package:campus_flutter/campusComponent/view/studentClub/student_club_grid_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,34 +49,11 @@ class StudentClubsScreen extends ConsumerWidget {
                 return TabBarView(
                   children: [
                     for (var collection in snapshot.data!)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                          left: 11,
-                          right: 11,
-                        ),
-                        child: GridView.count(
-                          crossAxisCount: crossAxisCount(context),
-                          children: [
-                            for (var studentClub in collection.clubs)
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                  decoration: const ShapeDecoration(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(28.0),
-                                      ),
-                                    ),
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  child: StudentClubItemView(
-                                    studentClub: studentClub,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
+                      StudentClubGridView(
+                        studentClubs: collection.clubs,
+                        padding: EdgeInsets.all(context.padding),
+                        crossAxisCount: crossAxisCount(context),
+                        withinScrollView: false,
                       ),
                   ],
                 );

@@ -6,31 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class StudentClubItemView extends ConsumerWidget {
-  const StudentClubItemView({
+class StudentClubCardView extends ConsumerWidget {
+  const StudentClubCardView({
     super.key,
     required this.studentClub,
-    this.isCarousel = false,
   });
 
   final StudentClub studentClub;
-  final bool isCarousel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (isCarousel) {
-      return body(context);
-    } else {
-      return InkWell(
-        onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
-        child: body(context),
-      );
-    }
+    return InkWell(
+      onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
+      child: body(context),
+    );
   }
 
   Widget body(BuildContext context) {
-    return Container(
-      color: Theme.of(context).cardTheme.color,
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.hardEdge,
       child: Column(
         children: [
           if (studentClub.coverUrl.contains("svg"))
@@ -67,6 +62,7 @@ class StudentClubItemView extends ConsumerWidget {
                 ),
               ),
             ),
+          Divider(height: 0),
           Expanded(
             flex: 2,
             child: Center(

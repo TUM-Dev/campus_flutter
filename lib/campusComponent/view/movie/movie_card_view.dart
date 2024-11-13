@@ -7,36 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieCardView extends ConsumerWidget {
-  const MovieCardView({
-    super.key,
-    required this.movie,
-    this.isCarousel = false,
-  });
+  const MovieCardView({super.key, required this.movie});
 
   final Movie movie;
-  final bool isCarousel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (isCarousel) {
-      return body(context);
-    } else {
-      return InkWell(
-        onTap: () {
-          UrlLauncher.urlString(movie.additionalInformationUrl, ref);
-        },
-        child: body(context),
-      );
-    }
+    return InkWell(
+      onTap: () {
+        UrlLauncher.urlString(movie.additionalInformationUrl, ref);
+      },
+      child: body(context),
+    );
   }
 
   Widget body(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardTheme.color,
-        borderRadius: isCarousel
-            ? BorderRadius.zero
-            : const BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
       clipBehavior: Clip.antiAlias,
       child: AspectRatio(
