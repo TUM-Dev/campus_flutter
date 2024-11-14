@@ -11,8 +11,7 @@ class StudiesScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _StudiesScreenState();
 }
 
-class _StudiesScreenState extends State<StudiesScreen>
-    with AutomaticKeepAliveClientMixin<StudiesScreen> {
+class _StudiesScreenState extends State<StudiesScreen> {
   int selectedPage = 0;
   PageController pageController = PageController();
 
@@ -29,7 +28,6 @@ class _StudiesScreenState extends State<StudiesScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Column(
       children: [
         Padding(
@@ -72,7 +70,4 @@ class _StudiesScreenState extends State<StudiesScreen>
       ],
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

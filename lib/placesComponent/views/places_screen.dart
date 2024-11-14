@@ -16,8 +16,7 @@ class PlacesScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PlacesScreenState();
 }
 
-class _PlacesScreenState extends ConsumerState<PlacesScreen>
-    with AutomaticKeepAliveClientMixin<PlacesScreen> {
+class _PlacesScreenState extends ConsumerState<PlacesScreen> {
   @override
   void initState() {
     ref.read(placesViewModel).fetch(false);
@@ -26,7 +25,6 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return FutureBuilder(
       future: Future.wait([
         ref.watch(studyRoomsViewModel).fetch(false),
@@ -50,7 +48,4 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
