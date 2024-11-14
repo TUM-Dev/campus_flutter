@@ -92,10 +92,12 @@ class SearchResultCardView<T extends SearchCategoryViewModel<S>,
                 ),
               );
             } else {
-              return DelayedLoadingIndicator(
-                name: SearchCategoryExtension.localizedEnumTitle(
-                  searchCategory,
-                  context,
+              return ListTile(
+                title: DelayedLoadingIndicator(
+                  name: SearchCategoryExtension.localizedEnumTitle(
+                    searchCategory,
+                    context,
+                  ),
                 ),
               );
             }
