@@ -83,7 +83,7 @@ class NavigationService {
     return IconButton(
       onPressed: () {
         ref
-            .read(searchViewModel((SearchType.general, null)))
+            .read(searchViewModel(SearchType.general))
             .setSearchCategories(currentIndex);
         context.push(search);
       },

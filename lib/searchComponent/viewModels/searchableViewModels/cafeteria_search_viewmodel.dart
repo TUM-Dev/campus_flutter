@@ -15,7 +15,8 @@ class CafeteriaSearchViewModel implements SearchCategoryViewModel<Cafeteria> {
 
   List<Cafeteria> cafeteriaData = [];
 
-  Future cafeteriaSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -39,5 +40,10 @@ class CafeteriaSearchViewModel implements SearchCategoryViewModel<Cafeteria> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

@@ -27,7 +27,7 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
       child: TextField(
         controller: ref.watch(widget.searchVM).searchTextController,
         onChanged: (searchString) {
-          ref.read(widget.searchVM).triggerSearchAfterUpdate();
+          ref.read(widget.searchVM).search();
           setState(() {
             showIcon = ref
                 .read(widget.searchVM)

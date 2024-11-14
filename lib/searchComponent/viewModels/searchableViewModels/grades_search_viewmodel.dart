@@ -14,7 +14,8 @@ class GradesSearchViewModel implements SearchCategoryViewModel<Grade> {
 
   List<Grade> gradesData = [];
 
-  Future gradesSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -38,5 +39,10 @@ class GradesSearchViewModel implements SearchCategoryViewModel<Grade> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

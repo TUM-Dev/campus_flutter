@@ -17,7 +17,8 @@ class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
 
   List<MovieSearch> movieData = [];
 
-  Future movieSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -46,6 +47,11 @@ class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }
 

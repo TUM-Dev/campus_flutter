@@ -10,7 +10,8 @@ class PersonSearchViewModel implements SearchCategoryViewModel<Person> {
   @override
   BehaviorSubject<List<Person>?> searchResults = BehaviorSubject.seeded(null);
 
-  Future personSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -20,5 +21,10 @@ class PersonSearchViewModel implements SearchCategoryViewModel<Person> {
       },
       onError: (error) => searchResults.addError(error),
     );
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

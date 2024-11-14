@@ -17,7 +17,8 @@ class NewsSearchViewModel implements SearchCategoryViewModel<NewsSearch> {
 
   List<NewsSearch> newsData = [];
 
-  Future newsSearch({bool forcedRefresh = false, required String query}) async {
+  @override
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (newsData.isEmpty) {
       return NewsService.fetchNews(forcedRefresh).then(
         (value) {
@@ -47,6 +48,11 @@ class NewsSearchViewModel implements SearchCategoryViewModel<NewsSearch> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }
 

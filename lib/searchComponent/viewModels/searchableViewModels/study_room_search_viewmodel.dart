@@ -21,7 +21,8 @@ class StudyRoomSearchViewModel
 
   StudyRoomData? studyRoomData;
 
-  Future studyRoomSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -60,6 +61,11 @@ class StudyRoomSearchViewModel
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }
 

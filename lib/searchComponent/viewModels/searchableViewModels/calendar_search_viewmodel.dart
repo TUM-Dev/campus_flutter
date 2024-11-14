@@ -16,7 +16,8 @@ class CalendarSearchViewModel
 
   List<CalendarEvent> calendarData = [];
 
-  Future calendarSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -59,5 +60,10 @@ class CalendarSearchViewModel
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

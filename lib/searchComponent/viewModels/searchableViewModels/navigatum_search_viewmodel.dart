@@ -13,7 +13,8 @@ class NavigaTumSearchViewModel
   BehaviorSubject<List<NavigaTumNavigationEntity>?> searchResults =
       BehaviorSubject.seeded(null);
 
-  Future navigaTumSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -32,5 +33,10 @@ class NavigaTumSearchViewModel
         onError: (error) => searchResults.addError(error),
       );
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

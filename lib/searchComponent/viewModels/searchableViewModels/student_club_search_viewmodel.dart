@@ -19,7 +19,8 @@ class StudentClubSearchViewModel
 
   List<StudentClubSearch> studentClubData = [];
 
-  Future studentClubSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -46,6 +47,11 @@ class StudentClubSearchViewModel
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }
 

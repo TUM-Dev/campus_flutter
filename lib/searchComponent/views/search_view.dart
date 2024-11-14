@@ -12,7 +12,7 @@ class SearchView extends ConsumerWidget {
   const SearchView({
     super.key,
     required this.searchVM,
-    required this.showContent,
+    this.showContent = true,
   });
 
   final Provider<SearchViewModel> searchVM;
@@ -42,7 +42,7 @@ class SearchView extends ConsumerWidget {
   Widget _search(WidgetRef ref) {
     return Expanded(
       child: StreamBuilder(
-        stream: ref.watch(searchVM).result,
+        stream: ref.watch(searchVM).results,
         builder: (context, snapshot) {
           if (!snapshot.hasData &&
               ref.read(searchVM).searchTextController.text.isEmpty) {

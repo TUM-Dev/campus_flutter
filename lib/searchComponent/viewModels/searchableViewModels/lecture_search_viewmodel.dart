@@ -12,7 +12,8 @@ class LectureSearchViewModel implements SearchCategoryViewModel<Lecture> {
   @override
   BehaviorSubject<List<Lecture>?> searchResults = BehaviorSubject.seeded(null);
 
-  Future lectureSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -27,5 +28,10 @@ class LectureSearchViewModel implements SearchCategoryViewModel<Lecture> {
       },
       onError: (error) => searchResults.addError(error),
     );
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

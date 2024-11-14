@@ -16,7 +16,8 @@ class PersonalLectureSearchViewModel
 
   List<Lecture> _personalLectureData = [];
 
-  Future personalLectureSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -40,5 +41,10 @@ class PersonalLectureSearchViewModel
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }
