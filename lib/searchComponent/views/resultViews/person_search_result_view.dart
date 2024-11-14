@@ -1,20 +1,24 @@
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/personComponent/model/personSearch/person.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/person_search_viewmodel.dart';
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_card_view.dart';
+import 'package:campus_flutter/searchComponent/views/search_result_card_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class PersonSearchResultView extends ConsumerWidget {
-  const PersonSearchResultView({super.key});
+  const PersonSearchResultView({super.key, required this.searchVM});
+
+  final Provider<SearchViewModel> searchVM;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SearchResultCardView<PersonSearchViewModel, Person>(
       searchCategory: SearchCategory.persons,
-      viewModel: personSearchViewModel,
+      searchVM: searchVM,
+      searchCategoryVM: personSearchViewModel,
       body: (person) => ListTile(
         title: Text(person.fullNameWithTitle),
         trailing: const Icon(

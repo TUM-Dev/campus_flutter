@@ -92,7 +92,7 @@ class StudyRoom extends Searchable {
   }
 
   bool get isAvailable {
-    return status == "frei" || (percent != null && percent! < 100);
+    return status == "frei" || (percent != null && percent! < 1);
   }
 
   @override

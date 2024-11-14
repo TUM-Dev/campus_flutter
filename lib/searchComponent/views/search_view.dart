@@ -1,18 +1,21 @@
 import 'package:campus_flutter/base/enums/search_category.dart';
-import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_category_picker_view.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_view_builder.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_textfield_view.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/views/search_category_picker_view.dart';
+import 'package:campus_flutter/searchComponent/views/search_result_view_builder.dart';
+import 'package:campus_flutter/searchComponent/views/search_textfield_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SearchView extends ConsumerWidget {
-  SearchView({super.key, required this.showContent});
+  const SearchView({
+    super.key,
+    required this.searchVM,
+    this.showContent = true,
+  });
 
-  final TextEditingController textEditingController = TextEditingController();
-
+  final Provider<SearchViewModel> searchVM;
   final bool showContent;
 
   @override
@@ -24,10 +27,10 @@ class SearchView extends ConsumerWidget {
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SearchTextField(
-                    textEditingController: textEditingController,
+                  SearchTextField(searchVM: searchVM),
+                  SearchCategoryPickerView(
+                    searchVM: searchVM,
                   ),
-                  const SearchCategoryPickerView(),
                   _search(ref),
                 ],
               ) //)
@@ -39,9 +42,10 @@ class SearchView extends ConsumerWidget {
   Widget _search(WidgetRef ref) {
     return Expanded(
       child: StreamBuilder(
-        stream: ref.watch(searchViewModel).result,
+        stream: ref.watch(searchVM).results,
         builder: (context, snapshot) {
-          if (!snapshot.hasData && textEditingController.text.isEmpty) {
+          if (!snapshot.hasData &&
+              ref.read(searchVM).searchTextController.text.isEmpty) {
             return Center(
               child: Text(context.tr("enterQueryStart")),
             );
@@ -51,8 +55,10 @@ class SearchView extends ConsumerWidget {
               return MasonryGridView.count(
                 crossAxisCount: 2,
                 itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (context, index) =>
-                    SearchResultViewBuilder(snapshot.data![index]),
+                itemBuilder: (context, index) => SearchResultViewBuilder(
+                  searchVM: searchVM,
+                  searchCategory: snapshot.data![index],
+                ),
               );
             } else {
               return SingleChildScrollView(
@@ -61,7 +67,10 @@ class SearchView extends ConsumerWidget {
                   children: [
                     for (var result in snapshot.data ??
                         const Iterable<SearchCategory>.empty())
-                      SearchResultViewBuilder(result),
+                      SearchResultViewBuilder(
+                        searchVM: searchVM,
+                        searchCategory: result,
+                      ),
                   ],
                 ),
               );

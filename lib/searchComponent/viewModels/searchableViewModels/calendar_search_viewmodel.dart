@@ -2,20 +2,22 @@ import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_category_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 
-class CalendarSearchViewModel implements SearchViewModel<CalendarEvent> {
+class CalendarSearchViewModel
+    implements SearchCategoryViewModel<CalendarEvent> {
   @override
   BehaviorSubject<List<CalendarEvent>?> searchResults =
       BehaviorSubject.seeded(null);
 
   List<CalendarEvent> calendarData = [];
 
-  Future calendarSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -58,5 +60,10 @@ class CalendarSearchViewModel implements SearchViewModel<CalendarEvent> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

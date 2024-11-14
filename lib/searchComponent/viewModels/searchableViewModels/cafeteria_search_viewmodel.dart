@@ -2,20 +2,21 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:campus_flutter/searchComponent/protocols/global_search.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_category_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 final cafeteriaSearchViewModel = Provider((ref) => CafeteriaSearchViewModel());
 
-class CafeteriaSearchViewModel implements SearchViewModel<Cafeteria> {
+class CafeteriaSearchViewModel implements SearchCategoryViewModel<Cafeteria> {
   @override
   BehaviorSubject<List<Cafeteria>?> searchResults =
       BehaviorSubject.seeded(null);
 
   List<Cafeteria> cafeteriaData = [];
 
-  Future cafeteriaSearch({
+  @override
+  Future search({
     bool forcedRefresh = false,
     required String query,
   }) async {
@@ -39,5 +40,10 @@ class CafeteriaSearchViewModel implements SearchViewModel<Cafeteria> {
     } else {
       searchResults.add(results);
     }
+  }
+
+  @override
+  void clearSearch() {
+    searchResults.add(null);
   }
 }

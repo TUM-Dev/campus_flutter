@@ -5,24 +5,26 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
-import 'package:campus_flutter/searchComponent/protocols/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/protocols/search_category_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:campus_flutter/searchComponent/viewModels/global_search_viewmodel.dart';
-import 'package:campus_flutter/searchComponent/views/appWideSearch/search_result_details_view.dart';
+import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
+import 'package:campus_flutter/searchComponent/views/search_result_details_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
-    extends ConsumerWidget {
+class SearchResultCardView<T extends SearchCategoryViewModel<S>,
+    S extends Searchable> extends ConsumerWidget {
   const SearchResultCardView({
     super.key,
+    required this.searchVM,
+    required this.searchCategoryVM,
     required this.searchCategory,
-    required this.viewModel,
     required this.body,
   });
 
-  final Provider<SearchViewModel<S>> viewModel;
+  final Provider<SearchViewModel> searchVM;
+  final Provider<SearchCategoryViewModel<S>> searchCategoryVM;
   final SearchCategory searchCategory;
   final Widget Function(S searchable) body;
 
@@ -33,7 +35,9 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           SearchCategoryExtension.localizedEnumTitle(searchCategory, context),
       child: Card(
         child: StreamBuilder(
-          stream: ref.watch<SearchViewModel<S>>(viewModel).searchResults,
+          stream: ref
+              .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
+              .searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
@@ -88,10 +92,12 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
                 ),
               );
             } else {
-              return DelayedLoadingIndicator(
-                name: SearchCategoryExtension.localizedEnumTitle(
-                  searchCategory,
-                  context,
+              return ListTile(
+                title: DelayedLoadingIndicator(
+                  name: SearchCategoryExtension.localizedEnumTitle(
+                    searchCategory,
+                    context,
+                  ),
                 ),
               );
             }
@@ -102,8 +108,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
   }
 
   int _calculateItemLength(List<S>? data, WidgetRef ref) {
-    final selectedCategories =
-        ref.read(searchViewModel).selectedCategories.value;
+    final selectedCategories = ref.read(searchVM).selectedCategories.value;
     if (selectedCategories.contains(searchCategory) &&
         selectedCategories.length == 1) {
       return (data!.length >= 9 ? 9 : data.length) + 1;
@@ -121,7 +126,7 @@ class SearchResultCardView<T extends SearchViewModel<S>, S extends Searchable>
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
-      // TODO: figure out for multiple attributes
+      // TODO(@jakobkoerber): figure out for multiple attributes
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(

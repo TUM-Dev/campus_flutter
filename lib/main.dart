@@ -130,8 +130,7 @@ class CampusApp extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
 }
 
-class _CampusAppState extends ConsumerState<CampusApp>
-    with AutomaticKeepAliveClientMixin {
+class _CampusAppState extends ConsumerState<CampusApp> {
   late QuickActions quickActions;
 
   @override
@@ -146,7 +145,6 @@ class _CampusAppState extends ConsumerState<CampusApp>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return MaterialApp.router(
       title: "TUM Campus App",
       debugShowCheckedModeBanner: false,
@@ -235,7 +233,4 @@ class _CampusAppState extends ConsumerState<CampusApp>
       }
     });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

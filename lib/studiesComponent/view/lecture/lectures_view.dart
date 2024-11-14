@@ -16,8 +16,7 @@ class LecturesView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _LecturesViewState();
 }
 
-class _LecturesViewState extends ConsumerState<LecturesView>
-    with AutomaticKeepAliveClientMixin<LecturesView> {
+class _LecturesViewState extends ConsumerState<LecturesView> {
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -28,7 +27,6 @@ class _LecturesViewState extends ConsumerState<LecturesView>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return StreamBuilder(
       stream: ref.watch(lectureViewModel).lectures,
       builder: (context, snapshot) {
@@ -106,7 +104,4 @@ class _LecturesViewState extends ConsumerState<LecturesView>
       );
     }
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

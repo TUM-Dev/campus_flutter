@@ -37,12 +37,15 @@ const menuSettings = "/menu+settings";
 const feedback = "$menuSettings/feedback";
 const feedbackSuccess = "$feedback/success";
 
-/// General
+/// Search
 const search = "/search";
+const roomSearch = "/roomSearch";
+const personSearch = "/personSearch";
+
+/// General
 const navigaTum = "/navigaTum";
 const personDetails = "/personDetails";
 const cafeteria = "/cafeteria";
 const studyRoom = "/studyRoom";
 const networkImage = "/networkImage";
 const localeImage = "/localeImage";
-const roomSearch = "/roomSearch";
