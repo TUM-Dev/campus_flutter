@@ -202,10 +202,10 @@ packages:
     dependency: transitive
     description:
       name: charcode
-      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
+      sha256: fb0f1107cac15a5ea6ef0a6ef71a807b9e4267c713bb93e00e92d737cc8dbd8a
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.1"
+    version: "1.4.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -494,10 +494,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_native_splash
-      sha256: ee5c9bd2b74ea8676442fd4ab876b5d41681df49276488854d6c81a5377c0ef1
+      sha256: "1152ab0067ca5a2ebeb862fe0a762057202cceb22b7e62692dcbabf6483891bb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -574,10 +574,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: "578bd8c508144fdaffd4f77b8ef2d8c523602275cd697cc3db284dbd762ef4ce"
+      sha256: "936d9c1c010d3e234d1672574636f3352b4941ca3decaddd3cafaeb9ad49c471"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.14"
+    version: "2.0.15"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -600,10 +600,10 @@ packages:
     dependency: "direct main"
     description:
       name: geolocator
-      sha256: "0ec58b731776bc43097fcf751f79681b6a8f6d3bc737c94779fe9f1ad73c1a81"
+      sha256: d2ec66329cab29cb297d51d96c067d457ca519dca8589665fa0b82ebacb7dbe4
       url: "https://pub.dev"
     source: hosted
-    version: "13.0.1"
+    version: "13.0.2"
   geolocator_android:
     dependency: transitive
     description:
@@ -616,10 +616,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_apple
-      sha256: f47bca50d7f564bc342aac311a050ea0de7d0b6b7bbcf3948b22b1b61874ebd3
+      sha256: "6154ea2682563f69fc0125762ed7e91e7ed85d0b9776595653be33918e064807"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.8"
+    version: "2.3.8+1"
   geolocator_platform_interface:
     dependency: transitive
     description:
@@ -672,10 +672,10 @@ packages:
     dependency: transitive
     description:
       name: google_identity_services_web
-      sha256: "304e2a4c25d84c287df6d7ebf5b93d8bbd4ceb817d96c2686d44f6a346f227b6"
+      sha256: "55580f436822d64c8ff9a77e37d61f5fb1e6c7ec9d632a43ee324e2a05c3c6c9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+5"
+    version: "0.3.3"
   google_maps:
     dependency: transitive
     description:
@@ -688,10 +688,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_maps_flutter
-      sha256: "2e302fa3aaf4e2a297f0342d83ebc5e8e9f826e9a716aef473fe7f404ec630a7"
+      sha256: "209856c8e5571626afba7182cf634b2910069dc567954e76ec3e3fb37f5e9db3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.10.0"
   google_maps_flutter_android:
     dependency: transitive
     description:
@@ -841,10 +841,10 @@ packages:
     dependency: "direct main"
     description:
       name: json_serializable
-      sha256: ea1432d167339ea9b5bb153f0571d0039607a873d6e04e0117af043f14a1fd4b
+      sha256: c2fcb3920cf2b6ae6845954186420fca40bc0a8abcc84903b7801f17d7050d7c
       url: "https://pub.dev"
     source: hosted
-    version: "6.8.0"
+    version: "6.9.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -1081,10 +1081,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_html
-      sha256: af26edbbb1f2674af65a8f4b56e1a6f526156bc273d0e65dd8075fab51c78851
+      sha256: "38f000e83355abb3392140f6bc3030660cfaef189e1f87824facb76300b4ff24"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.3+2"
+    version: "0.1.3+5"
   permission_handler_platform_interface:
     dependency: transitive
     description:
@@ -1486,34 +1486,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "769d3bbf8743922d74b242a968366661bd7b2973b3d34af9b9bc865874a520d9"
+      sha256: "00703dd2e154ad534e7e898958f1e4c1573b15a19448c0b183365f4b9779f054"
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.58"
+    version: "27.2.2"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: e97025be6a68d358463dcf0a83b3c600c52e14574c754b331aac5d1cbb86c759
+      sha256: f14547b70ad0a662d1f65e8fb79b7178b0dea439d3fc9cb13da8aa4714fecb96
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.58"
+    version: "27.2.2"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "31d2ddf410ee41abb3ecf85b7b6e8e1563307ad52ee784ddd91337e30280f715"
+      sha256: "225b1cc135549bb4eef096d63b7323c30ee61c4b095c7e8a14bf9333e243d84b"
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.58"
+    version: "27.2.2"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: e25797401bec43cd64c475150f87150e8bc3e67212d4d1273ff35483ea793a8b
+      sha256: e2e2a97b033390f0791316c6019743991aa598563d09f603ba13230cd50b8905
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.58"
+    version: "27.2.2"
   synchronized:
     dependency: transitive
     description:
@@ -1670,10 +1670,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "773c9522d66d523e1c7b25dfb95cc91c26a1e17b107039cfe147285e92de7878"
+      sha256: "27d5fefe86fb9aace4a9f8375b56b3c292b64d8c04510df230f849850d912cb7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.14"
+    version: "1.1.15"
   vector_graphics_codec:
     dependency: transitive
     description:
@@ -1718,10 +1718,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_avfoundation
-      sha256: cd5ab8a8bc0eab65ab0cea40304097edc46da574c8c1ecdee96f28cd8ef3792f
+      sha256: "0b146e5d82e886ff43e5a46c6bcbe390761b802864a6e2503eb612d69a405dfa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.2"
+    version: "2.6.3"
   video_player_platform_interface:
     dependency: transitive
     description:
