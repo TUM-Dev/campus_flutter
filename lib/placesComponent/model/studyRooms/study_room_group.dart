@@ -21,14 +21,26 @@ class StudyRoomGroup extends Searchable {
   @JsonKey(name: "opening_hours", readValue: readListValue)
   final List<StudyRoomOpeningHours> openingHours;
 
-  List<String>? get openToday {
+  (String, String)? get openToday {
     final currentDay = DateTime.now().weekday;
     for (var openingHour in openingHours) {
       if (openingHour.days.contains(currentDay)) {
-        return [openingHour.startString, openingHour.endString];
+        return (openingHour.startString, openingHour.endString);
       }
     }
     return null;
+  }
+
+  bool get isOpen {
+    final now = DateTime.now();
+    final currentDay = now.weekday;
+    for (var openingHour in openingHours) {
+      if (openingHour.days.contains(currentDay)) {
+        return now.hour >= openingHour.startTime &&
+            now.hour <= openingHour.endTime;
+      }
+    }
+    return false;
   }
 
   LatLng? get coordinate {

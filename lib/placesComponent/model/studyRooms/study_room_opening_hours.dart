@@ -30,6 +30,10 @@ class StudyRoomOpeningHours {
 
   String get endString => end.substring(0, end.length - 3);
 
+  int get startTime => int.parse(start.substring(0, 2));
+
+  int get endTime => int.parse(end.substring(0, 2));
+
   StudyRoomOpeningHours({
     required this.daysString,
     required this.daysBitMask,

@@ -149,7 +149,11 @@ class StudyRoomGroupView extends ConsumerWidget {
             studyRoomGroup?.openToday != null
                 ? context.tr(
                     "open",
-                    args: [context.tr("today"), ...studyRoomGroup!.openToday!],
+                    args: [
+                      context.tr("today").toLowerCase(),
+                      studyRoomGroup!.openToday!.$1,
+                      studyRoomGroup!.openToday!.$2,
+                    ],
                   )
                 : context.tr("closedToday"),
           ),
