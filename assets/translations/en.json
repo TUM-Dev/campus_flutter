@@ -104,7 +104,7 @@
   "roomDetails": "Room Details",
   "building": "Building",
   "nFreeRooms": {
-    "zero": "no free rooms",
+    "zero": "No free rooms",
     "one": "1 free room",
     "other": "{} free rooms"
   },
@@ -139,8 +139,9 @@
   "openingHours": "Opening Hours",
   "open": "Open {} from {} - {}",
   "closed": "Closed",
+  "currentlyClosed": "Currently closed",
   "closedOn": "Closed on {}",
-  "closedToday": "Closed Today",
+  "closedToday": "Closed today",
   "submitFeedback": "Submit Feedback",
   "name": "Name",
   "message": "Message",

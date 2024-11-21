@@ -166,10 +166,17 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   }
 
   Widget _freeRooms(StudyRoomGroup studyRoomGroup) {
-    final freeRooms = ref.read(studyRoomsViewModel).freeRooms(studyRoomGroup);
-    return Text(
-      context.plural("nFreeRooms", freeRooms),
-      style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red),
-    );
+    if (studyRoomGroup.isOpen) {
+      final freeRooms = ref.read(studyRoomsViewModel).freeRooms(studyRoomGroup);
+      return Text(
+        context.plural("nFreeRooms", freeRooms),
+        style: TextStyle(color: freeRooms > 0 ? Colors.green : Colors.red),
+      );
+    } else {
+      return Text(
+        context.tr("currentlyClosed"),
+        style: TextStyle(color: Colors.red),
+      );
+    }
   }
 }

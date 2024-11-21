@@ -139,6 +139,7 @@
   "openingHours": "Öffnungszeiten",
   "open": "{} offen von {} - {}",
   "closed": "Geschlossen",
+  "currentlyClosed": "Aktuell geschlossen",
   "closedOn": "{} geschlossen",
   "closedToday": "Heute geschlossen",
   "submitFeedback": "Feedback einreichen",
