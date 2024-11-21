@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/enums/device.dart';
+import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
@@ -13,15 +15,11 @@ class PlacesView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        if (orientation == Orientation.landscape) {
-          return _landscapeOrientation(context, ref);
-        } else {
-          return _portraitOrientation(context, ref);
-        }
-      },
-    );
+    if (DeviceService.getType(context) == Device.phone) {
+      return _portraitOrientation(context, ref);
+    } else {
+      return _landscapeOrientation(context, ref);
+    }
   }
 
   Widget _landscapeOrientation(BuildContext context, WidgetRef ref) {
@@ -58,7 +56,10 @@ class PlacesView extends ConsumerWidget {
         const PaddedDivider(),
         Expanded(
           child: GridView.count(
-            crossAxisCount: 3,
+            crossAxisCount:
+                DeviceService.getType(context) == Device.landscapeTablet
+                    ? 3
+                    : 2,
             childAspectRatio: 1.5,
             mainAxisSpacing: context.padding,
             crossAxisSpacing: context.padding,
