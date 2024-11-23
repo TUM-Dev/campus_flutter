@@ -77,7 +77,8 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
-                    calendarEvent.location ?? context.tr("unknown"),
+                    calendarEvent.locations.firstOrNull ??
+                        context.tr("unknown"),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelSmall,

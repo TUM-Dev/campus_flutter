@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/theme/constants.dart';
+import 'package:campus_flutter/base/util/read_list_value.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,7 +20,8 @@ class CalendarEvent extends Searchable {
   final DateTime startDate;
   @JsonKey(name: "dtend")
   final DateTime endDate;
-  final String? location;
+  @JsonKey(readValue: readListValue)
+  final List<String> locations;
 
   int? color;
   bool? isVisible;
@@ -84,7 +86,8 @@ class CalendarEvent extends Searchable {
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
         if (title != null) ComparisonToken(value: title!),
-        if (location != null) ComparisonToken(value: location!),
+        if (locations.isNotEmpty)
+          for (var location in locations) ComparisonToken(value: location),
       ];
 
   CalendarEvent({
@@ -95,7 +98,7 @@ class CalendarEvent extends Searchable {
     this.description,
     required this.startDate,
     required this.endDate,
-    this.location,
+    required this.locations,
     this.color,
   });
 
