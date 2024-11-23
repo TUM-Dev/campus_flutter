@@ -54,7 +54,7 @@ class BasicLectureInfoView extends ConsumerWidget {
               ),
             ),
           ),
-        if (lecture?.speaker == null)
+        if (lecture?.speaker == null && lectureDetails.speaker != null)
           BasicLectureInfoRowView(
             information: Speaker.getSpeakerName(lectureDetails.speaker!),
             iconData: Icons.person,
