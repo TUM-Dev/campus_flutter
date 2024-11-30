@@ -81,7 +81,9 @@ class SettingsView extends ConsumerWidget {
 
   Widget _resetPreferencesButton(BuildContext context, WidgetRef ref) {
     return ListTile(
-      onTap: () => ref.read(onboardingViewModel).resetPreferences(ref),
+      onTap: () => context.mounted
+          ? ref.read(onboardingViewModel).resetPreferences(ref)
+          : null,
       dense: true,
       title: Text(
         context.tr("resetPreferences"),
