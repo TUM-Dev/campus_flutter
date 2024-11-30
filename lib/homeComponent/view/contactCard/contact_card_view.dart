@@ -113,7 +113,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
   }
 
   ImageProvider<Object> imageData(AsyncSnapshot<List<StudentCard>?> snapshot) {
-    if (snapshot.hasData) {
+    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
       return Image.memory(
         base64DecodeImageData(snapshot.data!.first.image),
       ).image;

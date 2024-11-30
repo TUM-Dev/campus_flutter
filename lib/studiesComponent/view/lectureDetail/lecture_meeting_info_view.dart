@@ -24,13 +24,13 @@ class LectureMeetingInfoView extends ConsumerWidget {
           iconData: Icons.hourglass_top,
         ),
         BasicLectureInfoRowView(
-          information:
-              ref.read(viewModel).event!.location ?? context.tr("unknown"),
+          information: ref.read(viewModel).event!.locations.firstOrNull ??
+              context.tr("unknown"),
           iconData: Icons.location_on,
           trailingWidget: IconButton(
             onPressed: () => context.push(
               roomSearch,
-              extra: ref.read(viewModel).event!.location,
+              extra: ref.read(viewModel).event!.locations.firstOrNull,
             ),
             icon: Icon(
               Icons.search,

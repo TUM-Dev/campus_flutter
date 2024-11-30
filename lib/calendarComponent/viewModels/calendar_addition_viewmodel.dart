@@ -143,6 +143,7 @@ class CalendarAdditionViewModel {
               title: titleController.text,
               startDate: from.value,
               endDate: to.value,
+              locations: [],
             ),
           );
     }

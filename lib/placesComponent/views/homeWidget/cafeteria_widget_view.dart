@@ -56,19 +56,22 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                   Icons.filter_list,
                   color: context.primaryColor,
                 ),
-                onTap: () => showModalBottomSheet(
-                  builder: (context) => PreferenceSelectionView<Cafeteria>(
-                    data: ref
-                        .read(cafeteriasViewModel)
-                        .getCafeteriaEntries(context),
-                    entry: context.tr("cafeteria"),
-                  ),
-                  context: context,
-                  useRootNavigator: true,
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  showDragHandle: true,
-                ),
+                onTap: () => context.mounted
+                    ? showModalBottomSheet(
+                        builder: (context) =>
+                            PreferenceSelectionView<Cafeteria>(
+                          data: ref
+                              .read(cafeteriasViewModel)
+                              .getCafeteriaEntries(context),
+                          entry: context.tr("cafeteria"),
+                        ),
+                        context: context,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        showDragHandle: true,
+                      )
+                    : null,
               ),
             ],
           ),

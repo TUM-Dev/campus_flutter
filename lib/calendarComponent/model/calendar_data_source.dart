@@ -34,7 +34,8 @@ class MeetingDataSource extends CalendarDataSource {
   @override
   String getSubject(int index) {
     final calendarEvent = cast<CalendarEvent>(appointments![index])!;
-    return "${calendarEvent.title}\n${calendarEvent.location ?? ""}";
+    final location = calendarEvent.locations.firstOrNull ?? "";
+    return "${calendarEvent.title}\n$location";
   }
 
   @override

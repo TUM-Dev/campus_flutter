@@ -194,10 +194,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
               ),
               onTap: () => context.push(
                 roomSearch,
-                extra: (
-                  personDetails.rooms.first.id,
-                  null,
-                ),
+                extra: personDetails.rooms.first.id,
               ),
             ),
             ListTile(

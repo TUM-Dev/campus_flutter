@@ -106,8 +106,8 @@ class EventCreationView extends ConsumerWidget {
                       .read(calendarAdditionViewModel(calendarEvent))
                       .saveEvent()
                       .then((value) {
-                    ref.invalidate(calendarAdditionViewModel);
                     if (context.mounted) {
+                      ref.invalidate(calendarAdditionViewModel);
                       context.canPop() ? context.pop() : context.go(calendar);
                     }
                   })

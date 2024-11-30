@@ -37,7 +37,8 @@ class CalendarSearchResultView extends ConsumerWidget {
             ),
             IconText(
               iconData: Icons.location_pin,
-              label: calendarEvent.location ?? context.tr("unknown"),
+              label:
+                  calendarEvent.locations.firstOrNull ?? context.tr("unknown"),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
