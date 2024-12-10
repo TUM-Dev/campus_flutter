@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
+import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_loading_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
@@ -67,13 +69,14 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "StudentCard".toUpperCase(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
+                if (DeviceService.getType(context) == Device.phone)
+                  Text(
+                    "StudentCard".toUpperCase(),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
                 Text(
                   data?.fullName ?? profile.fullName,
                   style: Theme.of(context).textTheme.headlineSmall,

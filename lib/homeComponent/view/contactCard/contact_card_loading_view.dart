@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/enums/device.dart';
+import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/placeholder_text.dart';
 import 'package:campus_flutter/base/util/shimmer_view.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_view.dart';
@@ -20,15 +22,16 @@ class ContactCardLoadingView extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ShimmerView(
-                child: PlaceholderText(
-                  text: "StudentCard".toUpperCase(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w700,
-                      ),
+              if (DeviceService.getType(context) == Device.phone)
+                ShimmerView(
+                  child: PlaceholderText(
+                    text: "StudentCard".toUpperCase(),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
                 ),
-              ),
               ShimmerView(
                 child: PlaceholderText(
                   text: "Max Mustermann",
