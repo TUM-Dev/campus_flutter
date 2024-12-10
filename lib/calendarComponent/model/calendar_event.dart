@@ -20,7 +20,7 @@ class CalendarEvent extends Searchable {
   final DateTime startDate;
   @JsonKey(name: "dtend")
   final DateTime endDate;
-  @JsonKey(readValue: readListValue)
+  @JsonKey(name: "location", readValue: readListValue)
   final List<String> locations;
 
   int? color;

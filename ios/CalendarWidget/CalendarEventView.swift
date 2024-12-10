@@ -51,15 +51,16 @@ struct CalendarEventView: View {
                 
                 let timeText = "\(timeFormatter.string(from: event.startDate)) - \(timeFormatter.string(from: event.endDate))"
                 
-                if (event.location != nil) {
-                    Text("\(timeText) | \(event.location!)")
-                        .font(.caption2)
-                        .lineLimit(1)
-                } else {
-                    Text(timeText)
-                        .font(.caption2)
-                        .lineLimit(1)
+                Group {
+                    if (event.location.isEmpty == false) {
+                        let locationText = event.location.first ?? String(localized: "Unknown")
+                        Text("\(timeText) | \(locationText)")
+                    } else {
+                        Text(timeText)
+                    }
                 }
+                .font(.caption2)
+                .lineLimit(1)
             }
             .padding(6)
             .widgetAccentable(false)

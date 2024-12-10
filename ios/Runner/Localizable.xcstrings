@@ -100,6 +100,16 @@
           }
         }
       }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannt"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

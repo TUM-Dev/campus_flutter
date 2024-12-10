@@ -23,7 +23,7 @@ data class WidgetCalendarItem(
     @Serializable(with = DateTimeSerializer::class)
     @SerialName("dtend")
     val endDate: LocalDateTime,
-    val location: String? = null,
+    val location: List<String>? = null,
     val color: Long? = null,
     val isVisible: Boolean? = null,
     var isFirstOnDay: Boolean = false

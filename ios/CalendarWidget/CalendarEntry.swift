@@ -14,7 +14,7 @@ struct CalendarEntry: Codable, Identifiable {
     let status: String
     let startDate: Date
     let endDate: Date
-    let location: String?
+    let location: [String]
     let color: Int?
     
     enum CodingKeys: String, CodingKey {
