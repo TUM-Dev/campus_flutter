@@ -101,7 +101,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         stream: ref.watch(studentCardViewModel).studentCard,
         builder: (context, snapshot) {
           if (snapshot.hasData || snapshot.hasError) {
-            return image(snapshot.data?.first.image);
+            return image(snapshot.data?.firstOrNull?.image);
           } else {
             return SizedBox(height: contactImageSize, width: contactImageSize);
           }
