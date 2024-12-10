@@ -11,6 +11,7 @@
     <string name="MINUTES">Minuten</string>
     <string name="just_now">Gerade eben</string>
     <string name="yesterday">Gestern</string>
+    <string name="unknown">Unbekannt</string>
     <plurals name="yearsAgo">
         <item quantity="one">Vor %d Jahr</item>
         <item quantity="other">Vor %d Jahren</item>

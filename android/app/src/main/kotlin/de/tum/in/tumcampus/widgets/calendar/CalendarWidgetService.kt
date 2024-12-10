@@ -114,7 +114,11 @@ class CalendarWidgetService : RemoteViewsService() {
             remoteViews.setTextViewText(R.id.calendar_widget_event_time, eventTime)
 
             // Setup event location
-            remoteViews.setTextViewText(R.id.calendar_widget_event_location, currentItem.location)
+            if (currentItem.location?.isNotEmpty() == true) {
+                val locationText = currentItem.location.firstOrNull()
+                    ?: applicationContext.getString(R.string.unknown)
+                remoteViews.setTextViewText(R.id.calendar_widget_event_location, locationText)
+            }
 
             // Setup action to open calendar
             val fillInIntent = Intent().apply {
