@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final useWebView = StateProvider<bool>((ref) => true);
+final showStudentCardPicture = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
 final showWeekends = StateProvider<bool>((ref) => false);
 final showHiddenCalendarEntries = StateProvider<bool>((ref) => false);

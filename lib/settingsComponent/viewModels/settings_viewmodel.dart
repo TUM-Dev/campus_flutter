@@ -30,6 +30,8 @@ class SettingsViewModel {
                   Appearance.values[value as int];
             case UserPreference.browser:
               ref.read(useWebView.notifier).state = value as bool;
+            case UserPreference.studentCardPicture:
+              ref.read(showStudentCardPicture.notifier).state = value as bool;
             case UserPreference.failedGrades:
               ref.read(hideFailedGrades.notifier).state = value as bool;
             case UserPreference.weekends:
@@ -53,6 +55,8 @@ class SettingsViewModel {
         value = value.index;
       case UserPreference.browser:
         ref.read(useWebView.notifier).state = value as bool;
+      case UserPreference.studentCardPicture:
+        ref.read(showStudentCardPicture.notifier).state = value as bool;
       case UserPreference.failedGrades:
         ref.read(hideFailedGrades.notifier).state = value as bool;
       case UserPreference.weekends:

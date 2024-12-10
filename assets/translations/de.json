@@ -233,5 +233,6 @@
   "suggested": "Interessante {}",
   "more": "Mehr",
   "visibility": "Sichtbarkeit",
-  "utilizationAt": "Auslastung bei {}%"
+  "utilizationAt": "Auslastung bei {}%",
+  "showStudentCardPicture": "Student Card Bild zeigen"
 }

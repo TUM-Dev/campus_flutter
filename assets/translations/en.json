@@ -233,5 +233,6 @@
   "suggested": "Suggested {}",
   "more": "More",
   "visibility": "Visibility",
-  "utilizationAt": "Utilization at {}%"
+  "utilizationAt": "Utilization at {}%",
+  "showStudentCardPicture": "Show Student Card Picture"
 }
