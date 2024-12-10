@@ -6,6 +6,7 @@ enum UserPreference {
   theme(int),
   calendarColors(String),
   browser(bool),
+  studentCardPicture(bool),
   failedGrades(bool),
   weekends(bool),
   hiddenCalendarEntries(bool),

@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
+import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/main.dart';
@@ -22,6 +23,7 @@ class AppearanceSettingsView extends ConsumerWidget {
           widgets: [
             _appearanceSelection(context, ref),
             _useWebView(context, ref),
+            _showStudentCardPicture(context, ref),
             _hideFailedGrades(context, ref),
           ],
         ),
@@ -66,6 +68,26 @@ class AppearanceSettingsView extends ConsumerWidget {
                 showWebView,
               );
           ref.read(useWebView.notifier).state = showWebView;
+        },
+      ),
+    );
+  }
+
+  Widget _showStudentCardPicture(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(
+        context.tr("showStudentCardPicture"),
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: Switch(
+        value: ref.watch(showStudentCardPicture),
+        onChanged: (value) {
+          ref.read(settingsViewModel).savePreference(
+                UserPreference.studentCardPicture,
+                value,
+              );
+          ref.read(profileViewModel).fetch(false);
         },
       ),
     );

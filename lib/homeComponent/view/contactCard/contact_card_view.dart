@@ -6,7 +6,7 @@ import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
 import 'package:campus_flutter/personComponent/model/profile/profile.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
-import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
+import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
-          profilePicture(),
+          profilePicture(data),
           const Padding(padding: EdgeInsets.only(left: 15)),
           Expanded(
             child: Column(
@@ -95,27 +95,35 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
     );
   }
 
-  Widget profilePicture() {
-    return StreamBuilder(
-      stream: ref.watch(studentCardViewModel).studentCard,
-      builder: (context, snapshot) {
-        if (snapshot.hasData || snapshot.hasError) {
-          return CircleAvatar(
-            backgroundImage: imageData(snapshot),
-            backgroundColor: Theme.of(context).cardTheme.color,
-            radius: contactImageSize / 2,
-          );
-        } else {
-          return SizedBox(height: contactImageSize, width: contactImageSize);
-        }
-      },
+  Widget profilePicture(PersonDetails? data) {
+    if (ref.read(showStudentCardPicture)) {
+      return StreamBuilder(
+        stream: ref.watch(studentCardViewModel).studentCard,
+        builder: (context, snapshot) {
+          if (snapshot.hasData || snapshot.hasError) {
+            return image(snapshot.data?.first.image);
+          } else {
+            return SizedBox(height: contactImageSize, width: contactImageSize);
+          }
+        },
+      );
+    } else {
+      return image(data?.imageData);
+    }
+  }
+
+  Widget image(String? imageData) {
+    return CircleAvatar(
+      backgroundImage: provideImage(imageData),
+      backgroundColor: Theme.of(context).cardTheme.color,
+      radius: contactImageSize / 2,
     );
   }
 
-  ImageProvider<Object> imageData(AsyncSnapshot<List<StudentCard>?> snapshot) {
-    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+  ImageProvider<Object> provideImage(String? imageData) {
+    if (imageData != null) {
       return Image.memory(
-        base64DecodeImageData(snapshot.data!.first.image),
+        base64DecodeImageData(imageData),
       ).image;
     } else {
       return const AssetImage(

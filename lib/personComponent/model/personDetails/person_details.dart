@@ -1,10 +1,9 @@
+import 'package:campus_flutter/base/enums/gender.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/contact_info.dart';
+import 'package:campus_flutter/personComponent/model/personDetails/organisation.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/phone_extension.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/room.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../../base/enums/gender.dart';
-import 'organisation.dart';
 
 part 'person_details.g.dart';
 
