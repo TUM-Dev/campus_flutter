@@ -60,8 +60,6 @@ extension SearchCategoryExtension on SearchCategory {
         return context.tr("rooms");
       case SearchCategory.studentClub:
         return "Student Clubs";
-      default:
-        return context.tr("unknown");
     }
   }
 

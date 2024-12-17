@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/extensions/color.dart';
 import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/base/util/read_list_value.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
@@ -77,7 +78,7 @@ class CalendarEvent extends Searchable {
   }
 
   void setColor(Color? color) {
-    this.color = color?.value;
+    this.color = color?.intValue;
   }
 
   Color getColor() {
