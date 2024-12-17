@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "TUM Campus App"
 publish_to: 'none'
-version: 5.1.3+1
+version: 5.1.4+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -38,10 +38,10 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_core: ^27.1.48
-  syncfusion_flutter_calendar: ^27.1.48
-  syncfusion_flutter_charts: ^27.1.48
-  syncfusion_flutter_datepicker: ^27.1.48
+  syncfusion_flutter_core: ^28.1.33
+  syncfusion_flutter_calendar: ^28.1.33
+  syncfusion_flutter_charts: ^28.1.33
+  syncfusion_flutter_datepicker: ^28.1.33
   google_maps_flutter: ^2.5.3
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
