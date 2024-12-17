@@ -1,8 +1,7 @@
 import 'package:campus_flutter/base/extensions/string_remove_diacritics.dart';
 import 'package:campus_flutter/base/extensions/string_valid_chars.dart';
+import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../model/comparison_token.dart';
 
 abstract class Searchable {
   @JsonKey(includeFromJson: false, includeToJson: false)
