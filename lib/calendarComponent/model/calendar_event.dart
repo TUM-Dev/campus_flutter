@@ -35,7 +35,11 @@ class CalendarEvent extends Searchable {
   }
 
   String get timePeriod {
-    return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
+    return "${DateFormat.Hm().format(
+      startDate,
+    )} - ${DateFormat.Hm().format(
+      endDate,
+    )}";
   }
 
   String _dateTimePeriod(BuildContext context) {
@@ -65,6 +69,11 @@ class CalendarEvent extends Searchable {
 
   bool get isCanceled {
     return status == "CANCEL";
+  }
+
+  String get subject {
+    final location = locations.firstOrNull ?? "";
+    return "$title\n$location";
   }
 
   void setColor(Color? color) {
