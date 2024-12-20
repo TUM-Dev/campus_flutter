@@ -78,7 +78,7 @@ class StudentCardView extends ConsumerWidget {
   Widget _warningCard(BuildContext context) {
     return CardWithPadding(
       elevation: 0,
-      color: context.primaryColor.withOpacity(0.2),
+      color: context.primaryColor.withValues(alpha: 0.2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

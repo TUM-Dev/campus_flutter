@@ -49,8 +49,6 @@ class SearchResultViewBuilder extends StatelessWidget {
         return PersonSearchResultView(searchVM: searchVM);
       case SearchCategory.rooms:
         return NavigaTumSearchResultView(searchVM: searchVM);
-      default:
-        return Container();
     }
   }
 }
