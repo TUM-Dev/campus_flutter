@@ -9,7 +9,7 @@ PODS:
   - Firebase/RemoteConfig (11.4.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 11.4.0)
-  - firebase_core (3.8.1):
+  - firebase_core (3.9.0):
     - Firebase/CoreOnly (= 11.4.0)
     - Flutter
   - firebase_crashlytics (4.2.0):
@@ -136,7 +136,7 @@ PODS:
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
     - FlutterMacOS
-    - sqlite3 (~> 3.47.1)
+    - sqlite3 (~> 3.47.2)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
     - sqlite3/perf-threadsafe
@@ -236,7 +236,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
-  firebase_core: 418aed674e9a0b8b6088aec16cde82a811f6261f
+  firebase_core: b62a5080210edad3f2934314a8b2c6f5124e8e10
   firebase_crashlytics: 757e252772ed3dd37c07638f9fcd4dceb5f101c8
   firebase_remote_config: 015a36be218a38943c2273d63b33bc983b3d7bb6
   FirebaseABTesting: aef1719704fade00b200827e7973f352efc4caee
@@ -270,7 +270,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   sqlite3: 7559e33dae4c78538df563795af3a86fc887ee71
-  sqlite3_flutter_libs: 1b4e98da20ebd4e9b1240269b78cdcf492dbe9f3
+  sqlite3_flutter_libs: 58ae36c0dd086395d066b4fe4de9cdca83e717b3
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
 
