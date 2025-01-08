@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: daa1d780fdecf8af925680c06c86563cdd445deea995d5c9176f1302a2b10bbe
+      sha256: "27899c95f9e7ec06c8310e6e0eac967707714b9f1450c4a58fa00ca011a4a8ae"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.48"
+    version: "1.3.49"
   _macros:
     dependency: transitive
     description: dart
@@ -370,10 +370,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "15d761b95dfa2906dfcc31b7fc6fe293188533d1a3ffe78389ba9e69bd7fdbde"
+      sha256: "0307c1fde82e2b8b97e0be2dab93612aff9a72f31ebe9bfac66ed8b37ef7c568"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.0"
+    version: "3.10.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -394,42 +394,42 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_crashlytics
-      sha256: e235c8452d5622fc271404592388fde179e4b62c50e777ad3c8c3369296104ed
+      sha256: f6adb65fa3d6391a79f0e60833bb4cdc468ce0c318831c90057ee11e0909cd29
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "4.3.0"
   firebase_crashlytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_crashlytics_platform_interface
-      sha256: "4ddadf44ed0a202f3acad053f12c083877940fa8cc1a9f747ae09e1ef4372160"
+      sha256: "6635166c22c6f75f634b8e77b70fcc43b24af4cfee28f975249dbdbd9769a702"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.0"
+    version: "3.8.0"
   firebase_remote_config:
     dependency: "direct main"
     description:
       name: firebase_remote_config
-      sha256: e377fd519e73baf5afae343da8c8a0a88b506cfbf2ea8ceb7614a8793d9a7083
+      sha256: "1ddeee5055a6fd2295429b8cc3019d5f422c60c77fd22156a789aa6446645595"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0"
+    version: "5.3.0"
   firebase_remote_config_platform_interface:
     dependency: transitive
     description:
       name: firebase_remote_config_platform_interface
-      sha256: "95755bcab41c7c9c28ac92aefc1eb4c79ffcc7565e94833cb1e7a2c9320ba53f"
+      sha256: a17a43aa27f860a4e13c2cea11f66d71584976c5b9aa59b0e1720b8435d14764
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.47"
+    version: "1.4.48"
   firebase_remote_config_web:
     dependency: transitive
     description:
       name: firebase_remote_config_web
-      sha256: "09ff1f3db2120e798530354dd77c49e6596d88eadcfe366eb3a083c2dd5d7cb0"
+      sha256: a85a95d6cc0692b82663acf3b0c312f219c55fbdf8ce997922ab862e64945415
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.5"
+    version: "1.7.6"
   fixnum:
     dependency: transitive
     description:
@@ -656,10 +656,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "2fd11229f59e23e967b0775df8d5948a519cd7e1e8b6e849729e010587b46539"
+      sha256: "7c2d40b59890a929824f30d442e810116caf5088482629c894b9e4478c67472d"
       url: "https://pub.dev"
     source: hosted
-    version: "14.6.2"
+    version: "14.6.3"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -1145,10 +1145,10 @@ packages:
     dependency: transitive
     description:
       name: pubspec_parse
-      sha256: "81876843eb50dc2e1e5b151792c9a985c5ed2536914115ed04e9c8528f6647b0"
+      sha256: "0560ba233314abbed0a48a2956f7f022cce7c3e1e73df540277da7544cad4082"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0"
   qr:
     dependency: transitive
     description:
@@ -1478,34 +1478,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: f817bd4ee96c4d34dd98d11c80be8703e8cea7e1dda13a99f5a8ee1e5cdc9b70
+      sha256: d03cab85998b3cb95929f7fae1e2fb50167a7a16b7189677a7238c65338bb184
       url: "https://pub.dev"
     source: hosted
-    version: "28.1.37"
+    version: "28.1.38"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: "65ba3d7c33fe2a0fb2252f13228230de42793349b099d97d1ab5e7420b22b272"
+      sha256: "9745a1afb3d14f2f8973a4422767d0124217d6727eacbbf4b2ed0dd66bc58887"
       url: "https://pub.dev"
     source: hosted
-    version: "28.1.37"
+    version: "28.1.38"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: aa526af3b07691a25ea2700991a6a333ef35abfb6e6679002a26d13d1baa138a
+      sha256: "12735505d616320aebe39a6fc90b6608a09116378d66aee9636b0eddf7b75971"
       url: "https://pub.dev"
     source: hosted
-    version: "28.1.37"
+    version: "28.1.38"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "20b0925fcceb423e51519dd07cb03c7c64d4ab2bfc36f4b2af715583e1b661af"
+      sha256: "22250ad8830df87beb40dace8e2fd3101e2052add524b1cb41ba8211aa37e1ca"
       url: "https://pub.dev"
     source: hosted
-    version: "28.1.37"
+    version: "28.1.38"
   synchronized:
     dependency: transitive
     description:
@@ -1558,10 +1558,10 @@ packages:
     dependency: transitive
     description:
       name: timezone
-      sha256: "2236ec079a174ce07434e89fcd3fcda430025eb7692244139a9cf54fdcf1fc7d"
+      sha256: ffc9d5f4d1193534ef051f9254063fa53d588609418c84299956c3db9383587d
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.10.0"
   timing:
     dependency: transitive
     description:
@@ -1670,10 +1670,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: "2430b973a4ca3c4dbc9999b62b8c719a160100dcbae5c819bae0cacce32c9cdb"
+      sha256: "99fd9fbd34d9f9a32efd7b6a6aae14125d8237b10403b422a6a6dfeac2806146"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.12"
+    version: "1.1.13"
   vector_graphics_compiler:
     dependency: transitive
     description:
@@ -1702,10 +1702,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: "391e092ba4abe2f93b3e625bd6b6a6ec7d7414279462c1c0ee42b5ab8d0a0898"
+      sha256: "7018dbcb395e2bca0b9a898e73989e67c0c4a5db269528e1b036ca38bcca0d0b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.16"
+    version: "2.7.17"
   video_player_avfoundation:
     dependency: transitive
     description:

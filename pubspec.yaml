@@ -54,7 +54,7 @@ dependencies:
 
   # helpers
   device_info_plus: ^11.0.0
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^9.2.3
   geolocator: ^13.0.1
   package_info_plus: ^8.0.0
   path_provider: ^2.0.15
