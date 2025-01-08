@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:campus_flutter/base/extensions/color.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,7 @@ class CalendarPreferenceService {
   CalendarPreferenceService(this.sharedPreferences);
 
   void saveColorPreference(String id, Color color) {
-    colorPreferences[id] = color.value;
+    colorPreferences[id] = color.intValue;
     try {
       sharedPreferences.setString(
         key,
