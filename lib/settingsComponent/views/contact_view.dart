@@ -36,7 +36,7 @@ class ContactView extends ConsumerWidget {
             ),
             HyperLinkListTile(
               dense: true,
-              link: "https://www.tum.app/privacy",
+              link: "https://www.tum.dev/privacy",
               label: context.tr("privacyPolicy"),
             ),
             _licensesButton(context),
