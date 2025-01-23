@@ -92,7 +92,7 @@ class GlobalSearch {
     if (result.contains(null)) {
       return null;
     } else {
-      return result.whereNotNull().toList();
+      return result.nonNulls.toList();
     }
   }
 
