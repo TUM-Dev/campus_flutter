@@ -12,7 +12,10 @@ const fullScreenImage = "/fullScreenImage";
 
 /// Studies tab
 const studies = "/studies";
+const grades = "/grades";
+const lectures = "/lectures";
 const lectureDetails = "/lectureDetails";
+const theses = "/theses";
 
 /// Calendar tab
 const calendar = "/calendar";

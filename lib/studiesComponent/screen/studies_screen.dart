@@ -1,8 +1,11 @@
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/studiesComponent/view/grade/grades_view.dart';
-import 'package:campus_flutter/studiesComponent/view/lecture/lectures_view.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/studiesComponent/view/grade/widget/grades_widget_view.dart';
+import 'package:campus_flutter/studiesComponent/view/lecture/widget/lectures_widget_view.dart';
+import 'package:campus_flutter/studiesComponent/view/studies_card_view.dart';
+import 'package:campus_flutter/studiesComponent/view/theses/widget/theses_widget_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class StudiesScreen extends StatefulWidget {
   const StudiesScreen({super.key});
@@ -12,62 +15,39 @@ class StudiesScreen extends StatefulWidget {
 }
 
 class _StudiesScreenState extends State<StudiesScreen> {
-  int selectedPage = 0;
-  PageController pageController = PageController();
-
-  final List<Widget> pages = const [
-    GradesView(),
-    LecturesView(),
-  ];
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.padding),
-          child: SizedBox(
-            width: double.infinity,
-            child: SegmentedButton(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(value: 0, label: Text(context.tr("grades"))),
-                ButtonSegment(value: 1, label: Text(context.tr("lectures"))),
-              ],
-              selected: {
-                selectedPage,
-              },
-              onSelectionChanged: (selection) {
-                setState(() {
-                  selectedPage = selection.first;
-                });
-                pageController.animateToPage(
-                  selectedPage,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          children: [
+            StudiesCardView(
+              title: context.tr("grades"),
+              body: GradesWidgetView(),
+              height: constraints.maxHeight / 3,
+              onTap: () {
+                context.push(grades);
               },
             ),
-          ),
-        ),
-        Expanded(
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (page) {
-              setState(() {
-                selectedPage = page;
-              });
-            },
-            children: pages,
-          ),
-        ),
-      ],
+            StudiesCardView(
+              title: context.tr("lectures"),
+              body: LecturesWidgetView(),
+              height: constraints.maxHeight / 3,
+              onTap: () {
+                context.push(lectures);
+              },
+            ),
+            StudiesCardView(
+              title: context.tr("theses"),
+              body: ThesesWidgetView(),
+              height: constraints.maxHeight / 3,
+              onTap: () {
+                context.push(theses);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -36,8 +36,11 @@ import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart'
 import 'package:campus_flutter/searchComponent/views/search_scaffold.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
+import 'package:campus_flutter/studiesComponent/screen/grades_screen.dart';
+import 'package:campus_flutter/studiesComponent/screen/lectures_screen.dart';
 import 'package:campus_flutter/studiesComponent/screen/studies_screen.dart';
-import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_details_view.dart';
+import 'package:campus_flutter/studiesComponent/screen/theses_screen.dart';
+import 'package:campus_flutter/studiesComponent/view/lecture/lectureDetail/lecture_details_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -153,6 +156,18 @@ final _router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: grades,
+      builder: (context, state) => const GradesScreen(),
+    ),
+    GoRoute(
+      path: lectures,
+      builder: (context, state) => const LecturesScreen(),
+    ),
+    GoRoute(
+      path: theses,
+      builder: (context, state) => const ThesesScreen(),
     ),
     GoRoute(
       path: lectureDetails,
