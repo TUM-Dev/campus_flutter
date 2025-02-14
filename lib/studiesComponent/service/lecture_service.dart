@@ -12,11 +12,11 @@ class LectureService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Lectures, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointPersonalLectures()),
-      Lectures.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointPersonalLectures()),
+          Lectures.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
     return (response.saved, response.data.lectures);
   }
 }

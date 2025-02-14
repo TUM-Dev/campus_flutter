@@ -47,36 +47,29 @@ final _router = GoRouter(
   initialLocation: onboarding,
   redirect: (context, state) => getIt<RouterService>().routingCallback(state),
   routes: [
-    GoRoute(
-      path: onboarding,
-      builder: (context, state) => const LoginView(),
-    ),
-    GoRoute(
-      path: confirm,
-      builder: (context, state) => const ConfirmView(),
-    ),
+    GoRoute(path: onboarding, builder: (context, state) => const LoginView()),
+    GoRoute(path: confirm, builder: (context, state) => const ConfirmView()),
     GoRoute(
       path: permissionCheck,
-      builder: (context, state) => PermissionCheckView(
-        isSettingsView: (state.extra as bool?) ?? false,
-      ),
+      builder:
+          (context, state) => PermissionCheckView(
+            isSettingsView: (state.extra as bool?) ?? false,
+          ),
     ),
     GoRoute(
       path: locationPermission,
       builder: (context, state) => const LocationPermissionView(),
     ),
     StatefulShellRoute.indexedStack(
-      builder: (context, state, shell) => Navigation(
-        navigationShell: shell,
-      ),
+      builder: (context, state, shell) => Navigation(navigationShell: shell),
       branches: [
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: home,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: HomeScreen(),
-              ),
+              pageBuilder:
+                  (context, state) =>
+                      const NoTransitionPage(child: HomeScreen()),
             ),
           ],
         ),
@@ -84,9 +77,9 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: studies,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: StudiesScreen(),
-              ),
+              pageBuilder:
+                  (context, state) =>
+                      const NoTransitionPage(child: StudiesScreen()),
             ),
           ],
         ),
@@ -94,9 +87,8 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: calendar,
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: CalendarsView(),
-              ),
+              pageBuilder:
+                  (context, state) => NoTransitionPage(child: CalendarsView()),
             ),
           ],
         ),
@@ -104,9 +96,9 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: campus,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: CampusScreen(),
-              ),
+              pageBuilder:
+                  (context, state) =>
+                      const NoTransitionPage(child: CampusScreen()),
             ),
           ],
         ),
@@ -114,9 +106,9 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: places,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: PlacesScreen(),
-              ),
+              pageBuilder:
+                  (context, state) =>
+                      const NoTransitionPage(child: PlacesScreen()),
             ),
           ],
         ),
@@ -124,9 +116,9 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: cafeteriaWidget,
-      builder: (context, state) => CafeteriaScaffold(
-        cafeteria: state.extra as Cafeteria,
-      ),
+      builder:
+          (context, state) =>
+              CafeteriaScaffold(cafeteria: state.extra as Cafeteria),
     ),
     GoRoute(
       path: departures,
@@ -134,9 +126,9 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: closestStudyRoom,
-      builder: (context, state) => StudyRoomGroupScaffold(
-        state.extra as StudyRoomGroup,
-      ),
+      builder:
+          (context, state) =>
+              StudyRoomGroupScaffold(state.extra as StudyRoomGroup),
     ),
     GoRoute(
       path: menuSettings,
@@ -156,29 +148,24 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: lectureDetails,
-      builder: (context, state) => LectureDetailsScaffold(
-        lecture: state.extra as Lecture?,
-      ),
+      builder:
+          (context, state) =>
+              LectureDetailsScaffold(lecture: state.extra as Lecture?),
     ),
     GoRoute(
       path: calendarDetails,
-      builder: (context, state) => LectureDetailsScaffold(
-        event: state.extra as CalendarEvent,
-        scrollController: null,
-      ),
+      builder:
+          (context, state) => LectureDetailsScaffold(
+            event: state.extra as CalendarEvent,
+            scrollController: null,
+          ),
     ),
     GoRoute(
       path: studentClubs,
       builder: (context, state) => const StudentClubsScreen(),
     ),
-    GoRoute(
-      path: news,
-      builder: (context, state) => const NewsScreen(),
-    ),
-    GoRoute(
-      path: movies,
-      builder: (context, state) => const MovieScreen(),
-    ),
+    GoRoute(path: news, builder: (context, state) => const NewsScreen()),
+    GoRoute(path: movies, builder: (context, state) => const MovieScreen()),
     GoRoute(
       path: studyRooms,
       builder: (context, state) => const StudyRoomsScaffold(),
@@ -189,84 +176,84 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: place,
-      builder: (context, state) => CampusScaffold(
-        campus: state.extra as Campus,
-      ),
+      builder:
+          (context, state) => CampusScaffold(campus: state.extra as Campus),
       routes: [
         GoRoute(
           path: "map",
-          builder: (context, state) => CampusMapScaffold(
-            campus: state.extra as Campus,
-          ),
+          builder:
+              (context, state) =>
+                  CampusMapScaffold(campus: state.extra as Campus),
         ),
       ],
     ),
     GoRoute(
       path: navigaTum,
-      builder: (context, state) => NavigaTumRoomScaffold(
-        id: state.extra as String,
-      ),
+      builder:
+          (context, state) => NavigaTumRoomScaffold(id: state.extra as String),
     ),
     GoRoute(
       path: personDetails,
-      builder: (context, state) => PersonDetailsScaffold(
-        obfuscatedId: state.extra as String,
-      ),
+      builder:
+          (context, state) =>
+              PersonDetailsScaffold(obfuscatedId: state.extra as String),
     ),
     GoRoute(
       path: cafeteria,
-      builder: (context, state) => CafeteriaScaffold(
-        cafeteria: state.extra as Cafeteria,
-      ),
+      builder:
+          (context, state) =>
+              CafeteriaScaffold(cafeteria: state.extra as Cafeteria),
     ),
     GoRoute(
       path: search,
-      builder: (context, state) => SearchScaffold(
-        searchVM: searchViewModel(SearchType.general),
-        searchString: state.extra as String?,
-      ),
+      builder:
+          (context, state) => SearchScaffold(
+            searchVM: searchViewModel(SearchType.general),
+            searchString: state.extra as String?,
+          ),
     ),
     GoRoute(
       path: roomSearch,
-      builder: (context, state) => SearchScaffold(
-        searchVM: searchViewModel(SearchType.room),
-        searchString: state.extra as String?,
-      ),
+      builder:
+          (context, state) => SearchScaffold(
+            searchVM: searchViewModel(SearchType.room),
+            searchString: state.extra as String?,
+          ),
     ),
     GoRoute(
       path: personSearch,
-      builder: (context, state) => SearchScaffold(
-        searchVM: searchViewModel(SearchType.person),
-        searchString: state.extra as String?,
-      ),
+      builder:
+          (context, state) => SearchScaffold(
+            searchVM: searchViewModel(SearchType.person),
+            searchString: state.extra as String?,
+          ),
     ),
     GoRoute(
       path: studyRoom,
-      builder: (context, state) => StudyRoomGroupScaffold(
-        state.extra as StudyRoomGroup,
-      ),
+      builder:
+          (context, state) =>
+              StudyRoomGroupScaffold(state.extra as StudyRoomGroup),
     ),
     GoRoute(
       path: networkImage,
       builder: (context, state) {
         final data = state.extra as (String, NavigaTumRoomFinderMap?);
-        return ImageFullScreenScaffold.network(
-          url: data.$1,
-          map: data.$2,
-        );
+        return ImageFullScreenScaffold.network(url: data.$1, map: data.$2);
       },
     ),
     GoRoute(
       path: localeImage,
-      builder: (context, state) => ImageFullScreenScaffold.imageData(
-        imageData: state.extra as String,
-      ),
+      builder:
+          (context, state) => ImageFullScreenScaffold.imageData(
+            imageData: state.extra as String,
+          ),
     ),
     GoRoute(
       path: eventCreation,
-      builder: (context, state) => EventCreationScaffold(
-        calendarEvent: state.extra as CalendarEvent?,
-      ),
+      builder:
+          (context, state) => EventCreationScaffold(
+            calendarEvent: state.extra as CalendarEvent?,
+          ),
     ),
   ],
 );

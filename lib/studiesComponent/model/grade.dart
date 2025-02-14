@@ -77,14 +77,14 @@ class Grade extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title),
-        ComparisonToken(value: examiner),
-        ComparisonToken(value: grade ?? "", type: ComparisonTokenType.raw),
-        ComparisonToken(value: lvNumber),
-        ComparisonToken(value: mode),
-        ComparisonToken(value: semester),
-        ComparisonToken(value: studyDesignation),
-      ];
+    ComparisonToken(value: title),
+    ComparisonToken(value: examiner),
+    ComparisonToken(value: grade ?? "", type: ComparisonTokenType.raw),
+    ComparisonToken(value: lvNumber),
+    ComparisonToken(value: mode),
+    ComparisonToken(value: semester),
+    ComparisonToken(value: studyDesignation),
+  ];
 }
 
 @JsonSerializable()

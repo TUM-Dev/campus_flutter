@@ -6,10 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class Navigation extends ConsumerWidget {
-  const Navigation({
-    Key? key,
-    required this.navigationShell,
-  }) : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
+  const Navigation({Key? key, required this.navigationShell})
+    : super(key: key ?? const ValueKey('ScaffoldWithNestedNavigation'));
 
   final StatefulNavigationShell navigationShell;
 

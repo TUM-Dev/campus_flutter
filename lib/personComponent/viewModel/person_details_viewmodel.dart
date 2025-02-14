@@ -9,14 +9,17 @@ final profileDetailsViewModel = Provider((ref) {
   final profile = ref.watch(profileViewModel).profile.value;
   return PersonDetailsViewModel(profile?.obfuscatedID);
 });
-final personDetailsViewModel =
-    Provider.family<PersonDetailsViewModel, String>((ref, obfuscatedId) {
+final personDetailsViewModel = Provider.family<PersonDetailsViewModel, String>((
+  ref,
+  obfuscatedId,
+) {
   return PersonDetailsViewModel(obfuscatedId);
 });
 
 class PersonDetailsViewModel {
-  final BehaviorSubject<PersonDetails?> personDetails =
-      BehaviorSubject.seeded(null);
+  final BehaviorSubject<PersonDetails?> personDetails = BehaviorSubject.seeded(
+    null,
+  );
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   final String? obfuscatedId;
@@ -25,14 +28,13 @@ class PersonDetailsViewModel {
 
   Future fetch(bool forcedRefresh) async {
     if (obfuscatedId != null) {
-      PersonDetailsService.fetchPersonDetails(forcedRefresh, obfuscatedId ?? "")
-          .then(
-        (response) {
-          lastFetched.add(response.$1);
-          personDetails.add(response.$2);
-        },
-        onError: (error) => personDetails.addError(error),
-      );
+      PersonDetailsService.fetchPersonDetails(
+        forcedRefresh,
+        obfuscatedId ?? "",
+      ).then((response) {
+        lastFetched.add(response.$1);
+        personDetails.add(response.$2);
+      }, onError: (error) => personDetails.addError(error));
     } else {
       personDetails.addError(
         TumOnlineApiException(

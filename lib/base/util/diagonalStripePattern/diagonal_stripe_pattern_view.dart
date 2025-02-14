@@ -32,7 +32,8 @@ class DiagonalStripePatternView extends StatelessWidget {
 
             /// use foregroundPainter as overlay mark
             foregroundPainter: StripePatternPainter(
-              stripeColor: stripeColor ??
+              stripeColor:
+                  stripeColor ??
                   const Color(0xFF222222).withValues(alpha: 0.08),
               bgColor: bgColor,
             ),

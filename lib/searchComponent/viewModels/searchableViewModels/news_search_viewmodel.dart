@@ -12,30 +12,28 @@ final newsSearchViewModel = Provider((ref) => NewsSearchViewModel());
 
 class NewsSearchViewModel implements SearchCategoryViewModel<NewsSearch> {
   @override
-  BehaviorSubject<List<NewsSearch>?> searchResults =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<List<NewsSearch>?> searchResults = BehaviorSubject.seeded(
+    null,
+  );
 
   List<NewsSearch> newsData = [];
 
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (newsData.isEmpty) {
-      return NewsService.fetchNews(forcedRefresh).then(
-        (value) {
-          Set<String> seenTitles = {};
-          value.$2.retainWhere((element) {
-            if (seenTitles.contains(element.title)) {
-              return false;
-            } else {
-              seenTitles.add(element.title);
-              return true;
-            }
-          });
-          newsData = value.$2.map((e) => NewsSearch(e)).toList();
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return NewsService.fetchNews(forcedRefresh).then((value) {
+        Set<String> seenTitles = {};
+        value.$2.retainWhere((element) {
+          if (seenTitles.contains(element.title)) {
+            return false;
+          } else {
+            seenTitles.add(element.title);
+            return true;
+          }
+        });
+        newsData = value.$2.map((e) => NewsSearch(e)).toList();
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -63,7 +61,7 @@ class NewsSearch extends Searchable {
 
   @override
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: news.title),
-        ComparisonToken(value: news.sourceTitle.toString()),
-      ];
+    ComparisonToken(value: news.title),
+    ComparisonToken(value: news.sourceTitle.toString()),
+  ];
 }

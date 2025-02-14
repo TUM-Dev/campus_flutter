@@ -15,10 +15,7 @@ class _StudiesScreenState extends State<StudiesScreen> {
   int selectedPage = 0;
   PageController pageController = PageController();
 
-  final List<Widget> pages = const [
-    GradesView(),
-    LecturesView(),
-  ];
+  final List<Widget> pages = const [GradesView(), LecturesView()];
 
   @override
   void dispose() {
@@ -40,9 +37,7 @@ class _StudiesScreenState extends State<StudiesScreen> {
                 ButtonSegment(value: 0, label: Text(context.tr("grades"))),
                 ButtonSegment(value: 1, label: Text(context.tr("lectures"))),
               ],
-              selected: {
-                selectedPage,
-              },
+              selected: {selectedPage},
               onSelectionChanged: (selection) {
                 setState(() {
                   selectedPage = selection.first;

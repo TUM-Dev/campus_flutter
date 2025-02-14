@@ -7,10 +7,7 @@ class NavigaTumNavigationProperty {
   final String name;
   final String text;
 
-  NavigaTumNavigationProperty({
-    required this.name,
-    required this.text,
-  });
+  NavigaTumNavigationProperty({required this.name, required this.text});
 
   factory NavigaTumNavigationProperty.fromJson(Map<String, dynamic> json) =>
       _$NavigaTumNavigationPropertyFromJson(json);

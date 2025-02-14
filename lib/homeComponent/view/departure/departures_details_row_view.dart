@@ -41,9 +41,9 @@ class DeparturesDetailsRowView extends ConsumerWidget {
           child: Text(
             departure.servingLine.number,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

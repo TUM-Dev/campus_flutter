@@ -43,26 +43,25 @@ mixin ErrorHandlingView {
                       child: _errorMessageText(
                         errorMessage,
                         context,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              color: titleColor ?? context.primaryColor,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineMedium?.copyWith(
+                          color: titleColor ?? context.primaryColor,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     if (fixMessage != null)
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: context.padding),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.padding,
+                        ),
                         child: Text(
                           fixMessage,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: bodyColor),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(color: bodyColor),
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
@@ -91,8 +90,8 @@ mixin ErrorHandlingView {
                 errorMessage,
                 context,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: titleColor ?? context.primaryColor,
-                    ),
+                  color: titleColor ?? context.primaryColor,
+                ),
                 textAlign: TextAlign.center,
               ),
               if (fixMessage != null)

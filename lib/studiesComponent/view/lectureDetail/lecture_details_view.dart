@@ -37,26 +37,26 @@ class LectureDetailsScaffold extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        actions: event != null
-            ? [
-                VisibilityButtonView(
-                  id: event!.lvNr ?? event!.id,
-                  isVisible: event!.isVisible,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: context.padding),
-                  child: ColorPickerView(
-                    color: event?.getColor() ?? context.primaryColor,
-                    onColorChanged: (color) {
-                      ref.read(calendarViewModel).setEventColor(
-                            event!.lvNr ?? event!.id,
-                            color,
-                          );
-                    },
+        actions:
+            event != null
+                ? [
+                  VisibilityButtonView(
+                    id: event!.lvNr ?? event!.id,
+                    isVisible: event!.isVisible,
                   ),
-                ),
-              ]
-            : null,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: context.padding),
+                    child: ColorPickerView(
+                      color: event?.getColor() ?? context.primaryColor,
+                      onColorChanged: (color) {
+                        ref
+                            .read(calendarViewModel)
+                            .setEventColor(event!.lvNr ?? event!.id, color);
+                      },
+                    ),
+                  ),
+                ]
+                : null,
       ),
       body: LectureDetailsView(
         event: event,
@@ -108,9 +108,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
             retry: (() => ref.read(viewModel).fetch(true)),
           );
         } else {
-          return DelayedLoadingIndicator(
-            name: context.tr("lectureDetails"),
-          );
+          return DelayedLoadingIndicator(name: context.tr("lectureDetails"));
         }
       },
     );
@@ -158,11 +156,7 @@ class _LectureDetailsViewState extends ConsumerState<LectureDetailsView> {
         controller: widget.scrollController,
         child: SingleChildScrollView(
           controller: widget.scrollController,
-          child: SafeArea(
-            child: Column(
-              children: _infoCards(lectureDetails),
-            ),
-          ),
+          child: SafeArea(child: Column(children: _infoCards(lectureDetails))),
         ),
       );
     }

@@ -40,25 +40,25 @@ class IconText extends StatelessWidget {
           multipleLines
               ? Flexible(child: Text(label, style: textStyle))
               : Flexible(
-                  child: Text(
-                    label,
-                    style: textStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: Text(
+                  label,
+                  style: textStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ),
         ],
         if (!leadingIcon) ...[
           multipleLines
               ? Flexible(child: Text(label, style: textStyle))
               : Flexible(
-                  child: Text(
-                    label,
-                    style: textStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: Text(
+                  label,
+                  style: textStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
           Icon(iconData, color: iconColor, size: iconSize),
         ],

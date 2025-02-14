@@ -23,18 +23,17 @@ class SearchView extends ConsumerWidget {
     return SafeArea(
       child: Container(
         color: Theme.of(context).canvasColor,
-        child: showContent
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SearchTextField(searchVM: searchVM),
-                  SearchCategoryPickerView(
-                    searchVM: searchVM,
-                  ),
-                  _search(ref),
-                ],
-              ) //)
-            : Container(),
+        child:
+            showContent
+                ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SearchTextField(searchVM: searchVM),
+                    SearchCategoryPickerView(searchVM: searchVM),
+                    _search(ref),
+                  ],
+                ) //)
+                : Container(),
       ),
     );
   }
@@ -46,27 +45,27 @@ class SearchView extends ConsumerWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData &&
               ref.read(searchVM).searchTextController.text.isEmpty) {
-            return Center(
-              child: Text(context.tr("enterQueryStart")),
-            );
+            return Center(child: Text(context.tr("enterQueryStart")));
           } else {
             final orientation = MediaQuery.orientationOf(context);
             if (orientation == Orientation.landscape) {
               return MasonryGridView.count(
                 crossAxisCount: 2,
                 itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (context, index) => SearchResultViewBuilder(
-                  searchVM: searchVM,
-                  searchCategory: snapshot.data![index],
-                ),
+                itemBuilder:
+                    (context, index) => SearchResultViewBuilder(
+                      searchVM: searchVM,
+                      searchCategory: snapshot.data![index],
+                    ),
               );
             } else {
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (var result in snapshot.data ??
-                        const Iterable<SearchCategory>.empty())
+                    for (var result
+                        in snapshot.data ??
+                            const Iterable<SearchCategory>.empty())
                       SearchResultViewBuilder(
                         searchVM: searchVM,
                         searchCategory: result,

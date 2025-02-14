@@ -11,16 +11,10 @@ class PersonSearchViewModel implements SearchCategoryViewModel<Person> {
   BehaviorSubject<List<Person>?> searchResults = BehaviorSubject.seeded(null);
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
-    return PersonSearchService.fetchPersons(query, forcedRefresh).then(
-      (value) {
-        searchResults.add(value.$2);
-      },
-      onError: (error) => searchResults.addError(error),
-    );
+  Future search({bool forcedRefresh = false, required String query}) async {
+    return PersonSearchService.fetchPersons(query, forcedRefresh).then((value) {
+      searchResults.add(value.$2);
+    }, onError: (error) => searchResults.addError(error));
   }
 
   @override

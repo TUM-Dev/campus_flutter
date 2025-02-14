@@ -27,10 +27,7 @@ class CampusCardView extends ConsumerWidget {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(10),
                     ),
-                    child: Image.asset(
-                      campus.image ?? "",
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.asset(campus.image ?? "", fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -43,15 +40,12 @@ class CampusCardView extends ConsumerWidget {
                       Text(
                         campus.name,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: context.primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          color: context.primaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.place,
-                        color: context.primaryColor,
-                      ),
+                      Icon(Icons.place, color: context.primaryColor),
                     ],
                   ),
                 ),

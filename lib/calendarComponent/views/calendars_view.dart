@@ -16,9 +16,7 @@ final selectedDate = StateProvider<(DateTime?, CalendarView?)>(
   (ref) => (null, null),
 );
 
-final calendarsKey = GlobalKey<_CalendarsViewState>(
-  debugLabel: "calendarsKey",
-);
+final calendarsKey = GlobalKey<_CalendarsViewState>(debugLabel: "calendarsKey");
 
 class CalendarsView extends ConsumerStatefulWidget {
   CalendarsView({Key? key}) : super(key: calendarsKey);
@@ -58,10 +56,12 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () => ref.read(selectedDate.notifier).state = (
-                        DateTime.now(),
-                        null,
-                      ),
+                      onPressed:
+                          () =>
+                              ref.read(selectedDate.notifier).state = (
+                                DateTime.now(),
+                                null,
+                              ),
                       child: Text(
                         context.tr("calendarViewToday"),
                         style: Theme.of(context).textTheme.titleMedium,
@@ -76,33 +76,25 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                         segments: <ButtonSegment>[
                           ButtonSegment(
                             value: 0,
-                            label: Text(
-                              context.tr("calendarViewDay"),
-                            ),
+                            label: Text(context.tr("calendarViewDay")),
                           ),
                           ButtonSegment(
                             value: 1,
-                            label: Text(
-                              context.tr("calendarViewWeek"),
-                            ),
+                            label: Text(context.tr("calendarViewWeek")),
                           ),
                           ButtonSegment(
                             value: 2,
-                            label: Text(
-                              context.tr("calendarViewMonth"),
-                            ),
+                            label: Text(context.tr("calendarViewMonth")),
                           ),
                         ],
-                        selected: {
-                          _selectedCalendarTab,
-                        },
+                        selected: {_selectedCalendarTab},
                         onSelectionChanged: (newSelection) {
                           setState(() {
                             _selectedCalendarTab = newSelection.first;
                           });
-                          ref.read(calendarViewModel).saveTabPreference(
-                                _selectedCalendarTab,
-                              );
+                          ref
+                              .read(calendarViewModel)
+                              .saveTabPreference(_selectedCalendarTab);
                         },
                       ),
                     ),
@@ -115,12 +107,8 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
               if (lastFetched != null) LastUpdatedText(lastFetched),
               <Widget>[
                 CalendarDayView(calendarController: dayController),
-                CalendarWeekView(
-                  calendarController: weekController,
-                ),
-                CalendarMonthView(
-                  calendarController: monthController,
-                ),
+                CalendarWeekView(calendarController: weekController),
+                CalendarMonthView(calendarController: monthController),
               ][_selectedCalendarTab],
             ],
           );
@@ -131,9 +119,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
             retry: (() => ref.read(calendarViewModel).fetch(true)),
           );
         } else {
-          return DelayedLoadingIndicator(
-            name: context.tr("calendar"),
-          );
+          return DelayedLoadingIndicator(name: context.tr("calendar"));
         }
       },
     );

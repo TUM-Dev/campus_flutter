@@ -24,16 +24,12 @@ class _VisibilityButtonViewState extends ConsumerState<VisibilityButtonView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ref.read(calendarViewModel).toggleEventVisibility(
-              widget.id,
-            );
+        ref.read(calendarViewModel).toggleEventVisibility(widget.id);
         setState(() {
           isVisible = !isVisible;
         });
       },
-      child: Icon(
-        (isVisible) ? Icons.visibility : Icons.visibility_off,
-      ),
+      child: Icon((isVisible) ? Icons.visibility : Icons.visibility_off),
     );
   }
 }

@@ -15,11 +15,11 @@ class StudentCardService {
       RestClient restClient = getIt<RestClient>();
       final response = await restClient
           .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
-        TumOnlineApi(TumOnlineEndpointTumCard()),
-        StudentCards.fromJson,
-        TumOnlineApiException.fromJson,
-        forcedRefresh,
-      );
+            TumOnlineApi(TumOnlineEndpointTumCard()),
+            StudentCards.fromJson,
+            TumOnlineApiException.fromJson,
+            forcedRefresh,
+          );
 
       return (response.saved, response.data.studentCards);
     } catch (e) {

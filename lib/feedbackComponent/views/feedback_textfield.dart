@@ -40,8 +40,8 @@ class FeedbackTextField extends ConsumerWidget {
                 hintText: decorationMessage,
                 errorText: (snapshot.data ?? true) ? null : invalidMessage,
               ),
-              onTapOutside: (_) =>
-                  FocusManager.instance.primaryFocus?.unfocus(),
+              onTapOutside:
+                  (_) => FocusManager.instance.primaryFocus?.unfocus(),
             ),
           ),
         );

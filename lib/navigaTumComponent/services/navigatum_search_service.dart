@@ -10,14 +10,14 @@ class NavigaTumSearchService {
     bool forcedRefresh,
   ) async {
     RestClient restClient = getIt<RestClient>();
-    final response =
-        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
-      NavigaTumApi(
-        navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
-      ),
-      NavigaTumSearchResponse.fromJson,
-      forcedRefresh,
-    );
+    final response = await restClient
+        .get<NavigaTumSearchResponse, NavigaTumApi>(
+          NavigaTumApi(
+            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
+          ),
+          NavigaTumSearchResponse.fromJson,
+          forcedRefresh,
+        );
 
     return (response.saved, response.data);
   }

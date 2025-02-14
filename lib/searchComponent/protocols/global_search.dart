@@ -30,15 +30,16 @@ class GlobalSearch {
       }
     }
 
-    final results = levenshteinValues.entries
-        .sorted(
-          (a, b) => isBetter(
-            a.value.sorted((a, b) => a.compareTo(b)),
-            b.value.sorted((a, b) => a.compareTo(b)),
-          ),
-        )
-        .map((e) => (e.key, e.value))
-        .toList();
+    final results =
+        levenshteinValues.entries
+            .sorted(
+              (a, b) => isBetter(
+                a.value.sorted((a, b) => a.compareTo(b)),
+                b.value.sorted((a, b) => a.compareTo(b)),
+              ),
+            )
+            .map((e) => (e.key, e.value))
+            .toList();
 
     return results.map((e) => e.$1).toList();
   }
@@ -51,24 +52,29 @@ class GlobalSearch {
       return null;
     }
 
-    return searchable.tokenize().map((dataToken) {
-      if (dataToken.isEmpty) {
-        return null;
-      }
+    return searchable
+        .tokenize()
+        .map((dataToken) {
+          if (dataToken.isEmpty) {
+            return null;
+          }
 
-      final lev = token.levenshtein(dataToken);
+          final lev = token.levenshtein(dataToken);
 
-      final result = (2 * lev).toDouble() /
-          (1 * (token.length + dataToken.length) + lev).toDouble();
+          final result =
+              (2 * lev).toDouble() /
+              (1 * (token.length + dataToken.length) + lev).toDouble();
 
-      return (result * 100).toInt();
-    }).reduce(
-      (min, current) => current == null
-          ? min
-          : (min == null || current < min)
-              ? current
-              : min,
-    );
+          return (result * 100).toInt();
+        })
+        .reduce(
+          (min, current) =>
+              current == null
+                  ? min
+                  : (min == null || current < min)
+                  ? current
+                  : min,
+        );
   }
 
   static List<int>? relativeLevenshtein<T extends Searchable>(
@@ -97,12 +103,9 @@ class GlobalSearch {
   }
 
   static List<String> tokenize(String query) {
-    return query
-        .trim()
-        .toLowerCase()
-        .removeDiacritics()
-        .keepValidChars()
-        .split(" ");
+    return query.trim().toLowerCase().removeDiacritics().keepValidChars().split(
+      " ",
+    );
   }
 }
 

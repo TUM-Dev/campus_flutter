@@ -56,12 +56,8 @@ class SeparatedList<T> extends StatelessWidget {
             tile!(dataPoint.$2),
             if (dataPoint.$1 < data!.length - 1)
               padded
-                  ? const PaddedDivider(
-                      height: 0,
-                    )
-                  : const Divider(
-                      height: 0,
-                    ),
+                  ? const PaddedDivider(height: 0)
+                  : const Divider(height: 0),
           ],
         ],
       );
@@ -73,12 +69,8 @@ class SeparatedList<T> extends StatelessWidget {
             widgets![dataPoint.$1],
             if (dataPoint.$1 < widgets!.length - 1)
               padded
-                  ? const PaddedDivider(
-                      height: 0,
-                    )
-                  : const Divider(
-                      height: 0,
-                    ),
+                  ? const PaddedDivider(height: 0)
+                  : const Divider(height: 0),
           ],
         ],
       );

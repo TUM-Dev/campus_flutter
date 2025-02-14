@@ -63,10 +63,7 @@ class ContactView extends ConsumerWidget {
   Widget _feedbackButton(BuildContext context) {
     return ListTile(
       dense: true,
-      title: Text(
-        "Feedback",
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
+      title: Text("Feedback", style: Theme.of(context).textTheme.bodyMedium),
       onTap: () => context.push(feedback),
     );
   }

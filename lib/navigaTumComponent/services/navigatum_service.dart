@@ -12,14 +12,14 @@ class NavigaTumService {
     String query,
   ) async {
     RestClient restClient = getIt();
-    final response =
-        await restClient.get<NavigaTumSearchResponse, NavigaTumApi>(
-      NavigaTumApi(
-        navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
-      ),
-      NavigaTumSearchResponse.fromJson,
-      forcedRefresh,
-    );
+    final response = await restClient
+        .get<NavigaTumSearchResponse, NavigaTumApi>(
+          NavigaTumApi(
+            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
+          ),
+          NavigaTumSearchResponse.fromJson,
+          forcedRefresh,
+        );
 
     return response.data;
   }
@@ -29,17 +29,17 @@ class NavigaTumService {
     String id,
     BuildContext context,
   ) async {
-    final response =
-        await getIt<RestClient>().get<NavigaTumNavigationDetails, NavigaTumApi>(
-      NavigaTumApi(
-        navigaTumApiEndpoint: NavigaTumApiEndpointDetails(
-          id: id,
-          language: Localizations.localeOf(context).languageCode,
-        ),
-      ),
-      NavigaTumNavigationDetails.fromJson,
-      forcedRefresh,
-    );
+    final response = await getIt<RestClient>()
+        .get<NavigaTumNavigationDetails, NavigaTumApi>(
+          NavigaTumApi(
+            navigaTumApiEndpoint: NavigaTumApiEndpointDetails(
+              id: id,
+              language: Localizations.localeOf(context).languageCode,
+            ),
+          ),
+          NavigaTumNavigationDetails.fromJson,
+          forcedRefresh,
+        );
 
     return response.data;
   }

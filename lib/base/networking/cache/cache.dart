@@ -32,10 +32,11 @@ class Cache {
   Future<CacheEntryData?> get(String key) async {
     final id = fastHash(key);
 
-    final entry = await cacheDatabase.managers.cacheEntry
-        .filter((f) => f.id.equals(id))
-        .limit(1)
-        .getSingleOrNull();
+    final entry =
+        await cacheDatabase.managers.cacheEntry
+            .filter((f) => f.id.equals(id))
+            .limit(1)
+            .getSingleOrNull();
 
     if (entry != null) {
       final today = DateTime.now();

@@ -24,11 +24,12 @@ class NavigaTumRoomDetailsView extends ConsumerWidget {
       child: Card(
         child: SeparatedList.list(
           data: properties,
-          tile: (property) => _detail(
-            ref.read(navigaTumDetailsViewModel(id)).icon(property.name),
-            property.text,
-            context,
-          ),
+          tile:
+              (property) => _detail(
+                ref.read(navigaTumDetailsViewModel(id)).icon(property.name),
+                property.text,
+                context,
+              ),
         ),
       ),
     );
@@ -36,10 +37,7 @@ class NavigaTumRoomDetailsView extends ConsumerWidget {
 
   Widget _detail(IconData iconData, String detail, BuildContext context) {
     return ListTile(
-      leading: Icon(
-        iconData,
-        color: context.primaryColor,
-      ),
+      leading: Icon(iconData, color: context.primaryColor),
       title: Text(detail),
     );
   }

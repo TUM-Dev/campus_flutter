@@ -11,8 +11,11 @@ class LectureDetailsService {
     bool forcedRefresh,
   ) async {
     RestClient restClient = getIt<RestClient>();
-    final response = await restClient.getWithException<LectureDetailsElement,
-        TumOnlineApi, TumOnlineApiException>(
+    final response = await restClient.getWithException<
+      LectureDetailsElement,
+      TumOnlineApi,
+      TumOnlineApiException
+    >(
       TumOnlineApi(TumOnlineEndpointLectureDetails(lvNr: lvNumber)),
       LectureDetailsElement.fromJson,
       TumOnlineApiException.fromJson,

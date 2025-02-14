@@ -24,14 +24,9 @@ class SemesterView<T> extends StatelessWidget {
           for (var index = 0; index < semester.value.length; index++)
             Column(
               children: [
-                if (T == Grade)
-                  GradeRow(
-                    grade: semester.value[index] as Grade,
-                  ),
+                if (T == Grade) GradeRow(grade: semester.value[index] as Grade),
                 if (T == Lecture)
-                  LectureView(
-                    lecture: semester.value[index] as Lecture,
-                  ),
+                  LectureView(lecture: semester.value[index] as Lecture),
                 (index != semester.value.length - 1
                     ? const PaddedDivider()
                     : const SizedBox.shrink()),

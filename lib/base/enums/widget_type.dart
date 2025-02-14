@@ -1,6 +1,1 @@
-enum WidgetType {
-  cafeterias,
-  calendar,
-  departures,
-  studyRooms;
-}
+enum WidgetType { cafeterias, calendar, departures, studyRooms }

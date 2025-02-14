@@ -6,7 +6,7 @@ class DeviceService {
     return MediaQuery.orientationOf(context) == Orientation.landscape
         ? Device.landscapeTablet
         : MediaQuery.sizeOf(context).width > 600
-            ? Device.portraitTablet
-            : Device.phone;
+        ? Device.portraitTablet
+        : Device.phone;
   }
 }

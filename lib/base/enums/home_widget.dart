@@ -4,10 +4,7 @@ class HomeScreenWidget {
   WidgetType widgetType;
   bool enabled;
 
-  HomeScreenWidget({
-    required this.widgetType,
-    this.enabled = true,
-  });
+  HomeScreenWidget({required this.widgetType, this.enabled = true});
 
   String convertToString() {
     return "${WidgetType.values.indexOf(widgetType)};${enabled.toString()}";

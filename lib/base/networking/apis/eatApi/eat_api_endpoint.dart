@@ -18,6 +18,6 @@ class EatApiEndpointMenu extends EatApiEndpoint {
   final String week;
 
   EatApiEndpointMenu({required this.location, int? year, String? week})
-      : year = year ?? DateTime.now().year,
-        week = week ?? DateTime.now().weekNumber();
+    : year = year ?? DateTime.now().year,
+      week = week ?? DateTime.now().weekNumber();
 }

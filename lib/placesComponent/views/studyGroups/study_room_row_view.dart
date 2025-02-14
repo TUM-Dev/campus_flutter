@@ -16,16 +16,14 @@ class StudyRoomRowView extends ConsumerWidget {
       title: Text(title(studyRoom, context)),
       subtitle: Text(
         studyRoom.localizedStatus(context),
-        style: TextStyle(
-          color: studyRoom.color,
-        ),
+        style: TextStyle(color: studyRoom.color),
       ),
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        size: 15,
-      ),
-      onTap: () =>
-          context.push(navigaTum, extra: studyRoom.roomNoArchitect ?? "null"),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap:
+          () => context.push(
+            navigaTum,
+            extra: studyRoom.roomNoArchitect ?? "null",
+          ),
     );
   }
 

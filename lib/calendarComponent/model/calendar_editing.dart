@@ -21,9 +21,7 @@ class CalendarCreationConfirmation {
   @JsonKey(name: "nr")
   final String eventId;
 
-  CalendarCreationConfirmation({
-    required this.eventId,
-  });
+  CalendarCreationConfirmation({required this.eventId});
 
   factory CalendarCreationConfirmation.fromJson(Map<String, dynamic> json) =>
       _$CalendarCreationConfirmationFromJson(json);
@@ -42,8 +40,7 @@ class CalendarCreationConfirmationData {
 
   factory CalendarCreationConfirmationData.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$CalendarCreationConfirmationDataFromJson(json);
+  ) => _$CalendarCreationConfirmationDataFromJson(json);
 
   Map<String, dynamic> toJson() =>
       _$CalendarCreationConfirmationDataToJson(this);
@@ -54,9 +51,7 @@ class CalendarDeletionConfirmation {
   @JsonKey(name: "delete")
   final String status;
 
-  CalendarDeletionConfirmation({
-    required this.status,
-  });
+  CalendarDeletionConfirmation({required this.status});
 
   factory CalendarDeletionConfirmation.fromJson(Map<String, dynamic> json) =>
       _$CalendarDeletionConfirmationFromJson(json);
@@ -75,8 +70,7 @@ class CalendarDeletionConfirmationData {
 
   factory CalendarDeletionConfirmationData.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$CalendarDeletionConfirmationDataFromJson(json);
+  ) => _$CalendarDeletionConfirmationDataFromJson(json);
 
   Map<String, dynamic> toJson() =>
       _$CalendarDeletionConfirmationDataToJson(this);

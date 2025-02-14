@@ -21,10 +21,7 @@ class SearchViewModel {
 
   bool isAuthorized = false;
 
-  SearchViewModel(
-    this.ref, {
-    required this.searchType,
-  }) {
+  SearchViewModel(this.ref, {required this.searchType}) {
     searchTextController = TextEditingController();
     selectedCategories.add(_initialSearchCategories());
     _checkAuthorizationStatus();
@@ -121,9 +118,7 @@ class SearchViewModel {
         }
       case 2:
         if (isAuthorized) {
-          selectedCategories.add([
-            SearchCategory.calendar,
-          ]);
+          selectedCategories.add([SearchCategory.calendar]);
         } else {
           selectedCategories.add([]);
         }

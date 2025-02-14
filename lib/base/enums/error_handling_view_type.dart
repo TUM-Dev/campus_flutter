@@ -3,5 +3,5 @@ enum ErrorHandlingViewType {
   fullScreenNoImage,
   textOnly,
   descriptionOnly,
-  redDescriptionOnly
+  redDescriptionOnly,
 }

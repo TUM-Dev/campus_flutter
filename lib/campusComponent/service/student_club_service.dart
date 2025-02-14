@@ -10,9 +10,7 @@ class StudentClubService {
     final start = DateTime.now();
     GrpcClient grpcClient = getIt<GrpcClient>();
     final response = await grpcClient.listStudentClub(
-      ListStudentClubRequest(
-        language: language,
-      ),
+      ListStudentClubRequest(language: language),
     );
     return (start, response.collections);
   }

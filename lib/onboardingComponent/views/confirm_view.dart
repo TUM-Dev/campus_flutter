@@ -67,8 +67,9 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               currentText = 1;
             });
           }
-        } else if (value
-                    .compareTo(const Duration(seconds: 9, milliseconds: 3)) ==
+        } else if (value.compareTo(
+                  const Duration(seconds: 9, milliseconds: 3),
+                ) ==
                 1 &&
             value.compareTo(const Duration(seconds: 16, milliseconds: 24)) ==
                 -1) {
@@ -130,10 +131,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         const Spacer(flex: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _tumOnlineButton(),
-            _checkTokenButton(context),
-          ],
+          children: [_tumOnlineButton(), _checkTokenButton(context)],
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
         _contactSupportButton(),
@@ -202,49 +200,51 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
   Widget _checkTokenButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        ref.read(onboardingViewModel).confirmLogin().then(
-          (value) {
-            if (value.confirmed) {
+        ref
+            .read(onboardingViewModel)
+            .confirmLogin()
+            .then(
+              (value) {
+                if (value.confirmed) {
+                  if (context.mounted) {
+                    context.push(permissionCheck);
+                  }
+                } else {
+                  throw TumOnlineApiException(
+                    tumOnlineApiExceptionType:
+                        TumOnlineApiExceptionTokenNotConfirmed(),
+                  );
+                }
+              },
+              onError: (error) {
+                if (context.mounted) {
+                  ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 10),
+                      content: ErrorHandlingRouter(
+                        error: error,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                        titleColor: Colors.white,
+                      ),
+                    ),
+                  );
+                }
+              },
+            )
+            .catchError((error) {
               if (context.mounted) {
-                context.push(permissionCheck);
+                ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 10),
+                    content: ErrorHandlingRouter(
+                      error: error,
+                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                      titleColor: Colors.white,
+                    ),
+                  ),
+                );
               }
-            } else {
-              throw TumOnlineApiException(
-                tumOnlineApiExceptionType:
-                    TumOnlineApiExceptionTokenNotConfirmed(),
-              );
-            }
-          },
-          onError: (error) {
-            if (context.mounted) {
-              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                SnackBar(
-                  duration: const Duration(seconds: 10),
-                  content: ErrorHandlingRouter(
-                    error: error,
-                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                    titleColor: Colors.white,
-                  ),
-                ),
-              );
-            }
-          },
-        ).catchError(
-          (error) {
-            if (context.mounted) {
-              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                SnackBar(
-                  duration: const Duration(seconds: 10),
-                  content: ErrorHandlingRouter(
-                    error: error,
-                    errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                    titleColor: Colors.white,
-                  ),
-                ),
-              );
-            }
-          },
-        );
+            });
       },
       child: IconText(
         iconData: Icons.arrow_forward,

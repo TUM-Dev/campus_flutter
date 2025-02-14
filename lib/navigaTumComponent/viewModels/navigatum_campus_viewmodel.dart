@@ -6,8 +6,8 @@ import 'package:rxdart/rxdart.dart';
 
 final navigaTumCampusViewModel =
     Provider.family<NavigaTumCampusViewModel, Campus>(
-  (ref, campus) => NavigaTumCampusViewModel(campus),
-);
+      (ref, campus) => NavigaTumCampusViewModel(campus),
+    );
 
 class NavigaTumCampusViewModel {
   BehaviorSubject<List<NavigaTumNavigationEntity>?> mostSearchedResults =
@@ -24,15 +24,13 @@ class NavigaTumCampusViewModel {
       return;
     }
 
-    return NavigaTumService.search(forcedRefresh, searchString).then(
-      (value) {
-        final mostSearchResults =
-            value.sections.expand((element) => element.entries).toList();
-        mostSearchResults
-            .removeWhere((element) => int.tryParse(element.name[0]) == null);
-        mostSearchedResults.add(mostSearchResults);
-      },
-      onError: (error) => mostSearchedResults.addError(error),
-    );
+    return NavigaTumService.search(forcedRefresh, searchString).then((value) {
+      final mostSearchResults =
+          value.sections.expand((element) => element.entries).toList();
+      mostSearchResults.removeWhere(
+        (element) => int.tryParse(element.name[0]) == null,
+      );
+      mostSearchedResults.add(mostSearchResults);
+    }, onError: (error) => mostSearchedResults.addError(error));
   }
 }

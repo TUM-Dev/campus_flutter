@@ -10,10 +10,8 @@ class UrlLauncher {
     if (await canLaunchUrlString(urlString)) {
       if (ref.read(useWebView)) {
         launchUrlString(urlString, mode: LaunchMode.inAppBrowserView).onError(
-          (error, stackTrace) => launchUrlString(
-            urlString,
-            mode: LaunchMode.externalApplication,
-          ),
+          (error, stackTrace) =>
+              launchUrlString(urlString, mode: LaunchMode.externalApplication),
         );
       } else {
         launchUrlString(urlString, mode: LaunchMode.externalApplication);

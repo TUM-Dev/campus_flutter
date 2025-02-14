@@ -15,17 +15,20 @@ class NavigaTumSearchResultView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SearchResultCardView<NavigaTumSearchViewModel,
-        NavigaTumNavigationEntity>(
+    return SearchResultCardView<
+      NavigaTumSearchViewModel,
+      NavigaTumNavigationEntity
+    >(
       searchCategory: SearchCategory.rooms,
       searchVM: searchVM,
       searchCategoryVM: navigaTumSearchViewModel,
-      body: (entity) => ListTile(
-        title: Text(entity.getFormattedName()),
-        subtitle: Text(entity.getFormattedName()),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-        onTap: () => context.push(navigaTum, extra: entity.id),
-      ),
+      body:
+          (entity) => ListTile(
+            title: Text(entity.getFormattedName()),
+            subtitle: Text(entity.getFormattedName()),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+            onTap: () => context.push(navigaTum, extra: entity.id),
+          ),
     );
   }
 }

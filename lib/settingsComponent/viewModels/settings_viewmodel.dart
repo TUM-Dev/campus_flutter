@@ -8,9 +8,7 @@ import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final settingsViewModel = Provider(
-  (ref) => SettingsViewModel(ref),
-);
+final settingsViewModel = Provider((ref) => SettingsViewModel(ref));
 
 class SettingsViewModel {
   final Ref ref;
@@ -85,9 +83,10 @@ class SettingsViewModel {
             child: IconText(
               iconData: e.icon,
               iconColor: context.primaryColor,
-              label: Localizations.localeOf(context).languageCode == "de"
-                  ? e.german
-                  : e.english,
+              label:
+                  Localizations.localeOf(context).languageCode == "de"
+                      ? e.german
+                      : e.english,
             ),
           ),
         )

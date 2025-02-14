@@ -105,7 +105,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ??
+      padding:
+          widget.padding ??
           EdgeInsets.only(
             left: context.padding,
             right: context.padding,
@@ -113,15 +114,17 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             top: context.halfPadding,
           ),
       child: ClipRRect(
-        borderRadius: widget.roundedCorners
-            ? BorderRadius.circular(15.0)
-            : BorderRadius.zero,
-        child: widget.aspectRatioNeeded
-            ? AspectRatio(
-                aspectRatio: widget.aspectRatio ?? 1.0,
-                child: _mapWidget(),
-              )
-            : _mapWidget(),
+        borderRadius:
+            widget.roundedCorners
+                ? BorderRadius.circular(15.0)
+                : BorderRadius.zero,
+        child:
+            widget.aspectRatioNeeded
+                ? AspectRatio(
+                  aspectRatio: widget.aspectRatio ?? 1.0,
+                  child: _mapWidget(),
+                )
+                : _mapWidget(),
       ),
     );
   }
@@ -132,20 +135,20 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       opacity: isMapVisible ? 1.0 : 0.01,
       duration: const Duration(milliseconds: 200),
       child: GoogleMap(
-        style: Theme.of(context).brightness == Brightness.light
-            ? getIt.get<MapThemeService>().lightTheme
-            : getIt.get<MapThemeService>().darkTheme,
+        style:
+            Theme.of(context).brightness == Brightness.light
+                ? getIt.get<MapThemeService>().lightTheme
+                : getIt.get<MapThemeService>().darkTheme,
         mapType: MapType.normal,
         padding: widget.controlPadding ?? EdgeInsets.zero,
         initialCameraPosition: CameraPosition(
-          target: widget.latLng ??
+          target:
+              widget.latLng ??
               const LatLng(48.26307794976663, 11.668018668778569),
           zoom: widget.zoom ?? 10,
         ),
         gestureRecognizers: {
-          Factory<OneSequenceGestureRecognizer>(
-            () => EagerGestureRecognizer(),
-          ),
+          Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
         },
         rotateGesturesEnabled: false,
         compassEnabled: false,
@@ -157,16 +160,13 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         markers: widget.markers,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-          Future.delayed(
-            const Duration(milliseconds: 250),
-            () {
-              if (mounted) {
-                setState(() {
-                  isMapVisible = true;
-                });
-              }
-            },
-          );
+          Future.delayed(const Duration(milliseconds: 250), () {
+            if (mounted) {
+              setState(() {
+                isMapVisible = true;
+              });
+            }
+          });
         },
       ),
     );

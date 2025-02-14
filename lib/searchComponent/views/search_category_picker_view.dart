@@ -21,23 +21,28 @@ class SearchCategoryPickerView extends ConsumerWidget {
           child: HorizontalSlider.height(
             data: _getData(snapshot.data ?? [], ref),
             height: 40,
-            child: (searchCategory) => InkWell(
-              onLongPress: () =>
-                  ref.read(searchVM).selectSingleCategory(searchCategory),
-              child: FilterChip(
-                label: Text(
-                  SearchCategoryExtension.localizedEnumTitle(
-                    searchCategory,
-                    context,
+            child:
+                (searchCategory) => InkWell(
+                  onLongPress:
+                      () => ref
+                          .read(searchVM)
+                          .selectSingleCategory(searchCategory),
+                  child: FilterChip(
+                    label: Text(
+                      SearchCategoryExtension.localizedEnumTitle(
+                        searchCategory,
+                        context,
+                      ),
+                    ),
+                    onSelected:
+                        (selected) =>
+                            ref.read(searchVM).updateCategory(searchCategory),
+                    selected:
+                        (snapshot.data ?? []).isNotEmpty
+                            ? snapshot.data?.contains(searchCategory) ?? false
+                            : true,
                   ),
                 ),
-                onSelected: (selected) =>
-                    ref.read(searchVM).updateCategory(searchCategory),
-                selected: (snapshot.data ?? []).isNotEmpty
-                    ? snapshot.data?.contains(searchCategory) ?? false
-                    : true,
-              ),
-            ),
           ),
         );
       },
@@ -55,10 +60,10 @@ class SearchCategoryPickerView extends ConsumerWidget {
       return data.contains(a) && data.contains(b)
           ? 0
           : data.contains(a)
-              ? -1
-              : data.contains(b)
-                  ? 1
-                  : 0;
+          ? -1
+          : data.contains(b)
+          ? 1
+          : 0;
     });
     return searchCategories;
   }

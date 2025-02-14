@@ -12,29 +12,26 @@ final movieSearchViewModel = Provider((ref) => MovieSearchViewModel());
 
 class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
   @override
-  BehaviorSubject<List<MovieSearch>?> searchResults =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<List<MovieSearch>?> searchResults = BehaviorSubject.seeded(
+    null,
+  );
 
   List<MovieSearch> movieData = [];
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (movieData.isEmpty) {
-      return MovieService.fetchMovies(forcedRefresh).then(
-        (value) {
-          movieData = value.$2
-              .where(
-                (element) => element.date.toDateTime().isAfter(DateTime.now()),
-              )
-              .map((e) => MovieSearch(e))
-              .toList();
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return MovieService.fetchMovies(forcedRefresh).then((value) {
+        movieData =
+            value.$2
+                .where(
+                  (element) =>
+                      element.date.toDateTime().isAfter(DateTime.now()),
+                )
+                .map((e) => MovieSearch(e))
+                .toList();
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -62,7 +59,7 @@ class MovieSearch extends Searchable {
 
   @override
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: movie.title),
-        ComparisonToken(value: movie.genre),
-      ];
+    ComparisonToken(value: movie.title),
+    ComparisonToken(value: movie.genre),
+  ];
 }

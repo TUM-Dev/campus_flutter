@@ -30,10 +30,7 @@ class AdaptedCampusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: CampusView(
-        campus: campus,
-        orientation: orientation,
-      ),
+      child: CampusView(campus: campus, orientation: orientation),
     );
   }
 }
@@ -61,10 +58,10 @@ class _CampusViewState extends ConsumerState<CampusView> {
     ref.read(navigaTumCampusViewModel(widget.campus)).mostSearched(false);
     cafeterias =
         ref.read(cafeteriasViewModel).campusCafeterias.value?[widget.campus] ??
-            [];
+        [];
     studyRooms =
         ref.read(studyRoomsViewModel).campusStudyRooms.value?[widget.campus] ??
-            [];
+        [];
     super.initState();
   }
 
@@ -99,11 +96,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
             ),
           ),
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: _campusWidgets(),
-          ),
-        ),
+        Expanded(child: SingleChildScrollView(child: _campusWidgets())),
       ],
     );
   }
@@ -149,14 +142,12 @@ class _CampusViewState extends ConsumerState<CampusView> {
                 child: Card(
                   child: SeparatedList.list(
                     data: studyRooms,
-                    tile: (studyRoomGroup) =>
-                        StudyRoomWidgetView(studyRoomGroup),
+                    tile:
+                        (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
                   ),
                 ),
               ),
-            CampusMostSearchedView(
-              campus: widget.campus,
-            ),
+            CampusMostSearchedView(campus: widget.campus),
           ],
         ),
       ],

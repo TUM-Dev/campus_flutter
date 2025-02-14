@@ -20,10 +20,7 @@ class DishSliderView extends StatelessWidget {
       height: 160,
       leadingTrailingPadding: !inverted,
       child: (dish) {
-        return DishCardView(
-          dish: dish,
-          inverted: inverted,
-        );
+        return DishCardView(dish: dish, inverted: inverted);
       },
     );
   }
