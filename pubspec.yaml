@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 5.1.4+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
@@ -90,11 +90,6 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/flutter_linkify
       ref: master
-  home_widget:
-    git:
-      url: https://github.com/jakobkoerber/home_widget.git
-      ref: main
-      path: packages/home_widget
 
 dev_dependencies:
   # code generation
