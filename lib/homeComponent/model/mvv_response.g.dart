@@ -7,13 +7,11 @@ part of 'mvv_response.dart';
 // **************************************************************************
 
 MvvResponse _$MvvResponseFromJson(Map<String, dynamic> json) => MvvResponse(
-      departures:
-          (MvvResponse.readDepartures(json, 'departureList') as List<dynamic>)
-              .map((e) => Departure.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
+  departures:
+      (MvvResponse.readDepartures(json, 'departureList') as List<dynamic>)
+          .map((e) => Departure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+);
 
 Map<String, dynamic> _$MvvResponseToJson(MvvResponse instance) =>
-    <String, dynamic>{
-      'departureList': instance.departures,
-    };
+    <String, dynamic>{'departureList': instance.departures};

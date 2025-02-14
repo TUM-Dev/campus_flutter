@@ -7,15 +7,12 @@ part of 'navigatum_navigation_coordinates.dart';
 // **************************************************************************
 
 NavigaTumNavigationCoordinates _$NavigaTumNavigationCoordinatesFromJson(
-        Map<String, dynamic> json) =>
-    NavigaTumNavigationCoordinates(
-      (json['lat'] as num?)?.toDouble(),
-      (json['lon'] as num?)?.toDouble(),
-    );
+  Map<String, dynamic> json,
+) => NavigaTumNavigationCoordinates(
+  (json['lat'] as num?)?.toDouble(),
+  (json['lon'] as num?)?.toDouble(),
+);
 
 Map<String, dynamic> _$NavigaTumNavigationCoordinatesToJson(
-        NavigaTumNavigationCoordinates instance) =>
-    <String, dynamic>{
-      'lat': instance.latitude,
-      'lon': instance.longitude,
-    };
+  NavigaTumNavigationCoordinates instance,
+) => <String, dynamic>{'lat': instance.latitude, 'lon': instance.longitude};

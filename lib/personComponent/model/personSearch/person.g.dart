@@ -7,28 +7,29 @@ part of 'person.dart';
 // **************************************************************************
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
-      firstname: json['vorname'] as String,
-      surname: json['familienname'] as String,
-      title: json['titel'] as String?,
-      nr: json['nr'] as String,
-      obfuscatedID: json['obfuscated_id'] as String,
-    );
+  firstname: json['vorname'] as String,
+  surname: json['familienname'] as String,
+  title: json['titel'] as String?,
+  nr: json['nr'] as String,
+  obfuscatedID: json['obfuscated_id'] as String,
+);
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
-      'vorname': instance.firstname,
-      'familienname': instance.surname,
-      'titel': instance.title,
-      'nr': instance.nr,
-      'obfuscated_id': instance.obfuscatedID,
-    };
+  'vorname': instance.firstname,
+  'familienname': instance.surname,
+  'titel': instance.title,
+  'nr': instance.nr,
+  'obfuscated_id': instance.obfuscatedID,
+};
 
 Persons _$PersonsFromJson(Map<String, dynamic> json) => Persons(
-      persons: (json['row'] as List<dynamic>?)
-              ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
+  persons:
+      (json['row'] as List<dynamic>?)
+          ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
 
 Map<String, dynamic> _$PersonsToJson(Persons instance) => <String, dynamic>{
-      'row': instance.persons,
-    };
+  'row': instance.persons,
+};

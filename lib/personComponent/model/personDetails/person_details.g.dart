@@ -16,22 +16,29 @@ PersonDetails _$PersonDetailsFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       gender: PersonDetails._stringToGender(json['geschlecht'] as String),
       officeHours: json['sprechstunde'] as String?,
-      officialContact: json['dienstlich'] == null
-          ? null
-          : ContactInfo.fromJson(json['dienstlich'] as Map<String, dynamic>),
-      privateContact: json['privat'] == null
-          ? null
-          : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
+      officialContact:
+          json['dienstlich'] == null
+              ? null
+              : ContactInfo.fromJson(
+                json['dienstlich'] as Map<String, dynamic>,
+              ),
+      privateContact:
+          json['privat'] == null
+              ? null
+              : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
       imageData: json['image_data'] as String?,
-      organisations: (json['gruppe'] as List<dynamic>?)
+      organisations:
+          (json['gruppe'] as List<dynamic>?)
               ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      rooms: (json['raum'] as List<dynamic>?)
+      rooms:
+          (json['raum'] as List<dynamic>?)
               ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      phoneExtensions: (json['nebenstelle'] as List<dynamic>?)
+      phoneExtensions:
+          (json['nebenstelle'] as List<dynamic>?)
               ?.map((e) => PhoneExtension.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -68,6 +75,4 @@ PersonDetailsData _$PersonDetailsDataFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$PersonDetailsDataToJson(PersonDetailsData instance) =>
-    <String, dynamic>{
-      'person': instance.person,
-    };
+    <String, dynamic>{'person': instance.person};
