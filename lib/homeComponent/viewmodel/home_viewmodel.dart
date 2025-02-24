@@ -20,14 +20,16 @@ class HomeViewModel {
   final Ref ref;
 
   HomeViewModel(this.ref) {
-    final data = getIt<UserPreferencesService>()
-            .load(UserPreference.homeWidgets) as List<String>? ??
+    final data =
+        getIt<UserPreferencesService>().load(UserPreference.homeWidgets)
+            as List<String>? ??
         <String>[];
     List<HomeScreenWidget> widgets = defaultWidgets;
-    final types = data
-        .map((e) => HomeScreenWidget.fromString(e))
-        .whereType<HomeScreenWidget>()
-        .toList();
+    final types =
+        data
+            .map((e) => HomeScreenWidget.fromString(e))
+            .whereType<HomeScreenWidget>()
+            .toList();
     if (types.isNotEmpty) {
       widgets = types;
     }
@@ -58,8 +60,10 @@ class HomeViewModel {
 
   void savePreference(List<HomeScreenWidget> data) {
     final enabledWidgets = data.map((e) => e.convertToString()).toList();
-    getIt<UserPreferencesService>()
-        .save(UserPreference.homeWidgets, enabledWidgets);
+    getIt<UserPreferencesService>().save(
+      UserPreference.homeWidgets,
+      enabledWidgets,
+    );
   }
 
   List<HomeScreenWidget> getEnabledWidgets() {
@@ -97,11 +101,11 @@ class HomeViewModel {
   }
 
   static List<HomeScreenWidget> get defaultWidgets => [
-        HomeScreenWidget(widgetType: WidgetType.cafeterias),
-        HomeScreenWidget(widgetType: WidgetType.calendar),
-        HomeScreenWidget(widgetType: WidgetType.departures),
-        HomeScreenWidget(widgetType: WidgetType.studyRooms),
-      ];
+    HomeScreenWidget(widgetType: WidgetType.cafeterias),
+    HomeScreenWidget(widgetType: WidgetType.calendar),
+    HomeScreenWidget(widgetType: WidgetType.departures),
+    HomeScreenWidget(widgetType: WidgetType.studyRooms),
+  ];
 
   void reset() {
     widgets.add(defaultWidgets);

@@ -35,12 +35,7 @@ class StudentCardView extends ConsumerWidget {
             );
           } else {
             return Center(
-              child: Text(
-                context.tr(
-                  "noEntriesFound",
-                  args: ["StudentCard"],
-                ),
-              ),
+              child: Text(context.tr("noEntriesFound", args: ["StudentCard"])),
             );
           }
         } else if (snapshot.hasError) {

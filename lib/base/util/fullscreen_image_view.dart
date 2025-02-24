@@ -12,20 +12,14 @@ class ImageFullScreenScaffold extends StatelessWidget {
     required String url,
     NavigaTumRoomFinderMap? map,
   }) {
-    return ImageFullScreenScaffold(
-      url: url,
-      map: map,
-    );
+    return ImageFullScreenScaffold(url: url, map: map);
   }
 
   factory ImageFullScreenScaffold.imageData({
     required String imageData,
     NavigaTumRoomFinderMap? map,
   }) {
-    return ImageFullScreenScaffold(
-      imageData: imageData,
-      map: map,
-    );
+    return ImageFullScreenScaffold(imageData: imageData, map: map);
   }
 
   const ImageFullScreenScaffold({
@@ -44,16 +38,10 @@ class ImageFullScreenScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: const CustomBackButton(
-          color: Colors.white,
-        ),
+        leading: const CustomBackButton(color: Colors.white),
       ),
       backgroundColor: Colors.black,
-      body: ImageFullScreenView(
-        map: map,
-        url: url,
-        imageData: imageData,
-      ),
+      body: ImageFullScreenView(map: map, url: url, imageData: imageData),
     );
   }
 }

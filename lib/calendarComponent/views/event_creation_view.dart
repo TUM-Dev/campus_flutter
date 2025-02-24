@@ -10,10 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EventCreationScaffold extends ConsumerWidget {
-  const EventCreationScaffold({
-    super.key,
-    required this.calendarEvent,
-  });
+  const EventCreationScaffold({super.key, required this.calendarEvent});
 
   final CalendarEvent? calendarEvent;
 
@@ -29,18 +26,13 @@ class EventCreationScaffold extends ConsumerWidget {
         ),
         title: Text(context.tr("createCalendarEvent")),
       ),
-      body: EventCreationView(
-        calendarEvent: calendarEvent,
-      ),
+      body: EventCreationView(calendarEvent: calendarEvent),
     );
   }
 }
 
 class EventCreationView extends ConsumerWidget {
-  const EventCreationView({
-    super.key,
-    required this.calendarEvent,
-  });
+  const EventCreationView({super.key, required this.calendarEvent});
 
   final CalendarEvent? calendarEvent;
 
@@ -52,18 +44,20 @@ class EventCreationView extends ConsumerWidget {
           children: [
             EventCreationFormField(
               title: context.tr("title"),
-              controller: ref
-                  .read(calendarAdditionViewModel(calendarEvent))
-                  .titleController,
+              controller:
+                  ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .titleController,
               maxLength: 255,
               maxLines: 2,
               calendarEvent: calendarEvent,
             ),
             EventCreationFormField(
               title: context.tr("annotation"),
-              controller: ref
-                  .read(calendarAdditionViewModel(calendarEvent))
-                  .annotationController,
+              controller:
+                  ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .annotationController,
               maxLength: 4000,
               maxLines: 200,
               calendarEvent: calendarEvent,
@@ -72,12 +66,14 @@ class EventCreationView extends ConsumerWidget {
               title: context.tr("from"),
               currentDate:
                   ref.watch(calendarAdditionViewModel(calendarEvent)).from,
-              onDateSet: ref
-                  .read(calendarAdditionViewModel(calendarEvent))
-                  .setFromDate,
-              onTimeOfDaySet: ref
-                  .read(calendarAdditionViewModel(calendarEvent))
-                  .setFromTimeOfDay,
+              onDateSet:
+                  ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .setFromDate,
+              onTimeOfDaySet:
+                  ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .setFromTimeOfDay,
             ),
             EventCreationDateTimePicker(
               title: context.tr("to"),
@@ -85,9 +81,10 @@ class EventCreationView extends ConsumerWidget {
                   ref.watch(calendarAdditionViewModel(calendarEvent)).to,
               onDateSet:
                   ref.read(calendarAdditionViewModel(calendarEvent)).setToDate,
-              onTimeOfDaySet: ref
-                  .read(calendarAdditionViewModel(calendarEvent))
-                  .setToTimeOfDay,
+              onTimeOfDaySet:
+                  ref
+                      .read(calendarAdditionViewModel(calendarEvent))
+                      .setToTimeOfDay,
             ),
             _submitButton(ref),
           ],
@@ -101,17 +98,20 @@ class EventCreationView extends ConsumerWidget {
       stream: ref.watch(calendarAdditionViewModel(calendarEvent)).isValid,
       builder: (context, snapshot) {
         return ElevatedButton(
-          onPressed: (snapshot.data ?? false)
-              ? () => ref
+          onPressed:
+              (snapshot.data ?? false)
+                  ? () => ref
                       .read(calendarAdditionViewModel(calendarEvent))
                       .saveEvent()
                       .then((value) {
-                    if (context.mounted) {
-                      ref.invalidate(calendarAdditionViewModel);
-                      context.canPop() ? context.pop() : context.go(calendar);
-                    }
-                  })
-              : null,
+                        if (context.mounted) {
+                          ref.invalidate(calendarAdditionViewModel);
+                          context.canPop()
+                              ? context.pop()
+                              : context.go(calendar);
+                        }
+                      })
+                  : null,
           child: Text(context.tr("submit")),
         );
       },

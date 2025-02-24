@@ -36,10 +36,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.tr(
-                  "noEntriesFound",
-                  args: [context.tr("grades")],
-                ),
+                context.tr("noEntriesFound", args: [context.tr("grades")]),
               ),
             );
           } else {
@@ -97,7 +94,8 @@ class _GradesViewState extends ConsumerState<GradesView> {
               Expanded(
                 flex: 2,
                 child: ChartView(
-                  title: data.values.first.firstOrNull?.studyDesignation ??
+                  title:
+                      data.values.first.firstOrNull?.studyDesignation ??
                       "Unknown",
                   studyId: data.values.first.firstOrNull?.studyID ?? "Unknown",
                   degreeShort:

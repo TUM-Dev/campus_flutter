@@ -13,7 +13,4 @@ StudyRoomAttribute _$StudyRoomAttributeFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$StudyRoomAttributeToJson(StudyRoomAttribute instance) =>
-    <String, dynamic>{
-      'detail': instance.detail,
-      'name': instance.name,
-    };
+    <String, dynamic>{'detail': instance.detail, 'name': instance.name};

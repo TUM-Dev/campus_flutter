@@ -16,11 +16,11 @@ class GrpcClient extends CampusClient {
   }
 
   GrpcClient(CacheDatabase cacheDatabase, CallOptions callOptions)
-      : super(
-          _channel(),
-          options: callOptions,
-          interceptors: [GrpcCacheInterceptor(cacheDatabase)],
-        );
+    : super(
+        _channel(),
+        options: callOptions,
+        interceptors: [GrpcCacheInterceptor(cacheDatabase)],
+      );
 
   static Future<CallOptions> _callOptions() async {
     final packageInfo = await PackageInfo.fromPlatform();

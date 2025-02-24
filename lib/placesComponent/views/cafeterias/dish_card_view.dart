@@ -27,17 +27,11 @@ class DishCardView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    dish.$2,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  Text(dish.$2, style: Theme.of(context).textTheme.titleLarge),
                   const Spacer(),
                   IconButton(
                     onPressed: () => _dishInfoAlert(dish.$1, price, context),
-                    icon: Icon(
-                      Icons.info_outline,
-                      color: context.primaryColor,
-                    ),
+                    icon: Icon(Icons.info_outline, color: context.primaryColor),
                     padding: EdgeInsets.zero,
                     alignment: Alignment.centerRight,
                     highlightColor: Colors.transparent,
@@ -54,13 +48,7 @@ class DishCardView extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            if (price != null)
-              Expanded(
-                child: Text(
-                  price,
-                  maxLines: 1,
-                ),
-              ),
+            if (price != null) Expanded(child: Text(price, maxLines: 1)),
           ],
         ),
       ),

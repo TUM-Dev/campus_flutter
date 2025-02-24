@@ -14,11 +14,14 @@ class StudentClubViewModel {
       BehaviorSubject.seeded(null);
 
   Future fetchStudentClubs(bool forceRefresh, BuildContext context) {
-    final currentLanguage = context.locale.languageCode == "de"
-        ? Language.German
-        : Language.English;
-    return StudentClubService.fetchStudentClubs(currentLanguage, forceRefresh)
-        .then(
+    final currentLanguage =
+        context.locale.languageCode == "de"
+            ? Language.German
+            : Language.English;
+    return StudentClubService.fetchStudentClubs(
+      currentLanguage,
+      forceRefresh,
+    ).then(
       (value) {
         collections.add(value.$2);
         final studentClubs = value.$2.expand((e) => e.clubs).toList();

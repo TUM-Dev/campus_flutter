@@ -46,10 +46,11 @@ class StripePatternPainter extends CustomPainter {
     final yOffset = jointSize / sin(pi / 2 - rotateRadian);
 
     /// config stroke paint object
-    final paint = Paint()
-      ..color = stripeColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stripeWidth;
+    final paint =
+        Paint()
+          ..color = stripeColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = stripeWidth;
     final path = Path();
 
     /// setup the path
@@ -69,9 +70,10 @@ class StripePatternPainter extends CustomPainter {
     canvas.drawPath(path, paint);
 
     /// Fill the pattern area background with the patternColor.
-    final patternPaint = Paint()
-      ..color = bgColor
-      ..style = PaintingStyle.fill;
+    final patternPaint =
+        Paint()
+          ..color = bgColor
+          ..style = PaintingStyle.fill;
     canvas.drawRect(Offset.zero & size, patternPaint);
   }
 

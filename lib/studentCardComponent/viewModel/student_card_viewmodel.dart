@@ -6,17 +6,15 @@ import 'package:rxdart/rxdart.dart';
 final studentCardViewModel = Provider((ref) => StudentCardViewModel());
 
 class StudentCardViewModel {
-  BehaviorSubject<List<StudentCard>?> studentCard =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<List<StudentCard>?> studentCard = BehaviorSubject.seeded(
+    null,
+  );
   BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
-    return StudentCardService.fetchStudentCard(forcedRefresh).then(
-      (response) {
-        studentCard.add(response.$2);
-        lastFetched.add(response.$1);
-      },
-      onError: (error) => studentCard.addError(error),
-    );
+    return StudentCardService.fetchStudentCard(forcedRefresh).then((response) {
+      studentCard.add(response.$2);
+      lastFetched.add(response.$1);
+    }, onError: (error) => studentCard.addError(error));
   }
 }

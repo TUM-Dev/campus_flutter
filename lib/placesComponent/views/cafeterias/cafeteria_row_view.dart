@@ -14,9 +14,7 @@ class CafeteriaCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardWithPadding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      child: CafeteriaRowView(
-        cafeteria: cafeteria,
-      ),
+      child: CafeteriaRowView(cafeteria: cafeteria),
     );
   }
 }
@@ -29,13 +27,8 @@ class CafeteriaRowView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(
-        cafeteria.name,
-      ),
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        size: 15,
-      ),
+      title: Text(cafeteria.name),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => context.push(routes.cafeteria, extra: cafeteria),
     );
   }

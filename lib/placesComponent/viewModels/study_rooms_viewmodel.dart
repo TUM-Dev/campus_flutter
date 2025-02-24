@@ -25,8 +25,9 @@ class StudyRoomsViewModel {
       BehaviorSubject.seeded(null);
   BehaviorSubject<Map<StudyRoomGroup, List<StudyRoom>>?> studyRooms =
       BehaviorSubject.seeded(null);
-  BehaviorSubject<StudyRoomGroup?> widgetStudyRoom =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<StudyRoomGroup?> widgetStudyRoom = BehaviorSubject.seeded(
+    null,
+  );
 
   Future<void> setWidgetStudyRoom(int id) async {
     final newStudyRoom = studyRoomData?.groups?.firstWhereOrNull(
@@ -42,14 +43,11 @@ class StudyRoomsViewModel {
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
-    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
-      (value) {
-        lastFetched = value.$1;
-        studyRoomData = value.$2;
-        _categorizeAndSort();
-      },
-      onError: (error) => studyRooms.addError(error),
-    );
+    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
+      lastFetched = value.$1;
+      studyRoomData = value.$2;
+      _categorizeAndSort();
+    }, onError: (error) => studyRooms.addError(error));
   }
 
   Future<void> fetchWidgetStudyRooms(
@@ -60,35 +58,32 @@ class StudyRoomsViewModel {
       UserPreference.studyRoom,
     );
 
-    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
-      (value) {
-        lastFetched = value.$1;
-        studyRoomData = value.$2;
-        _categorizeAndSort();
-        final selectedStudyRoom = value.$2.groups?.firstWhereOrNull(
-          (element) => element.id == preferenceId,
+    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
+      lastFetched = value.$1;
+      studyRoomData = value.$2;
+      _categorizeAndSort();
+      final selectedStudyRoom = value.$2.groups?.firstWhereOrNull(
+        (element) => element.id == preferenceId,
+      );
+      if (selectedStudyRoom != null) {
+        widgetStudyRoom.add(selectedStudyRoom);
+      } else {
+        LocationService.getLastKnown().then(
+          (position) {
+            if (context.mounted) {
+              _getClosestStudyRoomGroup(position, context);
+            }
+          },
+          onError: (error) {
+            if (value.$2.groups?.firstOrNull != null) {
+              widgetStudyRoom.add(value.$2.groups!.first);
+            } else {
+              widgetStudyRoom.add(error);
+            }
+          },
         );
-        if (selectedStudyRoom != null) {
-          widgetStudyRoom.add(selectedStudyRoom);
-        } else {
-          LocationService.getLastKnown().then(
-            (position) {
-              if (context.mounted) {
-                _getClosestStudyRoomGroup(position, context);
-              }
-            },
-            onError: (error) {
-              if (value.$2.groups?.firstOrNull != null) {
-                widgetStudyRoom.add(value.$2.groups!.first);
-              } else {
-                widgetStudyRoom.add(error);
-              }
-            },
-          );
-        }
-      },
-      onError: (error) => widgetStudyRoom.addError(error),
-    );
+      }
+    }, onError: (error) => widgetStudyRoom.addError(error));
   }
 
   _getClosestStudyRoomGroup(Position? position, BuildContext context) {
@@ -98,7 +93,8 @@ class StudyRoomsViewModel {
     }
 
     if (position == null) {
-      final defaultStudyRoom = studyRoomData?.groups?.firstWhereOrNull(
+      final defaultStudyRoom =
+          studyRoomData?.groups?.firstWhereOrNull(
             (element) => element.id == 97,
           ) ??
           studyRoomData?.groups?.firstOrNull;
@@ -113,21 +109,22 @@ class StudyRoomsViewModel {
       final distanceCurrent =
           (currentGroup.coordinate != null && position != null)
               ? Geolocator.distanceBetween(
-                  currentGroup.coordinate!.latitude,
-                  currentGroup.coordinate!.longitude,
-                  position.latitude,
-                  position.longitude,
-                )
+                currentGroup.coordinate!.latitude,
+                currentGroup.coordinate!.longitude,
+                position.latitude,
+                position.longitude,
+              )
               : 0.0;
 
-      final distanceNext = (nextGroup.coordinate != null && position != null)
-          ? Geolocator.distanceBetween(
-              nextGroup.coordinate!.latitude,
-              nextGroup.coordinate!.longitude,
-              position.latitude,
-              position.longitude,
-            )
-          : 0.0;
+      final distanceNext =
+          (nextGroup.coordinate != null && position != null)
+              ? Geolocator.distanceBetween(
+                nextGroup.coordinate!.latitude,
+                nextGroup.coordinate!.longitude,
+                position.latitude,
+                position.longitude,
+              )
+              : 0.0;
 
       if (distanceCurrent < distanceNext) {
         return currentGroup;
@@ -171,19 +168,20 @@ class StudyRoomsViewModel {
     for (var campus in Campus.values) {
       if (studyRoomData?.groups != null) {
         List<StudyRoomGroup> groups = studyRoomData!.groups!;
-        groups = groups.where((element) {
-          if (element.coordinate != null) {
-            return Geolocator.distanceBetween(
-                  campus.location.latitude,
-                  campus.location.longitude,
-                  element.coordinate!.latitude,
-                  element.coordinate!.longitude,
-                ) <=
-                1000;
-          } else {
-            return false;
-          }
-        }).toList();
+        groups =
+            groups.where((element) {
+              if (element.coordinate != null) {
+                return Geolocator.distanceBetween(
+                      campus.location.latitude,
+                      campus.location.longitude,
+                      element.coordinate!.latitude,
+                      element.coordinate!.longitude,
+                    ) <=
+                    1000;
+              } else {
+                return false;
+              }
+            }).toList();
 
         campusStudyRooms[campus] = groups;
       }
@@ -198,33 +196,33 @@ class StudyRoomsViewModel {
 
   List<ListTile> getStudyRoomEntries(BuildContext context) {
     return studyRooms.value?.entries.map((e) {
-          final isSelected = widgetStudyRoom.value?.id == e.key.id &&
-              getIt<UserPreferencesService>().load(
-                    UserPreference.studyRoom,
-                  ) !=
-                  null;
-          return ListTile(
-            dense: true,
-            title: Text(e.key.name),
-            trailing: isSelected ? const Icon(Icons.check) : null,
-            onTap: () {
-              setWidgetStudyRoom(e.key.id);
-              context.pop();
-            },
-          );
-        }).toList() ??
-        []
+            final isSelected =
+                widgetStudyRoom.value?.id == e.key.id &&
+                getIt<UserPreferencesService>().load(
+                      UserPreference.studyRoom,
+                    ) !=
+                    null;
+            return ListTile(
+              dense: true,
+              title: Text(e.key.name),
+              trailing: isSelected ? const Icon(Icons.check) : null,
+              onTap: () {
+                setWidgetStudyRoom(e.key.id);
+                context.pop();
+              },
+            );
+          }).toList() ??
+          []
       ..insert(
         0,
         ListTile(
           dense: true,
           title: Text(context.tr("closest")),
-          trailing: getIt<UserPreferencesService>().load(
-                    UserPreference.studyRoom,
-                  ) ==
-                  null
-              ? const Icon(Icons.check)
-              : null,
+          trailing:
+              getIt<UserPreferencesService>().load(UserPreference.studyRoom) ==
+                      null
+                  ? const Icon(Icons.check)
+                  : null,
           onTap: () {
             getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
             fetchWidgetStudyRooms(false, context);

@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchScaffold extends ConsumerStatefulWidget {
-  const SearchScaffold({
-    super.key,
-    required this.searchVM,
-    this.searchString,
-  });
+  const SearchScaffold({super.key, required this.searchVM, this.searchString});
 
   final Provider<SearchViewModel> searchVM;
   final String? searchString;

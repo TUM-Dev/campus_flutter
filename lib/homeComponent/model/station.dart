@@ -5,7 +5,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'station.g.dart';
 
 @JsonSerializable()
-
 /// local data type
 class Station {
   final String name;

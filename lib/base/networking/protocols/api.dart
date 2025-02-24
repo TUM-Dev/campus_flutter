@@ -24,9 +24,7 @@ abstract class Api {
     );
   }
 
-  Future<dio.Response<String>> post({
-    required dio.Dio dioClient,
-  }) async {
+  Future<dio.Response<String>> post({required dio.Dio dioClient}) async {
     return dioClient.postUri(
       asURL(),
       options: _customDecodingOptions(baseHeaders),

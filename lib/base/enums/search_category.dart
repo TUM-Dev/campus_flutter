@@ -25,7 +25,7 @@ enum SearchCategory {
   grade,
   movie,
   news,
-  studentClub;
+  studentClub,
 }
 
 extension SearchCategoryExtension on SearchCategory {

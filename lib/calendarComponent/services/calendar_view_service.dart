@@ -55,43 +55,42 @@ class CalendarViewService {
     } else if (calendarEvent != null) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            calendarEvent!.title ?? "-",
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-          content: CustomEventView(calendarEvent: calendarEvent),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+        builder:
+            (context) => AlertDialog(
+              title: Text(
+                calendarEvent!.title ?? "-",
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
-              onPressed: () {
-                ref
-                    .read(calendarViewModel)
-                    .deleteCalendarElement(calendarEvent!.id)
-                    .then(
-                  (value) {
-                    if (context.mounted) {
-                      context.pop();
-                    }
+              content: CustomEventView(calendarEvent: calendarEvent),
+              actionsAlignment: MainAxisAlignment.center,
+              actions: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+                  ),
+                  onPressed: () {
+                    ref
+                        .read(calendarViewModel)
+                        .deleteCalendarElement(calendarEvent!.id)
+                        .then((value) {
+                          if (context.mounted) {
+                            context.pop();
+                          }
+                        });
                   },
-                );
-              },
-              child: Text(context.tr("delete")),
+                  child: Text(context.tr("delete")),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.pop();
+                    context.push(eventCreation, extra: calendarEvent);
+                  },
+                  child: Text(context.tr("edit")),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.pop();
-                context.push(eventCreation, extra: calendarEvent);
-              },
-              child: Text(context.tr("edit")),
-            ),
-          ],
-        ),
       );
     }
   }

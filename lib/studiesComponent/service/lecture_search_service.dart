@@ -12,11 +12,11 @@ class LectureSearchService {
   ) async {
     final response = await getIt<RestClient>()
         .getWithException<Lectures, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointLectureSearch(search: query)),
-      Lectures.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointLectureSearch(search: query)),
+          Lectures.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
     return (response.saved, response.data.lectures);
   }

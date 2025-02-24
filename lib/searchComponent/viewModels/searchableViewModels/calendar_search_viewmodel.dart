@@ -11,24 +11,19 @@ final calendarSearchViewModel = Provider((ref) => CalendarSearchViewModel());
 class CalendarSearchViewModel
     implements SearchCategoryViewModel<CalendarEvent> {
   @override
-  BehaviorSubject<List<CalendarEvent>?> searchResults =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<List<CalendarEvent>?> searchResults = BehaviorSubject.seeded(
+    null,
+  );
 
   List<CalendarEvent> calendarData = [];
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (calendarData.isEmpty) {
-      return CalendarService.fetchCalendar(forcedRefresh).then(
-        (value) {
-          calendarData = _keepEarliestAfterToday(value.$2);
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return CalendarService.fetchCalendar(forcedRefresh).then((value) {
+        calendarData = _keepEarliestAfterToday(value.$2);
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -41,8 +36,9 @@ class CalendarSearchViewModel
     for (var item in items) {
       if (item.startDate.isAfter(today)) {
         if (!earliestDates.containsKey(item.lvNr) ||
-            item.startDate
-                .isBefore(earliestDates[item.lvNr]?.startDate ?? today)) {
+            item.startDate.isBefore(
+              earliestDates[item.lvNr]?.startDate ?? today,
+            )) {
           if (item.lvNr != null) {
             earliestDates[item.lvNr!] = item;
           }

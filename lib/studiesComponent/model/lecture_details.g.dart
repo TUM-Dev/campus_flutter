@@ -19,8 +19,9 @@ LectureDetails _$LectureDetailsFromJson(Map<String, dynamic> json) =>
       semesterType: json['semester'] as String,
       semesterID: json['semester_id'] as String,
       semesterYear: json['sj_name'] as String,
-      organisationNumber:
-          StringParser.stringToInt(json['org_nr_betreut'] as String?),
+      organisationNumber: StringParser.stringToInt(
+        json['org_nr_betreut'] as String?,
+      ),
       organisation: json['org_name_betreut'] as String,
       organisationTag: json['org_kennung_betreut'] as String,
       speaker: json['vortragende_mitwirkende'] as String?,
@@ -70,14 +71,11 @@ Map<String, dynamic> _$LectureDetailsToJson(LectureDetails instance) =>
     };
 
 LectureDetailsElement _$LectureDetailsElementFromJson(
-        Map<String, dynamic> json) =>
-    LectureDetailsElement(
-      lectureDetails:
-          LectureDetailsElement._lectureDetailsFromJson(json['row']),
-    );
+  Map<String, dynamic> json,
+) => LectureDetailsElement(
+  lectureDetails: LectureDetailsElement._lectureDetailsFromJson(json['row']),
+);
 
 Map<String, dynamic> _$LectureDetailsElementToJson(
-        LectureDetailsElement instance) =>
-    <String, dynamic>{
-      'row': instance.lectureDetails,
-    };
+  LectureDetailsElement instance,
+) => <String, dynamic>{'row': instance.lectureDetails};

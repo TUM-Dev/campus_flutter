@@ -49,9 +49,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                 ),
               );
             } else {
-              return DelayedLoadingIndicator(
-                name: context.tr("events"),
-              );
+              return DelayedLoadingIndicator(name: context.tr("events"));
             }
           },
         ),
@@ -64,9 +62,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
       return Stack(
         children: [
           _todayWidget(),
-          Center(
-            child: Text(context.tr("noUpcomingEvents")),
-          ),
+          Center(child: Text(context.tr("noUpcomingEvents"))),
         ],
       );
     } else {
@@ -77,9 +73,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: _todayWidget(),
-                ),
+                Expanded(child: _todayWidget()),
                 if (events.$1 != null)
                   Expanded(
                     child: CalendarHomeWidgetEventView(
@@ -95,23 +89,24 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: events.$2.length == 1
-                    ? [
-                        Expanded(
-                          child: CalendarHomeWidgetEventView(
-                            calendarEvent: events.$2[0],
-                          ),
-                        ),
-                        const Spacer(),
-                      ]
-                    : [
-                        for (int i = 0; i < events.$2.length && i < 2; i++)
+                children:
+                    events.$2.length == 1
+                        ? [
                           Expanded(
                             child: CalendarHomeWidgetEventView(
-                              calendarEvent: events.$2[i],
+                              calendarEvent: events.$2[0],
                             ),
                           ),
-                      ],
+                          const Spacer(),
+                        ]
+                        : [
+                          for (int i = 0; i < events.$2.length && i < 2; i++)
+                            Expanded(
+                              child: CalendarHomeWidgetEventView(
+                                calendarEvent: events.$2[i],
+                              ),
+                            ),
+                        ],
               ),
             ),
         ],

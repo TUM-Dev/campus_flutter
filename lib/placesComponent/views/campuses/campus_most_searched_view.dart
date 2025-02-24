@@ -13,10 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class CampusMostSearchedView extends ConsumerWidget {
-  const CampusMostSearchedView({
-    super.key,
-    required this.campus,
-  });
+  const CampusMostSearchedView({super.key, required this.campus});
 
   final Campus campus;
 
@@ -35,10 +32,7 @@ class CampusMostSearchedView extends ConsumerWidget {
                   padding: EdgeInsets.all(context.padding),
                   child: Center(
                     child: Text(
-                      context.tr(
-                        "noEntriesFound",
-                        args: [context.tr("rooms")],
-                      ),
+                      context.tr("noEntriesFound", args: [context.tr("rooms")]),
                     ),
                   ),
                 );
@@ -48,17 +42,12 @@ class CampusMostSearchedView extends ConsumerWidget {
                     for (var entity in snapshot.data!.indexed) ...[
                       ListTile(
                         title: Text(entity.$2.getFormattedName()),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 15,
-                        ),
-                        onTap: () =>
-                            context.push(navigaTum, extra: entity.$2.id),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+                        onTap:
+                            () => context.push(navigaTum, extra: entity.$2.id),
                       ),
                       if (entity.$1 < snapshot.data!.length - 1)
-                        const PaddedDivider(
-                          height: 0,
-                        ),
+                        const PaddedDivider(height: 0),
                     ],
                   ],
                 );

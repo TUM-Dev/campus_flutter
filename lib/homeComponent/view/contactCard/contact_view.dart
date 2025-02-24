@@ -37,11 +37,7 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
               constraints: BoxConstraints(
                 minHeight: MediaQuery.sizeOf(context).height * 0.175,
               ),
-              child: CardWithPadding(
-                child: Center(
-                  child: _body(snapshot),
-                ),
-              ),
+              child: CardWithPadding(child: Center(child: _body(snapshot))),
             ),
             const TuitionView(),
             const LinkView(),

@@ -34,13 +34,12 @@ class InformationView extends StatelessWidget {
                     const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                     _infoEntryRow(
                       context.tr("birthday"),
-                      DateFormat("dd.MM.yyyy", "de")
-                          .format(studentCard.birthday),
+                      DateFormat(
+                        "dd.MM.yyyy",
+                        "de",
+                      ).format(studentCard.birthday),
                     ),
-                    _infoEntryRow(
-                      context.tr("studyId"),
-                      studentCard.studyID,
-                    ),
+                    _infoEntryRow(context.tr("studyId"), studentCard.studyID),
                     _infoEntryRow(
                       "Semester",
                       StringParser.toShortSemesterName(
@@ -105,20 +104,18 @@ class InformationView extends StatelessWidget {
   Widget _title(BuildContext context) {
     return Text(
       context.tr("digitalStudentCard"),
-      style: Theme.of(context)
-          .textTheme
-          .titleLarge
-          ?.apply(color: context.primaryColor),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.apply(color: context.primaryColor),
     );
   }
 
   Widget _name(BuildContext context) {
     return Text(
       studentCard.name,
-      style: Theme.of(context)
-          .textTheme
-          .titleLarge
-          ?.copyWith(color: context.primaryColor),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(color: context.primaryColor),
     );
   }
 
@@ -154,10 +151,9 @@ class InformationView extends StatelessWidget {
   Widget _validUntil(BuildContext context) {
     return Text(
       "${context.tr("validUntil")}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge
-          ?.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(
+        context,
+      ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
     );
   }
 

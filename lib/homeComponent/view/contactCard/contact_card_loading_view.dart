@@ -14,10 +14,7 @@ class ContactCardLoadingView extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
-          const SizedBox(
-            width: contactImageSize,
-            height: contactImageSize,
-          ),
+          const SizedBox(width: contactImageSize, height: contactImageSize),
           const Padding(padding: EdgeInsets.only(left: 15)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,9 +24,9 @@ class ContactCardLoadingView extends StatelessWidget {
                   child: PlaceholderText(
                     text: "StudentCard".toUpperCase(),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ShimmerView(
@@ -41,9 +38,7 @@ class ContactCardLoadingView extends StatelessWidget {
               const ShimmerView(
                 child: PlaceholderText(text: "max.mustermann@tum.de"),
               ),
-              const ShimmerView(
-                child: PlaceholderText(text: "go42tum"),
-              ),
+              const ShimmerView(child: PlaceholderText(text: "go42tum")),
             ],
           ),
         ],

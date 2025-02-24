@@ -22,32 +22,34 @@ class CalendarSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.calendar,
       searchVM: searchVM,
       searchCategoryVM: calendarSearchViewModel,
-      body: (calendarEvent) => ListTile(
-        title: Text(calendarEvent.title ?? "-"),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            IconText(
-              iconData: Icons.hourglass_top,
-              label: calendarEvent.timePeriodText(context),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+      body:
+          (calendarEvent) => ListTile(
+            title: Text(calendarEvent.title ?? "-"),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconText(
+                  iconData: Icons.hourglass_top,
+                  label: calendarEvent.timePeriodText(context),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
-              iconColor: context.primaryColor,
-            ),
-            IconText(
-              iconData: Icons.location_pin,
-              label:
-                  calendarEvent.locations.firstOrNull ?? context.tr("unknown"),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  iconColor: context.primaryColor,
+                ),
+                IconText(
+                  iconData: Icons.location_pin,
+                  label:
+                      calendarEvent.locations.firstOrNull ??
+                      context.tr("unknown"),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
-              iconColor: context.primaryColor,
+                  iconColor: context.primaryColor,
+                ),
+              ],
             ),
-          ],
-        ),
-        onTap: () => context.push(calendarDetails, extra: calendarEvent),
-      ),
+            onTap: () => context.push(calendarDetails, extra: calendarEvent),
+          ),
     );
   }
 }

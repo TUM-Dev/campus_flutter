@@ -33,14 +33,16 @@ class NewsSearchResultView extends ConsumerWidget {
               child: CachedNetworkImage(
                 height: 60,
                 imageUrl: newsSearch.news.imageUrl,
-                placeholder: (context, string) => Image.asset(
-                  "assets/images/placeholders/news_placeholder.png",
-                  fit: BoxFit.cover,
-                ),
-                errorWidget: (context, url, error) => Image.asset(
-                  "assets/images/placeholders/news_placeholder.png",
-                  fit: BoxFit.cover,
-                ),
+                placeholder:
+                    (context, string) => Image.asset(
+                      "assets/images/placeholders/news_placeholder.png",
+                      fit: BoxFit.cover,
+                    ),
+                errorWidget:
+                    (context, url, error) => Image.asset(
+                      "assets/images/placeholders/news_placeholder.png",
+                      fit: BoxFit.cover,
+                    ),
                 fit: BoxFit.cover,
               ),
             ),

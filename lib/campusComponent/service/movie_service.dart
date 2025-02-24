@@ -10,11 +10,7 @@ class MovieService {
     final currentDate = DateTime.now();
     GrpcClient grpcClient = getIt<GrpcClient>();
     final response = await grpcClient.listMovies(
-      ListMoviesRequest(
-        oldestDateAt: Timestamp.fromDateTime(
-          currentDate,
-        ),
-      ),
+      ListMoviesRequest(oldestDateAt: Timestamp.fromDateTime(currentDate)),
     );
     return (currentDate, response.movies);
   }

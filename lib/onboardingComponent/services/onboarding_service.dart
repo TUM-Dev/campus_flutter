@@ -32,16 +32,16 @@ class OnboardingService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Token, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(
-        TumOnlineEndpointTokenRequest(
-          tumId: name,
-          deviceName: "TCA - ${Platform.isIOS ? "iOS" : "Android"}",
-        ),
-      ),
-      Token.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(
+            TumOnlineEndpointTokenRequest(
+              tumId: name,
+              deviceName: "TCA - ${Platform.isIOS ? "iOS" : "Android"}",
+            ),
+          ),
+          Token.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
     return response.data;
   }
 
@@ -49,11 +49,11 @@ class OnboardingService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Confirm, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointTokenConfirmation()),
-      Confirm.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointTokenConfirmation()),
+          Confirm.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
     return response.data;
   }

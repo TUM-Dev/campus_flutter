@@ -11,8 +11,11 @@ class PersonDetailsService {
     String identNumber,
   ) async {
     RestClient restClient = getIt<RestClient>();
-    final response = await restClient.getWithException<PersonDetailsData,
-        TumOnlineApi, TumOnlineApiException>(
+    final response = await restClient.getWithException<
+      PersonDetailsData,
+      TumOnlineApi,
+      TumOnlineApiException
+    >(
       TumOnlineApi(TumOnlineEndpointPersonDetails(identNumber: identNumber)),
       PersonDetailsData.fromJson,
       TumOnlineApiException.fromJson,

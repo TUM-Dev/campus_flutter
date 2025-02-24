@@ -63,13 +63,16 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
                           top: context.halfPadding,
                           bottom: context.padding,
                         ),
-                        markers:
-                            ref.read(studyRoomsViewModel).mapMakers(context),
+                        markers: ref
+                            .read(studyRoomsViewModel)
+                            .mapMakers(context),
                       ),
                     ),
                     Expanded(
-                      child:
-                          _studyRoomList(snapshot.data!.keys.toList(), false),
+                      child: _studyRoomList(
+                        snapshot.data!.keys.toList(),
+                        false,
+                      ),
                     ),
                   ],
                 );
@@ -78,8 +81,9 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
                   child: Column(
                     children: [
                       MapWidget.fullPadding(
-                        markers:
-                            ref.read(studyRoomsViewModel).mapMakers(context),
+                        markers: ref
+                            .read(studyRoomsViewModel)
+                            .mapMakers(context),
                       ),
                       const PaddedDivider(),
                       _studyRoomList(snapshot.data!.keys.toList(), true),
@@ -96,9 +100,7 @@ class _StudyRoomsViewState extends ConsumerState<StudyRoomsView> {
             retry: (() => ref.read(studyRoomsViewModel).fetch(true)),
           );
         } else {
-          return DelayedLoadingIndicator(
-            name: context.tr("studyRooms"),
-          );
+          return DelayedLoadingIndicator(name: context.tr("studyRooms"));
         }
       },
     );

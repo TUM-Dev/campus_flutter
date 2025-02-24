@@ -11,11 +11,11 @@ class ProfileService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Profiles, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointIdentify()),
-      Profiles.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointIdentify()),
+          Profiles.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
     return (response.saved, response.data.profile);
   }
@@ -28,11 +28,11 @@ class ProfileService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Tuitions, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointTuitionStatus()),
-      Tuitions.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointTuitionStatus()),
+          Tuitions.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
     return (response.saved, response.data.tuition);
   }

@@ -42,24 +42,20 @@ class CafeteriaScaffold extends ConsumerWidget {
               ),
             ),
           IconButton(
-            onPressed: () => showDirectionsDialog(
-              cafeteria.name,
-              LatLng(
-                cafeteria.location.latitude,
-                cafeteria.location.longitude,
-              ),
-              context,
-            ),
-            icon: Icon(
-              Icons.directions,
-              color: context.theme.primaryColor,
-            ),
+            onPressed:
+                () => showDirectionsDialog(
+                  cafeteria.name,
+                  LatLng(
+                    cafeteria.location.latitude,
+                    cafeteria.location.longitude,
+                  ),
+                  context,
+                ),
+            icon: Icon(Icons.directions, color: context.theme.primaryColor),
           ),
         ],
       ),
-      body: CafeteriaView(
-        cafeteria: cafeteria,
-      ),
+      body: CafeteriaView(cafeteria: cafeteria),
     );
   }
 
@@ -97,10 +93,7 @@ class CafeteriaScaffold extends ConsumerWidget {
                 title: context.tr("friday"),
                 info: _openingHourStringBuilder(openingHours?.fri, context),
               ),
-              InfoRow(
-                title: context.tr("weekend"),
-                info: context.tr("closed"),
-              ),
+              InfoRow(title: context.tr("weekend"), info: context.tr("closed")),
             ],
           ),
           actions: [
@@ -153,11 +146,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         if (orientation == Orientation.landscape) {
           return Row(
             children: [
-              Expanded(
-                child: Column(
-                  children: [..._mapAndDirections()],
-                ),
-              ),
+              Expanded(child: Column(children: [..._mapAndDirections()])),
               Expanded(child: _pickerAndSlider(true)),
             ],
           );
@@ -201,15 +190,14 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.tr(
-                  "noEntriesFound",
-                  args: [context.tr("mealPlans")],
-                ),
+                context.tr("noEntriesFound", args: [context.tr("mealPlans")]),
               ),
             );
           } else {
             final menu = snapshot.data!;
-            final todayMeals = ref.read(cafeteriasViewModel).getTodayDishes(
+            final todayMeals = ref
+                .read(cafeteriasViewModel)
+                .getTodayDishes(
                   menu.firstWhereOrNull(
                     (element) =>
                         element.date.isAtSameMomentAs(selectedDate) ||
@@ -244,12 +232,13 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                         maxDate: menu.last.date,
                         monthViewSettings:
                             const DateRangePickerMonthViewSettings(
-                          numberOfWeeksInView: 1,
-                          firstDayOfWeek: 1,
-                        ),
-                        onSelectionChanged: (args) => setState(() {
-                          selectedDate = args.value as DateTime;
-                        }),
+                              numberOfWeeksInView: 1,
+                              firstDayOfWeek: 1,
+                            ),
+                        onSelectionChanged:
+                            (args) => setState(() {
+                              selectedDate = args.value as DateTime;
+                            }),
                         selectableDayPredicate: (date) {
                           return date.weekday != DateTime.saturday &&
                               date.weekday != DateTime.sunday;

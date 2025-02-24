@@ -39,12 +39,12 @@ ThemeData lightTheme(BuildContext context) {
             return primaryLightColor;
           }
         }),
-        foregroundColor:
-            WidgetStateProperty.resolveWith((states) => Colors.white),
+        foregroundColor: WidgetStateProperty.resolveWith(
+          (states) => Colors.white,
+        ),
         shape: WidgetStateProperty.resolveWith(
-          (states) => RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+          (states) =>
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
       ),
     ),
@@ -105,14 +105,14 @@ ThemeData lightTheme(BuildContext context) {
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
           return Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: primaryLightColor,
-                fontWeight: FontWeight.w500,
-              );
+            color: primaryLightColor,
+            fontWeight: FontWeight.w500,
+          );
         } else {
           return Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: navigationIconGrayLight,
-                fontWeight: FontWeight.w500,
-              );
+            color: navigationIconGrayLight,
+            fontWeight: FontWeight.w500,
+          );
         }
       }),
       iconTheme: WidgetStateProperty.resolveWith((states) {
@@ -129,14 +129,13 @@ ThemeData lightTheme(BuildContext context) {
 
     /// theme for navigation rail used on web
     navigationRailTheme: NavigationRailThemeData(
-      selectedLabelTextStyle: Theme.of(context)
-          .textTheme
-          .labelMedium
-          ?.copyWith(color: primaryLightColor, fontWeight: FontWeight.w500),
-      unselectedLabelTextStyle: Theme.of(context)
-          .textTheme
-          .labelMedium
-          ?.copyWith(fontWeight: FontWeight.w500),
+      selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+        color: primaryLightColor,
+        fontWeight: FontWeight.w500,
+      ),
+      unselectedLabelTextStyle: Theme.of(
+        context,
+      ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
       selectedIconTheme: const IconThemeData(color: primaryLightColor),
       useIndicator: false,
       backgroundColor: lightBackground,
@@ -188,9 +187,7 @@ ThemeData lightTheme(BuildContext context) {
           BorderSide(color: lightGray, width: 0.5),
         ),
         shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         ),
       ),
     ),

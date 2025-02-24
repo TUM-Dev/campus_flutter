@@ -69,9 +69,10 @@ class HorizontalSlider<E> extends StatelessWidget {
       padding: EdgeInsets.only(
         right: orientation == Orientation.landscape ? context.padding : 0,
       ),
-      child: scrollBar
-          ? Scrollbar(child: _content(orientation, context))
-          : _content(orientation, context),
+      child:
+          scrollBar
+              ? Scrollbar(child: _content(orientation, context))
+              : _content(orientation, context),
     );
   }
 

@@ -41,10 +41,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
         if (snapshot.hasData || snapshot.hasError) {
           return InkWell(
             onTap: () => NavigationService.openStudentCardSheet(context),
-            child: contactInfo(
-              snapshot.data,
-              widget.profile,
-            ),
+            child: contactInfo(snapshot.data, widget.profile),
           );
         } else {
           return DelayedLoadingIndicator(
@@ -73,23 +70,16 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
                   Text(
                     "StudentCard".toUpperCase(),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 Text(
                   data?.fullName ?? profile.fullName,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                if (data != null)
-                  AutoSizeText(
-                    data.email,
-                    maxLines: 1,
-                  ),
-                if (profile.tumID != null)
-                  Text(
-                    profile.tumID!,
-                  ),
+                if (data != null) AutoSizeText(data.email, maxLines: 1),
+                if (profile.tumID != null) Text(profile.tumID!),
               ],
             ),
           ),
@@ -125,9 +115,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
 
   ImageProvider<Object> provideImage(String? imageData) {
     if (imageData != null) {
-      return Image.memory(
-        base64DecodeImageData(imageData),
-      ).image;
+      return Image.memory(base64DecodeImageData(imageData)).image;
     } else {
       return const AssetImage(
         'assets/images/placeholders/portrait_placeholder.png',

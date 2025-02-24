@@ -15,10 +15,10 @@ NavigaTumOverlayMap _$NavigaTumOverlayMapFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$NavigaTumOverlayMapToJson(
-        NavigaTumOverlayMap instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'floor': instance.floor,
-      'file': instance.imageUrl,
-      'name': instance.name,
-    };
+  NavigaTumOverlayMap instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'floor': instance.floor,
+  'file': instance.imageUrl,
+  'name': instance.name,
+};

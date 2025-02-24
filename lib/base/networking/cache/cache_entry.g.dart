@@ -12,29 +12,50 @@ class $CacheEntryTable extends CacheEntry
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _urlMeta = const VerificationMeta('url');
   @override
   late final GeneratedColumn<String> url = GeneratedColumn<String>(
-      'url', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _validUntilMeta =
-      const VerificationMeta('validUntil');
+    'url',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _validUntilMeta = const VerificationMeta(
+    'validUntil',
+  );
   @override
   late final GeneratedColumn<DateTime> validUntil = GeneratedColumn<DateTime>(
-      'valid_until', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+    'valid_until',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _savedMeta = const VerificationMeta('saved');
   @override
   late final GeneratedColumn<DateTime> saved = GeneratedColumn<DateTime>(
-      'saved', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+    'saved',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _bodyMeta = const VerificationMeta('body');
   @override
   late final GeneratedColumn<String> body = GeneratedColumn<String>(
-      'body', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'body',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, url, validUntil, saved, body];
   @override
@@ -43,8 +64,10 @@ class $CacheEntryTable extends CacheEntry
   String get actualTableName => $name;
   static const String $name = 'cache_entry';
   @override
-  VerificationContext validateIntegrity(Insertable<CacheEntryData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<CacheEntryData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -54,27 +77,33 @@ class $CacheEntryTable extends CacheEntry
     }
     if (data.containsKey('url')) {
       context.handle(
-          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
+        _urlMeta,
+        url.isAcceptableOrUnknown(data['url']!, _urlMeta),
+      );
     } else if (isInserting) {
       context.missing(_urlMeta);
     }
     if (data.containsKey('valid_until')) {
       context.handle(
-          _validUntilMeta,
-          validUntil.isAcceptableOrUnknown(
-              data['valid_until']!, _validUntilMeta));
+        _validUntilMeta,
+        validUntil.isAcceptableOrUnknown(data['valid_until']!, _validUntilMeta),
+      );
     } else if (isInserting) {
       context.missing(_validUntilMeta);
     }
     if (data.containsKey('saved')) {
       context.handle(
-          _savedMeta, saved.isAcceptableOrUnknown(data['saved']!, _savedMeta));
+        _savedMeta,
+        saved.isAcceptableOrUnknown(data['saved']!, _savedMeta),
+      );
     } else if (isInserting) {
       context.missing(_savedMeta);
     }
     if (data.containsKey('body')) {
       context.handle(
-          _bodyMeta, body.isAcceptableOrUnknown(data['body']!, _bodyMeta));
+        _bodyMeta,
+        body.isAcceptableOrUnknown(data['body']!, _bodyMeta),
+      );
     } else if (isInserting) {
       context.missing(_bodyMeta);
     }
@@ -87,16 +116,31 @@ class $CacheEntryTable extends CacheEntry
   CacheEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CacheEntryData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      url: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}url'])!,
-      validUntil: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}valid_until'])!,
-      saved: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}saved'])!,
-      body: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+      id:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}id'],
+          )!,
+      url:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}url'],
+          )!,
+      validUntil:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.dateTime,
+            data['${effectivePrefix}valid_until'],
+          )!,
+      saved:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.dateTime,
+            data['${effectivePrefix}saved'],
+          )!,
+      body:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}body'],
+          )!,
     );
   }
 
@@ -112,12 +156,13 @@ class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
   final DateTime validUntil;
   final DateTime saved;
   final String body;
-  const CacheEntryData(
-      {required this.id,
-      required this.url,
-      required this.validUntil,
-      required this.saved,
-      required this.body});
+  const CacheEntryData({
+    required this.id,
+    required this.url,
+    required this.validUntil,
+    required this.saved,
+    required this.body,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -139,8 +184,10 @@ class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
     );
   }
 
-  factory CacheEntryData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory CacheEntryData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CacheEntryData(
       id: serializer.fromJson<int>(json['id']),
@@ -162,19 +209,19 @@ class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
     };
   }
 
-  CacheEntryData copyWith(
-          {int? id,
-          String? url,
-          DateTime? validUntil,
-          DateTime? saved,
-          String? body}) =>
-      CacheEntryData(
-        id: id ?? this.id,
-        url: url ?? this.url,
-        validUntil: validUntil ?? this.validUntil,
-        saved: saved ?? this.saved,
-        body: body ?? this.body,
-      );
+  CacheEntryData copyWith({
+    int? id,
+    String? url,
+    DateTime? validUntil,
+    DateTime? saved,
+    String? body,
+  }) => CacheEntryData(
+    id: id ?? this.id,
+    url: url ?? this.url,
+    validUntil: validUntil ?? this.validUntil,
+    saved: saved ?? this.saved,
+    body: body ?? this.body,
+  );
   CacheEntryData copyWithCompanion(CacheEntryCompanion data) {
     return CacheEntryData(
       id: data.id.present ? data.id.value : this.id,
@@ -233,11 +280,11 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
     required DateTime saved,
     required String body,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        url = Value(url),
-        validUntil = Value(validUntil),
-        saved = Value(saved),
-        body = Value(body);
+  }) : id = Value(id),
+       url = Value(url),
+       validUntil = Value(validUntil),
+       saved = Value(saved),
+       body = Value(body);
   static Insertable<CacheEntryData> custom({
     Expression<int>? id,
     Expression<String>? url,
@@ -256,13 +303,14 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
     });
   }
 
-  CacheEntryCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? url,
-      Value<DateTime>? validUntil,
-      Value<DateTime>? saved,
-      Value<String>? body,
-      Value<int>? rowid}) {
+  CacheEntryCompanion copyWith({
+    Value<int>? id,
+    Value<String>? url,
+    Value<DateTime>? validUntil,
+    Value<DateTime>? saved,
+    Value<String>? body,
+    Value<int>? rowid,
+  }) {
     return CacheEntryCompanion(
       id: id ?? this.id,
       url: url ?? this.url,
@@ -322,22 +370,24 @@ abstract class _$CacheDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [cacheEntry];
 }
 
-typedef $$CacheEntryTableCreateCompanionBuilder = CacheEntryCompanion Function({
-  required int id,
-  required String url,
-  required DateTime validUntil,
-  required DateTime saved,
-  required String body,
-  Value<int> rowid,
-});
-typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
-  Value<int> id,
-  Value<String> url,
-  Value<DateTime> validUntil,
-  Value<DateTime> saved,
-  Value<String> body,
-  Value<int> rowid,
-});
+typedef $$CacheEntryTableCreateCompanionBuilder =
+    CacheEntryCompanion Function({
+      required int id,
+      required String url,
+      required DateTime validUntil,
+      required DateTime saved,
+      required String body,
+      Value<int> rowid,
+    });
+typedef $$CacheEntryTableUpdateCompanionBuilder =
+    CacheEntryCompanion Function({
+      Value<int> id,
+      Value<String> url,
+      Value<DateTime> validUntil,
+      Value<DateTime> saved,
+      Value<String> body,
+      Value<int> rowid,
+    });
 
 class $$CacheEntryTableFilterComposer
     extends Composer<_$CacheDatabase, $CacheEntryTable> {
@@ -349,19 +399,29 @@ class $$CacheEntryTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnFilters(column));
+    column: $table.url,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get validUntil => $composableBuilder(
-      column: $table.validUntil, builder: (column) => ColumnFilters(column));
+    column: $table.validUntil,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get saved => $composableBuilder(
-      column: $table.saved, builder: (column) => ColumnFilters(column));
+    column: $table.saved,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get body => $composableBuilder(
-      column: $table.body, builder: (column) => ColumnFilters(column));
+    column: $table.body,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$CacheEntryTableOrderingComposer
@@ -374,19 +434,29 @@ class $$CacheEntryTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnOrderings(column));
+    column: $table.url,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get validUntil => $composableBuilder(
-      column: $table.validUntil, builder: (column) => ColumnOrderings(column));
+    column: $table.validUntil,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get saved => $composableBuilder(
-      column: $table.saved, builder: (column) => ColumnOrderings(column));
+    column: $table.saved,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get body => $composableBuilder(
-      column: $table.body, builder: (column) => ColumnOrderings(column));
+    column: $table.body,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CacheEntryTableAnnotationComposer
@@ -405,7 +475,9 @@ class $$CacheEntryTableAnnotationComposer
       $composableBuilder(column: $table.url, builder: (column) => column);
 
   GeneratedColumn<DateTime> get validUntil => $composableBuilder(
-      column: $table.validUntil, builder: (column) => column);
+    column: $table.validUntil,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get saved =>
       $composableBuilder(column: $table.saved, builder: (column) => column);
@@ -414,85 +486,99 @@ class $$CacheEntryTableAnnotationComposer
       $composableBuilder(column: $table.body, builder: (column) => column);
 }
 
-class $$CacheEntryTableTableManager extends RootTableManager<
-    _$CacheDatabase,
-    $CacheEntryTable,
-    CacheEntryData,
-    $$CacheEntryTableFilterComposer,
-    $$CacheEntryTableOrderingComposer,
-    $$CacheEntryTableAnnotationComposer,
-    $$CacheEntryTableCreateCompanionBuilder,
-    $$CacheEntryTableUpdateCompanionBuilder,
-    (
-      CacheEntryData,
-      BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>
-    ),
-    CacheEntryData,
-    PrefetchHooks Function()> {
+class $$CacheEntryTableTableManager
+    extends
+        RootTableManager<
+          _$CacheDatabase,
+          $CacheEntryTable,
+          CacheEntryData,
+          $$CacheEntryTableFilterComposer,
+          $$CacheEntryTableOrderingComposer,
+          $$CacheEntryTableAnnotationComposer,
+          $$CacheEntryTableCreateCompanionBuilder,
+          $$CacheEntryTableUpdateCompanionBuilder,
+          (
+            CacheEntryData,
+            BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>,
+          ),
+          CacheEntryData,
+          PrefetchHooks Function()
+        > {
   $$CacheEntryTableTableManager(_$CacheDatabase db, $CacheEntryTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$CacheEntryTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$CacheEntryTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$CacheEntryTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> url = const Value.absent(),
-            Value<DateTime> validUntil = const Value.absent(),
-            Value<DateTime> saved = const Value.absent(),
-            Value<String> body = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CacheEntryCompanion(
-            id: id,
-            url: url,
-            validUntil: validUntil,
-            saved: saved,
-            body: body,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required int id,
-            required String url,
-            required DateTime validUntil,
-            required DateTime saved,
-            required String body,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CacheEntryCompanion.insert(
-            id: id,
-            url: url,
-            validUntil: validUntil,
-            saved: saved,
-            body: body,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          createFilteringComposer:
+              () => $$CacheEntryTableFilterComposer($db: db, $table: table),
+          createOrderingComposer:
+              () => $$CacheEntryTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer:
+              () => $$CacheEntryTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> url = const Value.absent(),
+                Value<DateTime> validUntil = const Value.absent(),
+                Value<DateTime> saved = const Value.absent(),
+                Value<String> body = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CacheEntryCompanion(
+                id: id,
+                url: url,
+                validUntil: validUntil,
+                saved: saved,
+                body: body,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int id,
+                required String url,
+                required DateTime validUntil,
+                required DateTime saved,
+                required String body,
+                Value<int> rowid = const Value.absent(),
+              }) => CacheEntryCompanion.insert(
+                id: id,
+                url: url,
+                validUntil: validUntil,
+                saved: saved,
+                body: body,
+                rowid: rowid,
+              ),
+          withReferenceMapper:
+              (p0) =>
+                  p0
+                      .map(
+                        (e) => (
+                          e.readTable(table),
+                          BaseReferences(db, table, e),
+                        ),
+                      )
+                      .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$CacheEntryTableProcessedTableManager = ProcessedTableManager<
-    _$CacheDatabase,
-    $CacheEntryTable,
-    CacheEntryData,
-    $$CacheEntryTableFilterComposer,
-    $$CacheEntryTableOrderingComposer,
-    $$CacheEntryTableAnnotationComposer,
-    $$CacheEntryTableCreateCompanionBuilder,
-    $$CacheEntryTableUpdateCompanionBuilder,
-    (
+typedef $$CacheEntryTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CacheDatabase,
+      $CacheEntryTable,
       CacheEntryData,
-      BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>
-    ),
-    CacheEntryData,
-    PrefetchHooks Function()>;
+      $$CacheEntryTableFilterComposer,
+      $$CacheEntryTableOrderingComposer,
+      $$CacheEntryTableAnnotationComposer,
+      $$CacheEntryTableCreateCompanionBuilder,
+      $$CacheEntryTableUpdateCompanionBuilder,
+      (
+        CacheEntryData,
+        BaseReferences<_$CacheDatabase, $CacheEntryTable, CacheEntryData>,
+      ),
+      CacheEntryData,
+      PrefetchHooks Function()
+    >;
 
 class $CacheDatabaseManager {
   final _$CacheDatabase _db;

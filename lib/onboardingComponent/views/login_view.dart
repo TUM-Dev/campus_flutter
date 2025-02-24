@@ -94,9 +94,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     image: AssetImage("assets/images/logos/tum-logo-blue.png"),
                     height: 60,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
                   Text(
                     context.tr("welcomeToTheApp"),
                     style: Theme.of(context).textTheme.titleLarge,
@@ -111,9 +109,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   _tumIdTextFields(context, ref),
                   _loginButton(context, ref),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
                   _skipLoginButton(context, ref),
                   const Spacer(),
                   _towerImage(),
@@ -172,9 +168,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
-          color: MediaQuery.platformBrightnessOf(context) == Brightness.dark
-              ? Colors.grey.shade700
-              : Colors.grey.shade400,
+          color:
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? Colors.grey.shade700
+                  : Colors.grey.shade400,
         ),
         border: const OutlineInputBorder(),
       ),
@@ -202,38 +199,43 @@ class _LoginViewState extends ConsumerState<LoginView> {
             children: [
               if (snapshot.hasError) _textFieldError(snapshot.error!),
               ElevatedButton(
-                onPressed: (snapshot.data != null && snapshot.data!)
-                    ? () {
-                        ref.read(onboardingViewModel).requestLogin().then(
-                          (value) {
-                            if (context.mounted) {
-                              context.push(confirm);
-                            }
-                          },
-                          onError: (error) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(seconds: 10),
-                                  content: ErrorHandlingRouter(
-                                    error: error,
-                                    errorHandlingViewType:
-                                        ErrorHandlingViewType.textOnly,
-                                    titleColor: Colors.white,
-                                  ),
-                                ),
+                onPressed:
+                    (snapshot.data != null && snapshot.data!)
+                        ? () {
+                          ref
+                              .read(onboardingViewModel)
+                              .requestLogin()
+                              .then(
+                                (value) {
+                                  if (context.mounted) {
+                                    context.push(confirm);
+                                  }
+                                },
+                                onError: (error) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.maybeOf(
+                                      context,
+                                    )?.showSnackBar(
+                                      SnackBar(
+                                        duration: const Duration(seconds: 10),
+                                        content: ErrorHandlingRouter(
+                                          error: error,
+                                          errorHandlingViewType:
+                                              ErrorHandlingViewType.textOnly,
+                                          titleColor: Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
                               );
-                            }
-                          },
-                        );
-                      }
-                    : null,
+                        }
+                        : null,
                 child: Text(
                   context.tr("login"),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: Colors.white),
                 ),
               ),
             ],
@@ -255,10 +257,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
       onTap: () => ref.read(onboardingViewModel).skip(context),
       child: Text(
         context.tr("continueWithoutID"),
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall
-            ?.apply(color: context.primaryColor),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall?.apply(color: context.primaryColor),
       ),
     );
   }

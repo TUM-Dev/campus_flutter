@@ -1,5 +1,1 @@
-enum SearchType {
-  general,
-  room,
-  person;
-}
+enum SearchType { general, room, person }

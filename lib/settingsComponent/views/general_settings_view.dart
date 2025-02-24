@@ -44,11 +44,7 @@ class GeneralSettingsView extends ConsumerWidget {
   Widget _localeSelection(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
-      leading: Icon(
-        Icons.language,
-        size: 20,
-        color: context.primaryColor,
-      ),
+      leading: Icon(Icons.language, size: 20, color: context.primaryColor),
       title: Text(
         context.tr("language"),
         style: Theme.of(context).textTheme.bodyMedium,
@@ -60,9 +56,12 @@ class GeneralSettingsView extends ConsumerWidget {
           }
         },
         value: context.locale,
-        items: context.supportedLocales
-            .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
-            .toList(),
+        items:
+            context.supportedLocales
+                .map(
+                  (e) => DropdownMenuItem(value: e, child: Text(e.fullName())),
+                )
+                .toList(),
       ),
     );
   }
@@ -70,11 +69,7 @@ class GeneralSettingsView extends ConsumerWidget {
   Widget _moreSettings(BuildContext context) {
     return ListTile(
       dense: true,
-      leading: Icon(
-        Icons.settings,
-        size: 20,
-        color: context.primaryColor,
-      ),
+      leading: Icon(Icons.settings, size: 20, color: context.primaryColor),
       title: Text(context.tr("deviceSettings")),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => openAppSettings(),

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campus_flutter/base/extensions/string_capitalize.dart';
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
@@ -20,9 +21,10 @@ class NewsCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imageUrl = news.imageUrl.toString().contains("src_1.png")
-        ? news.link.toString()
-        : news.imageUrl.toString();
+    final imageUrl =
+        news.imageUrl.toString().contains("src_1.png")
+            ? news.link.toString()
+            : news.imageUrl.toString();
     if (isCarousel) {
       return body(imageUrl, context);
     } else {
@@ -57,18 +59,20 @@ class NewsCardView extends ConsumerWidget {
                   imageUrl: imageUrl,
                   fadeOutDuration: Duration.zero,
                   fadeInDuration: Duration.zero,
-                  placeholder: (context, string) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
+                  placeholder:
+                      (context, string) => Image.asset(
+                        "assets/images/placeholders/news_placeholder.png",
+                        fit: BoxFit.fill,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ),
+                  errorWidget:
+                      (context, url, error) => Image.asset(
+                        "assets/images/placeholders/news_placeholder.png",
+                        fit: BoxFit.fill,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ),
                   height: double.infinity,
                   width: double.infinity,
                   fit: BoxFit.fill,
@@ -87,14 +91,13 @@ class NewsCardView extends ConsumerWidget {
                       Expanded(
                         flex: 3,
                         child: Text(
-                          news.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                          news.title.capitalizeFirstLetter(),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

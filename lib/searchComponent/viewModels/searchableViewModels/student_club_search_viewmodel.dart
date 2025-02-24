@@ -8,8 +8,9 @@ import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final studentClubSearchViewModel =
-    Provider((ref) => StudentClubSearchViewModel());
+final studentClubSearchViewModel = Provider(
+  (ref) => StudentClubSearchViewModel(),
+);
 
 class StudentClubSearchViewModel
     implements SearchCategoryViewModel<StudentClubSearch> {
@@ -20,21 +21,18 @@ class StudentClubSearchViewModel
   List<StudentClubSearch> studentClubData = [];
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (studentClubData.isEmpty) {
-      return StudentClubService.fetchStudentClubs(null, forcedRefresh).then(
-        (value) {
-          studentClubData = value.$2
-              .expand((e) => e.clubs)
-              .map((e) => StudentClubSearch(e))
-              .toList();
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return StudentClubService.fetchStudentClubs(null, forcedRefresh).then((
+        value,
+      ) {
+        studentClubData =
+            value.$2
+                .expand((e) => e.clubs)
+                .map((e) => StudentClubSearch(e))
+                .toList();
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -62,6 +60,6 @@ class StudentClubSearch extends Searchable {
 
   @override
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: studentClub.name),
-      ];
+    ComparisonToken(value: studentClub.name),
+  ];
 }

@@ -13,13 +13,16 @@ class StudyRoomSearchResultView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SearchResultCardView<StudyRoomSearchViewModel,
-        StudyRoomSearchResult>(
+    return SearchResultCardView<
+      StudyRoomSearchViewModel,
+      StudyRoomSearchResult
+    >(
       searchCategory: SearchCategory.studyRoom,
       searchVM: searchVM,
       searchCategoryVM: studyRoomSearchViewModel,
-      body: (studyRoomSearchResult) =>
-          StudyRoomWidgetView(studyRoomSearchResult.studyRoomGroup),
+      body:
+          (studyRoomSearchResult) =>
+              StudyRoomWidgetView(studyRoomSearchResult.studyRoomGroup),
     );
   }
 }

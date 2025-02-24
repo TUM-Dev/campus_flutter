@@ -29,8 +29,9 @@ class DeparturesViewModel {
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
   final BehaviorSubject<Campus?> widgetCampus = BehaviorSubject.seeded(null);
   final BehaviorSubject<int?> walkingDistance = BehaviorSubject.seeded(null);
-  final BehaviorSubject<Station?> selectedStation =
-      BehaviorSubject.seeded(null);
+  final BehaviorSubject<Station?> selectedStation = BehaviorSubject.seeded(
+    null,
+  );
 
   Timer? timer;
 
@@ -38,8 +39,10 @@ class DeparturesViewModel {
     widgetCampus.add(campus);
     timer?.cancel();
     assignSelectedStation();
-    getIt<UserPreferencesService>()
-        .save(UserPreference.departure, campus.index);
+    getIt<UserPreferencesService>().save(
+      UserPreference.departure,
+      campus.index,
+    );
   }
 
   setSelectedStation(Station? station) {
@@ -65,8 +68,10 @@ class DeparturesViewModel {
       LocationService.getLastKnown().then(
         (location) {
           if (location != null) {
-            final closestCampus =
-                Campus.values.reduce((currentCampus, nextCampus) {
+            final closestCampus = Campus.values.reduce((
+              currentCampus,
+              nextCampus,
+            ) {
               final currentDistance = Geolocator.distanceBetween(
                 currentCampus.location.latitude,
                 currentCampus.location.longitude,
@@ -200,8 +205,9 @@ class DeparturesViewModel {
       if (data != null) {
         final decodedData = jsonDecode(data);
         try {
-          DeparturesPreference preferences =
-              DeparturesPreference.fromJson(decodedData);
+          DeparturesPreference preferences = DeparturesPreference.fromJson(
+            decodedData,
+          );
           preferences.preferences[widgetCampus.value!] = selectedStation.value!;
           final json = jsonEncode(preferences.toJson());
           sharedPreferences.setString("departuresPreferences", json);
@@ -228,13 +234,14 @@ class DeparturesViewModel {
           .map(
             (e) => PopupMenuItem(
               value: e,
-              child: selectedStation.value?.name == e.name
-                  ? IconText(
-                      iconData: Icons.check,
-                      label: e.name,
-                      leadingIcon: false,
-                    )
-                  : Text(e.name),
+              child:
+                  selectedStation.value?.name == e.name
+                      ? IconText(
+                        iconData: Icons.check,
+                        label: e.name,
+                        leadingIcon: false,
+                      )
+                      : Text(e.name),
             ),
           )
           .toList();
@@ -245,32 +252,30 @@ class DeparturesViewModel {
 
   List<ListTile> getCampusEntries(BuildContext context) {
     return Campus.values.map((e) {
-      final isSelected = widgetCampus.value == e &&
-          getIt<UserPreferencesService>().load(
-                UserPreference.departure,
-              ) !=
-              null;
-      return ListTile(
-        dense: true,
-        title: Text(e.name),
-        trailing: isSelected ? const Icon(Icons.check) : null,
-        onTap: () {
-          setWidgetCampus(e);
-          context.pop();
-        },
-      );
-    }).toList()
+        final isSelected =
+            widgetCampus.value == e &&
+            getIt<UserPreferencesService>().load(UserPreference.departure) !=
+                null;
+        return ListTile(
+          dense: true,
+          title: Text(e.name),
+          trailing: isSelected ? const Icon(Icons.check) : null,
+          onTap: () {
+            setWidgetCampus(e);
+            context.pop();
+          },
+        );
+      }).toList()
       ..insert(
         0,
         ListTile(
           dense: true,
           title: Text(context.tr("closest")),
-          trailing: getIt<UserPreferencesService>().load(
-                    UserPreference.departure,
-                  ) ==
-                  null
-              ? const Icon(Icons.check)
-              : null,
+          trailing:
+              getIt<UserPreferencesService>().load(UserPreference.departure) ==
+                      null
+                  ? const Icon(Icons.check)
+                  : null,
           onTap: () {
             getIt<UserPreferencesService>().reset(UserPreference.departure);
             findWidgetCampus(true);

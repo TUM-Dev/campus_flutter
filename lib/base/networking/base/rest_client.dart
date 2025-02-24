@@ -19,12 +19,7 @@ class RestClient {
     this.cache = cache;
 
     /// add custom cache interceptor to dio
-    final dio = Dio()
-      ..interceptors.add(
-        RestCacheInterceptor(
-          cache: cache,
-        ),
-      );
+    final dio = Dio()..interceptors.add(RestCacheInterceptor(cache: cache));
 
     /// convert xml to json first - needs to happen here to
     /// avoid conversion everytime it's loaded out of cache
@@ -58,7 +53,7 @@ class RestClient {
 
   /// with possible error in response body
   Future<ApiResponse<T>>
-      getWithException<T, S extends Api, U extends ApiException>(
+  getWithException<T, S extends Api, U extends ApiException>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,
@@ -108,7 +103,7 @@ class RestClient {
   }
 
   Future<ApiResponse<T>>
-      postWithException<T, S extends Api, U extends ApiException>(
+  postWithException<T, S extends Api, U extends ApiException>(
     S endpoint,
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,

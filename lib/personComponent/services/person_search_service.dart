@@ -13,11 +13,11 @@ class PersonSearchService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<Persons, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointPersonSearch(search: query)),
-      Persons.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointPersonSearch(search: query)),
+          Persons.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
     return (response.saved, response.data.persons);
   }

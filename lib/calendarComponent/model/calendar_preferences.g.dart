@@ -13,8 +13,8 @@ CalendarPreferences _$CalendarPreferencesFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$CalendarPreferencesToJson(
-        CalendarPreferences instance) =>
-    <String, dynamic>{
-      'colorPreferences': instance.colorPreferences,
-      'visibilityPreferences': instance.visibilityPreferences,
-    };
+  CalendarPreferences instance,
+) => <String, dynamic>{
+  'colorPreferences': instance.colorPreferences,
+  'visibilityPreferences': instance.visibilityPreferences,
+};

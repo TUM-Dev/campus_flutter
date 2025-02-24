@@ -1,5 +1,1 @@
-enum Device {
-  phone,
-  portraitTablet,
-  landscapeTablet;
-}
+enum Device { phone, portraitTablet, landscapeTablet }
