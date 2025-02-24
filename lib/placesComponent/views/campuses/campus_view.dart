@@ -9,6 +9,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.d
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_row_view.dart';
+import 'package:campus_flutter/placesComponent/views/campuses/campus_map_legend.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_most_searched_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
@@ -92,6 +93,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
                   widget.campus.location.longitude,
                 ),
                 zoom: 15,
+                mapLegend: CampusMapLegend(),
               ),
             ),
           ),

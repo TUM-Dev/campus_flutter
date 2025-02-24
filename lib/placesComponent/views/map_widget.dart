@@ -17,6 +17,7 @@ class MapWidget extends ConsumerStatefulWidget {
     double? aspectRatio,
     bool aspectRatioNeeded = true,
     bool roundedCorners = true,
+    Widget? mapLegend,
   }) {
     return MapWidget._(
       markers: markers,
@@ -26,6 +27,7 @@ class MapWidget extends ConsumerStatefulWidget {
       aspectRatio: aspectRatio,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
+      mapLegend: mapLegend,
     );
   }
 
@@ -37,6 +39,7 @@ class MapWidget extends ConsumerStatefulWidget {
     double? aspectRatio,
     bool aspectRatioNeeded = true,
     bool roundedCorners = true,
+    Widget? mapLegend,
   }) {
     return MapWidget._(
       markers: markers,
@@ -47,6 +50,7 @@ class MapWidget extends ConsumerStatefulWidget {
       controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
+      mapLegend: mapLegend,
     );
   }
 
@@ -59,6 +63,7 @@ class MapWidget extends ConsumerStatefulWidget {
     double? aspectRatio,
     bool aspectRatioNeeded = true,
     bool roundedCorners = true,
+    Widget? mapLegend,
   }) {
     return MapWidget._(
       markers: markers,
@@ -69,6 +74,7 @@ class MapWidget extends ConsumerStatefulWidget {
       aspectRatio: aspectRatio,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
+      mapLegend: mapLegend,
     );
   }
 
@@ -81,6 +87,7 @@ class MapWidget extends ConsumerStatefulWidget {
     this.controlPadding,
     required this.aspectRatioNeeded,
     required this.roundedCorners,
+    this.mapLegend,
   });
 
   final Set<Marker> markers;
@@ -91,6 +98,7 @@ class MapWidget extends ConsumerStatefulWidget {
   final bool roundedCorners;
   final EdgeInsets? padding;
   final EdgeInsets? controlPadding;
+  final Widget? mapLegend;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MapWidgetState();
@@ -134,40 +142,52 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       curve: Curves.fastOutSlowIn,
       opacity: isMapVisible ? 1.0 : 0.01,
       duration: const Duration(milliseconds: 200),
-      child: GoogleMap(
-        style:
-            Theme.of(context).brightness == Brightness.light
-                ? getIt.get<MapThemeService>().lightTheme
-                : getIt.get<MapThemeService>().darkTheme,
-        mapType: MapType.normal,
-        padding: widget.controlPadding ?? EdgeInsets.zero,
-        initialCameraPosition: CameraPosition(
-          target:
-              widget.latLng ??
-              const LatLng(48.26307794976663, 11.668018668778569),
-          zoom: widget.zoom ?? 10,
-        ),
-        gestureRecognizers: {
-          Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
-        },
-        rotateGesturesEnabled: false,
-        compassEnabled: false,
-        mapToolbarEnabled: false,
-        tiltGesturesEnabled: false,
-        zoomControlsEnabled: true,
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-        markers: widget.markers,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-          Future.delayed(const Duration(milliseconds: 250), () {
-            if (mounted) {
-              setState(() {
-                isMapVisible = true;
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          GoogleMap(
+            style:
+                Theme.of(context).brightness == Brightness.light
+                    ? getIt.get<MapThemeService>().lightTheme
+                    : getIt.get<MapThemeService>().darkTheme,
+            mapType: MapType.normal,
+            padding: widget.controlPadding ?? EdgeInsets.zero,
+            initialCameraPosition: CameraPosition(
+              target:
+                  widget.latLng ??
+                  const LatLng(48.26307794976663, 11.668018668778569),
+              zoom: widget.zoom ?? 10,
+            ),
+            gestureRecognizers: {
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            },
+            rotateGesturesEnabled: false,
+            compassEnabled: false,
+            mapToolbarEnabled: false,
+            tiltGesturesEnabled: false,
+            zoomControlsEnabled: true,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            markers: widget.markers,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              Future.delayed(const Duration(milliseconds: 250), () {
+                if (mounted) {
+                  setState(() {
+                    isMapVisible = true;
+                  });
+                }
               });
-            }
-          });
-        },
+            },
+          ),
+          if (widget.mapLegend != null)
+            Padding(
+              padding: EdgeInsets.all(context.padding),
+              child: widget.mapLegend!,
+            ),
+        ],
       ),
     );
   }
