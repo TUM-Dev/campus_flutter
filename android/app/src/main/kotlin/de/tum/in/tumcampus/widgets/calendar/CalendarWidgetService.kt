@@ -4,16 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
-import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.core.net.toUri
-import de.tum.`in`.tumcampus.MainActivity
 import de.tum.`in`.tumcampus.util.DateTimeUtils
 import de.tum.`in`.tumcampus.R
 import de.tum.`in`.tumcampus.util.Const
-import es.antonborri.home_widget.HomeWidgetBackgroundIntent
-import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetPlugin
 import kotlinx.serialization.json.Json
 import java.time.LocalDateTime
