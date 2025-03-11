@@ -53,9 +53,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/calendar_widget_date_month"
         android:layout_marginStart="30dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/color_primary"
         android:orientation="vertical"
-        android:padding="@dimen/material_small_padding"
-        tools:background="@color/text_dark_gray">
+        android:padding="@dimen/material_small_padding">
 
         <TextView
             android:id="@+id/calendar_widget_event_title"
