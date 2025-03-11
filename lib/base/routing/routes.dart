@@ -4,7 +4,7 @@ const locationPermission = "/locationPermission";
 const permissionCheck = "/permissionCheck";
 
 /// Home tab
-const home = "/home";
+const home = "/";
 const departures = "/departures";
 const cafeteriaWidget = "/cafeteriaWidget";
 const closestStudyRoom = "/closestStudyRoom";

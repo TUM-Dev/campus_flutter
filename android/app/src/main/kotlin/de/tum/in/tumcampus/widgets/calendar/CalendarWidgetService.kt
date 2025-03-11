@@ -2,6 +2,8 @@ package de.tum.`in`.tumcampus.widgets.calendar
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.os.Build
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import de.tum.`in`.tumcampus.util.DateTimeUtils
@@ -94,11 +96,19 @@ class CalendarWidgetService : RemoteViewsService() {
             }
 
             // Setup event color
-            remoteViews.setInt(
-                R.id.calendar_widget_event,
-                "setBackgroundColor",
-                currentItem.getEventColor(applicationContext)
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                remoteViews.setColorStateList(
+                    R.id.calendar_widget_event,
+                    "setBackgroundTintList",
+                    ColorStateList.valueOf(currentItem.getEventColor(applicationContext))
+                )
+            } else {
+                remoteViews.setInt(
+                    R.id.calendar_widget_event,
+                    "setBackgroundColor",
+                    currentItem.getEventColor(applicationContext)
+                )
+            }
 
             // Setup event title
             remoteViews.setTextViewText(R.id.calendar_widget_event_title, currentItem.title)

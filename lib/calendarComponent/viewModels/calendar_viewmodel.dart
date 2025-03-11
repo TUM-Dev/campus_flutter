@@ -63,7 +63,7 @@ class CalendarViewModel {
     );
     await HomeWidget.updateWidget(
       iOSName: "CalendarWidget",
-      androidName: "widgets.calendar.CalendarWidget",
+      androidName: "widgets.calendar.CalendarWidgetProvider",
     );
   }
 
