@@ -27,9 +27,7 @@ class PersonDetailsScaffold extends StatelessWidget {
         leading: const CustomBackButton(),
         title: Text(context.tr("personDetails")),
       ),
-      body: PersonDetailsView(
-        obfuscatedId: obfuscatedId,
-      ),
+      body: PersonDetailsView(obfuscatedId: obfuscatedId),
     );
   }
 }
@@ -68,9 +66,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
           );
         } else {
           return Center(
-            child: DelayedLoadingIndicator(
-              name: context.tr("personDetails"),
-            ),
+            child: DelayedLoadingIndicator(name: context.tr("personDetails")),
           );
         }
       },
@@ -108,11 +104,12 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
     return CircleAvatar(
       radius: 80,
       backgroundColor: context.theme.canvasColor,
-      backgroundImage: imageData != null
-          ? Image.memory(base64DecodeImageData(imageData)).image
-          : const AssetImage(
-              'assets/images/placeholders/portrait_placeholder.png',
-            ),
+      backgroundImage:
+          imageData != null
+              ? Image.memory(base64DecodeImageData(imageData)).image
+              : const AssetImage(
+                'assets/images/placeholders/portrait_placeholder.png',
+              ),
     );
   }
 
@@ -123,49 +120,43 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         child: SeparatedList.widgets(
           widgets: [
             ListTile(
-              leading: Icon(
-                Icons.email,
-                color: context.theme.primaryColor,
-              ),
+              leading: Icon(Icons.email, color: context.theme.primaryColor),
               title: Text(
                 personDetails.email,
                 style: const TextStyle(decoration: TextDecoration.underline),
               ),
-              onTap: () =>
-                  UrlLauncher.urlString("mailto:${personDetails.email}", ref),
+              onTap:
+                  () => UrlLauncher.urlString(
+                    "mailto:${personDetails.email}",
+                    ref,
+                  ),
             ),
             if (personDetails.phoneExtensions.firstOrNull?.phoneNumber != null)
               ListTile(
-                leading: Icon(
-                  Icons.phone,
-                  color: context.theme.primaryColor,
-                ),
+                leading: Icon(Icons.phone, color: context.theme.primaryColor),
                 title: Text(
                   personDetails.phoneExtensions.first.phoneNumber ??
                       context.tr("unknown"),
-                  style: const TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
+                  style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-                onTap: () => UrlLauncher.urlString(
-                  "tel:${personDetails.phoneExtensions.firstOrNull?.phoneNumber}",
-                  ref,
-                ),
+                onTap:
+                    () => UrlLauncher.urlString(
+                      "tel:${personDetails.phoneExtensions.firstOrNull?.phoneNumber}",
+                      ref,
+                    ),
               ),
             if (personDetails.officialContact?.homepage != null)
               ListTile(
-                leading: Icon(
-                  Icons.web,
-                  color: context.theme.primaryColor,
-                ),
+                leading: Icon(Icons.web, color: context.theme.primaryColor),
                 title: Text(
                   personDetails.officialContact!.homepage!,
                   style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-                onTap: () => UrlLauncher.urlString(
-                  personDetails.officialContact!.homepage!,
-                  ref,
-                ),
+                onTap:
+                    () => UrlLauncher.urlString(
+                      personDetails.officialContact!.homepage!,
+                      ref,
+                    ),
               ),
           ],
         ),
@@ -180,28 +171,20 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         child: SeparatedList.widgets(
           widgets: [
             ListTile(
-              leading: Icon(
-                Icons.room,
-                color: context.theme.primaryColor,
-              ),
+              leading: Icon(Icons.room, color: context.theme.primaryColor),
               title: Text(
                 personDetails.rooms.first.shortLocationDescription ??
                     context.tr("unknown"),
               ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
-                size: 15,
-              ),
-              onTap: () => context.push(
-                roomSearch,
-                extra: personDetails.rooms.first.id,
-              ),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+              onTap:
+                  () => context.push(
+                    roomSearch,
+                    extra: personDetails.rooms.first.id,
+                  ),
             ),
             ListTile(
-              leading: Icon(
-                Icons.stairs,
-                color: context.theme.primaryColor,
-              ),
+              leading: Icon(Icons.stairs, color: context.theme.primaryColor),
               title: Text(
                 personDetails.rooms.first.floorName ?? context.tr("unknown"),
               ),

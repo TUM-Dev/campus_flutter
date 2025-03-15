@@ -1,5 +1,1 @@
-enum Credentials {
-  none,
-  noTumId,
-  tumId;
-}
+enum Credentials { none, noTumId, tumId }

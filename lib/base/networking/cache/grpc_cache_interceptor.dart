@@ -56,15 +56,10 @@ class GrpcCacheInterceptor implements ClientInterceptor {
   // TODO: figure out nicer solution or add missing classes
   R Function(String, [ExtensionRegistry])? _getFactory<R>() {
     if (R == ListNewsReply) {
-      return ListNewsReply.fromJson as R Function(
-        String, [
-        ExtensionRegistry,
-      ]);
+      return ListNewsReply.fromJson as R Function(String, [ExtensionRegistry]);
     } else if (R == ListMoviesReply) {
-      return ListMoviesReply.fromJson as R Function(
-        String, [
-        ExtensionRegistry,
-      ]);
+      return ListMoviesReply.fromJson
+          as R Function(String, [ExtensionRegistry]);
     } else {
       return null;
     }

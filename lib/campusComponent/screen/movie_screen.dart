@@ -23,21 +23,21 @@ class MovieScreen extends ConsumerWidget {
             title: const Text("TU Film"),
             actions: [
               IconButton(
-                onPressed: () => UrlLauncher.urlString(
-                  "https://www.tu-film.de/",
-                  ref,
-                ),
+                onPressed:
+                    () => UrlLauncher.urlString("https://www.tu-film.de/", ref),
                 icon: const Icon(Icons.open_in_new),
               ),
             ],
           ),
           body: () {
             if (snapshot.hasData) {
-              return MovieGridView(
-                movies: snapshot.data!,
-                padding: EdgeInsets.all(context.padding),
-                crossAxisCount: GridUtility.campusCrossAxisCount(context),
-                withinScrollView: false,
+              return Scrollbar(
+                child: MovieGridView(
+                  movies: snapshot.data!,
+                  padding: EdgeInsets.all(context.padding),
+                  crossAxisCount: GridUtility.campusCrossAxisCount(context),
+                  withinScrollView: false,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(
@@ -48,9 +48,7 @@ class MovieScreen extends ConsumerWidget {
               );
             } else {
               return Center(
-                child: DelayedLoadingIndicator(
-                  name: context.tr("movies"),
-                ),
+                child: DelayedLoadingIndicator(name: context.tr("movies")),
               );
             }
           }(),

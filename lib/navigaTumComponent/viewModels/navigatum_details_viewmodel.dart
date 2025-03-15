@@ -7,12 +7,13 @@ import 'package:rxdart/rxdart.dart';
 
 final navigaTumDetailsViewModel =
     Provider.family<NavigaTumDetailsViewModel, String>(
-  (ref, id) => NavigaTumDetailsViewModel(id),
-);
+      (ref, id) => NavigaTumDetailsViewModel(id),
+    );
 
 class NavigaTumDetailsViewModel {
-  BehaviorSubject<NavigaTumNavigationDetails?> details =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<NavigaTumNavigationDetails?> details = BehaviorSubject.seeded(
+    null,
+  );
 
   final String id;
 

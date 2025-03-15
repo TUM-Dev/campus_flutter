@@ -13,10 +13,8 @@ class LocationPermissionView extends ConsumerWidget {
       imagePath: "assets/images/location.png",
       title: context.tr("location"),
       description: context.tr("locationOnboarding"),
-      onButtonPress: () => ref.read(onboardingViewModel).requestLocation(
-            ref,
-            context,
-          ),
+      onButtonPress:
+          () => ref.read(onboardingViewModel).requestLocation(ref, context),
     );
   }
 }

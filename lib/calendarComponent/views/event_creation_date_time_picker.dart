@@ -20,63 +20,60 @@ class EventCreationDateTimePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: currentDate,
-      builder: (context, snapshot) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: context.padding),
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: context.padding),
-            child: Card(
-              child: ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _pickerItem(
-                      () async => onDateSet(
-                        await showDatePicker(
-                          context: context,
-                          firstDate: DateTime.now(),
-                          lastDate: (snapshot.data ?? DateTime.now()).add(
-                            const Duration(days: 365),
-                          ),
-                        ),
-                      ),
-                      DateFormat.yMd(
-                        "de",
-                      ).format(
-                        snapshot.data ?? DateTime.now(),
-                      ),
-                      context,
-                    ),
-                    _pickerItem(
-                      () async => onTimeOfDaySet(
-                        await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.fromDateTime(
-                            snapshot.data ?? DateTime.now(),
-                          ),
-                        ),
-                      ),
-                      DateFormat.Hm(
-                        "de",
-                      ).format(
-                        snapshot.data ?? DateTime.now(),
-                      ),
-                      context,
-                    ),
-                  ],
+      builder:
+          (context, snapshot) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: context.padding),
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-            ),
+              Padding(
+                padding: EdgeInsets.only(bottom: context.padding),
+                child: Card(
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _pickerItem(
+                          () async => onDateSet(
+                            await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: (snapshot.data ?? DateTime.now()).add(
+                                const Duration(days: 365),
+                              ),
+                            ),
+                          ),
+                          DateFormat.yMd(
+                            "de",
+                          ).format(snapshot.data ?? DateTime.now()),
+                          context,
+                        ),
+                        _pickerItem(
+                          () async => onTimeOfDaySet(
+                            await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                snapshot.data ?? DateTime.now(),
+                              ),
+                            ),
+                          ),
+                          DateFormat.Hm(
+                            "de",
+                          ).format(snapshot.data ?? DateTime.now()),
+                          context,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -98,9 +95,7 @@ class EventCreationDateTimePicker extends StatelessWidget {
             padding: EdgeInsets.all(context.halfPadding),
             child: Text(
               currentData,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),

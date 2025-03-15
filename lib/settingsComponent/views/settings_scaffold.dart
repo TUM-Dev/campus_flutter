@@ -19,10 +19,7 @@ class SettingsScaffold extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => context.push(feedback),
-            icon: Icon(
-              Icons.help,
-              color: context.theme.primaryColor,
-            ),
+            icon: Icon(Icons.help, color: context.theme.primaryColor),
           ),
         ],
       ),

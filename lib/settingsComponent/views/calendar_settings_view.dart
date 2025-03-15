@@ -38,10 +38,9 @@ class CalendarSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(showWeekends),
         onChanged: (value) {
-          ref.read(settingsViewModel).savePreference(
-                UserPreference.weekends,
-                value,
-              );
+          ref
+              .read(settingsViewModel)
+              .savePreference(UserPreference.weekends, value);
           calendarsKey.currentState?.weekController.view =
               value ? CalendarView.week : CalendarView.workWeek;
         },
@@ -59,10 +58,9 @@ class CalendarSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(showHiddenCalendarEntries),
         onChanged: (value) {
-          ref.read(settingsViewModel).savePreference(
-                UserPreference.hiddenCalendarEntries,
-                value,
-              );
+          ref
+              .read(settingsViewModel)
+              .savePreference(UserPreference.hiddenCalendarEntries, value);
           ref.read(calendarViewModel).fetch(false);
         },
       ),

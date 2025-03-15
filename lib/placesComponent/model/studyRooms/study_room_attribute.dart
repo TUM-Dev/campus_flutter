@@ -12,9 +12,9 @@ class StudyRoomAttribute extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: detail ?? ""),
-        ComparisonToken(value: name ?? ""),
-      ];
+    ComparisonToken(value: detail ?? ""),
+    ComparisonToken(value: name ?? ""),
+  ];
 
   StudyRoomAttribute({this.detail, this.name});
 

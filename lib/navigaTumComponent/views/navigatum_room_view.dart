@@ -38,9 +38,7 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
           ),
         ],
       ),
-      body: NavigaTumRoomView(
-        id: id,
-      ),
+      body: NavigaTumRoomView(id: id),
     );
   }
 
@@ -49,18 +47,16 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
     BuildContext context,
   ) {
     return IconButton(
-      onPressed: () => showDirectionsDialog(
-        details.name,
-        LatLng(
-          details.coordinates.latitude!,
-          details.coordinates.longitude!,
-        ),
-        context,
-      ),
-      icon: Icon(
-        Icons.directions,
-        color: context.theme.primaryColor,
-      ),
+      onPressed:
+          () => showDirectionsDialog(
+            details.name,
+            LatLng(
+              details.coordinates.latitude!,
+              details.coordinates.longitude!,
+            ),
+            context,
+          ),
+      icon: Icon(Icons.directions, color: context.theme.primaryColor),
     );
   }
 }
@@ -105,14 +101,13 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry: (() => ref
-                .read(navigaTumDetailsViewModel(widget.id))
-                .fetchDetails(true, context)),
+            retry:
+                (() => ref
+                    .read(navigaTumDetailsViewModel(widget.id))
+                    .fetchDetails(true, context)),
           );
         } else {
-          return DelayedLoadingIndicator(
-            name: context.tr("roomDetails"),
-          );
+          return DelayedLoadingIndicator(name: context.tr("roomDetails"));
         }
       },
     );
@@ -172,10 +167,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
   Widget _name(String name) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.padding),
-      child: Text(
-        name,
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
+      child: Text(name, style: Theme.of(context).textTheme.titleLarge),
     );
   }
 

@@ -7,23 +7,24 @@ part of 'departure.dart';
 // **************************************************************************
 
 Departure _$DepartureFromJson(Map<String, dynamic> json) => Departure(
-      stopId: StringParser.stringToInt(json['stopID'] as String?),
-      countdown: StringParser.stringToInt(json['countdown'] as String?),
-      dateTime:
-          Departure.departureDate(json['dateTime'] as Map<String, dynamic>?),
-      realDateTime: Departure.departureDate(
-          json['realDateTime'] as Map<String, dynamic>?),
-      servingLine:
-          ServingLine.fromJson(json['servingLine'] as Map<String, dynamic>),
-    );
+  stopId: StringParser.stringToInt(json['stopID'] as String?),
+  countdown: StringParser.stringToInt(json['countdown'] as String?),
+  dateTime: Departure.departureDate(json['dateTime'] as Map<String, dynamic>?),
+  realDateTime: Departure.departureDate(
+    json['realDateTime'] as Map<String, dynamic>?,
+  ),
+  servingLine: ServingLine.fromJson(
+    json['servingLine'] as Map<String, dynamic>,
+  ),
+);
 
 Map<String, dynamic> _$DepartureToJson(Departure instance) => <String, dynamic>{
-      'stopID': instance.stopId,
-      'countdown': instance.countdown,
-      'dateTime': instance.dateTime?.toIso8601String(),
-      'realDateTime': instance.realDateTime?.toIso8601String(),
-      'servingLine': instance.servingLine,
-    };
+  'stopID': instance.stopId,
+  'countdown': instance.countdown,
+  'dateTime': instance.dateTime?.toIso8601String(),
+  'realDateTime': instance.realDateTime?.toIso8601String(),
+  'servingLine': instance.servingLine,
+};
 
 DepartureDateTime _$DepartureDateTimeFromJson(Map<String, dynamic> json) =>
     DepartureDateTime(
@@ -46,14 +47,14 @@ Map<String, dynamic> _$DepartureDateTimeToJson(DepartureDateTime instance) =>
     };
 
 ServingLine _$ServingLineFromJson(Map<String, dynamic> json) => ServingLine(
-      key: StringParser.stringToInt(json['key'] as String?),
-      code: StringParser.stringToInt(json['code'] as String?),
-      number: json['number'] as String,
-      symbol: json['symbol'] as String,
-      direction: json['direction'] as String,
-      name: json['name'] as String,
-      delay: StringParser.optStringToOptInt(json['delay'] as String?),
-    );
+  key: StringParser.stringToInt(json['key'] as String?),
+  code: StringParser.stringToInt(json['code'] as String?),
+  number: json['number'] as String,
+  symbol: json['symbol'] as String,
+  direction: json['direction'] as String,
+  name: json['name'] as String,
+  delay: StringParser.optStringToOptInt(json['delay'] as String?),
+);
 
 Map<String, dynamic> _$ServingLineToJson(ServingLine instance) =>
     <String, dynamic>{

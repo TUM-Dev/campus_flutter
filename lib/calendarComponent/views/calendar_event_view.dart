@@ -32,10 +32,11 @@ class CalendarEventView extends StatelessWidget {
           DiagonalStripePatternView(
             stripeColor: calendarEvent.getColor(),
             bgColor: calendarEvent.getColor().withValues(
-                  alpha: Theme.of(context).brightness == Brightness.light
+              alpha:
+                  Theme.of(context).brightness == Brightness.light
                       ? 0.625
                       : 0.5,
-                ),
+            ),
           ),
           _content(context),
         ],
@@ -55,10 +56,10 @@ class CalendarEventView extends StatelessWidget {
   Widget _content(BuildContext context) {
     final padding = 2.5;
     final style = Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        );
+      color: Colors.white,
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+    );
 
     return Padding(
       padding: EdgeInsets.only(
@@ -67,25 +68,20 @@ class CalendarEventView extends StatelessWidget {
         right: padding,
         bottom: 2.5,
       ),
-      child: isMonthly
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _text(style, padding, context),
-                ),
-                _timePeriod(style),
-              ],
-            )
-          : _text(style, padding, context),
+      child:
+          isMonthly
+              ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: _text(style, padding, context)),
+                  _timePeriod(style),
+                ],
+              )
+              : _text(style, padding, context),
     );
   }
 
-  Widget _text(
-    TextStyle? style,
-    double padding,
-    BuildContext context,
-  ) {
+  Widget _text(TextStyle? style, double padding, BuildContext context) {
     return Text(
       calendarEvent.subject,
       style: style,
@@ -94,11 +90,7 @@ class CalendarEventView extends StatelessWidget {
   }
 
   Widget _timePeriod(TextStyle? style) {
-    return Text(
-      calendarEvent.timePeriod,
-      style: style,
-      maxLines: 1,
-    );
+    return Text(calendarEvent.timePeriod, style: style, maxLines: 1);
   }
 
   int? _calculateLineLimit(

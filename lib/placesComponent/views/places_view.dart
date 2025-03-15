@@ -70,10 +70,7 @@ class PlacesView extends ConsumerWidget {
             ),
             children: [
               for (var campus in ref.watch(placesViewModel).campuses)
-                CampusCardView(
-                  campus: campus,
-                  margin: EdgeInsets.zero,
-                ),
+                CampusCardView(campus: campus, margin: EdgeInsets.zero),
             ],
           ),
         ),

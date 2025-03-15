@@ -13,11 +13,11 @@ class CalendarService {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .getWithException<CalendarEvents, TumOnlineApi, TumOnlineApiException>(
-      TumOnlineApi(TumOnlineEndpointCalendar()),
-      CalendarEvents.fromJson,
-      TumOnlineApiException.fromJson,
-      forcedRefresh,
-    );
+          TumOnlineApi(TumOnlineEndpointCalendar()),
+          CalendarEvents.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
     return (response.saved, response.data.events);
   }
 
@@ -26,7 +26,10 @@ class CalendarService {
   ) async {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient.getWithException<
-        CalendarCreationConfirmationData, TumOnlineApi, TumOnlineApiException>(
+      CalendarCreationConfirmationData,
+      TumOnlineApi,
+      TumOnlineApiException
+    >(
       TumOnlineApi(
         TumOnlineEndpointEventCreate(
           title: addedCalendarEvent.title,
@@ -42,16 +45,10 @@ class CalendarService {
     return response.data.calendarCreationConfirmation;
   }
 
-  static Future<void> deleteCalendarEvent(
-    String id,
-  ) async {
+  static Future<void> deleteCalendarEvent(String id) async {
     RestClient restClient = getIt<RestClient>();
     restClient.getWithException(
-      TumOnlineApi(
-        TumOnlineEndpointEventDelete(
-          eventId: id,
-        ),
-      ),
+      TumOnlineApi(TumOnlineEndpointEventDelete(eventId: id)),
       CalendarDeletionConfirmationData.fromJson,
       TumOnlineApiException.fromJson,
       true,

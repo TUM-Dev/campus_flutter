@@ -11,8 +11,10 @@ extension Levenshtein on String {
     List<String> a = split('');
     List<String> b = comparisonToken.split('');
 
-    List<List<int>> dist =
-        List.generate(a.length + 1, (_) => List<int>.filled(b.length + 1, 0));
+    List<List<int>> dist = List.generate(
+      a.length + 1,
+      (_) => List<int>.filled(b.length + 1, 0),
+    );
 
     for (int i = 1; i <= a.length; i++) {
       dist[i][0] = i;

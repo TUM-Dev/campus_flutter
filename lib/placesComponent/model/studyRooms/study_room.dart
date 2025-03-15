@@ -79,8 +79,8 @@ class StudyRoom extends Searchable {
               percent!.isNegative
                   ? "0"
                   : percent! > 1
-                      ? "100"
-                      : (percent! * 100).round().toString(),
+                  ? "100"
+                  : (percent! * 100).round().toString(),
             ],
           );
         } else {
@@ -98,20 +98,17 @@ class StudyRoom extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: name ?? ""),
-        ComparisonToken(
-          value: buildingCode ?? "",
-          type: ComparisonTokenType.raw,
-        ),
-        ComparisonToken(value: buildingName ?? ""),
-        ComparisonToken(
-          value: buildingNumber.toString(),
-          type: ComparisonTokenType.raw,
-        ),
-        ComparisonToken(value: status ?? ""),
-        ComparisonToken(value: occupiedBy ?? ""),
-        ...?attributes?.expand((element) => element.comparisonTokens),
-      ];
+    ComparisonToken(value: name ?? ""),
+    ComparisonToken(value: buildingCode ?? "", type: ComparisonTokenType.raw),
+    ComparisonToken(value: buildingName ?? ""),
+    ComparisonToken(
+      value: buildingNumber.toString(),
+      type: ComparisonTokenType.raw,
+    ),
+    ComparisonToken(value: status ?? ""),
+    ComparisonToken(value: occupiedBy ?? ""),
+    ...?attributes?.expand((element) => element.comparisonTokens),
+  ];
 
   StudyRoom({
     this.buildingCode,

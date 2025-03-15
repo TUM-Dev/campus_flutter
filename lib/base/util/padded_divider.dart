@@ -10,9 +10,7 @@ class PaddedDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.padding),
-      child: Divider(
-        height: height,
-      ),
+      child: Divider(height: height),
     );
   }
 }

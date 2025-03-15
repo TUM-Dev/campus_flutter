@@ -120,11 +120,11 @@ class StudyRoomGroupView extends ConsumerWidget {
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      StudyRoomRowView(studyRoom: studyRooms![index]),
-                  separatorBuilder: (context, index) => PaddedDivider(
-                    height: 0,
-                  ),
+                  itemBuilder:
+                      (context, index) =>
+                          StudyRoomRowView(studyRoom: studyRooms![index]),
+                  separatorBuilder:
+                      (context, index) => PaddedDivider(height: 0),
                   itemCount: (studyRooms ?? []).length,
                 ),
               ),
@@ -148,13 +148,13 @@ class StudyRoomGroupView extends ConsumerWidget {
           Text(
             studyRoomGroup?.openToday != null
                 ? context.tr(
-                    "open",
-                    args: [
-                      context.tr("today").toLowerCase(),
-                      studyRoomGroup!.openToday!.$1,
-                      studyRoomGroup!.openToday!.$2,
-                    ],
-                  )
+                  "open",
+                  args: [
+                    context.tr("today").toLowerCase(),
+                    studyRoomGroup!.openToday!.$1,
+                    studyRoomGroup!.openToday!.$2,
+                  ],
+                )
                 : context.tr("closedToday"),
           ),
         ],
@@ -173,9 +173,7 @@ class StudyRoomGroupView extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: _landscapeMap(studyRoomGroup, context),
-        ),
+        Expanded(child: _landscapeMap(studyRoomGroup, context)),
         Expanded(
           child: _body(
             studyRoomGroup,
@@ -199,9 +197,7 @@ class StudyRoomGroupView extends ConsumerWidget {
             studyRoomGroup!.coordinate!.latitude,
             studyRoomGroup.coordinate!.longitude,
           ),
-          infoWindow: InfoWindow(
-            title: studyRoomGroup.name,
-          ),
+          infoWindow: InfoWindow(title: studyRoomGroup.name),
         ),
       },
       latLng: LatLng(
@@ -215,26 +211,26 @@ class StudyRoomGroupView extends ConsumerWidget {
 
   Widget _landscapeMap(StudyRoomGroup? studyRoomGroup, BuildContext context) {
     return MapWidget.fullPadding(
-      markers: studyRoomGroup != null
-          ? {
-              Marker(
-                markerId: const MarkerId("studyRoomMarker"),
-                position: LatLng(
-                  studyRoomGroup.coordinate?.latitude ?? 0.0,
-                  studyRoomGroup.coordinate?.longitude ?? 0.0,
+      markers:
+          studyRoomGroup != null
+              ? {
+                Marker(
+                  markerId: const MarkerId("studyRoomMarker"),
+                  position: LatLng(
+                    studyRoomGroup.coordinate?.latitude ?? 0.0,
+                    studyRoomGroup.coordinate?.longitude ?? 0.0,
+                  ),
+                  infoWindow: InfoWindow(title: studyRoomGroup.name),
                 ),
-                infoWindow: InfoWindow(
-                  title: studyRoomGroup.name,
-                ),
-              ),
-            }
-          : {},
-      latLng: studyRoomGroup != null
-          ? LatLng(
-              studyRoomGroup.coordinate?.latitude ?? 0.0,
-              studyRoomGroup.coordinate?.longitude ?? 0.0,
-            )
-          : null,
+              }
+              : {},
+      latLng:
+          studyRoomGroup != null
+              ? LatLng(
+                studyRoomGroup.coordinate?.latitude ?? 0.0,
+                studyRoomGroup.coordinate?.longitude ?? 0.0,
+              )
+              : null,
       zoom: 15,
       aspectRatio: 2,
     );

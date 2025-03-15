@@ -67,11 +67,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                     ),
                     children: [
                       for (var news in fiveNews)
-                        NewsCardView(
-                          news: news,
-                          width: 0,
-                          isCarousel: true,
-                        ),
+                        NewsCardView(news: news, width: 0, isCarousel: true),
                     ],
                     onTap: (index) {
                       final news = snapshot.data![index];
@@ -92,10 +88,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                 child: Card(
                   child: Center(
                     child: Text(
-                      context.tr(
-                        "noEntriesFound",
-                        args: [context.tr("news")],
-                      ),
+                      context.tr("noEntriesFound", args: [context.tr("news")]),
                     ),
                   ),
                 ),
@@ -116,9 +109,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
             return SizedBox(
               height: 300,
               child: Card(
-                child: DelayedLoadingIndicator(
-                  name: context.tr("news"),
-                ),
+                child: DelayedLoadingIndicator(name: context.tr("news")),
               ),
             );
           }

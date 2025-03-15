@@ -36,11 +36,7 @@ class CalendarEvent extends Searchable {
   }
 
   String get timePeriod {
-    return "${DateFormat.Hm().format(
-      startDate,
-    )} - ${DateFormat.Hm().format(
-      endDate,
-    )}";
+    return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
   }
 
   String _dateTimePeriod(BuildContext context) {
@@ -56,14 +52,8 @@ class CalendarEvent extends Searchable {
     if (startDate.day == endDate.day) {
       return _dateTimePeriod(context);
     } else {
-      final start = DateFormat(
-        null,
-        "de",
-      ).format(startDate);
-      final end = DateFormat(
-        null,
-        "de",
-      ).format(endDate);
+      final start = DateFormat(null, "de").format(startDate);
+      final end = DateFormat(null, "de").format(endDate);
       return "$start ${context.tr("to").toLowerCase()}\n$end";
     }
   }
@@ -95,10 +85,10 @@ class CalendarEvent extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        if (title != null) ComparisonToken(value: title!),
-        if (locations.isNotEmpty)
-          for (var location in locations) ComparisonToken(value: location),
-      ];
+    if (title != null) ComparisonToken(value: title!),
+    if (locations.isNotEmpty)
+      for (var location in locations) ComparisonToken(value: location),
+  ];
 
   CalendarEvent({
     required this.id,

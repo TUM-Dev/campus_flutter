@@ -4,9 +4,7 @@ import 'package:dio/dio.dart';
 class RestCacheInterceptor implements Interceptor {
   late Cache cache;
 
-  RestCacheInterceptor({
-    required this.cache,
-  });
+  RestCacheInterceptor({required this.cache});
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
@@ -31,9 +29,7 @@ class RestCacheInterceptor implements Interceptor {
         return handler.resolve(
           Response(
             data: cacheEntry.body,
-            extra: {
-              "saved": cacheEntry.saved,
-            },
+            extra: {"saved": cacheEntry.saved},
             statusCode: 304,
             requestOptions: options,
           ),

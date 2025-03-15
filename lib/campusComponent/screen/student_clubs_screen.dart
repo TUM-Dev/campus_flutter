@@ -28,10 +28,8 @@ class StudentClubsScreen extends ConsumerWidget {
               title: const Text("Student Clubs"),
               actions: [
                 IconButton(
-                  onPressed: () => UrlLauncher.urlString(
-                    studentClubUrl(context),
-                    ref,
-                  ),
+                  onPressed:
+                      () => UrlLauncher.urlString(studentClubUrl(context), ref),
                   icon: const Icon(Icons.open_in_new),
                 ),
               ],
@@ -49,11 +47,13 @@ class StudentClubsScreen extends ConsumerWidget {
                 return TabBarView(
                   children: [
                     for (var collection in snapshot.data!)
-                      StudentClubGridView(
-                        studentClubs: collection.clubs,
-                        padding: EdgeInsets.all(context.padding),
-                        crossAxisCount: crossAxisCount(context),
-                        withinScrollView: false,
+                      Scrollbar(
+                        child: StudentClubGridView(
+                          studentClubs: collection.clubs,
+                          padding: EdgeInsets.all(context.padding),
+                          crossAxisCount: crossAxisCount(context),
+                          withinScrollView: false,
+                        ),
                       ),
                   ],
                 );
@@ -66,9 +66,7 @@ class StudentClubsScreen extends ConsumerWidget {
                 );
               } else {
                 return const Center(
-                  child: DelayedLoadingIndicator(
-                    name: "Student Clubs",
-                  ),
+                  child: DelayedLoadingIndicator(name: "Student Clubs"),
                 );
               }
             }(),

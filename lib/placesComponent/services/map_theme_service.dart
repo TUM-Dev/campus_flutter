@@ -9,9 +9,11 @@ class MapThemeService {
   }
 
   _loadMapThemes() async {
-    darkTheme =
-        await rootBundle.loadString('assets/mapStyles/darkMapTheme.json');
-    lightTheme =
-        await rootBundle.loadString('assets/mapStyles/lightMapTheme.json');
+    darkTheme = await rootBundle.loadString(
+      'assets/mapStyles/darkMapTheme.json',
+    );
+    lightTheme = await rootBundle.loadString(
+      'assets/mapStyles/lightMapTheme.json',
+    );
   }
 }

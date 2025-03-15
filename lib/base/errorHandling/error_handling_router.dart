@@ -52,13 +52,13 @@ class ErrorHandlingRouter extends ConsumerWidget {
       case TumOnlineApiException tumOnlineApiException:
         final isInvalidToken =
             tumOnlineApiException.tumOnlineApiExceptionType !=
-                TumOnlineApiExceptionInvalidToken();
+            TumOnlineApiExceptionInvalidToken();
         final isTokenNotConfirmed =
             tumOnlineApiException.tumOnlineApiExceptionType !=
-                TumOnlineApiExceptionTokenNotConfirmed();
+            TumOnlineApiExceptionTokenNotConfirmed();
         final isNotAuthorized =
             ref.read(onboardingViewModel).credentials.value !=
-                Credentials.tumId;
+            Credentials.tumId;
         if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
           recordFlutterError(
             FlutterErrorDetails(
@@ -75,11 +75,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case SearchException searchException:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: searchException,
-          ),
-        );
+        recordFlutterError(FlutterErrorDetails(exception: searchException));
         return SearchExceptionRouter(
           searchException: searchException,
           errorHandlingViewType: errorHandlingViewType,
@@ -111,11 +107,7 @@ class ErrorHandlingRouter extends ConsumerWidget {
         );
       default:
         if (error != null) {
-          recordFlutterError(
-            FlutterErrorDetails(
-              exception: error!,
-            ),
-          );
+          recordFlutterError(FlutterErrorDetails(exception: error!));
         }
         return DefaultErrorRouter(
           exception: error,

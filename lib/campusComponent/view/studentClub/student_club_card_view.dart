@@ -7,10 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StudentClubCardView extends ConsumerWidget {
-  const StudentClubCardView({
-    super.key,
-    required this.studentClub,
-  });
+  const StudentClubCardView({super.key, required this.studentClub});
 
   final StudentClub studentClub;
 
@@ -36,10 +33,11 @@ class StudentClubCardView extends ConsumerWidget {
                 child: SvgPicture.network(
                   studentClub.coverUrl,
                   fit: BoxFit.cover,
-                  placeholderBuilder: (context) => Image.asset(
-                    "assets/images/placeholders/student_club_placeholder.png",
-                    fit: BoxFit.cover,
-                  ),
+                  placeholderBuilder:
+                      (context) => Image.asset(
+                        "assets/images/placeholders/student_club_placeholder.png",
+                        fit: BoxFit.cover,
+                      ),
                 ),
               ),
             ),
@@ -47,19 +45,18 @@ class StudentClubCardView extends ConsumerWidget {
             Expanded(
               flex: 4,
               child: CachedNetworkImage(
-                imageBuilder: (context, imageProvider) => Container(
-                  color: Colors.white,
-                  child: Image(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                imageBuilder:
+                    (context, imageProvider) => Container(
+                      color: Colors.white,
+                      child: Image(image: imageProvider, fit: BoxFit.cover),
+                    ),
                 imageUrl: studentClub.coverUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, _, __) => Image.asset(
-                  "assets/images/placeholders/student_club_placeholder.png",
-                  fit: BoxFit.cover,
-                ),
+                errorWidget:
+                    (context, _, __) => Image.asset(
+                      "assets/images/placeholders/student_club_placeholder.png",
+                      fit: BoxFit.cover,
+                    ),
               ),
             ),
           Divider(height: 0),

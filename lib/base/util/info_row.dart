@@ -13,8 +13,10 @@ class InfoRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
-          child:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+          child: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
         ),
         Padding(padding: EdgeInsets.symmetric(horizontal: context.halfPadding)),
         Expanded(child: Text(info)),

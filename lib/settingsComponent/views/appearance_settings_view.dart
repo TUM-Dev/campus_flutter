@@ -41,10 +41,9 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: DropdownButton(
         onChanged: (Appearance? newAppearance) {
           if (newAppearance != null) {
-            ref.read(settingsViewModel).savePreference(
-                  UserPreference.theme,
-                  newAppearance,
-                );
+            ref
+                .read(settingsViewModel)
+                .savePreference(UserPreference.theme, newAppearance);
           }
         },
         value: ref.watch(appearance),
@@ -63,10 +62,9 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(useWebView),
         onChanged: (showWebView) {
-          ref.read(settingsViewModel).savePreference(
-                UserPreference.browser,
-                showWebView,
-              );
+          ref
+              .read(settingsViewModel)
+              .savePreference(UserPreference.browser, showWebView);
           ref.read(useWebView.notifier).state = showWebView;
         },
       ),
@@ -83,10 +81,9 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(showStudentCardPicture),
         onChanged: (value) {
-          ref.read(settingsViewModel).savePreference(
-                UserPreference.studentCardPicture,
-                value,
-              );
+          ref
+              .read(settingsViewModel)
+              .savePreference(UserPreference.studentCardPicture, value);
           ref.read(profileViewModel).fetch(false);
         },
       ),
@@ -103,10 +100,9 @@ class AppearanceSettingsView extends ConsumerWidget {
       trailing: Switch(
         value: ref.watch(hideFailedGrades),
         onChanged: (value) {
-          ref.read(settingsViewModel).savePreference(
-                UserPreference.failedGrades,
-                value,
-              );
+          ref
+              .read(settingsViewModel)
+              .savePreference(UserPreference.failedGrades, value);
           ref.read(gradeViewModel).fetch(false);
         },
       ),

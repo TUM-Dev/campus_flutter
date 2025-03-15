@@ -25,10 +25,7 @@ class StudentClubSearchResultView extends ConsumerWidget {
           title: Text(studentClubSearch.studentClub.name),
           onTap: () {
             if (studentClubSearch.studentClub.linkUrl.isNotEmpty) {
-              UrlLauncher.urlString(
-                studentClubSearch.studentClub.linkUrl,
-                ref,
-              );
+              UrlLauncher.urlString(studentClubSearch.studentClub.linkUrl, ref);
             }
           },
         );
@@ -48,28 +45,28 @@ class StudentClubSearchResultView extends ConsumerWidget {
             child: SvgPicture.network(
               imageUrl,
               fit: BoxFit.cover,
-              placeholderBuilder: (context) => Image.asset(
-                "assets/images/placeholders/student_club_placeholder.png",
-                fit: BoxFit.cover,
-              ),
+              placeholderBuilder:
+                  (context) => Image.asset(
+                    "assets/images/placeholders/student_club_placeholder.png",
+                    fit: BoxFit.cover,
+                  ),
             ),
           );
         } else {
           return CachedNetworkImage(
-            imageBuilder: (context, imageProvider) => Container(
-              color: Colors.white,
-              child: Image(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
-            ),
+            imageBuilder:
+                (context, imageProvider) => Container(
+                  color: Colors.white,
+                  child: Image(image: imageProvider, fit: BoxFit.cover),
+                ),
             width: 80,
             height: 50,
             imageUrl: imageUrl,
-            errorWidget: (context, url, error) => Image.asset(
-              "assets/images/placeholders/student_club_placeholder.png",
-              fit: BoxFit.cover,
-            ),
+            errorWidget:
+                (context, url, error) => Image.asset(
+                  "assets/images/placeholders/student_club_placeholder.png",
+                  fit: BoxFit.cover,
+                ),
             fit: BoxFit.cover,
           );
         }

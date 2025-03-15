@@ -78,27 +78,29 @@ class OnboardingViewModel {
   }
 
   Future<bool> checkLogin() async {
-    return _storage.read(key: "token").then(
-      (value) async {
-        final status = getIt<OnboardingService>().getOnboardingStatus();
-        if (value != null) {
-          Api.tumToken = value;
-          credentials.add(Credentials.tumId);
-          return true;
-        } else if (status != null && status) {
-          credentials.add(Credentials.noTumId);
-          return true;
-        } else {
-          credentials.add(Credentials.none);
-          return false;
-        }
-      },
-      onError: (error) {
-        log(error.toString());
-        credentials.add(Credentials.none);
-        return false;
-      },
-    );
+    return _storage
+        .read(key: "token")
+        .then(
+          (value) async {
+            final status = getIt<OnboardingService>().getOnboardingStatus();
+            if (value != null) {
+              Api.tumToken = value;
+              credentials.add(Credentials.tumId);
+              return true;
+            } else if (status != null && status) {
+              credentials.add(Credentials.noTumId);
+              return true;
+            } else {
+              credentials.add(Credentials.none);
+              return false;
+            }
+          },
+          onError: (error) {
+            log(error.toString());
+            credentials.add(Credentials.none);
+            return false;
+          },
+        );
   }
 
   Future requestLogin() async {
@@ -126,15 +128,13 @@ class OnboardingViewModel {
   }
 
   Future<void> requestLocation(WidgetRef ref, BuildContext context) async {
-    Permission.location.request().then(
-      (value) {
-        {
-          if (context.mounted) {
-            finishOnboarding(ref, context);
-          }
+    Permission.location.request().then((value) {
+      {
+        if (context.mounted) {
+          finishOnboarding(ref, context);
         }
-      },
-    );
+      }
+    });
   }
 
   void finishOnboarding(WidgetRef ref, BuildContext context) {

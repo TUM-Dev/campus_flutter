@@ -55,9 +55,9 @@ extension Routing on ShortcutItemType {
 
 extension ActiveShortcuts on ShortcutItemType {
   static List<ShortcutItemType> get items => [
-        ShortcutItemType.cafeterias,
-        ShortcutItemType.roomSearch,
-        ShortcutItemType.calendar,
-        ShortcutItemType.studies,
-      ];
+    ShortcutItemType.cafeterias,
+    ShortcutItemType.roomSearch,
+    ShortcutItemType.calendar,
+    ShortcutItemType.studies,
+  ];
 }

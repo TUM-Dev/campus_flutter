@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchTextField extends ConsumerStatefulWidget {
-  const SearchTextField({
-    super.key,
-    required this.searchVM,
-  });
+  const SearchTextField({super.key, required this.searchVM});
 
   final Provider<SearchViewModel> searchVM;
 
@@ -29,27 +26,29 @@ class _SearchTextFieldState extends ConsumerState<SearchTextField> {
         onChanged: (searchString) {
           ref.read(widget.searchVM).search();
           setState(() {
-            showIcon = ref
-                .read(widget.searchVM)
-                .searchTextController
-                .value
-                .text
-                .isNotEmpty;
+            showIcon =
+                ref
+                    .read(widget.searchVM)
+                    .searchTextController
+                    .value
+                    .text
+                    .isNotEmpty;
           });
         },
         decoration: InputDecoration(
           hintText: context.tr("search"),
-          suffixIcon: showIcon
-              ? GestureDetector(
-                  onTap: () {
-                    ref.read(widget.searchVM).clear();
-                    setState(() {
-                      showIcon = false;
-                    });
-                  },
-                  child: const Icon(Icons.clear),
-                )
-              : null,
+          suffixIcon:
+              showIcon
+                  ? GestureDetector(
+                    onTap: () {
+                      ref.read(widget.searchVM).clear();
+                      setState(() {
+                        showIcon = false;
+                      });
+                    },
+                    child: const Icon(Icons.clear),
+                  )
+                  : null,
         ),
         onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       ),

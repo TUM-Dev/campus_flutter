@@ -28,23 +28,17 @@ class GradeViewModel {
   GradeViewModel(this.ref);
 
   Future fetch(bool forcedRefresh) async {
-    GradeService.fetchAverageGrades(forcedRefresh).then(
-      (response) {
-        _averageGrades = response.data;
-        return _fetchGrades(forcedRefresh);
-      },
-      onError: (error) => _fetchGrades(forcedRefresh),
-    );
+    GradeService.fetchAverageGrades(forcedRefresh).then((response) {
+      _averageGrades = response.data;
+      return _fetchGrades(forcedRefresh);
+    }, onError: (error) => _fetchGrades(forcedRefresh));
   }
 
   _fetchGrades(bool forcedRefresh) async {
-    return GradeService.fetchGrades(forcedRefresh).then(
-      (response) {
-        lastFetched.add(response.saved);
-        _gradesByDegreeAndSemester(response.data);
-      },
-      onError: (error) => studyProgramGrades.addError(error),
-    );
+    return GradeService.fetchGrades(forcedRefresh).then((response) {
+      lastFetched.add(response.saved);
+      _gradesByDegreeAndSemester(response.data);
+    }, onError: (error) => studyProgramGrades.addError(error));
   }
 
   AverageGrade? getAverageGrade() {
@@ -107,13 +101,14 @@ class GradeViewModel {
         final degreeShort = e.values.first.first.degreeShort;
         return PopupMenuItem(
           value: studyId,
-          child: selectedStudyId == studyId
-              ? IconText(
-                  iconData: Icons.check,
-                  label: "$studyDesignation ($degreeShort)",
-                  leadingIcon: false,
-                )
-              : Text("$studyDesignation ($degreeShort)"),
+          child:
+              selectedStudyId == studyId
+                  ? IconText(
+                    iconData: Icons.check,
+                    label: "$studyDesignation ($degreeShort)",
+                    leadingIcon: false,
+                  )
+                  : Text("$studyDesignation ($degreeShort)"),
         );
       }).toList();
     } else {
@@ -141,26 +136,25 @@ class GradeViewModel {
     }
 
     return Map.fromEntries(
-      chartData.entries.toList()
-        ..sort((a, b) {
-          if (a.key is double && b.key is double) {
-            final aKey = a.key as double;
-            final bKey = b.key as double;
-            return aKey.compareTo(bKey);
-          } else if (a.key == "n/a") {
-            return 1;
-          } else if (b.key == "n/a") {
-            return -1;
-          } else if (a.key is double) {
-            return a.key > 4 ? 1 : -1;
-          } else if (b.key is double) {
-            return b.key > 4 ? -1 : 1;
-          } else {
-            final aKey = a.key as String;
-            final bKey = b.key as String;
-            return aKey.compareTo(bKey);
-          }
-        }),
+      chartData.entries.toList()..sort((a, b) {
+        if (a.key is double && b.key is double) {
+          final aKey = a.key as double;
+          final bKey = b.key as double;
+          return aKey.compareTo(bKey);
+        } else if (a.key == "n/a") {
+          return 1;
+        } else if (b.key == "n/a") {
+          return -1;
+        } else if (a.key is double) {
+          return a.key > 4 ? 1 : -1;
+        } else if (b.key is double) {
+          return b.key > 4 ? -1 : 1;
+        } else {
+          final aKey = a.key as String;
+          final bKey = b.key as String;
+          return aKey.compareTo(bKey);
+        }
+      }),
     );
   }
 

@@ -34,10 +34,7 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                context.tr(
-                  "noEntriesFound",
-                  args: [context.tr("lecture")],
-                ),
+                context.tr("noEntriesFound", args: [context.tr("lecture")]),
               ),
             );
           } else {
@@ -98,9 +95,7 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
     } else {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var semester in data) SemesterView(semester: semester),
-        ],
+        children: [for (var semester in data) SemesterView(semester: semester)],
       );
     }
   }

@@ -11,9 +11,9 @@
 
 # Tum Campus App - An Unofficial Guide Through University Life
 
-The TUM Campus App (TCA) is an open source project, developed by volunteers. This repository is dedicated to the development and transition to Flutter and currently in Beta. <!-- and [available on the App Store](https://itunes.apple.com/app/id1217412716), [on the Play Store]() and as a [web app](https://web.tum.app). -->
+The TUM Campus App (TCA) is an open source project, developed by volunteers. This repository is dedicated to the development and transition to Flutter. 
 
-The application mostly targets phones, but can also be used on tablets, Macs and in your browser. We currently support iOS, iPadOS, macOS and Android.
+The application mostly targets phones, but can also be used on tablet and Macs. We currently support iOS, iPadOS, macOS and Android.
 
 ## Features
 
@@ -59,7 +59,7 @@ Please refer to the respective installation instructions:
 |------------------------------------------|------------------------------------------|----------------------------------------------|
 | `Flutter` (includes the `Dart` compiler) | SDK to develop this app                  | https://docs.flutter.dev/get-started/install |
 
-### Updating the `.proto` files of the
+### Updating the `.proto` files
 
 To update the generated stubs for the Campus, you need protoc installed, then activte it in dart and then you can generate the new client
 
@@ -70,14 +70,14 @@ curl -o protos/tumdev/campus_backend.proto https://raw.githubusercontent.com/TUM
 protoc --dart_out=grpc:lib/base/networking/apis -I./protos google/protobuf/timestamp.proto google/protobuf/empty.proto tumdev/campus_backend.proto 
 ```
 
-### Current needed Forks
+### Currently needed Forks
 
 To ensure that campus_flutter runs on every supported platform, we need to make some modifications to packages.
 
-| Package         | Reason                              | Link                                         |
-|-----------------|-------------------------------------|----------------------------------------------|
-| gRPC            | Caching                             | https://github.com/jakobkoerber/grpc-dart |
-| Xml2Json        | Fix Parsing of XML to JSON          | https://github.com/jakobkoerber/xml2json |
+| Package         | Reason                              | Link                                            |
+|-----------------|-------------------------------------|-------------------------------------------------|
+| gRPC            | Caching                             | https://github.com/jakobkoerber/grpc-dart       |
+| Xml2Json        | Fix Parsing of XML to JSON          | https://github.com/jakobkoerber/xml2json        |
 | flutter_linkify | Fix Selection Menu and Text Scaling | https://github.com/jakobkoerber/flutter_linkify |
 
 

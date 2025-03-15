@@ -7,12 +7,13 @@ import 'package:rxdart/rxdart.dart';
 
 final lectureDetailsViewModel =
     Provider.family<LectureDetailsViewModel, (CalendarEvent?, Lecture?)>(
-  (ref, data) => LectureDetailsViewModel(event: data.$1, lecture: data.$2),
-);
+      (ref, data) => LectureDetailsViewModel(event: data.$1, lecture: data.$2),
+    );
 
 class LectureDetailsViewModel {
-  BehaviorSubject<LectureDetails?> lectureDetails =
-      BehaviorSubject.seeded(null);
+  BehaviorSubject<LectureDetails?> lectureDetails = BehaviorSubject.seeded(
+    null,
+  );
 
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
@@ -26,24 +27,18 @@ class LectureDetailsViewModel {
       LectureDetailsService.fetchLectureDetails(
         event!.lvNr ?? "",
         forcedRefresh,
-      ).then(
-        (response) {
-          lastFetched.add(response.$1);
-          lectureDetails.add(response.$2);
-        },
-        onError: (error) => lectureDetails.addError(error),
-      );
+      ).then((response) {
+        lastFetched.add(response.$1);
+        lectureDetails.add(response.$2);
+      }, onError: (error) => lectureDetails.addError(error));
     } else {
       LectureDetailsService.fetchLectureDetails(
         lecture?.lvNumber ?? "",
         forcedRefresh,
-      ).then(
-        (response) {
-          lastFetched.add(response.$1);
-          lectureDetails.add(response.$2);
-        },
-        onError: (error) => lectureDetails.addError(error),
-      );
+      ).then((response) {
+        lastFetched.add(response.$1);
+        lectureDetails.add(response.$2);
+      }, onError: (error) => lectureDetails.addError(error));
     }
   }
 }

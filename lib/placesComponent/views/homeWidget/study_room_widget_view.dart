@@ -17,9 +17,7 @@ class StudyRoomWidgetView extends ConsumerStatefulWidget {
     if (studyRoomGroup == null) {
       return const StudyRoomWidgetView.closest();
     } else {
-      return StudyRoomWidgetView.group(
-        studyRoomGroup: studyRoomGroup,
-      );
+      return StudyRoomWidgetView.group(studyRoomGroup: studyRoomGroup);
     }
   }
 
@@ -55,9 +53,10 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: widget.closestStudyRoom
-          ? ref.watch(studyRoomsViewModel).widgetStudyRoom
-          : ref.watch(studyRoomsViewModel).studyRooms,
+      stream:
+          widget.closestStudyRoom
+              ? ref.watch(studyRoomsViewModel).widgetStudyRoom
+              : ref.watch(studyRoomsViewModel).studyRooms,
       builder: (context, snapshot) {
         if (widget.closestStudyRoom) {
           return WidgetFrameView(
@@ -72,24 +71,23 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
                   ),
                 ),
                 InkWell(
-                  child: Icon(
-                    Icons.filter_list,
-                    color: context.primaryColor,
-                  ),
-                  onTap: () => showModalBottomSheet(
-                    builder: (context) =>
-                        PreferenceSelectionView<StudyRoomGroup>(
-                      data: ref
-                          .read(studyRoomsViewModel)
-                          .getStudyRoomEntries(context),
-                      entry: context.tr("studyRoom"),
-                    ),
-                    context: context,
-                    useRootNavigator: true,
-                    isScrollControlled: true,
-                    useSafeArea: true,
-                    showDragHandle: true,
-                  ),
+                  child: Icon(Icons.filter_list, color: context.primaryColor),
+                  onTap:
+                      () => showModalBottomSheet(
+                        builder:
+                            (context) =>
+                                PreferenceSelectionView<StudyRoomGroup>(
+                                  data: ref
+                                      .read(studyRoomsViewModel)
+                                      .getStudyRoomEntries(context),
+                                  entry: context.tr("studyRoom"),
+                                ),
+                        context: context,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        showDragHandle: true,
+                      ),
                 ),
               ],
             ),
@@ -108,15 +106,17 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
         if (snapshot.hasData && snapshot.data != null) {
           context.push(
             closestStudyRoom,
-            extra: widget.closestStudyRoom
-                ? snapshot.data! as StudyRoomGroup
-                : widget.studyRoomGroup!,
+            extra:
+                widget.closestStudyRoom
+                    ? snapshot.data! as StudyRoomGroup
+                    : widget.studyRoomGroup!,
           );
         }
       },
-      child: widget.closestStudyRoom
-          ? Card(child: _widgetLabel(snapshot, context))
-          : _widgetLabel(snapshot, context),
+      child:
+          widget.closestStudyRoom
+              ? Card(child: _widgetLabel(snapshot, context))
+              : _widgetLabel(snapshot, context),
     );
   }
 
@@ -126,16 +126,18 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
         return _buttonLabel(
           widget.closestStudyRoom
               ? snapshot.data! as StudyRoomGroup
-              : ref.read(studyRoomsViewModel).studyRoomData!.groups!.firstWhere(
+              : ref
+                  .read(studyRoomsViewModel)
+                  .studyRoomData!
+                  .groups!
+                  .firstWhere(
                     (element) => element.id == widget.studyRoomGroup!.id,
                   ),
           context,
         );
       } else {
         return ListTile(
-          title: Center(
-            child: Text(context.tr("noNearFreeStudyRoomsFound")),
-          ),
+          title: Center(child: Text(context.tr("noNearFreeStudyRoomsFound"))),
         );
       }
     } else if (snapshot.hasError) {
@@ -147,9 +149,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
       );
     } else {
       return ListTile(
-        title: DelayedLoadingIndicator(
-          name: context.tr("nearestStudyRooms"),
-        ),
+        title: DelayedLoadingIndicator(name: context.tr("nearestStudyRooms")),
       );
     }
   }
@@ -158,10 +158,7 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
     return ListTile(
       title: Text(studyRoomGroup.name),
       subtitle: _freeRooms(studyRoomGroup),
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        size: 15,
-      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
     );
   }
 

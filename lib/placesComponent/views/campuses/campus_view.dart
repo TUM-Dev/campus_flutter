@@ -9,6 +9,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.d
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/cafeteria_row_view.dart';
+import 'package:campus_flutter/placesComponent/views/campuses/campus_map_legend.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_most_searched_view.dart';
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
@@ -30,10 +31,7 @@ class AdaptedCampusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: CampusView(
-        campus: campus,
-        orientation: orientation,
-      ),
+      child: CampusView(campus: campus, orientation: orientation),
     );
   }
 }
@@ -61,10 +59,10 @@ class _CampusViewState extends ConsumerState<CampusView> {
     ref.read(navigaTumCampusViewModel(widget.campus)).mostSearched(false);
     cafeterias =
         ref.read(cafeteriasViewModel).campusCafeterias.value?[widget.campus] ??
-            [];
+        [];
     studyRooms =
         ref.read(studyRoomsViewModel).campusStudyRooms.value?[widget.campus] ??
-            [];
+        [];
     super.initState();
   }
 
@@ -95,15 +93,12 @@ class _CampusViewState extends ConsumerState<CampusView> {
                   widget.campus.location.longitude,
                 ),
                 zoom: 15,
+                mapLegend: CampusMapLegend(),
               ),
             ),
           ),
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: _campusWidgets(),
-          ),
-        ),
+        Expanded(child: SingleChildScrollView(child: _campusWidgets())),
       ],
     );
   }
@@ -149,14 +144,12 @@ class _CampusViewState extends ConsumerState<CampusView> {
                 child: Card(
                   child: SeparatedList.list(
                     data: studyRooms,
-                    tile: (studyRoomGroup) =>
-                        StudyRoomWidgetView(studyRoomGroup),
+                    tile:
+                        (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
                   ),
                 ),
               ),
-            CampusMostSearchedView(
-              campus: widget.campus,
-            ),
+            CampusMostSearchedView(campus: widget.campus),
           ],
         ),
       ],

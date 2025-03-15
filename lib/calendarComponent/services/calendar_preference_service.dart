@@ -22,10 +22,7 @@ class CalendarPreferenceService {
       sharedPreferences.setString(
         key,
         jsonEncode(
-          CalendarPreferences(
-            colorPreferences,
-            visibilityPreferences,
-          ).toJson(),
+          CalendarPreferences(colorPreferences, visibilityPreferences).toJson(),
         ),
       );
     } catch (_) {}
@@ -46,10 +43,7 @@ class CalendarPreferenceService {
       sharedPreferences.setString(
         key,
         jsonEncode(
-          CalendarPreferences(
-            colorPreferences,
-            visibilityPreferences,
-          ).toJson(),
+          CalendarPreferences(colorPreferences, visibilityPreferences).toJson(),
         ),
       );
     } catch (_) {}

@@ -18,10 +18,7 @@ class PersonalLectureSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.personalLectures,
       searchVM: searchVM,
       searchCategoryVM: personalLectureSearchViewModel,
-      body: (lecture) => LectureView(
-        lecture: lecture,
-        isSearch: true,
-      ),
+      body: (lecture) => LectureView(lecture: lecture, isSearch: true),
     );
   }
 }

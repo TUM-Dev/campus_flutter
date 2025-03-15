@@ -33,22 +33,24 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
     fetchLecture = LectureService.fetchLecture(true);
     fetchGrades = GradeService.fetchGrades(true);
     fetchProfile = ProfileService.fetchProfile(true).then(
-      (value) => fetchTuition = ProfileService.fetchTuition(
-        true,
-        value.$2.personGroup ?? "",
-        value.$2.id ?? "",
-      ),
-      onError: (error) =>
-          fetchTuition = ProfileService.fetchTuition(true, "", "id"),
+      (value) =>
+          fetchTuition = ProfileService.fetchTuition(
+            true,
+            value.$2.personGroup ?? "",
+            value.$2.id ?? "",
+          ),
+      onError:
+          (error) => fetchTuition = ProfileService.fetchTuition(true, "", "id"),
     );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.isSettingsView
-        ? Theme.of(context).colorScheme.surface
-        : Theme.of(context).brightness == Brightness.dark
+    final backgroundColor =
+        widget.isSettingsView
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).brightness == Brightness.dark
             ? Theme.of(context).canvasColor
             : Colors.white;
     return Scaffold(
@@ -79,10 +81,7 @@ class _PermissionCheckViewState extends ConsumerState<PermissionCheckView> {
             const Spacer(),
             _permissionCheck(context.tr("tuition"), fetchTuition),
             const Spacer(),
-            _permissionCheck(
-              context.tr("identification"),
-              fetchProfile,
-            ),
+            _permissionCheck(context.tr("identification"), fetchProfile),
             const Spacer(flex: 3),
             Visibility(
               visible: confirmedPermissions.keys.length == 5,

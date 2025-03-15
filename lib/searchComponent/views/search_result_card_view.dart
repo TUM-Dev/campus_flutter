@@ -13,8 +13,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchResultCardView<T extends SearchCategoryViewModel<S>,
-    S extends Searchable> extends ConsumerWidget {
+class SearchResultCardView<
+  T extends SearchCategoryViewModel<S>,
+  S extends Searchable
+>
+    extends ConsumerWidget {
   const SearchResultCardView({
     super.key,
     required this.searchVM,
@@ -31,13 +34,16 @@ class SearchResultCardView<T extends SearchCategoryViewModel<S>,
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return WidgetFrameView(
-      title:
-          SearchCategoryExtension.localizedEnumTitle(searchCategory, context),
+      title: SearchCategoryExtension.localizedEnumTitle(
+        searchCategory,
+        context,
+      ),
       child: Card(
         child: StreamBuilder(
-          stream: ref
-              .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
-              .searchResults,
+          stream:
+              ref
+                  .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
+                  .searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
@@ -67,19 +73,15 @@ class SearchResultCardView<T extends SearchCategoryViewModel<S>,
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: () {
                         if (index == itemCount - 1) {
-                          return _showMoreButton(
-                            snapshot.data!,
-                            context,
-                          );
+                          return _showMoreButton(snapshot.data!, context);
                         } else {
                           return body(snapshot.data![index]);
                         }
                       }(),
                     );
                   },
-                  separatorBuilder: (context, index) => const PaddedDivider(
-                    height: 0,
-                  ),
+                  separatorBuilder:
+                      (context, index) => const PaddedDivider(height: 0),
                   itemCount: itemCount,
                 );
               }
@@ -127,16 +129,18 @@ class SearchResultCardView<T extends SearchCategoryViewModel<S>,
         ),
       ),
       // TODO(@jakobkoerber): figure out for multiple attributes
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SearchResultDetailsScaffold<S>(
-            searchCategory: searchCategory,
-            data: data,
-            body: body,
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) => SearchResultDetailsScaffold<S>(
+                    searchCategory: searchCategory,
+                    data: data,
+                    body: body,
+                  ),
+            ),
           ),
-        ),
-      ),
     );
   }
 }

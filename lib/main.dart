@@ -87,9 +87,7 @@ Future<void> _initializeFirebase() async {
 
 Future<void> _initializeNetworkingClients() async {
   final cacheDatabase = CacheDatabase();
-  getIt.registerSingleton<RestClient>(
-    RestClient(cacheDatabase),
-  );
+  getIt.registerSingleton<RestClient>(RestClient(cacheDatabase));
   getIt.registerSingleton<GrpcClient>(
     await GrpcClient.createGrpcClient(cacheDatabase),
   );
@@ -203,15 +201,15 @@ class _CampusAppState extends ConsumerState<CampusApp> {
   }
 
   void quickActionsCallback() {
-    quickActions = const QuickActions()
-      ..initialize((shortcutType) {
-        final shortcutItemType = EnumParser.typeFromString(shortcutType);
-        if (getIt<RouterService>().isInitialized) {
-          ref.read(routerProvider).go(shortcutItemType.route);
-        } else {
-          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
-        }
-      });
+    quickActions =
+        const QuickActions()..initialize((shortcutType) {
+          final shortcutItemType = EnumParser.typeFromString(shortcutType);
+          if (getIt<RouterService>().isInitialized) {
+            ref.read(routerProvider).go(shortcutItemType.route);
+          } else {
+            getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+          }
+        });
   }
 
   void homeWidgetLaunchCallback() {

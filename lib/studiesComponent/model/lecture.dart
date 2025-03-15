@@ -65,12 +65,12 @@ class Lecture extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: title),
-        ComparisonToken(value: semesterID, type: ComparisonTokenType.raw),
-        ComparisonToken(value: organisation),
-        ComparisonToken(value: speaker ?? ""),
-        ComparisonToken(value: semester),
-      ];
+    ComparisonToken(value: title),
+    ComparisonToken(value: semesterID, type: ComparisonTokenType.raw),
+    ComparisonToken(value: organisation),
+    ComparisonToken(value: speaker ?? ""),
+    ComparisonToken(value: semester),
+  ];
 
   Lecture({
     required this.id,

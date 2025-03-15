@@ -48,22 +48,22 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                 ),
               ),
               InkWell(
-                child: Icon(
-                  Icons.filter_list,
-                  color: context.primaryColor,
-                ),
-                onTap: () => showModalBottomSheet(
-                  builder: (context) => PreferenceSelectionView<Campus>(
-                    data:
-                        ref.read(departureViewModel).getCampusEntries(context),
-                    entry: context.tr("departure"),
-                  ),
-                  context: context,
-                  useRootNavigator: true,
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  showDragHandle: true,
-                ),
+                child: Icon(Icons.filter_list, color: context.primaryColor),
+                onTap:
+                    () => showModalBottomSheet(
+                      builder:
+                          (context) => PreferenceSelectionView<Campus>(
+                            data: ref
+                                .read(departureViewModel)
+                                .getCampusEntries(context),
+                            entry: context.tr("departure"),
+                          ),
+                      context: context,
+                      useRootNavigator: true,
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      showDragHandle: true,
+                    ),
               ),
             ],
           ),
@@ -138,14 +138,13 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
             constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height * 0.15,
             ),
-            child: const Center(
-              child: Text("No Departures Found"),
-            ),
+            child: const Center(child: Text("No Departures Found")),
           ),
         if (snapshot.data!.isNotEmpty)
-          for (var departure in snapshot.data!.length > 3
-              ? snapshot.data!.getRange(0, 3)
-              : snapshot.data!) ...[
+          for (var departure
+              in snapshot.data!.length > 3
+                  ? snapshot.data!.getRange(0, 3)
+                  : snapshot.data!) ...[
             const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
             DeparturesDetailsRowView(departure: departure),
           ],

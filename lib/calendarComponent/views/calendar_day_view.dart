@@ -20,52 +20,56 @@ class CalendarDayView extends ConsumerWidget {
     return Expanded(
       child: StreamBuilder(
         stream: ref.watch(calendarViewModel).events,
-        builder: (context, snapshot) => SfDateRangePickerTheme(
-          data: const SfDateRangePickerThemeData(
-            headerBackgroundColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-          ),
-          child: SfCalendar(
-            controller: calendarController,
-            showDatePickerButton: true,
-            view: CalendarView.day,
-            dataSource: MeetingDataSource(
-              snapshot.data ?? [],
-              context,
-              ref,
-            ),
-            onTap: (details) {
-              if (details.targetElement == CalendarElement.appointment) {
-                getIt<CalendarViewService>().showDetails(
-                  details,
-                  null,
+        builder:
+            (context, snapshot) => SfDateRangePickerTheme(
+              data: const SfDateRangePickerThemeData(
+                headerBackgroundColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
+              ),
+              child: SfCalendar(
+                controller: calendarController,
+                showDatePickerButton: true,
+                view: CalendarView.day,
+                dataSource: MeetingDataSource(
+                  snapshot.data ?? [],
                   context,
                   ref,
-                );
-              } else {
-                ref.read(selectedDate.notifier).state =
-                    (details.date, CalendarView.day);
-              }
-            },
-            headerDateFormat: "EEEE, dd.MM.yyyy",
-            headerStyle: const CalendarHeaderStyle(
-              backgroundColor: Colors.transparent,
+                ),
+                onTap: (details) {
+                  if (details.targetElement == CalendarElement.appointment) {
+                    getIt<CalendarViewService>().showDetails(
+                      details,
+                      null,
+                      context,
+                      ref,
+                    );
+                  } else {
+                    ref.read(selectedDate.notifier).state = (
+                      details.date,
+                      CalendarView.day,
+                    );
+                  }
+                },
+                headerDateFormat: "EEEE, dd.MM.yyyy",
+                headerStyle: const CalendarHeaderStyle(
+                  backgroundColor: Colors.transparent,
+                ),
+                showNavigationArrow: true,
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  startHour: 7,
+                  endHour: 22,
+                  timeFormat: "HH:mm",
+                ),
+                appointmentBuilder: (context, details) {
+                  final calendarEvent =
+                      details.appointments.first as CalendarEvent;
+                  return CalendarEventView(
+                    calendarEvent: calendarEvent,
+                    bounds: details.bounds,
+                  );
+                },
+              ),
             ),
-            showNavigationArrow: true,
-            timeSlotViewSettings: const TimeSlotViewSettings(
-              startHour: 7,
-              endHour: 22,
-              timeFormat: "HH:mm",
-            ),
-            appointmentBuilder: (context, details) {
-              final calendarEvent = details.appointments.first as CalendarEvent;
-              return CalendarEventView(
-                calendarEvent: calendarEvent,
-                bounds: details.bounds,
-              );
-            },
-          ),
-        ),
       ),
     );
   }

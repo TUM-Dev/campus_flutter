@@ -25,8 +25,11 @@ class LectureView extends ConsumerWidget {
           Row(
             children: [
               Expanded(
-                child:
-                    _subtitle(lecture.eventType(context), Icons.edit, context),
+                child: _subtitle(
+                  lecture.eventType(context),
+                  Icons.edit,
+                  context,
+                ),
               ),
               const Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
               Expanded(

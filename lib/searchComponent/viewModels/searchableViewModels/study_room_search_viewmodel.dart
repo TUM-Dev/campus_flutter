@@ -22,18 +22,12 @@ class StudyRoomSearchViewModel
   StudyRoomData? studyRoomData;
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (studyRoomData == null) {
-      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
-        (value) {
-          studyRoomData = value.$2;
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
+        studyRoomData = value.$2;
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }
@@ -45,9 +39,10 @@ class StudyRoomSearchViewModel
       return;
     }
 
-    final List<StudyRoomSearchResult> groupRooms = studyRoomData?.groups
-            ?.map((e) {
-          final currentRooms = studyRoomData?.rooms
+    final List<StudyRoomSearchResult> groupRooms =
+        studyRoomData?.groups?.map((e) {
+          final currentRooms =
+              studyRoomData?.rooms
                   ?.where((element) => e.rooms?.contains(element.id) ?? false)
                   .toList() ??
               [];
@@ -78,7 +73,7 @@ class StudyRoomSearchResult extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ...studyRoomGroup.comparisonTokens,
-        ...studyRooms.expand((element) => element.comparisonTokens),
-      ];
+    ...studyRoomGroup.comparisonTokens,
+    ...studyRooms.expand((element) => element.comparisonTokens),
+  ];
 }

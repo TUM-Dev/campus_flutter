@@ -13,9 +13,9 @@ class TumOnlineEndpointTokenRequest extends TumOnlineEndpoint {
 
   @override
   Map<String, String> getParameters() => {
-        "pUsername": tumId,
-        "pTokenName": deviceName,
-      };
+    "pUsername": tumId,
+    "pTokenName": deviceName,
+  };
 }
 
 class TumOnlineEndpointTokenConfirmation extends TumOnlineEndpoint {}
@@ -79,8 +79,10 @@ class TumOnlineEndpointProfileImage extends TumOnlineEndpoint {
   TumOnlineEndpointProfileImage({required this.personGroup, required this.id});
 
   @override
-  Map<String, String> getParameters() =>
-      {"pPersonenGruppe": personGroup, "pPersonenId": id};
+  Map<String, String> getParameters() => {
+    "pPersonenGruppe": personGroup,
+    "pPersonenId": id,
+  };
 }
 
 class TumOnlineEndpointEventCreate extends TumOnlineEndpoint {
@@ -98,22 +100,18 @@ class TumOnlineEndpointEventCreate extends TumOnlineEndpoint {
 
   @override
   Map<String, String> getParameters() => {
-        "pTitel": title,
-        if (annotation != null) "pAnmerkung": annotation!,
-        "pVon": from,
-        "pBis": to,
-      };
+    "pTitel": title,
+    if (annotation != null) "pAnmerkung": annotation!,
+    "pVon": from,
+    "pBis": to,
+  };
 }
 
 class TumOnlineEndpointEventDelete extends TumOnlineEndpoint {
   final String eventId;
 
-  TumOnlineEndpointEventDelete({
-    required this.eventId,
-  });
+  TumOnlineEndpointEventDelete({required this.eventId});
 
   @override
-  Map<String, String> getParameters() => {
-        "pTerminNr": eventId,
-      };
+  Map<String, String> getParameters() => {"pTerminNr": eventId};
 }

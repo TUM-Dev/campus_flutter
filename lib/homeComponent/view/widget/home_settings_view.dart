@@ -14,15 +14,12 @@ class HomeSettingsView extends ConsumerWidget {
       children: [
         Text(
           context.tr("editHome"),
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.apply(color: context.primaryColor),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.apply(color: context.primaryColor),
         ),
         Text(context.tr("reorderDisable")),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: context.halfPadding),
-        ),
+        Padding(padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
         TextButton(
           onPressed: () => ref.read(homeViewModel).reset(),
           child: Text(context.tr("reset")),
@@ -44,10 +41,9 @@ class HomeSettingsView extends ConsumerWidget {
               return _listTile(homeWidget, index, context, ref);
             },
             itemCount: snapshot.data?.length ?? 0,
-            onReorder: (oldIndex, newIndex) => ref.read(homeViewModel).reorder(
-                  oldIndex,
-                  newIndex,
-                ),
+            onReorder:
+                (oldIndex, newIndex) =>
+                    ref.read(homeViewModel).reorder(oldIndex, newIndex),
           );
         },
       ),
@@ -71,13 +67,11 @@ class HomeSettingsView extends ConsumerWidget {
         children: [
           Checkbox(
             value: homeWidget.enabled,
-            onChanged: (value) =>
-                ref.read(homeViewModel).toggleWidget(index, value ?? true),
+            onChanged:
+                (value) =>
+                    ref.read(homeViewModel).toggleWidget(index, value ?? true),
           ),
-          Icon(
-            Icons.menu,
-            color: !homeWidget.enabled ? Colors.grey : null,
-          ),
+          Icon(Icons.menu, color: !homeWidget.enabled ? Colors.grey : null),
         ],
       ),
     );

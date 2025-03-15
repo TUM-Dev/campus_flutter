@@ -12,12 +12,9 @@ class LectureViewModel {
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
-    LectureService.fetchLecture(forcedRefresh).then(
-      (response) {
-        _lecturesBySemester(response);
-      },
-      onError: (error) => lectures.addError(error),
-    );
+    LectureService.fetchLecture(forcedRefresh).then((response) {
+      _lecturesBySemester(response);
+    }, onError: (error) => lectures.addError(error));
   }
 
   _lecturesBySemester((DateTime?, List<Lecture>) response) async {

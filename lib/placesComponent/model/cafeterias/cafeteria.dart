@@ -71,17 +71,17 @@ class Cafeteria extends Searchable {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<ComparisonToken> get comparisonTokens => [
-        ComparisonToken(value: name),
-        ComparisonToken(value: location.address),
-        ComparisonToken(
-          value: location.latitude.toString(),
-          type: ComparisonTokenType.raw,
-        ),
-        ComparisonToken(
-          value: location.longitude.toString(),
-          type: ComparisonTokenType.raw,
-        ),
-      ];
+    ComparisonToken(value: name),
+    ComparisonToken(value: location.address),
+    ComparisonToken(
+      value: location.latitude.toString(),
+      type: ComparisonTokenType.raw,
+    ),
+    ComparisonToken(
+      value: location.longitude.toString(),
+      type: ComparisonTokenType.raw,
+    ),
+  ];
 
   Cafeteria({
     required this.location,

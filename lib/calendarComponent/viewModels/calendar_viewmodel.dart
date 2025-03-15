@@ -14,40 +14,34 @@ import 'package:rxdart/rxdart.dart';
 final calendarViewModel = Provider((ref) => CalendarViewModel());
 
 class CalendarViewModel {
-  final BehaviorSubject<List<CalendarEvent>?> events =
-      BehaviorSubject.seeded(null);
+  final BehaviorSubject<List<CalendarEvent>?> events = BehaviorSubject.seeded(
+    null,
+  );
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
   final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
-      widgetEvents = BehaviorSubject.seeded(null);
+  widgetEvents = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
-    CalendarService.fetchCalendar(forcedRefresh).then(
-      (response) {
-        lastFetched.add(response.$1);
-        response.$2.removeWhere((element) => element.isCanceled);
-        getIt<CalendarPreferenceService>().loadPreferences();
-        for (var element in response.$2) {
-          final eventColor =
-              getIt<CalendarPreferenceService>().getColorPreference(
-            element.lvNr ?? element.id,
-          );
-          if (eventColor != null) {
-            element.setColor(eventColor);
-          }
-
-          final eventVisibility =
-              getIt<CalendarPreferenceService>().getVisibilityPreference(
-            element.lvNr ?? element.id,
-          );
-          if (eventVisibility != null) {
-            element.isVisible = eventVisibility;
-          }
+    CalendarService.fetchCalendar(forcedRefresh).then((response) {
+      lastFetched.add(response.$1);
+      response.$2.removeWhere((element) => element.isCanceled);
+      getIt<CalendarPreferenceService>().loadPreferences();
+      for (var element in response.$2) {
+        final eventColor = getIt<CalendarPreferenceService>()
+            .getColorPreference(element.lvNr ?? element.id);
+        if (eventColor != null) {
+          element.setColor(eventColor);
         }
-        events.add(response.$2);
-        updateHomeWidget(response.$2);
-      },
-      onError: (error) => events.addError(error),
-    );
+
+        final eventVisibility = getIt<CalendarPreferenceService>()
+            .getVisibilityPreference(element.lvNr ?? element.id);
+        if (eventVisibility != null) {
+          element.isVisible = eventVisibility;
+        }
+      }
+      events.add(response.$2);
+      updateHomeWidget(response.$2);
+    }, onError: (error) => events.addError(error));
   }
 
   Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {
@@ -69,7 +63,7 @@ class CalendarViewModel {
     );
     await HomeWidget.updateWidget(
       iOSName: "CalendarWidget",
-      androidName: "widgets.calendar.CalendarWidget",
+      androidName: "widgets.calendar.CalendarWidgetProvider",
     );
   }
 
@@ -77,7 +71,8 @@ class CalendarViewModel {
     CalendarEvent? leftColumn;
     List<CalendarEvent> rightColumn = [];
 
-    final filteredEvents = events.value
+    final filteredEvents =
+        events.value
             ?.where(
               (element) =>
                   element.startDate.isAfter(DateTime.now()) &&
@@ -87,8 +82,11 @@ class CalendarViewModel {
         [];
     filteredEvents.sort((a, b) => a.startDate.compareTo(b.startDate));
     final currentDate = DateTime.now();
-    final currentDay =
-        DateTime(currentDate.year, currentDate.month, currentDate.day);
+    final currentDay = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+    );
 
     for (CalendarEvent event in filteredEvents) {
       final dateToCheck = DateTime(
@@ -115,10 +113,7 @@ class CalendarViewModel {
   }
 
   void setEventColor(String key, Color color) {
-    getIt<CalendarPreferenceService>().saveColorPreference(
-      key,
-      color,
-    );
+    getIt<CalendarPreferenceService>().saveColorPreference(key, color);
     final elements = events.value;
     elements?.forEach((element) {
       if (element.lvNr == key || element.id == key) {
@@ -156,9 +151,8 @@ class CalendarViewModel {
   }
 
   int getTabPreference() {
-    return (getIt<UserPreferencesService>().load(
-          UserPreference.calendarTab,
-        ) as int?) ??
+    return (getIt<UserPreferencesService>().load(UserPreference.calendarTab)
+            as int?) ??
         0;
   }
 

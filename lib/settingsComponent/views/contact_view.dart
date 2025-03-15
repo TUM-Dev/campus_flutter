@@ -34,9 +34,14 @@ class ContactView extends ConsumerWidget {
               link: "https://app.tum.de",
               label: "TUM-Dev Website",
             ),
+            const HyperLinkListTile(
+              dense: true,
+              link: "https://tum.sexy/",
+              label: "TUM.sexy",
+            ),
             HyperLinkListTile(
               dense: true,
-              link: "https://www.tum.app/privacy",
+              link: "https://www.tum.dev/privacy",
               label: context.tr("privacyPolicy"),
             ),
             _licensesButton(context),
@@ -58,10 +63,7 @@ class ContactView extends ConsumerWidget {
   Widget _feedbackButton(BuildContext context) {
     return ListTile(
       dense: true,
-      title: Text(
-        "Feedback",
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
+      title: Text("Feedback", style: Theme.of(context).textTheme.bodyMedium),
       onTap: () => context.push(feedback),
     );
   }

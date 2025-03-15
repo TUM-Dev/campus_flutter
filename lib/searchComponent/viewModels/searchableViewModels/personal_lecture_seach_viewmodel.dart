@@ -6,8 +6,9 @@ import 'package:campus_flutter/searchComponent/protocols/search_category_viewmod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final personalLectureSearchViewModel =
-    Provider((ref) => PersonalLectureSearchViewModel());
+final personalLectureSearchViewModel = Provider(
+  (ref) => PersonalLectureSearchViewModel(),
+);
 
 class PersonalLectureSearchViewModel
     implements SearchCategoryViewModel<Lecture> {
@@ -17,18 +18,12 @@ class PersonalLectureSearchViewModel
   List<Lecture> _personalLectureData = [];
 
   @override
-  Future search({
-    bool forcedRefresh = false,
-    required String query,
-  }) async {
+  Future search({bool forcedRefresh = false, required String query}) async {
     if (_personalLectureData.isEmpty) {
-      return LectureService.fetchLecture(forcedRefresh).then(
-        (value) {
-          _personalLectureData = value.$2;
-          _search(query);
-        },
-        onError: (error) => searchResults.addError(error),
-      );
+      return LectureService.fetchLecture(forcedRefresh).then((value) {
+        _personalLectureData = value.$2;
+        _search(query);
+      }, onError: (error) => searchResults.addError(error));
     } else {
       _search(query);
     }

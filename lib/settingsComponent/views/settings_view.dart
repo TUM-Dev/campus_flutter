@@ -82,16 +82,18 @@ class SettingsView extends ConsumerWidget {
 
   Widget _resetPreferencesButton(BuildContext context, WidgetRef ref) {
     return ListTile(
-      onTap: () => context.mounted
-          ? ref.read(onboardingViewModel).resetPreferences(ref)
-          : null,
+      onTap:
+          () =>
+              context.mounted
+                  ? ref.read(onboardingViewModel).resetPreferences(ref)
+                  : null,
       dense: true,
       title: Text(
         context.tr("resetPreferences"),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.red,
-              fontWeight: FontWeight.w500,
-            ),
+          color: Colors.red,
+          fontWeight: FontWeight.w500,
+        ),
         textAlign: TextAlign.center,
       ),
     );
@@ -101,23 +103,24 @@ class SettingsView extends ConsumerWidget {
     final loginStatus = ref.read(onboardingViewModel).credentials.value;
     return ListTile(
       dense: true,
-      title: loginStatus != Credentials.tumId
-          ? Text(
-              context.tr("login"),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
-                  ),
-              textAlign: TextAlign.center,
-            )
-          : Text(
-              context.tr("resetLogin"),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500,
-                  ),
-              textAlign: TextAlign.center,
-            ),
+      title:
+          loginStatus != Credentials.tumId
+              ? Text(
+                context.tr("login"),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.green,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              )
+              : Text(
+                context.tr("logout"),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
       onTap: () {
         if (loginStatus != Credentials.none) {
           ref.read(onboardingViewModel).logout(ref);
@@ -140,9 +143,7 @@ class SettingsView extends ConsumerWidget {
               ),
             );
           } else {
-            return Text(
-              context.tr("versionNumber", args: ["-.-.-", "-"]),
-            );
+            return Text(context.tr("versionNumber", args: ["-.-.-", "-"]));
           }
         },
       ),

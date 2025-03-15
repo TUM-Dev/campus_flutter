@@ -24,10 +24,7 @@ class LinkView extends ConsumerWidget {
             child: ListTile(
               leading: const Icon(Icons.school),
               title: Center(
-                child: AutoSizeText(
-                  context.tr("studyRooms"),
-                  maxLines: 1,
-                ),
+                child: AutoSizeText(context.tr("studyRooms"), maxLines: 1),
               ),
               onTap: () => context.push(studyRooms),
             ),
@@ -44,10 +41,7 @@ class LinkView extends ConsumerWidget {
             child: ListTile(
               leading: const Icon(Icons.restaurant),
               title: Center(
-                child: AutoSizeText(
-                  context.tr("cafeterias"),
-                  maxLines: 1,
-                ),
+                child: AutoSizeText(context.tr("cafeterias"), maxLines: 1),
               ),
               onTap: () => context.push(cafeterias),
             ),

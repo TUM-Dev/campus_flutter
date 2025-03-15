@@ -15,9 +15,7 @@ class GradeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: GradeRectangle(grade: grade.grade),
-      title: Text(
-        grade.title,
-      ),
+      title: Text(grade.title),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

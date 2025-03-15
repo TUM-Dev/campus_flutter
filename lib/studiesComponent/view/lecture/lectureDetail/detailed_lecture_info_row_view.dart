@@ -23,10 +23,9 @@ class DetailedLectureInfoRowView extends ConsumerWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           SelectableLinkify(
             text: information.replaceAll(r'\\n', "\n").replaceAll(r'\t', "\t"),

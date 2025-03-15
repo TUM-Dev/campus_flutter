@@ -91,23 +91,24 @@ class FeedbackViewModel {
   void _errorDialog(dynamic error, BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          context.tr("unableToSend"),
-          textAlign: TextAlign.center,
-        ),
-        content: ErrorHandlingRouter(
-          error: error,
-          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            onPressed: () => context.pop(),
-            child: Text(context.tr("back")),
+      builder:
+          (context) => AlertDialog(
+            title: Text(
+              context.tr("unableToSend"),
+              textAlign: TextAlign.center,
+            ),
+            content: ErrorHandlingRouter(
+              error: error,
+              errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: [
+              ElevatedButton(
+                onPressed: () => context.pop(),
+                child: Text(context.tr("back")),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 

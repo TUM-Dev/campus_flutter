@@ -7,12 +7,12 @@ part of 'contact_info.dart';
 // **************************************************************************
 
 ContactInfo _$ContactInfoFromJson(Map<String, dynamic> json) => ContactInfo(
-      phone: json['telefon'] as String?,
-      fax: json['fax'] as String?,
-      mobilePhone: json['mobiltelefon'] as String?,
-      additionalInfo: json['zusatz_info'] as String?,
-      homepage: json['www_homepage'] as String?,
-    );
+  phone: json['telefon'] as String?,
+  fax: json['fax'] as String?,
+  mobilePhone: json['mobiltelefon'] as String?,
+  additionalInfo: json['zusatz_info'] as String?,
+  homepage: json['www_homepage'] as String?,
+);
 
 Map<String, dynamic> _$ContactInfoToJson(ContactInfo instance) =>
     <String, dynamic>{

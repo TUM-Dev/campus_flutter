@@ -12,8 +12,11 @@ class NewsService {
     final news = await grpcClient.listNews(
       ListNewsRequest(
         oldestDateAt: Timestamp.fromDateTime(
-          DateTime(start.year, start.month, start.day)
-              .subtract(const Duration(days: 30)),
+          DateTime(
+            start.year,
+            start.month,
+            start.day,
+          ).subtract(const Duration(days: 30)),
         ),
       ),
     );

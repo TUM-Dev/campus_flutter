@@ -7,10 +7,7 @@ class CalendarPreferences {
   final Map<String, int> colorPreferences;
   final Map<String, bool> visibilityPreferences;
 
-  CalendarPreferences(
-    this.colorPreferences,
-    this.visibilityPreferences,
-  );
+  CalendarPreferences(this.colorPreferences, this.visibilityPreferences);
 
   factory CalendarPreferences.fromJson(Map<String, dynamic> json) =>
       _$CalendarPreferencesFromJson(json);

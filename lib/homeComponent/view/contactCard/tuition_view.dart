@@ -32,42 +32,44 @@ class TuitionView extends ConsumerWidget {
     if (snapshot.data != null) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            context.tr("tuitionFees"),
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                snapshot.data!.semester,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.w500),
+        builder:
+            (context) => AlertDialog(
+              title: Text(
+                context.tr("tuitionFees"),
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-              InfoRow(
-                title: context.tr("tuitionDueDate"),
-                info: DateFormat.yMd("de").format(snapshot.data!.deadline),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    snapshot.data!.semester,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                  InfoRow(
+                    title: context.tr("tuitionDueDate"),
+                    info: DateFormat.yMd("de").format(snapshot.data!.deadline),
+                  ),
+                  InfoRow(
+                    title: context.tr("tuitionOpenAmount"),
+                    info: NumberFormat.currency(
+                      locale: "de",
+                      symbol: '€',
+                    ).format(snapshot.data!.amount),
+                  ),
+                ],
               ),
-              InfoRow(
-                title: context.tr("tuitionOpenAmount"),
-                info: NumberFormat.currency(locale: "de", symbol: '€')
-                    .format(snapshot.data!.amount),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () => context.pop(),
-              child: const Text("Okay"),
+              actions: [
+                ElevatedButton(
+                  onPressed: () => context.pop(),
+                  child: const Text("Okay"),
+                ),
+              ],
+              actionsAlignment: MainAxisAlignment.center,
             ),
-          ],
-          actionsAlignment: MainAxisAlignment.center,
-        ),
       );
     }
   }
@@ -81,21 +83,21 @@ class TuitionView extends ConsumerWidget {
         return IconText(
           iconData: Icons.check,
           label: context.tr("tuitionPaid"),
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Colors.green),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.green),
           leadingIcon: false,
         );
       } else {
-        final numberFormat =
-            NumberFormat.currency(locale: "de_DE", symbol: "€");
+        final numberFormat = NumberFormat.currency(
+          locale: "de_DE",
+          symbol: "€",
+        );
         return Text(
           numberFormat.format(snapshot.data?.amount),
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Colors.red),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.red),
         );
       }
     } else {
@@ -103,10 +105,9 @@ class TuitionView extends ConsumerWidget {
         name: context.tr("tuition"),
         alternativeLoadingIndicator: Text(
           context.tr("notAvailableAbbrev"),
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Colors.red),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.red),
         ),
       );
     }

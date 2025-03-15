@@ -9,9 +9,10 @@ class GradeRectangle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final parsedGrade = grade != null
-        ? StringParser.optStringToOptDouble(grade) ?? grade
-        : "n/a";
+    final parsedGrade =
+        grade != null
+            ? StringParser.optStringToOptDouble(grade) ?? grade
+            : "n/a";
     return AspectRatio(
       aspectRatio: 1.0,
       child: Container(
@@ -27,9 +28,7 @@ class GradeRectangle extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(color: Colors.grey.shade600, blurRadius: 3),
-              ],
+              shadows: [Shadow(color: Colors.grey.shade600, blurRadius: 3)],
             ),
           ),
         ),

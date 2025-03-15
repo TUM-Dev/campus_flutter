@@ -8,16 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final calendarAdditionViewModel =
-    Provider.autoDispose.family<CalendarAdditionViewModel, CalendarEvent?>(
-  (ref, calendarEvent) {
-    if (calendarEvent != null) {
-      return CalendarAdditionViewModel.edit(ref, calendarEvent);
-    } else {
-      return CalendarAdditionViewModel(ref);
-    }
-  },
-);
+final calendarAdditionViewModel = Provider.autoDispose
+    .family<CalendarAdditionViewModel, CalendarEvent?>((ref, calendarEvent) {
+      if (calendarEvent != null) {
+        return CalendarAdditionViewModel.edit(ref, calendarEvent);
+      } else {
+        return CalendarAdditionViewModel(ref);
+      }
+    });
 
 class CalendarAdditionViewModel {
   final TextEditingController titleController = TextEditingController();
@@ -122,9 +120,10 @@ class CalendarAdditionViewModel {
     final response = await CalendarService.createCalendarEvent(
       AddedCalendarEvent(
         title: titleController.text,
-        annotation: annotationController.text.isEmpty
-            ? null
-            : annotationController.text,
+        annotation:
+            annotationController.text.isEmpty
+                ? null
+                : annotationController.text,
         from: from.value,
         to: to.value,
       ),
@@ -136,7 +135,11 @@ class CalendarAdditionViewModel {
             .value
             ?.firstWhereOrNull((e) => e.id == response.eventId) ==
         null) {
-      ref.read(calendarViewModel).events.value?.add(
+      ref
+          .read(calendarViewModel)
+          .events
+          .value
+          ?.add(
             CalendarEvent(
               id: response.eventId,
               status: "FT",

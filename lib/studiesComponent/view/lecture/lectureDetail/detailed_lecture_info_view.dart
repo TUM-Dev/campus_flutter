@@ -5,10 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DetailedLectureInfoView extends StatelessWidget {
-  const DetailedLectureInfoView({
-    super.key,
-    required this.lectureDetails,
-  });
+  const DetailedLectureInfoView({super.key, required this.lectureDetails});
 
   final LectureDetails lectureDetails;
 

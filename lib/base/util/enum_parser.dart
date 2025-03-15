@@ -3,9 +3,7 @@ import 'package:collection/collection.dart';
 
 class EnumParser {
   static ShortcutItemType typeFromString(String string) {
-    return ShortcutItemType.values.firstWhereOrNull(
-          (e) => e.type == string,
-        ) ??
+    return ShortcutItemType.values.firstWhereOrNull((e) => e.type == string) ??
         ShortcutItemType.home;
   }
 }
