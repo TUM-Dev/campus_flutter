@@ -50,7 +50,7 @@ ThemeData lightTheme(BuildContext context) {
     ),
 
     /// remove tint of dialogs
-    dialogTheme: const DialogTheme(
+    dialogTheme: const DialogThemeData(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.transparent,
     ),
@@ -73,7 +73,7 @@ ThemeData lightTheme(BuildContext context) {
     ),
 
     /// remove colored tint and shadow of card, add margin
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.white,
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
