@@ -56,12 +56,9 @@ class GeneralSettingsView extends ConsumerWidget {
           }
         },
         value: context.locale,
-        items:
-            context.supportedLocales
-                .map(
-                  (e) => DropdownMenuItem(value: e, child: Text(e.fullName())),
-                )
-                .toList(),
+        items: context.supportedLocales
+            .map((e) => DropdownMenuItem(value: e, child: Text(e.fullName())))
+            .toList(),
       ),
     );
   }

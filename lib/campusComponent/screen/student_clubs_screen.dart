@@ -28,8 +28,8 @@ class StudentClubsScreen extends ConsumerWidget {
               title: const Text("Student Clubs"),
               actions: [
                 IconButton(
-                  onPressed:
-                      () => UrlLauncher.urlString(studentClubUrl(context), ref),
+                  onPressed: () =>
+                      UrlLauncher.urlString(studentClubUrl(context), ref),
                   icon: const Icon(Icons.open_in_new),
                 ),
               ],

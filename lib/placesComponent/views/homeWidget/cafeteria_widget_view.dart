@@ -46,37 +46,29 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  onTap:
-                      () =>
-                          snapshot.data != null
-                              ? context.push(
-                                cafeteriaWidget,
-                                extra: snapshot.data!.$1,
-                              )
-                              : null,
+                  onTap: () => snapshot.data != null
+                      ? context.push(cafeteriaWidget, extra: snapshot.data!.$1)
+                      : null,
                 ),
               ),
               InkWell(
                 child: Icon(Icons.filter_list, color: context.primaryColor),
-                onTap:
-                    () =>
-                        context.mounted
-                            ? showModalBottomSheet(
-                              builder:
-                                  (context) =>
-                                      PreferenceSelectionView<Cafeteria>(
-                                        data: ref
-                                            .read(cafeteriasViewModel)
-                                            .getCafeteriaEntries(context),
-                                        entry: context.tr("cafeteria"),
-                                      ),
-                              context: context,
-                              useRootNavigator: true,
-                              isScrollControlled: true,
-                              useSafeArea: true,
-                              showDragHandle: true,
-                            )
-                            : null,
+                onTap: () => context.mounted
+                    ? showModalBottomSheet(
+                        builder: (context) =>
+                            PreferenceSelectionView<Cafeteria>(
+                              data: ref
+                                  .read(cafeteriasViewModel)
+                                  .getCafeteriaEntries(context),
+                              entry: context.tr("cafeteria"),
+                            ),
+                        context: context,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        showDragHandle: true,
+                      )
+                    : null,
               ),
             ],
           ),
@@ -117,9 +109,8 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           child: ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.textOnly,
-            retry:
-                (() =>
-                    ref.read(cafeteriasViewModel).fetchWidgetCafeteria(true)),
+            retry: (() =>
+                ref.read(cafeteriasViewModel).fetchWidgetCafeteria(true)),
           ),
         ),
       );

@@ -9,14 +9,13 @@ class ShimmerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor:
-          MediaQuery.of(context).platformBrightness == Brightness.light
-              ? Colors.grey.shade300
-              : Colors.grey.shade800,
+      baseColor: MediaQuery.of(context).platformBrightness == Brightness.light
+          ? Colors.grey.shade300
+          : Colors.grey.shade800,
       highlightColor:
           MediaQuery.of(context).platformBrightness == Brightness.light
-              ? Colors.grey.shade100
-              : Colors.grey.shade600,
+          ? Colors.grey.shade100
+          : Colors.grey.shade600,
       child: child,
     );
   }

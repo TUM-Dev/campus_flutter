@@ -84,8 +84,8 @@ class CafeteriasViewModel {
       } else {
         LocationService.getLastKnown().then(
           (position) => _getClosestCafeteria(position, value.$2),
-          onError:
-              (error) => fetchCafeteriaMenu(forcedRefresh, value.$2.first).then(
+          onError: (error) =>
+              fetchCafeteriaMenu(forcedRefresh, value.$2.first).then(
                 (menu) =>
                     widgetCafeteria.add((value.$2.first, menu.firstOrNull)),
                 onError: (error) => widgetCafeteria.addError(error),
@@ -95,25 +95,24 @@ class CafeteriasViewModel {
     }, onError: (error) => widgetCafeteria.addError(error));
   }
 
-  _excludeCafeterias(List<Cafeteria> cafeterias) {
+  void _excludeCafeterias(List<Cafeteria> cafeterias) {
     cafeterias.removeWhere(
       (element) => excludedCafeterias.contains(element.id),
     );
   }
 
-  _categorizeAndSort(List<Cafeteria> cafeterias) {
+  void _categorizeAndSort(List<Cafeteria> cafeterias) {
     Map<Campus, List<Cafeteria>> campusCafeterias = {};
     for (var campus in Campus.values) {
-      final closeCafeterias =
-          cafeterias.where((element) {
-            return Geolocator.distanceBetween(
-                  campus.location.latitude,
-                  campus.location.longitude,
-                  element.location.latitude,
-                  element.location.longitude,
-                ) <=
-                1000;
-          }).toList();
+      final closeCafeterias = cafeterias.where((element) {
+        return Geolocator.distanceBetween(
+              campus.location.latitude,
+              campus.location.longitude,
+              element.location.latitude,
+              element.location.longitude,
+            ) <=
+            1000;
+      }).toList();
 
       campusCafeterias[campus] = closeCafeterias;
     }
@@ -121,12 +120,15 @@ class CafeteriasViewModel {
     this.cafeterias = cafeterias;
   }
 
-  _getClosestCafeteria(Position? position, List<Cafeteria> cafeterias) async {
+  Future<void> _getClosestCafeteria(
+    Position? position,
+    List<Cafeteria> cafeterias,
+  ) async {
     if (position != null) {
-      final closestCafeteriaToLocation =
-          cafeterias
-              .sorted(
-                (a, b) => Geolocator.distanceBetween(
+      final closestCafeteriaToLocation = cafeterias
+          .sorted(
+            (a, b) =>
+                Geolocator.distanceBetween(
                   a.location.latitude,
                   a.location.longitude,
                   position.latitude,
@@ -139,8 +141,8 @@ class CafeteriasViewModel {
                     position.longitude,
                   ),
                 ),
-              )
-              .first;
+          )
+          .first;
 
       fetchCafeteriaMenu(false, closestCafeteriaToLocation).then(
         (value) => widgetCafeteria.add((
@@ -164,37 +166,36 @@ class CafeteriasViewModel {
 
   List<ListTile> getCafeteriaEntries(BuildContext context) {
     return cafeterias.map((e) {
-        final isSelected =
-            widgetCafeteria.value?.$1.id == e.id &&
-            getIt<UserPreferencesService>().load(UserPreference.cafeteria) !=
-                null;
-        return ListTile(
-          dense: true,
-          title: Text(e.name),
-          trailing: isSelected ? const Icon(Icons.check) : null,
-          onTap: () {
-            setWidgetCafeteria(e.id);
-            context.pop();
-          },
-        );
-      }).toList()
-      ..insert(
-        0,
-        ListTile(
-          dense: true,
-          title: Text(context.tr("closest")),
-          trailing:
-              getIt<UserPreferencesService>().load(UserPreference.cafeteria) ==
-                      null
-                  ? const Icon(Icons.check)
-                  : null,
-          onTap: () {
-            getIt<UserPreferencesService>().reset(UserPreference.cafeteria);
-            fetchWidgetCafeteria(false);
-            context.pop();
-          },
-        ),
+      final isSelected =
+          widgetCafeteria.value?.$1.id == e.id &&
+          getIt<UserPreferencesService>().load(UserPreference.cafeteria) !=
+              null;
+      return ListTile(
+        dense: true,
+        title: Text(e.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetCafeteria(e.id);
+          context.pop();
+        },
       );
+    }).toList()..insert(
+      0,
+      ListTile(
+        dense: true,
+        title: Text(context.tr("closest")),
+        trailing:
+            getIt<UserPreferencesService>().load(UserPreference.cafeteria) ==
+                null
+            ? const Icon(Icons.check)
+            : null,
+        onTap: () {
+          getIt<UserPreferencesService>().reset(UserPreference.cafeteria);
+          fetchWidgetCafeteria(false);
+          context.pop();
+        },
+      ),
+    );
   }
 
   Future<List<CafeteriaMenu>> fetchCafeteriaMenu(
@@ -305,9 +306,9 @@ class CafeteriasViewModel {
 
     final divider =
         (basePriceString?.isNotEmpty == true &&
-                unitPriceString?.isNotEmpty == true)
-            ? ' + '
-            : '';
+            unitPriceString?.isNotEmpty == true)
+        ? ' + '
+        : '';
 
     final finalPrice =
         (basePriceString ?? '') + divider + (unitPriceString ?? '');

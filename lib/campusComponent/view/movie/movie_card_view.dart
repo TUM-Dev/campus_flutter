@@ -41,20 +41,18 @@ class MovieCardView extends ConsumerWidget {
                 width: double.infinity,
                 fadeOutDuration: Duration.zero,
                 fadeInDuration: Duration.zero,
-                placeholder:
-                    (context, string) => Image.asset(
-                      "assets/images/placeholders/movie_placeholder.png",
-                      fit: BoxFit.fill,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
-                errorWidget:
-                    (context, url, error) => Image.asset(
-                      "assets/images/placeholders/movie_placeholder.png",
-                      fit: BoxFit.fill,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
+                placeholder: (context, string) => Image.asset(
+                  "assets/images/placeholders/movie_placeholder.png",
+                  fit: BoxFit.fill,
+                  height: double.infinity,
+                  width: double.infinity,
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/images/placeholders/movie_placeholder.png",
+                  fit: BoxFit.fill,
+                  height: double.infinity,
+                  width: double.infinity,
+                ),
               ),
             ),
             Expanded(

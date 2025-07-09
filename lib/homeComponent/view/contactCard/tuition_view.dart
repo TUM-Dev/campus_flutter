@@ -28,48 +28,47 @@ class TuitionView extends ConsumerWidget {
     );
   }
 
-  _alertDialog(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
+  void _alertDialog(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
     if (snapshot.data != null) {
       showDialog(
         context: context,
-        builder:
-            (context) => AlertDialog(
-              title: Text(
-                context.tr("tuitionFees"),
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
+        builder: (context) => AlertDialog(
+          title: Text(
+            context.tr("tuitionFees"),
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                snapshot.data!.semester,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
               ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    snapshot.data!.semester,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                  InfoRow(
-                    title: context.tr("tuitionDueDate"),
-                    info: DateFormat.yMd("de").format(snapshot.data!.deadline),
-                  ),
-                  InfoRow(
-                    title: context.tr("tuitionOpenAmount"),
-                    info: NumberFormat.currency(
-                      locale: "de",
-                      symbol: '€',
-                    ).format(snapshot.data!.amount),
-                  ),
-                ],
+              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+              InfoRow(
+                title: context.tr("tuitionDueDate"),
+                info: DateFormat.yMd("de").format(snapshot.data!.deadline),
               ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => context.pop(),
-                  child: const Text("Okay"),
-                ),
-              ],
-              actionsAlignment: MainAxisAlignment.center,
+              InfoRow(
+                title: context.tr("tuitionOpenAmount"),
+                info: NumberFormat.currency(
+                  locale: "de",
+                  symbol: '€',
+                ).format(snapshot.data!.amount),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => context.pop(),
+              child: const Text("Okay"),
             ),
+          ],
+          actionsAlignment: MainAxisAlignment.center,
+        ),
       );
     }
   }

@@ -23,8 +23,10 @@ class StudentCardView extends ConsumerWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             var data = snapshot.data!.first;
-            final lastFetched =
-                ref.read(studentCardViewModel).lastFetched.value;
+            final lastFetched = ref
+                .read(studentCardViewModel)
+                .lastFetched
+                .value;
             return Column(
               children: [
                 _header(lastFetched, context, ref),

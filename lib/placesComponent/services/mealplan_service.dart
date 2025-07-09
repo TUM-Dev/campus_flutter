@@ -92,12 +92,11 @@ class MealPlanService {
     List<CafeteriaMenu> nextWeekMenu,
     List<CafeteriaMenu> thisWeekMenu,
   ) {
-    List<CafeteriaMenu> filteredMenu =
-        nextWeekMenu.where((menu) {
-          return !thisWeekMenu.any(
-            (thisWeekMenu) => thisWeekMenu.date == menu.date,
-          );
-        }).toList();
+    List<CafeteriaMenu> filteredMenu = nextWeekMenu.where((menu) {
+      return !thisWeekMenu.any(
+        (thisWeekMenu) => thisWeekMenu.date == menu.date,
+      );
+    }).toList();
 
     return filteredMenu;
   }
@@ -112,11 +111,10 @@ class MealPlanService {
     );
     mealPlan.days.sort((menu1, menu2) => menu1.date.compareTo(menu2.date));
 
-    cafeteriaMenu =
-        mealPlan.days.map((e) {
-          final List<MenuCategory> categories = _categories(e.dishes);
-          return CafeteriaMenu(date: e.date, categories: categories);
-        }).toList();
+    cafeteriaMenu = mealPlan.days.map((e) {
+      final List<MenuCategory> categories = _categories(e.dishes);
+      return CafeteriaMenu(date: e.date, categories: categories);
+    }).toList();
 
     cafeteriaMenu.sort((menu1, menu2) => menu1.date.compareTo(menu2.date));
     return cafeteriaMenu;
@@ -137,10 +135,9 @@ class MealPlanService {
       }
     }
 
-    List<MenuCategory> menuCategories =
-        dishMap.entries.map((entry) {
-          return MenuCategory(name: entry.key, dishes: entry.value);
-        }).toList();
+    List<MenuCategory> menuCategories = dishMap.entries.map((entry) {
+      return MenuCategory(name: entry.key, dishes: entry.value);
+    }).toList();
 
     return menuCategories;
   }

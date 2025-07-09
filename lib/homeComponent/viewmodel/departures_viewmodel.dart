@@ -35,7 +35,7 @@ class DeparturesViewModel {
 
   Timer? timer;
 
-  setWidgetCampus(Campus campus) {
+  void setWidgetCampus(Campus campus) {
     widgetCampus.add(campus);
     timer?.cancel();
     assignSelectedStation();
@@ -45,7 +45,7 @@ class DeparturesViewModel {
     );
   }
 
-  setSelectedStation(Station? station) {
+  void setSelectedStation(Station? station) {
     selectedStation.add(station);
     timer?.cancel();
     fetchDepartures();
@@ -182,7 +182,7 @@ class DeparturesViewModel {
     setTimerForRefresh();
   }
 
-  setTimerForRefresh() {
+  void setTimerForRefresh() {
     if ((departures.value?.length ?? 0) > 0) {
       if (departures.value![0].countdown > 0) {
         timer = Timer(
@@ -234,14 +234,13 @@ class DeparturesViewModel {
           .map(
             (e) => PopupMenuItem(
               value: e,
-              child:
-                  selectedStation.value?.name == e.name
-                      ? IconText(
-                        iconData: Icons.check,
-                        label: e.name,
-                        leadingIcon: false,
-                      )
-                      : Text(e.name),
+              child: selectedStation.value?.name == e.name
+                  ? IconText(
+                      iconData: Icons.check,
+                      label: e.name,
+                      leadingIcon: false,
+                    )
+                  : Text(e.name),
             ),
           )
           .toList();
@@ -252,36 +251,35 @@ class DeparturesViewModel {
 
   List<ListTile> getCampusEntries(BuildContext context) {
     return Campus.values.map((e) {
-        final isSelected =
-            widgetCampus.value == e &&
-            getIt<UserPreferencesService>().load(UserPreference.departure) !=
-                null;
-        return ListTile(
-          dense: true,
-          title: Text(e.name),
-          trailing: isSelected ? const Icon(Icons.check) : null,
-          onTap: () {
-            setWidgetCampus(e);
-            context.pop();
-          },
-        );
-      }).toList()
-      ..insert(
-        0,
-        ListTile(
-          dense: true,
-          title: Text(context.tr("closest")),
-          trailing:
-              getIt<UserPreferencesService>().load(UserPreference.departure) ==
-                      null
-                  ? const Icon(Icons.check)
-                  : null,
-          onTap: () {
-            getIt<UserPreferencesService>().reset(UserPreference.departure);
-            findWidgetCampus(true);
-            context.pop();
-          },
-        ),
+      final isSelected =
+          widgetCampus.value == e &&
+          getIt<UserPreferencesService>().load(UserPreference.departure) !=
+              null;
+      return ListTile(
+        dense: true,
+        title: Text(e.name),
+        trailing: isSelected ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetCampus(e);
+          context.pop();
+        },
       );
+    }).toList()..insert(
+      0,
+      ListTile(
+        dense: true,
+        title: Text(context.tr("closest")),
+        trailing:
+            getIt<UserPreferencesService>().load(UserPreference.departure) ==
+                null
+            ? const Icon(Icons.check)
+            : null,
+        onTap: () {
+          getIt<UserPreferencesService>().reset(UserPreference.departure);
+          findWidgetCampus(true);
+          context.pop();
+        },
+      ),
+    );
   }
 }

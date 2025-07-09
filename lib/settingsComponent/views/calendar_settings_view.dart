@@ -41,8 +41,9 @@ class CalendarSettingsView extends ConsumerWidget {
           ref
               .read(settingsViewModel)
               .savePreference(UserPreference.weekends, value);
-          calendarsKey.currentState?.weekController.view =
-              value ? CalendarView.week : CalendarView.workWeek;
+          calendarsKey.currentState?.weekController.view = value
+              ? CalendarView.week
+              : CalendarView.workWeek;
         },
       ),
     );

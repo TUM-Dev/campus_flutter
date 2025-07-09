@@ -59,19 +59,18 @@ class _ColorPickerViewState extends State<ColorPickerView> {
           color: selectedColor,
           shape: BoxShape.circle,
           border: Border.all(
-            color:
-                (() {
-                  final luminance = selectedColor.computeLuminance();
-                  if (luminance >= 0.5) {
-                    return Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey
-                        : selectedColor;
-                  } else {
-                    return Theme.of(context).brightness == Brightness.light
-                        ? selectedColor
-                        : Colors.white;
-                  }
-                })(),
+            color: (() {
+              final luminance = selectedColor.computeLuminance();
+              if (luminance >= 0.5) {
+                return Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey
+                    : selectedColor;
+              } else {
+                return Theme.of(context).brightness == Brightness.light
+                    ? selectedColor
+                    : Colors.white;
+              }
+            })(),
             width: 1,
           ),
         ),

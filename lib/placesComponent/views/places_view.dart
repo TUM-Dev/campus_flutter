@@ -58,8 +58,8 @@ class PlacesView extends ConsumerWidget {
           child: GridView.count(
             crossAxisCount:
                 DeviceService.getType(context) == Device.landscapeTablet
-                    ? 3
-                    : 2,
+                ? 3
+                : 2,
             childAspectRatio: 1.5,
             mainAxisSpacing: context.padding,
             crossAxisSpacing: context.padding,

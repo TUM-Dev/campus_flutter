@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UrlLauncher {
-  static urlString(String urlString, WidgetRef ref) async {
+  static Future<void> urlString(String urlString, WidgetRef ref) async {
     if (await canLaunchUrlString(urlString)) {
       if (ref.read(useWebView)) {
         launchUrlString(urlString, mode: LaunchMode.inAppBrowserView).onError(
@@ -19,7 +19,7 @@ class UrlLauncher {
     }
   }
 
-  static url(Uri url, WidgetRef ref) async {
+  static Future<void> url(Uri url, WidgetRef ref) async {
     if (await canLaunchUrl(url)) {
       if (ref.read(useWebView) && Platform.isIOS) {
         launchUrl(url, mode: LaunchMode.inAppWebView).onError(

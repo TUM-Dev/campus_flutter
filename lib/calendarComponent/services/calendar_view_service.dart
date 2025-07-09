@@ -10,8 +10,12 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarViewService {
   DateTime? minDate(WidgetRef ref) {
-    final firstDate =
-        ref.read(calendarViewModel).events.value?.firstOrNull?.startDate;
+    final firstDate = ref
+        .read(calendarViewModel)
+        .events
+        .value
+        ?.firstOrNull
+        ?.startDate;
     if (firstDate != null) {
       final today = DateTime.now();
       if (firstDate.isBefore(today)) {
@@ -25,8 +29,12 @@ class CalendarViewService {
   }
 
   DateTime? maxDate(WidgetRef ref) {
-    final firstDate =
-        ref.read(calendarViewModel).events.value?.lastOrNull?.endDate;
+    final firstDate = ref
+        .read(calendarViewModel)
+        .events
+        .value
+        ?.lastOrNull
+        ?.endDate;
     if (firstDate != null) {
       return DateTime(firstDate.year, firstDate.month, firstDate.day, 23, 59);
     } else {
@@ -34,7 +42,7 @@ class CalendarViewService {
     }
   }
 
-  showDetails(
+  void showDetails(
     CalendarTapDetails? details,
     CalendarEvent? event,
     BuildContext context,
@@ -55,42 +63,41 @@ class CalendarViewService {
     } else if (calendarEvent != null) {
       showDialog(
         context: context,
-        builder:
-            (context) => AlertDialog(
-              title: Text(
-                calendarEvent!.title ?? "-",
-                textAlign: TextAlign.center,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+        builder: (context) => AlertDialog(
+          title: Text(
+            calendarEvent!.title ?? "-",
+            textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+          content: CustomEventView(calendarEvent: calendarEvent),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
               ),
-              content: CustomEventView(calendarEvent: calendarEvent),
-              actionsAlignment: MainAxisAlignment.center,
-              actions: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Colors.redAccent),
-                  ),
-                  onPressed: () {
-                    ref
-                        .read(calendarViewModel)
-                        .deleteCalendarElement(calendarEvent!.id)
-                        .then((value) {
-                          if (context.mounted) {
-                            context.pop();
-                          }
-                        });
-                  },
-                  child: Text(context.tr("delete")),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.pop();
-                    context.push(eventCreation, extra: calendarEvent);
-                  },
-                  child: Text(context.tr("edit")),
-                ),
-              ],
+              onPressed: () {
+                ref
+                    .read(calendarViewModel)
+                    .deleteCalendarElement(calendarEvent!.id)
+                    .then((value) {
+                      if (context.mounted) {
+                        context.pop();
+                      }
+                    });
+              },
+              child: Text(context.tr("delete")),
             ),
+            ElevatedButton(
+              onPressed: () {
+                context.pop();
+                context.push(eventCreation, extra: calendarEvent);
+              },
+              child: Text(context.tr("edit")),
+            ),
+          ],
+        ),
       );
     }
   }

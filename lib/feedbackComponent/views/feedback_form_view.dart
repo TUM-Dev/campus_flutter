@@ -54,8 +54,8 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
               title: context.tr("name"),
               textEditingController: ref.read(feedbackViewModel).name,
               validInput: ref.watch(feedbackViewModel).validName,
-              onChanged:
-                  (text) => ref.read(feedbackViewModel).checkNameValidity(),
+              onChanged: (text) =>
+                  ref.read(feedbackViewModel).checkNameValidity(),
               invalidMessage: context.tr("invalidName"),
               decorationMessage: context.tr("yourName"),
             ),
@@ -64,8 +64,8 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
               title: context.tr("message"),
               textEditingController: ref.read(feedbackViewModel).message,
               validInput: ref.watch(feedbackViewModel).validMessage,
-              onChanged:
-                  (text) => ref.read(feedbackViewModel).checkMessageValidity(),
+              onChanged: (text) =>
+                  ref.read(feedbackViewModel).checkMessageValidity(),
               invalidMessage: context.tr("invalidMessage"),
               decorationMessage: context.tr("yourMessage"),
               expanded: true,
@@ -86,12 +86,10 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
                 return Padding(
                   padding: EdgeInsets.all(context.padding),
                   child: ElevatedButton(
-                    onPressed:
-                        (snapshot.data != null && snapshot.data!)
-                            ? () => ref
-                                .read(feedbackViewModel)
-                                .sendFeedBack(context)
-                            : null,
+                    onPressed: (snapshot.data != null && snapshot.data!)
+                        ? () =>
+                              ref.read(feedbackViewModel).sendFeedBack(context)
+                        : null,
                     child: Text(context.tr("submit")),
                   ),
                 );
@@ -112,8 +110,8 @@ class _FeedbackFormViewState extends ConsumerState<FeedbackFormView> {
             title: context.tr("yourEmailTitle"),
             textEditingController: ref.read(feedbackViewModel).emailAddress,
             validInput: ref.watch(feedbackViewModel).validEmail,
-            onChanged:
-                (text) => ref.read(feedbackViewModel).checkEmailValidity(),
+            onChanged: (text) =>
+                ref.read(feedbackViewModel).checkEmailValidity(),
             invalidMessage: context.tr("invalidEmail"),
             decorationMessage: context.tr("yourEmail"),
           );

@@ -32,10 +32,9 @@ class CalendarEventView extends StatelessWidget {
           DiagonalStripePatternView(
             stripeColor: calendarEvent.getColor(),
             bgColor: calendarEvent.getColor().withValues(
-              alpha:
-                  Theme.of(context).brightness == Brightness.light
-                      ? 0.625
-                      : 0.5,
+              alpha: Theme.of(context).brightness == Brightness.light
+                  ? 0.625
+                  : 0.5,
             ),
           ),
           _content(context),
@@ -68,16 +67,15 @@ class CalendarEventView extends StatelessWidget {
         right: padding,
         bottom: 2.5,
       ),
-      child:
-          isMonthly
-              ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: _text(style, padding, context)),
-                  _timePeriod(style),
-                ],
-              )
-              : _text(style, padding, context),
+      child: isMonthly
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _text(style, padding, context)),
+                _timePeriod(style),
+              ],
+            )
+          : _text(style, padding, context),
     );
   }
 

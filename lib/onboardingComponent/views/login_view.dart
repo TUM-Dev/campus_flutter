@@ -29,8 +29,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return Scaffold(
       backgroundColor:
           MediaQuery.platformBrightnessOf(context) == Brightness.dark
-              ? Theme.of(context).canvasColor
-              : Colors.white,
+          ? Theme.of(context).canvasColor
+          : Colors.white,
       resizeToAvoidBottomInset: orientation != Orientation.portrait,
       body: SafeArea(
         maintainBottomViewPadding: true,
@@ -168,10 +168,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
-          color:
-              MediaQuery.platformBrightnessOf(context) == Brightness.dark
-                  ? Colors.grey.shade700
-                  : Colors.grey.shade400,
+          color: MediaQuery.platformBrightnessOf(context) == Brightness.dark
+              ? Colors.grey.shade700
+              : Colors.grey.shade400,
         ),
         border: const OutlineInputBorder(),
       ),
@@ -199,38 +198,37 @@ class _LoginViewState extends ConsumerState<LoginView> {
             children: [
               if (snapshot.hasError) _textFieldError(snapshot.error!),
               ElevatedButton(
-                onPressed:
-                    (snapshot.data != null && snapshot.data!)
-                        ? () {
-                          ref
-                              .read(onboardingViewModel)
-                              .requestLogin()
-                              .then(
-                                (value) {
-                                  if (context.mounted) {
-                                    context.push(confirm);
-                                  }
-                                },
-                                onError: (error) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.maybeOf(
-                                      context,
-                                    )?.showSnackBar(
-                                      SnackBar(
-                                        duration: const Duration(seconds: 10),
-                                        content: ErrorHandlingRouter(
-                                          error: error,
-                                          errorHandlingViewType:
-                                              ErrorHandlingViewType.textOnly,
-                                          titleColor: Colors.white,
-                                        ),
+                onPressed: (snapshot.data != null && snapshot.data!)
+                    ? () {
+                        ref
+                            .read(onboardingViewModel)
+                            .requestLogin()
+                            .then(
+                              (value) {
+                                if (context.mounted) {
+                                  context.push(confirm);
+                                }
+                              },
+                              onError: (error) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.maybeOf(
+                                    context,
+                                  )?.showSnackBar(
+                                    SnackBar(
+                                      duration: const Duration(seconds: 10),
+                                      content: ErrorHandlingRouter(
+                                        error: error,
+                                        errorHandlingViewType:
+                                            ErrorHandlingViewType.textOnly,
+                                        titleColor: Colors.white,
                                       ),
-                                    );
-                                  }
-                                },
-                              );
-                        }
-                        : null,
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                      }
+                    : null,
                 child: Text(
                   context.tr("login"),
                   style: Theme.of(

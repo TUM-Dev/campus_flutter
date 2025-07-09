@@ -179,7 +179,7 @@ class RestClient {
     }
   }
 
-  clearCache() async {
+  Future<void> clearCache() async {
     await cache.resetCache();
   }
 }

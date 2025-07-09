@@ -18,11 +18,11 @@ class PlacesUtil {
           dateTime.isAtSameDay(DateTime.now())
               ? context.tr("closedToday")
               : context.tr(
-                "closedOn",
-                args: [
-                  DateFormat.EEEE(context.tr("localeName")).format(dateTime),
-                ],
-              ),
+                  "closedOn",
+                  args: [
+                    DateFormat.EEEE(context.tr("localeName")).format(dateTime),
+                  ],
+                ),
         ),
       );
     } else if (openingHours?.$2 != null && dateTime != null) {

@@ -116,31 +116,26 @@ class $CacheEntryTable extends CacheEntry
   CacheEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CacheEntryData(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}id'],
-          )!,
-      url:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}url'],
-          )!,
-      validUntil:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}valid_until'],
-          )!,
-      saved:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}saved'],
-          )!,
-      body:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}body'],
-          )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      url: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}url'],
+      )!,
+      validUntil: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}valid_until'],
+      )!,
+      saved: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}saved'],
+      )!,
+      body: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body'],
+      )!,
     );
   }
 
@@ -226,8 +221,9 @@ class CacheEntryData extends DataClass implements Insertable<CacheEntryData> {
     return CacheEntryData(
       id: data.id.present ? data.id.value : this.id,
       url: data.url.present ? data.url.value : this.url,
-      validUntil:
-          data.validUntil.present ? data.validUntil.value : this.validUntil,
+      validUntil: data.validUntil.present
+          ? data.validUntil.value
+          : this.validUntil,
       saved: data.saved.present ? data.saved.value : this.saved,
       body: data.body.present ? data.body.value : this.body,
     );
@@ -509,12 +505,12 @@ class $$CacheEntryTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$CacheEntryTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$CacheEntryTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () => $$CacheEntryTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$CacheEntryTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CacheEntryTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CacheEntryTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -547,16 +543,9 @@ class $$CacheEntryTableTableManager
                 body: body,
                 rowid: rowid,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          BaseReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );

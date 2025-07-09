@@ -25,11 +25,10 @@ class HomeViewModel {
             as List<String>? ??
         <String>[];
     List<HomeScreenWidget> widgets = defaultWidgets;
-    final types =
-        data
-            .map((e) => HomeScreenWidget.fromString(e))
-            .whereType<HomeScreenWidget>()
-            .toList();
+    final types = data
+        .map((e) => HomeScreenWidget.fromString(e))
+        .whereType<HomeScreenWidget>()
+        .toList();
     if (types.isNotEmpty) {
       widgets = types;
     }

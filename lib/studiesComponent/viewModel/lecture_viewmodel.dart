@@ -17,7 +17,7 @@ class LectureViewModel {
     }, onError: (error) => lectures.addError(error));
   }
 
-  _lecturesBySemester((DateTime?, List<Lecture>) response) async {
+  Future<void> _lecturesBySemester((DateTime?, List<Lecture>) response) async {
     lastFetched.add(response.$1);
 
     if (response.$2.isEmpty) {

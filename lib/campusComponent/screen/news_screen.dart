@@ -46,11 +46,10 @@ class NewsScreen extends ConsumerWidget {
                           children: [
                             for (var news in collection)
                               LayoutBuilder(
-                                builder:
-                                    (context, constraints) => NewsCardView(
-                                      news: news,
-                                      width: constraints.maxWidth,
-                                    ),
+                                builder: (context, constraints) => NewsCardView(
+                                  news: news,
+                                  width: constraints.maxWidth,
+                                ),
                               ),
                           ],
                         ),

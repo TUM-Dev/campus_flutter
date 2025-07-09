@@ -22,14 +22,12 @@ class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
   Future search({bool forcedRefresh = false, required String query}) async {
     if (movieData.isEmpty) {
       return MovieService.fetchMovies(forcedRefresh).then((value) {
-        movieData =
-            value.$2
-                .where(
-                  (element) =>
-                      element.date.toDateTime().isAfter(DateTime.now()),
-                )
-                .map((e) => MovieSearch(e))
-                .toList();
+        movieData = value.$2
+            .where(
+              (element) => element.date.toDateTime().isAfter(DateTime.now()),
+            )
+            .map((e) => MovieSearch(e))
+            .toList();
         _search(query);
       }, onError: (error) => searchResults.addError(error));
     } else {

@@ -120,10 +120,9 @@ class CalendarAdditionViewModel {
     final response = await CalendarService.createCalendarEvent(
       AddedCalendarEvent(
         title: titleController.text,
-        annotation:
-            annotationController.text.isEmpty
-                ? null
-                : annotationController.text,
+        annotation: annotationController.text.isEmpty
+            ? null
+            : annotationController.text,
         from: from.value,
         to: to.value,
       ),

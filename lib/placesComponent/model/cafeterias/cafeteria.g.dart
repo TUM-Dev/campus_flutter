@@ -33,14 +33,12 @@ Cafeteria _$CafeteriaFromJson(Map<String, dynamic> json) => Cafeteria(
   name: json['name'] as String,
   id: json['canteen_id'] as String,
   queueStatusApi: json['queue_status'] as String?,
-  queue:
-      json['queue'] == null
-          ? null
-          : Queue.fromJson(json['queue'] as Map<String, dynamic>),
-  openingHours:
-      json['open_hours'] == null
-          ? null
-          : OpeningHours.fromJson(json['open_hours'] as Map<String, dynamic>),
+  queue: json['queue'] == null
+      ? null
+      : Queue.fromJson(json['queue'] as Map<String, dynamic>),
+  openingHours: json['open_hours'] == null
+      ? null
+      : OpeningHours.fromJson(json['open_hours'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$CafeteriaToJson(Cafeteria instance) => <String, dynamic>{
@@ -53,10 +51,9 @@ Map<String, dynamic> _$CafeteriaToJson(Cafeteria instance) => <String, dynamic>{
 };
 
 Cafeterias _$CafeteriasFromJson(Map<String, dynamic> json) => Cafeterias(
-  cafeterias:
-      (json['data'] as List<dynamic>)
-          .map((e) => Cafeteria.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  cafeterias: (json['data'] as List<dynamic>)
+      .map((e) => Cafeteria.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$CafeteriasToJson(Cafeterias instance) =>

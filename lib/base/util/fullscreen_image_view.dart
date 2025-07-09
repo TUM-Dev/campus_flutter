@@ -149,8 +149,9 @@ class _ImageFullScreenViewState extends State<ImageFullScreenView> {
                   ),
                   child: CircleAvatar(
                     radius: radius,
-                    backgroundColor:
-                        isRed ? Colors.redAccent : context.theme.primaryColor,
+                    backgroundColor: isRed
+                        ? Colors.redAccent
+                        : context.theme.primaryColor,
                   ),
                 ),
             ],

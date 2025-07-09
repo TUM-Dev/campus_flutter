@@ -23,17 +23,16 @@ class SearchView extends ConsumerWidget {
     return SafeArea(
       child: Container(
         color: Theme.of(context).canvasColor,
-        child:
-            showContent
-                ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SearchTextField(searchVM: searchVM),
-                    SearchCategoryPickerView(searchVM: searchVM),
-                    _search(ref),
-                  ],
-                ) //)
-                : Container(),
+        child: showContent
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SearchTextField(searchVM: searchVM),
+                  SearchCategoryPickerView(searchVM: searchVM),
+                  _search(ref),
+                ],
+              ) //)
+            : Container(),
       ),
     );
   }
@@ -52,11 +51,10 @@ class SearchView extends ConsumerWidget {
               return MasonryGridView.count(
                 crossAxisCount: 2,
                 itemCount: snapshot.data?.length ?? 0,
-                itemBuilder:
-                    (context, index) => SearchResultViewBuilder(
-                      searchVM: searchVM,
-                      searchCategory: snapshot.data![index],
-                    ),
+                itemBuilder: (context, index) => SearchResultViewBuilder(
+                  searchVM: searchVM,
+                  searchCategory: snapshot.data![index],
+                ),
               );
             } else {
               return SingleChildScrollView(

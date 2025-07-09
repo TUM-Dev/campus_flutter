@@ -20,9 +20,8 @@ class StudyRoomSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.studyRoom,
       searchVM: searchVM,
       searchCategoryVM: studyRoomSearchViewModel,
-      body:
-          (studyRoomSearchResult) =>
-              StudyRoomWidgetView(studyRoomSearchResult.studyRoomGroup),
+      body: (studyRoomSearchResult) =>
+          StudyRoomWidgetView(studyRoomSearchResult.studyRoomGroup),
     );
   }
 }

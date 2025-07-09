@@ -52,8 +52,10 @@ class StudyRoomGroupView extends ConsumerWidget {
           final studyRoomGroup = snapshot.data!.keys.firstWhereOrNull(
             (element) => element.id == this.studyRoomGroup?.id,
           );
-          final studyRooms =
-              ref.read(studyRoomsViewModel).studyRooms.value?[studyRoomGroup];
+          final studyRooms = ref
+              .read(studyRoomsViewModel)
+              .studyRooms
+              .value?[studyRoomGroup];
           final lastFetched = ref.read(studyRoomsViewModel).lastFetched;
           return OrientationBuilder(
             builder: (context, orientation) {
@@ -113,18 +115,18 @@ class StudyRoomGroupView extends ConsumerWidget {
             ],
             WidgetFrameView(
               title: context.tr("rooms"),
-              subtitle:
-                  lastFetched != null ? LastUpdatedText(lastFetched) : null,
+              subtitle: lastFetched != null
+                  ? LastUpdatedText(lastFetched)
+                  : null,
               child: Card(
                 child: ListView.separated(
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder:
-                      (context, index) =>
-                          StudyRoomRowView(studyRoom: studyRooms![index]),
-                  separatorBuilder:
-                      (context, index) => PaddedDivider(height: 0),
+                  itemBuilder: (context, index) =>
+                      StudyRoomRowView(studyRoom: studyRooms![index]),
+                  separatorBuilder: (context, index) =>
+                      PaddedDivider(height: 0),
                   itemCount: (studyRooms ?? []).length,
                 ),
               ),
@@ -148,13 +150,13 @@ class StudyRoomGroupView extends ConsumerWidget {
           Text(
             studyRoomGroup?.openToday != null
                 ? context.tr(
-                  "open",
-                  args: [
-                    context.tr("today").toLowerCase(),
-                    studyRoomGroup!.openToday!.$1,
-                    studyRoomGroup!.openToday!.$2,
-                  ],
-                )
+                    "open",
+                    args: [
+                      context.tr("today").toLowerCase(),
+                      studyRoomGroup!.openToday!.$1,
+                      studyRoomGroup!.openToday!.$2,
+                    ],
+                  )
                 : context.tr("closedToday"),
           ),
         ],
@@ -211,26 +213,24 @@ class StudyRoomGroupView extends ConsumerWidget {
 
   Widget _landscapeMap(StudyRoomGroup? studyRoomGroup, BuildContext context) {
     return MapWidget.fullPadding(
-      markers:
-          studyRoomGroup != null
-              ? {
-                Marker(
-                  markerId: const MarkerId("studyRoomMarker"),
-                  position: LatLng(
-                    studyRoomGroup.coordinate?.latitude ?? 0.0,
-                    studyRoomGroup.coordinate?.longitude ?? 0.0,
-                  ),
-                  infoWindow: InfoWindow(title: studyRoomGroup.name),
+      markers: studyRoomGroup != null
+          ? {
+              Marker(
+                markerId: const MarkerId("studyRoomMarker"),
+                position: LatLng(
+                  studyRoomGroup.coordinate?.latitude ?? 0.0,
+                  studyRoomGroup.coordinate?.longitude ?? 0.0,
                 ),
-              }
-              : {},
-      latLng:
-          studyRoomGroup != null
-              ? LatLng(
-                studyRoomGroup.coordinate?.latitude ?? 0.0,
-                studyRoomGroup.coordinate?.longitude ?? 0.0,
-              )
-              : null,
+                infoWindow: InfoWindow(title: studyRoomGroup.name),
+              ),
+            }
+          : {},
+      latLng: studyRoomGroup != null
+          ? LatLng(
+              studyRoomGroup.coordinate?.latitude ?? 0.0,
+              studyRoomGroup.coordinate?.longitude ?? 0.0,
+            )
+          : null,
       zoom: 15,
       aspectRatio: 2,
     );

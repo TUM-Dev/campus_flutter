@@ -19,39 +19,35 @@ class MovieSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.movie,
       searchVM: searchVM,
       searchCategoryVM: movieSearchViewModel,
-      body:
-          (movieSearch) => ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: CachedNetworkImage(
-                imageUrl: movieSearch.movie.coverUrl,
-                fadeOutDuration: Duration.zero,
-                fadeInDuration: Duration.zero,
-                placeholder:
-                    (context, string) => Image.asset(
-                      "assets/images/placeholders/movie_placeholder.png",
-                      fit: BoxFit.fill,
-                    ),
-                errorWidget:
-                    (context, url, error) => Image.asset(
-                      "assets/images/placeholders/movie_placeholder.png",
-                      fit: BoxFit.fill,
-                    ),
-              ),
+      body: (movieSearch) => ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: CachedNetworkImage(
+            imageUrl: movieSearch.movie.coverUrl,
+            fadeOutDuration: Duration.zero,
+            fadeInDuration: Duration.zero,
+            placeholder: (context, string) => Image.asset(
+              "assets/images/placeholders/movie_placeholder.png",
+              fit: BoxFit.fill,
             ),
-            title: Text(movieSearch.movie.title),
-            subtitle: Text(
-              StringParser.dateFormatter(
-                movieSearch.movie.date.toDateTime(),
-                context,
-              ),
+            errorWidget: (context, url, error) => Image.asset(
+              "assets/images/placeholders/movie_placeholder.png",
+              fit: BoxFit.fill,
             ),
-            onTap:
-                () => UrlLauncher.urlString(
-                  movieSearch.movie.additionalInformationUrl,
-                  ref,
-                ),
           ),
+        ),
+        title: Text(movieSearch.movie.title),
+        subtitle: Text(
+          StringParser.dateFormatter(
+            movieSearch.movie.date.toDateTime(),
+            context,
+          ),
+        ),
+        onTap: () => UrlLauncher.urlString(
+          movieSearch.movie.additionalInformationUrl,
+          ref,
+        ),
+      ),
     );
   }
 }

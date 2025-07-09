@@ -41,9 +41,8 @@ class HomeSettingsView extends ConsumerWidget {
               return _listTile(homeWidget, index, context, ref);
             },
             itemCount: snapshot.data?.length ?? 0,
-            onReorder:
-                (oldIndex, newIndex) =>
-                    ref.read(homeViewModel).reorder(oldIndex, newIndex),
+            onReorder: (oldIndex, newIndex) =>
+                ref.read(homeViewModel).reorder(oldIndex, newIndex),
           );
         },
       ),
@@ -67,9 +66,8 @@ class HomeSettingsView extends ConsumerWidget {
         children: [
           Checkbox(
             value: homeWidget.enabled,
-            onChanged:
-                (value) =>
-                    ref.read(homeViewModel).toggleWidget(index, value ?? true),
+            onChanged: (value) =>
+                ref.read(homeViewModel).toggleWidget(index, value ?? true),
           ),
           Icon(Icons.menu, color: !homeWidget.enabled ? Colors.grey : null),
         ],

@@ -47,15 +47,11 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
     BuildContext context,
   ) {
     return IconButton(
-      onPressed:
-          () => showDirectionsDialog(
-            details.name,
-            LatLng(
-              details.coordinates.latitude!,
-              details.coordinates.longitude!,
-            ),
-            context,
-          ),
+      onPressed: () => showDirectionsDialog(
+        details.name,
+        LatLng(details.coordinates.latitude!, details.coordinates.longitude!),
+        context,
+      ),
       icon: Icon(Icons.directions, color: context.theme.primaryColor),
     );
   }
@@ -101,10 +97,9 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
           return ErrorHandlingRouter(
             error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-            retry:
-                (() => ref
-                    .read(navigaTumDetailsViewModel(widget.id))
-                    .fetchDetails(true, context)),
+            retry: (() => ref
+                .read(navigaTumDetailsViewModel(widget.id))
+                .fetchDetails(true, context)),
           );
         } else {
           return DelayedLoadingIndicator(name: context.tr("roomDetails"));

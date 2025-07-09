@@ -21,10 +21,9 @@ class DishGridView extends StatelessWidget {
       crossAxisCount: isLandscape ? 3 : 2,
       crossAxisSpacing: 10.0,
       padding: EdgeInsets.symmetric(horizontal: context.padding),
-      children:
-          dishes
-              .map((dish) => DishCardView(dish: dish, inverted: inverted))
-              .toList(),
+      children: dishes
+          .map((dish) => DishCardView(dish: dish, inverted: inverted))
+          .toList(),
     );
   }
 }

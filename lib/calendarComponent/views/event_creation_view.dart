@@ -44,47 +44,45 @@ class EventCreationView extends ConsumerWidget {
           children: [
             EventCreationFormField(
               title: context.tr("title"),
-              controller:
-                  ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .titleController,
+              controller: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .titleController,
               maxLength: 255,
               maxLines: 2,
               calendarEvent: calendarEvent,
             ),
             EventCreationFormField(
               title: context.tr("annotation"),
-              controller:
-                  ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .annotationController,
+              controller: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .annotationController,
               maxLength: 4000,
               maxLines: 200,
               calendarEvent: calendarEvent,
             ),
             EventCreationDateTimePicker(
               title: context.tr("from"),
-              currentDate:
-                  ref.watch(calendarAdditionViewModel(calendarEvent)).from,
-              onDateSet:
-                  ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .setFromDate,
-              onTimeOfDaySet:
-                  ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .setFromTimeOfDay,
+              currentDate: ref
+                  .watch(calendarAdditionViewModel(calendarEvent))
+                  .from,
+              onDateSet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setFromDate,
+              onTimeOfDaySet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setFromTimeOfDay,
             ),
             EventCreationDateTimePicker(
               title: context.tr("to"),
-              currentDate:
-                  ref.watch(calendarAdditionViewModel(calendarEvent)).to,
-              onDateSet:
-                  ref.read(calendarAdditionViewModel(calendarEvent)).setToDate,
-              onTimeOfDaySet:
-                  ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .setToTimeOfDay,
+              currentDate: ref
+                  .watch(calendarAdditionViewModel(calendarEvent))
+                  .to,
+              onDateSet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setToDate,
+              onTimeOfDaySet: ref
+                  .read(calendarAdditionViewModel(calendarEvent))
+                  .setToTimeOfDay,
             ),
             _submitButton(ref),
           ],
@@ -98,20 +96,17 @@ class EventCreationView extends ConsumerWidget {
       stream: ref.watch(calendarAdditionViewModel(calendarEvent)).isValid,
       builder: (context, snapshot) {
         return ElevatedButton(
-          onPressed:
-              (snapshot.data ?? false)
-                  ? () => ref
-                      .read(calendarAdditionViewModel(calendarEvent))
-                      .saveEvent()
-                      .then((value) {
-                        if (context.mounted) {
-                          ref.invalidate(calendarAdditionViewModel);
-                          context.canPop()
-                              ? context.pop()
-                              : context.go(calendar);
-                        }
-                      })
-                  : null,
+          onPressed: (snapshot.data ?? false)
+              ? () => ref
+                    .read(calendarAdditionViewModel(calendarEvent))
+                    .saveEvent()
+                    .then((value) {
+                      if (context.mounted) {
+                        ref.invalidate(calendarAdditionViewModel);
+                        context.canPop() ? context.pop() : context.go(calendar);
+                      }
+                    })
+              : null,
           child: Text(context.tr("submit")),
         );
       },

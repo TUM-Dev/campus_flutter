@@ -19,12 +19,11 @@ class CafeteriasSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.cafeterias,
       searchVM: searchVM,
       searchCategoryVM: cafeteriaSearchViewModel,
-      body:
-          (cafeteria) => ListTile(
-            title: Text(cafeteria.name),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-            onTap: () => context.push(routes.cafeteria, extra: cafeteria),
-          ),
+      body: (cafeteria) => ListTile(
+        title: Text(cafeteria.name),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+        onTap: () => context.push(routes.cafeteria, extra: cafeteria),
+      ),
     );
   }
 }
