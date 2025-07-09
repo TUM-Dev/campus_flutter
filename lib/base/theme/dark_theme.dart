@@ -49,7 +49,7 @@ ThemeData darkTheme(BuildContext context) {
     ),
 
     /// remove tint of dialogs
-    dialogTheme: const DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: Color(0xff252525),
       surfaceTintColor: Colors.transparent,
     ),
@@ -72,7 +72,7 @@ ThemeData darkTheme(BuildContext context) {
     ),
 
     /// remove colored tint and shadow of card, add margin
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: const Color(0xff252525),
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
@@ -133,12 +133,11 @@ ThemeData darkTheme(BuildContext context) {
         color: primaryLightColor,
         fontWeight: FontWeight.w500,
       ),
-      unselectedLabelTextStyle: Theme.of(
-        context,
-      ).textTheme.labelMedium?.copyWith(
-        color: navigationIconGrayLight,
-        fontWeight: FontWeight.w500,
-      ),
+      unselectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+          ?.copyWith(
+            color: navigationIconGrayLight,
+            fontWeight: FontWeight.w500,
+          ),
       selectedIconTheme: const IconThemeData(color: primaryLightColor),
       unselectedIconTheme: const IconThemeData(color: navigationIconGrayLight),
       useIndicator: false,

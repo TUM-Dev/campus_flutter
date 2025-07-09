@@ -95,8 +95,8 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
   Widget build(BuildContext context) {
     final backgroundColor =
         MediaQuery.platformBrightnessOf(context) == Brightness.dark
-            ? Theme.of(context).canvasColor
-            : Colors.white;
+        ? Theme.of(context).canvasColor
+        : Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(

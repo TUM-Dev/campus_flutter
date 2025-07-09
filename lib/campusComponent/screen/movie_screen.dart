@@ -23,8 +23,8 @@ class MovieScreen extends ConsumerWidget {
             title: const Text("TU Film"),
             actions: [
               IconButton(
-                onPressed:
-                    () => UrlLauncher.urlString("https://www.tu-film.de/", ref),
+                onPressed: () =>
+                    UrlLauncher.urlString("https://www.tu-film.de/", ref),
                 icon: const Icon(Icons.open_in_new),
               ),
             ],

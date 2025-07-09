@@ -9,10 +9,9 @@ part of 'meal_plan.dart';
 MealPlan _$MealPlanFromJson(Map<String, dynamic> json) => MealPlan(
   week: (json['number'] as num).toInt(),
   year: (json['year'] as num).toInt(),
-  days:
-      (json['days'] as List<dynamic>)
-          .map((e) => MensaMenu.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  days: (json['days'] as List<dynamic>)
+      .map((e) => MensaMenu.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$MealPlanToJson(MealPlan instance) => <String, dynamic>{

@@ -37,26 +37,25 @@ class LectureDetailsScaffold extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        actions:
-            event != null
-                ? [
-                  VisibilityButtonView(
-                    id: event!.lvNr ?? event!.id,
-                    isVisible: event!.isVisible,
+        actions: event != null
+            ? [
+                VisibilityButtonView(
+                  id: event!.lvNr ?? event!.id,
+                  isVisible: event!.isVisible,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: context.padding),
+                  child: ColorPickerView(
+                    color: event?.getColor() ?? context.primaryColor,
+                    onColorChanged: (color) {
+                      ref
+                          .read(calendarViewModel)
+                          .setEventColor(event!.lvNr ?? event!.id, color);
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.padding),
-                    child: ColorPickerView(
-                      color: event?.getColor() ?? context.primaryColor,
-                      onColorChanged: (color) {
-                        ref
-                            .read(calendarViewModel)
-                            .setEventColor(event!.lvNr ?? event!.id, color);
-                      },
-                    ),
-                  ),
-                ]
-                : null,
+                ),
+              ]
+            : null,
       ),
       body: LectureDetailsView(
         event: event,

@@ -51,9 +51,9 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                 : startDate.isAtSameMomentAs(tomorrowDate)
                 ? context.tr("tomorrow")
                 : DateFormat(
-                  "EEEE, d. MMM",
-                  context.locale.languageCode,
-                ).format(calendarEvent.startDate),
+                    "EEEE, d. MMM",
+                    context.locale.languageCode,
+                  ).format(calendarEvent.startDate),
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: context.halfPadding)),

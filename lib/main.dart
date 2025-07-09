@@ -38,7 +38,7 @@ final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
   (ref) => (false, null),
 );
 
-main() async {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await _initializeLocalization();
@@ -201,15 +201,15 @@ class _CampusAppState extends ConsumerState<CampusApp> {
   }
 
   void quickActionsCallback() {
-    quickActions =
-        const QuickActions()..initialize((shortcutType) {
-          final shortcutItemType = EnumParser.typeFromString(shortcutType);
-          if (getIt<RouterService>().isInitialized) {
-            ref.read(routerProvider).go(shortcutItemType.route);
-          } else {
-            getIt<RouterService>().alternativeRoute = shortcutItemType.route;
-          }
-        });
+    quickActions = const QuickActions()
+      ..initialize((shortcutType) {
+        final shortcutItemType = EnumParser.typeFromString(shortcutType);
+        if (getIt<RouterService>().isInitialized) {
+          ref.read(routerProvider).go(shortcutItemType.route);
+        } else {
+          getIt<RouterService>().alternativeRoute = shortcutItemType.route;
+        }
+      });
   }
 
   void homeWidgetLaunchCallback() {

@@ -23,8 +23,8 @@ class NewsSearchResultView extends ConsumerWidget {
       body: (newsSearch) {
         final imageUrl =
             newsSearch.news.imageUrl.toString().contains("src_1.png")
-                ? newsSearch.news.link.toString()
-                : newsSearch.news.imageUrl.toString();
+            ? newsSearch.news.link.toString()
+            : newsSearch.news.imageUrl.toString();
         return ListTile(
           leading: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -33,16 +33,14 @@ class NewsSearchResultView extends ConsumerWidget {
               child: CachedNetworkImage(
                 height: 60,
                 imageUrl: newsSearch.news.imageUrl,
-                placeholder:
-                    (context, string) => Image.asset(
-                      "assets/images/placeholders/news_placeholder.png",
-                      fit: BoxFit.cover,
-                    ),
-                errorWidget:
-                    (context, url, error) => Image.asset(
-                      "assets/images/placeholders/news_placeholder.png",
-                      fit: BoxFit.cover,
-                    ),
+                placeholder: (context, string) => Image.asset(
+                  "assets/images/placeholders/news_placeholder.png",
+                  fit: BoxFit.cover,
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/images/placeholders/news_placeholder.png",
+                  fit: BoxFit.cover,
+                ),
                 fit: BoxFit.cover,
               ),
             ),

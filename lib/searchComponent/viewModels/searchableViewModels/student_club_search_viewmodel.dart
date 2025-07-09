@@ -26,11 +26,10 @@ class StudentClubSearchViewModel
       return StudentClubService.fetchStudentClubs(null, forcedRefresh).then((
         value,
       ) {
-        studentClubData =
-            value.$2
-                .expand((e) => e.clubs)
-                .map((e) => StudentClubSearch(e))
-                .toList();
+        studentClubData = value.$2
+            .expand((e) => e.clubs)
+            .map((e) => StudentClubSearch(e))
+            .toList();
         _search(query);
       }, onError: (error) => searchResults.addError(error));
     } else {

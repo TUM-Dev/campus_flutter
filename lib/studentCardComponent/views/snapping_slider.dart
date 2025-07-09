@@ -34,10 +34,9 @@ class _SnappingSliderState extends State<SnappingSlider> {
                   itemCount: _numPages,
                   itemBuilder: (BuildContext context, int index) {
                     return CardWithPadding(
-                      child:
-                          index == 1
-                              ? _barcodeView(context)
-                              : _verificationView(context),
+                      child: index == 1
+                          ? _barcodeView(context)
+                          : _verificationView(context),
                     );
                   },
                   onPageChanged: (index) {

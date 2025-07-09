@@ -25,23 +25,24 @@ class CalendarService {
     AddedCalendarEvent addedCalendarEvent,
   ) async {
     RestClient restClient = getIt<RestClient>();
-    final response = await restClient.getWithException<
-      CalendarCreationConfirmationData,
-      TumOnlineApi,
-      TumOnlineApiException
-    >(
-      TumOnlineApi(
-        TumOnlineEndpointEventCreate(
-          title: addedCalendarEvent.title,
-          annotation: addedCalendarEvent.annotation,
-          from: TumOnlineApi.dateFormat.format(addedCalendarEvent.from),
-          to: TumOnlineApi.dateFormat.format(addedCalendarEvent.to),
-        ),
-      ),
-      CalendarCreationConfirmationData.fromJson,
-      TumOnlineApiException.fromJson,
-      true,
-    );
+    final response = await restClient
+        .getWithException<
+          CalendarCreationConfirmationData,
+          TumOnlineApi,
+          TumOnlineApiException
+        >(
+          TumOnlineApi(
+            TumOnlineEndpointEventCreate(
+              title: addedCalendarEvent.title,
+              annotation: addedCalendarEvent.annotation,
+              from: TumOnlineApi.dateFormat.format(addedCalendarEvent.from),
+              to: TumOnlineApi.dateFormat.format(addedCalendarEvent.to),
+            ),
+          ),
+          CalendarCreationConfirmationData.fromJson,
+          TumOnlineApiException.fromJson,
+          true,
+        );
     return response.data.calendarCreationConfirmation;
   }
 

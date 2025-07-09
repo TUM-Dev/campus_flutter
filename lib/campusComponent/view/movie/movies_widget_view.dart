@@ -67,10 +67,9 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
   Widget body(AsyncSnapshot<List<Movie>?> snapshot) {
     if (snapshot.hasData) {
       return MovieGridView(
-        movies:
-            snapshot.data!
-                .take(GridUtility.campusNumberOfItems(context))
-                .toList(),
+        movies: snapshot.data!
+            .take(GridUtility.campusNumberOfItems(context))
+            .toList(),
         padding: EdgeInsets.symmetric(horizontal: context.padding),
         crossAxisCount: GridUtility.campusPaddedCrossAxisCount(context),
         withinScrollView: true,

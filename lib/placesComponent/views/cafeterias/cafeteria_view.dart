@@ -42,15 +42,11 @@ class CafeteriaScaffold extends ConsumerWidget {
               ),
             ),
           IconButton(
-            onPressed:
-                () => showDirectionsDialog(
-                  cafeteria.name,
-                  LatLng(
-                    cafeteria.location.latitude,
-                    cafeteria.location.longitude,
-                  ),
-                  context,
-                ),
+            onPressed: () => showDirectionsDialog(
+              cafeteria.name,
+              LatLng(cafeteria.location.latitude, cafeteria.location.longitude),
+              context,
+            ),
             icon: Icon(Icons.directions, color: context.theme.primaryColor),
           ),
         ],
@@ -235,10 +231,9 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
                               numberOfWeeksInView: 1,
                               firstDayOfWeek: 1,
                             ),
-                        onSelectionChanged:
-                            (args) => setState(() {
-                              selectedDate = args.value as DateTime;
-                            }),
+                        onSelectionChanged: (args) => setState(() {
+                          selectedDate = args.value as DateTime;
+                        }),
                         selectableDayPredicate: (date) {
                           return date.weekday != DateTime.saturday &&
                               date.weekday != DateTime.sunday;

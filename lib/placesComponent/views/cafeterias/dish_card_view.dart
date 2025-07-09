@@ -55,7 +55,7 @@ class DishCardView extends StatelessWidget {
     );
   }
 
-  _dishInfoAlert(Dish dish, String? price, BuildContext context) {
+  void _dishInfoAlert(Dish dish, String? price, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {

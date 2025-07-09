@@ -11,8 +11,9 @@ class MeetingDataSource extends CalendarDataSource {
 
   MeetingDataSource(List<CalendarEvent> source, this.context, this.ref) {
     if (!ref.read(showHiddenCalendarEntries)) {
-      appointments =
-          source.where((element) => element.isVisible ?? true).toList();
+      appointments = source
+          .where((element) => element.isVisible ?? true)
+          .toList();
     } else {
       appointments = source;
     }

@@ -15,10 +15,9 @@ CalendarEvent _$CalendarEventFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String?,
       startDate: DateTime.parse(json['dtstart'] as String),
       endDate: DateTime.parse(json['dtend'] as String),
-      locations:
-          (readListValue(json, 'location') as List<dynamic>)
-              .map((e) => e as String)
-              .toList(),
+      locations: (readListValue(json, 'location') as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       color: (json['color'] as num?)?.toInt(),
     )..isVisible = json['isVisible'] as bool?;
 

@@ -42,13 +42,11 @@ class EventCreationFormField extends ConsumerWidget {
                 maxLength: maxLength,
                 minLines: 1,
                 maxLines: 15,
-                onChanged:
-                    (value) =>
-                        ref
-                            .read(calendarAdditionViewModel(calendarEvent))
-                            .checkValidity(),
-                onTapOutside:
-                    (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                onChanged: (value) => ref
+                    .read(calendarAdditionViewModel(calendarEvent))
+                    .checkValidity(),
+                onTapOutside: (_) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
               ),
             ),
           ),

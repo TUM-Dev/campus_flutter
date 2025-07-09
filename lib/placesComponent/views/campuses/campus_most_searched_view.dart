@@ -23,8 +23,9 @@ class CampusMostSearchedView extends ConsumerWidget {
       title: context.tr("mostSearchedRooms"),
       child: Card(
         child: StreamBuilder(
-          stream:
-              ref.watch(navigaTumCampusViewModel(campus)).mostSearchedResults,
+          stream: ref
+              .watch(navigaTumCampusViewModel(campus))
+              .mostSearchedResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
@@ -43,8 +44,8 @@ class CampusMostSearchedView extends ConsumerWidget {
                       ListTile(
                         title: Text(entity.$2.getFormattedName()),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                        onTap:
-                            () => context.push(navigaTum, extra: entity.$2.id),
+                        onTap: () =>
+                            context.push(navigaTum, extra: entity.$2.id),
                       ),
                       if (entity.$1 < snapshot.data!.length - 1)
                         const PaddedDivider(height: 0),

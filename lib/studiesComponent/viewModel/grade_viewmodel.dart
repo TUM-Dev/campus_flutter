@@ -21,7 +21,7 @@ class GradeViewModel {
   List<AverageGrade> _averageGrades = [];
   final Ref ref;
 
-  setSelectedDegree(String studyID) {
+  void setSelectedDegree(String studyID) {
     studyProgramGrades.add(_allGrades?[studyID] ?? {});
   }
 
@@ -34,7 +34,7 @@ class GradeViewModel {
     }, onError: (error) => _fetchGrades(forcedRefresh));
   }
 
-  _fetchGrades(bool forcedRefresh) async {
+  Future _fetchGrades(bool forcedRefresh) async {
     return GradeService.fetchGrades(forcedRefresh).then((response) {
       lastFetched.add(response.saved);
       _gradesByDegreeAndSemester(response.data);
@@ -51,7 +51,7 @@ class GradeViewModel {
     return null;
   }
 
-  _gradesByDegreeAndSemester(List<Grade> response) async {
+  Future<void> _gradesByDegreeAndSemester(List<Grade> response) async {
     if (response.isEmpty) {
       studyProgramGrades.add({});
     }
@@ -101,14 +101,13 @@ class GradeViewModel {
         final degreeShort = e.values.first.first.degreeShort;
         return PopupMenuItem(
           value: studyId,
-          child:
-              selectedStudyId == studyId
-                  ? IconText(
-                    iconData: Icons.check,
-                    label: "$studyDesignation ($degreeShort)",
-                    leadingIcon: false,
-                  )
-                  : Text("$studyDesignation ($degreeShort)"),
+          child: selectedStudyId == studyId
+              ? IconText(
+                  iconData: Icons.check,
+                  label: "$studyDesignation ($degreeShort)",
+                  leadingIcon: false,
+                )
+              : Text("$studyDesignation ($degreeShort)"),
         );
       }).toList();
     } else {

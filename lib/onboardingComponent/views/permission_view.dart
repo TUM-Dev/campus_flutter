@@ -17,10 +17,9 @@ class PermissionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor =
-        Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).canvasColor
-            : Colors.white;
+    final backgroundColor = Theme.of(context).brightness == Brightness.dark
+        ? Theme.of(context).canvasColor
+        : Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(

@@ -55,10 +55,9 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return StudentClubGridView(
-              studentClubs:
-                  snapshot.data!
-                      .take(GridUtility.campusNumberOfItems(context))
-                      .toList(),
+              studentClubs: snapshot.data!
+                  .take(GridUtility.campusNumberOfItems(context))
+                  .toList(),
               padding: EdgeInsets.symmetric(horizontal: context.padding),
               crossAxisCount: GridUtility.campusPaddedCrossAxisCount(context),
               withinScrollView: true,

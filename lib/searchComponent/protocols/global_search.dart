@@ -30,16 +30,15 @@ class GlobalSearch {
       }
     }
 
-    final results =
-        levenshteinValues.entries
-            .sorted(
-              (a, b) => isBetter(
-                a.value.sorted((a, b) => a.compareTo(b)),
-                b.value.sorted((a, b) => a.compareTo(b)),
-              ),
-            )
-            .map((e) => (e.key, e.value))
-            .toList();
+    final results = levenshteinValues.entries
+        .sorted(
+          (a, b) => isBetter(
+            a.value.sorted((a, b) => a.compareTo(b)),
+            b.value.sorted((a, b) => a.compareTo(b)),
+          ),
+        )
+        .map((e) => (e.key, e.value))
+        .toList();
 
     return results.map((e) => e.$1).toList();
   }
@@ -68,12 +67,11 @@ class GlobalSearch {
           return (result * 100).toInt();
         })
         .reduce(
-          (min, current) =>
-              current == null
-                  ? min
-                  : (min == null || current < min)
-                  ? current
-                  : min,
+          (min, current) => current == null
+              ? min
+              : (min == null || current < min)
+              ? current
+              : min,
         );
   }
 

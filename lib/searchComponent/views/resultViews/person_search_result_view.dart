@@ -19,13 +19,11 @@ class PersonSearchResultView extends ConsumerWidget {
       searchCategory: SearchCategory.persons,
       searchVM: searchVM,
       searchCategoryVM: personSearchViewModel,
-      body:
-          (person) => ListTile(
-            title: Text(person.fullNameWithTitle),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-            onTap:
-                () => context.push(personDetails, extra: person.obfuscatedID),
-          ),
+      body: (person) => ListTile(
+        title: Text(person.fullNameWithTitle),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+        onTap: () => context.push(personDetails, extra: person.obfuscatedID),
+      ),
     );
   }
 }

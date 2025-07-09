@@ -23,8 +23,8 @@ class PreferenceSelectionView<T> extends StatelessWidget {
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) => data[index],
-            separatorBuilder:
-                (context, index) => const PaddedDivider(height: 0),
+            separatorBuilder: (context, index) =>
+                const PaddedDivider(height: 0),
             itemCount: data.length,
           ),
         ),

@@ -8,10 +8,9 @@ part of 'mensa_menu.dart';
 
 MensaMenu _$MensaMenuFromJson(Map<String, dynamic> json) => MensaMenu(
   date: DateTime.parse(json['date'] as String),
-  dishes:
-      (json['dishes'] as List<dynamic>)
-          .map((e) => Dish.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  dishes: (json['dishes'] as List<dynamic>)
+      .map((e) => Dish.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$MensaMenuToJson(MensaMenu instance) => <String, dynamic>{
@@ -21,10 +20,9 @@ Map<String, dynamic> _$MensaMenuToJson(MensaMenu instance) => <String, dynamic>{
 
 MenuCategory _$MenuCategoryFromJson(Map<String, dynamic> json) => MenuCategory(
   name: json['name'] as String,
-  dishes:
-      (json['dishes'] as List<dynamic>)
-          .map((e) => Dish.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  dishes: (json['dishes'] as List<dynamic>)
+      .map((e) => Dish.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$MenuCategoryToJson(MenuCategory instance) =>

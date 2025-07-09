@@ -40,10 +40,9 @@ class SearchResultCardView<
       ),
       child: Card(
         child: StreamBuilder(
-          stream:
-              ref
-                  .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
-                  .searchResults,
+          stream: ref
+              .watch<SearchCategoryViewModel<S>>(searchCategoryVM)
+              .searchResults,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
@@ -80,8 +79,8 @@ class SearchResultCardView<
                       }(),
                     );
                   },
-                  separatorBuilder:
-                      (context, index) => const PaddedDivider(height: 0),
+                  separatorBuilder: (context, index) =>
+                      const PaddedDivider(height: 0),
                   itemCount: itemCount,
                 );
               }
@@ -129,18 +128,16 @@ class SearchResultCardView<
         ),
       ),
       // TODO(@jakobkoerber): figure out for multiple attributes
-      onTap:
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (context) => SearchResultDetailsScaffold<S>(
-                    searchCategory: searchCategory,
-                    data: data,
-                    body: body,
-                  ),
-            ),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchResultDetailsScaffold<S>(
+            searchCategory: searchCategory,
+            data: data,
+            body: body,
           ),
+        ),
+      ),
     );
   }
 }

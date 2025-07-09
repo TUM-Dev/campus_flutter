@@ -19,7 +19,7 @@ class SemesterView<T> extends StatelessWidget {
         title: Text(StringParser.toFullSemesterName(context, semester.key)),
         initiallyExpanded:
             (semester.key == SemesterCalculator.getCurrentSemester() ||
-                semester.key == SemesterCalculator.getPriorSemester()),
+            semester.key == SemesterCalculator.getPriorSemester()),
         children: [
           for (var index = 0; index < semester.value.length; index++)
             Column(

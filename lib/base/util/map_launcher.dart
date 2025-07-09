@@ -31,29 +31,24 @@ Future<void> showDirectionsDialog(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  itemBuilder:
-                      (context, index) => ListTile(
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: SvgPicture.asset(
-                            value[index].icon,
-                            height: 30,
-                            width: 30,
-                          ),
-                        ),
-                        title: Text(
-                          context.tr("openIn", args: [value[index].mapName]),
-                        ),
-                        onTap:
-                            () => MapLauncher.showMarker(
-                              mapType: value[index].mapType,
-                              title: name,
-                              coords: Coords(
-                                location.latitude,
-                                location.longitude,
-                              ),
-                            ),
+                  itemBuilder: (context, index) => ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: SvgPicture.asset(
+                        value[index].icon,
+                        height: 30,
+                        width: 30,
                       ),
+                    ),
+                    title: Text(
+                      context.tr("openIn", args: [value[index].mapName]),
+                    ),
+                    onTap: () => MapLauncher.showMarker(
+                      mapType: value[index].mapType,
+                      title: name,
+                      coords: Coords(location.latitude, location.longitude),
+                    ),
+                  ),
                   separatorBuilder: (context, index) => const PaddedDivider(),
                   itemCount: value.length,
                 ),

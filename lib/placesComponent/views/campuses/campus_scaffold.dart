@@ -43,11 +43,10 @@ class _CampusScaffoldState extends ConsumerState<CampusScaffold> {
               slivers: [
                 SliverLayoutBuilder(
                   builder: (context, constraints) {
-                    final progress =
-                        constraints.scrollOffset > fractionalHeight
-                            ? (constraints.scrollOffset - fractionalHeight) /
-                                (_height - 0 - fractionalHeight)
-                            : 0.0;
+                    final progress = constraints.scrollOffset > fractionalHeight
+                        ? (constraints.scrollOffset - fractionalHeight) /
+                              (_height - 0 - fractionalHeight)
+                        : 0.0;
                     return SliverAppBar(
                       expandedHeight: _height,
                       toolbarHeight: 0,

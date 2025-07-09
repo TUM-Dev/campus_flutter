@@ -122,17 +122,15 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             top: context.halfPadding,
           ),
       child: ClipRRect(
-        borderRadius:
-            widget.roundedCorners
-                ? BorderRadius.circular(15.0)
-                : BorderRadius.zero,
-        child:
-            widget.aspectRatioNeeded
-                ? AspectRatio(
-                  aspectRatio: widget.aspectRatio ?? 1.0,
-                  child: _mapWidget(),
-                )
-                : _mapWidget(),
+        borderRadius: widget.roundedCorners
+            ? BorderRadius.circular(15.0)
+            : BorderRadius.zero,
+        child: widget.aspectRatioNeeded
+            ? AspectRatio(
+                aspectRatio: widget.aspectRatio ?? 1.0,
+                child: _mapWidget(),
+              )
+            : _mapWidget(),
       ),
     );
   }
@@ -146,10 +144,9 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         alignment: Alignment.topRight,
         children: [
           GoogleMap(
-            style:
-                Theme.of(context).brightness == Brightness.light
-                    ? getIt.get<MapThemeService>().lightTheme
-                    : getIt.get<MapThemeService>().darkTheme,
+            style: Theme.of(context).brightness == Brightness.light
+                ? getIt.get<MapThemeService>().lightTheme
+                : getIt.get<MapThemeService>().darkTheme,
             mapType: MapType.normal,
             padding: widget.controlPadding ?? EdgeInsets.zero,
             initialCameraPosition: CameraPosition(

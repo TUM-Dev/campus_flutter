@@ -36,7 +36,7 @@ class RouterService {
     _isInitialized = true;
   }
 
-  get isInitialized {
+  bool get isInitialized {
     return _isInitialized;
   }
 

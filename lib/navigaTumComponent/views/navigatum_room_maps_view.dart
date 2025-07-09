@@ -20,43 +20,39 @@ class NavigaTumRoomMapsView extends StatelessWidget {
     return WidgetFrameView(
       title: context.tr("map"),
       child: CardWithPadding(
-        child:
-            maps.isNotEmpty
-                ? HorizontalSlider.aspectRatio(
-                  leadingTrailingPadding: false,
-                  data: maps,
-                  child: (map) {
-                    return InkWell(
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            NavigaTumApi(
-                              navigaTumApiEndpoint: NavigaTumApiEndpointImages(
-                                id: map.imageUrl,
-                              ),
-                            ).asURL().toString(),
-                      ),
-                      onTap:
-                          () => context.push(
-                            networkImage,
-                            extra: (
-                              NavigaTumApi(
-                                navigaTumApiEndpoint:
-                                    NavigaTumApiEndpointImages(
-                                      id: map.imageUrl,
-                                    ),
-                              ).asURL().toString(),
-                              map,
-                            ),
+        child: maps.isNotEmpty
+            ? HorizontalSlider.aspectRatio(
+                leadingTrailingPadding: false,
+                data: maps,
+                child: (map) {
+                  return InkWell(
+                    child: CachedNetworkImage(
+                      imageUrl: NavigaTumApi(
+                        navigaTumApiEndpoint: NavigaTumApiEndpointImages(
+                          id: map.imageUrl,
+                        ),
+                      ).asURL().toString(),
+                    ),
+                    onTap: () => context.push(
+                      networkImage,
+                      extra: (
+                        NavigaTumApi(
+                          navigaTumApiEndpoint: NavigaTumApiEndpointImages(
+                            id: map.imageUrl,
                           ),
-                    );
-                  },
-                  aspectRatio: 2,
-                )
-                : Center(
-                  child: Text(
-                    context.tr("noEntriesFound", args: [context.tr("maps")]),
-                  ),
+                        ).asURL().toString(),
+                        map,
+                      ),
+                    ),
+                  );
+                },
+                aspectRatio: 2,
+              )
+            : Center(
+                child: Text(
+                  context.tr("noEntriesFound", args: [context.tr("maps")]),
                 ),
+              ),
       ),
     );
   }

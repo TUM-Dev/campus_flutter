@@ -49,21 +49,19 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
               ),
               InkWell(
                 child: Icon(Icons.filter_list, color: context.primaryColor),
-                onTap:
-                    () => showModalBottomSheet(
-                      builder:
-                          (context) => PreferenceSelectionView<Campus>(
-                            data: ref
-                                .read(departureViewModel)
-                                .getCampusEntries(context),
-                            entry: context.tr("departure"),
-                          ),
-                      context: context,
-                      useRootNavigator: true,
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      showDragHandle: true,
-                    ),
+                onTap: () => showModalBottomSheet(
+                  builder: (context) => PreferenceSelectionView<Campus>(
+                    data: ref
+                        .read(departureViewModel)
+                        .getCampusEntries(context),
+                    entry: context.tr("departure"),
+                  ),
+                  context: context,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
+                ),
               ),
             ],
           ),
@@ -78,8 +76,10 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                   stream: ref.watch(departureViewModel).departures,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final station =
-                          ref.watch(departureViewModel).selectedStation.value!;
+                      final station = ref
+                          .watch(departureViewModel)
+                          .selectedStation
+                          .value!;
                       return _widgetContent(snapshot, station);
                     } else if (snapshot.hasError) {
                       return ErrorHandlingRouter(

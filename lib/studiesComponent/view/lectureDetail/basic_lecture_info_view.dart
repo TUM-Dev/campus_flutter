@@ -43,11 +43,10 @@ class BasicLectureInfoView extends ConsumerWidget {
             information: Speaker.getSpeakerName(lecture!.speaker!),
             iconData: Icons.person,
             trailingWidget: IconButton(
-              onPressed:
-                  () => context.push(
-                    personSearch,
-                    extra: Speaker.getSpeakerName(lecture!.speaker!),
-                  ),
+              onPressed: () => context.push(
+                personSearch,
+                extra: Speaker.getSpeakerName(lecture!.speaker!),
+              ),
               icon: Icon(
                 Icons.search,
                 size: 20,
@@ -60,11 +59,10 @@ class BasicLectureInfoView extends ConsumerWidget {
             information: Speaker.getSpeakerName(lectureDetails.speaker!),
             iconData: Icons.person,
             trailingWidget: IconButton(
-              onPressed:
-                  () => context.push(
-                    personSearch,
-                    extra: Speaker.getSpeakerName(lectureDetails.speaker!),
-                  ),
+              onPressed: () => context.push(
+                personSearch,
+                extra: Speaker.getSpeakerName(lectureDetails.speaker!),
+              ),
               icon: Icon(
                 Icons.search,
                 size: 20,

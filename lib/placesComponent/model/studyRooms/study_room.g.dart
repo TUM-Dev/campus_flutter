@@ -22,10 +22,9 @@ StudyRoom _$StudyRoomFromJson(Map<String, dynamic> json) => StudyRoom(
   roomNoArchitect: json['raum_nr_architekt'] as String?,
   resNo: (json['res_nr'] as num).toInt(),
   status: json['status'] as String?,
-  attributes:
-      (json['attribute'] as List<dynamic>?)
-          ?.map((e) => StudyRoomAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  attributes: (json['attribute'] as List<dynamic>?)
+      ?.map((e) => StudyRoomAttribute.fromJson(e as Map<String, dynamic>))
+      .toList(),
   suggestedColor: json['color'] as String?,
   percent: (json['percent'] as num?)?.toDouble(),
   subtitle: json['subtitle'] as String?,

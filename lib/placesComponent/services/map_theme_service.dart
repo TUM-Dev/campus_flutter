@@ -8,7 +8,7 @@ class MapThemeService {
     _loadMapThemes();
   }
 
-  _loadMapThemes() async {
+  Future<void> _loadMapThemes() async {
     darkTheme = await rootBundle.loadString(
       'assets/mapStyles/darkMapTheme.json',
     );

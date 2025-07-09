@@ -14,10 +14,9 @@ class StudentClubViewModel {
       BehaviorSubject.seeded(null);
 
   Future fetchStudentClubs(bool forceRefresh, BuildContext context) {
-    final currentLanguage =
-        context.locale.languageCode == "de"
-            ? Language.German
-            : Language.English;
+    final currentLanguage = context.locale.languageCode == "de"
+        ? Language.German
+        : Language.English;
     return StudentClubService.fetchStudentClubs(
       currentLanguage,
       forceRefresh,

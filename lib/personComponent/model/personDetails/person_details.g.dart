@@ -16,16 +16,12 @@ PersonDetails _$PersonDetailsFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       gender: PersonDetails._stringToGender(json['geschlecht'] as String),
       officeHours: json['sprechstunde'] as String?,
-      officialContact:
-          json['dienstlich'] == null
-              ? null
-              : ContactInfo.fromJson(
-                json['dienstlich'] as Map<String, dynamic>,
-              ),
-      privateContact:
-          json['privat'] == null
-              ? null
-              : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
+      officialContact: json['dienstlich'] == null
+          ? null
+          : ContactInfo.fromJson(json['dienstlich'] as Map<String, dynamic>),
+      privateContact: json['privat'] == null
+          ? null
+          : ContactInfo.fromJson(json['privat'] as Map<String, dynamic>),
       imageData: json['image_data'] as String?,
       organisations:
           (json['gruppe'] as List<dynamic>?)

@@ -19,11 +19,8 @@ class StudyRoomRowView extends ConsumerWidget {
         style: TextStyle(color: studyRoom.color),
       ),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-      onTap:
-          () => context.push(
-            navigaTum,
-            extra: studyRoom.roomNoArchitect ?? "null",
-          ),
+      onTap: () =>
+          context.push(navigaTum, extra: studyRoom.roomNoArchitect ?? "null"),
     );
   }
 

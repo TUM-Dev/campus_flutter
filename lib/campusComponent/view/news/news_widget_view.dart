@@ -73,8 +73,8 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
                       final news = snapshot.data![index];
                       final imageUrl =
                           news.imageUrl.toString().contains("src_1.png")
-                              ? news.link.toString()
-                              : news.imageUrl.toString();
+                          ? news.link.toString()
+                          : news.imageUrl.toString();
                       if (imageUrl.isNotEmpty) {
                         context.push(networkImage, extra: (imageUrl, null));
                       }

@@ -13,8 +13,8 @@ NavigaTumNavigationMaps _$NavigaTumNavigationMapsFromJson(
   json['roomfinder'] == null
       ? null
       : NavigaTumRoomFinderMaps.fromJson(
-        json['roomfinder'] as Map<String, dynamic>,
-      ),
+          json['roomfinder'] as Map<String, dynamic>,
+        ),
   json['overlays'] == null
       ? null
       : NavigaTumOverlayMaps.fromJson(json['overlays'] as Map<String, dynamic>),

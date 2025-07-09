@@ -25,8 +25,9 @@ class NavigaTumCampusViewModel {
     }
 
     return NavigaTumService.search(forcedRefresh, searchString).then((value) {
-      final mostSearchResults =
-          value.sections.expand((element) => element.entries).toList();
+      final mostSearchResults = value.sections
+          .expand((element) => element.entries)
+          .toList();
       mostSearchResults.removeWhere(
         (element) => int.tryParse(element.name[0]) == null,
       );

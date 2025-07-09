@@ -43,11 +43,10 @@ mixin ErrorHandlingView {
                       child: _errorMessageText(
                         errorMessage,
                         context,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineMedium?.copyWith(
-                          color: titleColor ?? context.primaryColor,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(
+                              color: titleColor ?? context.primaryColor,
+                            ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

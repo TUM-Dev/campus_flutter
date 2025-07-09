@@ -9,10 +9,9 @@ class GradeRectangle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final parsedGrade =
-        grade != null
-            ? StringParser.optStringToOptDouble(grade) ?? grade
-            : "n/a";
+    final parsedGrade = grade != null
+        ? StringParser.optStringToOptDouble(grade) ?? grade
+        : "n/a";
     return AspectRatio(
       aspectRatio: 1.0,
       child: Container(

@@ -86,7 +86,7 @@ class StudyRoomsViewModel {
     }, onError: (error) => widgetStudyRoom.addError(error));
   }
 
-  _getClosestStudyRoomGroup(Position? position, BuildContext context) {
+  void _getClosestStudyRoomGroup(Position? position, BuildContext context) {
     if (studyRoomData?.groups == null) {
       widgetStudyRoom.addError(context.tr("noClosestStudyRoom"));
       return;
@@ -108,23 +108,22 @@ class StudyRoomsViewModel {
     final group = studyRoomData?.groups?.reduce((currentGroup, nextGroup) {
       final distanceCurrent =
           (currentGroup.coordinate != null && position != null)
-              ? Geolocator.distanceBetween(
-                currentGroup.coordinate!.latitude,
-                currentGroup.coordinate!.longitude,
-                position.latitude,
-                position.longitude,
-              )
-              : 0.0;
+          ? Geolocator.distanceBetween(
+              currentGroup.coordinate!.latitude,
+              currentGroup.coordinate!.longitude,
+              position.latitude,
+              position.longitude,
+            )
+          : 0.0;
 
-      final distanceNext =
-          (nextGroup.coordinate != null && position != null)
-              ? Geolocator.distanceBetween(
-                nextGroup.coordinate!.latitude,
-                nextGroup.coordinate!.longitude,
-                position.latitude,
-                position.longitude,
-              )
-              : 0.0;
+      final distanceNext = (nextGroup.coordinate != null && position != null)
+          ? Geolocator.distanceBetween(
+              nextGroup.coordinate!.latitude,
+              nextGroup.coordinate!.longitude,
+              position.latitude,
+              position.longitude,
+            )
+          : 0.0;
 
       if (distanceCurrent < distanceNext) {
         return currentGroup;
@@ -136,7 +135,7 @@ class StudyRoomsViewModel {
     widgetStudyRoom.add(group);
   }
 
-  _categorizeAndSort() {
+  void _categorizeAndSort() {
     final studyRooms = _categorizeAndSortRooms();
     final campusStudyRooms = _categorizeAndSortCampus();
     this.studyRooms.add(studyRooms);
@@ -168,20 +167,19 @@ class StudyRoomsViewModel {
     for (var campus in Campus.values) {
       if (studyRoomData?.groups != null) {
         List<StudyRoomGroup> groups = studyRoomData!.groups!;
-        groups =
-            groups.where((element) {
-              if (element.coordinate != null) {
-                return Geolocator.distanceBetween(
-                      campus.location.latitude,
-                      campus.location.longitude,
-                      element.coordinate!.latitude,
-                      element.coordinate!.longitude,
-                    ) <=
-                    1000;
-              } else {
-                return false;
-              }
-            }).toList();
+        groups = groups.where((element) {
+          if (element.coordinate != null) {
+            return Geolocator.distanceBetween(
+                  campus.location.latitude,
+                  campus.location.longitude,
+                  element.coordinate!.latitude,
+                  element.coordinate!.longitude,
+                ) <=
+                1000;
+          } else {
+            return false;
+          }
+        }).toList();
 
         campusStudyRooms[campus] = groups;
       }
@@ -220,9 +218,9 @@ class StudyRoomsViewModel {
           title: Text(context.tr("closest")),
           trailing:
               getIt<UserPreferencesService>().load(UserPreference.studyRoom) ==
-                      null
-                  ? const Icon(Icons.check)
-                  : null,
+                  null
+              ? const Icon(Icons.check)
+              : null,
           onTap: () {
             getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
             fetchWidgetStudyRooms(false, context);

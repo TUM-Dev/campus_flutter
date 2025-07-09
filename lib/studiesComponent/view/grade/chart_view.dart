@@ -29,8 +29,8 @@ class ChartView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           PopupMenuButton<String>(
-            itemBuilder:
-                (context) => ref.read(gradeViewModel).getMenuEntries(context),
+            itemBuilder: (context) =>
+                ref.read(gradeViewModel).getMenuEntries(context),
             onSelected: (selected) {
               ref.read(gradeViewModel).setSelectedDegree(selected);
             },
@@ -52,12 +52,11 @@ class ChartView extends ConsumerWidget {
             series: <CartesianSeries<MapEntry<dynamic, int>, String>>[
               ColumnSeries<MapEntry<dynamic, int>, String>(
                 dataSource: data.entries.toList(),
-                xValueMapper:
-                    (MapEntry<dynamic, int> data, _) => data.key.toString(),
+                xValueMapper: (MapEntry<dynamic, int> data, _) =>
+                    data.key.toString(),
                 yValueMapper: (MapEntry<dynamic, int> data, _) => data.value,
-                pointColorMapper:
-                    (MapEntry<dynamic, int> data, _) =>
-                        GradeViewModel.getColor(data.key),
+                pointColorMapper: (MapEntry<dynamic, int> data, _) =>
+                    GradeViewModel.getColor(data.key),
               ),
             ],
           ),

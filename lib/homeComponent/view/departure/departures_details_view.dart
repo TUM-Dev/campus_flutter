@@ -25,10 +25,9 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
     return StreamBuilder(
       stream: ref.watch(departureViewModel).departures,
       builder: (context, snapshot) {
-        final backgroundColor =
-            Theme.of(context).brightness == Brightness.dark
-                ? Theme.of(context).canvasColor
-                : Colors.white;
+        final backgroundColor = Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).canvasColor
+            : Colors.white;
         return Scaffold(
           appBar: AppBar(
             leading: isSplitView ? null : const CustomBackButton(),
@@ -39,16 +38,17 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
             ),
             actions: [
               PopupMenuButton<Station>(
-                initialValue:
-                    ref.watch(departureViewModel).selectedStation.value,
+                initialValue: ref
+                    .watch(departureViewModel)
+                    .selectedStation
+                    .value,
                 onSelected: (station) {
                   ref.read(departureViewModel).setSelectedStation(station);
                   ref.read(departureViewModel).fetchDepartures();
                 },
                 icon: const Icon(Icons.tram),
-                itemBuilder:
-                    (context) =>
-                        ref.read(departureViewModel).getStationEntries(),
+                itemBuilder: (context) =>
+                    ref.read(departureViewModel).getStationEntries(),
               ),
             ],
           ),
@@ -95,12 +95,11 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                   text: context.tr("station"),
                   children: [
                     TextSpan(
-                      text:
-                          ref
-                              .watch(departureViewModel)
-                              .selectedStation
-                              .value!
-                              .name,
+                      text: ref
+                          .watch(departureViewModel)
+                          .selectedStation
+                          .value!
+                          .name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: context.primaryColor,
@@ -111,8 +110,10 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
               ),
               GestureDetector(
                 onTap: () async {
-                  Station? selectedStation =
-                      ref.read(departureViewModel).selectedStation.value;
+                  Station? selectedStation = ref
+                      .read(departureViewModel)
+                      .selectedStation
+                      .value;
                   if (selectedStation != null &&
                       selectedStation.location != null) {
                     showDirectionsDialog(
@@ -182,10 +183,9 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
             return ref.read(departureViewModel).fetch(true);
           },
           child: ListView.separated(
-            itemBuilder:
-                (context, index) => DeparturesDetailsRowView(
-                  departure: widget.snapshot.data![index],
-                ),
+            itemBuilder: (context, index) => DeparturesDetailsRowView(
+              departure: widget.snapshot.data![index],
+            ),
             separatorBuilder: (context, index) => const Divider(),
             itemCount: widget.snapshot.data!.length,
           ),

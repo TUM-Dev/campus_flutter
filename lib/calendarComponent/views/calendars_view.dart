@@ -56,12 +56,10 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed:
-                          () =>
-                              ref.read(selectedDate.notifier).state = (
-                                DateTime.now(),
-                                null,
-                              ),
+                      onPressed: () => ref.read(selectedDate.notifier).state = (
+                        DateTime.now(),
+                        null,
+                      ),
                       child: Text(
                         context.tr("calendarViewToday"),
                         style: Theme.of(context).textTheme.titleMedium,

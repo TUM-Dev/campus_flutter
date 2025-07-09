@@ -104,12 +104,11 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
     return CircleAvatar(
       radius: 80,
       backgroundColor: context.theme.canvasColor,
-      backgroundImage:
-          imageData != null
-              ? Image.memory(base64DecodeImageData(imageData)).image
-              : const AssetImage(
-                'assets/images/placeholders/portrait_placeholder.png',
-              ),
+      backgroundImage: imageData != null
+          ? Image.memory(base64DecodeImageData(imageData)).image
+          : const AssetImage(
+              'assets/images/placeholders/portrait_placeholder.png',
+            ),
     );
   }
 
@@ -125,11 +124,8 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                 personDetails.email,
                 style: const TextStyle(decoration: TextDecoration.underline),
               ),
-              onTap:
-                  () => UrlLauncher.urlString(
-                    "mailto:${personDetails.email}",
-                    ref,
-                  ),
+              onTap: () =>
+                  UrlLauncher.urlString("mailto:${personDetails.email}", ref),
             ),
             if (personDetails.phoneExtensions.firstOrNull?.phoneNumber != null)
               ListTile(
@@ -139,11 +135,10 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                       context.tr("unknown"),
                   style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-                onTap:
-                    () => UrlLauncher.urlString(
-                      "tel:${personDetails.phoneExtensions.firstOrNull?.phoneNumber}",
-                      ref,
-                    ),
+                onTap: () => UrlLauncher.urlString(
+                  "tel:${personDetails.phoneExtensions.firstOrNull?.phoneNumber}",
+                  ref,
+                ),
               ),
             if (personDetails.officialContact?.homepage != null)
               ListTile(
@@ -152,11 +147,10 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                   personDetails.officialContact!.homepage!,
                   style: const TextStyle(decoration: TextDecoration.underline),
                 ),
-                onTap:
-                    () => UrlLauncher.urlString(
-                      personDetails.officialContact!.homepage!,
-                      ref,
-                    ),
+                onTap: () => UrlLauncher.urlString(
+                  personDetails.officialContact!.homepage!,
+                  ref,
+                ),
               ),
           ],
         ),
@@ -177,11 +171,8 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
                     context.tr("unknown"),
               ),
               trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-              onTap:
-                  () => context.push(
-                    roomSearch,
-                    extra: personDetails.rooms.first.id,
-                  ),
+              onTap: () =>
+                  context.push(roomSearch, extra: personDetails.rooms.first.id),
             ),
             ListTile(
               leading: Icon(Icons.stairs, color: context.theme.primaryColor),

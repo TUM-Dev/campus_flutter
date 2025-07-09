@@ -89,24 +89,23 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:
-                    events.$2.length == 1
-                        ? [
+                children: events.$2.length == 1
+                    ? [
+                        Expanded(
+                          child: CalendarHomeWidgetEventView(
+                            calendarEvent: events.$2[0],
+                          ),
+                        ),
+                        const Spacer(),
+                      ]
+                    : [
+                        for (int i = 0; i < events.$2.length && i < 2; i++)
                           Expanded(
                             child: CalendarHomeWidgetEventView(
-                              calendarEvent: events.$2[0],
+                              calendarEvent: events.$2[i],
                             ),
                           ),
-                          const Spacer(),
-                        ]
-                        : [
-                          for (int i = 0; i < events.$2.length && i < 2; i++)
-                            Expanded(
-                              child: CalendarHomeWidgetEventView(
-                                calendarEvent: events.$2[i],
-                              ),
-                            ),
-                        ],
+                      ],
               ),
             ),
         ],

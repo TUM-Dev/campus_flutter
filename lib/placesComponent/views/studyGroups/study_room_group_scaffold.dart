@@ -43,8 +43,8 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
         actions: [
           if (studyRoomGroup != null && studyRoomGroup!.openingHours.isNotEmpty)
             IconButton(
-              onPressed:
-                  () => _openAlert(studyRoomGroup!.openingHours, context),
+              onPressed: () =>
+                  _openAlert(studyRoomGroup!.openingHours, context),
               icon: Icon(
                 Icons.access_time_filled,
                 color: context.theme.primaryColor,
@@ -52,23 +52,21 @@ class StudyRoomGroupScaffold extends ConsumerWidget {
             ),
           if (studyRoomGroup != null && studyRoomGroup?.coordinate != null)
             IconButton(
-              onPressed:
-                  () => showDirectionsDialog(
-                    studyRoomGroup!.name,
-                    LatLng(
-                      studyRoomGroup!.coordinate!.latitude,
-                      studyRoomGroup!.coordinate!.longitude,
-                    ),
-                    context,
-                  ),
+              onPressed: () => showDirectionsDialog(
+                studyRoomGroup!.name,
+                LatLng(
+                  studyRoomGroup!.coordinate!.latitude,
+                  studyRoomGroup!.coordinate!.longitude,
+                ),
+                context,
+              ),
               icon: Icon(Icons.directions, color: context.theme.primaryColor),
             ),
         ],
       ),
-      body:
-          studyRoomGroup != null
-              ? StudyRoomGroupView(studyRoomGroup, isSplitView)
-              : StudyRoomGroupView(null, isSplitView),
+      body: studyRoomGroup != null
+          ? StudyRoomGroupView(studyRoomGroup, isSplitView)
+          : StudyRoomGroupView(null, isSplitView),
     );
   }
 

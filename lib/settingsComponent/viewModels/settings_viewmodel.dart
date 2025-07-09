@@ -83,10 +83,9 @@ class SettingsViewModel {
             child: IconText(
               iconData: e.icon,
               iconColor: context.primaryColor,
-              label:
-                  Localizations.localeOf(context).languageCode == "de"
-                      ? e.german
-                      : e.english,
+              label: Localizations.localeOf(context).languageCode == "de"
+                  ? e.german
+                  : e.english,
             ),
           ),
         )
