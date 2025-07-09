@@ -26,9 +26,6 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,7 +42,8 @@ android {
     defaultConfig {
         applicationId "de.tum.in.tumcampus"
         minSdkVersion 29
-        targetSdkVersion flutter.targetSdkVersion
+        compileSdkVersion 35
+        targetSdkVersion 35
         ndkVersion "27.0.12077973"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -90,7 +88,7 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'

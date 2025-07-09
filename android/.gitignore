@@ -14,3 +14,4 @@ key.properties
 **/*.jks
 
 Gemfile.lock
+build/
