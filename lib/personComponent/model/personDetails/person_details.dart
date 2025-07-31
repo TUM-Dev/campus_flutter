@@ -1,8 +1,10 @@
 import 'package:campus_flutter/base/enums/gender.dart';
+import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/contact_info.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/organisation.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/phone_extension.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/room.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'person_details.g.dart';
@@ -83,17 +85,6 @@ class PersonDetails {
 
   Map<String, dynamic> toJson() => _$PersonDetailsToJson(this);
 
-  Map<String, dynamic?> toMapForContact() {
-    return <String, dynamic?>{
-      "email": email,
-      "titel": title,
-      "vorname": firstName,
-      "familienname": name,
-      "privat": privateContact?.toJson(),
-      "dienstlich": officialContact?.toJson()
-    };
-  }
-
   static Gender _stringToGender(String gender) {
     switch (gender) {
       case "M":
@@ -105,6 +96,54 @@ class PersonDetails {
       default:
         return Gender.unknown;
     }
+  }
+
+  Contact get contact {
+    List<Phone> phones = [];
+    List<Website> websites = [];
+
+    if (officialContact != null) {
+      if (officialContact!.phone != null) {
+        phones.add(Phone(officialContact!.phone!, label: PhoneLabel.work, isPrimary: true));
+      }
+      if (officialContact!.mobilePhone != null) {
+        phones.add(Phone(officialContact!.mobilePhone!, label: PhoneLabel.workMobile));
+      }
+      if (officialContact!.fax != null) {
+        phones.add(Phone(officialContact!.fax!, label: PhoneLabel.faxWork));
+      }
+      if (officialContact!.homepage != null) {
+        websites.add(Website(officialContact!.homepage!, label: WebsiteLabel.work));
+      }
+    }
+    if (privateContact != null) {
+      if (privateContact!.phone != null) {
+        phones.add(Phone(privateContact!.phone!, label: PhoneLabel.home));
+      }
+      if (privateContact!.mobilePhone != null) {
+        phones.add(Phone(privateContact!.mobilePhone!, label: PhoneLabel.mobile));
+      }
+      if (privateContact!.fax != null) {
+        phones.add(Phone(privateContact!.fax!, label: PhoneLabel.faxHome));
+      }
+      if (privateContact!.homepage != null) {
+        websites.add(Website(privateContact!.homepage!, label: WebsiteLabel.home));
+      }
+    }
+
+    var photo = imageData != null ? base64DecodeImageData(imageData!) : null;
+
+
+    return Contact(name: Name(
+        prefix: title ?? "",
+        first: firstName,
+        last: name
+      ), 
+      emails: [ Email(email, label: EmailLabel.work, isPrimary: true)],
+      phones: phones,
+      websites: websites,
+      photo: photo
+    );
   }
 }
 

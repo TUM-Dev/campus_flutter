@@ -7,12 +7,12 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
-import 'package:campus_flutter/personComponent/model/personDetails/add_contact_platform.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -82,8 +82,8 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
           children: [
             _image(personDetails.imageData),
             _name(personDetails.fullNameWithTitle),
-            _contact(personDetails),
             _addContactButton(personDetails),
+            _contact(personDetails),
             if (personDetails.rooms.isNotEmpty) _room(personDetails),
           ],
         ),
@@ -164,7 +164,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
     return ElevatedButton(
       onPressed: () async {
         // Add the contact to the user's contacts
-        await AddContactPlatform.addPersonAsContact(personDetails);
+        await FlutterContacts.openExternalInsert(personDetails.contact);
       },
       child: Text(context.tr("add_contact")),
     );
