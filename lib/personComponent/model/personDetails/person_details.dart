@@ -83,6 +83,17 @@ class PersonDetails {
 
   Map<String, dynamic> toJson() => _$PersonDetailsToJson(this);
 
+  Map<String, dynamic?> toMapForContact() {
+    return <String, dynamic?>{
+      "email": email,
+      "titel": title,
+      "vorname": firstName,
+      "familienname": name,
+      "privat": privateContact?.toJson(),
+      "dienstlich": officialContact?.toJson()
+    };
+  }
+
   static Gender _stringToGender(String gender) {
     switch (gender) {
       case "M":

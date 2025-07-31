@@ -7,6 +7,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
+import 'package:campus_flutter/personComponent/model/personDetails/add_contact_platform.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -82,6 +83,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
             _image(personDetails.imageData),
             _name(personDetails.fullNameWithTitle),
             _contact(personDetails),
+            _addContactButton(personDetails),
             if (personDetails.rooms.isNotEmpty) _room(personDetails),
           ],
         ),
@@ -155,6 +157,16 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _addContactButton(PersonDetails personDetails) {
+    return ElevatedButton(
+      onPressed: () async {
+        // Add the contact to the user's contacts
+        await AddContactPlatform.addPersonAsContact(personDetails);
+      },
+      child: Text(context.tr("add_contact")),
     );
   }
 
