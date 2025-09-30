@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 5.1.4+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: ^3.9.2
 
 dependencies:
   flutter:
@@ -26,7 +26,7 @@ dependencies:
   # state management
   rxdart: ^0.28.0
   go_router: ^16.0.0
-  flutter_riverpod: ^2.3.6
+  flutter_riverpod: ^3.0.0
   get_it: ^8.0.0
 
   # user interface
@@ -38,10 +38,10 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_core: ^30.1.38
-  syncfusion_flutter_calendar: ^30.1.38
-  syncfusion_flutter_charts: ^30.1.38
-  syncfusion_flutter_datepicker: ^30.1.38
+  syncfusion_flutter_core: ^31.1.19
+  syncfusion_flutter_calendar: ^31.1.19
+  syncfusion_flutter_charts: ^31.1.19
+  syncfusion_flutter_datepicker: ^31.1.19
   google_maps_flutter: ^2.5.3
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
@@ -53,7 +53,7 @@ dependencies:
       ref: master
 
   # helpers
-  device_info_plus: ^11.0.0
+  device_info_plus: ^12.1.0
   flutter_secure_storage: ^9.2.3
   geolocator: ^14.0.0
   package_info_plus: ^8.0.0
@@ -64,13 +64,13 @@ dependencies:
   uuid: ^4.2.1
   collection: ^1.18.0
   shared_preferences: ^2.1.2
-  map_launcher: ^3.0.1
+  map_launcher: ^4.0.0
   html: ^0.15.4
 
   # firebase
-  firebase_crashlytics: ^4.0.1
-  firebase_core: ^3.1.0
-  firebase_remote_config: ^5.0.1
+  firebase_crashlytics: ^5.0.0
+  firebase_core: ^4.0.0
+  firebase_remote_config: ^6.0.0
 
   # localization
   easy_localization: ^3.0.6
