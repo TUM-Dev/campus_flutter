@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: macos-15
+    runs-on: macos-latest
 
     strategy:
       matrix:
