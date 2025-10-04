@@ -13,14 +13,27 @@ class CampusScreen extends StatelessWidget {
         if (orientation == Orientation.portrait) {
           return body();
         } else {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(),
-              Expanded(flex: 2, child: body()),
-              const Spacer(),
-            ],
-          );
+          return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Row(children: [
+                Expanded(child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(children: [
+                   Text('News', style: Theme.of(context).textTheme.headlineSmall),
+                    const SizedBox(height: 10),
+                    NewsWidgetView(),
+                  ],),)),
+
+                const VerticalDivider(width: 0),
+                Expanded(child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(children: [
+                    StudentClubWidgetView(),
+                    const SizedBox(height: 10),
+                    MovieWidgetView(),
+                  ],),)), ]
+              ));
         }
       },
     );

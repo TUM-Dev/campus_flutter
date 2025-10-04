@@ -21,13 +21,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         if (orientation == Orientation.portrait) {
           return _widgetScrollView();
         } else {
-          return Row(
-            children: [
-              const Spacer(),
-              Expanded(flex: 2, child: _widgetScrollView()),
-              const Spacer(),
-            ],
-          );
+         return SizedBox(
+           width: MediaQuery.of(context).size.width,
+           height: MediaQuery.of(context).size.height,
+           child: Row(children: [
+           Expanded(child: ContactScreen()),
+             const VerticalDivider(width: 0),
+             Expanded(child: SingleChildScrollView(
+               controller: scrollController,
+               scrollDirection: Axis.vertical,
+               child: WidgetScreen(),)), ]
+         ));
         }
       },
     );
