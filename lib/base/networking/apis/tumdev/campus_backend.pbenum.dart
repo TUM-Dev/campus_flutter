@@ -1,13 +1,14 @@
+// This is a generated file - do not edit.
 //
-//  Generated code. Do not modify.
-//  source: tumdev/campus_backend.proto
-//
-// @dart = 2.12
+// Generated from tumdev/campus_backend.proto.
+
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -26,11 +27,12 @@ class DeviceType extends $pb.ProtobufEnum {
     WINDOWS,
   ];
 
-  static final $core.Map<$core.int, DeviceType> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
-  static DeviceType? valueOf($core.int value) => _byValue[value];
+  static final $core.List<DeviceType?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static DeviceType? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const DeviceType._($core.int v, $core.String n) : super(v, n);
+  const DeviceType._(super.value, super.name);
 }
 
 class Language extends $pb.ProtobufEnum {
@@ -43,16 +45,20 @@ class Language extends $pb.ProtobufEnum {
     English,
   ];
 
-  static final $core.Map<$core.int, Language> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
-  static Language? valueOf($core.int value) => _byValue[value];
+  static final $core.List<Language?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 1);
+  static Language? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const Language._($core.int v, $core.String n) : super(v, n);
+  const Language._(super.value, super.name);
 }
 
 class CreateFeedbackRequest_Recipient extends $pb.ProtobufEnum {
+  /// Feedback for the TUM Dev Team
   static const CreateFeedbackRequest_Recipient TUM_DEV =
       CreateFeedbackRequest_Recipient._(0, _omitEnumNames ? '' : 'TUM_DEV');
+
+  /// Feedback for the general TUM Contact Form
   static const CreateFeedbackRequest_Recipient TUM_CONTACT =
       CreateFeedbackRequest_Recipient._(1, _omitEnumNames ? '' : 'TUM_CONTACT');
 
@@ -62,13 +68,13 @@ class CreateFeedbackRequest_Recipient extends $pb.ProtobufEnum {
     TUM_CONTACT,
   ];
 
-  static final $core.Map<$core.int, CreateFeedbackRequest_Recipient> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.List<CreateFeedbackRequest_Recipient?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 1);
   static CreateFeedbackRequest_Recipient? valueOf($core.int value) =>
-      _byValue[value];
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const CreateFeedbackRequest_Recipient._($core.int v, $core.String n)
-      : super(v, n);
+  const CreateFeedbackRequest_Recipient._(super.value, super.name);
 }
 
-const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
+const $core.bool _omitEnumNames =
+    $core.bool.fromEnvironment('protobuf.omit_enum_names');
