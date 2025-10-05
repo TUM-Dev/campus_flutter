@@ -235,5 +235,6 @@
   "more": "More",
   "visibility": "Visibility",
   "utilizationAt": "Utilization at {}%",
-  "showStudentCardPicture": "Show Student Card Picture"
+  "showStudentCardPicture": "Show Student Card Picture",
+  "add_contact": "Add to contacts"
 }
