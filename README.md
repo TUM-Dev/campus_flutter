@@ -9,7 +9,7 @@
 </a>
 --->
 
-# Tum Campus App - An Unofficial Guide Through University Life
+# TUM Campus App - An Unofficial Guide Through University Life
 
 The TUM Campus App (TCA) is an open source project, developed by volunteers. This repository is dedicated to the development and transition to Flutter. 
 
@@ -42,7 +42,7 @@ Check out our detailed information at [CONTRIBUTING.md](https://github.com/TCA-T
 -->
 
 ## Beta
-If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/4Ddi6f2f) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.tca_flutter) to get invited via the Google Play Beta Program. We would appreciate your feedback regarding bugs and improvement suggestions!
+If you want to participate in the beta of this app, enter your details [here](https://testflight.apple.com/join/4Ddi6f2f) to get invited via TestFlight or [here](https://play.google.com/store/apps/details?id=de.tum.in.tumcampus) on your Android device or [here](https://play.google.com/apps/testing/de.tum.in.tumcampus) in your browser to get invited via the Google Play Beta Program. We would appreciate your feedback regarding bugs and improvement suggestions!
 
 ## Policies
 - [Privacy policy](https://app.tum.de/landing/privacy/)

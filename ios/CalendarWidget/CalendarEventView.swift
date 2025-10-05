@@ -66,9 +66,34 @@ struct CalendarEventView: View {
             .widgetAccentable(false)
             .foregroundStyle(.white)
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            .background(ContainerRelativeShape()
-                .fill(color).widgetAccentable(true)
-                .clipShape(RoundedRectangle(cornerRadius: 10)))
+            .calendarEventViewBackground(color: color)
+        }
+    }
+}
+
+extension View {
+    func calendarEventViewBackground(color: Color) -> some View {
+        modifier(CalendarEventViewBackground(color: color))
+    }
+}
+
+struct CalendarEventViewBackground: ViewModifier {
+    @Environment(\.widgetRenderingMode) var renderingMode
+    
+    let color: Color
+    
+    func body(content: Content) -> some View {
+        if renderingMode == .accented {
+            content
+                .clipShape(ContainerRelativeShape())
+                .overlay(
+                    ContainerRelativeShape()
+                        .stroke(.white, lineWidth: 1)
+                )
+        } else {
+            content
+                .background(color.widgetAccentable(true))
+                .clipShape(ContainerRelativeShape())
         }
     }
 }

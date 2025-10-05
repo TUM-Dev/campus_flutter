@@ -72,3 +72,19 @@ struct CalendarWidget: Widget {
         .description("An Overview About Your Upcoming Events.")
     }
 }
+
+#Preview(as: .systemMedium) {
+    CalendarWidget()
+} timeline: {
+    CalendarWidgetEntry(
+        date: Date(),
+        entries: [
+            CalendarEntry(id: "3", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: ["Galileo Audimax"], color: nil),
+            CalendarEntry(id: "4", title: "Einführung in die Buchführung", status: "Test", startDate: Date.now, endDate: Date.now, location: ["Audimax"], color: nil),
+            CalendarEntry(id: "5", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now, endDate: Date.now, location: ["Galileo Audimax"], color: nil),
+            CalendarEntry(id: "1", title: "Lineare Algebra für Informatik", status: "Test", startDate: Date.now.addingTimeInterval(84_600), endDate: Date.now.addingTimeInterval(84_600), location: ["Galileo Audimax"], color: nil),
+            CalendarEntry(id: "2", title: "Einführung in die Buchführung", status: "Test", startDate: Date.now.addingTimeInterval(84_600), endDate: Date.now.addingTimeInterval(84_600), location: ["Audimax"], color: nil)
+        ],
+        size: .systemMedium
+    )
+}

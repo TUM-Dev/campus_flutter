@@ -59,6 +59,7 @@ struct CalendarWidgetContent: View {
                     ForEach((events[eventDate] ?? []).indices, id: \.self) { eventIndex in
                         let event = events[eventDate]![eventIndex]
                         CalendarEventView(event: event, color: event.eventColor, isFirst: eventIndex == 0)
+                            .calendarWidgetContentPadding()
                     }
                 }
             }
@@ -92,6 +93,23 @@ struct CalendarWidgetContent: View {
             return 5
         default:
             return 2
+        }
+    }
+}
+
+extension View {
+    func calendarWidgetContentPadding() -> some View {
+        modifier(CalendarWidgetContentPadding())
+    }
+}
+
+struct CalendarWidgetContentPadding: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .padding(.init(top: 0, leading: 0, bottom: 1, trailing: 0))
+        } else {
+            content
         }
     }
 }

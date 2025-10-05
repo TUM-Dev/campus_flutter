@@ -21,6 +21,6 @@ class MainActivity : FlutterActivity() {
 fun isPhone(context: Context): Boolean {
     val resources = context.resources
     val configuration = resources.configuration
-    val screenWidthDp = configuration.screenWidthDp
-    return screenWidthDp <= resources.getDimension(R.dimen.min_tablet_width_dp)
+    val screenWidthDp = configuration.smallestScreenWidthDp
+    return screenWidthDp <= resources.getInteger(R.integer.min_tablet_width_dp)
 }
