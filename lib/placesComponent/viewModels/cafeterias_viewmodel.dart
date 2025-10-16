@@ -23,9 +23,6 @@ import 'package:uuid/uuid.dart';
 final cafeteriasViewModel = Provider((ref) => CafeteriasViewModel());
 
 const List<String> excludedCafeterias = [
-  "mensa-lothstr",
-  "mensa-pasing",
-  "stucafe-weihenstephan-maximus",
   "stucafe-karlstr",
   "stucafe-pasing",
   "ipp-bistro",
