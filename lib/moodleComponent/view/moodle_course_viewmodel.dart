@@ -130,7 +130,7 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
                 : null,
             child: SizedBox(
               width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width*0.3 : MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height * 0.08,
               child: ListTile(
               title: Text(
                 content.title,
