@@ -72,19 +72,24 @@ class MoodleCourse{
 
 
 
-  Widget createImage() {
+  Widget createImage(BuildContext ctx) {
+    double width = 250;
+    double height = 250;
+    if(MediaQuery.of(ctx).orientation == Orientation.portrait) {
+      width = MediaQuery.of(ctx).size.width * 0.08;
+      height = MediaQuery.of(ctx).size.width * 0.08;
+    }
     if (courseImage.isEmpty) {
       return const Icon(Icons.book, size: 40);
     } else {
      if(courseImage.contains("base64")) {
-        //base64 image
         final base64String = courseImage.split(',').last;
         var converted = utf8.decode(base64.decode(base64String));
         converted = converted.replaceAll("100%", "280px");
        return SvgPicture.string(
          converted,
-         width: 250,
-         height: 250,
+         width: width,
+         height: height,
          fit: BoxFit.cover,
          placeholderBuilder: (context) => const Icon(Icons.book, size: 40),
        );
@@ -92,8 +97,8 @@ class MoodleCourse{
       } else {
         return Image.network(
           courseImage,
-          width: 250,
-          height: 250,
+          width: width,
+          height: height,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return const Icon(Icons.book, size: 40);
@@ -141,8 +146,8 @@ class MoodleCourse{
 
     //create a smooth design
     return SizedBox(
-      height: MediaQuery.of(context).size.height*0.8,
-        width: MediaQuery.of(context).size.width * 0.25,
+      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.height*0.8,
+        width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.25,
         child:
       Card(
         shape: RoundedRectangleBorder(
@@ -166,7 +171,33 @@ class MoodleCourse{
           },
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
+            child:
+                MediaQuery.of(context).orientation == Orientation.portrait ?
+                    Row(
+                      children: [
+                        createImage(context),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                fullname,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                courseCategory,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                        withArrowForward ? Icon(Icons.arrow_forward, color: Theme.of(context).colorScheme.primary): withArrowBackward ? Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary): const SizedBox.shrink(),
+                      ],
+                    ) :
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
@@ -175,7 +206,7 @@ class MoodleCourse{
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10),
-                createImage(),
+                createImage(context),
                 const SizedBox(height: 10),
                 Text(
                   courseCategory,

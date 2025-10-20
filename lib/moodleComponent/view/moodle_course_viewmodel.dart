@@ -53,6 +53,14 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
             future: _future,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
+                if(MediaQuery.of(context).orientation == Orientation.portrait) {
+                  return Column(
+                    children: [
+                      widget.course.build(context, withArrowForward: false, withArrowBackward: true),
+                      const Center(child: CupertinoActivityIndicator()),
+                    ],
+                  );
+                }
                 return Row(
                   children: [
                     widget.course.build(context, withArrowForward: false, withArrowBackward: true),
@@ -63,6 +71,16 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
                 debugPrintStack(stackTrace: snapshot.stackTrace);
                 return Center(child: Text("Error: ${snapshot.error}"));
               } else {
+                if(MediaQuery.of(context).orientation == Orientation.portrait) {
+                  return Column(
+                    children: [
+                      widget.course.build(context, withArrowForward: false, withArrowBackward: true),
+                      const SizedBox(height: 10),
+                      buildCourseContent(),
+                      sectionSelection ?? Container(),
+                    ],
+                  );
+                }
                 return Row(
                   children: [
                     widget.course.build(context, withArrowForward: false, withArrowBackward: true),
@@ -74,7 +92,17 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
               }
             },
           )
-        : Row(
+        :
+        MediaQuery.of(context).orientation == Orientation.portrait ?
+          Column(
+            children: [
+              widget.course.build(context, withArrowForward: false, withArrowBackward: true),
+              buildCourseContent(),
+              sectionSelection ?? Container(),
+            ],
+          )
+          :
+    Row(
             children: [
               widget.course.build(context, withArrowForward: false, withArrowBackward: true),
               buildCourseContent(),
@@ -85,7 +113,8 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
 
   Widget buildCourseContent() {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.2,
+      width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.2,
+      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height,
       child: ListView.builder(
         itemBuilder: (context, index) {
           final content = widget.course.state!.section[index];
@@ -99,7 +128,10 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
             color: currentIndex == index
                 ? Theme.of(context).colorScheme.primaryContainer
                 : null,
-            child: ListTile(
+            child: SizedBox(
+              width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width*0.3 : MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height,
+              child: ListTile(
               title: Text(
                 content.title,
                 style: Theme.of(context).textTheme.titleSmall,
@@ -112,10 +144,10 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
                 });
               },
             ),
-          );
+          ));
         },
         itemCount: widget.course.state!.section.length,
-        scrollDirection: Axis.vertical,
+        scrollDirection: MediaQuery.of(context).orientation == Orientation.portrait ? Axis.horizontal : Axis.vertical,
       ),
     );
   }
@@ -131,8 +163,8 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
           return Text("Es ist ein Fehler aufgetreten: ${snap.error}");
         } else {
           return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.45,
-            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width :  MediaQuery.of(context).size.width * 0.45,
+            height:MediaQuery.of(context).orientation == Orientation.portrait? MediaQuery.of(context).size.height*0.6: MediaQuery.of(context).size.height * 0.8,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(

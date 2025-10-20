@@ -164,7 +164,7 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
         return Center(child: Text("Error: ${snapshot.error}"));
       } else {
        return ListView.builder(
-         scrollDirection: Axis.horizontal,
+         scrollDirection: MediaQuery.of(context).orientation == Orientation.landscape ? Axis.horizontal : Axis.vertical,
           itemCount: moodleCourses.length,
           itemBuilder: (context, index) => SizedBox(
             width: 300,
