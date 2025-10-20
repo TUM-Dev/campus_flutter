@@ -167,9 +167,9 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
          scrollDirection: MediaQuery.of(context).orientation == Orientation.landscape ? Axis.horizontal : Axis.vertical,
           itemCount: moodleCourses.length,
           itemBuilder: (context, index) => SizedBox(
-            width: 300,
-            height: 200,
-            child: moodleCourses[index].build(context, session: session!, api: api!)
+              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.15 : MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.25,
+              child: moodleCourses[index].build(context, session: session!, api: api!)
           )
         );
       }

@@ -114,7 +114,7 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
   Widget buildCourseContent() {
     return SizedBox(
       width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.2,
-      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.07 : MediaQuery.of(context).size.height,
       child: ListView.builder(
         itemBuilder: (context, index) {
           final content = widget.course.state!.section[index];
@@ -129,8 +129,8 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
                 ? Theme.of(context).colorScheme.primaryContainer
                 : null,
             child: SizedBox(
-              width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width*0.3 : MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.height * 0.08,
+              width:  MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width*0.4 : MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.height * 0.07,
               child: ListTile(
               title: Text(
                 content.title,
@@ -164,7 +164,7 @@ class _MoodleCourseViewModelState extends ConsumerState<MoodleCourseViewModel> {
         } else {
           return SizedBox(
             width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width :  MediaQuery.of(context).size.width * 0.45,
-            height:MediaQuery.of(context).orientation == Orientation.portrait? MediaQuery.of(context).size.height*0.6: MediaQuery.of(context).size.height * 0.8,
+            height:MediaQuery.of(context).orientation == Orientation.portrait? MediaQuery.of(context).size.height*0.55: MediaQuery.of(context).size.height * 0.8,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(

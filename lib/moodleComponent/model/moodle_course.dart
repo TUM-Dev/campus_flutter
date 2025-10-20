@@ -146,7 +146,7 @@ class MoodleCourse{
 
     //create a smooth design
     return SizedBox(
-      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.height*0.8,
+      height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.15 : MediaQuery.of(context).size.height*0.8,
         width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.25,
         child:
       Card(
