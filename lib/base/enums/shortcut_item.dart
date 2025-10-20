@@ -8,6 +8,7 @@ enum ShortcutItemType {
   studyRooms(en: "Study Rooms", de: "Lernräume"),
   calendar(en: "Calendar", de: "Kalendar"),
   studies(en: "Studies", de: "Studium"),
+  moodle(en: "Moodle", de: "Moodle"),
   roomSearch(en: "Room Search", de: "Raumsuche");
 
   final String en;
@@ -47,6 +48,8 @@ extension Routing on ShortcutItemType {
         return routes.calendar;
       case ShortcutItemType.studies:
         return routes.studies;
+      case ShortcutItemType.moodle:
+        return routes.moodle;
       case ShortcutItemType.roomSearch:
         return routes.roomSearch;
     }

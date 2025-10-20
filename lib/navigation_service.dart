@@ -50,6 +50,11 @@ class NavigationService {
         );
       case 4:
         return Text(
+          context.tr("moodle"),
+          style: Theme.of(context).textTheme.titleLarge,
+        );
+      case 5:
+        return Text(
           context.tr("places"),
           style: Theme.of(context).textTheme.titleLarge,
         );
@@ -163,6 +168,19 @@ class NavigationService {
           icon: const Icon(Icons.campaign_outlined),
           selectedIcon: const Icon(Icons.campaign),
           label: context.tr("campus"),
+        ),
+        NavigationDestination(
+          icon: Image.asset(
+  'assets/images/logos/Moodle.png',
+  fit: BoxFit.cover,
+  height: 20,
+  ),
+          selectedIcon: Image.asset(
+  'assets/images/logos/Moodle.png',
+  fit: BoxFit.cover,
+  height: 20,
+  ),
+          label: context.tr("moodle"),
         ),
         NavigationDestination(
           icon: const Icon(Icons.place_outlined),

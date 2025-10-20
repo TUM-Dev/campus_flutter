@@ -471,6 +471,70 @@ packages:
       url: "https://github.com/mchome/flutter_colorpicker.git"
     source: git
     version: "1.1.0"
+  flutter_inappwebview:
+    dependency: "direct main"
+    description:
+      name: flutter_inappwebview
+      sha256: "80092d13d3e29b6227e25b67973c67c7210bd5e35c4b747ca908e31eb71a46d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5"
+  flutter_inappwebview_android:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_android
+      sha256: "62557c15a5c2db5d195cb3892aab74fcaec266d7b86d59a6f0027abd672cddba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
+  flutter_inappwebview_internal_annotations:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_internal_annotations
+      sha256: "787171d43f8af67864740b6f04166c13190aa74a1468a1f1f1e9ee5b90c359cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  flutter_inappwebview_ios:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_ios
+      sha256: "5818cf9b26cf0cbb0f62ff50772217d41ea8d3d9cc00279c45f8aabaa1b4025d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_macos:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_macos
+      sha256: c1fbb86af1a3738e3541364d7d1866315ffb0468a1a77e34198c9be571287da1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_platform_interface
+      sha256: cf5323e194096b6ede7a1ca808c3e0a078e4b33cc3f6338977d75b4024ba2500
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0+1"
+  flutter_inappwebview_web:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_web
+      sha256: "55f89c83b0a0d3b7893306b3bb545ba4770a4df018204917148ebb42dc14a598"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_windows:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_windows
+      sha256: "8b4d3a46078a2cdc636c4a3d10d10f2a16882f6be607962dbfff8874d1642055"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   flutter_linkify:
     dependency: "direct main"
     description:
@@ -493,6 +557,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_math_fork:
+    dependency: transitive
+    description:
+      name: flutter_math_fork
+      sha256: "6d5f2f1aa57ae539ffb0a04bb39d2da67af74601d685a161aff7ce5bda5fa407"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.4"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -577,10 +649,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: cd57f7969b4679317c17af6fd16ee233c1e60a82ed209d8a475c54fd6fd6f845
+      sha256: b9c2ad5872518a27507ab432d1fb97e8813b05f0fc693f9d40fad06d073e0678
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -751,6 +823,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  gpt_markdown:
+    dependency: "direct main"
+    description:
+      name: gpt_markdown
+      sha256: "68d5337c8a00fc03a37dbddf84a6fd90401c30e99b6baf497ef9522a81fc34ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   graphs:
     dependency: transitive
     description:
@@ -792,6 +872,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.6"
+  html2md:
+    dependency: "direct main"
+    description:
+      name: html2md
+      sha256: "465cf8ffa1b510fe0e97941579bf5b22e2d575f2cecb500a9c0254efe33a8036"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.2"
   http:
     dependency: transitive
     description:
@@ -968,6 +1056,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   node_preamble:
     dependency: transitive
     description:
@@ -984,6 +1080,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  open_filex:
+    dependency: "direct main"
+    description:
+      name: open_filex
+      sha256: "9976da61b6a72302cf3b1efbce259200cd40232643a467aac7370addf94d6900"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.7.0"
   package_config:
     dependency: transitive
     description:
@@ -1168,6 +1272,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5+1"
   pub_semver:
     dependency: transitive
     description:
@@ -1541,6 +1653,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "30.1.39"
+  syncfusion_flutter_pdf:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_pdf
+      sha256: c2f3e4e5febeaf68e84c9bcfe591088bd3b993acadad61b11c052eac3c8b1c7a
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.1.39"
+  syncfusion_flutter_pdfviewer:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_pdfviewer
+      sha256: b06590a752c9e66273179a531a9cbf7fca61ca00a3411cfbe8fb1f67b72ec4a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.1.39"
+  syncfusion_flutter_signaturepad:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_signaturepad
+      sha256: d3ff61c7c0e6fcb8e5b712dcc2faa4a98503bb3b958c6e5182dc19e7c64366b8
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.1.39"
   syncfusion_localizations:
     dependency: transitive
     description:
@@ -1549,6 +1685,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "30.1.39"
+  syncfusion_pdfviewer_linux:
+    dependency: transitive
+    description:
+      name: syncfusion_pdfviewer_linux
+      sha256: "3dd5db820e26e6735a9e1c67d5e1f6ac9bb9d522ae284f46e3ce371319f75c5b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.2.7"
+  syncfusion_pdfviewer_macos:
+    dependency: transitive
+    description:
+      name: syncfusion_pdfviewer_macos
+      sha256: "40b1e3e61366f3951a8b12ba8813c35ae70b1c8d536b2b417d689d2438d9c184"
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.2.7"
+  syncfusion_pdfviewer_platform_interface:
+    dependency: transitive
+    description:
+      name: syncfusion_pdfviewer_platform_interface
+      sha256: ae5f4c5b2b7f5703d5ebb646641481dc58ae79fa5e6fd4ea86fa5c65a9556786
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.2.7"
+  syncfusion_pdfviewer_web:
+    dependency: transitive
+    description:
+      name: syncfusion_pdfviewer_web
+      sha256: "8020d0175047e24caf80341587d7b4be424c5f648bc4763c710cf59487ef16e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.2.7"
+  syncfusion_pdfviewer_windows:
+    dependency: transitive
+    description:
+      name: syncfusion_pdfviewer_windows
+      sha256: f46813908b065b74d151a71d4a1155fd5f9d8c59a5765cb6165a4949e626702c
+      url: "https://pub.dev"
+    source: hosted
+    version: "30.2.7"
   synchronized:
     dependency: transitive
     description:
@@ -1613,6 +1789,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   typed_data:
     dependency: transitive
     description:
@@ -1862,6 +2046,14 @@ packages:
       url: "https://github.com/jakobkoerber/xml2json.git"
     source: git
     version: "6.2.7"
+  xor_encryption:
+    dependency: "direct main"
+    description:
+      name: xor_encryption
+      sha256: "535520498dabddbd1818a694a6c6f9372b331f858bf52d9dccc80a1784a8ddd0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   yaml:
     dependency: transitive
     description:

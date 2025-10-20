@@ -2,6 +2,7 @@ const onboarding = "/onboarding";
 const confirm = "/confirm";
 const locationPermission = "/locationPermission";
 const permissionCheck = "/permissionCheck";
+const safetyArea = "/safetyArea";
 
 /// Home tab
 const home = "/";
@@ -41,6 +42,9 @@ const feedbackSuccess = "$feedback/success";
 const search = "/search";
 const roomSearch = "/roomSearch";
 const personSearch = "/personSearch";
+
+/// Moodle
+const moodle = "/moodle";
 
 /// General
 const navigaTum = "/navigaTum";

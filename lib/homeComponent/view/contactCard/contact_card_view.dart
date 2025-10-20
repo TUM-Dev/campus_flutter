@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_loading_view.dart';
@@ -39,6 +40,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
       stream: ref.watch(profileDetailsViewModel).personDetails,
       builder: (context, snapshot) {
         if (snapshot.hasData || snapshot.hasError) {
+          Api.tumId = widget.profile.tumID!;
           return InkWell(
             onTap: () => NavigationService.openStudentCardSheet(context),
             child: contactInfo(snapshot.data, widget.profile),

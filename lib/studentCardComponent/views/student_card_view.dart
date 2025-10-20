@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
@@ -23,6 +24,7 @@ class StudentCardView extends ConsumerWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             var data = snapshot.data!.first;
+            Api.tumId = data.studyID;
             final lastFetched = ref
                 .read(studentCardViewModel)
                 .lastFetched

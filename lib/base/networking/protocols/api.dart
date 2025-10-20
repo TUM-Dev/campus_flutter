@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' as dio;
 
 abstract class Api {
   static String tumToken = "";
+  static String tumId = "";
 
   String get domain;
 

@@ -23,6 +23,7 @@ import 'package:go_router/go_router.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:xor_encryption/xor_encryption.dart';
 
 final onboardingViewModel = Provider((ref) => OnboardingViewModel());
 
@@ -34,6 +35,9 @@ class OnboardingViewModel {
   final TextEditingController textEditingController1 = TextEditingController();
   final TextEditingController textEditingController2 = TextEditingController();
   final TextEditingController textEditingController3 = TextEditingController();
+  
+  final TextEditingController tumOnlinePasswordController =
+      TextEditingController();
 
   void clearTextFields() {
     textEditingController1.clear();
@@ -75,6 +79,24 @@ class OnboardingViewModel {
     }
 
     tumIdValid.add(true);
+  }
+  
+  void savePassword(String password) {
+    var xorPassword = XorCipher().encryptData(password, Api.tumToken);
+    _storage.write(key: "password", value: xorPassword);
+  }
+
+  void clearPassword() {
+    _storage.delete(key: "password");
+  }
+
+  Future<String> getPassword() async {
+    var xorPassword = await _storage.read(key: "password");
+    if (xorPassword != null) {
+      return XorCipher().encryptData(xorPassword, Api.tumToken);
+    } else {
+      throw NoTumPasswordSetException();
+    }
   }
 
   Future<bool> checkLogin() async {
@@ -157,6 +179,7 @@ class OnboardingViewModel {
     ref.invalidate(studentCardViewModel);
     await getIt<RestClient>().clearCache();
     await _storage.delete(key: "token");
+    await _storage.delete(key: "password");
     await HomeWidget.saveWidgetData("calendar", null);
     await HomeWidget.saveWidgetData("calendar_save", null);
     await HomeWidget.updateWidget(
@@ -167,4 +190,18 @@ class OnboardingViewModel {
     Api.tumToken = "";
     credentials.add(Credentials.none);
   }
+}
+
+class NoTumPasswordSetException implements Exception {
+  final String message;
+  NoTumPasswordSetException([this.message = "No TUM Online password set"]);
+  @override
+  String toString() => "NoTumPasswordSetException: $message";
+}
+
+class WrongTumPasswordSetException implements Exception {
+  final String message;
+  WrongTumPasswordSetException([this.message = "Wrong TUM Online password set"]);
+  @override
+  String toString() => "WrongumPasswordSetException: $message";
 }

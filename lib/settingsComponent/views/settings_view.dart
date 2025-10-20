@@ -28,12 +28,13 @@ class SettingsView extends ConsumerWidget {
       return Row(
         children: [
           const Expanded(
-            child: Column(
+            child: SingleChildScrollView(child: Column(
               children: [
                 GeneralSettingsView(),
                 AppearanceSettingsView(),
                 CalendarSettingsView(),
               ],
+            )
             ),
           ),
           Expanded(

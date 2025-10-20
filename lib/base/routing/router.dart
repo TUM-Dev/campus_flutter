@@ -14,6 +14,8 @@ import 'package:campus_flutter/homeComponent/view/departure/departures_details_v
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_success_view.dart';
 import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
+import 'package:campus_flutter/moodleComponent/view/moodle_course_viewmodel.dart';
+import 'package:campus_flutter/moodleComponent/view/moodle_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
@@ -21,6 +23,7 @@ import 'package:campus_flutter/onboardingComponent/views/location_permissions_vi
 import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/navigation.dart';
+import 'package:campus_flutter/onboardingComponent/views/password_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_check_view.dart';
 import 'package:campus_flutter/personComponent/views/person_details_view.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
@@ -38,6 +41,7 @@ import 'package:campus_flutter/settingsComponent/views/settings_scaffold.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/screen/studies_screen.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_details_view.dart';
+import 'package:flutter/cupertino.dart' show Text;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,6 +57,11 @@ final _router = GoRouter(
       path: permissionCheck,
       builder: (context, state) =>
           PermissionCheckView(isSettingsView: (state.extra as bool?) ?? false),
+    ),
+    GoRoute(
+      path: safetyArea,
+      builder: (context, state) =>
+          PasswordView(),
     ),
     GoRoute(
       path: locationPermission,
@@ -94,6 +103,61 @@ final _router = GoRouter(
               path: campus,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: CampusScreen()),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+                path: moodle,
+                pageBuilder: (context, state)
+
+                  => const NoTransitionPage(child:  MoodleViewModel())
+            ),
+            GoRoute(
+                path: "$moodle/viewCourse",
+                pageBuilder: (context, state) {
+                  final args = state.extra as MoodleCourseArguments?;
+
+                  if (args == null) {
+                    return const NoTransitionPage(child: Text("Ein Fehler ist aufgetreten"));
+                  }
+
+                  return NoTransitionPage(
+                      child: MoodleCourseViewModel(
+                          args.session, // 1. Argument
+                          args.api,     // 2. Argument
+                          args.course   // 3. Argument
+                      )
+                  );
+                }
+            ),
+            GoRoute(
+              path: '/webviewPage',
+              pageBuilder: (context, state) {
+                final Map<String, dynamic>? args = state.extra as Map<String, dynamic>?;
+
+                if (args == null || args['url'] == null) {
+                  return const NoTransitionPage(child: Text("Ein Fehler ist aufgetreten"));
+                }
+
+                return NoTransitionPage(
+                  child: WebViewPage(
+                    url: args['url'] as String,
+                    // Keine Cookie-Argumente mehr nötig
+                  ),
+                );
+              },
+            ),
+
+            GoRoute(
+              path: '/pdf-viewer',
+              builder: (context, state) {
+
+                return PdfViewScreen(
+                  stringPathFuture: state.extra as Future<String>,
+                );
+              },
             ),
           ],
         ),

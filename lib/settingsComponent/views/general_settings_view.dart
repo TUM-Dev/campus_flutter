@@ -20,6 +20,7 @@ class GeneralSettingsView extends ConsumerWidget {
         child: SeparatedList.widgets(
           widgets: [
             _tokenPermission(context),
+            _safetyArea(context),
             _localeSelection(context, ref),
             _moreSettings(context),
           ],
@@ -38,6 +39,19 @@ class GeneralSettingsView extends ConsumerWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => context.push(permissionCheck, extra: true),
+    );
+  }
+
+  Widget _safetyArea(BuildContext context) {
+    return ListTile(
+      dense: true,
+      leading: Icon(Icons.privacy_tip_outlined, size: 20, color: context.primaryColor),
+      title: Text(
+        "Sicherheit & Passwörter",
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap: () => context.push(safetyArea, extra: true),
     );
   }
 
