@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
 import 'package:campus_flutter/moodleComponent/model/moodle_course.dart';
 import 'package:campus_flutter/moodleComponent/model/moodle_user.dart';
 import 'package:campus_flutter/moodleComponent/networking/apis/MoodleApi.dart';
@@ -19,7 +20,7 @@ class MoodleViewModel extends ConsumerStatefulWidget {
 
 }
 
-class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
+class _MoodleViewModelState extends ConsumerState<MoodleViewModel>{
 
   MoodleApi? api;
   ShibbolethSession? session;
@@ -29,31 +30,35 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
   @override
   void initState() {
     super.initState();
-    _future = connectToMoodle();
+    if(Api.courses.isEmpty) {
+      _future = Api.coursesFuture!.then((value) {
+        setState(() {
+          moodleCourses = value;
+          session = Api.session;
+          api = Api.moodleApi;
+        });
+      }).catchError((error) {
+        throw error;
+      });
+    }else {
+      moodleCourses = Api.courses;
+      session = Api.session;
+      api = Api.moodleApi;
+    }
   }
 
-  Future<void> connectToMoodle() async {
-    var username = Api.tumId;
-    var password = await ref.read(onboardingViewModel).getPassword();
-    ShibbolethSession session =  await ShibbolethSessionGenerator().generateSession(username, password).timeout(Duration(seconds: 15), onTimeout: () {
-      throw WrongTumPasswordSetException();
-    });
-    try{
-    this.session = session;
-    api = MoodleApi(session);
-    MoodleUser user = await api!.getMoodleUser(username);
-    var courses = await api!.getCourses(user);
-    moodleCourses = courses;}
-        catch(e) {
-      throw WrongTumPasswordSetException();
-        }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: _future, builder: (context, snapshot) {
+    return Api.courses.isEmpty ? FutureBuilder(future: _future, builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CupertinoActivityIndicator());
+        return Center(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            Text("Verbindung wird hergestellt..."),
+          ],
+        ));
       } else if (snapshot.hasError) {
         if(snapshot.error is NoTumPasswordSetException) {
           return Center(child: Column(
@@ -98,7 +103,15 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
                   setState(() {
                     session =  null;
                     api = null;
-                    _future = connectToMoodle();
+                    _future = connectToMoodle(ref).then((value) {
+                      setState(() {
+                        moodleCourses = value;
+                        session = Api.session;
+                        api = Api.moodleApi;
+                      });
+                    }).catchError((error) {
+                      throw error;
+                    });
                   });
 
                 },
@@ -150,7 +163,15 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
                   setState(() {
                     session =  null;
                     api = null;
-                    _future = connectToMoodle();
+                    _future = connectToMoodle(ref).then((value) {
+                      setState(() {
+                        moodleCourses = value;
+                        session = Api.session;
+                        api = Api.moodleApi;
+                      });
+                    }).catchError((error) {
+                      throw error;
+                    });
                   });
 
                 },
@@ -173,6 +194,14 @@ class _MoodleViewModelState extends ConsumerState<MoodleViewModel> {
           )
         );
       }
-    });
+    }) : ListView.builder(
+        scrollDirection: MediaQuery.of(context).orientation == Orientation.landscape ? Axis.horizontal : Axis.vertical,
+        itemCount: moodleCourses.length,
+        itemBuilder: (context, index) => SizedBox(
+            height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.15 : MediaQuery.of(context).size.height*0.8,
+            width: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.25,
+            child: moodleCourses[index].build(context, session: session!, api: api!)
+        )
+    );;
   }
 }

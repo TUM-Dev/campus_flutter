@@ -1,8 +1,15 @@
+import 'package:campus_flutter/moodleComponent/model/moodle_course.dart';
+import 'package:campus_flutter/moodleComponent/networking/apis/MoodleApi.dart';
+import 'package:campus_flutter/moodleComponent/service/shibboleth_session_generator.dart';
 import 'package:dio/dio.dart' as dio;
 
 abstract class Api {
   static String tumToken = "";
   static String tumId = "";
+  static Future<List<MoodleCourse>>? coursesFuture;
+  static List<MoodleCourse> courses = [];
+  static ShibbolethSession? session;
+  static MoodleApi? moodleApi;
 
   String get domain;
 

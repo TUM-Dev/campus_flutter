@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/extensions/base_64_decode_image_data.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
+import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_loading_view.dart';
 import 'package:campus_flutter/navigation_service.dart';
 import 'package:campus_flutter/personComponent/model/personDetails/person_details.dart';
@@ -41,6 +42,7 @@ class _ContactCardViewState extends ConsumerState<ContactCardView> {
       builder: (context, snapshot) {
         if (snapshot.hasData || snapshot.hasError) {
           Api.tumId = widget.profile.tumID!;
+          Api.coursesFuture ??= connectToMoodle(ref);
           return InkWell(
             onTap: () => NavigationService.openStudentCardSheet(context),
             child: contactInfo(snapshot.data, widget.profile),

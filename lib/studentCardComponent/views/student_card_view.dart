@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
+import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/views/bar_code_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
@@ -25,6 +26,7 @@ class StudentCardView extends ConsumerWidget {
           if (snapshot.data!.isNotEmpty) {
             var data = snapshot.data!.first;
             Api.tumId = data.studyID;
+            Api.coursesFuture ??= connectToMoodle(ref);
             final lastFetched = ref
                 .read(studentCardViewModel)
                 .lastFetched
