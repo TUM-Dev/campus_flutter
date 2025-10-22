@@ -7,7 +7,7 @@ platform :ios do
       setup_ci
     end
 
-    xcode_select("/Applications/Xcode_26.app")
+    xcode_select("/Applications/Xcode_26.0.1.app")
 
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
