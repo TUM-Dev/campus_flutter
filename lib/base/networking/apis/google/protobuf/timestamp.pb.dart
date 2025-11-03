@@ -133,14 +133,13 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create,
-      toProto3Json: $mixin.TimestampMixin.toProto3JsonHelper,
-      fromProto3Json: $mixin.TimestampMixin.fromProto3JsonHelper)
+      wellKnownType: $mixin.WellKnownType.timestamp)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'nanos', $pb.PbFieldType.O3)
+    ..aI(2, _omitFieldNames ? '' : 'nanos')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Timestamp clone() => Timestamp()..mergeFromMessage(this);
+  Timestamp clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Timestamp copyWith(void Function(Timestamp) updates) =>
       super.copyWith((message) => updates(message as Timestamp)) as Timestamp;
