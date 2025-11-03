@@ -50,14 +50,12 @@ class CreateDeviceRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'deviceId')
     ..aOS(2, _omitFieldNames ? '' : 'publicKey')
-    ..e<DeviceType>(3, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE,
-        defaultOrMaker: DeviceType.IOS,
-        valueOf: DeviceType.valueOf,
+    ..aE<DeviceType>(3, _omitFieldNames ? '' : 'deviceType',
         enumValues: DeviceType.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateDeviceRequest clone() => CreateDeviceRequest()..mergeFromMessage(this);
+  CreateDeviceRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDeviceRequest copyWith(void Function(CreateDeviceRequest) updates) =>
       super.copyWith((message) => updates(message as CreateDeviceRequest))
@@ -131,7 +129,7 @@ class CreateDeviceReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateDeviceReply clone() => CreateDeviceReply()..mergeFromMessage(this);
+  CreateDeviceReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDeviceReply copyWith(void Function(CreateDeviceReply) updates) =>
       super.copyWith((message) => updates(message as CreateDeviceReply))
@@ -186,14 +184,12 @@ class DeleteDeviceRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'deviceId')
-    ..e<DeviceType>(2, _omitFieldNames ? '' : 'deviceType', $pb.PbFieldType.OE,
-        defaultOrMaker: DeviceType.IOS,
-        valueOf: DeviceType.valueOf,
+    ..aE<DeviceType>(2, _omitFieldNames ? '' : 'deviceType',
         enumValues: DeviceType.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DeleteDeviceRequest clone() => DeleteDeviceRequest()..mergeFromMessage(this);
+  DeleteDeviceRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DeleteDeviceRequest copyWith(void Function(DeleteDeviceRequest) updates) =>
       super.copyWith((message) => updates(message as DeleteDeviceRequest))
@@ -258,7 +254,7 @@ class DeleteDeviceReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DeleteDeviceReply clone() => DeleteDeviceReply()..mergeFromMessage(this);
+  DeleteDeviceReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DeleteDeviceReply copyWith(void Function(DeleteDeviceReply) updates) =>
       super.copyWith((message) => updates(message as DeleteDeviceReply))
@@ -343,7 +339,7 @@ class News extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  News clone() => News()..mergeFromMessage(this);
+  News clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   News copyWith(void Function(News) updates) =>
       super.copyWith((message) => updates(message as News)) as News;
@@ -484,12 +480,11 @@ class ListNewsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNewsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<News>(1, _omitFieldNames ? '' : 'news', $pb.PbFieldType.PM,
-        subBuilder: News.create)
+    ..pPM<News>(1, _omitFieldNames ? '' : 'news', subBuilder: News.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsReply clone() => ListNewsReply()..mergeFromMessage(this);
+  ListNewsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsReply copyWith(void Function(ListNewsReply) updates) =>
       super.copyWith((message) => updates(message as ListNewsReply))
@@ -539,14 +534,14 @@ class ListNewsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNewsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'lastNewsId', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'newsSource', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'lastNewsId')
+    ..aI(2, _omitFieldNames ? '' : 'newsSource')
     ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'oldestDateAt',
         subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsRequest clone() => ListNewsRequest()..mergeFromMessage(this);
+  ListNewsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsRequest copyWith(void Function(ListNewsRequest) updates) =>
       super.copyWith((message) => updates(message as ListNewsRequest))
@@ -618,8 +613,7 @@ class ListNewsSourcesRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsSourcesRequest clone() =>
-      ListNewsSourcesRequest()..mergeFromMessage(this);
+  ListNewsSourcesRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsSourcesRequest copyWith(
           void Function(ListNewsSourcesRequest) updates) =>
@@ -663,13 +657,12 @@ class ListNewsSourcesReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNewsSourcesReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<NewsSource>(1, _omitFieldNames ? '' : 'sources', $pb.PbFieldType.PM,
+    ..pPM<NewsSource>(1, _omitFieldNames ? '' : 'sources',
         subBuilder: NewsSource.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsSourcesReply clone() =>
-      ListNewsSourcesReply()..mergeFromMessage(this);
+  ListNewsSourcesReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsSourcesReply copyWith(void Function(ListNewsSourcesReply) updates) =>
       super.copyWith((message) => updates(message as ListNewsSourcesReply))
@@ -725,7 +718,7 @@ class NewsSource extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  NewsSource clone() => NewsSource()..mergeFromMessage(this);
+  NewsSource clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   NewsSource copyWith(void Function(NewsSource) updates) =>
       super.copyWith((message) => updates(message as NewsSource)) as NewsSource;
@@ -794,13 +787,11 @@ class ListNewsAlertsRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNewsAlertsRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'lastNewsAlertId', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'lastNewsAlertId')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsAlertsRequest clone() =>
-      ListNewsAlertsRequest()..mergeFromMessage(this);
+  ListNewsAlertsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsAlertsRequest copyWith(
           void Function(ListNewsAlertsRequest) updates) =>
@@ -854,12 +845,12 @@ class ListNewsAlertsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNewsAlertsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<NewsAlert>(1, _omitFieldNames ? '' : 'alerts', $pb.PbFieldType.PM,
+    ..pPM<NewsAlert>(1, _omitFieldNames ? '' : 'alerts',
         subBuilder: NewsAlert.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNewsAlertsReply clone() => ListNewsAlertsReply()..mergeFromMessage(this);
+  ListNewsAlertsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNewsAlertsReply copyWith(void Function(ListNewsAlertsReply) updates) =>
       super.copyWith((message) => updates(message as ListNewsAlertsReply))
@@ -924,7 +915,7 @@ class NewsAlert extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  NewsAlert clone() => NewsAlert()..mergeFromMessage(this);
+  NewsAlert clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   NewsAlert copyWith(void Function(NewsAlert) updates) =>
       super.copyWith((message) => updates(message as NewsAlert)) as NewsAlert;
@@ -1027,12 +1018,11 @@ class ListCanteenRatingsRequest extends $pb.GeneratedMessage {
         subBuilder: $1.Timestamp.create)
     ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'to',
         subBuilder: $1.Timestamp.create)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
+    ..aI(4, _omitFieldNames ? '' : 'limit')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListCanteenRatingsRequest clone() =>
-      ListCanteenRatingsRequest()..mergeFromMessage(this);
+  ListCanteenRatingsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListCanteenRatingsRequest copyWith(
           void Function(ListCanteenRatingsRequest) updates) =>
@@ -1130,21 +1120,18 @@ class ListCanteenRatingsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListCanteenRatingsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<SingleRatingReply>(
-        1, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.PM,
+    ..pPM<SingleRatingReply>(1, _omitFieldNames ? '' : 'rating',
         subBuilder: SingleRatingReply.create)
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'max', $pb.PbFieldType.O3)
-    ..pc<RatingTagResult>(
-        6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..aD(2, _omitFieldNames ? '' : 'avg')
+    ..aD(3, _omitFieldNames ? '' : 'std')
+    ..aI(4, _omitFieldNames ? '' : 'min')
+    ..aI(5, _omitFieldNames ? '' : 'max')
+    ..pPM<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: RatingTagResult.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListCanteenRatingsReply clone() =>
-      ListCanteenRatingsReply()..mergeFromMessage(this);
+  ListCanteenRatingsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListCanteenRatingsReply copyWith(
           void Function(ListCanteenRatingsReply) updates) =>
@@ -1244,12 +1231,11 @@ class GetDishRatingsRequest extends $pb.GeneratedMessage {
         subBuilder: $1.Timestamp.create)
     ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'to',
         subBuilder: $1.Timestamp.create)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'limit', $pb.PbFieldType.O3)
+    ..aI(5, _omitFieldNames ? '' : 'limit')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetDishRatingsRequest clone() =>
-      GetDishRatingsRequest()..mergeFromMessage(this);
+  GetDishRatingsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDishRatingsRequest copyWith(
           void Function(GetDishRatingsRequest) updates) =>
@@ -1360,23 +1346,20 @@ class GetDishRatingsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'GetDishRatingsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<SingleRatingReply>(
-        1, _omitFieldNames ? '' : 'rating', $pb.PbFieldType.PM,
+    ..pPM<SingleRatingReply>(1, _omitFieldNames ? '' : 'rating',
         subBuilder: SingleRatingReply.create)
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'max', $pb.PbFieldType.O3)
-    ..pc<RatingTagResult>(
-        6, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..aD(2, _omitFieldNames ? '' : 'avg')
+    ..aD(3, _omitFieldNames ? '' : 'std')
+    ..aI(4, _omitFieldNames ? '' : 'min')
+    ..aI(5, _omitFieldNames ? '' : 'max')
+    ..pPM<RatingTagResult>(6, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: RatingTagResult.create)
-    ..pc<RatingTagResult>(
-        7, _omitFieldNames ? '' : 'nameTags', $pb.PbFieldType.PM,
+    ..pPM<RatingTagResult>(7, _omitFieldNames ? '' : 'nameTags',
         subBuilder: RatingTagResult.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetDishRatingsReply clone() => GetDishRatingsReply()..mergeFromMessage(this);
+  GetDishRatingsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetDishRatingsReply copyWith(void Function(GetDishRatingsReply) updates) =>
       super.copyWith((message) => updates(message as GetDishRatingsReply))
@@ -1477,19 +1460,18 @@ class SingleRatingReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'SingleRatingReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'points')
     ..a<$core.List<$core.int>>(
         2, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
     ..aOS(3, _omitFieldNames ? '' : 'comment')
-    ..pc<RatingTagNewRequest>(
-        4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<RatingTagNewRequest>(4, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: RatingTagNewRequest.create)
     ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'visited',
         subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SingleRatingReply clone() => SingleRatingReply()..mergeFromMessage(this);
+  SingleRatingReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SingleRatingReply copyWith(void Function(SingleRatingReply) updates) =>
       super.copyWith((message) => updates(message as SingleRatingReply))
@@ -1573,8 +1555,7 @@ class CreateCanteenRatingReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateCanteenRatingReply clone() =>
-      CreateCanteenRatingReply()..mergeFromMessage(this);
+  CreateCanteenRatingReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateCanteenRatingReply copyWith(
           void Function(CreateCanteenRatingReply) updates) =>
@@ -1626,18 +1607,17 @@ class CreateCanteenRatingRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'CreateCanteenRatingRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'points')
     ..aOS(2, _omitFieldNames ? '' : 'canteenId')
     ..a<$core.List<$core.int>>(
         3, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
-    ..pc<RatingTag>(4, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<RatingTag>(4, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: RatingTag.create)
     ..aOS(6, _omitFieldNames ? '' : 'comment')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateCanteenRatingRequest clone() =>
-      CreateCanteenRatingRequest()..mergeFromMessage(this);
+  CreateCanteenRatingRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateCanteenRatingRequest copyWith(
           void Function(CreateCanteenRatingRequest) updates) =>
@@ -1721,8 +1701,7 @@ class CreateDishRatingReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateDishRatingReply clone() =>
-      CreateDishRatingReply()..mergeFromMessage(this);
+  CreateDishRatingReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDishRatingReply copyWith(
           void Function(CreateDishRatingReply) updates) =>
@@ -1776,19 +1755,18 @@ class CreateDishRatingRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'CreateDishRatingRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'points')
     ..aOS(2, _omitFieldNames ? '' : 'canteenId')
     ..aOS(3, _omitFieldNames ? '' : 'dish')
     ..a<$core.List<$core.int>>(
         4, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OY)
-    ..pc<RatingTag>(5, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<RatingTag>(5, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: RatingTag.create)
     ..aOS(7, _omitFieldNames ? '' : 'comment')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateDishRatingRequest clone() =>
-      CreateDishRatingRequest()..mergeFromMessage(this);
+  CreateDishRatingRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateDishRatingRequest copyWith(
           void Function(CreateDishRatingRequest) updates) =>
@@ -1884,8 +1862,7 @@ class ListAvailableDishTagsRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListAvailableDishTagsRequest clone() =>
-      ListAvailableDishTagsRequest()..mergeFromMessage(this);
+  ListAvailableDishTagsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListAvailableDishTagsRequest copyWith(
           void Function(ListAvailableDishTagsRequest) updates) =>
@@ -1931,14 +1908,12 @@ class ListAvailableDishTagsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListAvailableDishTagsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<TagsOverview>(
-        1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: TagsOverview.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListAvailableDishTagsReply clone() =>
-      ListAvailableDishTagsReply()..mergeFromMessage(this);
+  ListAvailableDishTagsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListAvailableDishTagsReply copyWith(
           void Function(ListAvailableDishTagsReply) updates) =>
@@ -1983,7 +1958,7 @@ class ListNameTagsRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNameTagsRequest clone() => ListNameTagsRequest()..mergeFromMessage(this);
+  ListNameTagsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNameTagsRequest copyWith(void Function(ListNameTagsRequest) updates) =>
       super.copyWith((message) => updates(message as ListNameTagsRequest))
@@ -2026,13 +2001,12 @@ class ListNameTagsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListNameTagsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<TagsOverview>(
-        1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: TagsOverview.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListNameTagsReply clone() => ListNameTagsReply()..mergeFromMessage(this);
+  ListNameTagsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListNameTagsReply copyWith(void Function(ListNameTagsReply) updates) =>
       super.copyWith((message) => updates(message as ListNameTagsReply))
@@ -2075,8 +2049,7 @@ class ListAvailableCanteenTagsRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListAvailableCanteenTagsRequest clone() =>
-      ListAvailableCanteenTagsRequest()..mergeFromMessage(this);
+  ListAvailableCanteenTagsRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListAvailableCanteenTagsRequest copyWith(
           void Function(ListAvailableCanteenTagsRequest) updates) =>
@@ -2123,14 +2096,12 @@ class ListAvailableCanteenTagsReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListAvailableCanteenTagsReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<TagsOverview>(
-        1, _omitFieldNames ? '' : 'ratingTags', $pb.PbFieldType.PM,
+    ..pPM<TagsOverview>(1, _omitFieldNames ? '' : 'ratingTags',
         subBuilder: TagsOverview.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListAvailableCanteenTagsReply clone() =>
-      ListAvailableCanteenTagsReply()..mergeFromMessage(this);
+  ListAvailableCanteenTagsReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListAvailableCanteenTagsReply copyWith(
           void Function(ListAvailableCanteenTagsReply) updates) =>
@@ -2183,13 +2154,13 @@ class TagsOverview extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'TagsOverview',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'tagId')
     ..aOS(2, _omitFieldNames ? '' : 'de')
     ..aOS(3, _omitFieldNames ? '' : 'en')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  TagsOverview clone() => TagsOverview()..mergeFromMessage(this);
+  TagsOverview clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   TagsOverview copyWith(void Function(TagsOverview) updates) =>
       super.copyWith((message) => updates(message as TagsOverview))
@@ -2262,11 +2233,11 @@ class RatingTag extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'tagId')
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'points', $pb.PbFieldType.OD)
+    ..aD(2, _omitFieldNames ? '' : 'points')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RatingTag clone() => RatingTag()..mergeFromMessage(this);
+  RatingTag clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RatingTag copyWith(void Function(RatingTag) updates) =>
       super.copyWith((message) => updates(message as RatingTag)) as RatingTag;
@@ -2327,12 +2298,12 @@ class RatingTagNewRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'RatingTagNewRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'points', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'tagId')
+    ..aI(2, _omitFieldNames ? '' : 'points')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RatingTagNewRequest clone() => RatingTagNewRequest()..mergeFromMessage(this);
+  RatingTagNewRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RatingTagNewRequest copyWith(void Function(RatingTagNewRequest) updates) =>
       super.copyWith((message) => updates(message as RatingTagNewRequest))
@@ -2401,15 +2372,15 @@ class RatingTagResult extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'RatingTagResult',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'tagId', $pb.PbFieldType.O3)
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'avg', $pb.PbFieldType.OD)
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'std', $pb.PbFieldType.OD)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'min', $pb.PbFieldType.O3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'max', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'tagId')
+    ..aD(2, _omitFieldNames ? '' : 'avg')
+    ..aD(3, _omitFieldNames ? '' : 'std')
+    ..aI(4, _omitFieldNames ? '' : 'min')
+    ..aI(5, _omitFieldNames ? '' : 'max')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RatingTagResult clone() => RatingTagResult()..mergeFromMessage(this);
+  RatingTagResult clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RatingTagResult copyWith(void Function(RatingTagResult) updates) =>
       super.copyWith((message) => updates(message as RatingTagResult))
@@ -2494,7 +2465,7 @@ class ListCanteensRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListCanteensRequest clone() => ListCanteensRequest()..mergeFromMessage(this);
+  ListCanteensRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListCanteensRequest copyWith(void Function(ListCanteensRequest) updates) =>
       super.copyWith((message) => updates(message as ListCanteensRequest))
@@ -2537,12 +2508,12 @@ class ListCanteensReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListCanteensReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<Canteen>(1, _omitFieldNames ? '' : 'canteen', $pb.PbFieldType.PM,
+    ..pPM<Canteen>(1, _omitFieldNames ? '' : 'canteen',
         subBuilder: Canteen.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListCanteensReply clone() => ListCanteensReply()..mergeFromMessage(this);
+  ListCanteensReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListCanteensReply copyWith(void Function(ListCanteensReply) updates) =>
       super.copyWith((message) => updates(message as ListCanteensReply))
@@ -2596,12 +2567,12 @@ class Canteen extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'address')
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'longitude', $pb.PbFieldType.OD)
-    ..a<$core.double>(4, _omitFieldNames ? '' : 'latitude', $pb.PbFieldType.OD)
+    ..aD(3, _omitFieldNames ? '' : 'longitude')
+    ..aD(4, _omitFieldNames ? '' : 'latitude')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Canteen clone() => Canteen()..mergeFromMessage(this);
+  Canteen clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Canteen copyWith(void Function(Canteen) updates) =>
       super.copyWith((message) => updates(message as Canteen)) as Canteen;
@@ -2685,13 +2656,13 @@ class ListDishesRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'canteenId')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'year', $pb.PbFieldType.O3)
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'week', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'day', $pb.PbFieldType.O3)
+    ..aI(2, _omitFieldNames ? '' : 'year')
+    ..aI(3, _omitFieldNames ? '' : 'week')
+    ..aI(4, _omitFieldNames ? '' : 'day')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListDishesRequest clone() => ListDishesRequest()..mergeFromMessage(this);
+  ListDishesRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListDishesRequest copyWith(void Function(ListDishesRequest) updates) =>
       super.copyWith((message) => updates(message as ListDishesRequest))
@@ -2778,7 +2749,7 @@ class ListDishesReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListDishesReply clone() => ListDishesReply()..mergeFromMessage(this);
+  ListDishesReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListDishesReply copyWith(void Function(ListDishesReply) updates) =>
       super.copyWith((message) => updates(message as ListDishesReply))
@@ -2840,7 +2811,7 @@ class RoomInformationElement extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'RoomInformationElement',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'roomId', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'roomId')
     ..aOS(2, _omitFieldNames ? '' : 'roomCode')
     ..aOS(3, _omitFieldNames ? '' : 'buildingNr')
     ..aOS(4, _omitFieldNames ? '' : 'archId')
@@ -2852,8 +2823,7 @@ class RoomInformationElement extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RoomInformationElement clone() =>
-      RoomInformationElement()..mergeFromMessage(this);
+  RoomInformationElement clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RoomInformationElement copyWith(
           void Function(RoomInformationElement) updates) =>
@@ -2982,8 +2952,7 @@ class GetUpdateNoteRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetUpdateNoteRequest clone() =>
-      GetUpdateNoteRequest()..mergeFromMessage(this);
+  GetUpdateNoteRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetUpdateNoteRequest copyWith(void Function(GetUpdateNoteRequest) updates) =>
       super.copyWith((message) => updates(message as GetUpdateNoteRequest))
@@ -3042,7 +3011,7 @@ class GetUpdateNoteReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetUpdateNoteReply clone() => GetUpdateNoteReply()..mergeFromMessage(this);
+  GetUpdateNoteReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetUpdateNoteReply copyWith(void Function(GetUpdateNoteReply) updates) =>
       super.copyWith((message) => updates(message as GetUpdateNoteReply))
@@ -3105,13 +3074,13 @@ class ListMoviesRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListMoviesRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'lastId', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'lastId')
     ..aOM<$1.Timestamp>(2, _omitFieldNames ? '' : 'oldestDateAt',
         subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListMoviesRequest clone() => ListMoviesRequest()..mergeFromMessage(this);
+  ListMoviesRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListMoviesRequest copyWith(void Function(ListMoviesRequest) updates) =>
       super.copyWith((message) => updates(message as ListMoviesRequest))
@@ -3176,12 +3145,11 @@ class ListMoviesReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListMoviesReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<Movie>(1, _omitFieldNames ? '' : 'movies', $pb.PbFieldType.PM,
-        subBuilder: Movie.create)
+    ..pPM<Movie>(1, _omitFieldNames ? '' : 'movies', subBuilder: Movie.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListMoviesReply clone() => ListMoviesReply()..mergeFromMessage(this);
+  ListMoviesReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListMoviesReply copyWith(void Function(ListMoviesReply) updates) =>
       super.copyWith((message) => updates(message as ListMoviesReply))
@@ -3279,7 +3247,7 @@ class Movie extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Movie clone() => Movie()..mergeFromMessage(this);
+  Movie clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Movie copyWith(void Function(Movie) updates) =>
       super.copyWith((message) => updates(message as Movie)) as Movie;
@@ -3498,10 +3466,7 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'CreateFeedbackRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..e<CreateFeedbackRequest_Recipient>(
-        1, _omitFieldNames ? '' : 'recipient', $pb.PbFieldType.OE,
-        defaultOrMaker: CreateFeedbackRequest_Recipient.TUM_DEV,
-        valueOf: CreateFeedbackRequest_Recipient.valueOf,
+    ..aE<CreateFeedbackRequest_Recipient>(1, _omitFieldNames ? '' : 'recipient',
         enumValues: CreateFeedbackRequest_Recipient.values)
     ..aOS(2, _omitFieldNames ? '' : 'fromEmail')
     ..aOS(3, _omitFieldNames ? '' : 'message')
@@ -3515,8 +3480,7 @@ class CreateFeedbackRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateFeedbackRequest clone() =>
-      CreateFeedbackRequest()..mergeFromMessage(this);
+  CreateFeedbackRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateFeedbackRequest copyWith(
           void Function(CreateFeedbackRequest) updates) =>
@@ -3646,12 +3610,12 @@ class Coordinate extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Coordinate',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.double>(1, _omitFieldNames ? '' : 'latitude', $pb.PbFieldType.OD)
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'longitude', $pb.PbFieldType.OD)
+    ..aD(1, _omitFieldNames ? '' : 'latitude')
+    ..aD(2, _omitFieldNames ? '' : 'longitude')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Coordinate clone() => Coordinate()..mergeFromMessage(this);
+  Coordinate clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Coordinate copyWith(void Function(Coordinate) updates) =>
       super.copyWith((message) => updates(message as Coordinate)) as Coordinate;
@@ -3707,7 +3671,7 @@ class CreateFeedbackReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateFeedbackReply clone() => CreateFeedbackReply()..mergeFromMessage(this);
+  CreateFeedbackReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateFeedbackReply copyWith(void Function(CreateFeedbackReply) updates) =>
       super.copyWith((message) => updates(message as CreateFeedbackReply))
@@ -3754,8 +3718,7 @@ class CreateFeedbackImageReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateFeedbackImageReply clone() =>
-      CreateFeedbackImageReply()..mergeFromMessage(this);
+  CreateFeedbackImageReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateFeedbackImageReply copyWith(
           void Function(CreateFeedbackImageReply) updates) =>
@@ -3810,13 +3773,12 @@ class CreateFeedbackImageRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'CreateFeedbackImageRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'imageNr', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'id')
+    ..aI(2, _omitFieldNames ? '' : 'imageNr')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CreateFeedbackImageRequest clone() =>
-      CreateFeedbackImageRequest()..mergeFromMessage(this);
+  CreateFeedbackImageRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CreateFeedbackImageRequest copyWith(
           void Function(CreateFeedbackImageRequest) updates) =>
@@ -3883,7 +3845,7 @@ class GetMemberRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetMemberRequest clone() => GetMemberRequest()..mergeFromMessage(this);
+  GetMemberRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetMemberRequest copyWith(void Function(GetMemberRequest) updates) =>
       super.copyWith((message) => updates(message as GetMemberRequest))
@@ -3941,11 +3903,11 @@ class GetMemberReply extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'lrzId')
     ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'memberId', $pb.PbFieldType.O3)
+    ..aI(3, _omitFieldNames ? '' : 'memberId')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetMemberReply clone() => GetMemberReply()..mergeFromMessage(this);
+  GetMemberReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetMemberReply copyWith(void Function(GetMemberReply) updates) =>
       super.copyWith((message) => updates(message as GetMemberReply))
@@ -4031,8 +3993,7 @@ class GetUploadStatusReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetUploadStatusReply clone() =>
-      GetUploadStatusReply()..mergeFromMessage(this);
+  GetUploadStatusReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetUploadStatusReply copyWith(void Function(GetUploadStatusReply) updates) =>
       super.copyWith((message) => updates(message as GetUploadStatusReply))
@@ -4124,8 +4085,7 @@ class GetCanteenHeadCountRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetCanteenHeadCountRequest clone() =>
-      GetCanteenHeadCountRequest()..mergeFromMessage(this);
+  GetCanteenHeadCountRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetCanteenHeadCountRequest copyWith(
           void Function(GetCanteenHeadCountRequest) updates) =>
@@ -4186,16 +4146,15 @@ class GetCanteenHeadCountReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'GetCanteenHeadCountReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'count', $pb.PbFieldType.OU3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'maxCount', $pb.PbFieldType.OU3)
-    ..a<$core.double>(3, _omitFieldNames ? '' : 'percent', $pb.PbFieldType.OF)
+    ..aI(1, _omitFieldNames ? '' : 'count', fieldType: $pb.PbFieldType.OU3)
+    ..aI(2, _omitFieldNames ? '' : 'maxCount', fieldType: $pb.PbFieldType.OU3)
+    ..aD(3, _omitFieldNames ? '' : 'percent', fieldType: $pb.PbFieldType.OF)
     ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'timestamp',
         subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetCanteenHeadCountReply clone() =>
-      GetCanteenHeadCountReply()..mergeFromMessage(this);
+  GetCanteenHeadCountReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GetCanteenHeadCountReply copyWith(
           void Function(GetCanteenHeadCountReply) updates) =>
@@ -4281,15 +4240,12 @@ class ListStudentClubRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListStudentClubRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..e<Language>(1, _omitFieldNames ? '' : 'language', $pb.PbFieldType.OE,
-        defaultOrMaker: Language.German,
-        valueOf: Language.valueOf,
+    ..aE<Language>(1, _omitFieldNames ? '' : 'language',
         enumValues: Language.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListStudentClubRequest clone() =>
-      ListStudentClubRequest()..mergeFromMessage(this);
+  ListStudentClubRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListStudentClubRequest copyWith(
           void Function(ListStudentClubRequest) updates) =>
@@ -4344,14 +4300,12 @@ class ListStudentClubReply extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ListStudentClubReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'api'),
       createEmptyInstance: create)
-    ..pc<StudentClubCollection>(
-        1, _omitFieldNames ? '' : 'collections', $pb.PbFieldType.PM,
+    ..pPM<StudentClubCollection>(1, _omitFieldNames ? '' : 'collections',
         subBuilder: StudentClubCollection.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ListStudentClubReply clone() =>
-      ListStudentClubReply()..mergeFromMessage(this);
+  ListStudentClubReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ListStudentClubReply copyWith(void Function(ListStudentClubReply) updates) =>
       super.copyWith((message) => updates(message as ListStudentClubReply))
@@ -4410,7 +4364,7 @@ class StudentClub extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  StudentClub clone() => StudentClub()..mergeFromMessage(this);
+  StudentClub clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   StudentClub copyWith(void Function(StudentClub) updates) =>
       super.copyWith((message) => updates(message as StudentClub))
@@ -4501,7 +4455,7 @@ class StudentClubCollection extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'title')
     ..aOS(2, _omitFieldNames ? '' : 'description')
-    ..pc<StudentClub>(3, _omitFieldNames ? '' : 'clubs', $pb.PbFieldType.PM,
+    ..pPM<StudentClub>(3, _omitFieldNames ? '' : 'clubs',
         subBuilder: StudentClub.create)
     ..a<$fixnum.Int64>(
         4, _omitFieldNames ? '' : 'unstableCollectionId', $pb.PbFieldType.OU6,
@@ -4509,8 +4463,7 @@ class StudentClubCollection extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  StudentClubCollection clone() =>
-      StudentClubCollection()..mergeFromMessage(this);
+  StudentClubCollection clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   StudentClubCollection copyWith(
           void Function(StudentClubCollection) updates) =>
