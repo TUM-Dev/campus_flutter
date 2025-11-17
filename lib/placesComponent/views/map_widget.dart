@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:js_interop';
-import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -147,12 +144,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         children: [
           maplibre.MapLibreMap(
             styleString:
-                "https://nav.tum.de/martin/style/navigatum-basemap.json",
+                "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: Local JSON, dark and light themes - Nathan
             // mapType: MapType.normal,
             // padding: widget.controlPadding ?? EdgeInsets.zero,
             initialCameraPosition: maplibre.CameraPosition(
               target:
-                  // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location.
+                  // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location. - Nathan
                   maplibre.LatLng(
                     widget.latLng?.latitude ?? 48.26307794976663,
                     widget.latLng?.longitude ?? 11.668018668778569,
@@ -181,15 +178,15 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                 }
               });
             },
-            //replacement for "markers: widget.markers". I know, it's a bit longer.
+            //replacement for "markers: widget.markers". I know, it's a bit longer. Sorry! - Nathan
             onStyleLoadedCallback: () => {
               _controller.future.then((controller) {
                 for (var marker in widget.markers) {
-                  controller.addImage(marker.icon.toString(), marker.icon as Uint8List);
+                  
                   controller.addSymbol(
                     maplibre.SymbolOptions(
-                      //iconSize ?
-                      iconImage: marker.icon.toString(),
+                      //iconSize: 1.0,
+                      //iconImage ? 
                       iconRotate: marker.rotation,
                       iconOffset: marker.anchor,
                       //iconAnchor ?
@@ -204,6 +201,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                       ),
                     ),
                   );
+
+                  // TODO: The rest of the owl - Nathan
                 }
               }),
             },

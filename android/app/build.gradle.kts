@@ -13,7 +13,7 @@ plugins {
 android {
     namespace = "de.tum.in.tumcampus"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.1.13356709"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
