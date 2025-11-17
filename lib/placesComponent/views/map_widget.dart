@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js_interop';
 import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart' as maplibre;
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
@@ -105,8 +107,8 @@ class MapWidget extends ConsumerStatefulWidget {
 }
 
 class _MapWidgetState extends ConsumerState<MapWidget> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  late final Completer<maplibre.MapLibreMapController> _controller =
+      Completer<maplibre.MapLibreMapController>();
 
   bool isMapVisible = false;
 
@@ -143,16 +145,18 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-          GoogleMap(
-            style: Theme.of(context).brightness == Brightness.light
-                ? getIt.get<MapThemeService>().lightTheme
-                : getIt.get<MapThemeService>().darkTheme,
-            mapType: MapType.normal,
-            padding: widget.controlPadding ?? EdgeInsets.zero,
-            initialCameraPosition: CameraPosition(
+          maplibre.MapLibreMap(
+            styleString:
+                "https://nav.tum.de/martin/style/navigatum-basemap.json",
+            // mapType: MapType.normal,
+            // padding: widget.controlPadding ?? EdgeInsets.zero,
+            initialCameraPosition: maplibre.CameraPosition(
               target:
-                  widget.latLng ??
-                  const LatLng(48.26307794976663, 11.668018668778569),
+                  // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location.
+                  maplibre.LatLng(
+                    widget.latLng?.latitude ?? 48.26307794976663,
+                    widget.latLng?.longitude ?? 11.668018668778569,
+                  ),
               zoom: widget.zoom ?? 10,
             ),
             gestureRecognizers: {
@@ -162,13 +166,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             },
             rotateGesturesEnabled: false,
             compassEnabled: false,
-            mapToolbarEnabled: false,
+            //mapToolbarEnabled: false,
             tiltGesturesEnabled: false,
-            zoomControlsEnabled: true,
+            //zoomControlsEnabled: true,
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            markers: widget.markers,
-            onMapCreated: (GoogleMapController controller) {
+            //myLocationButtonEnabled: true,
+            onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
               Future.delayed(const Duration(milliseconds: 250), () {
                 if (mounted) {
@@ -177,6 +180,32 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                   });
                 }
               });
+            },
+            //replacement for "markers: widget.markers". I know, it's a bit longer.
+            onStyleLoadedCallback: () => {
+              _controller.future.then((controller) {
+                for (var marker in widget.markers) {
+                  controller.addImage(marker.icon.toString(), marker.icon as Uint8List);
+                  controller.addSymbol(
+                    maplibre.SymbolOptions(
+                      //iconSize ?
+                      iconImage: marker.icon.toString(),
+                      iconRotate: marker.rotation,
+                      iconOffset: marker.anchor,
+                      //iconAnchor ?
+                      textField: marker.infoWindow.title,
+                      //textSize ?
+                      //textAnchor ?
+                      textOffset: marker.infoWindow.anchor,
+                      iconOpacity: marker.alpha,
+                      geometry: maplibre.LatLng(
+                        marker.position.latitude,
+                        marker.position.longitude,
+                      ),
+                    ),
+                  );
+                }
+              }),
             },
           ),
           if (widget.mapLegend != null)
