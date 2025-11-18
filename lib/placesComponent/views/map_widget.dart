@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maplibre_gl/maplibre_gl.dart' as maplibre;
+
+const pinBase64 = "UklGRroCAABXRUJQVlA4TK0CAAAvGMAIEPfkoI0kR6rZ+wDg+cN6JJfDdn0g4biRJEWKPfie/z4y38J0l+NIkhwlZw/NCzfw3wGM0uxOw61tW1U1cSeiAUL6L4AmiNzdvuvlngRI0XgaSBgIBjts0mFFGsI5t1T0rdkwlXOO8z+ZQkBLFbvZkeL4LenhmqdUZIQ29nStgzUZ5utfRqSDkIq+xTFv+vqVEanICEMqhuPReJ5q+upbENJBMJiD49/a9MVUauKcmx0pMqKPyIhUENrxbHsvx2+x32zsMBAMJAwQEJAhIEH8IUMWpQrQkUBHUYJCcVb9QJInJHhBipDgB/UofpGQQL5QH8W3KiMf8IP6apJLdWGJ+dOM99K7wXq9WZ2ZX1y3coAbkosyaiyfkhr/SkS9o+aNcjGSj7KdYre/GOB77H7VG/1m9Aa34fP0/Hy9uoFHersXoQqJkiSbttV7nWvb1rNt+13Vs23buM++Nn521l7nRLwfiOj/BMgfvfl++hpHT9x+Nq3wv5+Jv/p4JmDsC+HnR2KGzmI7d67ffshwZdATXQfY0ZjtnMus2whw6qN5BPQuSHex7Z3AXUmfjgIdLrSpFxiXHgIbEkFuGXBXOg9Uu/DCLjiuSWC3s6WbDm6uMG4tMDgBLDNZ+4eHhw/kmYXAq35gvikftvWmHXj6EphnSjxVpgX49RZYatyq4eHh1QnTATyfA3Z5Es2LWzOcXQMM6BxQaQILDsOlSD+AdUksAb5JY0eBhqCybuC9pAfAvpyAtC3AV0maPQksCmgDrvUZvQZ6amOKpoDf8t8C9uR60rcBF6OYvmPACs984MiA4vsBWpxzNV3AE4XeA6aKXf5e4IaCp88AW9OWA8c+hGngCLAS4J+S/Yn/jpKOLngujyand54XSuV94KZSOn2CoyOp0SueKNV/9J8DAA==";
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
@@ -144,7 +147,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         children: [
           maplibre.MapLibreMap(
             styleString:
-                "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: Local JSON, dark and light themes - Nathan
+                "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: dark and light themes - Nathan
             // mapType: MapType.normal,
             // padding: widget.controlPadding ?? EdgeInsets.zero,
             initialCameraPosition: maplibre.CameraPosition(
@@ -163,47 +166,59 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             },
             rotateGesturesEnabled: false,
             compassEnabled: false,
-            //mapToolbarEnabled: false,
+            //mapToolbarEnabled: false, ? no apparent equivalent
             tiltGesturesEnabled: false,
-            //zoomControlsEnabled: true,
+            zoomGesturesEnabled: true, // zoomControlsEnabled
             myLocationEnabled: true,
-            //myLocationButtonEnabled: true,
+            myLocationRenderMode: maplibre.MyLocationRenderMode.compass,
+            //myLocationButtonEnabled: true, // TODO: user location button is not standard in maplibre - Nathan
             onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
-              Future.delayed(const Duration(milliseconds: 250), () {
-                if (mounted) {
-                  setState(() {
-                    isMapVisible = true;
-                  });
-                }
-              });
+              // Not needed because maplibre has a style loaded callback so the mounted check can be done there
+              // Future.delayed(const Duration(milliseconds: 250), () {
+              //   if (mounted) {
+              //     setState(() {
+              //       isMapVisible = true;
+              //     });
+              //   }
+              // });
             },
             //replacement for "markers: widget.markers". I know, it's a bit longer. Sorry! - Nathan
             onStyleLoadedCallback: () => {
               _controller.future.then((controller) {
+                controller.addImage("pin", base64Decode(pinBase64));
+
                 for (var marker in widget.markers) {
-                  
                   controller.addSymbol(
                     maplibre.SymbolOptions(
-                      //iconSize: 1.0,
-                      //iconImage ? 
+                      iconSize: 3, // Not set by Google Markers, done by eye by comparing screenshots
+                      iconImage: "pin", // Theoretically this could be set based on the marker ID. But in the current app it's always the same anyway.
                       iconRotate: marker.rotation,
                       iconOffset: marker.anchor,
-                      //iconAnchor ?
-                      textField: marker.infoWindow.title,
-                      //textSize ?
-                      //textAnchor ?
-                      textOffset: marker.infoWindow.anchor,
+                      //iconAnchor ? should be accounted for in iconOffset
+                      // TODO: W/Mbgl    ( 4455): {TextureViewRend}[ParseStyle]: Layer 'jTSr6yGtKH_0' has an invalid value for text-font and will not render text. Output values must be contained as literals within the expression. - Nathan
+                      // textField: marker.infoWindow.title,
+                      // //textSize: 3, // ? not set by Google Markers
+                      // //textAnchor ? should be accounted for in textOffset
+                      // textOffset: marker.infoWindow.anchor,
                       iconOpacity: marker.alpha,
                       geometry: maplibre.LatLng(
                         marker.position.latitude,
                         marker.position.longitude,
                       ),
-                    ),
+                      zIndex: marker.zIndexInt,
+                      draggable: marker.draggable,
+                    )
                   );
-
-                  // TODO: The rest of the owl - Nathan
                 }
+
+                if (mounted) {
+                  setState(() {
+                    isMapVisible = true;
+                  });
+                }
+
+                // TODO: Implement location button, floors, and other features on NavigaTUM but not here. - Nathan
               }),
             },
           ),
