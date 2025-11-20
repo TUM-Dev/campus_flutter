@@ -171,7 +171,6 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             zoomGesturesEnabled: true, // zoomControlsEnabled
             myLocationEnabled: true,
             myLocationRenderMode: maplibre.MyLocationRenderMode.compass,
-            //myLocationButtonEnabled: true, // TODO: user location button is not standard in maplibre - Nathan
             onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
               // Previous 250ms mounted delay no longer needed as it is now handled by onStyleLoadedCallback
@@ -181,6 +180,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             onStyleLoadedCallback: () => {
               _controller.future.then((controller) {
                 controller.addImage("pin", base64Decode(pinBase64));
+
+                // Aligns better with Google Maps marker behavior
+                controller.symbolManager?.setIconAllowOverlap(true);
+                controller.symbolManager?.setIconIgnorePlacement(true);
+                controller.symbolManager?.setTextAllowOverlap(true);
+                controller.symbolManager?.setTextIgnorePlacement(true);
 
                 for (var marker in widget.markers) {
                   controller.addSymbol(
@@ -251,6 +256,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                     controller.moveCamera(
                     maplibre.CameraUpdate.newLatLng(
                       maplibre.LatLng(
+                        // Default to TUM Garching campus
                         latlng?.latitude ?? 48.26307794976663,
                         latlng?.longitude ?? 11.668018668778569,
                       ),
@@ -259,12 +265,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                 });
               },
               backgroundColor: Colors.white,
-              elevation: 4,
+              elevation: 2e31, 
               child: Container(
                 padding: const EdgeInsets.all(4.0),
                 // Reusing the 'pin' symbol image as the button icon
                 child: Image.memory(
-                  base64Decode(pinBase64),
+                  base64Decode(pinBase64), // TODO: Replace with a proper geolocation icon - Nathan
                   width: 24,
                   height: 24,
                   // Add a color filter for better visibility/icon presentation
