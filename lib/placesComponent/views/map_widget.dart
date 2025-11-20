@@ -174,15 +174,9 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             //myLocationButtonEnabled: true, // TODO: user location button is not standard in maplibre - Nathan
             onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
-              // Not needed because maplibre has a style loaded callback so the mounted check can be done there
-              // Future.delayed(const Duration(milliseconds: 250), () {
-              //   if (mounted) {
-              //     setState(() {
-              //       isMapVisible = true;
-              //     });
-              //   }
-              // });
+              // Previous 250ms mounted delay no longer needed as it is now handled by onStyleLoadedCallback
             },
+
             //replacement for "markers: widget.markers". I know, it's a bit longer. Sorry! - Nathan
             onStyleLoadedCallback: () => {
               _controller.future.then((controller) {
@@ -195,12 +189,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                       iconImage: "pin", // Theoretically this could be set based on the marker ID. But in the current app it's always the same anyway.
                       iconRotate: marker.rotation,
                       iconOffset: marker.anchor,
-                      //iconAnchor ? should be accounted for in iconOffset
-                      // TODO: W/Mbgl    ( 4455): {TextureViewRend}[ParseStyle]: Layer 'jTSr6yGtKH_0' has an invalid value for text-font and will not render text. Output values must be contained as literals within the expression. - Nathan
-                      // textField: marker.infoWindow.title,
-                      // //textSize: 3, // ? not set by Google Markers
-                      // //textAnchor ? should be accounted for in textOffset
-                      // textOffset: marker.infoWindow.anchor,
+                      textField: marker.infoWindow.title,
+                      textOffset: Offset(0, -2.5), // magic number (done by eye)
                       iconOpacity: marker.alpha,
                       geometry: maplibre.LatLng(
                         marker.position.latitude,
@@ -208,9 +198,31 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                       ),
                       zIndex: marker.zIndexInt,
                       draggable: marker.draggable,
-                    )
+                      // font handling is done by Google Maps automatically. It is not in maplibre.
+                      fontNames: ["Roboto Regular"],
+                      textColor: "#000000",
+                      textHaloColor: "#FFFFFF",
+                      textHaloWidth: 3.0, // magic number (done by eye)
+                      textHaloBlur: 0,
+                      textOpacity: 0, // Starts hidden (handled on tap)
+                      textMaxWidth: -1, // No limit
+                    ),
                   );
                 }
+
+                controller.onSymbolTapped.add((symbol) {
+                  // display text on tapped symbol & remove text from other symbols
+                  for (var symbol in controller.symbols) {
+                    controller.updateSymbol(
+                      symbol,
+                      maplibre.SymbolOptions(textOpacity: 0),
+                    );
+                  }
+                  controller.updateSymbol(
+                    symbol,
+                    maplibre.SymbolOptions(textOpacity: 1),
+                  );
+                });
 
                 if (mounted) {
                   setState(() {
