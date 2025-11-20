@@ -222,6 +222,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                     symbol,
                     maplibre.SymbolOptions(textOpacity: 1),
                   );
+                  controller.moveCamera(maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0))); // something will have gone very wrong if it goes to 0,0 - Nathan
                 });
 
                 if (mounted) {
