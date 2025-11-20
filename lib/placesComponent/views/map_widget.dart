@@ -230,7 +230,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                   });
                 }
 
-                // TODO: Implement location button, floors, and other features on NavigaTUM but not here. - Nathan
+                // TODO: Implement floors and other features on NavigaTUM but not here. - Nathan
               }),
             },
           ),
@@ -239,6 +239,39 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               padding: EdgeInsets.all(context.padding),
               child: widget.mapLegend!,
             ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: FloatingActionButton.small(
+              heroTag: "geolocation_button",
+              onPressed: () {
+                _controller.future.then((controller) {
+                  controller.requestMyLocationLatLng().then((latlng) => {
+                    controller.moveCamera(
+                    maplibre.CameraUpdate.newLatLng(
+                      maplibre.LatLng(
+                        latlng?.latitude ?? 48.26307794976663,
+                        latlng?.longitude ?? 11.668018668778569,
+                      ),
+                    ),
+                  )});
+                });
+              },
+              backgroundColor: Colors.white,
+              elevation: 4,
+              child: Container(
+                padding: const EdgeInsets.all(4.0),
+                // Reusing the 'pin' symbol image as the button icon
+                child: Image.memory(
+                  base64Decode(pinBase64),
+                  width: 24,
+                  height: 24,
+                  // Add a color filter for better visibility/icon presentation
+                  color: Colors.blueGrey[700],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
