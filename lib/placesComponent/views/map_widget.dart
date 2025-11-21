@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maplibre_gl/maplibre_gl.dart' as maplibre;
 
 const pinBase64 = "UklGRroCAABXRUJQVlA4TK0CAAAvGMAIEPfkoI0kR6rZ+wDg+cN6JJfDdn0g4biRJEWKPfie/z4y38J0l+NIkhwlZw/NCzfw3wGM0uxOw61tW1U1cSeiAUL6L4AmiNzdvuvlngRI0XgaSBgIBjts0mFFGsI5t1T0rdkwlXOO8z+ZQkBLFbvZkeL4LenhmqdUZIQ29nStgzUZ5utfRqSDkIq+xTFv+vqVEanICEMqhuPReJ5q+upbENJBMJiD49/a9MVUauKcmx0pMqKPyIhUENrxbHsvx2+x32zsMBAMJAwQEJAhIEH8IUMWpQrQkUBHUYJCcVb9QJInJHhBipDgB/UofpGQQL5QH8W3KiMf8IP6apJLdWGJ+dOM99K7wXq9WZ2ZX1y3coAbkosyaiyfkhr/SkS9o+aNcjGSj7KdYre/GOB77H7VG/1m9Aa34fP0/Hy9uoFHersXoQqJkiSbttV7nWvb1rNt+13Vs23buM++Nn521l7nRLwfiOj/BMgfvfl++hpHT9x+Nq3wv5+Jv/p4JmDsC+HnR2KGzmI7d67ffshwZdATXQfY0ZjtnMus2whw6qN5BPQuSHex7Z3AXUmfjgIdLrSpFxiXHgIbEkFuGXBXOg9Uu/DCLjiuSWC3s6WbDm6uMG4tMDgBLDNZ+4eHhw/kmYXAq35gvikftvWmHXj6EphnSjxVpgX49RZYatyq4eHh1QnTATyfA3Z5Es2LWzOcXQMM6BxQaQILDsOlSD+AdUksAb5JY0eBhqCybuC9pAfAvpyAtC3AV0maPQksCmgDrvUZvQZ6amOKpoDf8t8C9uR60rcBF6OYvmPACs984MiA4vsBWpxzNV3AE4XeA6aKXf5e4IaCp88AW9OWA8c+hGngCLAS4J+S/Yn/jpKOLngujyand54XSuV94KZSOn2CoyOp0SueKNV/9J8DAA==";
+// TODO: include as file instead of this nonsense - Nathan
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
@@ -146,8 +147,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         alignment: Alignment.topRight,
         children: [
           maplibre.MapLibreMap(
-            styleString:
-                "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: dark and light themes - Nathan
+            // styleString:
+            //     "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: dark and light themes - Nathan
             // mapType: MapType.normal,
             // padding: widget.controlPadding ?? EdgeInsets.zero,
             initialCameraPosition: maplibre.CameraPosition(
@@ -268,13 +269,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               elevation: 2e31, 
               child: Container(
                 padding: const EdgeInsets.all(4.0),
-                // Reusing the 'pin' symbol image as the button icon
-                child: Image.memory(
-                  base64Decode(pinBase64), // TODO: Replace with a proper geolocation icon - Nathan
-                  width: 24,
+                child: Image.asset(
+                  "assets/images/map/locate.png",
                   height: 24,
-                  // Add a color filter for better visibility/icon presentation
-                  color: Colors.blueGrey[700],
+                  width: 24,
                 ),
               ),
             ),
