@@ -242,7 +242,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
           Positioned(
             top: 10,
             left: 10,
-            child: FloatingActionButton.small(
+            child: FloatingActionButton(
+              shape: CircleBorder(),
               heroTag: "geolocation_button",
               onPressed: () {
                 _controller.future.then((controller) {
@@ -260,13 +261,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               },
               backgroundColor: Colors.white,
               elevation: 2e31, 
-              child: Container(
-                padding: const EdgeInsets.all(4.0),
-                child: Image.asset(
-                  "assets/images/map/locate.png",
-                  height: 24,
-                  width: 24,
-                ),
+              child: Image.asset(
+                  "assets/images/map/locate.webp",
+                  height: 36,
+                  width: 36,
               ),
             ),
           ),
