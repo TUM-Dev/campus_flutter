@@ -52,6 +52,7 @@ dependencies:
       url: https://github.com/mchome/flutter_colorpicker.git
       ref: master
   flutter_contacts: ^1.1.9+2
+  maplibre_gl: ^0.22.0
 
   # helpers
   device_info_plus: ^12.1.0
@@ -77,7 +78,6 @@ dependencies:
   easy_localization: ^3.0.6
   easy_logger: ^0.0.2
   intl: ^0.20.2
-  maplibre_gl: ^0.22.0
 
 dependency_overrides:
   xml2json:
