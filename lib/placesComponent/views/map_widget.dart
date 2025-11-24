@@ -144,7 +144,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         alignment: Alignment.topRight,
         children: [
           maplibre.MapLibreMap(
-            styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json", // TODO: dark and light themes - Nathan
+            styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
             initialCameraPosition: maplibre.CameraPosition(
               target:
                   // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location. - Nathan
@@ -167,29 +167,26 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             myLocationRenderMode: maplibre.MyLocationRenderMode.compass,
             onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
-              // Previous 250ms mounted delay no longer needed as it is now handled by onStyleLoadedCallback
             },
 
             onStyleLoadedCallback: () => {
               _controller.future.then((controller) async {
                 final ByteData pinData = await rootBundle.load("assets/images/map/pin.webp");
                 controller.addImage("pin", pinData.buffer.asUint8List());
-                // Aligns better with Google Maps marker behavior
                 controller.symbolManager?.setIconAllowOverlap(true);
                 controller.symbolManager?.setIconIgnorePlacement(true);
                 controller.symbolManager?.setTextAllowOverlap(true);
                 controller.symbolManager?.setTextIgnorePlacement(true);
 
-                //replacement for "markers: widget.markers". I know, it's a bit longer. Sorry! - Nathan
                 for (var marker in widget.markers) {
                   controller.addSymbol(
                     maplibre.SymbolOptions(
-                      iconSize: 3, // Not set by Google Markers, done by eye by comparing screenshots
+                      iconSize: 3,
                       iconImage: "pin", // Theoretically this could be set based on the marker ID. But in the current app it's always the same anyway.
                       iconRotate: marker.rotation,
-                      iconOffset: Offset(0, -5), // end of the point of the arrow is on the exact location (magic number (done by eye))
+                      iconOffset: Offset(0, -5),
                       textField: marker.infoWindow.title,
-                      textOffset: Offset(0, -3), // magic number (done by eye)
+                      textOffset: Offset(0, -3),
                       iconOpacity: marker.alpha,
                       geometry: maplibre.LatLng(
                         marker.position.latitude,
@@ -197,7 +194,6 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                       ),
                       zIndex: marker.zIndexInt,
                       draggable: marker.draggable,
-                      // font handling is done by Google Maps automatically. It is not in maplibre.
                       fontNames: ["Roboto Regular"],
                       textColor: "#000000",
                       textHaloColor: "#FFFFFF",
@@ -229,8 +225,6 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                     isMapVisible = true;
                   });
                 }
-
-                // TODO: Implement floors and other features on NavigaTUM but not here. - Nathan
               }),
             },
           ),
