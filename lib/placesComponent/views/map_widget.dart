@@ -221,7 +221,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                     symbol,
                     maplibre.SymbolOptions(textOpacity: 1),
                   );
-                  controller.moveCamera(maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0))); // something will have gone very wrong if it goes to 0,0
+                  controller.animateCamera(maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0)), duration: Duration(seconds: 1)); // something will have gone very wrong if it goes to 0,0
                 });
 
                 if (mounted) {
@@ -248,14 +248,15 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               onPressed: () {
                 _controller.future.then((controller) {
                   controller.requestMyLocationLatLng().then((latlng) => {
-                    controller.moveCamera(
+                    controller.animateCamera(
                     maplibre.CameraUpdate.newLatLng(
                       maplibre.LatLng(
                         // Default to TUM Garching campus
                         latlng?.latitude ?? 48.26307794976663,
                         latlng?.longitude ?? 11.668018668778569,
                       ),
-                    ),
+                    ), 
+                    duration: Duration(seconds: 1)
                   )});
                 });
               },
