@@ -217,7 +217,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
                     symbol,
                     maplibre.SymbolOptions(textOpacity: 1),
                   );
-                  controller.animateCamera(maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0)), duration: Duration(seconds: 1)); // something will have gone very wrong if it goes to 0,0
+                  controller.animateCamera(
+                    maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0)), // something will have gone very wrong if it goes to 0,0
+                    duration: Duration(seconds: 1) // magic number (felt right)
+                  );
                 });
 
                 if (mounted) {
