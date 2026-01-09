@@ -52,6 +52,7 @@ dependencies:
       url: https://github.com/mchome/flutter_colorpicker.git
       ref: master
   flutter_contacts: ^1.1.9+2
+  maplibre_gl: ^0.22.0
 
   # helpers
   device_info_plus: ^12.1.0
@@ -91,6 +92,7 @@ dependency_overrides:
     git:
       url: https://github.com/jakobkoerber/flutter_linkify
       ref: master
+  meta: ^1.17.0
 
 dev_dependencies:
   # code generation
@@ -131,3 +133,5 @@ flutter:
     - assets/images/campus/campus-olympia.jpg
     - assets/images/campus/campus-stamm.jpeg
     - assets/images/location.png
+    - assets/images/map/locate.webp
+    - assets/images/map/pin.webp

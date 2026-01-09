@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'package:campus_flutter/placesComponent/services/map_theme_service.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart' as maplibre;
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
@@ -105,8 +105,8 @@ class MapWidget extends ConsumerStatefulWidget {
 }
 
 class _MapWidgetState extends ConsumerState<MapWidget> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  late final Completer<maplibre.MapLibreMapController> _controller =
+      Completer<maplibre.MapLibreMapController>();
 
   bool isMapVisible = false;
 
@@ -143,16 +143,15 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-          GoogleMap(
-            style: Theme.of(context).brightness == Brightness.light
-                ? getIt.get<MapThemeService>().lightTheme
-                : getIt.get<MapThemeService>().darkTheme,
-            mapType: MapType.normal,
-            padding: widget.controlPadding ?? EdgeInsets.zero,
-            initialCameraPosition: CameraPosition(
+          maplibre.MapLibreMap(
+            styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+            initialCameraPosition: maplibre.CameraPosition(
               target:
-                  widget.latLng ??
-                  const LatLng(48.26307794976663, 11.668018668778569),
+                  // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location. - Nathan
+                  maplibre.LatLng(
+                    widget.latLng?.latitude ?? 48.26307794976663,
+                    widget.latLng?.longitude ?? 11.668018668778569,
+                  ),
               zoom: widget.zoom ?? 10,
             ),
             gestureRecognizers: {
@@ -162,21 +161,74 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             },
             rotateGesturesEnabled: false,
             compassEnabled: false,
-            mapToolbarEnabled: false,
             tiltGesturesEnabled: false,
-            zoomControlsEnabled: true,
+            zoomGesturesEnabled: true,
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            markers: widget.markers,
-            onMapCreated: (GoogleMapController controller) {
+            myLocationRenderMode: maplibre.MyLocationRenderMode.compass,
+            onMapCreated: (maplibre.MapLibreMapController controller) {
               _controller.complete(controller);
-              Future.delayed(const Duration(milliseconds: 250), () {
+            },
+
+            onStyleLoadedCallback: () => {
+              _controller.future.then((controller) async {
+                final ByteData pinData = await rootBundle.load("assets/images/map/pin.webp");
+                controller.addImage("pin", pinData.buffer.asUint8List());
+                controller.symbolManager?.setIconAllowOverlap(true);
+                controller.symbolManager?.setIconIgnorePlacement(true);
+                controller.symbolManager?.setTextAllowOverlap(true);
+                controller.symbolManager?.setTextIgnorePlacement(true);
+
+                for (var marker in widget.markers) {
+                  controller.addSymbol(
+                    maplibre.SymbolOptions(
+                      iconSize: 3,
+                      iconImage: "pin", // Theoretically this could be set based on the marker ID. But in the current app it's always the same anyway.
+                      iconRotate: marker.rotation,
+                      iconOffset: Offset(0, -5),
+                      textField: marker.infoWindow.title,
+                      textOffset: Offset(0, -3),
+                      iconOpacity: marker.alpha,
+                      geometry: maplibre.LatLng(
+                        marker.position.latitude,
+                        marker.position.longitude,
+                      ),
+                      zIndex: marker.zIndexInt,
+                      draggable: marker.draggable,
+                      fontNames: ["Roboto Regular"],
+                      textColor: "#000000",
+                      textHaloColor: "#FFFFFF",
+                      textHaloWidth: 3.0, // magic number (done by eye)
+                      textHaloBlur: 0,
+                      textOpacity: 0, // Starts hidden (handled on tap)
+                      textMaxWidth: -1, // No limit
+                    ),
+                  );
+                }
+
+                controller.onSymbolTapped.add((symbol) {
+                  // display text on tapped symbol & remove text from other symbols
+                  for (var symbol in controller.symbols) {
+                    controller.updateSymbol(
+                      symbol,
+                      maplibre.SymbolOptions(textOpacity: 0),
+                    );
+                  }
+                  controller.updateSymbol(
+                    symbol,
+                    maplibre.SymbolOptions(textOpacity: 1),
+                  );
+                  controller.animateCamera(
+                    maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0)), // something will have gone very wrong if it goes to 0,0
+                    duration: Duration(seconds: 1) // magic number (felt right)
+                  );
+                });
+
                 if (mounted) {
                   setState(() {
                     isMapVisible = true;
                   });
                 }
-              });
+              }),
             },
           ),
           if (widget.mapLegend != null)
@@ -184,6 +236,36 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               padding: EdgeInsets.all(context.padding),
               child: widget.mapLegend!,
             ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: FloatingActionButton(
+              shape: CircleBorder(),
+              heroTag: "geolocation_button",
+              onPressed: () {
+                _controller.future.then((controller) {
+                  controller.requestMyLocationLatLng().then((latlng) => {
+                    controller.animateCamera(
+                    maplibre.CameraUpdate.newLatLng(
+                      maplibre.LatLng(
+                        // Default to TUM Garching campus
+                        latlng?.latitude ?? 48.26307794976663,
+                        latlng?.longitude ?? 11.668018668778569,
+                      ),
+                    ), 
+                    duration: Duration(seconds: 1)
+                  )});
+                });
+              },
+              backgroundColor: Colors.white,
+              elevation: 2e31, 
+              child: Image.asset(
+                  "assets/images/map/locate.webp",
+                  height: 36,
+                  width: 36,
+              ),
+            ),
+          ),
         ],
       ),
     );
