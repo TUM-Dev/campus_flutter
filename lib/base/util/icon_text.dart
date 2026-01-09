@@ -9,7 +9,7 @@ class SymbolText extends StatelessWidget {
     this.style,
     this.textColor,
     this.multipleLines = false,
-    this.leadingIcon = true,
+    this.leading = true,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.iconSize,
     this.iconColor,
@@ -24,7 +24,7 @@ class SymbolText extends StatelessWidget {
     this.style,
     this.textColor,
     this.multipleLines = false,
-    this.leadingIcon = true,
+    this.leading = true,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.iconSize,
     this.gap = 4.0,
@@ -39,7 +39,7 @@ class SymbolText extends StatelessWidget {
   final Color? textColor;
   final MainAxisAlignment mainAxisAlignment;
   final bool multipleLines;
-  final bool leadingIcon;
+  final bool leading;
   final double? iconSize;
   final Color? iconColor;
   final double gap;
@@ -90,14 +90,14 @@ class SymbolText extends StatelessWidget {
     // 4. Construct the Children list based on leading/trailing logic
     final children = <Widget>[];
 
-    if (leadingIcon && symbolWidget != null) {
+    if (leading && symbolWidget != null) {
       children.add(symbolWidget);
       children.add(SizedBox(width: gap)); // Only added if symbol exists
     }
 
     children.add(textWidget);
 
-    if (!leadingIcon && symbolWidget != null) {
+    if (!leading && symbolWidget != null) {
       children.add(SizedBox(width: gap)); // Only added if symbol exists
       children.add(symbolWidget);
     }

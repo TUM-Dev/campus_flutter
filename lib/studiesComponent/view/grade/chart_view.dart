@@ -39,7 +39,7 @@ class ChartView extends ConsumerWidget {
               label: "$title ($degreeShort)",
               style: Theme.of(context).textTheme.bodyLarge,
               mainAxisAlignment: MainAxisAlignment.center,
-              leadingIcon: false,
+              leading: false,
             ),
           ),
           SfCartesianChart(

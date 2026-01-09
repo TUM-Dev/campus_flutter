@@ -250,7 +250,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
         iconData: Icons.arrow_forward,
         label: context.tr("checkToken"),
         style: const TextStyle(color: Colors.white),
-        leadingIcon: false,
+        leading: false,
       ),
     );
   }

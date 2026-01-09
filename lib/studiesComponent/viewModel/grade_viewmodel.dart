@@ -105,7 +105,7 @@ class GradeViewModel {
               ? SymbolText.icon(
                   iconData: Icons.check,
                   label: "$studyDesignation ($degreeShort)",
-                  leadingIcon: false,
+                  leading: false,
                 )
               : Text("$studyDesignation ($degreeShort)"),
         );

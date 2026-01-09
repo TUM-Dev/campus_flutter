@@ -85,7 +85,7 @@ class TuitionView extends ConsumerWidget {
           style: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: Colors.green),
-          leadingIcon: false,
+          leading: false,
         );
       } else {
         final numberFormat = NumberFormat.currency(

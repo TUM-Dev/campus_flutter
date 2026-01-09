@@ -119,11 +119,11 @@ class _CampusViewState extends ConsumerState<CampusView> {
           children: [
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
-                titleWidget: SymbolText.icon(
-                  iconData: Icons.location_pin,
+                titleWidget: SymbolText.image(
+                  image: Image.asset("assets/images/map/pin_blue.webp"),
                   label: context.tr("cafeterias"),
                   style: Theme.of(context).textTheme.titleMedium,
-                  leadingIcon: false,
+                  leading: false,
                 ),
                 child: Card(
                   child: SeparatedList.list(
@@ -134,12 +134,11 @@ class _CampusViewState extends ConsumerState<CampusView> {
               ),
             if (studyRooms.isNotEmpty)
               WidgetFrameView(
-                titleWidget: SymbolText.icon(
-                  iconData: Icons.location_pin,
+                titleWidget: SymbolText.image(
+                  image: Image.asset("assets/images/map/pin_red.webp"),
                   label: context.tr("studyRooms"),
-                  iconColor: Colors.red,
                   style: Theme.of(context).textTheme.titleMedium,
-                  leadingIcon: false,
+                  leading: false,
                 ),
                 child: Card(
                   child: SeparatedList.list(

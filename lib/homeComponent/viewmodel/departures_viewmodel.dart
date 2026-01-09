@@ -240,7 +240,7 @@ class DeparturesViewModel {
                   ? SymbolText.icon(
                       iconData: Icons.check,
                       label: e.name,
-                      leadingIcon: false,
+                      leading: false,
                     )
                   : Text(e.name),
             ),
