@@ -102,7 +102,7 @@ class GradeViewModel {
         return PopupMenuItem(
           value: studyId,
           child: selectedStudyId == studyId
-              ? IconText(
+              ? SymbolText.icon(
                   iconData: Icons.check,
                   label: "$studyDesignation ($degreeShort)",
                   leadingIcon: false,

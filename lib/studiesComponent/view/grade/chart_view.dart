@@ -34,7 +34,7 @@ class ChartView extends ConsumerWidget {
             onSelected: (selected) {
               ref.read(gradeViewModel).setSelectedDegree(selected);
             },
-            child: IconText(
+            child: SymbolText.icon(
               iconData: Icons.keyboard_arrow_down,
               label: "$title ($degreeShort)",
               style: Theme.of(context).textTheme.bodyLarge,

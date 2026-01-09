@@ -1,9 +1,10 @@
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_navigation_coordinates.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 class NavigaTumRoomBuildingView extends StatelessWidget {
   const NavigaTumRoomBuildingView({
@@ -30,7 +31,7 @@ class NavigaTumRoomBuildingView extends StatelessWidget {
       latLng: LatLng(coordinates.latitude!, coordinates.longitude!),
       markers: {
         Marker(
-          markerId: const MarkerId("1"),
+          id: "1",
           position: LatLng(coordinates.latitude!, coordinates.longitude!),
         ),
       },

@@ -16,7 +16,7 @@ import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 class AdaptedCampusView extends StatelessWidget {
   const AdaptedCampusView({
@@ -119,7 +119,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
           children: [
             if (cafeterias.isNotEmpty)
               WidgetFrameView(
-                titleWidget: IconText(
+                titleWidget: SymbolText.icon(
                   iconData: Icons.location_pin,
                   label: context.tr("cafeterias"),
                   style: Theme.of(context).textTheme.titleMedium,
@@ -134,7 +134,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
               ),
             if (studyRooms.isNotEmpty)
               WidgetFrameView(
-                titleWidget: IconText(
+                titleWidget: SymbolText.icon(
                   iconData: Icons.location_pin,
                   label: context.tr("studyRooms"),
                   iconColor: Colors.red,

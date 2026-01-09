@@ -104,16 +104,26 @@ class PersonDetails {
 
     if (officialContact != null) {
       if (officialContact!.phone != null) {
-        phones.add(Phone(officialContact!.phone!, label: PhoneLabel.work, isPrimary: true));
+        phones.add(
+          Phone(
+            officialContact!.phone!,
+            label: PhoneLabel.work,
+            isPrimary: true,
+          ),
+        );
       }
       if (officialContact!.mobilePhone != null) {
-        phones.add(Phone(officialContact!.mobilePhone!, label: PhoneLabel.workMobile));
+        phones.add(
+          Phone(officialContact!.mobilePhone!, label: PhoneLabel.workMobile),
+        );
       }
       if (officialContact!.fax != null) {
         phones.add(Phone(officialContact!.fax!, label: PhoneLabel.faxWork));
       }
       if (officialContact!.homepage != null) {
-        websites.add(Website(officialContact!.homepage!, label: WebsiteLabel.work));
+        websites.add(
+          Website(officialContact!.homepage!, label: WebsiteLabel.work),
+        );
       }
     }
     if (privateContact != null) {
@@ -121,28 +131,28 @@ class PersonDetails {
         phones.add(Phone(privateContact!.phone!, label: PhoneLabel.home));
       }
       if (privateContact!.mobilePhone != null) {
-        phones.add(Phone(privateContact!.mobilePhone!, label: PhoneLabel.mobile));
+        phones.add(
+          Phone(privateContact!.mobilePhone!, label: PhoneLabel.mobile),
+        );
       }
       if (privateContact!.fax != null) {
         phones.add(Phone(privateContact!.fax!, label: PhoneLabel.faxHome));
       }
       if (privateContact!.homepage != null) {
-        websites.add(Website(privateContact!.homepage!, label: WebsiteLabel.home));
+        websites.add(
+          Website(privateContact!.homepage!, label: WebsiteLabel.home),
+        );
       }
     }
 
     var photo = imageData != null ? base64DecodeImageData(imageData!) : null;
 
-
-    return Contact(name: Name(
-        prefix: title ?? "",
-        first: firstName,
-        last: name
-      ), 
-      emails: [ Email(email, label: EmailLabel.work, isPrimary: true)],
+    return Contact(
+      name: Name(prefix: title ?? "", first: firstName, last: name),
+      emails: [Email(email, label: EmailLabel.work, isPrimary: true)],
       phones: phones,
       websites: websites,
-      photo: photo
+      photo: photo,
     );
   }
 }

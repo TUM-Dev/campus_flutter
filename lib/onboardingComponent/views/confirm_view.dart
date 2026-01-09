@@ -189,7 +189,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
   Widget _tumOnlineButton() {
     return ElevatedButton(
       onPressed: () => UrlLauncher.urlString("https://campus.tum.de", ref),
-      child: const IconText(
+      child: const SymbolText.icon(
         iconData: Icons.language,
         label: "TUMOnline",
         style: TextStyle(color: Colors.white),
@@ -246,7 +246,7 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               }
             });
       },
-      child: IconText(
+      child: SymbolText.icon(
         iconData: Icons.arrow_forward,
         label: context.tr("checkToken"),
         style: const TextStyle(color: Colors.white),

@@ -79,7 +79,7 @@ class TuitionView extends ConsumerWidget {
   ) {
     if (snapshot.hasData && snapshot.data!.amount != null) {
       if (snapshot.data!.amount! <= 0.0) {
-        return IconText(
+        return SymbolText.icon(
           iconData: Icons.check,
           label: context.tr("tuitionPaid"),
           style: Theme.of(

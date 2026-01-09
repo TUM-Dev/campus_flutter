@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class IconText extends StatelessWidget {
-  const IconText({
+class SymbolText extends StatelessWidget {
+  /// Constructor for using an IconData
+  const SymbolText.icon({
     super.key,
-    required this.iconData,
+    required IconData this.iconData,
     required this.label,
     this.style,
     this.textColor,
@@ -12,9 +13,27 @@ class IconText extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.iconSize,
     this.iconColor,
-  });
+    this.gap = 4.0, // Added customizable gap
+  }) : image = null;
 
-  final IconData iconData;
+  /// Constructor for using a Widget (Image, Svg, etc.)
+  const SymbolText.image({
+    super.key,
+    required Widget this.image,
+    required this.label,
+    this.style,
+    this.textColor,
+    this.multipleLines = false,
+    this.leadingIcon = true,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.iconSize,
+    this.gap = 4.0,
+  }) : iconData = null,
+       iconColor = null;
+
+  final IconData? iconData;
+  final Widget?
+  image; // Changed from Image? to Widget? for flexibility (e.g. SVGs)
   final String label;
   final TextStyle? style;
   final Color? textColor;
@@ -23,46 +42,70 @@ class IconText extends StatelessWidget {
   final bool leadingIcon;
   final double? iconSize;
   final Color? iconColor;
+  final double gap;
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = style ?? TextStyle(color: textColor);
-    var iconColor = this.iconColor ?? style?.color;
-    var iconSize =
-        this.iconSize ?? (style?.fontSize != null ? style!.fontSize : 20.0);
+    // 1. Resolve Style and Size
+    final effectiveTextStyle =
+        style?.copyWith(color: textColor) ?? TextStyle(color: textColor);
+
+    // Default to the text font size if no icon size is provided, or fallback to 20
+    final effectiveIconSize = iconSize ?? effectiveTextStyle.fontSize ?? 20.0;
+
+    final effectiveIconColor = iconColor ?? effectiveTextStyle.color;
+
+    // 2. Build the visual part (The Symbol)
+    Widget? symbolWidget;
+
+    if (iconData != null) {
+      symbolWidget = Icon(
+        iconData,
+        color: effectiveIconColor,
+        size: effectiveIconSize,
+      );
+    } else if (image != null) {
+      // Optional: constrain image to icon size to ensure alignment
+      symbolWidget = SizedBox(
+        width: effectiveIconSize,
+        height: effectiveIconSize,
+        child: FittedBox(fit: BoxFit.contain, child: image),
+      );
+    }
+
+    // 3. Build the Text Part
+    Widget textWidget = Text(
+      label,
+      style: effectiveTextStyle,
+      maxLines: multipleLines ? null : 1,
+      overflow: multipleLines ? null : TextOverflow.ellipsis,
+    );
+
+    // If multiple lines, we often need Flexible, but only if inside a Row with constraints.
+    // To be safe and respect the boolean:
+    if (multipleLines || !multipleLines) {
+      textWidget = Flexible(child: textWidget);
+    }
+
+    // 4. Construct the Children list based on leading/trailing logic
+    final children = <Widget>[];
+
+    if (leadingIcon && symbolWidget != null) {
+      children.add(symbolWidget);
+      children.add(SizedBox(width: gap)); // Only added if symbol exists
+    }
+
+    children.add(textWidget);
+
+    if (!leadingIcon && symbolWidget != null) {
+      children.add(SizedBox(width: gap)); // Only added if symbol exists
+      children.add(symbolWidget);
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,
-      children: [
-        if (leadingIcon) ...[
-          Icon(iconData, color: iconColor, size: iconSize),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-          multipleLines
-              ? Flexible(child: Text(label, style: textStyle))
-              : Flexible(
-                  child: Text(
-                    label,
-                    style: textStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-        ],
-        if (!leadingIcon) ...[
-          multipleLines
-              ? Flexible(child: Text(label, style: textStyle))
-              : Flexible(
-                  child: Text(
-                    label,
-                    style: textStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-          Icon(iconData, color: iconColor, size: iconSize),
-        ],
-      ],
+      children: children,
     );
   }
 }
