@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
@@ -14,7 +15,7 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 class StudyRoomGroupView extends ConsumerWidget {
   factory StudyRoomGroupView(StudyRoomGroup? studyRoomGroup, bool isSplitView) {
@@ -194,7 +195,7 @@ class StudyRoomGroupView extends ConsumerWidget {
     return MapWidget.fullPadding(
       markers: {
         Marker(
-          markerId: const MarkerId("studyRoomMarker"),
+          id: "studyRoomMarker",
           position: LatLng(
             studyRoomGroup!.coordinate!.latitude,
             studyRoomGroup.coordinate!.longitude,
@@ -216,7 +217,7 @@ class StudyRoomGroupView extends ConsumerWidget {
       markers: studyRoomGroup != null
           ? {
               Marker(
-                markerId: const MarkerId("studyRoomMarker"),
+                id: "studyRoomMarker",
                 position: LatLng(
                   studyRoomGroup.coordinate?.latitude ?? 0.0,
                   studyRoomGroup.coordinate?.longitude ?? 0.0,

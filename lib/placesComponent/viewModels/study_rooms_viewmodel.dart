@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group.dart';
@@ -14,7 +15,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -236,7 +237,7 @@ class StudyRoomsViewModel {
           .where((element) => element.coordinate != null)
           .map(
             (e) => Marker(
-              markerId: MarkerId(const Uuid().v4()),
+              id: const Uuid().v4(),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
               infoWindow: InfoWindow(
                 title: e.name,
@@ -256,7 +257,7 @@ class StudyRoomsViewModel {
           .where((element) => element.coordinate != null)
           .map(
             (e) => Marker(
-              markerId: MarkerId(e.id.toString()),
+              id: e.id.toString(),
               position: LatLng(e.coordinate!.latitude, e.coordinate!.longitude),
               infoWindow: InfoWindow(
                 title: e.name,

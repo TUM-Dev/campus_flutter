@@ -7,6 +7,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/places_util.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/opening_hours.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_grid_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
@@ -16,7 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -158,12 +159,14 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
       MapWidget.fullPadding(
         markers: {
           Marker(
-            markerId: MarkerId(widget.cafeteria.id),
+            id: widget.cafeteria.id,
             position: LatLng(
               widget.cafeteria.location.latitude,
               (widget.cafeteria.location.longitude),
             ),
-            icon: BitmapDescriptor.defaultMarkerWithHue(208),
+            isRed: true,
+            // TODO: implement colored markers
+            //icon: BitmapDescriptor.defaultMarkerWithHue(208),
           ),
         },
         latLng: LatLng(

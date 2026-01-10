@@ -7,6 +7,7 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria_menu.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/mensa_menu.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/services/cafeterias_service.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
@@ -16,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -318,9 +319,11 @@ class CafeteriasViewModel {
       return cafeterias
           .map(
             (e) => Marker(
-              markerId: MarkerId(const Uuid().v4()),
+              id: const Uuid().v4(),
               position: LatLng(e.location.latitude, e.location.longitude),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              isRed: true,
+              // TODO:
+              //icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                 title: e.name,
                 onTap: () => context.push(cafeteria, extra: e),
@@ -338,9 +341,11 @@ class CafeteriasViewModel {
       return (campusCafeterias.value![campus] ?? [])
           .map(
             (e) => Marker(
-              markerId: MarkerId(e.id.toString()),
+              id: e.id.toString(),
               position: LatLng(e.location.latitude, e.location.longitude),
-              icon: BitmapDescriptor.defaultMarkerWithHue(208),
+              isRed: true,
+              // TODO:
+              //icon: BitmapDescriptor.defaultMarkerWithHue(208),
               infoWindow: InfoWindow(
                 title: e.name,
                 onTap: () => context.push(cafeteria, extra: e),

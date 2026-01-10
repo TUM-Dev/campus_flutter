@@ -27,7 +27,7 @@ class CalendarSearchResultView extends ConsumerWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconText(
+            SymbolText.icon(
               iconData: Icons.hourglass_top,
               label: calendarEvent.timePeriodText(context),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -35,7 +35,7 @@ class CalendarSearchResultView extends ConsumerWidget {
               ),
               iconColor: context.primaryColor,
             ),
-            IconText(
+            SymbolText.icon(
               iconData: Icons.location_pin,
               label:
                   calendarEvent.locations.firstOrNull ?? context.tr("unknown"),
