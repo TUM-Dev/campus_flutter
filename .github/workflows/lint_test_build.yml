@@ -37,10 +37,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
-          java-version: '17'
+          java-version: '21'
 
-      - name: Build iOS
-        run: flutter build ipa --no-codesign
+      # - name: Build iOS
+      #  run: flutter build ipa --no-codesign
 
       - name: Build Android
         run: flutter build apk
