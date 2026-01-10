@@ -7,7 +7,8 @@ enum Campus {
   klinikumRechts("Klinikum rechts der Isar"),
   grosshadern("Klinikum Großhadern"),
   garching("Garching Forschungszentrum"),
-  freising("Campus Freising");
+  freising("Campus Freising"),
+  ottobrunn("Campus Ottobrunn");
 
   final String name;
 
@@ -22,6 +23,7 @@ extension CampusExtension on Campus {
       Campus.olympiapark,
       Campus.klinikumRechts,
       Campus.freising,
+      Campus.ottobrunn,
     ];
   }
 
@@ -39,6 +41,8 @@ extension CampusExtension on Campus {
         return "Garching Forschungszentrum";
       case Campus.freising:
         return "Weihenstephan";
+      case Campus.ottobrunn:
+        return "Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)";
     }
   }
 
@@ -73,6 +77,8 @@ extension CampusExtension on Campus {
         return const LatLng(48.26513710129958, 11.671590834492283);
       case Campus.freising:
         return const LatLng(48.39549985559942, 11.727904526510946);
+      case Campus.ottobrunn:
+        return const LatLng(48.05465656040613, 11.653499097414645);
     }
   }
 
@@ -117,6 +123,12 @@ extension CampusExtension on Campus {
           name: "Freising, Weihenstephan",
           apiName: "1002911",
           location: const LatLng(48.39799498961109, 11.723989661968458),
+        );
+      case Campus.ottobrunn:
+        return Station(
+          name: "Taufkirchen, Lilienthalstr.",
+          apiName: "1002389",
+          location: const LatLng(48.05155653835728, 11.655056447685036),
         );
     }
   }
@@ -185,6 +197,8 @@ extension CampusExtension on Campus {
             location: const LatLng(48.39581877364193, 11.725859432987532),
           ),
         ];
+      case Campus.ottobrunn:
+        return [defaultStation];
     }
   }
 }

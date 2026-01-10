@@ -32,4 +32,5 @@ const _$CampusEnumMap = {
   Campus.grosshadern: 'grosshadern',
   Campus.garching: 'garching',
   Campus.freising: 'freising',
+  Campus.ottobrunn: 'ottobrunn',
 };
