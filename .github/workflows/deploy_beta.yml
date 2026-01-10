@@ -15,10 +15,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
-
-      # - name: Install Bundle
-      #   run: cd ./${{ matrix.platform }} && bundle install
+      - uses: actions/checkout@v4
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
@@ -35,10 +32,6 @@ jobs:
         run: |
           flutter config --no-analytics
           flutter pub get
-
-      # - if: matrix.platform == 'ios'
-      #   name: Install latest CocoaPods Version
-      #   run: sudo gem install cocoapods
 
       - if: matrix.platform == 'ios'
         name: Install CocoaPods
