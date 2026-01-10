@@ -3,7 +3,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room.dart'
 import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_opening_hours.dart';
 import 'package:campus_flutter/searchComponent/model/comparison_token.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'study_room_group.g.dart';

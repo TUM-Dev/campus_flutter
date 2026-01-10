@@ -123,7 +123,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
                     );
                   }
                 },
-                child: IconText(
+                child: SymbolText.icon(
                   iconData: Icons.open_in_new,
                   label: context.tr("showDirections"),
                 ),

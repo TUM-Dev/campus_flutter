@@ -61,8 +61,10 @@ class DeparturesViewModel {
       UserPreference.departure,
     );
 
-    if (preferenceId != null && !fetchClosest) {
-      widgetCampus.add(Campus.values[preferenceId as int]);
+    if (preferenceId != null &&
+        !fetchClosest &&
+        (preferenceId as int) <= Campus.values.length) {
+      widgetCampus.add(Campus.values[preferenceId]);
       assignSelectedStation();
     } else {
       LocationService.getLastKnown().then(
@@ -235,10 +237,10 @@ class DeparturesViewModel {
             (e) => PopupMenuItem(
               value: e,
               child: selectedStation.value?.name == e.name
-                  ? IconText(
+                  ? SymbolText.icon(
                       iconData: Icons.check,
                       label: e.name,
-                      leadingIcon: false,
+                      leading: false,
                     )
                   : Text(e.name),
             ),

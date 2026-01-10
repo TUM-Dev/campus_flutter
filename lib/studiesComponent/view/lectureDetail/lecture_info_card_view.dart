@@ -18,7 +18,7 @@ class LectureInfoCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      titleWidget: IconText(
+      titleWidget: SymbolText.icon(
         iconData: icon,
         label: title,
         style: Theme.of(context).textTheme.titleMedium,

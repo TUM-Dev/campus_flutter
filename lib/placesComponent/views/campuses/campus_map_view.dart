@@ -5,7 +5,7 @@ import 'package:campus_flutter/placesComponent/views/campuses/campus_map_legend.
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 class CampusMapScaffold extends StatelessWidget {
   const CampusMapScaffold({super.key, required this.campus});
@@ -38,7 +38,7 @@ class CampusMapView extends ConsumerWidget {
       latLng: LatLng(campus.location.latitude, campus.location.longitude),
       zoom: 15,
       roundedCorners: false,
-      controlPadding: const EdgeInsets.all(20),
+      //controlPadding: const EdgeInsets.all(20),
       mapLegend: CampusMapLegend(),
     );
   }

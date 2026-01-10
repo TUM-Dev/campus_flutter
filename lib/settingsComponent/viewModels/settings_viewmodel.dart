@@ -80,7 +80,7 @@ class SettingsViewModel {
         .map(
           (e) => DropdownMenuItem(
             value: e,
-            child: IconText(
+            child: SymbolText.icon(
               iconData: e.icon,
               iconColor: context.primaryColor,
               label: Localizations.localeOf(context).languageCode == "de"
