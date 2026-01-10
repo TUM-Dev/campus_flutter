@@ -39,7 +39,7 @@ class GradeRow extends StatelessWidget {
   }
 
   Widget _subtitle(String text, IconData iconData, BuildContext context) {
-    return IconText(
+    return SymbolText.icon(
       iconData: iconData,
       label: text,
       style: TextStyle(color: Theme.of(context).colorScheme.secondary),

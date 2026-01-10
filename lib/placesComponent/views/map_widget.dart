@@ -1,18 +1,18 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:campus_flutter/base/extensions/context.dart';
+import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maplibre_gl/maplibre_gl.dart' as maplibre;
+import 'package:maplibre_gl/maplibre_gl.dart';
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
     required Set<Marker> markers,
     LatLng? latLng,
-    EdgeInsets? controlPadding,
     double? zoom,
     double? aspectRatio,
     bool aspectRatioNeeded = true,
@@ -21,7 +21,6 @@ class MapWidget extends ConsumerStatefulWidget {
   }) {
     return MapWidget._(
       markers: markers,
-      controlPadding: controlPadding,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
@@ -34,7 +33,6 @@ class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.noPadding({
     required Set<Marker> markers,
     LatLng? latLng,
-    EdgeInsets? controlPadding,
     double? zoom,
     double? aspectRatio,
     bool aspectRatioNeeded = true,
@@ -47,7 +45,6 @@ class MapWidget extends ConsumerStatefulWidget {
       zoom: zoom,
       aspectRatio: aspectRatio,
       padding: EdgeInsets.zero,
-      controlPadding: controlPadding,
       aspectRatioNeeded: aspectRatioNeeded,
       roundedCorners: roundedCorners,
       mapLegend: mapLegend,
@@ -57,7 +54,6 @@ class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.customPadding({
     required Set<Marker> markers,
     required EdgeInsets padding,
-    EdgeInsets? controlPadding,
     LatLng? latLng,
     double? zoom,
     double? aspectRatio,
@@ -68,7 +64,6 @@ class MapWidget extends ConsumerStatefulWidget {
     return MapWidget._(
       markers: markers,
       padding: padding,
-      controlPadding: controlPadding,
       latLng: latLng,
       zoom: zoom,
       aspectRatio: aspectRatio,
@@ -84,7 +79,6 @@ class MapWidget extends ConsumerStatefulWidget {
     this.zoom,
     this.aspectRatio,
     this.padding,
-    this.controlPadding,
     required this.aspectRatioNeeded,
     required this.roundedCorners,
     this.mapLegend,
@@ -97,7 +91,6 @@ class MapWidget extends ConsumerStatefulWidget {
   final bool aspectRatioNeeded;
   final bool roundedCorners;
   final EdgeInsets? padding;
-  final EdgeInsets? controlPadding;
   final Widget? mapLegend;
 
   @override
@@ -105,10 +98,18 @@ class MapWidget extends ConsumerStatefulWidget {
 }
 
 class _MapWidgetState extends ConsumerState<MapWidget> {
-  late final Completer<maplibre.MapLibreMapController> _controller =
-      Completer<maplibre.MapLibreMapController>();
-
+  MapLibreMapController? _mapController;
   bool isMapVisible = false;
+
+  final Set<String> _loadedImages = {};
+
+  @override
+  void didUpdateWidget(covariant MapWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_mapController != null && widget.markers != oldWidget.markers) {
+      _updateMarkers(_mapController!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,27 +129,27 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         child: widget.aspectRatioNeeded
             ? AspectRatio(
                 aspectRatio: widget.aspectRatio ?? 1.0,
-                child: _mapWidget(),
+                child: _buildMapStack(),
               )
-            : _mapWidget(),
+            : _buildMapStack(),
       ),
     );
   }
 
-  Widget _mapWidget() {
+  Widget _buildMapStack() {
     return AnimatedOpacity(
       curve: Curves.fastOutSlowIn,
       opacity: isMapVisible ? 1.0 : 0.01,
       duration: const Duration(milliseconds: 200),
       child: Stack(
-        alignment: Alignment.topRight,
         children: [
-          maplibre.MapLibreMap(
-            styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
-            initialCameraPosition: maplibre.CameraPosition(
+          MapLibreMap(
+            styleString:
+                "https://nav.tum.de/martin/style/navigatum-basemap.json",
+            initialCameraPosition: CameraPosition(
               target:
                   // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location. - Nathan
-                  maplibre.LatLng(
+                  LatLng(
                     widget.latLng?.latitude ?? 48.26307794976663,
                     widget.latLng?.longitude ?? 11.668018668778569,
                   ),
@@ -164,110 +165,164 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             tiltGesturesEnabled: false,
             zoomGesturesEnabled: true,
             myLocationEnabled: true,
-            myLocationRenderMode: maplibre.MyLocationRenderMode.compass,
-            onMapCreated: (maplibre.MapLibreMapController controller) {
-              _controller.complete(controller);
+            myLocationRenderMode: MyLocationRenderMode.compass,
+            onMapCreated: (controller) {
+              _mapController = controller;
+              _setupSymbolHandler(controller);
             },
-
-            onStyleLoadedCallback: () => {
-              _controller.future.then((controller) async {
-                final ByteData pinData = await rootBundle.load("assets/images/map/pin.webp");
-                controller.addImage("pin", pinData.buffer.asUint8List());
-                controller.symbolManager?.setIconAllowOverlap(true);
-                controller.symbolManager?.setIconIgnorePlacement(true);
-                controller.symbolManager?.setTextAllowOverlap(true);
-                controller.symbolManager?.setTextIgnorePlacement(true);
-
-                for (var marker in widget.markers) {
-                  controller.addSymbol(
-                    maplibre.SymbolOptions(
-                      iconSize: 3,
-                      iconImage: "pin", // Theoretically this could be set based on the marker ID. But in the current app it's always the same anyway.
-                      iconRotate: marker.rotation,
-                      iconOffset: Offset(0, -5),
-                      textField: marker.infoWindow.title,
-                      textOffset: Offset(0, -3),
-                      iconOpacity: marker.alpha,
-                      geometry: maplibre.LatLng(
-                        marker.position.latitude,
-                        marker.position.longitude,
-                      ),
-                      zIndex: marker.zIndexInt,
-                      draggable: marker.draggable,
-                      fontNames: ["Roboto Regular"],
-                      textColor: "#000000",
-                      textHaloColor: "#FFFFFF",
-                      textHaloWidth: 3.0, // magic number (done by eye)
-                      textHaloBlur: 0,
-                      textOpacity: 0, // Starts hidden (handled on tap)
-                      textMaxWidth: -1, // No limit
-                    ),
-                  );
-                }
-
-                controller.onSymbolTapped.add((symbol) {
-                  // display text on tapped symbol & remove text from other symbols
-                  for (var symbol in controller.symbols) {
-                    controller.updateSymbol(
-                      symbol,
-                      maplibre.SymbolOptions(textOpacity: 0),
-                    );
-                  }
-                  controller.updateSymbol(
-                    symbol,
-                    maplibre.SymbolOptions(textOpacity: 1),
-                  );
-                  controller.animateCamera(
-                    maplibre.CameraUpdate.newLatLng(symbol.options.geometry ?? maplibre.LatLng(0, 0)), // something will have gone very wrong if it goes to 0,0
-                    duration: Duration(seconds: 1) // magic number (felt right)
-                  );
-                });
-
-                if (mounted) {
-                  setState(() {
-                    isMapVisible = true;
-                  });
-                }
-              }),
-            },
+            onStyleLoadedCallback: () => _onStyleLoaded(),
+            attributionButtonPosition: AttributionButtonPosition.bottomLeft,
           ),
+
           if (widget.mapLegend != null)
-            Padding(
-              padding: EdgeInsets.all(context.padding),
-              child: widget.mapLegend!,
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: EdgeInsets.all(context.padding),
+                child: widget.mapLegend!,
+              ),
             ),
+
           Positioned(
-            top: 10,
-            left: 10,
+            right: context.padding,
+            bottom: context.padding,
             child: FloatingActionButton(
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               heroTag: "geolocation_button",
-              onPressed: () {
-                _controller.future.then((controller) {
-                  controller.requestMyLocationLatLng().then((latlng) => {
-                    controller.animateCamera(
-                    maplibre.CameraUpdate.newLatLng(
-                      maplibre.LatLng(
-                        // Default to TUM Garching campus
-                        latlng?.latitude ?? 48.26307794976663,
-                        latlng?.longitude ?? 11.668018668778569,
-                      ),
-                    ), 
-                    duration: Duration(seconds: 1)
-                  )});
-                });
-              },
-              backgroundColor: Colors.white,
-              elevation: 2e31, 
+              backgroundColor: context.theme.cardColor,
+              elevation: 6,
+              onPressed: _onLocateMePressed,
               child: Image.asset(
-                  "assets/images/map/locate.webp",
-                  height: 36,
-                  width: 36,
+                "assets/images/map/locate.webp",
+                height: 36,
+                width: 36,
+                color: context.theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _onStyleLoaded() async {
+    final controller = _mapController;
+    if (controller == null) return;
+
+    await _loadMarkerImages(controller);
+    _updateMarkers(controller);
+
+    if (mounted) {
+      setState(() {
+        isMapVisible = true;
+      });
+    }
+  }
+
+  Future<void> _loadMarkerImages(MapLibreMapController controller) async {
+    Future<void> load(String name, String path) async {
+      if (_loadedImages.contains(name)) return;
+      try {
+        final ByteData data = await rootBundle.load(path);
+        await controller.addImage(name, data.buffer.asUint8List());
+        _loadedImages.add(name);
+      } catch (e) {
+        log("Error loading map asset $path: $e");
+      }
+    }
+
+    await load("pin_blue", "assets/images/map/pin_blue.webp");
+    await load("pin_red", "assets/images/map/pin_red.webp");
+  }
+
+  void _updateMarkers(MapLibreMapController controller) async {
+    await controller.clearSymbols();
+
+    await controller.symbolManager?.setIconAllowOverlap(true);
+    await controller.symbolManager?.setIconIgnorePlacement(true);
+    await controller.symbolManager?.setTextAllowOverlap(true);
+    await controller.symbolManager?.setTextIgnorePlacement(true);
+
+    List<SymbolOptions> options = [];
+    List<Map<String, dynamic>> data = [];
+
+    for (var marker in widget.markers) {
+      options.add(
+        SymbolOptions(
+          iconSize: 3,
+          iconImage: marker.isRed ? "pin_red" : "pin_blue",
+          iconRotate: marker.rotation,
+          iconOffset: const Offset(0, -5),
+          textField: marker.infoWindow?.title,
+          textOffset: const Offset(0, -3),
+          iconOpacity: marker.alpha,
+          geometry: LatLng(marker.position.latitude, marker.position.longitude),
+          zIndex: marker.zIndex,
+          draggable: marker.draggable,
+          fontNames: ["Roboto Regular"],
+          textColor: "#000000",
+          textHaloColor: "#FFFFFF",
+          textHaloWidth: 3.0, // magic number (done by eye)
+          textHaloBlur: 0,
+          textOpacity: 0, // Starts hidden (handled on tap)
+          textMaxWidth: -1, // No limit
+        ),
+      );
+
+      data.add({"id": marker.id, "onTap": marker.infoWindow?.onTap});
+    }
+
+    for (int i = 0; i < options.length; i++) {
+      await controller.addSymbol(options[i], data[i]);
+    }
+  }
+
+  void _setupSymbolHandler(MapLibreMapController controller) {
+    controller.onSymbolTapped.add((symbol) {
+      // display text on tapped symbol & remove text from other symbols
+      // if text is already displayed and item has onTap callback, callback is executed
+      final onTap = symbol.data?["onTap"];
+
+      if (symbol.options.textOpacity == 1 && onTap is void Function()) {
+        onTap();
+      }
+
+      for (var s in controller.symbols) {
+        if (s.options.textOpacity == 1) {
+          controller.updateSymbol(s, const SymbolOptions(textOpacity: 0));
+        }
+      }
+
+      controller.updateSymbol(symbol, const SymbolOptions(textOpacity: 1));
+
+      if (symbol.options.geometry != null) {
+        controller.animateCamera(
+          CameraUpdate.newLatLng(
+            symbol.options.geometry!,
+          ), // something will have gone very wrong if it goes to 0,0
+          duration: const Duration(seconds: 1), // magic number (felt right)
+        );
+      }
+    });
+  }
+
+  void _onLocateMePressed() async {
+    if (_mapController == null) return;
+
+    final myLoc = await _mapController!.requestMyLocationLatLng();
+
+    final target = myLoc != null
+        ? LatLng(myLoc.latitude, myLoc.longitude)
+        : const LatLng(
+            48.26307794976663,
+            11.668018668778569,
+          ); // Default to TUM Garching campus
+
+    _mapController!.animateCamera(
+      CameraUpdate.newLatLng(target),
+      duration: const Duration(seconds: 1),
     );
   }
 }

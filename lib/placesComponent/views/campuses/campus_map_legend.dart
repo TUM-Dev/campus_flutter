@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/util/icon_text.dart' show IconText;
+import 'package:campus_flutter/base/util/icon_text.dart' show SymbolText;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -27,18 +27,16 @@ class CampusMapLegend extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconText(
-              iconData: Icons.place,
+            SymbolText.image(
+              image: Image.asset("assets/images/map/pin_blue.webp"),
               label: context.tr("cafeterias"),
-              iconColor: Colors.blue,
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: context.halfPadding),
             ),
-            IconText(
-              iconData: Icons.place,
+            SymbolText.image(
+              image: Image.asset("assets/images/map/pin_red.webp"),
               label: context.tr("studyRooms"),
-              iconColor: Colors.red,
             ),
           ],
         ),
