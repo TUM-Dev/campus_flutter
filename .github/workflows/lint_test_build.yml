@@ -11,10 +11,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Install latest CocoaPods Version
-        run: sudo gem install cocoapods
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
