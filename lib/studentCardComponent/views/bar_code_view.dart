@@ -26,7 +26,7 @@ class BarCodeView extends StatelessWidget {
                 height: 70,
                 padding: const EdgeInsets.all(10),
                 data: libraryID,
-                barcode: Barcode.code39(),
+                barcode: Barcode.code128(),
                 drawText: false,
               ),
             ),
