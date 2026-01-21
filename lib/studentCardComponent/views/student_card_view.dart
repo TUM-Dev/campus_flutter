@@ -32,7 +32,8 @@ class StudentCardView extends ConsumerWidget {
                 _header(lastFetched, context, ref),
                 _warningCard(context),
                 InformationView(studentCard: data),
-                BarCodeView(libraryID: data.libraryID),
+                if (data.libraryCode ?? data.libraryID case final payload?)
+                  BarCodeView(payload: payload),
               ],
             );
           } else {

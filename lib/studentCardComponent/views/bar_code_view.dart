@@ -4,9 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BarCodeView extends StatelessWidget {
-  final String libraryID;
+  final String payload;
 
-  const BarCodeView({super.key, required this.libraryID});
+  const BarCodeView({super.key, required this.payload});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BarCodeView extends StatelessWidget {
               child: BarcodeWidget(
                 height: 70,
                 padding: const EdgeInsets.all(10),
-                data: libraryID,
+                data: payload,
                 barcode: Barcode.code128(),
                 drawText: false,
               ),
@@ -34,7 +34,7 @@ class BarCodeView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.halfPadding),
             child: Text(
-              "${context.tr("libraryNumber")}: $libraryID",
+              payload,
               style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
