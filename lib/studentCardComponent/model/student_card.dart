@@ -16,7 +16,10 @@ class StudentCard {
   final String studyID;
 
   @JsonKey(name: "bibliotheksnummer")
-  final String libraryID;
+  final String? libraryID;
+
+  @JsonKey(name: "bibliothekskennung")
+  final String? libraryCode;
 
   @JsonKey(name: "chip_id_prime")
   final String chipID;
@@ -40,7 +43,8 @@ class StudentCard {
     required this.name,
     required this.birthday,
     required this.studyID,
-    required this.libraryID,
+    this.libraryID,
+    this.libraryCode,
     required this.chipID,
     required this.semester,
     required this.validFrom,
