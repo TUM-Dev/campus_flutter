@@ -28,8 +28,12 @@ class NavigationService {
   Widget title(int index, BuildContext context) {
     switch (index) {
       case 0:
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+
         return Image.asset(
-          'assets/images/logos/tum-logo-blue.png',
+          isDark
+              ? 'assets/images/logos/tum-logo-white.png'
+              : 'assets/images/logos/tum-logo-blue.png',
           fit: BoxFit.cover,
           height: 20,
         );

@@ -1,7 +1,6 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
@@ -30,16 +29,14 @@ class StudentCardView extends ConsumerWidget {
             return Column(
               children: [
                 _header(lastFetched, context, ref),
-                _warningCard(context),
                 InformationView(studentCard: data),
                 if (data.libraryCode ?? data.libraryID case final payload?)
                   BarCodeView(payload: payload),
               ],
             );
           } else {
-            return Center(
-              child: Text(context.tr("noEntriesFound", args: ["StudentCard"])),
-            );
+            return 
+              studentCardMessage(context);
           }
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
@@ -73,25 +70,45 @@ class StudentCardView extends ConsumerWidget {
     );
   }
 
-  Widget _warningCard(BuildContext context) {
-    return CardWithPadding(
-      elevation: 0,
-      color: context.primaryColor.withValues(alpha: 0.2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(Icons.warning, color: context.primaryColor),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-          Expanded(
-            child: Text(
-              context.tr("currentlyInBeta"),
-              style: TextStyle(color: context.primaryColor),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
+}
+Widget studentCardMessage(BuildContext context) {
+  final now = DateTime.now();
+
+  // Sommersemester beginnt 01.04., Wintersemester beginnt 01.10.
+  final startSummer = DateTime(now.year, 4, 1);
+  final startWinter = DateTime(now.year, 10, 1);
+
+  String message;
+  String semesterStartDate;
+
+  if (now.isBefore(startSummer)) {
+    // Nächstes Semester ist Sommersemester
+    semesterStartDate = "01.04.";
+    message = context.tr(
+      "studentCardUnavailableSummer",
+      args: [semesterStartDate],
+    );
+  } else if (now.isBefore(startWinter)) {
+    // Nächstes Semester ist Wintersemester
+    semesterStartDate = "01.10.";
+    message = context.tr(
+      "studentCardUnavailableWinter",
+      args: [semesterStartDate],
+    );
+  } else {
+    // Nach 01.10., nächstes Semester ist wieder Sommersemester im nächsten Jahr
+    semesterStartDate = "01.04."; // Optional: kann auch Jahr anhängen
+    message = context.tr(
+      "studentCardUnavailableSummer",
+      args: [semesterStartDate],
     );
   }
+
+return Center(
+  child: Text(
+    message,
+    textAlign: TextAlign.center,
+    style: Theme.of(context).textTheme.titleLarge, // larger than bodyMedium
+  ),
+);
 }
