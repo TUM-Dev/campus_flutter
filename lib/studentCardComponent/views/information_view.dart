@@ -69,26 +69,43 @@ class InformationView extends StatelessWidget {
     );
   }
 
-  Widget _titleLogo(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Spacer(flex: 2),
-        _tumLogo(),
-        const Spacer(),
-        _title(context),
-        const Spacer(flex: 2),
-      ],
-    );
-  }
 
-  Widget _tumLogo() {
-    return Image.asset(
-      'assets/images/logos/tum-logo-blue.png',
+  Widget _titleLogo(BuildContext context) {
+  return Row(
+    children: [
+      Expanded(
+        flex: 1, // 1/3 of the width
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only( right: 10.0),
+            child: _tumLogo(context),
+          ),
+        ),
+      ),
+      Expanded(
+        flex: 2, // 2/3 of the width
+        child: Center(
+          child: _title(context),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _tumLogo(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+
+  return Padding(
+    padding: const EdgeInsets.all(0.0),
+    child: Image.asset(
+      isDark
+          ? 'assets/images/logos/tum-logo-white.png'
+          : 'assets/images/logos/tum-logo-blue.png',
       fit: BoxFit.contain,
       height: 25,
-    );
-  }
+    ),
+  );
+}
 
   Widget _profileImage() {
     return Expanded(
@@ -106,7 +123,7 @@ class InformationView extends StatelessWidget {
       context.tr("digitalStudentCard"),
       style: Theme.of(
         context,
-      ).textTheme.titleLarge?.apply(color: context.primaryColor),
+      ).textTheme.titleLarge?.apply(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 
@@ -115,7 +132,7 @@ class InformationView extends StatelessWidget {
       studentCard.name,
       style: Theme.of(
         context,
-      ).textTheme.titleLarge?.copyWith(color: context.primaryColor),
+      ).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 

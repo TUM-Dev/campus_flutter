@@ -110,6 +110,8 @@
     "other": "{} freie Räume"
   },
   "mealPlans": "Essenspläne",
+  "studentCardUnavailableSummer": "Dein Studierendenausweiß ist derzeit nicht verfügbar. Er wird zu Beginn des Sommersemesters am {} verfügbar sein.",
+  "studentCardUnavailableWinter": "Dein Studierendenausweiß ist derzeit nicht verfügbar. Er wird zu Beginn des Wintersemesters am {} verfügbar sein.",
   "noEntriesFound": "Keine {} gefunden!",
   "enterQueryStart": "Stelle eine Suchanfrage",
   "personalLectures": "Persönliche Vorlesungen",
@@ -176,7 +178,7 @@
   "delete": "Löschen",
   "deviceSettings": "Geräte-Einstellungen",
   "edit": "Editieren",
-  "digitalStudentCard": "Digitale StudentCard",
+  "digitalStudentCard": "StudentCard",
   "currentlyInBeta": "Aktuell in Testphase mit eingeschränkter Funktionalität!",
   "validUntil": "Gültig bis",
   "libraryBarcode": "Bibliotheks-Barcode",

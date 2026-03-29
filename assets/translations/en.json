@@ -110,6 +110,8 @@
     "other": "{} free rooms"
   },
   "mealPlans": "Meal Plans",
+  "studentCardUnavailableSummer": "Your Student Card is currently not available. It will become available at the start of the Summer Semester on {}.",
+  "studentCardUnavailableWinter": "Your Student Card is currently not available. It will become available at the start of the start of the Winter Semester on {}.",
   "noEntriesFound": "No {} Found!",
   "enterQueryStart": "Enter a Query to Start",
   "personalLectures": "Personal Lectures",
@@ -176,7 +178,7 @@
   "delete": "Delete",
   "deviceSettings": "Device Settings",
   "edit": "Edit",
-  "digitalStudentCard": "Digital StudentCard",
+  "digitalStudentCard": "StudentCard",
   "currentlyInBeta": "Currently in Beta with Limited Functionality!",
   "validUntil": "Valid until",
   "libraryBarcode": "Library Barcode",
