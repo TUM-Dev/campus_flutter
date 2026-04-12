@@ -45,6 +45,10 @@
 	<string>To provide you with the closest study rooms, cafeteria and departures we need to access your location while in use</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To provide you with the closest study rooms, cafeteria and departures we need to access your location</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>To sync your TUM calendar events with your device calendar</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>To sync your TUM calendar events with your device calendar</string>
 	<key>NSContactsUsageDescription</key>
 	<string>To save TUM contacts to your local contacts we need access to your contacts</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
