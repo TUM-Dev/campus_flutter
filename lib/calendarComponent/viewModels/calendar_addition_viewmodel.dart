@@ -26,6 +26,7 @@ class CalendarAdditionViewModel {
 
   String? id;
   final Ref ref;
+  bool _isSaving = false;
 
   CalendarAdditionViewModel(this.ref) {
     final date = ref.read(selectedDate);
@@ -114,6 +115,9 @@ class CalendarAdditionViewModel {
   }
 
   Future<void> saveEvent() async {
+    if (_isSaving) return;
+    _isSaving = true;
+    try {
     if (id != null) {
       await CalendarService.deleteCalendarEvent(id!);
     }
@@ -148,6 +152,9 @@ class CalendarAdditionViewModel {
               locations: [],
             ),
           );
+    }
+    } finally {
+      _isSaving = false;
     }
   }
 
