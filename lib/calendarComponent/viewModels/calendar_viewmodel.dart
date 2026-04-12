@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_sync_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class CalendarViewModel {
       }
       events.add(response.$2);
       updateHomeWidget(response.$2);
+      _syncToDeviceCalendar(response.$2);
     }, onError: (error) => events.addError(error));
   }
 
@@ -180,5 +182,37 @@ class CalendarViewModel {
     elements?.forEach((element) => element.setColor(null));
     events.add(elements);
     updateHomeWidget(events.value ?? []);
+  }
+
+  Future<void> _syncToDeviceCalendar(List<CalendarEvent> calendarEvents) async {
+    final isSyncEnabled =
+        getIt<UserPreferencesService>().load(UserPreference.calendarSync)
+            as bool? ??
+        false;
+    if (!isSyncEnabled) return;
+
+    final syncService = getIt<CalendarSyncService>();
+    await syncService.syncEvents(calendarEvents);
+  }
+
+  Future<bool> enableCalendarSync() async {
+    final syncService = getIt<CalendarSyncService>();
+    final granted = await syncService.requestPermissions();
+    if (!granted) return false;
+
+    getIt<UserPreferencesService>().save(UserPreference.calendarSync, true);
+
+    // Trigger an initial sync with current events
+    final currentEvents = events.value;
+    if (currentEvents != null) {
+      await syncService.syncEvents(currentEvents);
+    }
+    return true;
+  }
+
+  Future<void> disableCalendarSync() async {
+    getIt<UserPreferencesService>().save(UserPreference.calendarSync, false);
+    final syncService = getIt<CalendarSyncService>();
+    await syncService.removeSyncedCalendar();
   }
 }
