@@ -37,6 +37,8 @@ class SettingsViewModel {
             case UserPreference.hiddenCalendarEntries:
               ref.read(showHiddenCalendarEntries.notifier).state =
                   value as bool;
+            case UserPreference.calendarSync:
+              ref.read(syncCalendarWithDevice.notifier).state = value as bool;
             default:
               break;
           }
@@ -61,6 +63,8 @@ class SettingsViewModel {
         ref.read(showWeekends.notifier).state = value as bool;
       case UserPreference.hiddenCalendarEntries:
         ref.read(showHiddenCalendarEntries.notifier).state = value as bool;
+      case UserPreference.calendarSync:
+        ref.read(syncCalendarWithDevice.notifier).state = value as bool;
       default:
         break;
     }
