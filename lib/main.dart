@@ -12,6 +12,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_sync_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/navigation_service.dart';
@@ -108,6 +109,9 @@ Future<void> _initializeServices() async {
   );
   getIt.registerSingleton<CalendarPreferenceService>(
     CalendarPreferenceService(sharedPreferences),
+  );
+  getIt.registerSingleton<CalendarSyncService>(
+    CalendarSyncService(sharedPreferences),
   );
 }
 
