@@ -10,6 +10,7 @@ enum UserPreference {
   failedGrades(bool),
   weekends(bool),
   hiddenCalendarEntries(bool),
+  calendarSync(bool),
   calendarTab(int);
 
   final Type type;

@@ -19,6 +19,7 @@ final showStudentCardPicture = StateProvider<bool>((ref) => true);
 final hideFailedGrades = StateProvider<bool>((ref) => false);
 final showWeekends = StateProvider<bool>((ref) => false);
 final showHiddenCalendarEntries = StateProvider<bool>((ref) => false);
+final syncCalendarWithDevice = StateProvider<bool>((ref) => false);
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});

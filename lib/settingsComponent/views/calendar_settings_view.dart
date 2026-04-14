@@ -22,6 +22,7 @@ class CalendarSettingsView extends ConsumerWidget {
           widgets: [
             _showWeekends(context, ref),
             _showHiddenCalendarEntries(context, ref),
+            _syncWithDeviceCalendar(context, ref),
           ],
         ),
       ),
@@ -64,6 +65,92 @@ class CalendarSettingsView extends ConsumerWidget {
               .savePreference(UserPreference.hiddenCalendarEntries, value);
           ref.read(calendarViewModel).fetch(false);
         },
+      ),
+    );
+  }
+
+  Widget _syncWithDeviceCalendar(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      title: Text(
+        context.tr("exportToDeviceCalendar"),
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: Switch(
+        value: ref.watch(syncCalendarWithDevice),
+        onChanged: (value) async {
+          if (value) {
+            _showEnableExportDialog(context, ref);
+          } else {
+            _showDisableExportDialog(context, ref);
+          }
+        },
+      ),
+    );
+  }
+
+  void _showEnableExportDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("exportToDeviceCalendar"),
+          textAlign: TextAlign.center,
+        ),
+        content: Text(
+          context.tr("exportCalendarDescription"),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.tr("cancel")),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              final success =
+                  await ref.read(calendarViewModel).enableCalendarSync();
+              if (success) {
+                ref.read(syncCalendarWithDevice.notifier).state = true;
+              }
+            },
+            child: Text(context.tr("enable")),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDisableExportDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("removeExportedCalendar"),
+          textAlign: TextAlign.center,
+        ),
+        content: Text(
+          context.tr("removeExportedCalendarDescription"),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.tr("cancel")),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+            ),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await ref.read(calendarViewModel).disableCalendarSync();
+              ref.read(syncCalendarWithDevice.notifier).state = false;
+            },
+            child: Text(context.tr("remove")),
+          ),
+        ],
       ),
     );
   }
