@@ -13,8 +13,8 @@ dependencies:
   # networking
   dio: ^5.1.2
   drift: ^2.17.0
-  sqlite3: ^2.4.2
-  sqlite3_flutter_libs: ^0.5.21
+  sqlite3: ^3.3.1
+  sqlite3_flutter_libs: ^0.6.0+eol
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   cached_network_image: ^3.2.3
@@ -38,10 +38,10 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.0.7
   flutter_native_splash: ^2.2.19
-  syncfusion_flutter_core: ^32.1.22
-  syncfusion_flutter_calendar: ^32.1.22
-  syncfusion_flutter_charts: ^32.1.22
-  syncfusion_flutter_datepicker: ^32.1.22
+  syncfusion_flutter_core: ^33.1.49
+  syncfusion_flutter_calendar: ^33.1.49
+  syncfusion_flutter_charts: ^33.1.49
+  syncfusion_flutter_datepicker: ^33.1.49
   video_player: ^2.6.1
   barcode_widget: ^2.0.4
   lottie: ^3.0.0
@@ -50,7 +50,7 @@ dependencies:
     git:
       url: https://github.com/mchome/flutter_colorpicker.git
       ref: master
-  flutter_contacts: ^1.1.9+2
+  flutter_contacts: ^2.0.2
   maplibre_gl: ^0.25.0
 
   # calendar sync
