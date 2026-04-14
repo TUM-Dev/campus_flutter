@@ -97,9 +97,7 @@ class CalendarSettingsView extends ConsumerWidget {
           context.tr("exportToDeviceCalendar"),
           textAlign: TextAlign.center,
         ),
-        content: Text(
-          context.tr("exportCalendarDescription"),
-        ),
+        content: Text(context.tr("exportCalendarDescription")),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(
@@ -109,8 +107,9 @@ class CalendarSettingsView extends ConsumerWidget {
           ElevatedButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              final success =
-                  await ref.read(calendarViewModel).enableCalendarSync();
+              final success = await ref
+                  .read(calendarViewModel)
+                  .enableCalendarSync();
               if (success) {
                 ref.read(syncCalendarWithDevice.notifier).state = true;
               }
@@ -130,9 +129,7 @@ class CalendarSettingsView extends ConsumerWidget {
           context.tr("removeExportedCalendar"),
           textAlign: TextAlign.center,
         ),
-        content: Text(
-          context.tr("removeExportedCalendarDescription"),
-        ),
+        content: Text(context.tr("removeExportedCalendarDescription")),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(

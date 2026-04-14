@@ -41,7 +41,7 @@ class WidgetFrameView extends StatelessWidget {
             ),
             child: titleWidget,
           ),
-        if (subtitle != null) subtitle!,
+        ?subtitle,
         child,
         Padding(padding: EdgeInsets.symmetric(vertical: context.halfPadding)),
       ],

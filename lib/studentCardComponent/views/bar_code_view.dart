@@ -33,10 +33,7 @@ class BarCodeView extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.halfPadding),
-            child: Text(
-              payload,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
+            child: Text(payload, style: Theme.of(context).textTheme.labelLarge),
           ),
         ],
       ),

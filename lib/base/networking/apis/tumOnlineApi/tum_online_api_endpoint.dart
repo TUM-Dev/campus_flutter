@@ -101,7 +101,7 @@ class TumOnlineEndpointEventCreate extends TumOnlineEndpoint {
   @override
   Map<String, String> getParameters() => {
     "pTitel": title,
-    if (annotation != null) "pAnmerkung": annotation!,
+    "pAnmerkung": ?annotation,
     "pVon": from,
     "pBis": to,
   };

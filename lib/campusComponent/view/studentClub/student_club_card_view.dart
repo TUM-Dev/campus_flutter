@@ -50,7 +50,7 @@ class StudentClubCardView extends ConsumerWidget {
                 ),
                 imageUrl: studentClub.coverUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, _, __) => Image.asset(
+                errorWidget: (context, _, _) => Image.asset(
                   "assets/images/placeholders/student_club_placeholder.png",
                   fit: BoxFit.cover,
                 ),
