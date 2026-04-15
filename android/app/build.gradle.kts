@@ -12,8 +12,8 @@ plugins {
 
 android {
     namespace = "de.tum.in.tumcampus"
-    compileSdk = 36
-    ndkVersion = "28.1.13356709"
+    compileSdk = 37
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -74,5 +74,5 @@ flutter {
 
 dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 }

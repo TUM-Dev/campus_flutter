@@ -211,7 +211,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (openingHoursWidget != null) openingHoursWidget,
+                ?openingHoursWidget,
                 Padding(
                   padding: EdgeInsets.all(context.padding),
                   child: SizedBox(

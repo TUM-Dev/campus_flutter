@@ -106,53 +106,88 @@ class PersonDetails {
       if (officialContact!.phone != null) {
         phones.add(
           Phone(
-            officialContact!.phone!,
-            label: PhoneLabel.work,
+            number: officialContact!.phone!,
+            label: const Label(PhoneLabel.work),
             isPrimary: true,
           ),
         );
       }
       if (officialContact!.mobilePhone != null) {
         phones.add(
-          Phone(officialContact!.mobilePhone!, label: PhoneLabel.workMobile),
+          Phone(
+            number: officialContact!.mobilePhone!,
+            label: const Label(PhoneLabel.workMobile),
+          ),
         );
       }
       if (officialContact!.fax != null) {
-        phones.add(Phone(officialContact!.fax!, label: PhoneLabel.faxWork));
+        phones.add(
+          Phone(
+            number: officialContact!.fax!,
+            label: const Label(PhoneLabel.workFax),
+          ),
+        );
       }
       if (officialContact!.homepage != null) {
         websites.add(
-          Website(officialContact!.homepage!, label: WebsiteLabel.work),
+          Website(
+            url: officialContact!.homepage!,
+            label: const Label(WebsiteLabel.work),
+          ),
         );
       }
     }
     if (privateContact != null) {
       if (privateContact!.phone != null) {
-        phones.add(Phone(privateContact!.phone!, label: PhoneLabel.home));
+        phones.add(
+          Phone(
+            number: privateContact!.phone!,
+            label: const Label(PhoneLabel.home),
+          ),
+        );
       }
       if (privateContact!.mobilePhone != null) {
         phones.add(
-          Phone(privateContact!.mobilePhone!, label: PhoneLabel.mobile),
+          Phone(
+            number: privateContact!.mobilePhone!,
+            label: const Label(PhoneLabel.mobile),
+          ),
         );
       }
       if (privateContact!.fax != null) {
-        phones.add(Phone(privateContact!.fax!, label: PhoneLabel.faxHome));
+        phones.add(
+          Phone(
+            number: privateContact!.fax!,
+            label: const Label(PhoneLabel.homeFax),
+          ),
+        );
       }
       if (privateContact!.homepage != null) {
         websites.add(
-          Website(privateContact!.homepage!, label: WebsiteLabel.home),
+          Website(
+            url: privateContact!.homepage!,
+            label: const Label(WebsiteLabel.home),
+          ),
         );
       }
     }
 
-    var photo = imageData != null ? base64DecodeImageData(imageData!) : null;
+    final photoBytes = imageData != null
+        ? base64DecodeImageData(imageData!)
+        : null;
 
     return Contact(
       name: Name(prefix: title ?? "", first: firstName, last: name),
-      emails: [Email(email, label: EmailLabel.work, isPrimary: true)],
+      emails: [
+        Email(
+          address: email,
+          label: const Label(EmailLabel.work),
+          isPrimary: true,
+        ),
+      ],
       phones: phones,
       websites: websites,
-      photo: photo,
+      photo: photoBytes != null ? Photo(fullSize: photoBytes) : null,
     );
   }
 }

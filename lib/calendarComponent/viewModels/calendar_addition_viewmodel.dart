@@ -118,41 +118,41 @@ class CalendarAdditionViewModel {
     if (_isSaving) return;
     _isSaving = true;
     try {
-    if (id != null) {
-      await CalendarService.deleteCalendarEvent(id!);
-    }
-    final response = await CalendarService.createCalendarEvent(
-      AddedCalendarEvent(
-        title: titleController.text,
-        annotation: annotationController.text.isEmpty
-            ? null
-            : annotationController.text,
-        from: from.value,
-        to: to.value,
-      ),
-    );
-    await ref.read(calendarViewModel).fetch(true);
-    if (ref
+      if (id != null) {
+        await CalendarService.deleteCalendarEvent(id!);
+      }
+      final response = await CalendarService.createCalendarEvent(
+        AddedCalendarEvent(
+          title: titleController.text,
+          annotation: annotationController.text.isEmpty
+              ? null
+              : annotationController.text,
+          from: from.value,
+          to: to.value,
+        ),
+      );
+      await ref.read(calendarViewModel).fetch(true);
+      if (ref
+              .read(calendarViewModel)
+              .events
+              .value
+              ?.firstWhereOrNull((e) => e.id == response.eventId) ==
+          null) {
+        ref
             .read(calendarViewModel)
             .events
             .value
-            ?.firstWhereOrNull((e) => e.id == response.eventId) ==
-        null) {
-      ref
-          .read(calendarViewModel)
-          .events
-          .value
-          ?.add(
-            CalendarEvent(
-              id: response.eventId,
-              status: "FT",
-              title: titleController.text,
-              startDate: from.value,
-              endDate: to.value,
-              locations: [],
-            ),
-          );
-    }
+            ?.add(
+              CalendarEvent(
+                id: response.eventId,
+                status: "FT",
+                title: titleController.text,
+                startDate: from.value,
+                endDate: to.value,
+                locations: [],
+              ),
+            );
+      }
     } finally {
       _isSaving = false;
     }

@@ -35,8 +35,7 @@ class StudentCardView extends ConsumerWidget {
               ],
             );
           } else {
-            return 
-              studentCardMessage(context);
+            return studentCardMessage(context);
           }
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
@@ -69,8 +68,8 @@ class StudentCardView extends ConsumerWidget {
       ],
     );
   }
-
 }
+
 Widget studentCardMessage(BuildContext context) {
   final now = DateTime.now();
 
@@ -104,11 +103,11 @@ Widget studentCardMessage(BuildContext context) {
     );
   }
 
-return Center(
-  child: Text(
-    message,
-    textAlign: TextAlign.center,
-    style: Theme.of(context).textTheme.titleLarge, // larger than bodyMedium
-  ),
-);
+  return Center(
+    child: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.titleLarge, // larger than bodyMedium
+    ),
+  );
 }

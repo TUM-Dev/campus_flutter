@@ -53,3 +53,6 @@ ios/fastlane/README.md
 
 #Android Studio Miscellaneous
 bugreport-*.zip
+
+#iOS
+ios/.derived*
