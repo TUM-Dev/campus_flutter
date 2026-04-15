@@ -7,7 +7,7 @@ import '../helpers/xml_decoder.dart';
 void main() {
   group('TumOnlineApiException XML decoding', () {
     /// Builds an XML error response and decodes it into a [TumOnlineApiException].
-    TumOnlineApiException _decodeException(String message) {
+    TumOnlineApiException decodeException(String message) {
       final xml = '''
 <error>
   <message>$message</message>
@@ -18,7 +18,7 @@ void main() {
     }
 
     test('decodes "Keine Rechte für Funktion" as NoPermission', () {
-      final exception = _decodeException('Keine Rechte für Funktion wbservicesbasic.noten');
+      final exception = decodeException('Keine Rechte für Funktion wbservicesbasic.noten');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('decodes "Funktion nicht erlaubt" as NoPermission', () {
-      final exception = _decodeException('Funktion nicht erlaubt');
+      final exception = decodeException('Funktion nicht erlaubt');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -36,7 +36,7 @@ void main() {
     });
 
     test('decodes "Token ist nicht bestätigt!" as TokenNotConfirmed', () {
-      final exception = _decodeException('Token ist nicht bestätigt!');
+      final exception = decodeException('Token ist nicht bestätigt!');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('decodes "Token ist ungültig!" as InvalidToken', () {
-      final exception = _decodeException('Token ist ungültig!');
+      final exception = decodeException('Token ist ungültig!');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('decodes "Ungültige pIdentNr" as PersonNotFound', () {
-      final exception = _decodeException('Ungültige pIdentNr');
+      final exception = decodeException('Ungültige pIdentNr');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -63,7 +63,7 @@ void main() {
     });
 
     test('decodes "Person ist nicht sichtbar." as PersonNotFound', () {
-      final exception = _decodeException('Person ist nicht sichtbar.');
+      final exception = decodeException('Person ist nicht sichtbar.');
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -72,7 +72,7 @@ void main() {
     });
 
     test('decodes Suchstring error as InvalidSearchString', () {
-      final exception = _decodeException(
+      final exception = decodeException(
         'Der Suchstring muss mindestens 3 Zeichen lang sein.',
       );
 
@@ -84,7 +84,7 @@ void main() {
 
     test('decodes unknown message as Unknown with correct message', () {
       const msg = 'Some completely unexpected error occurred.';
-      final exception = _decodeException(msg);
+      final exception = decodeException(msg);
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -96,7 +96,7 @@ void main() {
     });
 
     test('TumOnlineApiException implements Exception', () {
-      final exception = _decodeException('Token ist ungültig!');
+      final exception = decodeException('Token ist ungültig!');
       expect(exception, isA<Exception>());
     });
 
@@ -111,6 +111,15 @@ void main() {
       final body = ExceptionBody.fromJson(json);
 
       expect(body.exceptionMessage.message, 'Direct decoding test');
+    });
+
+    test('toString returns a human-readable string with the exception type', () {
+      final exception = decodeException('Token ist ungültig!');
+      // TumOnlineApiException.toString() returns:
+      //   "TumOnlineException: <message(null, null)>"
+      final s = exception.toString();
+      expect(s, startsWith('TumOnlineException:'));
+      expect(s, isNotEmpty);
     });
   });
 }

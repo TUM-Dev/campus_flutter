@@ -131,5 +131,37 @@ void main() {
       expect(card.libraryCode, isNull);
       expect(card.studies, isEmpty);
     });
+
+    test('card with exactly one studium element decodes as list of one', () {
+      // A student enrolled in a single programme — xml2json may produce a Map
+      // rather than a List for the studium key when there is only one element.
+      // The @JsonKey(name: "studium", defaultValue: []) annotation must handle this.
+      const xml = '''
+<rowset>
+  <card>
+    <obfuscated_id>S*444444</obfuscated_id>
+    <name>Single Study Student</name>
+    <geburtsdatum>2003-06-15 00:00:00</geburtsdatum>
+    <matrikelnummer>03444444</matrikelnummer>
+    <chip_id_prime>CHIP-444</chip_id_prime>
+    <semester>Sommersemester 2024</semester>
+    <gueltig_ab>2024-04-01 00:00:00</gueltig_ab>
+    <gueltig_bis>2024-09-30 23:59:59</gueltig_bis>
+    <foto>IMAGE4==</foto>
+    <studium>
+      <name>Physik</name>
+      <abschluss>Bachelor of Science</abschluss>
+      <abschluss_kurz>B.Sc.</abschluss_kurz>
+      <identifikator>PH20230001</identifikator>
+    </studium>
+  </card>
+</rowset>
+''';
+      final card = StudentCards.fromJson(tumXmlToJson(xml)).studentCards.first;
+
+      expect(card.studies.length, 1);
+      expect(card.studies.first.name, 'Physik');
+      expect(card.studies.first.id, 'PH20230001');
+    });
   });
 }

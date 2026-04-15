@@ -98,5 +98,31 @@ void main() {
         '${grade.date?.toIso8601String()}-${grade.lvNumber}',
       );
     });
+    test('grade with null date — id still safe to access', () {
+      // TUM occasionally omits <datum> for pending/transferred grades.
+      // The id computed property uses date?.toIso8601String() so it must not throw.
+      const xml = '''
+<rowset>
+  <row>
+    <lv_nummer>0000009999</lv_nummer>
+    <lv_semester>24W</lv_semester>
+    <lv_titel>Pending Module</lv_titel>
+    <pruefer_nachname>Huber</pruefer_nachname>
+    <uninotenamekurz>n.b.</uninotenamekurz>
+    <exam_typ_name>Modulprüfung</exam_typ_name>
+    <modus>Schriftlich</modus>
+    <studienidentifikator>IN001</studienidentifikator>
+    <studienbezeichnung>Informatik</studienbezeichnung>
+    <st_studium_nr>100</st_studium_nr>
+  </row>
+</rowset>
+''';
+      final grade = Grades.fromJson(tumXmlToJson(xml)).personalGrades.first;
+
+      expect(grade.date, isNull);
+      // id must not throw even with a null date
+      expect(() => grade.id, returnsNormally);
+      expect(grade.id, 'null-0000009999');
+    });
   });
 }
