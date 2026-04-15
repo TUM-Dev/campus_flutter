@@ -164,7 +164,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
     return ElevatedButton(
       onPressed: () async {
         // Add the contact to the user's contacts
-        await FlutterContacts.openExternalInsert(personDetails.contact);
+        await FlutterContacts.create(personDetails.contact);
       },
       child: Text(context.tr("add_contact")),
     );
