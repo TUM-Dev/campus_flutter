@@ -1220,10 +1220,10 @@ packages:
     dependency: transitive
     description:
       name: quick_actions_android
-      sha256: "8acaeb18ef926ae1ca6214e51b717ebb592b899f3f97674262d21e010061e5fb"
+      sha256: "8e491323342fa68420ca26a9bd5a2bbcdb526bda33db45b6427c6d139fb7316d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.28"
+    version: "1.0.29"
   quick_actions_ios:
     dependency: transitive
     description:
