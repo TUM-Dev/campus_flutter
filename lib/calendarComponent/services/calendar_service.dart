@@ -48,7 +48,7 @@ class CalendarService {
 
   static Future<void> deleteCalendarEvent(String id) async {
     RestClient restClient = getIt<RestClient>();
-    restClient.getWithException(
+    await restClient.getWithException(
       TumOnlineApi(TumOnlineEndpointEventDelete(eventId: id)),
       CalendarDeletionConfirmationData.fromJson,
       TumOnlineApiException.fromJson,
