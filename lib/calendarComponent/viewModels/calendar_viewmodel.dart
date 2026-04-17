@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
@@ -23,36 +25,34 @@ class CalendarViewModel {
   final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
   widgetEvents = BehaviorSubject.seeded(null);
 
-  Future fetch(bool forcedRefresh) async {
+  Future<void> fetch(bool forcedRefresh) async {
     isLoading.add(true);
-    CalendarService.fetchCalendar(forcedRefresh).then(
-      (response) {
-        lastFetched.add(response.$1);
-        response.$2.removeWhere((element) => element.isCanceled);
-        getIt<CalendarPreferenceService>().loadPreferences();
-        for (var element in response.$2) {
-          final eventColor = getIt<CalendarPreferenceService>()
-              .getColorPreference(element.lvNr ?? element.id);
-          if (eventColor != null) {
-            element.setColor(eventColor);
-          }
-
-          final eventVisibility = getIt<CalendarPreferenceService>()
-              .getVisibilityPreference(element.lvNr ?? element.id);
-          if (eventVisibility != null) {
-            element.isVisible = eventVisibility;
-          }
+    try {
+      final response = await CalendarService.fetchCalendar(forcedRefresh);
+      lastFetched.add(response.$1);
+      response.$2.removeWhere((element) => element.isCanceled);
+      getIt<CalendarPreferenceService>().loadPreferences();
+      for (var element in response.$2) {
+        final eventColor = getIt<CalendarPreferenceService>()
+            .getColorPreference(element.lvNr ?? element.id);
+        if (eventColor != null) {
+          element.setColor(eventColor);
         }
-        events.add(response.$2);
-        isLoading.add(false);
-        updateHomeWidget(response.$2);
-        _syncToDeviceCalendar(response.$2);
-      },
-      onError: (error) {
-        isLoading.add(false);
-        events.addError(error);
-      },
-    );
+
+        final eventVisibility = getIt<CalendarPreferenceService>()
+            .getVisibilityPreference(element.lvNr ?? element.id);
+        if (eventVisibility != null) {
+          element.isVisible = eventVisibility;
+        }
+      }
+      events.add(response.$2);
+      updateHomeWidget(response.$2);
+      _syncToDeviceCalendar(response.$2);
+    } catch (error) {
+      events.addError(error);
+    } finally {
+      isLoading.add(false);
+    }
   }
 
   Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {
@@ -119,11 +119,137 @@ class CalendarViewModel {
     return (leftColumn, rightColumn);
   }
 
-  Future<void> deleteCalendarElement(String id) async {
-    await CalendarService.deleteCalendarEvent(id).then((value) => fetch(true));
+  List<CalendarEvent> getSeriesSiblings(String seriesId) {
+    final siblingIds = getIt<CalendarPreferenceService>()
+        .getSeriesEventIds(seriesId)
+        .toSet();
+    return (events.value ?? []).where((e) => siblingIds.contains(e.id)).toList()
+      ..sort((a, b) => a.startDate.compareTo(b.startDate));
   }
 
-  void setEventColor(String key, Color color) {
+  int getSeriesEventCount(CalendarEvent event) {
+    final seriesId = getIt<CalendarPreferenceService>().getSeriesId(event.id);
+    if (seriesId == null) return 1;
+
+    return getIt<CalendarPreferenceService>()
+        .getSeriesEventIds(seriesId)
+        .length;
+  }
+
+  Future<void> deleteCustomCalendarEvent(CalendarEvent event) async {
+    await CalendarService.deleteCalendarEvent(event.id);
+    getIt<CalendarPreferenceService>().removeEventPreferences([event.id]);
+    await fetch(true);
+  }
+
+  Future<void> deleteRecurringSeries(CalendarEvent event) async {
+    final preferenceService = getIt<CalendarPreferenceService>();
+    final seriesId = preferenceService.getSeriesId(event.id);
+    if (seriesId == null) {
+      await deleteCustomCalendarEvent(event);
+      return;
+    }
+
+    final eventIdsToDelete = preferenceService.getSeriesEventIds(seriesId);
+    final originalEvents = (events.value ?? [])
+        .where((calendarEvent) => eventIdsToDelete.contains(calendarEvent.id))
+        .toList();
+    final snapshots = {
+      for (final calendarEvent in originalEvents)
+        calendarEvent.id: _capturePreferenceSnapshot(
+          preferenceService,
+          calendarEvent.id,
+        ),
+    };
+
+    if (eventIdsToDelete.isEmpty) return;
+
+    final deletedIds = <String>[];
+    try {
+      for (final eventId in eventIdsToDelete) {
+        await CalendarService.deleteCalendarEvent(eventId);
+        deletedIds.add(eventId);
+      }
+    } catch (_) {
+      await _restoreDeletedSeriesEvents(
+        preferenceService,
+        originalEvents.where(
+          (calendarEvent) => deletedIds.contains(calendarEvent.id),
+        ),
+        snapshots,
+      );
+      await fetch(true);
+      rethrow;
+    }
+
+    preferenceService.removeEventPreferences(deletedIds);
+    await fetch(true);
+  }
+
+  _EventPreferenceSnapshot _capturePreferenceSnapshot(
+    CalendarPreferenceService preferenceService,
+    String eventId,
+  ) {
+    return _EventPreferenceSnapshot(
+      color: preferenceService.getColorPreference(eventId),
+      isVisible: preferenceService.getVisibilityPreference(eventId),
+      seriesId: preferenceService.getSeriesId(eventId),
+    );
+  }
+
+  Future<void> _restoreDeletedSeriesEvents(
+    CalendarPreferenceService preferenceService,
+    Iterable<CalendarEvent> eventsToRestore,
+    Map<String, _EventPreferenceSnapshot> snapshots,
+  ) async {
+    final restoredOriginalIds = <String>[];
+
+    for (final calendarEvent in eventsToRestore) {
+      try {
+        final response = await CalendarService.createCalendarEvent(
+          AddedCalendarEvent(
+            title: calendarEvent.title ?? '-',
+            annotation: calendarEvent.description,
+            from: calendarEvent.startDate,
+            to: calendarEvent.endDate,
+          ),
+        );
+
+        final snapshot = snapshots[calendarEvent.id];
+        if (snapshot != null) {
+          if (snapshot.color != null) {
+            preferenceService.saveColorPreference(
+              response.eventId,
+              snapshot.color!,
+            );
+          }
+          if (snapshot.isVisible != null) {
+            preferenceService.saveVisibilityPreference(
+              response.eventId,
+              snapshot.isVisible!,
+            );
+          }
+          if (snapshot.seriesId != null) {
+            preferenceService.saveSeriesId(
+              response.eventId,
+              snapshot.seriesId!,
+            );
+          }
+        }
+        restoredOriginalIds.add(calendarEvent.id);
+      } catch (error) {
+        log(
+          'Failed to restore deleted series event ${calendarEvent.id}: $error',
+        );
+      }
+    }
+
+    if (restoredOriginalIds.isNotEmpty) {
+      preferenceService.removeEventPreferences(restoredOriginalIds);
+    }
+  }
+
+  void setEventColor(String key, Color color, {bool notifyListeners = true}) {
     getIt<CalendarPreferenceService>().saveColorPreference(key, color);
     final elements = events.value;
     elements?.forEach((element) {
@@ -131,8 +257,15 @@ class CalendarViewModel {
         element.setColor(color);
       }
     });
+    if (notifyListeners) {
+      notifyEventChanges();
+    }
+  }
+
+  void notifyEventChanges() {
+    final elements = events.value;
     events.add(elements);
-    updateHomeWidget(events.value ?? []);
+    updateHomeWidget(elements ?? []);
   }
 
   void toggleEventVisibility(String key) {
@@ -224,4 +357,16 @@ class CalendarViewModel {
     final syncService = getIt<CalendarSyncService>();
     await syncService.removeSyncedCalendar();
   }
+}
+
+class _EventPreferenceSnapshot {
+  final Color? color;
+  final bool? isVisible;
+  final String? seriesId;
+
+  const _EventPreferenceSnapshot({
+    required this.color,
+    required this.isVisible,
+    required this.seriesId,
+  });
 }
