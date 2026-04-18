@@ -1,9 +1,6 @@
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
-import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,28 +56,8 @@ class CalendarViewService {
       calendarEvent = event;
     }
 
-    if (calendarEvent != null && calendarEvent.url != null) {
+    if (calendarEvent != null) {
       context.push(calendarDetails, extra: calendarEvent);
-    } else if (calendarEvent != null) {
-      final canDeleteSeries = ref
-          .read(calendarViewModel)
-          .canDeleteRecurringSeriesFrom(calendarEvent);
-      final isSeries =
-          getIt<CalendarPreferenceService>().getSeriesId(calendarEvent.id) !=
-          null;
-
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        builder: (_) => CustomEventView(
-          calendarEvent: calendarEvent!,
-          canDeleteSeries: canDeleteSeries,
-          isSeries: isSeries,
-        ),
-      );
     }
   }
 }
