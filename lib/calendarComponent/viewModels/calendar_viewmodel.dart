@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 final calendarViewModel = Provider((ref) => CalendarViewModel());
 
@@ -124,13 +125,38 @@ class CalendarViewModel {
       ..sort((a, b) => a.startDate.compareTo(b.startDate));
   }
 
-  int getSeriesEventCount(CalendarEvent event) {
-    final seriesId = getIt<CalendarPreferenceService>().getSeriesId(event.id);
-    if (seriesId == null) return 1;
+  CalendarSeriesResolution resolveSeries(CalendarEvent event) {
+    final preferenceService = getIt<CalendarPreferenceService>();
+    final explicitSeriesId = preferenceService.getSeriesId(event.id);
+    if (explicitSeriesId != null) {
+      return CalendarSeriesResolution(
+        seriesId: explicitSeriesId,
+        siblings: getSeriesSiblings(explicitSeriesId),
+      );
+    }
 
-    return getIt<CalendarPreferenceService>()
-        .getSeriesEventIds(seriesId)
-        .length;
+    final inferredSiblings = _inferSeriesSiblings(event);
+    if (inferredSiblings.length > 1) {
+      // Persist so inference only runs once per series.
+      final newSeriesId = const Uuid().v4();
+      for (final sibling in inferredSiblings) {
+        preferenceService.saveSeriesId(sibling.id, newSeriesId);
+      }
+      return CalendarSeriesResolution(
+        seriesId: newSeriesId,
+        siblings: inferredSiblings,
+      );
+    }
+
+    return CalendarSeriesResolution(siblings: inferredSiblings);
+  }
+
+  bool isSeriesEvent(CalendarEvent event) {
+    return resolveSeries(event).count > 1;
+  }
+
+  int getSeriesEventCount(CalendarEvent event) {
+    return resolveSeries(event).count;
   }
 
   Future<void> deleteCustomCalendarEvent(CalendarEvent event) async {
@@ -141,16 +167,14 @@ class CalendarViewModel {
 
   Future<void> deleteRecurringSeries(CalendarEvent event) async {
     final preferenceService = getIt<CalendarPreferenceService>();
-    final seriesId = preferenceService.getSeriesId(event.id);
-    if (seriesId == null) {
+    final resolution = resolveSeries(event);
+    if (!resolution.isSeries) {
       await deleteCustomCalendarEvent(event);
       return;
     }
 
-    final eventIdsToDelete = preferenceService.getSeriesEventIds(seriesId);
-    final originalEvents = (events.value ?? [])
-        .where((calendarEvent) => eventIdsToDelete.contains(calendarEvent.id))
-        .toList();
+    final eventIdsToDelete = resolution.siblings.map((sibling) => sibling.id);
+    final originalEvents = resolution.siblings;
     final snapshots = {
       for (final calendarEvent in originalEvents)
         calendarEvent.id: _capturePreferenceSnapshot(
@@ -181,6 +205,155 @@ class CalendarViewModel {
 
     preferenceService.removeEventPreferences(deletedIds);
     await fetch(true);
+  }
+
+  List<CalendarEvent> _inferSeriesSiblings(CalendarEvent event) {
+    if (!_isEligibleForSeriesInference(event)) {
+      return [event];
+    }
+
+    final candidates =
+        (events.value ?? [])
+            .where((candidate) => _matchesSeriesSignature(event, candidate))
+            .toList()
+          ..sort((left, right) => left.startDate.compareTo(right.startDate));
+
+    if (candidates.length < 2) {
+      return [event];
+    }
+
+    final targetIndex = candidates.indexWhere(
+      (candidate) => candidate.id == event.id,
+    );
+    if (targetIndex == -1) {
+      return [event];
+    }
+
+    List<CalendarEvent> bestRun = [event];
+    for (final recurrenceType in const [
+      RecurrenceType.daily,
+      RecurrenceType.weekly,
+      RecurrenceType.biweekly,
+      RecurrenceType.monthly,
+    ]) {
+      for (int startIndex = 0; startIndex <= targetIndex; startIndex++) {
+        final run = _buildRecurringRun(candidates, startIndex, recurrenceType);
+        final containsTarget = run.any((candidate) => candidate.id == event.id);
+        if (!containsTarget || run.length < 2) {
+          continue;
+        }
+        if (run.length > bestRun.length) {
+          bestRun = run;
+        }
+      }
+    }
+
+    return bestRun;
+  }
+
+  static const int _maxConsecutiveGaps = 2;
+
+  List<CalendarEvent> _buildRecurringRun(
+    List<CalendarEvent> candidates,
+    int startIndex,
+    RecurrenceType recurrenceType,
+  ) {
+    final anchor = candidates[startIndex];
+    final run = <CalendarEvent>[anchor];
+    int slotOffset = 1;
+    int consecutiveGaps = 0;
+
+    for (int index = startIndex + 1; index < candidates.length;) {
+      final expectedDate = _expectedDate(
+        anchor.startDate,
+        slotOffset,
+        recurrenceType,
+      );
+      final candidateDate = DateUtils.dateOnly(candidates[index].startDate);
+      final comparison = candidateDate.compareTo(expectedDate);
+
+      if (comparison == 0) {
+        run.add(candidates[index]);
+        slotOffset++;
+        consecutiveGaps = 0;
+        index++;
+        continue;
+      }
+
+      if (comparison > 0) {
+        // The candidate is past the expected slot — the slot is empty.
+        consecutiveGaps++;
+        if (consecutiveGaps > _maxConsecutiveGaps) {
+          break;
+        }
+        slotOffset++;
+        // Don't advance index — re-check this candidate against the next slot.
+        continue;
+      }
+
+      // comparison < 0: candidate is before expected date, skip it.
+      index++;
+    }
+
+    return run;
+  }
+
+  bool _isEligibleForSeriesInference(CalendarEvent event) {
+    return !event.hasLectureDetailsLink &&
+        (event.url == null || event.url!.trim().isEmpty);
+  }
+
+  bool _matchesSeriesSignature(CalendarEvent anchor, CalendarEvent candidate) {
+    return _isEligibleForSeriesInference(candidate) &&
+        anchor.title?.trim() == candidate.title?.trim() &&
+        (anchor.description?.trim().isEmpty ?? true) ==
+            (candidate.description?.trim().isEmpty ?? true) &&
+        (anchor.description?.trim() ?? '') ==
+            (candidate.description?.trim() ?? '') &&
+        anchor.duration == candidate.duration &&
+        anchor.startDate.hour == candidate.startDate.hour &&
+        anchor.startDate.minute == candidate.startDate.minute &&
+        anchor.endDate.hour == candidate.endDate.hour &&
+        anchor.endDate.minute == candidate.endDate.minute &&
+        _sameLocations(anchor.locations, candidate.locations);
+  }
+
+  bool _sameLocations(List<String> left, List<String> right) {
+    if (left.length != right.length) {
+      return false;
+    }
+
+    for (int index = 0; index < left.length; index++) {
+      if (left[index].trim() != right[index].trim()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  DateTime _expectedDate(
+    DateTime anchor,
+    int offset,
+    RecurrenceType recurrenceType,
+  ) {
+    final dateOnly = DateUtils.dateOnly(anchor);
+
+    return switch (recurrenceType) {
+      RecurrenceType.daily => dateOnly.add(Duration(days: offset)),
+      RecurrenceType.weekly => dateOnly.add(Duration(days: 7 * offset)),
+      RecurrenceType.biweekly => dateOnly.add(Duration(days: 14 * offset)),
+      RecurrenceType.monthly => _addMonths(dateOnly, offset),
+      RecurrenceType.none => dateOnly,
+    };
+  }
+
+  DateTime _addMonths(DateTime date, int months) {
+    final targetMonth = date.month + months;
+    final year = date.year + (targetMonth - 1) ~/ 12;
+    final month = (targetMonth - 1) % 12 + 1;
+    final lastDay = DateUtils.getDaysInMonth(year, month);
+    return DateTime(year, month, date.day.clamp(1, lastDay));
   }
 
   _EventPreferenceSnapshot _capturePreferenceSnapshot(
@@ -366,4 +539,15 @@ class _EventPreferenceSnapshot {
     required this.isVisible,
     required this.seriesId,
   });
+}
+
+class CalendarSeriesResolution {
+  final String? seriesId;
+  final List<CalendarEvent> siblings;
+
+  const CalendarSeriesResolution({this.seriesId, required this.siblings});
+
+  bool get isSeries => siblings.length > 1;
+  bool get isExplicit => seriesId != null;
+  int get count => siblings.length;
 }

@@ -46,10 +46,11 @@ class CalendarAdditionViewModel {
 
   String? id;
   String? seriesId;
+  CalendarSeriesResolution? resolvedSeries;
   final Ref ref;
   bool _isSaving = false;
   bool get isEditing => id != null;
-  bool get isEditingSeries => isEditing && seriesId != null;
+  bool get isEditingSeries => isEditing && (resolvedSeries?.isSeries ?? false);
   bool get hasRecurrenceEnabled => recurrenceType.value != RecurrenceType.none;
   bool get shouldShowSeriesBanner => isEditing && hasRecurrenceEnabled;
   bool get hasValidTimeFrame => to.value.isAfter(from.value);
@@ -68,7 +69,8 @@ class CalendarAdditionViewModel {
 
   CalendarAdditionViewModel.edit(this.ref, CalendarEvent calendarEvent) {
     id = calendarEvent.id;
-    seriesId = getIt<CalendarPreferenceService>().getSeriesId(calendarEvent.id);
+    resolvedSeries = ref.read(calendarViewModel).resolveSeries(calendarEvent);
+    seriesId = resolvedSeries?.seriesId;
 
     final initialEvent = _resolveInitialEditingEvent(calendarEvent);
     titleController.text = initialEvent.title ?? "";
@@ -90,17 +92,11 @@ class CalendarAdditionViewModel {
   }
 
   CalendarEvent _resolveInitialEditingEvent(CalendarEvent fallbackEvent) {
-    if (seriesId == null) return fallbackEvent;
-
-    return ref
-            .read(calendarViewModel)
-            .getSeriesSiblings(seriesId!)
-            .firstOrNull ??
-        fallbackEvent;
+    return resolvedSeries?.siblings.firstOrNull ?? fallbackEvent;
   }
 
   void _seedSeriesRecurrence() {
-    final siblings = ref.read(calendarViewModel).getSeriesSiblings(seriesId!);
+    final siblings = resolvedSeries?.siblings ?? const <CalendarEvent>[];
     if (siblings.length < 2) {
       recurrenceType.add(RecurrenceType.none);
       occurrenceCount.add(2);
@@ -382,10 +378,11 @@ class CalendarAdditionViewModel {
 
       if (isEditingSeries) {
         // ── Series edit: update all siblings ──────────────────────────────
-        final siblings = ref
-            .read(calendarViewModel)
-            .getSeriesSiblings(seriesId!);
+        final siblings = resolvedSeries?.siblings ?? const <CalendarEvent>[];
         final occurrences = _generateOccurrences();
+        final activeSeriesId = occurrences.length > 1
+            ? (seriesId ?? _uuid.v4())
+            : null;
         final snapshots = {
           for (final sibling in siblings)
             sibling.id: _capturePreferenceSnapshot(
@@ -425,8 +422,8 @@ class CalendarAdditionViewModel {
               ),
             );
             createdEventIds.add(response.eventId);
-            if (occurrences.length > 1) {
-              preferenceService.saveSeriesId(response.eventId, seriesId!);
+            if (activeSeriesId != null) {
+              preferenceService.saveSeriesId(response.eventId, activeSeriesId);
             }
           }
         } catch (_) {
