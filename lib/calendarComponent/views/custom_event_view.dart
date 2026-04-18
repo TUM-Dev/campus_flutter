@@ -4,10 +4,8 @@ import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/visibility_button_view.dart';
-import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/basic_lecture_info_row_view.dart';
 import 'package:campus_flutter/studiesComponent/view/lectureDetail/lecture_info_card_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -55,9 +53,6 @@ class CustomEventDetailsView extends ConsumerWidget {
   const CustomEventDetailsView({super.key, required this.calendarEvent});
 
   final CalendarEvent calendarEvent;
-
-  bool get isSeries =>
-      getIt<CalendarPreferenceService>().getSeriesId(calendarEvent.id) != null;
 
   Future<bool> _confirmDelete(
     BuildContext context, {
@@ -134,6 +129,7 @@ class CustomEventDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final lastFetched = ref.read(calendarViewModel).lastFetched.value;
+    final isSeries = ref.read(calendarViewModel).isSeriesEvent(calendarEvent);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
