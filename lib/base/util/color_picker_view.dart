@@ -26,6 +26,17 @@ class _ColorPickerViewState extends State<ColorPickerView> {
   }
 
   @override
+  void didUpdateWidget(covariant ColorPickerView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final nextColor = widget.color ?? context.primaryColor;
+    final previousColor = oldWidget.color ?? context.primaryColor;
+    if (nextColor != previousColor) {
+      selectedColor = nextColor;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {

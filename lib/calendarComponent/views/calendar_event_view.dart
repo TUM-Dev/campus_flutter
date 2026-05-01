@@ -24,31 +24,35 @@ class CalendarEventView extends StatelessWidget {
   }
 
   Widget _hiddenCalendarEvent(BuildContext context) {
-    return SizedBox(
-      height: bounds.height,
-      width: bounds.width,
-      child: Stack(
-        children: [
-          DiagonalStripePatternView(
-            stripeColor: calendarEvent.getColor(),
-            bgColor: calendarEvent.getColor().withValues(
-              alpha: Theme.of(context).brightness == Brightness.light
-                  ? 0.625
-                  : 0.5,
+    return ClipRect(
+      child: SizedBox(
+        height: bounds.height,
+        width: bounds.width,
+        child: Stack(
+          children: [
+            DiagonalStripePatternView(
+              stripeColor: calendarEvent.getColor(),
+              bgColor: calendarEvent.getColor().withValues(
+                alpha: Theme.of(context).brightness == Brightness.light
+                    ? 0.625
+                    : 0.5,
+              ),
             ),
-          ),
-          _content(context),
-        ],
+            _content(context),
+          ],
+        ),
       ),
     );
   }
 
   Widget _visibleCalendarEvent(BuildContext context) {
-    return Container(
-      height: bounds.height,
-      width: bounds.width,
-      decoration: BoxDecoration(color: calendarEvent.getColor()),
-      child: _content(context),
+    return ClipRect(
+      child: Container(
+        height: bounds.height,
+        width: bounds.width,
+        decoration: BoxDecoration(color: calendarEvent.getColor()),
+        child: _content(context),
+      ),
     );
   }
 
@@ -80,10 +84,13 @@ class CalendarEventView extends StatelessWidget {
   }
 
   Widget _text(TextStyle? style, double padding, BuildContext context) {
+    final lineLimit = _calculateLineLimit(style, padding);
+
     return Text(
       calendarEvent.subject,
       style: style,
-      maxLines: _calculateLineLimit(style, padding, context),
+      maxLines: lineLimit == null || lineLimit < 1 ? 1 : lineLimit,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -91,11 +98,7 @@ class CalendarEventView extends StatelessWidget {
     return Text(calendarEvent.timePeriod, style: style, maxLines: 1);
   }
 
-  int? _calculateLineLimit(
-    TextStyle? style,
-    double padding,
-    BuildContext context,
-  ) {
+  int? _calculateLineLimit(TextStyle? style, double padding) {
     var absoluteHeight = bounds.height - padding * 2;
 
     if (style == null) {
@@ -112,6 +115,11 @@ class CalendarEventView extends StatelessWidget {
       absoluteHeight = absoluteHeight - lineHeight;
     }
 
-    return (absoluteHeight / lineHeight).floor();
+    final lineLimit = (absoluteHeight / lineHeight).floor();
+    if (lineLimit < 1) {
+      return 1;
+    }
+
+    return lineLimit;
   }
 }
