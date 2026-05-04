@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:campus_flutter/base/extensions/color.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_preferences.dart';
@@ -13,23 +14,18 @@ class CalendarPreferenceService {
 
   Map<String, int> colorPreferences = {};
   Map<String, bool> visibilityPreferences = {};
+  Map<String, String> seriesPreferences = {};
+  bool _loaded = false;
 
   CalendarPreferenceService(this.sharedPreferences);
 
   void saveColorPreference(String id, Color color) {
     colorPreferences[id] = color.intValue;
-    try {
-      sharedPreferences.setString(
-        key,
-        jsonEncode(
-          CalendarPreferences(colorPreferences, visibilityPreferences).toJson(),
-        ),
-      );
-    } catch (_) {}
+    _persist();
   }
 
   Color? getColorPreference(String key) {
-    if (colorPreferences.isEmpty) {
+    if (!_loaded) {
       loadPreferences();
     }
 
@@ -39,22 +35,63 @@ class CalendarPreferenceService {
 
   void saveVisibilityPreference(String id, bool isVisible) {
     visibilityPreferences[id] = isVisible;
-    try {
-      sharedPreferences.setString(
-        key,
-        jsonEncode(
-          CalendarPreferences(colorPreferences, visibilityPreferences).toJson(),
-        ),
-      );
-    } catch (_) {}
+    _persist();
   }
 
   bool? getVisibilityPreference(String key) {
-    if (visibilityPreferences.isEmpty) {
+    if (!_loaded) {
       loadPreferences();
     }
 
     return visibilityPreferences[key];
+  }
+
+  void saveSeriesId(String eventId, String seriesId) {
+    seriesPreferences[eventId] = seriesId;
+    _persist();
+  }
+
+  String? getSeriesId(String eventId) {
+    if (!_loaded) {
+      loadPreferences();
+    }
+    return seriesPreferences[eventId];
+  }
+
+  List<String> getSeriesEventIds(String seriesId) {
+    if (!_loaded) {
+      loadPreferences();
+    }
+    return seriesPreferences.entries
+        .where((e) => e.value == seriesId)
+        .map((e) => e.key)
+        .toList();
+  }
+
+  void removeEventPreferences(Iterable<String> eventIds) {
+    for (final eventId in eventIds) {
+      colorPreferences.remove(eventId);
+      visibilityPreferences.remove(eventId);
+      seriesPreferences.remove(eventId);
+    }
+    _persist();
+  }
+
+  void _persist() {
+    try {
+      sharedPreferences.setString(
+        key,
+        jsonEncode(
+          CalendarPreferences(
+            colorPreferences,
+            visibilityPreferences,
+            seriesPreferences,
+          ).toJson(),
+        ),
+      );
+    } catch (e) {
+      log('Failed to persist calendar preferences: $e');
+    }
   }
 
   void loadPreferences() {
@@ -67,8 +104,12 @@ class CalendarPreferenceService {
         );
         colorPreferences = calendarPreferences.colorPreferences;
         visibilityPreferences = calendarPreferences.visibilityPreferences;
+        seriesPreferences = Map.from(calendarPreferences.seriesPreferences);
       }
-    } catch (_) {}
+      _loaded = true;
+    } catch (e) {
+      log('Failed to load calendar preferences: $e');
+    }
   }
 
   void resetPreferences() {

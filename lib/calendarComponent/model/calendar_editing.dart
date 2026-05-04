@@ -2,6 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_editing.g.dart';
 
+enum RecurrenceType { none, daily, weekly, biweekly, monthly }
+
+enum RecurrenceEndType { count, untilDate }
+
 class AddedCalendarEvent {
   final String title;
   final String? annotation;

@@ -29,7 +29,14 @@ class _VisibilityButtonViewState extends ConsumerState<VisibilityButtonView> {
           isVisible = !isVisible;
         });
       },
-      child: Icon((isVisible) ? Icons.visibility : Icons.visibility_off),
+      child: SizedBox(
+        height: 30,
+        width: 30,
+        child: Icon(
+          isVisible ? Icons.visibility : Icons.visibility_off,
+          size: 22,
+        ),
+      ),
     );
   }
 }

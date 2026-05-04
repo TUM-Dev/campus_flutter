@@ -35,31 +35,57 @@ class CalendarEvent extends Searchable {
     return url?.split("LvNr=").last;
   }
 
+  bool get hasLectureDetailsLink {
+    final value = url;
+    final lectureNumber = lvNr;
+    if (value == null || lectureNumber == null || lectureNumber.isEmpty) {
+      return false;
+    }
+
+    final uri = Uri.tryParse(value);
+    if (uri == null || !uri.path.contains('lv.detail')) {
+      return false;
+    }
+
+    return uri.queryParameters['cLvNr'] == lectureNumber ||
+        uri.queryParameters['pLvNr'] == lectureNumber;
+  }
+
   String get timePeriod {
     return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
   }
 
-  String _dateTimePeriod(BuildContext context) {
-    final start = DateFormat(
+  String _localizedDateTime(BuildContext context, DateTime value) {
+    return DateFormat(
       "EE, dd.MM.yyyy, HH:mm",
       context.locale.languageCode,
-    ).format(startDate);
+    ).format(value);
+  }
+
+  String _dateTimePeriod(BuildContext context) {
+    final start = _localizedDateTime(context, startDate);
     final end = DateFormat("HH:mm").format(endDate);
     return "$start - $end";
   }
 
   String timePeriodText(BuildContext context) {
-    if (startDate.day == endDate.day) {
+    if (_isSameCalendarDay(startDate, endDate)) {
       return _dateTimePeriod(context);
     } else {
-      final start = DateFormat(null, "de").format(startDate);
-      final end = DateFormat(null, "de").format(endDate);
+      final start = _localizedDateTime(context, startDate);
+      final end = _localizedDateTime(context, endDate);
       return "$start ${context.tr("to").toLowerCase()}\n$end";
     }
   }
 
   bool get isCanceled {
     return status == "CANCEL";
+  }
+
+  bool _isSameCalendarDay(DateTime left, DateTime right) {
+    return left.year == right.year &&
+        left.month == right.month &&
+        left.day == right.day;
   }
 
   String get subject {
