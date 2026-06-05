@@ -90,7 +90,7 @@ class ServingLine {
   Color get color {
     switch (code) {
       case 3:
-        return const Color.fromRGBO(1, 83, 102, 1.0);
+        return _hnvBusColor ?? const Color.fromRGBO(1, 83, 102, 1.0);
       case 1:
         switch (number) {
           case "U2":
@@ -112,5 +112,12 @@ class ServingLine {
       default:
         return Colors.grey;
     }
+  }
+  Color? get _hnvBusColor {
+    final n = int.tryParse(number);
+    if (n != null) {
+      return const Color.fromRGBO(148, 35, 136, 1.0);
+    }
+    return null;
   }
 }

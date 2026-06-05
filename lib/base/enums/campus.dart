@@ -8,7 +8,8 @@ enum Campus {
   grosshadern("Klinikum Großhadern"),
   garching("Garching Forschungszentrum"),
   freising("Campus Freising"),
-  ottobrunn("Campus Ottobrunn");
+  ottobrunn("Campus Ottobrunn"),
+  heilbronn("Campus Heilbronn");
 
   final String name;
 
@@ -24,6 +25,7 @@ extension CampusExtension on Campus {
       Campus.klinikumRechts,
       Campus.freising,
       Campus.ottobrunn,
+      Campus.heilbronn,
     ];
   }
 
@@ -43,6 +45,8 @@ extension CampusExtension on Campus {
         return "Weihenstephan";
       case Campus.ottobrunn:
         return "Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)";
+      case Campus.heilbronn:
+        return "Heilbronn";
     }
   }
 
@@ -79,6 +83,8 @@ extension CampusExtension on Campus {
         return const LatLng(48.39549985559942, 11.727904526510946);
       case Campus.ottobrunn:
         return const LatLng(48.05465656040613, 11.653499097414645);
+      case Campus.heilbronn:
+        return const LatLng(49.14870, 9.21414);
     }
   }
 
@@ -129,6 +135,12 @@ extension CampusExtension on Campus {
           name: "Taufkirchen, Lilienthalstr.",
           apiName: "1002389",
           location: const LatLng(48.05155653835728, 11.655056447685036),
+        );
+      case Campus.heilbronn:
+        return Station(
+          name: "Europaplatz/Bildungscampus West",
+          apiName: "5400008",
+          location: const LatLng(49.14870, 9.21414),
         );
     }
   }
@@ -199,6 +211,19 @@ extension CampusExtension on Campus {
         ];
       case Campus.ottobrunn:
         return [defaultStation];
+      case Campus.heilbronn:
+        return [
+          defaultStation,
+          Station(
+            name: "Hallenbad Soleo",
+            apiName: "5400141",
+            location: const LatLng(49.14633, 9.22066),
+          ),
+        ];
     }
+  }
+
+  bool get usesHnvApi {
+    return this == Campus.heilbronn;
   }
 }
