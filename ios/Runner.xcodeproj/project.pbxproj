@@ -255,7 +255,6 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				2812AFD12B21E52F00306CC7 /* [Crashlytics] Upload dSYM */,
 				EBADD77312F1D3C5C612BC88 /* [CP] Embed Pods Frameworks */,
-				24B10E3EE2A21E3870A3C31F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -334,23 +333,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		24B10E3EE2A21E3870A3C31F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2812AFD02B21E4E400306CC7 /* [Crashlytics] Clear dSYM */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

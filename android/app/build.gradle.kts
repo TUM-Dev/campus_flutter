@@ -29,7 +29,7 @@ android {
     defaultConfig {
         applicationId = "de.tum.in.tumcampus"
         minSdk = 29
-        targetSdk = 36
+        targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
