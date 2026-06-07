@@ -17,11 +17,9 @@ platform :ios do
     )
 
     if is_ci
-      import_certificate(
-        certificate_path: "/tmp/dist_cert.p12",
-        certificate_password: ENV["IOS_DIST_P12_PASSWORD"],
-        keychain_name: "fastlane_tmp_keychain"
-      )
+      keychain_path = File.expand_path("~/Library/Keychains/fastlane_tmp_keychain-db")
+      sh("security import /tmp/dist_cert.p12 -k #{keychain_path} -P #{ENV['IOS_DIST_P12_PASSWORD'].shellescape} -T /usr/bin/codesign 2>&1")
+      sh("security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' #{keychain_path} 2>&1")
     end
 
     match(

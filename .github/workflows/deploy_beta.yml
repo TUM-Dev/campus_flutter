@@ -38,6 +38,10 @@ jobs:
         run: cd ./ios && pod install
 
       - if: matrix.platform == 'ios'
+        name: Patch FlutterGeneratedPluginSwiftPackage minimum iOS version
+        run: sed -i '' 's/.iOS("13.0")/.iOS("15.0")/g' ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift
+
+      - if: matrix.platform == 'ios'
         name: Clear SPM artifact cache
         run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
 
