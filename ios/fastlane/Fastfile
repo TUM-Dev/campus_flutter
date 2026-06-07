@@ -16,9 +16,18 @@ platform :ios do
       is_key_content_base64: true
     )
 
+    if is_ci
+      import_certificate(
+        certificate_path: "/tmp/dist_cert.p12",
+        certificate_password: ENV["IOS_DIST_P12_PASSWORD"],
+        keychain_name: "fastlane_tmp_keychain"
+      )
+    end
+
     match(
       type: "appstore",
       readonly: true,
+      skip_certificate_matching: true,
       app_identifier: ["de.tum.tca", "de.tum.tca.calendarWidget"]
     )
 
