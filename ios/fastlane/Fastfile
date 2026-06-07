@@ -19,7 +19,6 @@ platform :ios do
     match(
       type: "appstore",
       readonly: true,
-      skip_certificate_matching: true,
       app_identifier: ["de.tum.tca", "de.tum.tca.calendarWidget"]
     )
 
@@ -52,7 +51,8 @@ platform :ios do
     build_app(
       scheme: "Runner",
       workspace: "Runner.xcworkspace",
-      export_method: "app-store"
+      export_method: "app-store",
+      skip_package_dependencies_resolution: true
     )
 
     upload_to_testflight(
