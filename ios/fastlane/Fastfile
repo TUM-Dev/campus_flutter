@@ -20,8 +20,6 @@ platform :ios do
       keychain_path = File.expand_path("~/Library/Keychains/fastlane_tmp_keychain-db")
       sh("security import /tmp/dist_cert.p12 -k #{keychain_path} -P #{ENV['IOS_DIST_P12_PASSWORD'].shellescape} -T /usr/bin/codesign 2>&1")
       sh("security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' #{keychain_path} 2>&1")
-      # Replace upload-symbols with no-op — binary blocked by Gatekeeper on macOS 26
-      sh("printf '#!/bin/sh\\nexit 0\\n' > ../Pods/FirebaseCrashlytics/upload-symbols && chmod +x ../Pods/FirebaseCrashlytics/upload-symbols")
     end
 
     match(

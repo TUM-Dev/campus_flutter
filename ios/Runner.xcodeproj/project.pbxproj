@@ -377,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nsleep 1 # Without this, there seems a chance that the script runs before dSYM generation is finished \n$PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp $PROJECT_DIR/Runner/GoogleService-Info.plist -p ios $DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME\n";
+			shellScript = "if [ \"${CI}\" = \"true\" ]; then exit 0; fi\nsleep 1 # Without this, there seems a chance that the script runs before dSYM generation is finished \n$PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp $PROJECT_DIR/Runner/GoogleService-Info.plist -p ios $DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME\n";
 		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
