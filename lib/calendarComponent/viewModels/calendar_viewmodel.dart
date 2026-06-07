@@ -19,31 +19,40 @@ class CalendarViewModel {
     null,
   );
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
+  final BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
   final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
   widgetEvents = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
-    CalendarService.fetchCalendar(forcedRefresh).then((response) {
-      lastFetched.add(response.$1);
-      response.$2.removeWhere((element) => element.isCanceled);
-      getIt<CalendarPreferenceService>().loadPreferences();
-      for (var element in response.$2) {
-        final eventColor = getIt<CalendarPreferenceService>()
-            .getColorPreference(element.lvNr ?? element.id);
-        if (eventColor != null) {
-          element.setColor(eventColor);
-        }
+    isLoading.add(true);
+    CalendarService.fetchCalendar(forcedRefresh).then(
+      (response) {
+        lastFetched.add(response.$1);
+        response.$2.removeWhere((element) => element.isCanceled);
+        getIt<CalendarPreferenceService>().loadPreferences();
+        for (var element in response.$2) {
+          final eventColor = getIt<CalendarPreferenceService>()
+              .getColorPreference(element.lvNr ?? element.id);
+          if (eventColor != null) {
+            element.setColor(eventColor);
+          }
 
-        final eventVisibility = getIt<CalendarPreferenceService>()
-            .getVisibilityPreference(element.lvNr ?? element.id);
-        if (eventVisibility != null) {
-          element.isVisible = eventVisibility;
+          final eventVisibility = getIt<CalendarPreferenceService>()
+              .getVisibilityPreference(element.lvNr ?? element.id);
+          if (eventVisibility != null) {
+            element.isVisible = eventVisibility;
+          }
         }
-      }
-      events.add(response.$2);
-      updateHomeWidget(response.$2);
-      _syncToDeviceCalendar(response.$2);
-    }, onError: (error) => events.addError(error));
+        events.add(response.$2);
+        isLoading.add(false);
+        updateHomeWidget(response.$2);
+        _syncToDeviceCalendar(response.$2);
+      },
+      onError: (error) {
+        isLoading.add(false);
+        events.addError(error);
+      },
+    );
   }
 
   Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {

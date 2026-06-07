@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
+import 'package:campus_flutter/base/util/refresh_button.dart';
 import 'package:campus_flutter/studentCardComponent/views/bar_code_view.dart';
 import 'package:campus_flutter/studentCardComponent/views/information_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -54,10 +55,10 @@ class StudentCardView extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
+        RefreshButton(
           padding: EdgeInsets.symmetric(horizontal: context.padding),
-          onPressed: () => ref.read(studentCardViewModel).fetch(true),
-          icon: const Icon(Icons.refresh),
+          isLoading: ref.read(studentCardViewModel).isLoading,
+          onRefresh: () => ref.read(studentCardViewModel).fetch(true),
         ),
         if (lastFetched != null) Expanded(child: LastUpdatedText(lastFetched)),
         IconButton(

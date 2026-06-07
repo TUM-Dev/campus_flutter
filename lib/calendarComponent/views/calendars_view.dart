@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
+import 'package:campus_flutter/base/util/refresh_button.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/last_updated_text.dart';
@@ -96,6 +97,10 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
                               .saveTabPreference(_selectedCalendarTab);
                         },
                       ),
+                    ),
+                    RefreshButton(
+                      isLoading: ref.read(calendarViewModel).isLoading,
+                      onRefresh: () => ref.read(calendarViewModel).fetch(true),
                     ),
                   ],
                 ),
