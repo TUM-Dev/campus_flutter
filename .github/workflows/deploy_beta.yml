@@ -38,6 +38,10 @@ jobs:
         run: cd ./ios && pod install
 
       - if: matrix.platform == 'ios'
+        name: Clear SPM artifact cache
+        run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
+
+      - if: matrix.platform == 'ios'
         name: Add SSH Key
         uses: webfactory/ssh-agent@v0.8.0
         with:
