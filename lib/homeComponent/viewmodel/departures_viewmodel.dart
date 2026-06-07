@@ -144,6 +144,7 @@ class DeparturesViewModel {
           true,
           selectedStation.value!.apiName,
           walkingDistance.value,
+          campus: widgetCampus.value,
         ).then(
           (response) => sortDepartures(response),
           onError: (error) => departures.addError(error),
@@ -153,6 +154,7 @@ class DeparturesViewModel {
           true,
           widgetCampus.value!.defaultStation.apiName,
           walkingDistance.value,
+          campus: widgetCampus.value,
         ).then(
           (response) => sortDepartures(response),
           onError: (error) => departures.addError(error),
