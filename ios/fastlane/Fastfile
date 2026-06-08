@@ -7,7 +7,7 @@ platform :ios do
       setup_ci
     end
 
-    xcode_select("/Applications/Xcode_26.0.1.app")
+    xcode_select("/Applications/Xcode_26.5.app")
 
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
@@ -19,7 +19,6 @@ platform :ios do
     match(
       type: "appstore",
       readonly: true,
-      skip_certificate_matching: true,
       app_identifier: ["de.tum.tca", "de.tum.tca.calendarWidget"]
     )
 
@@ -52,7 +51,8 @@ platform :ios do
     build_app(
       scheme: "Runner",
       workspace: "Runner.xcworkspace",
-      export_method: "app-store"
+      export_method: "app-store",
+      skip_package_dependencies_resolution: true
     )
 
     upload_to_testflight(

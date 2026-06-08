@@ -1,10 +1,7 @@
 name: Linting, Testing and Building
 
 on:
-  push:
-    branches-ignore:
-      - "dev"
-      - "main"
+  pull_request:
 
 jobs:
   build:
