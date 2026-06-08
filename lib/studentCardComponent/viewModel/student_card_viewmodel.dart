@@ -10,11 +10,20 @@ class StudentCardViewModel {
     null,
   );
   BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
+  final BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
 
   Future fetch(bool forcedRefresh) async {
-    return StudentCardService.fetchStudentCard(forcedRefresh).then((response) {
-      studentCard.add(response.$2);
-      lastFetched.add(response.$1);
-    }, onError: (error) => studentCard.addError(error));
+    isLoading.add(true);
+    return StudentCardService.fetchStudentCard(forcedRefresh).then(
+      (response) {
+        studentCard.add(response.$2);
+        lastFetched.add(response.$1);
+        isLoading.add(false);
+      },
+      onError: (error) {
+        isLoading.add(false);
+        studentCard.addError(error);
+      },
+    );
   }
 }

@@ -51,7 +51,7 @@ dependencies:
       url: https://github.com/mchome/flutter_colorpicker.git
       ref: master
   flutter_contacts: ^2.0.2
-  maplibre_gl: ^0.26.0
+  maplibre_gl: ^0.26.1
 
   # calendar sync
   device_calendar: ^4.3.3
