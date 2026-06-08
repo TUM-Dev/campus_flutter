@@ -9,6 +9,7 @@ analyzer:
   errors:
     invalid_annotation_target: ignore
   exclude:
+    - 'build/**'
     - '**/*.g.dart'
     - lib/base/networking/apis/tumdev/campus_backend.pb.dart
     - lib/base/networking/apis/tumdev/campus_backend.pbenum.dart
