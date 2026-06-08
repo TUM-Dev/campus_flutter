@@ -33,5 +33,5 @@ Runner/GeneratedPluginRegistrant.*
 !default.pbxuser
 !default.perspectivev3
 
-Gemfile.lock
 build/
+Gemfile.lock
