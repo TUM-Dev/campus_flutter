@@ -42,10 +42,6 @@ jobs:
         run: sed -i '' 's/.iOS("13.0")/.iOS("15.0")/g' ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift
 
       - if: matrix.platform == 'ios'
-        name: Clear SPM artifact cache
-        run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
-
-      - if: matrix.platform == 'ios'
         name: Add SSH Key
         uses: webfactory/ssh-agent@v0.8.0
         with:
@@ -61,6 +57,7 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
           RELEASE_NOTES: ${{ github.event.release.body }}
