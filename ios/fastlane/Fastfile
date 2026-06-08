@@ -55,10 +55,6 @@ platform :ios do
       skip_package_dependencies_resolution: true
     )
 
-    upload_symbols_to_crashlytics(
-      gsp_path: "./Runner/GoogleService-Info.plist"
-    )
-
     upload_to_testflight(
       changelog: ENV["RELEASE_NOTES"],
       skip_waiting_for_build_processing: true
