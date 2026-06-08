@@ -46,12 +46,6 @@ jobs:
         run: rm -rf ~/Library/Caches/org.swift.swiftpm/artifacts
 
       - if: matrix.platform == 'ios'
-        name: Decode Distribution Certificate
-        run: echo "$IOS_DIST_P12_BASE64" | base64 --decode > /tmp/dist_cert.p12
-        env:
-          IOS_DIST_P12_BASE64: ${{ secrets.IOS_DIST_P12_BASE64 }}
-
-      - if: matrix.platform == 'ios'
         name: Add SSH Key
         uses: webfactory/ssh-agent@v0.8.0
         with:
@@ -67,7 +61,6 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          IOS_DIST_P12_PASSWORD: ${{ secrets.IOS_DIST_P12_PASSWORD }}
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
           RELEASE_NOTES: ${{ github.event.release.body }}
@@ -82,7 +75,6 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          IOS_DIST_P12_PASSWORD: ${{ secrets.IOS_DIST_P12_PASSWORD }}
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 

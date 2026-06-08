@@ -16,16 +16,9 @@ platform :ios do
       is_key_content_base64: true
     )
 
-    if is_ci
-      keychain_path = File.expand_path("~/Library/Keychains/fastlane_tmp_keychain-db")
-      sh("security import /tmp/dist_cert.p12 -k #{keychain_path} -P #{ENV['IOS_DIST_P12_PASSWORD'].shellescape} -T /usr/bin/codesign 2>&1")
-      sh("security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' #{keychain_path} 2>&1")
-    end
-
     match(
       type: "appstore",
       readonly: true,
-      skip_certificate_matching: true,
       app_identifier: ["de.tum.tca", "de.tum.tca.calendarWidget"]
     )
 
@@ -60,6 +53,10 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       export_method: "app-store",
       skip_package_dependencies_resolution: true
+    )
+
+    upload_symbols_to_crashlytics(
+      gsp_path: "./Runner/GoogleService-Info.plist"
     )
 
     upload_to_testflight(
