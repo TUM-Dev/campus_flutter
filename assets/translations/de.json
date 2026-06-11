@@ -244,5 +244,6 @@
   "visibility": "Sichtbarkeit",
   "utilizationAt": "Auslastung bei {}%",
   "showStudentCardPicture": "Student Card Bild zeigen",
-  "add_contact": "Zu Kontakten hinzufügen"
+  "add_contact": "Zu Kontakten hinzufügen",
+  "noUpcomingEvents": "Keine bevorstehenden Events"
 }
