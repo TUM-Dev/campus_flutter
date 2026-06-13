@@ -19,6 +19,15 @@ platform :android do
     )
   end
 
+  desc "Build a signed release APK for direct installation"
+  lane :android_apk do
+    build_number = latest_google_play_version_code
+
+    Dir.chdir "../.." do
+      sh("flutter", "build", "apk", "--release", "--build-number=#{build_number}")
+    end
+  end
+
   def latest_google_play_version_code
     json_key_data = Base64.strict_decode64(ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_KEY"])
     productionVersionCodes = google_play_track_version_codes(track: 'production', json_key_data: json_key_data)
