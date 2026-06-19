@@ -24,15 +24,6 @@ class HeilbronnEvent {
 
   DateTime? get eventDate => startDate ?? publishedAt;
 
-  static final _timeRegExp = RegExp(
-    r'Time:\s*(.*?)(?=\s*(?:Date:|Time:|Location:|$))',
-    caseSensitive: false,
-  );
-  static final _locationRegExp = RegExp(
-    r'Location:\s*(.*?)(?=\s*(?:Date:|Time:|Location:|$))',
-    caseSensitive: false,
-  );
-
   static List<HeilbronnEvent> listFromRss(String rss) {
     try {
       final document = XmlDocument.parse(rss);
@@ -47,13 +38,10 @@ class HeilbronnEvent {
               link: _elementText(item, 'link'),
               description: description,
               publishedAt: pubDate,
-              startDate: DateTime.tryParse(_elementText(item, 'startDate')) ??
-                  DateTime.tryParse(_elementText(item, 'start-date')),
-              endDate: DateTime.tryParse(_elementText(item, 'endDate')) ??
-                  DateTime.tryParse(_elementText(item, 'end-date')),
-              time: _timeRegExp.firstMatch(description)?.group(1)?.trim(),
-              location:
-                  _locationRegExp.firstMatch(description)?.group(1)?.trim(),
+              startDate: DateTime.tryParse(_elementText(item, 'startDate')),
+              endDate: DateTime.tryParse(_elementText(item, 'endDate')),
+              time: _nullableText(item, 'time'),
+              location: _nullableText(item, 'location'),
             );
           })
           .where((event) => event.title.isNotEmpty)
@@ -73,6 +61,11 @@ class HeilbronnEvent {
   static String _elementText(XmlElement item, String name) {
     final elements = item.findElements(name);
     return elements.isEmpty ? '' : elements.first.innerText.trim();
+  }
+
+  static String? _nullableText(XmlElement item, String name) {
+    final text = _elementText(item, name);
+    return text.isEmpty ? null : text;
   }
 
   static DateTime? _parsePubDate(String value) {
