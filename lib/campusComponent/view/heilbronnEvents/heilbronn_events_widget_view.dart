@@ -74,22 +74,25 @@ class _HeilbronnEventsWidgetViewState
           ),
         );
       }
+      final events = snapshot.data!
+          .take(GridUtility.campusNumberOfItems(context))
+          .toList();
+      final textScale = MediaQuery.textScalerOf(context).scale(1);
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: context.padding),
-        child: GridView.count(
+        child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          crossAxisCount: GridUtility.campusEventsCrossAxisCount(context),
-          mainAxisSpacing: context.padding,
-          crossAxisSpacing: context.padding,
-          childAspectRatio: 3.25,
-          children: [
-            for (final event in snapshot.data!.take(
-              GridUtility.campusNumberOfItems(context),
-            ))
-              HeilbronnEventCardView(event: event),
-          ],
+          itemCount: events.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: GridUtility.campusEventsCrossAxisCount(context),
+            mainAxisSpacing: context.padding,
+            crossAxisSpacing: context.padding,
+            mainAxisExtent: 128 * textScale,
+          ),
+          itemBuilder: (context, index) =>
+              HeilbronnEventCardView(event: events[index]),
         ),
       );
     } else if (snapshot.hasError) {
