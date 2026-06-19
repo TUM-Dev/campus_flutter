@@ -21,13 +21,15 @@ class HeilbronnEventsWidgetView extends ConsumerStatefulWidget {
 
 class _HeilbronnEventsWidgetViewState
     extends ConsumerState<HeilbronnEventsWidgetView> {
+  String? _languageCode;
+
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      ref.read(heilbronnEventsViewModel).fetch(context.locale.languageCode);
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final languageCode = context.locale.languageCode;
+    if (_languageCode == languageCode) return;
+    _languageCode = languageCode;
+    ref.read(heilbronnEventsViewModel).fetch(languageCode);
   }
 
   @override
@@ -78,7 +80,7 @@ class _HeilbronnEventsWidgetViewState
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          crossAxisCount: 1,
+          crossAxisCount: GridUtility.campusEventsCrossAxisCount(context),
           mainAxisSpacing: context.padding,
           crossAxisSpacing: context.padding,
           childAspectRatio: 3.25,
