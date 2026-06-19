@@ -23,8 +23,11 @@ class _HeilbronnEventsWidgetViewState
     extends ConsumerState<HeilbronnEventsWidgetView> {
   @override
   void initState() {
-    ref.read(heilbronnEventsViewModel).fetch();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ref.read(heilbronnEventsViewModel).fetch(context.locale.languageCode);
+    });
   }
 
   @override
@@ -94,7 +97,9 @@ class _HeilbronnEventsWidgetViewState
           child: ErrorHandlingRouter(
             error: snapshot.error,
             errorHandlingViewType: ErrorHandlingViewType.textOnly,
-            retry: (() => ref.read(heilbronnEventsViewModel).fetch()),
+            retry: (() => ref
+                .read(heilbronnEventsViewModel)
+                .fetch(context.locale.languageCode)),
           ),
         ),
       );
