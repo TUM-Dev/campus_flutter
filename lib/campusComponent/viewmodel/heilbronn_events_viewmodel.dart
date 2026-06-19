@@ -18,10 +18,13 @@ class HeilbronnEventsViewModel {
       BehaviorSubject.seeded(null);
   final BehaviorSubject<bool?> isNearHeilbronn = BehaviorSubject.seeded(null);
 
-  Future<void> fetch() async {
-    final position = await LocationService.getLastKnown().onError(
-      (error, stackTrace) => null,
-    );
+  Future<void> fetch(String languageCode) async {
+    Position? position;
+    try {
+      position = await LocationService.determinePosition();
+    } catch (_) {
+      position = null;
+    }
     if (position == null ||
         !_isWithinRadius(position.latitude, position.longitude)) {
       isNearHeilbronn.add(false);
@@ -31,7 +34,9 @@ class HeilbronnEventsViewModel {
 
     isNearHeilbronn.add(true);
     try {
-      final fetchedEvents = await HeilbronnEventService.fetchEvents();
+      final fetchedEvents = await HeilbronnEventService.fetchEvents(
+        languageCode,
+      );
       fetchedEvents.removeWhere((event) {
         final eventDate = event.eventDate;
         return eventDate != null && eventDate.isBefore(_today());
