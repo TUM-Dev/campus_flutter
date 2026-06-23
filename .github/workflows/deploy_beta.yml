@@ -10,26 +10,57 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: macos-26
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        platform: [ ios, android ]
+        include:
+          - platform: ios
+            os: macos-26
+          - platform: android
+            os: ubuntu-latest
       fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          working-directory: ${{ matrix.platform }}
+          bundler-cache: true
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '21'
+          cache: 'gradle'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
+
+      - if: matrix.platform == 'ios'
+        name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            ios/Pods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: ${{ runner.os }}-pods-
+
+      - if: matrix.platform == 'ios'
+        name: Cache Xcode DerivedData (SPM + compiled pods)
+        uses: actions/cache@v4
+        with:
+          path: ios/DerivedData
+          key: ${{ runner.os }}-deriveddata-${{ hashFiles('ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved', 'ios/Podfile.lock') }}
+          restore-keys: ${{ runner.os }}-deriveddata-
 
       - name: Install Flutter Packages
         run: |
@@ -54,7 +85,7 @@ jobs:
         name: Build and Deploy With Release Notes to TestFlight
         run: |
           cd ./ios
-          fastlane ios_beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -68,7 +99,7 @@ jobs:
         name: Build and Deploy to TestFlight
         run: |
           cd ./ios
-          fastlane ios_beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -87,7 +118,7 @@ jobs:
         name: Deploy to Google Play Store
         run: |
           cd ./android
-          fastlane android_beta
+          bundle exec fastlane android_beta
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
           ANDROID_KEYSTORE_FILE: ./upload-keystore
@@ -99,7 +130,7 @@ jobs:
         name: Build Release APK
         run: |
           cd ./android
-          fastlane android_apk
+          bundle exec fastlane android_apk
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
           ANDROID_KEYSTORE_FILE: ./upload-keystore
