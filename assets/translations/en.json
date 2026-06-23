@@ -244,5 +244,6 @@
   "visibility": "Visibility",
   "utilizationAt": "Utilization at {}%",
   "showStudentCardPicture": "Show Student Card Picture",
-  "add_contact": "Add to contacts"
+  "add_contact": "Add to contacts",
+  "noUpcomingEvents": "No upcoming events"
 }

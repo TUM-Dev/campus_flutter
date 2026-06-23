@@ -25,6 +25,10 @@ class GridUtility {
     }
   }
 
+  static int campusEventsCrossAxisCount(BuildContext context) {
+    return DeviceService.getType(context) == Device.phone ? 1 : 2;
+  }
+
   static int campusNumberOfItems(BuildContext context) {
     switch (DeviceService.getType(context)) {
       case Device.landscapeTablet:
