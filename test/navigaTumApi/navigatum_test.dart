@@ -115,7 +115,8 @@ void main() {
     "computed": [
       {"name": "Seats", "text": "200"},
       {"name": "Building", "text": "MI"}
-    ]
+    ],
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J"
   },
   "coords": {
     "lat": 48.26244,
@@ -163,6 +164,12 @@ void main() {
       expect(details.additionalProperties.properties.length, 2);
       expect(details.additionalProperties.properties[0].name, 'Seats');
       expect(details.additionalProperties.properties[0].text, '200');
+      expect(
+        details.additionalProperties.calendarUrl,
+        'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J',
+      );
+      expect(details.calendarUri?.host, 'campus.tum.de');
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5606.EG.001');
 
       // Maps
       expect(details.maps.defaultMapId, 'rf142');

@@ -15,8 +15,12 @@ _$NavigaTumNavigationAdditionalPropertiesFromJson(Map<String, dynamic> json) =>
                 NavigaTumNavigationProperty.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
+      json['calendar_url'] as String?,
     );
 
 Map<String, dynamic> _$NavigaTumNavigationAdditionalPropertiesToJson(
   NavigaTumNavigationAdditionalProperties instance,
-) => <String, dynamic>{'computed': instance.properties};
+) => <String, dynamic>{
+  'computed': instance.properties,
+  'calendar_url': instance.calendarUrl,
+};
