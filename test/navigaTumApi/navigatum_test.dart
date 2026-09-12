@@ -198,7 +198,7 @@ void main() {
       expect(details.hasCoordinates, isFalse);
     });
 
-    test('navigaTumUri preserves slash-separated room path segments', () {
+    test('navigaTumUri encodes the room id as a single path segment', () {
       final json = j('''
 {
   "id": "5500/01?A",
@@ -213,7 +213,7 @@ void main() {
 ''');
       final details = NavigaTumNavigationDetails.fromJson(json);
 
-      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500/01%3FA');
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500%2F01%3FA');
     });
   });
 }
