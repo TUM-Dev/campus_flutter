@@ -215,5 +215,26 @@ void main() {
 
       expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500%2F01%3FA');
     });
+
+    test('calendarUri rejects untrusted schemes', () {
+      final json = j('''
+{
+  "id": "5606.EG.001",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {
+    "computed": [],
+    "calendar_url": "javascript:alert(1)"
+  },
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.calendarUri, isNull);
+    });
   });
 }
