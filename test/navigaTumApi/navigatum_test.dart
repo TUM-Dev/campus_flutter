@@ -115,7 +115,8 @@ void main() {
     "computed": [
       {"name": "Seats", "text": "200"},
       {"name": "Building", "text": "MI"}
-    ]
+    ],
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J"
   },
   "coords": {
     "lat": 48.26244,
@@ -163,6 +164,12 @@ void main() {
       expect(details.additionalProperties.properties.length, 2);
       expect(details.additionalProperties.properties[0].name, 'Seats');
       expect(details.additionalProperties.properties[0].text, '200');
+      expect(
+        details.additionalProperties.calendarUrl,
+        'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J',
+      );
+      expect(details.calendarUri?.host, 'campus.tum.de');
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5606.EG.001');
 
       // Maps
       expect(details.maps.defaultMapId, 'rf142');
@@ -189,6 +196,45 @@ void main() {
       final details = NavigaTumNavigationDetails.fromJson(json);
 
       expect(details.hasCoordinates, isFalse);
+    });
+
+    test('navigaTumUri encodes the room id as a single path segment', () {
+      final json = j('''
+{
+  "id": "5500/01?A",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {"computed": []},
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500%2F01%3FA');
+    });
+
+    test('calendarUri rejects untrusted schemes', () {
+      final json = j('''
+{
+  "id": "5606.EG.001",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {
+    "computed": [],
+    "calendar_url": "javascript:alert(1)"
+  },
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.calendarUri, isNull);
     });
   });
 }

@@ -3,6 +3,7 @@ import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/util/map_launcher.dart';
+import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_details_viewmodel.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_details_view.dart';
@@ -29,8 +30,8 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
           StreamBuilder(
             stream: ref.watch(navigaTumDetailsViewModel(id)).details,
             builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data!.hasCoordinates) {
-                return _directionsButton(snapshot.data!, context);
+              if (snapshot.hasData) {
+                return _actionButtons(snapshot.data!, context, ref);
               } else {
                 return const SizedBox.shrink();
               }
@@ -39,6 +40,30 @@ class NavigaTumRoomScaffold extends ConsumerWidget {
         ],
       ),
       body: NavigaTumRoomView(id: id),
+    );
+  }
+
+  Widget _actionButtons(
+    NavigaTumNavigationDetails details,
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          onPressed: () => UrlLauncher.url(details.navigaTumUri, ref),
+          tooltip: context.tr("openInNavigaTum"),
+          icon: Icon(Icons.open_in_new, color: context.theme.primaryColor),
+        ),
+        if (details.calendarUri != null)
+          IconButton(
+            onPressed: () => UrlLauncher.url(details.calendarUri!, ref),
+            tooltip: context.tr("openRoomCalendar"),
+            icon: Icon(Icons.calendar_month, color: context.theme.primaryColor),
+          ),
+        if (details.hasCoordinates) _directionsButton(details, context),
+      ],
     );
   }
 
