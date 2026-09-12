@@ -23,7 +23,7 @@ class NavigaTumNavigationDetails {
   bool get hasCoordinates =>
       coordinates.latitude != null && coordinates.longitude != null;
 
-  Uri get navigaTumUri => Uri.https("nav.tum.de", "/$type/$id");
+  Uri get navigaTumUri => Uri.https("nav.tum.de", "/room/$id");
 
   Uri? get calendarUri => additionalProperties.calendarUrl != null
       ? Uri.tryParse(additionalProperties.calendarUrl!)
