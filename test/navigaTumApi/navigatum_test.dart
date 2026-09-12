@@ -197,5 +197,23 @@ void main() {
 
       expect(details.hasCoordinates, isFalse);
     });
+
+    test('navigaTumUri preserves slash-separated room path segments', () {
+      final json = j('''
+{
+  "id": "5500/01?A",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {"computed": []},
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500/01%3FA');
+    });
   });
 }
