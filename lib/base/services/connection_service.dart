@@ -10,7 +10,7 @@ class ConnectionService {
 
   Future<bool> checkConnection() async {
     if (_dateTime != null &&
-        _dateTime!.difference(DateTime.now()).inSeconds < 30) {
+        DateTime.now().difference(_dateTime!).inSeconds < 30) {
       return _hasInternet;
     } else {
       _hasInternet = await _lookupInternetAddress();

@@ -30,26 +30,44 @@ class GrpcCacheInterceptor implements ClientInterceptor {
     CallOptions options,
     ClientUnaryInvoker<Q, R> invoker,
   ) {
-    final key = method.path;
-    final cachedResponse = cache.get(key);
     final factory = _getFactory<R>();
 
-    Future<R?> isCached() async {
-      final response = await cachedResponse;
-      if (response != null && factory != null) {
-        return factory(response.body);
-      } else {
-        final response = invoker(method, request, options);
-        response.then((data) {
-          cache.add((data as GeneratedMessage).writeToJson(), key);
-        });
+    if (factory == null) {
+      return invoker(method, request, options);
+    }
 
+    final key = request is GeneratedMessage
+        ? "${method.path}:${request.writeToJson()}"
+        : method.path;
+
+    Future<R> fetch() async {
+      final entry = await cache.get(key);
+      if (entry != null && cache.isFresh(entry, key)) {
+        try {
+          return factory(entry.body);
+        } catch (_) {
+          cache.delete(key);
+        }
+      }
+
+      try {
+        final response = await invoker(method, request, options);
+        cache.add((response as GeneratedMessage).writeToJson(), key);
         return response;
+      } catch (_) {
+        if (entry != null) {
+          try {
+            return factory(entry.body);
+          } catch (_) {
+            cache.delete(key);
+          }
+        }
+        rethrow;
       }
     }
 
     return ResponseFuture<R>(
-      ClientCall(method, Stream.value(request), options, null, isCached()),
+      ClientCall(method, Stream.value(request), options, null, fetch()),
     );
   }
 
