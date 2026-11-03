@@ -1,6 +1,7 @@
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:html/parser.dart' show parseFragment;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lecture_details.g.dart';
@@ -112,6 +113,101 @@ class LectureDetails {
 
   factory LectureDetails.fromJson(Map<String, dynamic> json) =>
       _$LectureDetailsFromJson(json);
+
+  /// Builds [LectureDetails] from the CAMPUSonline REST course resource
+  /// (`ee/rest/slc.tm.cp/student/courses/<id>`), so the existing lecture
+  /// detail UI can be reused when the legacy endpoint is unavailable.
+  factory LectureDetails.fromCourseJson(Map<String, dynamic> json) {
+    final resources = json['resource'] as List<dynamic>? ?? [];
+    final details = resources
+        .map((resource) => resource['content']?['cpCourseDetailDto'])
+        .whereType<Map<String, dynamic>>()
+        .firstOrNull;
+    if (details == null) {
+      throw const FormatException('Missing TUMonline course details');
+    }
+    final course = details['cpCourseDto'] as Map<String, dynamic>;
+    final id = (course['id'] as num).toInt();
+    final title = _courseText(course['courseTitle']);
+    if (title == null) {
+      throw const FormatException('Missing TUMonline course title');
+    }
+    final semester = course['semesterDto'] as Map<String, dynamic>? ?? {};
+    final organisation =
+        course['organisationResponsibleDto'] as Map<String, dynamic>? ?? {};
+    final type = course['courseTypeDto'] as Map<String, dynamic>? ?? {};
+    final description =
+        details['cpCourseDescriptionDto'] as Map<String, dynamic>? ?? {};
+    final additional =
+        description['additionalInformation'] as Map<String, dynamic>? ?? {};
+    final norms = course['courseNormConfigs'] as List<dynamic>? ?? [];
+    final hours = norms
+        .where((norm) => norm['key'] == 'SST')
+        .map((norm) => norm['value']?.toString())
+        .firstOrNull;
+    final lecturers = course['lectureships'] as List<dynamic>? ?? [];
+    // Keep the lead lecturer first, as the UI displays/searches the first name.
+    final orderedLecturers = [
+      ...lecturers.where((l) => l['teachingFunction']?['key'] == 'L'),
+      ...lecturers.where((l) => l['teachingFunction']?['key'] != 'L'),
+    ];
+    final names = orderedLecturers
+        .map((lecturer) {
+          final person =
+              lecturer['identityLibDto'] as Map<String, dynamic>? ?? {};
+          return [
+            person['firstName'],
+            person['lastName'],
+          ].whereType<String>().where((name) => name.isNotEmpty).join(' ');
+        })
+        .where((name) => name.isNotEmpty)
+        .toSet();
+    final start = DateTime.tryParse(
+      semester['startOfAcademicSemester']?['value'] as String? ?? '',
+    );
+    final year = start == null
+        ? ''
+        : semester['semesterType'] == 'W'
+        ? '${start.year}/${start.year + 1}'
+        : '${start.year - 1}/${start.year}';
+
+    return LectureDetails(
+      id: id,
+      lvNumber: id,
+      title: title,
+      duration: hours ?? '',
+      stpSpSst: hours ?? '',
+      eventTypeDefault: _courseText(type['courseTypeName']) ?? '',
+      eventTypeTag: type['key'] as String? ?? '',
+      semester: _courseText(semester['semesterDesignation']) ?? '',
+      semesterType: semester['semesterType'] as String? ?? '',
+      semesterID: semester['key'] as String? ?? '',
+      semesterYear: year,
+      organisationNumber: (organisation['id'] as num?)?.toInt() ?? 0,
+      organisation: _courseText(organisation['name']) ?? '',
+      organisationTag: organisation['identificationName'] as String? ?? '',
+      speaker: names.isEmpty ? null : names.join(', '),
+      courseContents: _courseText(description['courseContent']),
+      requirements: _courseText(description['previousKnowledge']),
+      courseObjective: _courseText(description['courseObjective']),
+      teachingMethod: _courseText(description['teachingMethod']),
+      signUpLV: _courseText(description['courseRegistrationInfo']),
+      examinationMode:
+          _courseText(description['assessmentScheme']) ??
+          _courseText(course['examinationMethodName']),
+      studienbehelfe: _courseText(additional['recommendedLiterature']),
+      note: _courseText(additional['comments']),
+    );
+  }
+
+  static String? _courseText(dynamic data) {
+    final value = data is String ? data : data?['value'] as String?;
+    if (value == null || value.trim().isEmpty) return null;
+    // REST descriptions contain HTML entities and occasionally HTML line breaks.
+    return parseFragment(
+      value.replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n'),
+    ).text?.trim();
+  }
 
   Map<String, dynamic> toJson() => _$LectureDetailsToJson(this);
 }
