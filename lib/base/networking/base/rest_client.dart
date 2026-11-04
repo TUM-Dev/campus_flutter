@@ -59,47 +59,14 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createError,
     bool forcedRefresh,
   ) async {
-    Response<String> response;
-
-    /// add forcedRefresh flag to temporary options
-    if (forcedRefresh) {
-      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
-      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
-      noCacheDio.options.extra["forcedRefresh"] = "true";
-      response = await endpoint.get(dioClient: noCacheDio);
-    } else {
-      response = await endpoint.get(dioClient: dio);
-    }
-
+    final response = await _get(endpoint, forcedRefresh);
     log("${response.statusCode}: ${response.realUri}");
-    try {
-      /// check if response is error message by  attempting to decoding it
-      throw ApiResponse<U>.fromJson(
-        jsonDecode(response.data.toString()),
-        response.extra,
-        createError,
-      ).data;
-    } on U catch (e) {
-      /// rethrow error if specified error U
-      log(e.toString());
-      rethrow;
-    } catch (_) {
-      /// catch possible decoding error and return actual expected object
-      try {
-        return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()),
-          response.extra,
-          createObject,
-        );
-      } catch (e) {
-        if (e is Error) {
-          log(e.stackTrace.toString());
-        } else {
-          log(e.toString());
-        }
-        rethrow;
-      }
-    }
+    return _parseAndCache<T>(
+      response,
+      (response) =>
+          _parseWithException<T, U>(response, createObject, createError),
+      isApiError: (e) => e is U,
+    );
   }
 
   Future<ApiResponse<T>>
@@ -108,40 +75,9 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,
   ) async {
-    Response<String> response;
-
-    /// add forcedRefresh flag to temporary options
-    response = await endpoint.post(dioClient: dio);
-
+    final response = await endpoint.post(dioClient: dio);
     log("${response.statusCode}: ${response.realUri}");
-    try {
-      /// check if response is error message by  attempting to decoding it
-      throw ApiResponse<U>.fromJson(
-        jsonDecode(response.data.toString()),
-        response.extra,
-        createError,
-      ).data;
-    } on U catch (e) {
-      /// rethrow error if specified error U
-      log(e.toString());
-      rethrow;
-    } catch (_) {
-      /// catch possible decoding error and return actual expected object
-      try {
-        return ApiResponse<T>.fromJson(
-          jsonDecode(response.data.toString()),
-          response.extra,
-          createObject,
-        );
-      } catch (e) {
-        if (e is Error) {
-          log(e.stackTrace.toString());
-        } else {
-          log(e.toString());
-        }
-        rethrow;
-      }
-    }
+    return _parseWithException<T, U>(response, createObject, createError);
   }
 
   /// without possible error in response body
@@ -150,30 +86,105 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createObject,
     bool forcedRefresh,
   ) async {
-    Response<String> response;
-
     try {
-      if (forcedRefresh) {
-        Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
-        noCacheDio.options.responseDecoder = dio.options.responseDecoder;
-        noCacheDio.options.extra["forcedRefresh"] = "true";
-        response = await endpoint.get(dioClient: noCacheDio);
-      } else {
-        response = await endpoint.get(dioClient: dio);
-      }
-
+      final response = await _get(endpoint, forcedRefresh);
       log("${response.statusCode}: ${response.realUri}");
-
-      return ApiResponse<T>.fromJson(
-        jsonDecode(response.data.toString()),
-        response.extra,
-        createObject,
+      return _parseAndCache<T>(
+        response,
+        (response) => ApiResponse<T>.fromJson(
+          jsonDecode(response.data.toString()),
+          response.extra,
+          createObject,
+        ),
       );
     } catch (e) {
       if (e is Error) {
         log("${endpoint.asURL().toString()}: ${e.stackTrace.toString()}");
       } else {
         log("${endpoint.asURL().toString()}: ${e.toString()}");
+      }
+      rethrow;
+    }
+  }
+
+  Future<Response<String>> _get(Api endpoint, bool forcedRefresh) {
+    if (forcedRefresh) {
+      /// add forcedRefresh flag to temporary options
+      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
+      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
+      noCacheDio.options.connectTimeout = dio.options.connectTimeout;
+      noCacheDio.options.receiveTimeout = dio.options.receiveTimeout;
+      noCacheDio.options.extra["forcedRefresh"] = "true";
+      return endpoint.get(dioClient: noCacheDio);
+    } else {
+      return endpoint.get(dioClient: dio);
+    }
+  }
+
+  /// only cache parsable responses, fall back to stale entry otherwise
+  ApiResponse<T> _parseAndCache<T>(
+    Response<String> response,
+    ApiResponse<T> Function(Response<String>) parse, {
+    bool Function(Object)? isApiError,
+  }) {
+    final options = response.requestOptions;
+    final key = RestCacheInterceptor.cacheKey(options);
+    final fromCache = response.extra[RestCacheInterceptor.fromCacheKey] == true;
+
+    try {
+      final result = parse(response);
+      final body = response.data;
+      if (!fromCache &&
+          body != null &&
+          RestCacheInterceptor.isCacheable(options)) {
+        cache.add(body, key);
+      }
+      return result;
+    } catch (e) {
+      if (fromCache) {
+        cache.delete(key);
+        rethrow;
+      }
+
+      final staleEntry = options.extra[RestCacheInterceptor.staleEntryKey];
+      final apiError = isApiError?.call(e) ?? false;
+      if (staleEntry is CacheEntryData && !apiError) {
+        log("${response.realUri}: unreadable response, using cached data");
+        return parse(
+          RestCacheInterceptor.responseFromEntry(
+            staleEntry,
+            options,
+            stale: true,
+          ),
+        );
+      }
+      rethrow;
+    }
+  }
+
+  ApiResponse<T> _parseWithException<T, U extends ApiException>(
+    Response<String> response,
+    dynamic Function(Map<String, dynamic>) createObject,
+    dynamic Function(Map<String, dynamic>) createError,
+  ) {
+    try {
+      final json = jsonDecode(response.data.toString());
+
+      U? error;
+      try {
+        error = ApiResponse<U>.fromJson(json, response.extra, createError).data;
+      } catch (_) {}
+      if (error != null) {
+        log(error.toString());
+        throw error;
+      }
+
+      return ApiResponse<T>.fromJson(json, response.extra, createObject);
+    } catch (e) {
+      if (e is Error) {
+        log(e.stackTrace.toString());
+      } else if (e is! U) {
+        log(e.toString());
       }
       rethrow;
     }
