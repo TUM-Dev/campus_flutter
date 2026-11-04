@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_endpoint.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/model/search/navigatum_search_response.dart';
@@ -8,7 +10,78 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   Map<String, dynamic> j(String s) => jsonDecode(s) as Map<String, dynamic>;
 
+  test('requests only rooms while preserving the search query', () {
+    const query = 'Garching & Audimax';
+    final uri = NavigaTumApi(
+      navigaTumApiEndpoint: NavigaTumApiEndpointSearch(
+        query: query,
+        type: 'room',
+      ),
+    ).asURL();
+
+    expect(uri.path, '/api/search');
+    expect(uri.queryParameters, {'q': query, 'type': 'room'});
+  });
+
   group('NavigaTumSearchResponse JSON decoding', () {
+    test(
+      'decodes unfiltered room and lecture results without mutating input',
+      () {
+        final json = {
+          'sections': [
+            {
+              'facet': 'rooms',
+              'entries': [
+                {
+                  'id': '0509.EG.980',
+                  'type': 'room',
+                  'name': '0509.EG.980 (Audimax)',
+                  'subtext': 'stammgelände, Wienandsbau',
+                },
+              ],
+            },
+            {
+              'facet': 'lectures',
+              'entries': [
+                {
+                  'id': 'lecture_59fa470af0528c72',
+                  'name':
+                      '\u0019Aud\u0017io Artificial Intelligence for Automotive Systems',
+                  'subtext': 'Vorlesung',
+                  'title_de':
+                      'Audio Artificial Intelligence for Automotive Systems',
+                  'title_en':
+                      'Audio Artificial Intelligence for Automotive Systems',
+                  'next_occurrence_at': '2026-10-26T15:00:00Z',
+                  'upcoming': [
+                    {
+                      'start_at': '2026-10-26T15:00:00Z',
+                      'end_at': '2026-10-26T16:30:00Z',
+                      'room_code': '5504.01.442',
+                      'room_name': '5504.01.442 (Studentenpraktika mit PC)',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+        final original = jsonEncode(json);
+
+        final response = NavigaTumSearchResponse.fromJson(json);
+
+        expect(response.sections.map((s) => s.type), ['rooms', 'lectures']);
+        expect(response.sections.first.entries.single.type, 'room');
+        final lecture = response.sections.last.entries.single;
+        expect(lecture.type, 'lecture');
+        expect(
+          lecture.getFormattedName(),
+          'Audio Artificial Intelligence for Automotive Systems',
+        );
+        expect(jsonEncode(json), original);
+      },
+    );
+
     test('decodes a search response with multiple sections', () {
       final json = j('''
 {

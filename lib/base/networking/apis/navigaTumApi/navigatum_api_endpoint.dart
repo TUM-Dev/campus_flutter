@@ -4,11 +4,12 @@ sealed class NavigaTumApiEndpoint {
 
 class NavigaTumApiEndpointSearch extends NavigaTumApiEndpoint {
   final String query;
+  final String? type;
 
-  NavigaTumApiEndpointSearch({required this.query});
+  NavigaTumApiEndpointSearch({required this.query, this.type});
 
   @override
-  Map<String, String> getParameters() => {"q": query};
+  Map<String, String> getParameters() => {"q": query, "type": ?type};
 }
 
 class NavigaTumApiEndpointDetails extends NavigaTumApiEndpoint {
