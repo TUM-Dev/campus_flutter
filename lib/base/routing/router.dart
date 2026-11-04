@@ -202,7 +202,7 @@ final _router = GoRouter(
       path: roomSearch,
       builder: (context, state) => SearchScaffold(
         searchVM: searchViewModel(SearchType.room),
-        searchString: state.extra as String?,
+        searchString: state.uri.queryParameters['q'] ?? state.extra as String?,
       ),
     ),
     GoRoute(

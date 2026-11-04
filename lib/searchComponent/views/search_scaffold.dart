@@ -23,6 +23,15 @@ class _SearchScaffoldState extends ConsumerState<SearchScaffold> {
   }
 
   @override
+  void didUpdateWidget(covariant SearchScaffold oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.searchString != oldWidget.searchString ||
+        widget.searchVM != oldWidget.searchVM) {
+      ref.read(widget.searchVM).search(searchString: widget.searchString);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

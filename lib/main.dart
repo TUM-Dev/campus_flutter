@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:campus_flutter/base/enums/appearance.dart';
 import 'package:campus_flutter/base/enums/remote_config_message.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
@@ -7,6 +10,7 @@ import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
+import 'package:campus_flutter/base/routing/geo_link.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
@@ -42,6 +46,13 @@ final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // The plugin retains the initial link until the app subscribes after startup.
+  final incomingLinks =
+      !kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.android ||
+              defaultTargetPlatform == TargetPlatform.iOS)
+      ? AppLinks().uriLinkStream
+      : null;
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await _initializeLocalization();
   await _initializeFirebase();
@@ -53,7 +64,10 @@ Future<void> main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: ProviderScope(
-        child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
+        child: CampusApp(
+          launchedFromWidget: await _initializeHomeWidgets(),
+          incomingLinks: incomingLinks,
+        ),
       ),
     ),
   );
@@ -125,9 +139,14 @@ Future<bool> _initializeHomeWidgets() async {
 }
 
 class CampusApp extends ConsumerStatefulWidget {
-  const CampusApp({super.key, required this.launchedFromWidget});
+  const CampusApp({
+    super.key,
+    required this.launchedFromWidget,
+    this.incomingLinks,
+  });
 
   final bool launchedFromWidget;
+  final Stream<Uri>? incomingLinks;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
@@ -135,6 +154,7 @@ class CampusApp extends ConsumerStatefulWidget {
 
 class _CampusAppState extends ConsumerState<CampusApp> {
   late QuickActions quickActions;
+  StreamSubscription<Uri>? _geoLinkSubscription;
 
   @override
   void initState() {
@@ -143,7 +163,31 @@ class _CampusAppState extends ConsumerState<CampusApp> {
     quickActionsCallback();
     homeWidgetLaunchCallback();
     homeWidgetCallback();
+    _geoLinkSubscription = widget.incomingLinks?.listen(
+      _handleGeoLink,
+      onError: (Object error) {
+        debugPrint('Could not receive an incoming location link.');
+      },
+    );
     super.initState();
+  }
+
+  void _handleGeoLink(Uri uri) {
+    final location = geoSearchLocation(uri);
+    if (location == null || !mounted) return;
+
+    final routerService = getIt<RouterService>();
+    if (routerService.canNavigate) {
+      ref.read(routerProvider).go(location);
+    } else {
+      routerService.alternativeRoute = location;
+    }
+  }
+
+  @override
+  void dispose() {
+    unawaited(_geoLinkSubscription?.cancel());
+    super.dispose();
   }
 
   @override
