@@ -3,15 +3,43 @@ import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<void> showDirectionsDialog(
   String name,
   LatLng location,
   BuildContext context,
 ) async {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    // Let Android resolve the user's preferred map app, including apps that
+    // are not in map_launcher's supported list. Non-HTTP query values must use
+    // percent encoding rather than replacing spaces with '+'.
+    final query = Uri.encodeComponent(
+      '${location.latitude},${location.longitude}($name)',
+    );
+    final uri = Uri.parse('geo:0,0?q=$query');
+    if (!await _tryLaunchMap(uri) && context.mounted) {
+      _showMapLaunchError(context);
+    }
+    return;
+  }
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+    // Apple's default-navigation handoff is available only on eligible
+    // devices. Try it directly and retain the picker for unsupported devices.
+    // Opening a URL does not require registering Campus as a navigation app.
+    final coordinate = Uri.encodeComponent(
+      '${location.latitude},${location.longitude}',
+    );
+    final uri = Uri.parse('geo-navigation:///place?coordinate=$coordinate');
+    if (await _tryLaunchMap(uri)) return;
+  }
+
+  if (!context.mounted) return;
+
   final marker = MapLauncher.marker(
     LocationCoords(location.latitude, location.longitude, title: name),
   );
@@ -55,11 +83,15 @@ Future<void> showDirectionsDialog(
       .then((maps) {
         final value = maps.where((map) => map.isInstalled).toList();
         if (context.mounted) {
+          if (value.isEmpty) {
+            _showMapLaunchError(context);
+            return;
+          }
           showModalBottomSheet(
             isDismissible: true,
             showDragHandle: true,
             context: context,
-            builder: (context) {
+            builder: (sheetContext) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -84,7 +116,19 @@ Future<void> showDirectionsDialog(
                         title: Text(
                           context.tr("openIn", args: [value[index].name]),
                         ),
-                        onTap: () => value[index].show(),
+                        onTap: () async {
+                          try {
+                            await value[index].show();
+                            if (sheetContext.mounted) {
+                              Navigator.of(sheetContext).pop();
+                            }
+                          } on MapLaunchException {
+                            if (sheetContext.mounted) {
+                              Navigator.of(sheetContext).pop();
+                            }
+                            if (context.mounted) _showMapLaunchError(context);
+                          }
+                        },
                       ),
                       separatorBuilder: (context, index) =>
                           const PaddedDivider(),
@@ -97,7 +141,7 @@ Future<void> showDirectionsDialog(
                       bottom: context.padding * 2,
                     ),
                     child: ElevatedButton(
-                      onPressed: () => context.pop(),
+                      onPressed: () => Navigator.of(sheetContext).pop(),
                       child: Text(context.tr("cancel")),
                     ),
                   ),
@@ -107,4 +151,19 @@ Future<void> showDirectionsDialog(
           );
         }
       });
+}
+
+Future<bool> _tryLaunchMap(Uri uri) async {
+  try {
+    // Launch directly: canLaunchUrl may reject schemes due to package
+    // visibility restrictions even when the OS can open them.
+    return await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } on PlatformException {
+    return false;
+  }
+}
+
+void _showMapLaunchError(BuildContext context) {
+  ScaffoldMessenger.of(context)
+      .showSnackBar(SnackBar(content: Text(context.tr('cannotOpenMaps'))));
 }

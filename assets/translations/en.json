@@ -204,6 +204,7 @@
   "cancel": "Cancel",
   "selectAction": "Select an action",
   "openIn": "Open in {}",
+  "cannotOpenMaps": "Could not open a map app. Please install a compatible map app and try again.",
   "unknownDirection": "Unknown Direction",
   "showWeekends": "Show Weekends",
   "showHiddenCalendarEntries": "Show Hidden Calendar Entries",

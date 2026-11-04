@@ -204,6 +204,7 @@
   "cancel": "Abbrechen",
   "selectAction": "Wähle eine Aktion",
   "openIn": "In {} öffnen",
+  "cannotOpenMaps": "Es konnte keine Karten-App geöffnet werden. Bitte installiere eine kompatible Karten-App und versuche es erneut.",
   "unknownDirection": "Unbekannte Richtung",
   "showWeekends": "Wochenenden zeigen",
   "showHiddenCalendarEntries": "Versteckte Kalendereinträge zeigen",
