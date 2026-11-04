@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "TUM Campus App"
 publish_to: 'none'
-version: 5.3.2+1
+version: 5.4.0+1
 
 environment:
   sdk: ^3.13.5
