@@ -103,6 +103,8 @@
   "occupiedUntil": "Occupied until {}",
   "rooms": "Rooms",
   "roomDetails": "Room Details",
+  "openInNavigaTum": "Open in NavigaTUM",
+  "openRoomCalendar": "Open room calendar",
   "building": "Building",
   "nFreeRooms": {
     "zero": "No free rooms",
