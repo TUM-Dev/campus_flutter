@@ -8,7 +8,8 @@ void main() {
   group('TumOnlineApiException XML decoding', () {
     /// Builds an XML error response and decodes it into a [TumOnlineApiException].
     TumOnlineApiException decodeException(String message) {
-      final xml = '''
+      final xml =
+          '''
 <error>
   <message>$message</message>
 </error>
@@ -18,7 +19,9 @@ void main() {
     }
 
     test('decodes "Keine Rechte für Funktion" as NoPermission', () {
-      final exception = decodeException('Keine Rechte für Funktion wbservicesbasic.noten');
+      final exception = decodeException(
+        'Keine Rechte für Funktion wbservicesbasic.noten',
+      );
 
       expect(
         exception.tumOnlineApiExceptionType,
@@ -113,13 +116,16 @@ void main() {
       expect(body.exceptionMessage.message, 'Direct decoding test');
     });
 
-    test('toString returns a human-readable string with the exception type', () {
-      final exception = decodeException('Token ist ungültig!');
-      // TumOnlineApiException.toString() returns:
-      //   "TumOnlineException: <message(null, null)>"
-      final s = exception.toString();
-      expect(s, startsWith('TumOnlineException:'));
-      expect(s, isNotEmpty);
-    });
+    test(
+      'toString returns a human-readable string with the exception type',
+      () {
+        final exception = decodeException('Token ist ungültig!');
+        // TumOnlineApiException.toString() returns:
+        //   "TumOnlineException: <message(null, null)>"
+        final s = exception.toString();
+        expect(s, startsWith('TumOnlineException:'));
+        expect(s, isNotEmpty);
+      },
+    );
   });
 }

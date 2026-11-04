@@ -70,8 +70,10 @@ void main() {
       expect(profile.obfuscatedIDExtern, 'X*000000');
     });
 
-    test('single-row list unwrap: takes first row when multiple rows present', () {
-      const xml = '''
+    test(
+      'single-row list unwrap: takes first row when multiple rows present',
+      () {
+        const xml = '''
 <rowset>
   <row>
     <vorname>First</vorname>
@@ -89,11 +91,12 @@ void main() {
   </row>
 </rowset>
 ''';
-      final json = tumXmlToJson(xml);
-      // _profileFromJson takes data.first when it's a List
-      final profile = Profiles.fromJson(json).profile;
+        final json = tumXmlToJson(xml);
+        // _profileFromJson takes data.first when it's a List
+        final profile = Profiles.fromJson(json).profile;
 
-      expect(profile.firstname, 'First');
-    });
+        expect(profile.firstname, 'First');
+      },
+    );
   });
 }

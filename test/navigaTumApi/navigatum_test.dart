@@ -76,14 +76,13 @@ void main() {
       String name = 'Test Room',
       String subtext = 'floor',
       String? parsedId,
-    }) =>
-        NavigaTumNavigationEntity.fromJson({
-          'id': 'test-id',
-          'type': 'room',
-          'name': name,
-          'subtext': subtext,
-          'parsed_id': ?parsedId,
-        });
+    }) => NavigaTumNavigationEntity.fromJson({
+      'id': 'test-id',
+      'type': 'room',
+      'name': name,
+      'subtext': subtext,
+      'parsed_id': ?parsedId,
+    });
 
     test('getFormattedName returns name only when parsedId is null', () {
       final entity = makeEntity(name: 'Informatik (MI)');

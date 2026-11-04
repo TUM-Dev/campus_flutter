@@ -30,18 +30,16 @@ class CalendarSearchResultView extends ConsumerWidget {
             SymbolText.icon(
               iconData: Icons.hourglass_top,
               label: calendarEvent.timePeriodText(context),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               iconColor: context.primaryColor,
             ),
             SymbolText.icon(
               iconData: Icons.location_pin,
               label:
                   calendarEvent.locations.firstOrNull ?? context.tr("unknown"),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.secondary),
               iconColor: context.primaryColor,
             ),
           ],

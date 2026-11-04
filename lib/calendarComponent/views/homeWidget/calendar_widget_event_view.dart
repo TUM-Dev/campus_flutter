@@ -13,12 +13,10 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String startTime = DateFormat(
-      DateFormat.HOUR24_MINUTE,
-    ).format(calendarEvent.startDate);
-    final String endTime = DateFormat(
-      DateFormat.HOUR24_MINUTE,
-    ).format(calendarEvent.endDate);
+    final String startTime = DateFormat(DateFormat.HOUR24_MINUTE)
+        .format(calendarEvent.startDate);
+    final String endTime = DateFormat(DateFormat.HOUR24_MINUTE)
+        .format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(

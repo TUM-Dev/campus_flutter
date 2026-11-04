@@ -117,18 +117,16 @@ class InformationView extends StatelessWidget {
   Widget _title(BuildContext context) {
     return Text(
       context.tr("digitalStudentCard"),
-      style: Theme.of(context).textTheme.titleLarge?.apply(
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
+      style: Theme.of(context).textTheme.titleLarge
+          ?.apply(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 
   Widget _name(BuildContext context) {
     return Text(
       studentCard.name,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
+      style: Theme.of(context).textTheme.titleLarge
+          ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 
@@ -164,9 +162,8 @@ class InformationView extends StatelessWidget {
   Widget _validUntil(BuildContext context) {
     return Text(
       "${context.tr("validUntil")}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
-      style: Theme.of(
-        context,
-      ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(context).textTheme.bodyLarge
+          ?.copyWith(fontWeight: FontWeight.bold),
     );
   }
 

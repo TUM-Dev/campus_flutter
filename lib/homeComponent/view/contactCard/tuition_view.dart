@@ -43,9 +43,8 @@ class TuitionView extends ConsumerWidget {
             children: [
               Text(
                 snapshot.data!.semester,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w500),
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               InfoRow(
@@ -82,9 +81,8 @@ class TuitionView extends ConsumerWidget {
         return SymbolText.icon(
           iconData: Icons.check,
           label: context.tr("tuitionPaid"),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.green),
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Colors.green),
           leading: false,
         );
       } else {
@@ -94,9 +92,8 @@ class TuitionView extends ConsumerWidget {
         );
         return Text(
           numberFormat.format(snapshot.data?.amount),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.red),
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Colors.red),
         );
       }
     } else {
@@ -104,9 +101,8 @@ class TuitionView extends ConsumerWidget {
         name: context.tr("tuition"),
         alternativeLoadingIndicator: Text(
           context.tr("notAvailableAbbrev"),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.red),
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Colors.red),
         ),
       );
     }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 extension LatLngJson on LatLng {

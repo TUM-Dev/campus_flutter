@@ -32,9 +32,8 @@ class PermissionView extends StatelessWidget {
             const Spacer(),
             Text(
               title,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.apply(color: context.primaryColor),
+              style: Theme.of(context).textTheme.headlineMedium
+                  ?.apply(color: context.primaryColor),
             ),
             Padding(
               padding: EdgeInsets.all(context.padding),
