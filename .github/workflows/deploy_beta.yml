@@ -105,19 +105,7 @@ jobs:
         name: Deploy to Google Play Store
         run: |
           cd ./android
-          bundle exec fastlane android_beta
-        env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
-          ANDROID_KEYSTORE_FILE: ./upload-keystore
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - if: matrix.platform == 'android' && github.event_name == 'release'
-        name: Build Release APK
-        run: |
-          cd ./android
-          bundle exec fastlane android_apk
+          bundle exec fastlane android_beta build_apk:${{ github.event_name == 'release' }}
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
           ANDROID_KEYSTORE_FILE: ./upload-keystore
