@@ -2,13 +2,16 @@ default_platform(:android)
 
 platform :android do
   desc "Deploy a new version to the Google Play"
-  lane :android_beta do
+  lane :android_beta do |options|
     build_number = latest_google_play_version_code
 
     puts build_number
 
     Dir.chdir "../.." do
       sh("flutter", "build", "appbundle", "--build-number=#{build_number}")
+      if options[:build_apk].to_s == "true"
+        sh("flutter", "build", "apk", "--release", "--build-number=#{build_number}")
+      end
     end
 
     upload_to_play_store(
@@ -17,15 +20,6 @@ platform :android do
       track: "internal",
       release_status: "draft",
     )
-  end
-
-  desc "Build a signed release APK for direct installation"
-  lane :android_apk do
-    build_number = latest_google_play_version_code
-
-    Dir.chdir "../.." do
-      sh("flutter", "build", "apk", "--release", "--build-number=#{build_number}")
-    end
   end
 
   def latest_google_play_version_code
