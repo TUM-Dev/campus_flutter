@@ -93,10 +93,7 @@ void main() {
       final json = tumXmlToJson(xml);
       final grade = Grades.fromJson(json).personalGrades.first;
 
-      expect(
-        grade.id,
-        '${grade.date?.toIso8601String()}-${grade.lvNumber}',
-      );
+      expect(grade.id, '${grade.date?.toIso8601String()}-${grade.lvNumber}');
     });
     test('grade with null date — id still safe to access', () {
       // TUM occasionally omits <datum> for pending/transferred grades.

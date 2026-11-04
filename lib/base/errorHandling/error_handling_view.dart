@@ -58,9 +58,8 @@ mixin ErrorHandlingView {
                         ),
                         child: Text(
                           fixMessage,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyLarge?.copyWith(color: bodyColor),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: bodyColor),
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
@@ -88,9 +87,8 @@ mixin ErrorHandlingView {
               _errorMessageText(
                 errorMessage,
                 context,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: titleColor ?? context.primaryColor,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(color: titleColor ?? context.primaryColor),
                 textAlign: TextAlign.center,
               ),
               if (fixMessage != null)

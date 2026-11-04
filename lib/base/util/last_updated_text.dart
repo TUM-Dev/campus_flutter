@@ -22,9 +22,8 @@ class LastUpdatedText extends ConsumerWidget {
             ),
           ],
         ),
-        style: Theme.of(
-          context,
-        ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
+        style: Theme.of(context).textTheme.bodySmall
+            ?.copyWith(color: Colors.grey.shade600),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

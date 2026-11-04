@@ -366,24 +366,22 @@ abstract class _$CacheDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [cacheEntry];
 }
 
-typedef $$CacheEntryTableCreateCompanionBuilder =
-    CacheEntryCompanion Function({
-      required int id,
-      required String url,
-      required DateTime validUntil,
-      required DateTime saved,
-      required String body,
-      Value<int> rowid,
-    });
-typedef $$CacheEntryTableUpdateCompanionBuilder =
-    CacheEntryCompanion Function({
-      Value<int> id,
-      Value<String> url,
-      Value<DateTime> validUntil,
-      Value<DateTime> saved,
-      Value<String> body,
-      Value<int> rowid,
-    });
+typedef $$CacheEntryTableCreateCompanionBuilder = CacheEntryCompanion Function({
+  required int id,
+  required String url,
+  required DateTime validUntil,
+  required DateTime saved,
+  required String body,
+  Value<int> rowid,
+});
+typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
+  Value<int> id,
+  Value<String> url,
+  Value<DateTime> validUntil,
+  Value<DateTime> saved,
+  Value<String> body,
+  Value<int> rowid,
+});
 
 class $$CacheEntryTableFilterComposer
     extends Composer<_$CacheDatabase, $CacheEntryTable> {
@@ -544,7 +542,16 @@ class $$CacheEntryTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$CacheEntryTable, CacheEntryData>(table),
+                  BaseReferences<
+                    _$CacheDatabase,
+                    $CacheEntryTable,
+                    CacheEntryData
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

@@ -72,9 +72,8 @@ class ChartView extends ConsumerWidget {
                 ),
                 Text(
                   averageGrade.averageGrade.toString(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],
             ),

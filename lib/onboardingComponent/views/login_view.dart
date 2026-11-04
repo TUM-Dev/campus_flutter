@@ -211,19 +211,18 @@ class _LoginViewState extends ConsumerState<LoginView> {
                               },
                               onError: (error) {
                                 if (context.mounted) {
-                                  ScaffoldMessenger.maybeOf(
-                                    context,
-                                  )?.showSnackBar(
-                                    SnackBar(
-                                      duration: const Duration(seconds: 10),
-                                      content: ErrorHandlingRouter(
-                                        error: error,
-                                        errorHandlingViewType:
-                                            ErrorHandlingViewType.textOnly,
-                                        titleColor: Colors.white,
-                                      ),
-                                    ),
-                                  );
+                                  ScaffoldMessenger.maybeOf(context)
+                                      ?.showSnackBar(
+                                        SnackBar(
+                                          duration: const Duration(seconds: 10),
+                                          content: ErrorHandlingRouter(
+                                            error: error,
+                                            errorHandlingViewType:
+                                                ErrorHandlingViewType.textOnly,
+                                            titleColor: Colors.white,
+                                          ),
+                                        ),
+                                      );
                                 }
                               },
                             );
@@ -231,9 +230,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     : null,
                 child: Text(
                   context.tr("login"),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.titleLarge
+                      ?.copyWith(color: Colors.white),
                 ),
               ),
             ],
@@ -255,9 +253,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
       onTap: () => ref.read(onboardingViewModel).skip(context),
       child: Text(
         context.tr("continueWithoutID"),
-        style: Theme.of(
-          context,
-        ).textTheme.bodySmall?.apply(color: context.primaryColor),
+        style: Theme.of(context).textTheme.bodySmall
+            ?.apply(color: context.primaryColor),
       ),
     );
   }

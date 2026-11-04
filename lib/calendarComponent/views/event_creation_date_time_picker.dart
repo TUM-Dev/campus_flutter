@@ -44,9 +44,8 @@ class EventCreationDateTimePicker extends StatelessWidget {
                           ),
                         ),
                       ),
-                      DateFormat.yMd(
-                        "de",
-                      ).format(snapshot.data ?? DateTime.now()),
+                      DateFormat.yMd("de")
+                          .format(snapshot.data ?? DateTime.now()),
                       context,
                     ),
                     _pickerItem(
@@ -58,9 +57,8 @@ class EventCreationDateTimePicker extends StatelessWidget {
                           ),
                         ),
                       ),
-                      DateFormat.Hm(
-                        "de",
-                      ).format(snapshot.data ?? DateTime.now()),
+                      DateFormat.Hm("de")
+                          .format(snapshot.data ?? DateTime.now()),
                       context,
                     ),
                   ],
