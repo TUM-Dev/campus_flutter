@@ -47,9 +47,6 @@ class HomeViewModel {
   }
 
   void reorder(int oldIndex, int newIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final data = widgets.value;
     final HomeScreenWidget item = data.removeAt(oldIndex);
     data.insert(newIndex, item);

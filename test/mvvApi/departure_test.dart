@@ -138,11 +138,13 @@ void main() {
       expect(response.departures[1].countdown, 9);
     });
 
-    test('single departure returned as nested Map (readDepartures Map branch)', () {
-      // When MVV returns exactly 1 departure it uses
-      // {"departureList": {"departure": {...}}} instead of a list.
-      // readDepartures handles this by wrapping [{...}].
-      final json = fromJsonString('''
+    test(
+      'single departure returned as nested Map (readDepartures Map branch)',
+      () {
+        // When MVV returns exactly 1 departure it uses
+        // {"departureList": {"departure": {...}}} instead of a list.
+        // readDepartures handles this by wrapping [{...}].
+        final json = fromJsonString('''
 {
   "departureList": {
     "departure": {
@@ -156,12 +158,13 @@ void main() {
   }
 }
 ''');
-      final response = MvvResponse.fromJson(json);
+        final response = MvvResponse.fromJson(json);
 
-      expect(response.departures.length, 1);
-      expect(response.departures.first.countdown, 7);
-      expect(response.departures.first.servingLine.number, 'U6');
-    });
+        expect(response.departures.length, 1);
+        expect(response.departures.first.countdown, 7);
+        expect(response.departures.first.servingLine.number, 'U6');
+      },
+    );
 
     test('returns empty departures list when departureList is absent', () {
       final json = fromJsonString('{}');
@@ -184,12 +187,18 @@ void main() {
 
     test('U6 (code 1) → blue', () {
       final line = makeServingLine(1, 'U6');
-      expect(line.color.value, const Color.fromRGBO(0, 114, 179, 1.0).value);
+      expect(
+        line.color.toARGB32(),
+        const Color.fromRGBO(0, 114, 179, 1.0).toARGB32(),
+      );
     });
 
     test('code 4 (S-Bahn) → red', () {
       final line = makeServingLine(4, 'S1');
-      expect(line.color.value, const Color.fromRGBO(226, 7, 18, 1.0).value);
+      expect(
+        line.color.toARGB32(),
+        const Color.fromRGBO(226, 7, 18, 1.0).toARGB32(),
+      );
     });
 
     test('unknown code → grey', () {

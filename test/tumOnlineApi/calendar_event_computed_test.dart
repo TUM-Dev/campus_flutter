@@ -5,11 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/xml_decoder.dart';
 
 void main() {
-  CalendarEvent makeEvent({
-    String url = '',
-    String? description,
-    int? color,
-  }) {
+  CalendarEvent makeEvent({String url = '', String? description, int? color}) {
     return CalendarEvent(
       id: '1',
       status: 'CONFIRMED',
@@ -58,9 +54,9 @@ void main() {
     test('returns the stored color when set and not an exam', () {
       final event = makeEvent(
         description: 'Regular lecture',
-        color: Colors.green.value,
+        color: Colors.green.toARGB32(),
       );
-      expect(event.getColor().value, Colors.green.value);
+      expect(event.getColor().toARGB32(), Colors.green.toARGB32());
     });
 
     test('returns primaryLightColor when color is null and not an exam', () {
@@ -89,5 +85,4 @@ void main() {
       expect(event.timePeriod, '10:00 - 12:00');
     });
   });
-
 }

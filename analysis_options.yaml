@@ -15,5 +15,8 @@ analyzer:
     - lib/base/networking/apis/tumdev/campus_backend.pbenum.dart
     - lib/base/networking/apis/tumdev/campus_backend.pbgrpc.dart
     - lib/base/networking/apis/tumdev/campus_backend.pbjson.dart
+    - lib/base/networking/apis/google/protobuf/empty.pb.dart
     - lib/base/networking/apis/google/protobuf/empty.pbjson.dart
     - lib/base/networking/apis/google/protobuf/timestamp.pb.dart
+    - android/**
+    - ios/**
