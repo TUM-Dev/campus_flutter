@@ -80,6 +80,7 @@ dependencies:
   easy_localization: ^3.0.8
   easy_logger: ^0.0.2
   intl: ^0.20.3
+  app_links: ^7.2.2
 
 dependency_overrides:
   xml2json:
