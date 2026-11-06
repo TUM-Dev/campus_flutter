@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_recurrence.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_sync_service.dart';
@@ -343,9 +344,9 @@ class CalendarViewModel {
     final dateOnly = DateUtils.dateOnly(anchor);
 
     return switch (recurrenceType) {
-      RecurrenceType.daily => dateOnly.add(Duration(days: offset)),
-      RecurrenceType.weekly => dateOnly.add(Duration(days: 7 * offset)),
-      RecurrenceType.biweekly => dateOnly.add(Duration(days: 14 * offset)),
+      RecurrenceType.daily => addCalendarDays(dateOnly, offset),
+      RecurrenceType.weekly => addCalendarDays(dateOnly, 7 * offset),
+      RecurrenceType.biweekly => addCalendarDays(dateOnly, 14 * offset),
       RecurrenceType.monthly => _addMonths(dateOnly, offset),
       RecurrenceType.none => dateOnly,
     };

@@ -179,6 +179,7 @@
   "to": "Bis",
   "start": "Beginn",
   "end": "Ende",
+  "recurrenceLimitExceeded": "Dieser Zeitraum überschreitet das Limit von {} Terminen. Wähle ein früheres Enddatum.",
   "recurrence": "Wiederholen",
   "recurrenceDaily": "Tag",
   "recurrenceWeekly": "Woche",

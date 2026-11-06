@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_recurrence.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
@@ -49,6 +50,28 @@ class CalendarAdditionViewModel {
   CalendarSeriesResolution? resolvedSeries;
   final Ref ref;
   bool _isSaving = false;
+  (DateTime, DateTime, RecurrenceType, int, RecurrenceEndType, DateTime)?
+  _initialSchedule;
+
+  bool get _scheduleUnchanged =>
+      isEditingSeries &&
+      _initialSchedule ==
+          (
+            from.value,
+            to.value,
+            recurrenceType.value,
+            occurrenceCount.value,
+            recurrenceEndType.value,
+            untilDate.value,
+          );
+
+  bool get exceedsOccurrenceLimit =>
+      !_scheduleUnchanged &&
+      recurrenceType.value != RecurrenceType.none &&
+      recurrenceEndType.value == RecurrenceEndType.untilDate &&
+      !DateUtils.dateOnly(
+        recurrenceStart(from.value, recurrenceType.value, maxOccurrences),
+      ).isAfter(DateUtils.dateOnly(untilDate.value));
   bool get isEditing => id != null;
   bool get isEditingSeries => isEditing && (resolvedSeries?.isSeries ?? false);
   bool get hasRecurrenceEnabled => recurrenceType.value != RecurrenceType.none;
@@ -62,7 +85,7 @@ class CalendarAdditionViewModel {
       (date.$1 ?? DateTime.now()).add(const Duration(hours: 1)),
     );
     untilDate = BehaviorSubject.seeded(
-      (date.$1 ?? DateTime.now()).add(const Duration(days: 30)),
+      addCalendarDays(date.$1 ?? DateTime.now(), 30),
     );
     checkValidity();
   }
@@ -78,7 +101,7 @@ class CalendarAdditionViewModel {
     from = BehaviorSubject.seeded(initialEvent.startDate);
     to = BehaviorSubject.seeded(initialEvent.endDate);
     untilDate = BehaviorSubject.seeded(
-      initialEvent.startDate.add(const Duration(days: 30)),
+      addCalendarDays(initialEvent.startDate, 30),
     );
     final colorPreference = getIt<CalendarPreferenceService>()
         .getColorPreference(calendarEvent.lvNr ?? calendarEvent.id);
@@ -86,6 +109,14 @@ class CalendarAdditionViewModel {
 
     if (isEditingSeries) {
       _seedSeriesRecurrence();
+      _initialSchedule = (
+        from.value,
+        to.value,
+        recurrenceType.value,
+        occurrenceCount.value,
+        recurrenceEndType.value,
+        untilDate.value,
+      );
     }
 
     checkValidity();
@@ -116,15 +147,13 @@ class CalendarAdditionViewModel {
 
     final first = siblings[0].startDate;
     final second = siblings[1].startDate;
-    final dayDelta = DateUtils.dateOnly(
-      second,
-    ).difference(DateUtils.dateOnly(first)).inDays;
+    final dayDelta = calendarDayDifference(first, second);
 
     if (dayDelta == 1) return RecurrenceType.daily;
     if (dayDelta == 7) return RecurrenceType.weekly;
     if (dayDelta == 14) return RecurrenceType.biweekly;
 
-    final nextMonth = _addMonths(first, 1);
+    final nextMonth = addCalendarMonths(first, 1);
     if (nextMonth == second) return RecurrenceType.monthly;
 
     return RecurrenceType.weekly;
@@ -136,14 +165,17 @@ class CalendarAdditionViewModel {
 
   void setRecurrenceType(RecurrenceType type) {
     recurrenceType.add(type);
+    checkValidity();
   }
 
   void setOccurrenceCount(int count) {
     occurrenceCount.add(count.clamp(2, maxOccurrences));
+    checkValidity();
   }
 
   void setRecurrenceEndType(RecurrenceEndType type) {
     recurrenceEndType.add(type);
+    checkValidity();
   }
 
   void setUntilDate(DateTime? date) {
@@ -226,77 +258,37 @@ class CalendarAdditionViewModel {
     }
   }
 
-  List<(DateTime, DateTime)> _generateOccurrences() {
-    final type = recurrenceType.value;
-    if (type == RecurrenceType.none) {
-      return [(from.value, to.value)];
+  @visibleForTesting
+  List<(DateTime, DateTime)> generateOccurrences() {
+    if (_scheduleUnchanged) {
+      return resolvedSeries!.siblings
+          .map((event) => (event.startDate, event.endDate))
+          .toList();
     }
-
-    final endType = recurrenceEndType.value;
-    final limit = endType == RecurrenceEndType.untilDate
+    final type = recurrenceType.value;
+    if (type == RecurrenceType.none) return [(from.value, to.value)];
+    final limit = recurrenceEndType.value == RecurrenceEndType.untilDate
         ? maxOccurrences
         : occurrenceCount.value;
-    final deadline = endType == RecurrenceEndType.untilDate
+    final deadline = recurrenceEndType.value == RecurrenceEndType.untilDate
         ? DateUtils.dateOnly(untilDate.value)
         : null;
-    final List<(DateTime, DateTime)> dates = [];
-
-    for (int i = 0; i < limit; i++) {
-      final DateTime startOffset;
-      final DateTime endOffset;
-
-      switch (type) {
-        case RecurrenceType.daily:
-          startOffset = from.value.add(Duration(days: i));
-          endOffset = to.value.add(Duration(days: i));
-        case RecurrenceType.weekly:
-          startOffset = from.value.add(Duration(days: 7 * i));
-          endOffset = to.value.add(Duration(days: 7 * i));
-        case RecurrenceType.biweekly:
-          startOffset = from.value.add(Duration(days: 14 * i));
-          endOffset = to.value.add(Duration(days: 14 * i));
-        case RecurrenceType.monthly:
-          startOffset = _addMonths(from.value, i);
-          endOffset = startOffset.add(to.value.difference(from.value));
-        case RecurrenceType.none:
-          startOffset = from.value;
-          endOffset = to.value;
-      }
-
+    final dates = <(DateTime, DateTime)>[];
+    for (var i = 0; i < limit; i++) {
+      final occurrence = recurrenceOccurrence(from.value, to.value, type, i);
       if (deadline != null &&
-          DateUtils.dateOnly(startOffset).isAfter(deadline)) {
+          DateUtils.dateOnly(occurrence.$1).isAfter(deadline)) {
         break;
       }
-
-      dates.add((startOffset, endOffset));
+      dates.add(occurrence);
     }
-
     return dates;
-  }
-
-  static DateTime _addMonths(DateTime date, int months) {
-    final targetMonth = date.month + months;
-    final year = date.year + (targetMonth - 1) ~/ 12;
-    final month = (targetMonth - 1) % 12 + 1;
-    final lastDay = DateUtils.getDaysInMonth(year, month);
-    return DateTime(
-      year,
-      month,
-      date.day.clamp(1, lastDay),
-      date.hour,
-      date.minute,
-    );
   }
 
   DateTime _normalizeUntilDate(DateTime date) {
     final normalizedDate = DateUtils.dateOnly(date);
     final minimumDate = DateUtils.dateOnly(from.value);
-    final clampedDate = normalizedDate.isBefore(minimumDate)
-        ? minimumDate
-        : normalizedDate;
-    return clampedDate.add(
-      const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999),
-    );
+    return normalizedDate.isBefore(minimumDate) ? minimumDate : normalizedDate;
   }
 
   void _clampUntilDateToFrom() {
@@ -392,7 +384,9 @@ class CalendarAdditionViewModel {
   }
 
   Future<void> saveEvent() async {
+    checkValidity();
     if (_isSaving) return;
+    if (!isValid.value) throw StateError('Invalid calendar event');
     _isSaving = true;
     isSaving.add(true);
     try {
@@ -402,7 +396,7 @@ class CalendarAdditionViewModel {
       if (isEditingSeries) {
         // ── Series edit: update all siblings ──────────────────────────────
         final siblings = resolvedSeries?.siblings ?? const <CalendarEvent>[];
-        final occurrences = _generateOccurrences();
+        final occurrences = generateOccurrences();
         final activeSeriesId = occurrences.length > 1
             ? (seriesId ?? _uuid.v4())
             : null;
@@ -476,7 +470,7 @@ class CalendarAdditionViewModel {
         );
       } else {
         // ── Single / new event ────────────────────────────────────────────
-        final occurrences = _generateOccurrences();
+        final occurrences = generateOccurrences();
         final newSeriesId = occurrences.length > 1 ? _uuid.v4() : null;
         final originalSnapshot = id != null
             ? _capturePreferenceSnapshot(preferenceService, id!)
@@ -577,7 +571,8 @@ class CalendarAdditionViewModel {
     isValid.add(
       titleController.text.trim().isNotEmpty &&
           hasValidTimeFrame &&
-          hasValidUntilDate,
+          hasValidUntilDate &&
+          !exceedsOccurrenceLimit,
     );
   }
 }

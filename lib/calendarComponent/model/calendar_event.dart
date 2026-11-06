@@ -59,7 +59,9 @@ class CalendarEvent extends Searchable {
     }
 
     final uri = Uri.tryParse(value);
-    if (uri == null || !uri.path.contains('lv.detail')) {
+    if (uri == null ||
+        !(uri.path.contains('lv.detail') ||
+            uri.path.toLowerCase().endsWith('wblv.wbshowlvdetail'))) {
       return false;
     }
 

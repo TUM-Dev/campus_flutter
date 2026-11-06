@@ -307,6 +307,28 @@ class _RecurrenceSection extends ConsumerWidget {
                         const Divider(height: 1),
                         SizedBox(height: context.padding),
                         _RecurrenceSentence(calendarEvent: calendarEvent),
+                        StreamBuilder<bool>(
+                          stream: vm.isValid,
+                          builder: (context, _) => vm.exceedsOccurrenceLimit
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    context.tr(
+                                      "recurrenceLimitExceeded",
+                                      args: [
+                                        CalendarAdditionViewModel.maxOccurrences
+                                            .toString(),
+                                      ],
+                                    ),
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
                       ],
                     ),
                   ),
