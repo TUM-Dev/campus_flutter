@@ -1,7 +1,8 @@
+import 'package:campus_flutter/base/util/status_message.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-enum RemoteConfigMessage {
+enum RemoteConfigMessage implements StatusMessage {
   tumOnlineDegraded,
   tumOnlineMaintenance;
 
@@ -14,6 +15,7 @@ enum RemoteConfigMessage {
     }
   }
 
+  @override
   String message(BuildContext context) {
     switch (this) {
       case RemoteConfigMessage.tumOnlineDegraded:

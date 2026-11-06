@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/base/enums/remote_config_message.dart';
+import 'package:campus_flutter/base/util/status_message.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
@@ -41,7 +41,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
-final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
+final hasStatusMessage = StateProvider<(bool, StatusMessage?)>(
   (ref) => (false, null),
 );
 
@@ -83,23 +83,25 @@ Future<void> _initializeLocalization() async {
 }
 
 Future<void> _initializeFirebase() async {
+  await Firebase.initializeApp();
   if (!kDebugMode) {
-    await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
-    try {
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      await remoteConfig.setConfigSettings(
-        RemoteConfigSettings(
-          fetchTimeout: const Duration(minutes: 1),
-          minimumFetchInterval: const Duration(hours: 1),
-        ),
-      );
-    } catch (_) {}
   }
+  try {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: kDebugMode
+            ? Duration.zero
+            : const Duration(hours: 1),
+      ),
+    );
+  } catch (_) {}
 }
 
 Future<void> _initializeNetworkingClients() async {
@@ -216,19 +218,14 @@ class _CampusAppState extends ConsumerState<CampusApp> {
   }
 
   void firebaseCallback() {
-    if (!kDebugMode) {
-      _remoteConfigMessageService = RemoteConfigMessageService(
-        FirebaseRemoteConfig.instance,
-        (message) {
-          if (!mounted) return;
-          ref.read(hasStatusMessage.notifier).state = (
-            message != null,
-            message,
-          );
-        },
-      );
-      unawaited(_remoteConfigMessageService!.start());
-    }
+    _remoteConfigMessageService = RemoteConfigMessageService(
+      FirebaseRemoteConfig.instance,
+      (message) {
+        if (!mounted) return;
+        ref.read(hasStatusMessage.notifier).state = (message != null, message);
+      },
+    );
+    unawaited(_remoteConfigMessageService!.start());
   }
 
   void quickActionsCallback() {
