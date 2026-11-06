@@ -8,6 +8,7 @@ import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
 import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/services/connection_service.dart';
+import 'package:campus_flutter/base/services/remote_config_message_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
 import 'package:campus_flutter/base/routing/geo_link.dart';
@@ -155,6 +156,7 @@ class CampusApp extends ConsumerStatefulWidget {
 class _CampusAppState extends ConsumerState<CampusApp> {
   late QuickActions quickActions;
   StreamSubscription<Uri>? _geoLinkSubscription;
+  RemoteConfigMessageService? _remoteConfigMessageService;
 
   @override
   void initState() {
@@ -187,6 +189,7 @@ class _CampusAppState extends ConsumerState<CampusApp> {
   @override
   void dispose() {
     unawaited(_geoLinkSubscription?.cancel());
+    unawaited(_remoteConfigMessageService?.dispose());
     super.dispose();
   }
 
@@ -214,38 +217,17 @@ class _CampusAppState extends ConsumerState<CampusApp> {
 
   void firebaseCallback() {
     if (!kDebugMode) {
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      remoteConfig.fetchAndActivate().then((value) {
-        if (value) {
-          _handleFirebaseValues(
-            RemoteConfigMessage.keys,
-            remoteConfig.getAll(),
+      _remoteConfigMessageService = RemoteConfigMessageService(
+        FirebaseRemoteConfig.instance,
+        (message) {
+          if (!mounted) return;
+          ref.read(hasStatusMessage.notifier).state = (
+            message != null,
+            message,
           );
-        }
-      });
-      remoteConfig.onConfigUpdated.listen((event) async {
-        await remoteConfig.activate();
-        _handleFirebaseValues(event.updatedKeys, remoteConfig.getAll());
-      });
-    }
-  }
-
-  void _handleFirebaseValues(
-    Set<String> updatedKeys,
-    Map<String, RemoteConfigValue> values,
-  ) {
-    var shouldClear = true;
-    for (var updatedKey in updatedKeys) {
-      if (values[updatedKey]?.asBool() ?? false) {
-        shouldClear = false;
-        ref.read(hasStatusMessage.notifier).state = (
-          true,
-          RemoteConfigMessage.fromString(updatedKey),
-        );
-      }
-    }
-    if (shouldClear) {
-      ref.read(hasStatusMessage.notifier).state = (false, null);
+        },
+      );
+      unawaited(_remoteConfigMessageService!.start());
     }
   }
 
