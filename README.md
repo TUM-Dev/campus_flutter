@@ -52,12 +52,62 @@ You can reach us on [GitHub](https://github.com/TUM-Dev/campus_flutter) or via E
 
 ## Development
 
-To develop this project, you need these dependency's installed. If you have any problems with any of the steps below, please open an issue.
+This project uses Flutter **3.47.7** with Dart **3.13.5**, matching CI. Android CI uses **JDK 21** (AGP 9.3.1 / Gradle 9.7.0 / Kotlin 2.4.21, using built-in Kotlin). The Runner iOS target requires **iOS 18.0**. All native iOS plugins use Swift Package Manager; CocoaPods is no longer required.
+
+To develop this project, you need these dependencies installed. If you have any problems with any of the steps below, please open an issue.
 Please refer to the respective installation instructions:
 
 | Dependency                               | Usage                                    | where to download it                         |
 |------------------------------------------|------------------------------------------|----------------------------------------------|
 | `Flutter` (includes the `Dart` compiler) | SDK to develop this app                  | https://docs.flutter.dev/get-started/install |
+
+### Installing and upgrading dependencies
+
+```bash
+flutter pub get
+dart run build_runner build
+flutter analyze
+flutter test
+```
+
+For iOS, open `ios/Runner.xcworkspace`. After a clean checkout, run
+`flutter build ios --config-only --no-codesign` before building directly in
+Xcode or Fastlane so Flutter configures Swift packages for the app's deployment
+target. `flutter build ios` handles this configuration automatically.
+
+For Android on macOS, install the versioned Homebrew JDK and select it in Flutter:
+
+```bash
+brew install openjdk@21
+export JAVA_HOME="$(brew --prefix openjdk@21)/libexec/openjdk.jdk/Contents/Home"
+flutter config --jdk-dir="$JAVA_HOME"
+(cd android && ./gradlew --version)
+```
+
+The project pins the Gradle daemon and Kotlin/Java compiler toolchain to Java 21;
+CI installs Java 21 as well. In Android Studio, use the same JDK for **Gradle JDK**.
+The app's Java/Kotlin bytecode target is 21. Gradle's reported embedded Kotlin
+version is separate from the Android Kotlin plugin version in
+`android/settings.gradle.kts`.
+
+Use the checked-in `android/gradlew` wrapper; a global Homebrew Gradle installation
+is not required. The wrapper pins Gradle and verifies its distribution checksum.
+Check `flutter doctor -v` and `(cd android && ./gradlew --version)` when diagnosing
+Java mismatches. After changing Java versions, `(cd android && ./gradlew --stop)`
+can stop old daemons before rebuilding.
+
+Keep Gradle, AGP, Kotlin, and Java compatible when upgrading:
+[Kotlin compatibility matrix](https://kotlinlang.org/docs/gradle-configure-project.html),
+[AGP compatibility](https://developer.android.com/build/releases/about-agp), and
+[Gradle Java compatibility](https://docs.gradle.org/current/userguide/compatibility.html).
+Flutter 3.47 still needs `android.newDsl=false`; retain this compatibility setting
+until the Flutter SDK and all plugins support the new AGP DSL.
+
+When upgrading Flutter, update the SDK constraints in `pubspec.yaml` and the
+Flutter version in all three CI workflows together. Run `flutter pub outdated`
+to distinguish compatible updates from versions blocked by the SDK or forks.
+The `meta` override remains necessary because the caching gRPC fork pins an
+older version. Remove it when the fork relaxes its constraint.
 
 ### Updating the `.proto` files
 
@@ -79,6 +129,7 @@ To ensure that campus_flutter runs on every supported platform, we need to make 
 | gRPC            | Caching                             | https://github.com/jakobkoerber/grpc-dart       |
 | Xml2Json        | Fix Parsing of XML to JSON          | https://github.com/jakobkoerber/xml2json        |
 | flutter_linkify | Fix Selection Menu and Text Scaling | https://github.com/jakobkoerber/flutter_linkify |
+| device_calendar | Swift Package Manager support | https://github.com/jakobkoerber/device_calendar |
 
 
 

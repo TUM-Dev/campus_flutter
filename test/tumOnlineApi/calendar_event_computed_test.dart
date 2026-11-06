@@ -78,9 +78,9 @@ void main() {
     test('returns the stored color when set and not an exam', () {
       final event = makeEvent(
         description: 'Regular lecture',
-        color: Colors.green.value,
+        color: Colors.green.toARGB32(),
       );
-      expect(event.getColor().value, Colors.green.value);
+      expect(event.getColor().toARGB32(), Colors.green.toARGB32());
     });
 
     test('returns primaryLightColor when color is null and not an exam', () {

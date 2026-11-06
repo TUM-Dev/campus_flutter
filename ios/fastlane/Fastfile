@@ -52,7 +52,8 @@ platform :ios do
       scheme: "Runner",
       workspace: "Runner.xcworkspace",
       export_method: "app-store",
-      skip_package_dependencies_resolution: true
+      skip_package_dependencies_resolution: true,
+      derived_data_path: "DerivedData"
     )
 
     upload_to_testflight(

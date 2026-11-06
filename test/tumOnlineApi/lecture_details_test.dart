@@ -67,10 +67,12 @@ void main() {
       expect(details.examDateURL, 'https://example.com/exam-dates');
     });
 
-    test('decodes lecture details when row is a list (single-item list unwrap)', () {
-      // xml2json may produce a list for row even when there's one element
-      // in some edge cases. LectureDetailsElement handles both.
-      const xml = '''
+    test(
+      'decodes lecture details when row is a list (single-item list unwrap)',
+      () {
+        // xml2json may produce a list for row even when there's one element
+        // in some edge cases. LectureDetailsElement handles both.
+        const xml = '''
 <rowset>
   <row>
     <stp_sp_nr>200002</stp_sp_nr>
@@ -106,14 +108,15 @@ void main() {
   </row>
 </rowset>
 ''';
-      final json = tumXmlToJson(xml);
-      // When multiple rows are present, json will have a List for "rowset"
-      // LectureDetailsElement._lectureDetailsFromJson always takes the first
-      final element = LectureDetailsElement.fromJson(json);
+        final json = tumXmlToJson(xml);
+        // When multiple rows are present, json will have a List for "rowset"
+        // LectureDetailsElement._lectureDetailsFromJson always takes the first
+        final element = LectureDetailsElement.fromJson(json);
 
-      expect(element.lectureDetails.id, 200002);
-      expect(element.lectureDetails.title, 'Linear Algebra');
-    });
+        expect(element.lectureDetails.id, 200002);
+        expect(element.lectureDetails.title, 'Linear Algebra');
+      },
+    );
 
     test('optional fields are null when absent', () {
       const xml = '''

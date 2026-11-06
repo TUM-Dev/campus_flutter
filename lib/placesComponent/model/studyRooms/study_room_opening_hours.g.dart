@@ -10,7 +10,7 @@ StudyRoomOpeningHours _$StudyRoomOpeningHoursFromJson(
   Map<String, dynamic> json,
 ) => StudyRoomOpeningHours(
   daysString: json['days'] as String,
-  daysBitMask: json['daysbitmask'] as String,
+  daysBitMask: _daysBitMaskFromJson(json['daysbitmask']),
   start: json['start'] as String,
   end: json['end'] as String,
 );

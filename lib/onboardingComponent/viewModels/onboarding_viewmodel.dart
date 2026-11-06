@@ -8,6 +8,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
+import 'package:campus_flutter/onboardingComponent/model/tum_id.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
@@ -31,46 +32,24 @@ class OnboardingViewModel {
   BehaviorSubject<Credentials?> credentials = BehaviorSubject.seeded(null);
   BehaviorSubject<bool> tumIdValid = BehaviorSubject.seeded(false);
 
-  final TextEditingController textEditingController1 = TextEditingController();
-  final TextEditingController textEditingController2 = TextEditingController();
-  final TextEditingController textEditingController3 = TextEditingController();
+  final TextEditingController tumIdController = TextEditingController();
+
+  String get tumId => TumId.normalize(tumIdController.text);
 
   void clearTextFields() {
-    textEditingController1.clear();
-    textEditingController2.clear();
-    textEditingController3.clear();
+    tumIdController.clear();
+    tumIdValid.add(false);
   }
 
   void checkTumId(BuildContext context) {
-    final RegExp lettersRegex = RegExp(r'^[a-z]+$');
-    final RegExp numberRegex = RegExp(r'^[0-9]+$');
-
-    if (textEditingController1.text.isEmpty ||
-        textEditingController2.text.isEmpty ||
-        textEditingController3.text.isEmpty) {
+    if (tumId.isEmpty) {
       tumIdValid.add(false);
       return;
     }
 
-    if (!lettersRegex.hasMatch(textEditingController1.text)) {
-      tumIdValid.addError(context.tr("onlyLetters"));
-      return;
-    }
-
-    if (!numberRegex.hasMatch(textEditingController2.text)) {
-      tumIdValid.addError(context.tr("onlyNumbers"));
-      return;
-    }
-
-    if (!lettersRegex.hasMatch(textEditingController3.text)) {
-      tumIdValid.addError(context.tr("onlyLetters"));
-      return;
-    }
-
-    if (textEditingController1.text.length != 2 ||
-        textEditingController2.text.length != 2 ||
-        textEditingController3.text.length != 3) {
-      tumIdValid.add(false);
+    final error = TumId.validationError(tumId);
+    if (error != null) {
+      tumIdValid.addError(context.tr(error));
       return;
     }
 
@@ -103,20 +82,19 @@ class OnboardingViewModel {
         );
   }
 
-  Future requestLogin() async {
-    return OnboardingService.requestNewToken(
-      true,
-      "${textEditingController1.text}${textEditingController2.text}${textEditingController3.text}",
-    ).then((value) {
-      final token = value.content;
-      _storage.write(key: "token", value: token);
-      Api.tumToken = token;
-    });
+  Future<void> requestLogin() async {
+    if (TumId.validationError(tumId) != null) {
+      throw ArgumentError('Invalid TUM ID');
+    }
+    final token = await OnboardingService.requestNewToken(true, tumId);
+    // Keep pending access in memory until the user activates it in TUMonline.
+    Api.tumToken = token.content;
   }
 
   Future<Confirm> confirmLogin() async {
-    return OnboardingService.confirmToken(true).then((value) {
+    return OnboardingService.confirmToken(true).then((value) async {
       if (value.confirmed) {
+        await _storage.write(key: "token", value: Api.tumToken);
         credentials.add(Credentials.tumId);
       }
       return value;

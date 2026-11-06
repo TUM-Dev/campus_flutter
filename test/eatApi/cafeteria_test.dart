@@ -44,13 +44,34 @@ void main() {
 
       // Weekdays 1–5 all return (true, OpeningHour)
       // 2024-04-15 Mon, 2024-04-16 Tue … 2024-04-19 Fri, 2024-04-20 Sat
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 15)).$1, isTrue); // Monday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 16)).$1, isTrue); // Tuesday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 17)).$1, isTrue); // Wednesday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 18)).$1, isTrue); // Thursday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 19)).$1, isTrue); // Friday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 20)).$1, isFalse); // Saturday
-      expect(cafeteria.openingHoursForDate(DateTime(2024, 4, 21)).$1, isFalse); // Sunday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 15)).$1,
+        isTrue,
+      ); // Monday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 16)).$1,
+        isTrue,
+      ); // Tuesday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 17)).$1,
+        isTrue,
+      ); // Wednesday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 18)).$1,
+        isTrue,
+      ); // Thursday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 19)).$1,
+        isTrue,
+      ); // Friday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 20)).$1,
+        isFalse,
+      ); // Saturday
+      expect(
+        cafeteria.openingHoursForDate(DateTime(2024, 4, 21)).$1,
+        isFalse,
+      ); // Sunday
       // null date → default case
       expect(cafeteria.openingHoursForDate(null).$1, isFalse);
     });

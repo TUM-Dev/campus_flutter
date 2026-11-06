@@ -9,13 +9,17 @@ import 'package:flutter/material.dart';
 class NavigaTumService {
   static Future<NavigaTumSearchResponse> search(
     bool forcedRefresh,
-    String query,
-  ) async {
+    String query, {
+    String? type,
+  }) async {
     RestClient restClient = getIt();
     final response = await restClient
         .get<NavigaTumSearchResponse, NavigaTumApi>(
           NavigaTumApi(
-            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
+            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(
+              query: query,
+              type: type,
+            ),
           ),
           NavigaTumSearchResponse.fromJson,
           forcedRefresh,

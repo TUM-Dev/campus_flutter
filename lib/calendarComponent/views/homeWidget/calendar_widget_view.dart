@@ -30,8 +30,8 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   Widget build(BuildContext context) {
     return WidgetFrameView(
       title: context.tr("calendar"),
-      child: CardWithPadding(
-        height: 220,
+      child: CardWithPadding.constrained(
+        boxConstraints: const BoxConstraints(minHeight: 220),
         child: StreamBuilder(
           stream: ref.watch(calendarViewModel).events,
           builder: (context, snapshot) {
@@ -40,13 +40,10 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
                 ref.read(calendarViewModel).getWidgetEvents(),
               );
             } else if (snapshot.hasError) {
-              return SizedBox(
-                height: 220,
-                child: ErrorHandlingRouter(
-                  error: snapshot.error!,
-                  errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                  retry: (() => ref.read(calendarViewModel).fetch(true)),
-                ),
+              return ErrorHandlingRouter(
+                error: snapshot.error!,
+                errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                retry: (() => ref.read(calendarViewModel).fetch(true)),
               );
             } else {
               return DelayedLoadingIndicator(name: context.tr("events"));
@@ -58,64 +55,88 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
   }
 
   Widget _calendarWidgetCard((CalendarEvent?, List<CalendarEvent>) events) {
-    if (events.$1 == null && events.$2.isEmpty) {
-      return Stack(
+    final upcomingEvents = events.$2.take(2).toList();
+    if (events.$1 == null && upcomingEvents.isEmpty) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _todayWidget(),
+          SizedBox(height: context.padding),
           Center(child: Text(context.tr("noUpcomingEvents"))),
         ],
       );
-    } else {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _todayWidget()),
-                if (events.$1 != null)
-                  Expanded(
-                    child: CalendarHomeWidgetEventView(
-                      calendarEvent: events.$1!,
-                    ),
-                  ),
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Each column needs enough room for readable text at the user's scale.
+        final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
+        final useSingleColumn = constraints.maxWidth < 320 * textScale;
+        final currentEvent = events.$1;
+        if (useSingleColumn) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _todayWidget(),
+              for (final event in [
+                ?currentEvent,
+                ...upcomingEvents,
+              ]) ...[
+                SizedBox(height: context.padding),
+                CalendarHomeWidgetEventView(
+                  calendarEvent: event,
+                  compact: false,
+                ),
               ],
-            ),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-          if (events.$2.isNotEmpty)
+            ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Expanded(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: events.$2.length == 1
-                    ? [
-                        Expanded(
-                          child: CalendarHomeWidgetEventView(
-                            calendarEvent: events.$2[0],
-                          ),
-                        ),
-                        const Spacer(),
-                      ]
-                    : [
-                        for (int i = 0; i < events.$2.length && i < 2; i++)
-                          Expanded(
-                            child: CalendarHomeWidgetEventView(
-                              calendarEvent: events.$2[i],
-                            ),
-                          ),
-                      ],
+                children: [
+                  _todayWidget(),
+                  if (currentEvent != null) ...[
+                    SizedBox(height: context.padding),
+                    CalendarHomeWidgetEventView(calendarEvent: currentEvent),
+                  ],
+                ],
               ),
             ),
-        ],
-      );
-    }
+            if (upcomingEvents.isNotEmpty) ...[
+              SizedBox(width: context.padding),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (int i = 0; i < upcomingEvents.length; i++) ...[
+                      if (i > 0) SizedBox(height: context.padding),
+                      CalendarHomeWidgetEventView(
+                        calendarEvent: upcomingEvents[i],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ],
+        );
+      },
+    );
   }
 
   Widget _todayWidget() {
     final today = DateTime.now();
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(

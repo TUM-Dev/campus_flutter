@@ -1,1 +1,1 @@
-T? cast<T>(x) => x is T ? x : null;
+T? cast<T>(Object? x) => x is T ? x : null;

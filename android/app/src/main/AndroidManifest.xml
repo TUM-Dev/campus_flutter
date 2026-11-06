@@ -86,6 +86,9 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <meta-data
+                android:name="flutter_deeplinking_enabled"
+                android:value="false" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,6 +96,12 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="es.antonborri.home_widget.action.LAUNCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="geo" />
             </intent-filter>
         </activity>
         <!--

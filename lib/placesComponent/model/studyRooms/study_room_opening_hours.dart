@@ -7,7 +7,7 @@ part 'study_room_opening_hours.g.dart';
 class StudyRoomOpeningHours {
   @JsonKey(name: "days")
   final String daysString;
-  @JsonKey(name: "daysbitmask")
+  @JsonKey(name: "daysbitmask", fromJson: _daysBitMaskFromJson)
   final String daysBitMask;
   final String start;
   final String end;
@@ -45,4 +45,11 @@ class StudyRoomOpeningHours {
       _$StudyRoomOpeningHoursFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudyRoomOpeningHoursToJson(this);
+}
+
+String _daysBitMaskFromJson(Object? value) {
+  // Support both integers and string bitmasks from IRIS
+  if (value is int) return value.toString();
+  if (value is String) return value;
+  throw const FormatException('Invalid study room days bitmask');
 }

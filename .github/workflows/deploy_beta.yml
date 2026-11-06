@@ -5,28 +5,53 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
-    runs-on: macos-26
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        platform: [ ios, android ]
+        include:
+          - platform: ios
+            os: macos-26
+          - platform: android
+            os: ubuntu-latest
       fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          working-directory: ${{ matrix.platform }}
+          bundler-cache: true
 
       - if: matrix.platform == 'android'
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: '21'
+          cache: 'gradle'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.47.7'
           channel: stable
+          cache: true
+
+      - if: matrix.platform == 'ios'
+        name: Cache Xcode DerivedData (Swift packages)
+        uses: actions/cache@v4
+        with:
+          path: ios/DerivedData
+          key: ${{ runner.os }}-deriveddata-${{ hashFiles('ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: ${{ runner.os }}-deriveddata-
 
       - name: Install Flutter Packages
         run: |
@@ -34,12 +59,8 @@ jobs:
           flutter pub get
 
       - if: matrix.platform == 'ios'
-        name: Install CocoaPods
-        run: cd ./ios && pod install
-
-      - if: matrix.platform == 'ios'
-        name: Patch FlutterGeneratedPluginSwiftPackage minimum iOS version
-        run: sed -i '' 's/.iOS("13.0")/.iOS("15.0")/g' ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift
+        name: Configure iOS Swift packages
+        run: flutter build ios --config-only --no-codesign
 
       - if: matrix.platform == 'ios'
         name: Add SSH Key
@@ -51,7 +72,7 @@ jobs:
         name: Build and Deploy With Release Notes to TestFlight
         run: |
           cd ./ios
-          fastlane ios_beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -65,7 +86,7 @@ jobs:
         name: Build and Deploy to TestFlight
         run: |
           cd ./ios
-          fastlane ios_beta
+          bundle exec fastlane ios_beta
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -84,10 +105,16 @@ jobs:
         name: Deploy to Google Play Store
         run: |
           cd ./android
-          fastlane android_beta
+          bundle exec fastlane android_beta build_apk:${{ github.event_name == 'release' }}
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}
           ANDROID_KEYSTORE_FILE: ./upload-keystore
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - if: matrix.platform == 'android' && github.event_name == 'release'
+        name: Upload APK to Release Assets
+        run: gh release upload "${{ github.event.release.tag_name }}" build/app/outputs/flutter-apk/app-release.apk --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

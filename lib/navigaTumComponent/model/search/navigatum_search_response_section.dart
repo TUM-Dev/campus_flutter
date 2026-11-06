@@ -11,8 +11,20 @@ class NavigaTumSearchResponseSection {
 
   NavigaTumSearchResponseSection(this.type, this.entries);
 
-  factory NavigaTumSearchResponseSection.fromJson(Map<String, dynamic> json) =>
-      _$NavigaTumSearchResponseSectionFromJson(json);
+  factory NavigaTumSearchResponseSection.fromJson(Map<String, dynamic> json) {
+    if (json['facet'] != 'lectures') {
+      return _$NavigaTumSearchResponseSectionFromJson(json);
+    }
+
+    // 'lectures' facet does not have a 'type' field, but since we mix all the facets and
+    // need to filter by type, we manually set it here
+    return _$NavigaTumSearchResponseSectionFromJson({
+      ...json,
+      'entries': (json['entries'] as List<dynamic>)
+          .map((entry) => {'type': 'lecture', ...entry as Map<String, dynamic>})
+          .toList(),
+    });
+  }
 
   Map<String, dynamic> toJson() => _$NavigaTumSearchResponseSectionToJson(this);
 }

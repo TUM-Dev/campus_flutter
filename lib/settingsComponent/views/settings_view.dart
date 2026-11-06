@@ -90,10 +90,8 @@ class SettingsView extends ConsumerWidget {
       dense: true,
       title: Text(
         context.tr("resetPreferences"),
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Colors.red,
-          fontWeight: FontWeight.w500,
-        ),
+        style: Theme.of(context).textTheme.bodyMedium
+            ?.copyWith(color: Colors.red, fontWeight: FontWeight.w500),
         textAlign: TextAlign.center,
       ),
     );
@@ -106,18 +104,14 @@ class SettingsView extends ConsumerWidget {
       title: loginStatus != Credentials.tumId
           ? Text(
               context.tr("login"),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.green,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium
+                  ?.copyWith(color: Colors.green, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             )
           : Text(
               context.tr("logout"),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.red,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium
+                  ?.copyWith(color: Colors.red, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
       onTap: () {

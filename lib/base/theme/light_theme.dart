@@ -104,10 +104,8 @@ ThemeData lightTheme(BuildContext context) {
     navigationBarTheme: NavigationBarThemeData(
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
-          return Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: primaryLightColor,
-            fontWeight: FontWeight.w500,
-          );
+          return Theme.of(context).textTheme.labelSmall
+              ?.copyWith(color: primaryLightColor, fontWeight: FontWeight.w500);
         } else {
           return Theme.of(context).textTheme.labelSmall?.copyWith(
             color: navigationIconGrayLight,
@@ -129,13 +127,10 @@ ThemeData lightTheme(BuildContext context) {
 
     /// theme for navigation rail used on web
     navigationRailTheme: NavigationRailThemeData(
-      selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-        color: primaryLightColor,
-        fontWeight: FontWeight.w500,
-      ),
-      unselectedLabelTextStyle: Theme.of(
-        context,
-      ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
+      selectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+          ?.copyWith(color: primaryLightColor, fontWeight: FontWeight.w500),
+      unselectedLabelTextStyle: Theme.of(context).textTheme.labelMedium
+          ?.copyWith(fontWeight: FontWeight.w500),
       selectedIconTheme: const IconThemeData(color: primaryLightColor),
       useIndicator: false,
       backgroundColor: lightBackground,

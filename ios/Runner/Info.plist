@@ -8,6 +8,19 @@
         <string>$(DEVELOPMENT_LANGUAGE)</string>
         <key>CFBundleDisplayName</key>
         <string>Campus App</string>
+        <key>FlutterDeepLinkingEnabled</key>
+        <false/>
+        <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleURLName</key>
+                <string>de.tum.in.tumcampus.geo</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>geo</string>
+                </array>
+            </dict>
+        </array>
         <key>CFBundleExecutable</key>
         <string>$(EXECUTABLE_NAME)</string>
         <key>CFBundleIdentifier</key>

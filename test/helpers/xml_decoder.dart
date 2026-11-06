@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:xml2json/xml2json.dart';
 
 /// Mirrors the [RestClient] response decoder exactly:

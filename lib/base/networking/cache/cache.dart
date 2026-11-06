@@ -7,9 +7,9 @@ import 'package:drift/drift.dart';
 class Cache {
   final CacheDatabase cacheDatabase;
 
-  final Duration onlineTtl = Duration(minutes: 10);
-  final Duration onlineStudentCardTtl = Duration(hours: 3);
-  final Duration offlineTtl = const Duration(days: 30);
+  final Duration onlineTtl = const Duration(minutes: 10);
+  final Duration onlineStudentCardTtl = const Duration(hours: 3);
+  final Duration maxAge = const Duration(days: 30);
 
   Cache({required this.cacheDatabase});
 
@@ -21,7 +21,7 @@ class Cache {
       (o) => CacheEntryCompanion.insert(
         id: id,
         url: key,
-        validUntil: today.add(offlineTtl),
+        validUntil: today.add(maxAge),
         saved: today,
         body: body,
       ),
@@ -37,35 +37,24 @@ class Cache {
         .limit(1)
         .getSingleOrNull();
 
-    if (entry != null) {
-      final today = DateTime.now();
-      if (getIt<ConnectionService>().hasInternet()) {
-        if (!key.contains("tumCard")) {
-          if (entry.saved.isAfter(today.subtract(onlineTtl))) {
-            return entry;
-          } else {
-            delete(key);
-            return null;
-          }
-        } else {
-          if (entry.saved.isAfter(today.subtract(onlineStudentCardTtl))) {
-            return entry;
-          } else {
-            delete(key);
-            return null;
-          }
-        }
-      } else {
-        if (entry.validUntil.isAfter(today)) {
-          return entry;
-        } else {
-          delete(key);
-          return null;
-        }
-      }
-    } else {
+    if (entry == null) {
       return null;
     }
+
+    if (entry.validUntil.isAfter(DateTime.now())) {
+      return entry;
+    } else {
+      delete(key);
+      return null;
+    }
+  }
+
+  bool isFresh(CacheEntryData entry, String key) {
+    if (!getIt<ConnectionService>().hasInternet()) {
+      return true;
+    }
+    final ttl = key.contains("tumCard") ? onlineStudentCardTtl : onlineTtl;
+    return entry.saved.isAfter(DateTime.now().subtract(ttl));
   }
 
   void delete(String key) {

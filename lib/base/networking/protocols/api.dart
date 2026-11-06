@@ -17,11 +17,17 @@ abstract class Api {
 
   bool get needsAuth;
 
+  /// false for requests with side effects
+  bool get cacheable => true;
+
+  static const String noCacheKey = "noCache";
+
   Future<dio.Response<String>> get({required dio.Dio dioClient}) async {
-    return dioClient.getUri(
-      asURL(),
-      options: _customDecodingOptions(baseHeaders),
-    );
+    final options = _customDecodingOptions(baseHeaders);
+    if (!cacheable) {
+      options.extra = {noCacheKey: true};
+    }
+    return dioClient.getUri(asURL(), options: options);
   }
 
   Future<dio.Response<String>> post({required dio.Dio dioClient}) async {

@@ -7,18 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CalendarHomeWidgetEventView extends ConsumerWidget {
-  const CalendarHomeWidgetEventView({super.key, required this.calendarEvent});
+  const CalendarHomeWidgetEventView({
+    super.key,
+    required this.calendarEvent,
+    this.compact = true,
+  });
 
   final CalendarEvent calendarEvent;
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String startTime = DateFormat(
-      DateFormat.HOUR24_MINUTE,
-    ).format(calendarEvent.startDate);
-    final String endTime = DateFormat(
-      DateFormat.HOUR24_MINUTE,
-    ).format(calendarEvent.endDate);
+    final String startTime = DateFormat(DateFormat.HOUR24_MINUTE)
+        .format(calendarEvent.startDate);
+    final String endTime = DateFormat(DateFormat.HOUR24_MINUTE)
+        .format(calendarEvent.endDate);
     final DateTime today = DateTime.now();
     final DateTime todayDate = DateTime(today.year, today.month, today.day);
     final DateTime tomorrowDate = DateTime(
@@ -42,6 +45,7 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
         );
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -70,21 +74,27 @@ class CalendarHomeWidgetEventView extends ConsumerWidget {
                 children: [
                   Text(
                     calendarEvent.title ?? "-",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: compact ? 1 : null,
+                    overflow: compact
+                        ? TextOverflow.ellipsis
+                        : TextOverflow.clip,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   Text(
                     "$startTime - $endTime",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: compact ? 1 : null,
+                    overflow: compact
+                        ? TextOverflow.ellipsis
+                        : TextOverflow.clip,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
                     calendarEvent.locations.firstOrNull ??
                         context.tr("unknown"),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: compact ? 1 : null,
+                    overflow: compact
+                        ? TextOverflow.ellipsis
+                        : TextOverflow.clip,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],

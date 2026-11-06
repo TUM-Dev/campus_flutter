@@ -113,6 +113,7 @@ class ServingLine {
         return Colors.grey;
     }
   }
+
   Color? get _hnvBusColor {
     final n = int.tryParse(number);
     if (n != null) {

@@ -9,7 +9,9 @@ part of 'station.dart';
 Station _$StationFromJson(Map<String, dynamic> json) => Station(
   name: json['name'] as String,
   apiName: json['apiName'] as String,
-  location: LatLngJson.fromJsonString(json['location'] as List),
+  location: json['location'] == null
+      ? null
+      : LatLngJson.fromJsonString(json['location'] as List),
 );
 
 Map<String, dynamic> _$StationToJson(Station instance) => <String, dynamic>{

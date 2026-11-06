@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api.dart';
+import 'package:campus_flutter/base/networking/apis/navigaTumApi/navigatum_api_endpoint.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_details.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_navigation_entity.dart';
 import 'package:campus_flutter/navigaTumComponent/model/search/navigatum_search_response.dart';
@@ -8,7 +10,78 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   Map<String, dynamic> j(String s) => jsonDecode(s) as Map<String, dynamic>;
 
+  test('requests only rooms while preserving the search query', () {
+    const query = 'Garching & Audimax';
+    final uri = NavigaTumApi(
+      navigaTumApiEndpoint: NavigaTumApiEndpointSearch(
+        query: query,
+        type: 'room',
+      ),
+    ).asURL();
+
+    expect(uri.path, '/api/search');
+    expect(uri.queryParameters, {'q': query, 'type': 'room'});
+  });
+
   group('NavigaTumSearchResponse JSON decoding', () {
+    test(
+      'decodes unfiltered room and lecture results without mutating input',
+      () {
+        final json = {
+          'sections': [
+            {
+              'facet': 'rooms',
+              'entries': [
+                {
+                  'id': '0509.EG.980',
+                  'type': 'room',
+                  'name': '0509.EG.980 (Audimax)',
+                  'subtext': 'stammgelände, Wienandsbau',
+                },
+              ],
+            },
+            {
+              'facet': 'lectures',
+              'entries': [
+                {
+                  'id': 'lecture_59fa470af0528c72',
+                  'name':
+                      '\u0019Aud\u0017io Artificial Intelligence for Automotive Systems',
+                  'subtext': 'Vorlesung',
+                  'title_de':
+                      'Audio Artificial Intelligence for Automotive Systems',
+                  'title_en':
+                      'Audio Artificial Intelligence for Automotive Systems',
+                  'next_occurrence_at': '2026-10-26T15:00:00Z',
+                  'upcoming': [
+                    {
+                      'start_at': '2026-10-26T15:00:00Z',
+                      'end_at': '2026-10-26T16:30:00Z',
+                      'room_code': '5504.01.442',
+                      'room_name': '5504.01.442 (Studentenpraktika mit PC)',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+        final original = jsonEncode(json);
+
+        final response = NavigaTumSearchResponse.fromJson(json);
+
+        expect(response.sections.map((s) => s.type), ['rooms', 'lectures']);
+        expect(response.sections.first.entries.single.type, 'room');
+        final lecture = response.sections.last.entries.single;
+        expect(lecture.type, 'lecture');
+        expect(
+          lecture.getFormattedName(),
+          'Audio Artificial Intelligence for Automotive Systems',
+        );
+        expect(jsonEncode(json), original);
+      },
+    );
+
     test('decodes a search response with multiple sections', () {
       final json = j('''
 {
@@ -76,14 +149,13 @@ void main() {
       String name = 'Test Room',
       String subtext = 'floor',
       String? parsedId,
-    }) =>
-        NavigaTumNavigationEntity.fromJson({
-          'id': 'test-id',
-          'type': 'room',
-          'name': name,
-          'subtext': subtext,
-          'parsed_id': ?parsedId,
-        });
+    }) => NavigaTumNavigationEntity.fromJson({
+      'id': 'test-id',
+      'type': 'room',
+      'name': name,
+      'subtext': subtext,
+      'parsed_id': ?parsedId,
+    });
 
     test('getFormattedName returns name only when parsedId is null', () {
       final entity = makeEntity(name: 'Informatik (MI)');
@@ -115,7 +187,8 @@ void main() {
     "computed": [
       {"name": "Seats", "text": "200"},
       {"name": "Building", "text": "MI"}
-    ]
+    ],
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J"
   },
   "coords": {
     "lat": 48.26244,
@@ -163,6 +236,12 @@ void main() {
       expect(details.additionalProperties.properties.length, 2);
       expect(details.additionalProperties.properties[0].name, 'Seats');
       expect(details.additionalProperties.properties[0].text, '200');
+      expect(
+        details.additionalProperties.calendarUrl,
+        'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J',
+      );
+      expect(details.calendarUri?.host, 'campus.tum.de');
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5606.EG.001');
 
       // Maps
       expect(details.maps.defaultMapId, 'rf142');
@@ -189,6 +268,45 @@ void main() {
       final details = NavigaTumNavigationDetails.fromJson(json);
 
       expect(details.hasCoordinates, isFalse);
+    });
+
+    test('navigaTumUri encodes the room id as a single path segment', () {
+      final json = j('''
+{
+  "id": "5500/01?A",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {"computed": []},
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500%2F01%3FA');
+    });
+
+    test('calendarUri rejects untrusted schemes', () {
+      final json = j('''
+{
+  "id": "5606.EG.001",
+  "name": "Test Room",
+  "parent_names": ["Garching"],
+  "type": "room",
+  "type_common_name": "Room",
+  "props": {
+    "computed": [],
+    "calendar_url": "javascript:alert(1)"
+  },
+  "coords": {},
+  "maps": {"default": "rf000"}
+}
+''');
+      final details = NavigaTumNavigationDetails.fromJson(json);
+
+      expect(details.calendarUri, isNull);
     });
   });
 }

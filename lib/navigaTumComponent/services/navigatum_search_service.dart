@@ -7,13 +7,17 @@ import 'package:campus_flutter/main.dart';
 class NavigaTumSearchService {
   static Future<(DateTime?, NavigaTumSearchResponse)> fetchNavigaTumEntities(
     String query,
-    bool forcedRefresh,
-  ) async {
+    bool forcedRefresh, {
+    String? type,
+  }) async {
     RestClient restClient = getIt<RestClient>();
     final response = await restClient
         .get<NavigaTumSearchResponse, NavigaTumApi>(
           NavigaTumApi(
-            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(query: query),
+            navigaTumApiEndpoint: NavigaTumApiEndpointSearch(
+              query: query,
+              type: type,
+            ),
           ),
           NavigaTumSearchResponse.fromJson,
           forcedRefresh,

@@ -117,26 +117,30 @@ class NavigationService {
   PreferredSizeWidget? bottom(BuildContext context, WidgetRef ref) {
     final message = ref.watch(hasStatusMessage);
     if (message.$1 && message.$2 != null) {
+      final text = message.$2!.message(context);
+      final width = MediaQuery.sizeOf(context).width;
+      final padding = context.halfPadding;
+      final style = Theme.of(context).textTheme.bodyMedium!
+          .copyWith(color: Colors.white, fontWeight: FontWeight.w500);
+      final painter = TextPainter(
+        text: TextSpan(text: text, style: style),
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+        textAlign: TextAlign.center,
+      )..layout(maxWidth: (width - 2 * padding).clamp(0, double.infinity));
+      final height = painter.height + 2 * padding;
+      painter.dispose();
       return PreferredSize(
-        preferredSize: Size(
-          MediaQuery.sizeOf(context).width,
-          30 + context.halfPadding,
-        ),
+        preferredSize: Size(width, height + padding),
         child: Padding(
-          padding: EdgeInsets.only(bottom: context.halfPadding),
+          padding: EdgeInsets.only(bottom: padding),
           child: Container(
             color: context.primaryColor,
-            height: 30,
-            width: MediaQuery.sizeOf(context).width,
+            height: height,
+            width: width,
+            padding: EdgeInsets.all(padding),
             child: Center(
-              child: Text(
-                message.$2!.message(context),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-                maxLines: 1,
-              ),
+              child: Text(text, style: style, textAlign: TextAlign.center),
             ),
           ),
         ),

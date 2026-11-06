@@ -21,6 +21,7 @@ class NavigaTumSearchViewModel
       return NavigaTumSearchService.fetchNavigaTumEntities(
         query,
         forcedRefresh,
+        type: 'room',
       ).then((value) {
         final rooms =
             value.$2.sections

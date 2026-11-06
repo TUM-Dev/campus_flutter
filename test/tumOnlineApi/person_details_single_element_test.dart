@@ -41,8 +41,10 @@ void main() {
       expect(person.rooms.first.buildingName, 'Informatik');
     });
 
-    test('decodes a single <gruppe> (organisation) element as a list of one', () {
-      const xml = '''
+    test(
+      'decodes a single <gruppe> (organisation) element as a list of one',
+      () {
+        const xml = '''
 <rowset>
   <person>
     <nr>200001</nr>
@@ -61,13 +63,14 @@ void main() {
   </person>
 </rowset>
 ''';
-      final json = tumXmlToJson(xml);
-      final person = PersonDetailsData.fromJson(json).person;
+        final json = tumXmlToJson(xml);
+        final person = PersonDetailsData.fromJson(json).person;
 
-      expect(person.organisations.length, 1);
-      expect(person.organisations.first.name, 'Chair of Computer Science');
-      expect(person.organisations.first.id, 'CS01');
-    });
+        expect(person.organisations.length, 1);
+        expect(person.organisations.first.name, 'Chair of Computer Science');
+        expect(person.organisations.first.id, 'CS01');
+      },
+    );
 
     test('decodes a single <nebenstelle> element as a list of one', () {
       const xml = '''

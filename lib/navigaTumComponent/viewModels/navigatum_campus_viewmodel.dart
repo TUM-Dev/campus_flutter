@@ -24,7 +24,11 @@ class NavigaTumCampusViewModel {
       return;
     }
 
-    return NavigaTumService.search(forcedRefresh, searchString).then((value) {
+    return NavigaTumService.search(
+      forcedRefresh,
+      searchString,
+      type: 'room',
+    ).then((value) {
       final mostSearchResults = value.sections
           .expand((element) => element.entries)
           .toList();

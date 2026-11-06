@@ -43,8 +43,10 @@ void main() {
       expect(tuition.amount, isNull);
     });
 
-    test('single-row list unwrap: takes first row when multiple rows present', () {
-      const xml = '''
+    test(
+      'single-row list unwrap: takes first row when multiple rows present',
+      () {
+        const xml = '''
 <rowset>
   <row>
     <soll>100,00</soll>
@@ -60,13 +62,14 @@ void main() {
   </row>
 </rowset>
 ''';
-      final json = tumXmlToJson(xml);
-      // _tuitionFromJson takes data.first when it's a List
-      final tuition = Tuitions.fromJson(json).tuition;
+        final json = tumXmlToJson(xml);
+        // _tuitionFromJson takes data.first when it's a List
+        final tuition = Tuitions.fromJson(json).tuition;
 
-      expect(tuition.amount, closeTo(100.00, 0.001));
-      expect(tuition.semesterID, '24S');
-    });
+        expect(tuition.amount, closeTo(100.00, 0.001));
+        expect(tuition.semesterID, '24S');
+      },
+    );
 
     test('decodes zero tuition amount', () {
       const xml = '''

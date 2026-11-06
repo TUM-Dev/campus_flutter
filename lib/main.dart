@@ -1,12 +1,17 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:campus_flutter/base/enums/appearance.dart';
-import 'package:campus_flutter/base/enums/remote_config_message.dart';
+import 'package:campus_flutter/base/util/status_message.dart';
 import 'package:campus_flutter/base/enums/shortcut_item.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/util/enum_parser.dart';
 import 'package:campus_flutter/base/networking/base/grpc_client.dart';
 import 'package:campus_flutter/base/services/connection_service.dart';
+import 'package:campus_flutter/base/services/remote_config_message_service.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router.dart';
+import 'package:campus_flutter/base/routing/geo_link.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
@@ -36,12 +41,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 final customLocale = StateProvider<Locale?>((ref) => null);
 final appearance = StateProvider<Appearance>((ref) => Appearance.system);
-final hasStatusMessage = StateProvider<(bool, RemoteConfigMessage?)>(
+final hasStatusMessage = StateProvider<(bool, StatusMessage?)>(
   (ref) => (false, null),
 );
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // The plugin retains the initial link until the app subscribes after startup.
+  final incomingLinks =
+      !kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.android ||
+              defaultTargetPlatform == TargetPlatform.iOS)
+      ? AppLinks().uriLinkStream
+      : null;
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await _initializeLocalization();
   await _initializeFirebase();
@@ -53,7 +65,10 @@ Future<void> main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: ProviderScope(
-        child: CampusApp(launchedFromWidget: await _initializeHomeWidgets()),
+        child: CampusApp(
+          launchedFromWidget: await _initializeHomeWidgets(),
+          incomingLinks: incomingLinks,
+        ),
       ),
     ),
   );
@@ -68,23 +83,25 @@ Future<void> _initializeLocalization() async {
 }
 
 Future<void> _initializeFirebase() async {
+  await Firebase.initializeApp();
   if (!kDebugMode) {
-    await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
-    try {
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      await remoteConfig.setConfigSettings(
-        RemoteConfigSettings(
-          fetchTimeout: const Duration(minutes: 1),
-          minimumFetchInterval: const Duration(hours: 1),
-        ),
-      );
-    } catch (_) {}
   }
+  try {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: kDebugMode
+            ? Duration.zero
+            : const Duration(hours: 1),
+      ),
+    );
+  } catch (_) {}
 }
 
 Future<void> _initializeNetworkingClients() async {
@@ -125,9 +142,14 @@ Future<bool> _initializeHomeWidgets() async {
 }
 
 class CampusApp extends ConsumerStatefulWidget {
-  const CampusApp({super.key, required this.launchedFromWidget});
+  const CampusApp({
+    super.key,
+    required this.launchedFromWidget,
+    this.incomingLinks,
+  });
 
   final bool launchedFromWidget;
+  final Stream<Uri>? incomingLinks;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CampusAppState();
@@ -135,6 +157,8 @@ class CampusApp extends ConsumerStatefulWidget {
 
 class _CampusAppState extends ConsumerState<CampusApp> {
   late QuickActions quickActions;
+  StreamSubscription<Uri>? _geoLinkSubscription;
+  RemoteConfigMessageService? _remoteConfigMessageService;
 
   @override
   void initState() {
@@ -143,7 +167,32 @@ class _CampusAppState extends ConsumerState<CampusApp> {
     quickActionsCallback();
     homeWidgetLaunchCallback();
     homeWidgetCallback();
+    _geoLinkSubscription = widget.incomingLinks?.listen(
+      _handleGeoLink,
+      onError: (Object error) {
+        debugPrint('Could not receive an incoming location link.');
+      },
+    );
     super.initState();
+  }
+
+  void _handleGeoLink(Uri uri) {
+    final location = geoSearchLocation(uri);
+    if (location == null || !mounted) return;
+
+    final routerService = getIt<RouterService>();
+    if (routerService.canNavigate) {
+      ref.read(routerProvider).go(location);
+    } else {
+      routerService.alternativeRoute = location;
+    }
+  }
+
+  @override
+  void dispose() {
+    unawaited(_geoLinkSubscription?.cancel());
+    unawaited(_remoteConfigMessageService?.dispose());
+    super.dispose();
   }
 
   @override
@@ -169,40 +218,14 @@ class _CampusAppState extends ConsumerState<CampusApp> {
   }
 
   void firebaseCallback() {
-    if (!kDebugMode) {
-      final remoteConfig = FirebaseRemoteConfig.instance;
-      remoteConfig.fetchAndActivate().then((value) {
-        if (value) {
-          _handleFirebaseValues(
-            RemoteConfigMessage.keys,
-            remoteConfig.getAll(),
-          );
-        }
-      });
-      remoteConfig.onConfigUpdated.listen((event) async {
-        await remoteConfig.activate();
-        _handleFirebaseValues(event.updatedKeys, remoteConfig.getAll());
-      });
-    }
-  }
-
-  void _handleFirebaseValues(
-    Set<String> updatedKeys,
-    Map<String, RemoteConfigValue> values,
-  ) {
-    var shouldClear = true;
-    for (var updatedKey in updatedKeys) {
-      if (values[updatedKey]?.asBool() ?? false) {
-        shouldClear = false;
-        ref.read(hasStatusMessage.notifier).state = (
-          true,
-          RemoteConfigMessage.fromString(updatedKey),
-        );
-      }
-    }
-    if (shouldClear) {
-      ref.read(hasStatusMessage.notifier).state = (false, null);
-    }
+    _remoteConfigMessageService = RemoteConfigMessageService(
+      FirebaseRemoteConfig.instance,
+      (message) {
+        if (!mounted) return;
+        ref.read(hasStatusMessage.notifier).state = (message != null, message);
+      },
+    );
+    unawaited(_remoteConfigMessageService!.start());
   }
 
   void quickActionsCallback() {

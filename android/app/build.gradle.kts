@@ -2,8 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // Apply Flutter after AGP, which provides built-in Kotlin.
     id("dev.flutter.flutter-gradle-plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.gms.google-services")
@@ -20,19 +19,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
-        }
-    }
-
     defaultConfig {
         applicationId = "de.tum.in.tumcampus"
         minSdk = 29
         targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        multiDexEnabled = true
     }
 
     signingConfigs {
@@ -68,11 +60,17 @@ android {
     }
 }
 
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
 flutter {
     source = "../.."
 }
 
 dependencies {
-    implementation("androidx.multidex:multidex:2.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
 }

@@ -16,9 +16,13 @@ StudyRoom _$StudyRoomFromJson(Map<String, dynamic> json) => StudyRoom(
   number: json['raum_nummer'] as String?,
   occupiedBy: json['belegung_durch'] as String?,
   occupiedFor: (json['belegung_fuer'] as num?)?.toInt(),
-  occupiedFrom: DateTime.tryParse(json['belegung_ab'] as String),
+  occupiedFrom: json['belegung_ab'] == null
+      ? null
+      : DateTime.tryParse(json['belegung_ab'] as String),
   occupiedIn: (json['belegung_in'] as num?)?.toInt(),
-  occupiedUntil: DateTime.tryParse(json['belegung_bis'] as String),
+  occupiedUntil: json['belegung_bis'] == null
+      ? null
+      : DateTime.tryParse(json['belegung_bis'] as String),
   roomNoArchitect: json['raum_nr_architekt'] as String?,
   resNo: (json['res_nr'] as num).toInt(),
   status: json['status'] as String?,
