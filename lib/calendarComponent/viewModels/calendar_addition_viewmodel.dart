@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
+import 'package:campus_flutter/calendarComponent/model/calendar_recurrence.dart';
+import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
+import 'package:campus_flutter/base/theme/constants.dart';
+import 'package:campus_flutter/main.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 final calendarAdditionViewModel = Provider.autoDispose
     .family<CalendarAdditionViewModel, CalendarEvent?>((ref, calendarEvent) {
@@ -23,10 +30,53 @@ class CalendarAdditionViewModel {
   final BehaviorSubject<bool> isValid = BehaviorSubject.seeded(false);
   late final BehaviorSubject<DateTime> from;
   late final BehaviorSubject<DateTime> to;
+  final BehaviorSubject<RecurrenceType> recurrenceType = BehaviorSubject.seeded(
+    RecurrenceType.none,
+  );
+  final BehaviorSubject<int> occurrenceCount = BehaviorSubject.seeded(2);
+  final BehaviorSubject<RecurrenceEndType> recurrenceEndType =
+      BehaviorSubject.seeded(RecurrenceEndType.untilDate);
+  late final BehaviorSubject<DateTime> untilDate;
+  final BehaviorSubject<Color> selectedColor = BehaviorSubject.seeded(
+    primaryLightColor,
+  );
+  final BehaviorSubject<bool> isSaving = BehaviorSubject.seeded(false);
+
+  static const int maxOccurrences = 20;
+  static const _uuid = Uuid();
 
   String? id;
+  String? seriesId;
+  CalendarSeriesResolution? resolvedSeries;
   final Ref ref;
   bool _isSaving = false;
+  (DateTime, DateTime, RecurrenceType, int, RecurrenceEndType, DateTime)?
+  _initialSchedule;
+
+  bool get _scheduleUnchanged =>
+      isEditingSeries &&
+      _initialSchedule ==
+          (
+            from.value,
+            to.value,
+            recurrenceType.value,
+            occurrenceCount.value,
+            recurrenceEndType.value,
+            untilDate.value,
+          );
+
+  bool get exceedsOccurrenceLimit =>
+      !_scheduleUnchanged &&
+      recurrenceType.value != RecurrenceType.none &&
+      recurrenceEndType.value == RecurrenceEndType.untilDate &&
+      !DateUtils.dateOnly(
+        recurrenceStart(from.value, recurrenceType.value, maxOccurrences),
+      ).isAfter(DateUtils.dateOnly(untilDate.value));
+  bool get isEditing => id != null;
+  bool get isEditingSeries => isEditing && (resolvedSeries?.isSeries ?? false);
+  bool get hasRecurrenceEnabled => recurrenceType.value != RecurrenceType.none;
+  bool get shouldShowSeriesBanner => isEditing && hasRecurrenceEnabled;
+  bool get hasValidTimeFrame => to.value.isAfter(from.value);
 
   CalendarAdditionViewModel(this.ref) {
     final date = ref.read(selectedDate);
@@ -34,135 +84,507 @@ class CalendarAdditionViewModel {
     to = BehaviorSubject.seeded(
       (date.$1 ?? DateTime.now()).add(const Duration(hours: 1)),
     );
+    untilDate = BehaviorSubject.seeded(
+      addCalendarDays(date.$1 ?? DateTime.now(), 30),
+    );
+    checkValidity();
   }
 
   CalendarAdditionViewModel.edit(this.ref, CalendarEvent calendarEvent) {
-    titleController.text = calendarEvent.title ?? "";
-    annotationController.text = calendarEvent.description ?? "";
-    from = BehaviorSubject.seeded(calendarEvent.startDate);
-    to = BehaviorSubject.seeded(calendarEvent.endDate);
     id = calendarEvent.id;
-    isValid.value = true;
+    resolvedSeries = ref.read(calendarViewModel).resolveSeries(calendarEvent);
+    seriesId = resolvedSeries?.seriesId;
+
+    final initialEvent = _resolveInitialEditingEvent(calendarEvent);
+    titleController.text = initialEvent.title ?? "";
+    annotationController.text = initialEvent.description ?? "";
+    from = BehaviorSubject.seeded(initialEvent.startDate);
+    to = BehaviorSubject.seeded(initialEvent.endDate);
+    untilDate = BehaviorSubject.seeded(
+      addCalendarDays(initialEvent.startDate, 30),
+    );
+    final colorPreference = getIt<CalendarPreferenceService>()
+        .getColorPreference(calendarEvent.lvNr ?? calendarEvent.id);
+    selectedColor.add(colorPreference ?? initialEvent.getColor());
+
+    if (isEditingSeries) {
+      _seedSeriesRecurrence();
+      _initialSchedule = (
+        from.value,
+        to.value,
+        recurrenceType.value,
+        occurrenceCount.value,
+        recurrenceEndType.value,
+        untilDate.value,
+      );
+    }
+
+    checkValidity();
+  }
+
+  CalendarEvent _resolveInitialEditingEvent(CalendarEvent fallbackEvent) {
+    return resolvedSeries?.siblings.firstOrNull ?? fallbackEvent;
+  }
+
+  void _seedSeriesRecurrence() {
+    final siblings = resolvedSeries?.siblings ?? const <CalendarEvent>[];
+    if (siblings.length < 2) {
+      recurrenceType.add(RecurrenceType.none);
+      occurrenceCount.add(2);
+      recurrenceEndType.add(RecurrenceEndType.count);
+      untilDate.add(from.value);
+      return;
+    }
+
+    recurrenceType.add(_inferRecurrenceType(siblings));
+    occurrenceCount.add(siblings.length.clamp(2, maxOccurrences));
+    recurrenceEndType.add(RecurrenceEndType.count);
+    untilDate.add(siblings.last.startDate);
+  }
+
+  RecurrenceType _inferRecurrenceType(List<CalendarEvent> siblings) {
+    if (siblings.length < 2) return RecurrenceType.none;
+
+    final first = siblings[0].startDate;
+    final second = siblings[1].startDate;
+    final dayDelta = calendarDayDifference(first, second);
+
+    if (dayDelta == 1) return RecurrenceType.daily;
+    if (dayDelta == 7) return RecurrenceType.weekly;
+    if (dayDelta == 14) return RecurrenceType.biweekly;
+
+    final nextMonth = addCalendarMonths(first, 1);
+    if (nextMonth == second) return RecurrenceType.monthly;
+
+    return RecurrenceType.weekly;
+  }
+
+  void setSelectedColor(Color color) {
+    selectedColor.add(color);
+  }
+
+  void setRecurrenceType(RecurrenceType type) {
+    recurrenceType.add(type);
+    checkValidity();
+  }
+
+  void setOccurrenceCount(int count) {
+    occurrenceCount.add(count.clamp(2, maxOccurrences));
+    checkValidity();
+  }
+
+  void setRecurrenceEndType(RecurrenceEndType type) {
+    recurrenceEndType.add(type);
+    checkValidity();
+  }
+
+  void setUntilDate(DateTime? date) {
+    if (date != null) {
+      untilDate.add(_normalizeUntilDate(date));
+      checkValidity();
+    }
   }
 
   void setFromDate(DateTime? dateTime) {
     if (dateTime != null) {
-      from.add(
-        DateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          from.value.hour,
-          from.value.minute,
-        ),
+      final duration = to.value.difference(from.value);
+      final newFrom = DateTime(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        from.value.hour,
+        from.value.minute,
       );
-      to.add(
-        DateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          from.value.hour,
-          from.value.minute,
-          0,
-        ),
-      );
+      from.add(newFrom);
+      to.add(newFrom.add(duration));
+      _clampUntilDateToFrom();
+      checkValidity();
     }
   }
 
   void setFromTimeOfDay(TimeOfDay? timeOfDay) {
     if (timeOfDay != null) {
-      from.add(
-        DateTime(
-          from.value.year,
-          from.value.month,
-          from.value.day,
-          timeOfDay.hour,
-          timeOfDay.minute,
-          0,
-        ),
+      final duration = to.value.difference(from.value);
+      final newFrom = DateTime(
+        from.value.year,
+        from.value.month,
+        from.value.day,
+        timeOfDay.hour,
+        timeOfDay.minute,
+        0,
       );
+      from.add(newFrom);
+      to.add(newFrom.add(duration));
+      _clampUntilDateToFrom();
+      checkValidity();
     }
   }
 
   void setToDate(DateTime? dateTime) {
     if (dateTime != null) {
-      to.add(
-        DateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          to.value.hour,
-          to.value.minute,
-          0,
-        ),
+      final candidate = DateTime(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        to.value.hour,
+        to.value.minute,
+        0,
       );
+      to.add(
+        candidate.isAfter(from.value)
+            ? candidate
+            : from.value.add(const Duration(hours: 1)),
+      );
+      checkValidity();
     }
   }
 
   void setToTimeOfDay(TimeOfDay? timeOfDay) {
     if (timeOfDay != null) {
-      to.add(
-        DateTime(
-          to.value.year,
-          to.value.month,
-          to.value.day,
-          timeOfDay.hour,
-          timeOfDay.minute,
-          0,
-        ),
+      final candidate = DateTime(
+        to.value.year,
+        to.value.month,
+        to.value.day,
+        timeOfDay.hour,
+        timeOfDay.minute,
+        0,
       );
+      to.add(
+        candidate.isAfter(from.value)
+            ? candidate
+            : from.value.add(const Duration(hours: 1)),
+      );
+      checkValidity();
+    }
+  }
+
+  @visibleForTesting
+  List<(DateTime, DateTime)> generateOccurrences() {
+    if (_scheduleUnchanged) {
+      return resolvedSeries!.siblings
+          .map((event) => (event.startDate, event.endDate))
+          .toList();
+    }
+    final type = recurrenceType.value;
+    if (type == RecurrenceType.none) return [(from.value, to.value)];
+    final limit = recurrenceEndType.value == RecurrenceEndType.untilDate
+        ? maxOccurrences
+        : occurrenceCount.value;
+    final deadline = recurrenceEndType.value == RecurrenceEndType.untilDate
+        ? DateUtils.dateOnly(untilDate.value)
+        : null;
+    final dates = <(DateTime, DateTime)>[];
+    for (var i = 0; i < limit; i++) {
+      final occurrence = recurrenceOccurrence(from.value, to.value, type, i);
+      if (deadline != null &&
+          DateUtils.dateOnly(occurrence.$1).isAfter(deadline)) {
+        break;
+      }
+      dates.add(occurrence);
+    }
+    return dates;
+  }
+
+  DateTime _normalizeUntilDate(DateTime date) {
+    final normalizedDate = DateUtils.dateOnly(date);
+    final minimumDate = DateUtils.dateOnly(from.value);
+    return normalizedDate.isBefore(minimumDate) ? minimumDate : normalizedDate;
+  }
+
+  void _clampUntilDateToFrom() {
+    final normalized = _normalizeUntilDate(untilDate.value);
+    if (untilDate.value != normalized) {
+      untilDate.add(normalized);
+    }
+  }
+
+  _EventPreferenceSnapshot _capturePreferenceSnapshot(
+    CalendarPreferenceService preferenceService,
+    String eventId,
+  ) {
+    return _EventPreferenceSnapshot(
+      color: preferenceService.getColorPreference(eventId),
+      isVisible: preferenceService.getVisibilityPreference(eventId),
+      seriesId: preferenceService.getSeriesId(eventId),
+    );
+  }
+
+  void _applyPreferenceSnapshot(
+    CalendarPreferenceService preferenceService,
+    String eventId,
+    _EventPreferenceSnapshot snapshot,
+  ) {
+    if (snapshot.color != null) {
+      preferenceService.saveColorPreference(eventId, snapshot.color!);
+    }
+    if (snapshot.isVisible != null) {
+      preferenceService.saveVisibilityPreference(eventId, snapshot.isVisible!);
+    }
+    if (snapshot.seriesId != null) {
+      preferenceService.saveSeriesId(eventId, snapshot.seriesId!);
+    }
+  }
+
+  Future<void> _deleteCreatedEvents(
+    CalendarPreferenceService preferenceService,
+    Iterable<String> eventIds,
+  ) async {
+    final deletedIds = <String>[];
+    for (final eventId in eventIds) {
+      try {
+        await CalendarService.deleteCalendarEvent(eventId);
+        deletedIds.add(eventId);
+      } catch (e) {
+        log('Failed to clean up created event $eventId: $e');
+      }
+    }
+    if (deletedIds.isNotEmpty) {
+      preferenceService.removeEventPreferences(deletedIds);
+    }
+  }
+
+  Future<void> _restoreOriginalEvents(
+    CalendarPreferenceService preferenceService,
+    Iterable<CalendarEvent> eventsToRestore,
+    Map<String, _EventPreferenceSnapshot> snapshots,
+  ) async {
+    final restoredOriginalIds = <String>[];
+
+    for (final event in eventsToRestore) {
+      try {
+        final response = await CalendarService.createCalendarEvent(
+          AddedCalendarEvent(
+            title: event.title ?? '-',
+            annotation: event.description,
+            from: event.startDate,
+            to: event.endDate,
+          ),
+        );
+        final snapshot = snapshots[event.id];
+        if (snapshot != null) {
+          _applyPreferenceSnapshot(
+            preferenceService,
+            response.eventId,
+            snapshot,
+          );
+        }
+        restoredOriginalIds.add(event.id);
+      } catch (e) {
+        log('Failed to restore original event ${event.id}: $e');
+      }
+    }
+
+    if (restoredOriginalIds.isNotEmpty) {
+      preferenceService.removeEventPreferences(restoredOriginalIds);
+    }
+
+    if (restoredOriginalIds.length != eventsToRestore.length) {
+      throw Exception('Failed to restore the original calendar events.');
     }
   }
 
   Future<void> saveEvent() async {
+    checkValidity();
     if (_isSaving) return;
+    if (!isValid.value) throw StateError('Invalid calendar event');
     _isSaving = true;
+    isSaving.add(true);
     try {
-      if (id != null) {
-        await CalendarService.deleteCalendarEvent(id!);
-      }
-      final response = await CalendarService.createCalendarEvent(
-        AddedCalendarEvent(
-          title: titleController.text,
-          annotation: annotationController.text.isEmpty
-              ? null
-              : annotationController.text,
-          from: from.value,
-          to: to.value,
-        ),
-      );
-      await ref.read(calendarViewModel).fetch(true);
-      if (ref
-              .read(calendarViewModel)
-              .events
-              .value
-              ?.firstWhereOrNull((e) => e.id == response.eventId) ==
-          null) {
-        ref
-            .read(calendarViewModel)
-            .events
-            .value
-            ?.add(
-              CalendarEvent(
-                id: response.eventId,
-                status: "FT",
+      final preferenceService = getIt<CalendarPreferenceService>();
+      final createdEventIds = <String>[];
+
+      if (isEditingSeries) {
+        // ── Series edit: update all siblings ──────────────────────────────
+        final siblings = resolvedSeries?.siblings ?? const <CalendarEvent>[];
+        final occurrences = generateOccurrences();
+        final activeSeriesId = occurrences.length > 1
+            ? (seriesId ?? _uuid.v4())
+            : null;
+        final snapshots = {
+          for (final sibling in siblings)
+            sibling.id: _capturePreferenceSnapshot(
+              preferenceService,
+              sibling.id,
+            ),
+        };
+        final deletedIds = <String>[];
+
+        for (final sibling in siblings) {
+          try {
+            await CalendarService.deleteCalendarEvent(sibling.id);
+            deletedIds.add(sibling.id);
+          } catch (_) {
+            await _restoreOriginalEvents(
+              preferenceService,
+              siblings.where((sibling) => deletedIds.contains(sibling.id)),
+              snapshots,
+            );
+            throw Exception(
+              'Failed to delete ${siblings.length - deletedIds.length} of '
+              '${siblings.length} series events. Original events were restored.',
+            );
+          }
+        }
+
+        try {
+          for (final (start, end) in occurrences) {
+            final response = await CalendarService.createCalendarEvent(
+              AddedCalendarEvent(
                 title: titleController.text,
-                startDate: from.value,
-                endDate: to.value,
-                locations: [],
+                annotation: annotationController.text.isEmpty
+                    ? null
+                    : annotationController.text,
+                from: start,
+                to: end,
               ),
             );
+            createdEventIds.add(response.eventId);
+            if (activeSeriesId != null) {
+              preferenceService.saveSeriesId(response.eventId, activeSeriesId);
+            }
+          }
+        } catch (_) {
+          await _deleteCreatedEvents(preferenceService, createdEventIds);
+          await _restoreOriginalEvents(preferenceService, siblings, snapshots);
+          throw Exception(
+            'Failed to update the series. Original events were restored.',
+          );
+        }
+
+        for (
+          int index = 0;
+          index < createdEventIds.length && index < siblings.length;
+          index++
+        ) {
+          final snapshot = snapshots[siblings[index].id];
+          if (snapshot?.isVisible != null) {
+            preferenceService.saveVisibilityPreference(
+              createdEventIds[index],
+              snapshot!.isVisible!,
+            );
+          }
+        }
+
+        preferenceService.removeEventPreferences(
+          siblings.map((sibling) => sibling.id),
+        );
+      } else {
+        // ── Single / new event ────────────────────────────────────────────
+        final occurrences = generateOccurrences();
+        final newSeriesId = occurrences.length > 1 ? _uuid.v4() : null;
+        final originalSnapshot = id != null
+            ? _capturePreferenceSnapshot(preferenceService, id!)
+            : null;
+
+        try {
+          for (final (start, end) in occurrences) {
+            final response = await CalendarService.createCalendarEvent(
+              AddedCalendarEvent(
+                title: titleController.text,
+                annotation: annotationController.text.isEmpty
+                    ? null
+                    : annotationController.text,
+                from: start,
+                to: end,
+              ),
+            );
+            createdEventIds.add(response.eventId);
+            if (newSeriesId != null) {
+              preferenceService.saveSeriesId(response.eventId, newSeriesId);
+            }
+          }
+        } catch (_) {
+          await _deleteCreatedEvents(preferenceService, createdEventIds);
+          throw Exception(
+            'Failed to create the event. No changes were applied.',
+          );
+        }
+
+        if (id != null) {
+          try {
+            await CalendarService.deleteCalendarEvent(id!);
+          } catch (_) {
+            await _deleteCreatedEvents(preferenceService, createdEventIds);
+            throw Exception(
+              'Failed to replace the event. The original event was kept.',
+            );
+          }
+
+          preferenceService.removeEventPreferences([id!]);
+          if (originalSnapshot?.isVisible != null) {
+            for (final eventId in createdEventIds) {
+              preferenceService.saveVisibilityPreference(
+                eventId,
+                originalSnapshot!.isVisible!,
+              );
+            }
+          }
+        }
+      }
+
+      final calendarVm = ref.read(calendarViewModel);
+      for (final eventId in createdEventIds) {
+        calendarVm.setEventColor(
+          eventId,
+          selectedColor.value,
+          notifyListeners: false,
+        );
+      }
+      if (createdEventIds.isNotEmpty) {
+        calendarVm.notifyEventChanges();
+      }
+
+      await calendarVm.fetch(true);
+
+      if (createdEventIds.isNotEmpty &&
+          calendarVm.events.value?.firstWhereOrNull(
+                (e) => e.id == createdEventIds.last,
+              ) ==
+              null) {
+        // Add the first occurrence as a placeholder if not yet fetched
+        calendarVm.events.value?.add(
+          CalendarEvent(
+            id: createdEventIds.last,
+            status: "FT",
+            title: titleController.text,
+            startDate: from.value,
+            endDate: to.value,
+            locations: [],
+            color: selectedColor.value.toARGB32(),
+          ),
+        );
       }
     } finally {
       _isSaving = false;
+      isSaving.add(false);
     }
   }
 
   void checkValidity() {
-    if (titleController.text.isNotEmpty) {
-      isValid.add(true);
-    } else {
-      isValid.add(false);
-    }
+    final hasValidUntilDate =
+        recurrenceType.value != RecurrenceType.none &&
+            recurrenceEndType.value == RecurrenceEndType.untilDate
+        ? !DateUtils.dateOnly(
+            untilDate.value,
+          ).isBefore(DateUtils.dateOnly(from.value))
+        : true;
+    isValid.add(
+      titleController.text.trim().isNotEmpty &&
+          hasValidTimeFrame &&
+          hasValidUntilDate &&
+          !exceedsOccurrenceLimit,
+    );
   }
+}
+
+class _EventPreferenceSnapshot {
+  final Color? color;
+  final bool? isVisible;
+  final String? seriesId;
+
+  const _EventPreferenceSnapshot({
+    required this.color,
+    required this.isVisible,
+    required this.seriesId,
+  });
 }

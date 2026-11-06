@@ -1,8 +1,6 @@
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
-import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,47 +56,8 @@ class CalendarViewService {
       calendarEvent = event;
     }
 
-    if (calendarEvent != null && calendarEvent.url != null) {
+    if (calendarEvent != null) {
       context.push(calendarDetails, extra: calendarEvent);
-    } else if (calendarEvent != null) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            calendarEvent!.title ?? "-",
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-          content: CustomEventView(calendarEvent: calendarEvent),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
-              ),
-              onPressed: () {
-                ref
-                    .read(calendarViewModel)
-                    .deleteCalendarElement(calendarEvent!.id)
-                    .then((value) {
-                      if (context.mounted) {
-                        context.pop();
-                      }
-                    });
-              },
-              child: Text(context.tr("delete")),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.pop();
-                context.push(eventCreation, extra: calendarEvent);
-              },
-              child: Text(context.tr("edit")),
-            ),
-          ],
-        ),
-      );
     }
   }
 }

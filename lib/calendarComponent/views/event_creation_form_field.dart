@@ -22,36 +22,22 @@ class EventCreationFormField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: context.padding),
-          child: Text(title, style: Theme.of(context).textTheme.titleMedium),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: context.padding),
+      child: TextFormField(
+        controller: controller,
+        maxLength: maxLength,
+        minLines: 1,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          labelText: title,
+          border: InputBorder.none,
+          counterText: "",
         ),
-        Padding(
-          padding: EdgeInsets.only(bottom: context.padding),
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: context.padding,
-                horizontal: context.padding,
-              ),
-              child: TextFormField(
-                controller: controller,
-                maxLength: maxLength,
-                minLines: 1,
-                maxLines: 15,
-                onChanged: (value) => ref
-                    .read(calendarAdditionViewModel(calendarEvent))
-                    .checkValidity(),
-                onTapOutside: (_) =>
-                    FocusManager.instance.primaryFocus?.unfocus(),
-              ),
-            ),
-          ),
-        ),
-      ],
+        onChanged: (value) =>
+            ref.read(calendarAdditionViewModel(calendarEvent)).checkValidity(),
+        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      ),
     );
   }
 }
