@@ -95,7 +95,8 @@ class FeedbackViewModel {
         title: Text(context.tr("unableToSend"), textAlign: TextAlign.center),
         content: ErrorHandlingRouter(
           error: error,
-          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+          isMutation: true,
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [

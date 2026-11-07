@@ -11,6 +11,7 @@ class GrpcErrorRouter extends StatelessWidget with ErrorHandlingView {
     required this.grpcError,
     required ErrorHandlingViewType errorHandlingViewType,
     Function()? retry,
+    this.isMutation = false,
     Color? titleColor,
     Color? bodyColor,
   }) {
@@ -22,13 +23,16 @@ class GrpcErrorRouter extends StatelessWidget with ErrorHandlingView {
 
   final GrpcError grpcError;
 
+  final bool isMutation;
+
   @override
   Widget build(BuildContext context) {
     final failure = ApiFailure.from(grpcError);
+    final mutation = isMutation;
     return exceptionMessage(
       errorMessage: context.tr(failure.messageKey),
-      fixMessage: context.tr(failure.recoveryKey),
-      allowRetry: failure.retryable,
+      fixMessage: context.tr(failure.recoveryKeyFor(isMutation: mutation)),
+      allowRetry: failure.canRetry(isMutation: mutation),
       context: context,
     );
   }

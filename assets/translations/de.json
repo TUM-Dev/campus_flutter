@@ -257,7 +257,7 @@
   "utilizationAt": "Auslastung bei {}%",
   "showStudentCardPicture": "Student Card Bild zeigen",
   "add_contact": "Zu Kontakten hinzufügen",
-  "apiTryLater": "Der Dienst ist möglicherweise ausgelastet. Bitte versuche es später erneut.",
+  "apiTryLater": "Bitte versuche es später erneut.",
   "apiUnauthorized": "Anmeldung erforderlich",
   "apiUnauthorizedRecovery": "Bitte prüfe deine Anmeldung und melde dich bei Bedarf erneut an.",
   "apiForbiddenRecovery": "Dein Konto hat keinen Zugriff auf diese Informationen.",
@@ -273,5 +273,11 @@
   "apiAlreadyExists": "Bereits übermittelt",
   "apiAlreadyExistsRecovery": "Dieser Eintrag existiert bereits. Bitte prüfe ihn vor einer erneuten Übermittlung.",
   "apiUnsupported": "Funktion nicht verfügbar",
-  "apiUnsupportedRecovery": "Diese Funktion wird vom Dienst derzeit nicht unterstützt."
+  "apiUnsupportedRecovery": "Diese Funktion wird vom Dienst derzeit nicht unterstützt.",
+  "apiRequestTimeout": "Zeitüberschreitung der Anfrage",
+  "apiServerError": "Beim Dienst ist ein Fehler aufgetreten",
+  "apiGatewayError": "Verbindungsproblem beim Dienst",
+  "apiServiceTimeout": "Der Dienst hat nicht rechtzeitig geantwortet",
+  "apiServiceRecovery": "Der Dienst hat Probleme beim Antworten. Bitte versuche es später erneut.",
+  "apiSubmissionUncertainRecovery": "Deine Anfrage wurde möglicherweise bereits ausgeführt. Bitte prüfe dies, bevor du sie erneut absendest."
 }

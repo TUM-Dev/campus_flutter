@@ -17,10 +17,13 @@ void main() {
       409: ApiFailure.conflict,
       422: ApiFailure.invalidRequest,
       429: ApiFailure.rateLimited,
-      500: ApiFailure.unavailable,
-      502: ApiFailure.unavailable,
+      500: ApiFailure.serverError,
+      502: ApiFailure.gateway,
+      501: ApiFailure.unsupported,
       503: ApiFailure.unavailable,
-      504: ApiFailure.timeout,
+      505: ApiFailure.unsupported,
+      599: ApiFailure.serverError,
+      504: ApiFailure.serviceTimeout,
     };
     for (final entry in cases.entries) {
       final options = RequestOptions(path: '/');
@@ -46,7 +49,7 @@ void main() {
       StatusCode.alreadyExists: ApiFailure.alreadyExists,
       StatusCode.aborted: ApiFailure.conflict,
       StatusCode.resourceExhausted: ApiFailure.rateLimited,
-      StatusCode.internal: ApiFailure.unavailable,
+      StatusCode.internal: ApiFailure.serverError,
       StatusCode.unavailable: ApiFailure.unavailable,
       StatusCode.unimplemented: ApiFailure.unsupported,
       StatusCode.dataLoss: ApiFailure.decoding,
@@ -102,6 +105,9 @@ void main() {
           ApiFailure.connection,
           ApiFailure.timeout,
           ApiFailure.unavailable,
+          ApiFailure.serverError,
+          ApiFailure.gateway,
+          ApiFailure.serviceTimeout,
           ApiFailure.rateLimited,
         }.contains(failure),
       );
@@ -110,5 +116,29 @@ void main() {
     expect(ApiFailure.cancelled.shouldReport, isFalse);
     expect(ApiFailure.connection.shouldReport, isFalse);
     expect(ApiFailure.decoding.shouldReport, isTrue);
+  });
+  test('ambiguous submission failures do not encourage duplicate writes', () {
+    for (final failure in [
+      ApiFailure.timeout,
+      ApiFailure.connection,
+      ApiFailure.serverError,
+      ApiFailure.gateway,
+      ApiFailure.serviceTimeout,
+      ApiFailure.unavailable,
+      ApiFailure.decoding,
+      ApiFailure.unknown,
+    ]) {
+      expect(failure.canRetry(isMutation: false), isTrue);
+      expect(failure.canRetry(isMutation: true), isFalse);
+      expect(
+        failure.recoveryKeyFor(isMutation: true),
+        'apiSubmissionUncertainRecovery',
+      );
+    }
+    expect(
+      ApiFailure.rateLimited.recoveryKeyFor(isMutation: true),
+      'rateExceededRecovery',
+    );
+    expect(ApiFailure.forbidden.canRetry(isMutation: true), isFalse);
   });
 }

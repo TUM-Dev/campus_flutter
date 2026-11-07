@@ -9,7 +9,7 @@ import 'package:xml2json/xml2json.dart';
 /// request URLs deliberately stay out of user-facing text and crash reports.
 enum ApiFailure {
   connection('connectionError', 'makeSureInternetConnection'),
-  timeout('connectionTimeout', 'apiTryLater'),
+  timeout('apiRequestTimeout', 'apiTryLater'),
   cancelled('requestCancelled', 'pleaseTryAgain', retryable: false),
   unauthorized('apiUnauthorized', 'apiUnauthorizedRecovery', retryable: false),
   forbidden('noPermission', 'apiForbiddenRecovery', retryable: false),
@@ -28,6 +28,9 @@ enum ApiFailure {
   unsupported('apiUnsupported', 'apiUnsupportedRecovery', retryable: false),
   rateLimited('rateExceeded', 'rateExceededRecovery'),
   unavailable('apiUnavailable', 'apiTryLater'),
+  serverError('apiServerError', 'apiTryLater'),
+  gateway('apiGatewayError', 'apiServiceRecovery'),
+  serviceTimeout('apiServiceTimeout', 'apiServiceRecovery'),
   certificate(
     'apiSecureConnection',
     'apiSecureConnectionRecovery',
@@ -49,7 +52,31 @@ enum ApiFailure {
       this == connection ||
       this == timeout ||
       this == unavailable ||
+      this == serverError ||
+      this == gateway ||
+      this == serviceTimeout ||
       this == rateLimited;
+
+  /// Missing a reply does not prove that a write was rejected by the server.
+  bool get mayHaveCompleted => switch (this) {
+    connection ||
+    timeout ||
+    unavailable ||
+    serverError ||
+    gateway ||
+    serviceTimeout ||
+    decoding ||
+    unknown => true,
+    _ => false,
+  };
+
+  String recoveryKeyFor({required bool isMutation}) =>
+      isMutation && mayHaveCompleted
+      ? 'apiSubmissionUncertainRecovery'
+      : recoveryKey;
+
+  bool canRetry({required bool isMutation}) =>
+      retryable && !(isMutation && mayHaveCompleted);
 
   static ApiFailure from(Object? error) {
     if (error is DioException) {
@@ -81,7 +108,8 @@ enum ApiFailure {
         StatusCode.aborted => conflict,
         StatusCode.resourceExhausted => rateLimited,
         StatusCode.unimplemented => unsupported,
-        StatusCode.unavailable || StatusCode.internal => unavailable,
+        StatusCode.unavailable => unavailable,
+        StatusCode.internal => serverError,
         StatusCode.dataLoss => decoding,
         _ => unknown,
       };
@@ -102,10 +130,14 @@ enum ApiFailure {
     401 => unauthorized,
     403 => forbidden,
     404 || 410 => notFound,
-    408 || 504 => timeout,
+    408 => timeout,
     409 || 412 => conflict,
     429 => rateLimited,
-    int code when code >= 500 && code <= 599 => unavailable,
+    501 || 505 => unsupported,
+    502 => gateway,
+    503 => unavailable,
+    504 => serviceTimeout,
+    int code when code >= 500 && code <= 599 => serverError,
     _ => unknown,
   };
 }

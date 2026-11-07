@@ -5,7 +5,6 @@ import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/grpc_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
-import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
@@ -20,6 +19,7 @@ class ErrorHandlingRouter extends StatefulWidget {
     required this.error,
     required this.errorHandlingViewType,
     this.retry,
+    this.isMutation = false,
     this.titleColor,
     this.bodyColor,
   });
@@ -27,6 +27,9 @@ class ErrorHandlingRouter extends StatefulWidget {
   final Object? error;
   final ErrorHandlingViewType errorHandlingViewType;
   final Function()? retry;
+
+  /// Set for writes whose outcome can be uncertain when no reply arrives.
+  final bool isMutation;
   final Color? titleColor;
   final Color? bodyColor;
 
@@ -73,6 +76,7 @@ class _ErrorHandlingRouterState extends State<ErrorHandlingRouter> {
       case DioException dioException:
         return DioExceptionRouter(
           dioException: dioException,
+          isMutation: widget.isMutation,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           titleColor: titleColor,
@@ -94,17 +98,10 @@ class _ErrorHandlingRouterState extends State<ErrorHandlingRouter> {
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
-      case TypeError typeError:
-        return TypeErrorRouter(
-          typeError: typeError,
-          errorHandlingViewType: errorHandlingViewType,
-          retry: retry,
-          titleColor: titleColor,
-          bodyColor: bodyColor,
-        );
       case GrpcError grpcError:
         return GrpcErrorRouter(
           grpcError: grpcError,
+          isMutation: widget.isMutation,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           titleColor: titleColor,
@@ -113,6 +110,7 @@ class _ErrorHandlingRouterState extends State<ErrorHandlingRouter> {
       default:
         return DefaultErrorRouter(
           exception: error,
+          isMutation: widget.isMutation,
           errorHandlingViewType: errorHandlingViewType,
           retry: retry,
           titleColor: titleColor,

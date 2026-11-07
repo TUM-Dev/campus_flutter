@@ -257,7 +257,7 @@
   "utilizationAt": "Utilization at {}%",
   "showStudentCardPicture": "Show Student Card Picture",
   "add_contact": "Add to contacts",
-  "apiTryLater": "The service may be busy. Please try again later.",
+  "apiTryLater": "Please try again later.",
   "apiUnauthorized": "Login required",
   "apiUnauthorizedRecovery": "Please check your login and sign in again if needed.",
   "apiForbiddenRecovery": "Your account cannot access this information.",
@@ -273,5 +273,11 @@
   "apiAlreadyExists": "Already submitted",
   "apiAlreadyExistsRecovery": "This entry already exists. Please check before submitting again.",
   "apiUnsupported": "Feature unavailable",
-  "apiUnsupportedRecovery": "This feature is currently not supported by the service."
+  "apiUnsupportedRecovery": "This feature is currently not supported by the service.",
+  "apiRequestTimeout": "Request timed out",
+  "apiServerError": "The service encountered a problem",
+  "apiGatewayError": "Service connection problem",
+  "apiServiceTimeout": "The service took too long to respond",
+  "apiServiceRecovery": "The service is having trouble responding. Please try again later.",
+  "apiSubmissionUncertainRecovery": "Your request may have been completed. Please check before submitting it again."
 }

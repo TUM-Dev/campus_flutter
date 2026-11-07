@@ -8,7 +8,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc.dart' hide Response;
 
 final _translations = <String, Map<String, dynamic>>{};
 
@@ -103,11 +103,8 @@ void main() {
         retry: () {},
       ),
     );
-    expect(find.text('Connection Timeout'), findsOneWidget);
-    expect(
-      find.text('The service may be busy. Please try again later.'),
-      findsOneWidget,
-    );
+    expect(find.text('Request timed out'), findsOneWidget);
+    expect(find.text('Please try again later.'), findsOneWidget);
     expect(find.byType(TextButton), findsOneWidget);
   });
   testWidgets(
@@ -147,5 +144,123 @@ void main() {
     );
     await tester.ensureVisible(find.byType(TextButton));
     expect(tester.takeException(), isNull);
+  });
+  for (final entry in {
+    500: 'The service encountered a problem',
+    501: 'Feature unavailable',
+    502: 'Service connection problem',
+    503: 'Service temporarily unavailable',
+    504: 'The service took too long to respond',
+  }.entries) {
+    testWidgets('HTTP ${entry.key} has accurate service-side advice', (
+      tester,
+    ) async {
+      final options = RequestOptions();
+      await pumpError(
+        tester,
+        ErrorHandlingRouter(
+          error: DioException.badResponse(
+            statusCode: entry.key,
+            requestOptions: options,
+            response: Response(requestOptions: options, statusCode: entry.key),
+          ),
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+          retry: () {},
+        ),
+      );
+      expect(find.text(entry.value), findsOneWidget);
+      expect(find.textContaining('busy'), findsNothing);
+      expect(
+        find.byType(TextButton),
+        entry.key == 501 ? findsNothing : findsOneWidget,
+      );
+    });
+  }
+
+  testWidgets('gRPC internal errors do not claim the service is busy', (
+    tester,
+  ) async {
+    await pumpError(
+      tester,
+      const ErrorHandlingRouter(
+        error: GrpcError.internal('private server details'),
+        errorHandlingViewType: ErrorHandlingViewType.textOnly,
+      ),
+    );
+    expect(find.text('The service encountered a problem'), findsOneWidget);
+    expect(find.text('Service temporarily unavailable'), findsNothing);
+  });
+
+  for (final language in ['en', 'de']) {
+    testWidgets('feedback timeout explains uncertain outcome in $language', (
+      tester,
+    ) async {
+      await pumpError(
+        tester,
+        ErrorHandlingRouter(
+          error: const GrpcError.deadlineExceeded('private'),
+          isMutation: true,
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+          retry: () =>
+              fail('A write must not be retried without checking its outcome'),
+        ),
+        language: language,
+      );
+      expect(
+        find.text(
+          _translations[language]!['apiSubmissionUncertainRecovery'] as String,
+        ),
+        findsOneWidget,
+      );
+      expect(find.byType(TextButton), findsNothing);
+    });
+  }
+
+  for (final options in [
+    RequestOptions(method: 'POST'),
+    RequestOptions(method: 'GET', extra: {'mutation': true}),
+  ]) {
+    testWidgets(
+      'Dio recognizes ${options.method} mutations without a caller flag',
+      (tester) async {
+        await pumpError(
+          tester,
+          ErrorHandlingRouter(
+            error: DioException(
+              requestOptions: options,
+              type: DioExceptionType.receiveTimeout,
+            ),
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            retry: () {},
+          ),
+        );
+        expect(
+          find.text(
+            _translations['en']!['apiSubmissionUncertainRecovery'] as String,
+          ),
+          findsOneWidget,
+        );
+        expect(find.byType(TextButton), findsNothing);
+      },
+    );
+  }
+
+  testWidgets('uncached reads still allow a safe retry', (tester) async {
+    await pumpError(
+      tester,
+      ErrorHandlingRouter(
+        error: DioException(
+          requestOptions: RequestOptions(
+            method: 'GET',
+            extra: {'noCache': true},
+          ),
+          type: DioExceptionType.receiveTimeout,
+        ),
+        errorHandlingViewType: ErrorHandlingViewType.textOnly,
+        retry: () {},
+      ),
+    );
+    expect(find.text('Please try again later.'), findsOneWidget);
+    expect(find.byType(TextButton), findsOneWidget);
   });
 }
