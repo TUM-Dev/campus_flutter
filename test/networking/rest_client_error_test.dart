@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import '../helpers/networking_fakes.dart';
 
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api.dart';
 import 'package:campus_flutter/base/networking/apis/eatApi/eat_api_endpoint.dart';
@@ -6,7 +6,6 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
-import 'package:campus_flutter/base/networking/cache/cache.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/cache/rest_cache_interceptor.dart';
 import 'package:campus_flutter/main.dart';
@@ -14,39 +13,6 @@ import 'package:campus_flutter/placesComponent/model/cafeterias/cafeteria.dart';
 import 'package:campus_flutter/placesComponent/services/mealplan_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-class MemoryCache implements Cache {
-  final entries = <String, CacheEntryData>{};
-  @override
-  Future<CacheEntryData?> get(String key) async => entries[key];
-  @override
-  bool isFresh(CacheEntryData entry, String key) => false;
-  @override
-  void add(String body, String key) => entries[key] = CacheEntryData(
-    id: 1,
-    url: key,
-    body: body,
-    saved: DateTime.now(),
-    validUntil: DateTime.now().add(const Duration(days: 1)),
-  );
-  @override
-  void delete(String key) => entries.remove(key);
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class StubAdapter implements HttpClientAdapter {
-  StubAdapter(this.reply);
-  final ResponseBody Function(RequestOptions) reply;
-  @override
-  Future<ResponseBody> fetch(
-    RequestOptions options,
-    Stream<Uint8List>? stream,
-    Future<void>? cancelFuture,
-  ) async => reply(options);
-  @override
-  void close({bool force = false}) {}
-}
 
 ResponseBody body(String data, int status) => ResponseBody.fromString(
   data,
@@ -134,6 +100,61 @@ void main() {
     expect(cache.entries, isEmpty);
   });
 
+  test(
+    'corrupt stale data is evicted if the new reply is malformed too',
+    () async {
+      cache.add('broken-cache', endpoint.asURL().toString());
+      client.dio.httpClientAdapter = StubAdapter(
+        (_) => body('broken-server', 200),
+      );
+      await expectLater(
+        fetch(),
+        throwsA(
+          isA<FormatException>().having(
+            (error) => error.source,
+            'original failing response',
+            'broken-server',
+          ),
+        ),
+      );
+      expect(cache.entries, isEmpty);
+    },
+  );
+
+  test('programming failures are not hidden by stale data', () async {
+    cache.add('{"cached":true}', endpoint.asURL().toString());
+    client.dio.httpClientAdapter = StubAdapter(
+      (_) => body('{"fresh":true}', 200),
+    );
+    await expectLater(
+      client.get<Object, EatApi>(endpoint, (json) {
+        if (json['fresh'] == true) {
+          throw StateError('unexpected application state');
+        }
+        return json;
+      }, true),
+      throwsStateError,
+    );
+  });
+
+  test('stale fallback preserves the saved timestamp', () async {
+    final saved = DateTime(2024, 1, 1);
+    cache.entries[endpoint.asURL().toString()] = CacheEntryData(
+      id: 1,
+      url: endpoint.asURL().toString(),
+      body: '{"cached":true}',
+      saved: saved,
+      validUntil: DateTime.now().add(const Duration(days: 1)),
+    );
+    client.dio.httpClientAdapter = StubAdapter((_) => body('outage', 503));
+    final response = await client.get<Object, EatApi>(
+      endpoint,
+      (json) => json,
+      true,
+    );
+    expect(response.saved, saved);
+  });
+
   test('domain error bodies are recognized on success and non-2xx', () async {
     final api = TumOnlineApi(TumOnlineEndpointTumCard());
     cache.add('{"cached":true}', api.asURL().toString());
@@ -207,6 +228,27 @@ void main() {
     );
     expect(cache.entries.values.single.body, '{"cached":true}');
   });
+
+  test(
+    'GET writes carry mutation context; confirmation reads only bypass cache',
+    () async {
+      for (final api in [
+        TumOnlineApi(TumOnlineEndpointEventDelete(eventId: '123')),
+        TumOnlineApi(TumOnlineEndpointTokenConfirmation()),
+      ]) {
+        client.dio.httpClientAdapter = StubAdapter((options) {
+          expect(options.extra['noCache'], isTrue);
+          expect(
+            options.extra['mutation'] == true,
+            api.tumOnlineEndpoint is TumOnlineEndpointEventDelete,
+          );
+          return body('{}', 200);
+        });
+        await client.get<Object, TumOnlineApi>(api, (json) => json, true);
+      }
+      expect(cache.entries, isEmpty);
+    },
+  );
 
   test('HTML error page preserves HTTP failure', () async {
     client.dio.httpClientAdapter = StubAdapter(

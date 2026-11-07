@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/networking/cache/cache.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/cache/rest_cache_interceptor.dart';
@@ -171,7 +172,7 @@ class RestClient {
         cache.add(body, key);
       }
       return result;
-    } catch (e) {
+    } catch (e, stack) {
       if (fromCache) {
         cache.delete(key);
         rethrow;
@@ -179,17 +180,24 @@ class RestClient {
 
       final staleEntry = options.extra[RestCacheInterceptor.staleEntryKey];
       final apiError = isApiError?.call(e) ?? false;
-      if (staleEntry is CacheEntryData && !apiError) {
+      if (staleEntry is CacheEntryData &&
+          !apiError &&
+          ApiFailure.from(e) == ApiFailure.decoding) {
         log(
           "${response.requestOptions.uri.host}${response.requestOptions.uri.path}: unreadable response, using cached data",
         );
-        return parse(
-          RestCacheInterceptor.responseFromEntry(
-            staleEntry,
-            options,
-            stale: true,
-          ),
-        );
+        try {
+          return parse(
+            RestCacheInterceptor.responseFromEntry(
+              staleEntry,
+              options,
+              stale: true,
+            ),
+          );
+        } catch (_) {
+          cache.delete(key);
+          Error.throwWithStackTrace(e, stack);
+        }
       }
       rethrow;
     }
