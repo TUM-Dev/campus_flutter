@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/enums/credentials.dart';
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/default_error_router.dart';
 import 'package:campus_flutter/base/errorHandling/dio_exception_router.dart';
@@ -7,16 +7,14 @@ import 'package:campus_flutter/base/errorHandling/search_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/tum_online_api_exception_router.dart';
 import 'package:campus_flutter/base/errorHandling/type_error_router.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/model/search_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grpc/grpc.dart';
 
-class ErrorHandlingRouter extends ConsumerWidget {
+class ErrorHandlingRouter extends StatefulWidget {
   const ErrorHandlingRouter({
     super.key,
     required this.error,
@@ -33,15 +31,46 @@ class ErrorHandlingRouter extends ConsumerWidget {
   final Color? bodyColor;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<ErrorHandlingRouter> createState() => _ErrorHandlingRouterState();
+}
+
+class _ErrorHandlingRouterState extends State<ErrorHandlingRouter> {
+  @override
+  void initState() {
+    super.initState();
+    _reportUnexpectedError();
+  }
+
+  @override
+  void didUpdateWidget(covariant ErrorHandlingRouter oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.error, widget.error)) _reportUnexpectedError();
+  }
+
+  void _reportUnexpectedError() {
+    final error = widget.error;
+    final unexpected = error is TumOnlineApiException
+        ? error.tumOnlineApiExceptionType is TumOnlineApiExceptionUnknown
+        : error is! SearchException && ApiFailure.from(error).shouldReport;
+    if (!kDebugMode && error != null && unexpected) {
+      // Never send request URLs, tokens, response bodies or server messages.
+      FirebaseCrashlytics.instance.recordError(
+        'API failure: ${error.runtimeType} (${ApiFailure.from(error).name})',
+        error is Error ? error.stackTrace : StackTrace.current,
+        fatal: false,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final error = widget.error;
+    final errorHandlingViewType = widget.errorHandlingViewType;
+    final retry = widget.retry;
+    final titleColor = widget.titleColor;
+    final bodyColor = widget.bodyColor;
     switch (error) {
       case DioException dioException:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: dioException,
-            stack: dioException.stackTrace,
-          ),
-        );
         return DioExceptionRouter(
           dioException: dioException,
           errorHandlingViewType: errorHandlingViewType,
@@ -50,23 +79,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case TumOnlineApiException tumOnlineApiException:
-        final isInvalidToken =
-            tumOnlineApiException.tumOnlineApiExceptionType !=
-            TumOnlineApiExceptionInvalidToken();
-        final isTokenNotConfirmed =
-            tumOnlineApiException.tumOnlineApiExceptionType !=
-            TumOnlineApiExceptionTokenNotConfirmed();
-        final isNotAuthorized =
-            ref.read(onboardingViewModel).credentials.value !=
-            Credentials.tumId;
-        if (isNotAuthorized && (isInvalidToken || isTokenNotConfirmed)) {
-          recordFlutterError(
-            FlutterErrorDetails(
-              exception: tumOnlineApiException,
-              stack: StackTrace.current,
-            ),
-          );
-        }
         return TumOnlineApiExceptionRouter(
           tumOnlineApiException: tumOnlineApiException,
           errorHandlingViewType: errorHandlingViewType,
@@ -75,7 +87,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case SearchException searchException:
-        recordFlutterError(FlutterErrorDetails(exception: searchException));
         return SearchExceptionRouter(
           searchException: searchException,
           errorHandlingViewType: errorHandlingViewType,
@@ -84,12 +95,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       case TypeError typeError:
-        recordFlutterError(
-          FlutterErrorDetails(
-            exception: typeError,
-            stack: typeError.stackTrace,
-          ),
-        );
         return TypeErrorRouter(
           typeError: typeError,
           errorHandlingViewType: errorHandlingViewType,
@@ -106,9 +111,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
           bodyColor: bodyColor,
         );
       default:
-        if (error != null) {
-          recordFlutterError(FlutterErrorDetails(exception: error!));
-        }
         return DefaultErrorRouter(
           exception: error,
           errorHandlingViewType: errorHandlingViewType,
@@ -116,12 +118,6 @@ class ErrorHandlingRouter extends ConsumerWidget {
           titleColor: titleColor,
           bodyColor: bodyColor,
         );
-    }
-  }
-
-  void recordFlutterError(FlutterErrorDetails flutterErrorDetails) {
-    if (!kDebugMode) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(flutterErrorDetails);
     }
   }
 }

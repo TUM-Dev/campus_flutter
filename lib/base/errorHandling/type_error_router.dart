@@ -24,7 +24,7 @@ class TypeErrorRouter extends StatelessWidget with ErrorHandlingView {
   Widget build(BuildContext context) {
     return exceptionMessage(
       errorMessage: context.tr("decodingError"),
-      fixMessage: context.tr("pleaseReport"),
+      fixMessage: context.tr("pleaseTryAgain"),
       context: context,
     );
   }

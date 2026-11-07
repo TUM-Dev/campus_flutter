@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,9 +23,11 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
 
   @override
   Widget build(BuildContext context) {
+    final failure = ApiFailure.from(exception);
     return exceptionMessage(
-      errorMessage: context.tr("unknownError"),
-      fixMessage: context.tr("pleaseReport"),
+      errorMessage: context.tr(failure.messageKey),
+      fixMessage: context.tr(failure.recoveryKey),
+      allowRetry: failure.retryable,
       context: context,
     );
   }

@@ -6,6 +6,36 @@ import '../helpers/xml_decoder.dart';
 
 void main() {
   group('TumOnlineApiException XML decoding', () {
+    test(
+      'domain recovery actions distinguish login, input and transient errors',
+      () {
+        for (final type in [
+          TumOnlineApiExceptionNoPermission(),
+          TumOnlineApiExceptionTokenLimitReached(),
+          TumOnlineApiExceptionNoUserSpecified(),
+          TumOnlineApiExceptionNoUserFound(),
+          TumOnlineApiExceptionPersonNotFound(),
+          TumOnlineApiExceptionInvalidSearchString(),
+        ]) {
+          expect(
+            TumOnlineApiException(tumOnlineApiExceptionType: type).canRetry,
+            isFalse,
+          );
+        }
+        for (final type in [
+          TumOnlineApiExceptionInvalidToken(),
+          TumOnlineApiExceptionTokenNotConfirmed(),
+          TumOnlineApiExceptionRequestRate(),
+          TumOnlineApiExceptionUnknown(message: 'private'),
+        ]) {
+          expect(
+            TumOnlineApiException(tumOnlineApiExceptionType: type).canRetry,
+            isTrue,
+          );
+        }
+      },
+    );
+
     /// Builds an XML error response and decodes it into a [TumOnlineApiException].
     TumOnlineApiException decodeException(String message) {
       final xml =
