@@ -256,5 +256,22 @@
   "visibility": "Sichtbarkeit",
   "utilizationAt": "Auslastung bei {}%",
   "showStudentCardPicture": "Student Card Bild zeigen",
-  "add_contact": "Zu Kontakten hinzufügen"
+  "add_contact": "Zu Kontakten hinzufügen",
+  "apiTryLater": "Der Dienst ist möglicherweise ausgelastet. Bitte versuche es später erneut.",
+  "apiUnauthorized": "Anmeldung erforderlich",
+  "apiUnauthorizedRecovery": "Bitte prüfe deine Anmeldung und melde dich bei Bedarf erneut an.",
+  "apiForbiddenRecovery": "Dein Konto hat keinen Zugriff auf diese Informationen.",
+  "apiNotFound": "Information nicht verfügbar",
+  "apiNotFoundRecovery": "Diese Information wurde möglicherweise entfernt oder ist noch nicht verfügbar.",
+  "apiInvalidRequest": "Anfrage konnte nicht verarbeitet werden",
+  "apiInvalidRequestRecovery": "Bitte prüfe deine Eingabe. Falls sie korrekt ist, melde bitte das Problem.",
+  "apiConflict": "Information hat sich geändert",
+  "apiConflictRecovery": "Bitte aktualisiere die Informationen, bevor du es erneut versuchst.",
+  "apiUnavailable": "Dienst vorübergehend nicht verfügbar",
+  "apiSecureConnection": "Sichere Verbindung fehlgeschlagen",
+  "apiSecureConnectionRecovery": "Prüfe Datum und Netzwerk deines Geräts und versuche es erneut.",
+  "apiAlreadyExists": "Bereits übermittelt",
+  "apiAlreadyExistsRecovery": "Dieser Eintrag existiert bereits. Bitte prüfe ihn vor einer erneuten Übermittlung.",
+  "apiUnsupported": "Funktion nicht verfügbar",
+  "apiUnsupportedRecovery": "Diese Funktion wird vom Dienst derzeit nicht unterstützt."
 }
