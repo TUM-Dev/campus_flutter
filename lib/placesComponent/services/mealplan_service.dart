@@ -60,7 +60,7 @@ class MealPlanService {
       } catch (e) {
         return (response.saved, thisWeekMenu);
       }
-    } catch (e) {
+    } catch (currentError, currentStack) {
       /// current week's meal plan not available, attempt to fetch next week's meal plan
       try {
         final today = DateTime.now();
@@ -79,11 +79,17 @@ class MealPlanService {
 
         return (response.saved, _getMenuPerDay(response.data));
       } catch (e) {
-        if (e is DioException) {
+        final currentMissing =
+            currentError is DioException &&
+            currentError.response?.statusCode == 404;
+        final nextMissing = e is DioException && e.response?.statusCode == 404;
+        if (currentMissing && nextMissing) {
           return (DateTime.now(), <CafeteriaMenu>[]);
-        } else {
-          rethrow;
         }
+        if (nextMissing) {
+          Error.throwWithStackTrace(currentError, currentStack);
+        }
+        rethrow;
       }
     }
   }

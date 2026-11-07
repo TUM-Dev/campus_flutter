@@ -22,11 +22,15 @@ abstract class Api {
 
   static const String noCacheKey = "noCache";
 
-  Future<dio.Response<String>> get({required dio.Dio dioClient}) async {
+  Future<dio.Response<String>> get({
+    required dio.Dio dioClient,
+    bool forcedRefresh = false,
+  }) async {
     final options = _customDecodingOptions(baseHeaders);
-    if (!cacheable) {
-      options.extra = {noCacheKey: true};
-    }
+    options.extra = {
+      if (!cacheable) noCacheKey: true,
+      if (forcedRefresh) "forcedRefresh": "true",
+    };
     return dioClient.getUri(asURL(), options: options);
   }
 

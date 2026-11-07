@@ -46,6 +46,7 @@ class RestClient {
       },
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
+      sendTimeout: const Duration(seconds: 10),
     );
 
     this.dio = dio;
@@ -59,8 +60,13 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createError,
     bool forcedRefresh,
   ) async {
-    final response = await _get(endpoint, forcedRefresh);
-    log("${response.statusCode}: ${response.realUri}");
+    final response = await _withErrorBody<U>(
+      () => _get(endpoint, forcedRefresh),
+      createError,
+    );
+    log(
+      "${response.statusCode}: ${response.requestOptions.uri.host}${response.requestOptions.uri.path}",
+    );
     return _parseAndCache<T>(
       response,
       (response) =>
@@ -75,8 +81,13 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createObject,
     dynamic Function(Map<String, dynamic>) createError,
   ) async {
-    final response = await endpoint.post(dioClient: dio);
-    log("${response.statusCode}: ${response.realUri}");
+    final response = await _withErrorBody<U>(
+      () => endpoint.post(dioClient: dio),
+      createError,
+    );
+    log(
+      "${response.statusCode}: ${response.requestOptions.uri.host}${response.requestOptions.uri.path}",
+    );
     return _parseWithException<T, U>(response, createObject, createError);
   }
 
@@ -88,7 +99,9 @@ class RestClient {
   ) async {
     try {
       final response = await _get(endpoint, forcedRefresh);
-      log("${response.statusCode}: ${response.realUri}");
+      log(
+        "${response.statusCode}: ${response.requestOptions.uri.host}${response.requestOptions.uri.path}",
+      );
       return _parseAndCache<T>(
         response,
         (response) => ApiResponse<T>.fromJson(
@@ -99,27 +112,45 @@ class RestClient {
       );
     } catch (e) {
       if (e is Error) {
-        log("${endpoint.asURL().toString()}: ${e.stackTrace.toString()}");
+        log(
+          "${endpoint.domain}/${endpoint.path}${endpoint.slug}: ${e.stackTrace.toString()}",
+        );
       } else {
-        log("${endpoint.asURL().toString()}: ${e.toString()}");
+        log(
+          "${endpoint.domain}/${endpoint.path}${endpoint.slug}: ${e.runtimeType}",
+        );
       }
       rethrow;
     }
   }
 
-  Future<Response<String>> _get(Api endpoint, bool forcedRefresh) {
-    if (forcedRefresh) {
-      /// add forcedRefresh flag to temporary options
-      Dio noCacheDio = Dio()..interceptors.addAll(dio.interceptors);
-      noCacheDio.options.responseDecoder = dio.options.responseDecoder;
-      noCacheDio.options.connectTimeout = dio.options.connectTimeout;
-      noCacheDio.options.receiveTimeout = dio.options.receiveTimeout;
-      noCacheDio.options.extra["forcedRefresh"] = "true";
-      return endpoint.get(dioClient: noCacheDio);
-    } else {
-      return endpoint.get(dioClient: dio);
+  /// TUMonline can return its domain error envelope with a non-2xx status.
+  /// Decode that envelope when possible, preserving the transport error otherwise.
+  Future<Response<String>> _withErrorBody<U extends ApiException>(
+    Future<Response<String>> Function() request,
+    dynamic Function(Map<String, dynamic>) createError,
+  ) async {
+    try {
+      return await request();
+    } on DioException catch (error) {
+      if (error.type != DioExceptionType.badResponse) rethrow;
+      U? apiError;
+      try {
+        apiError = ApiResponse<U>.fromJson(
+          jsonDecode(error.response?.data.toString() ?? ''),
+          const {},
+          createError,
+        ).data;
+      } catch (_) {
+        // HTML error pages and unrelated JSON are transport failures.
+      }
+      if (apiError != null) throw apiError;
+      rethrow;
     }
   }
+
+  Future<Response<String>> _get(Api endpoint, bool forcedRefresh) =>
+      endpoint.get(dioClient: dio, forcedRefresh: forcedRefresh);
 
   /// only cache parsable responses, fall back to stale entry otherwise
   ApiResponse<T> _parseAndCache<T>(
@@ -149,7 +180,9 @@ class RestClient {
       final staleEntry = options.extra[RestCacheInterceptor.staleEntryKey];
       final apiError = isApiError?.call(e) ?? false;
       if (staleEntry is CacheEntryData && !apiError) {
-        log("${response.realUri}: unreadable response, using cached data");
+        log(
+          "${response.requestOptions.uri.host}${response.requestOptions.uri.path}: unreadable response, using cached data",
+        );
         return parse(
           RestCacheInterceptor.responseFromEntry(
             staleEntry,
@@ -175,7 +208,6 @@ class RestClient {
         error = ApiResponse<U>.fromJson(json, response.extra, createError).data;
       } catch (_) {}
       if (error != null) {
-        log(error.toString());
         throw error;
       }
 
@@ -184,7 +216,7 @@ class RestClient {
       if (e is Error) {
         log(e.stackTrace.toString());
       } else if (e is! U) {
-        log(e.toString());
+        log("Response parsing failed: ${e.runtimeType}");
       }
       rethrow;
     }

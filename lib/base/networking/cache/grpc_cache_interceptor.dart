@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
+
 import 'dart:async';
 
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
@@ -53,8 +55,8 @@ class GrpcCacheInterceptor implements ClientInterceptor {
         final response = await invoker(method, request, options);
         cache.add((response as GeneratedMessage).writeToJson(), key);
         return response;
-      } catch (_) {
-        if (entry != null) {
+      } catch (error) {
+        if (entry != null && ApiFailure.from(error).allowsStale) {
           try {
             return applyTimeWindow<R>(factory(entry.body), request);
           } catch (_) {
