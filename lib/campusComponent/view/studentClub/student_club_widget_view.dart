@@ -51,8 +51,7 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
               );
             }
             return SizedBox(
-              height:
-                  220 + (MediaQuery.textScalerOf(context).scale(14) - 14) * 3,
+              height: StudentClubCardView.heightFor(context) + 8,
               child: CampusCarouselInset(
                 child: CarouselView(
                   itemExtent: 200,

@@ -18,6 +18,7 @@ class CampusCollectionView extends StatefulWidget {
     required this.itemBuilder,
     required this.minimumCardWidth,
     required this.cardAspectRatio,
+    this.cardHeight,
     this.error,
     this.stackTrace,
     this.storageKey,
@@ -31,6 +32,7 @@ class CampusCollectionView extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
   final double minimumCardWidth;
   final double cardAspectRatio;
+  final double? cardHeight;
   final Object? error;
   final StackTrace? stackTrace;
   final String? storageKey;
@@ -138,8 +140,9 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
                           mainAxisExtent:
-                              cardWidth / widget.cardAspectRatio +
-                              math.max(0, textScale - 1) * 84,
+                              widget.cardHeight ??
+                              (cardWidth / widget.cardAspectRatio +
+                                  math.max(0, textScale - 1) * 84),
                         ),
                         delegate: SliverChildBuilderDelegate(
                           widget.itemBuilder,
