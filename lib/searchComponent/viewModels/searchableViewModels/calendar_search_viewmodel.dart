@@ -20,10 +20,14 @@ class CalendarSearchViewModel
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (calendarData.isEmpty) {
-      return CalendarService.fetchCalendar(forcedRefresh).then((value) {
-        calendarData = _keepEarliestAfterToday(value.$2);
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return CalendarService.fetchCalendar(forcedRefresh).then(
+        (value) {
+          calendarData = _keepEarliestAfterToday(value.$2);
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

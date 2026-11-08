@@ -23,15 +23,17 @@ class StudentClubSearchViewModel
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (studentClubData.isEmpty) {
-      return StudentClubService.fetchStudentClubs(null, forcedRefresh).then((
-        value,
-      ) {
-        studentClubData = value.$2
-            .expand((e) => e.clubs)
-            .map((e) => StudentClubSearch(e))
-            .toList();
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return StudentClubService.fetchStudentClubs(null, forcedRefresh).then(
+        (value) {
+          studentClubData = value.$2
+              .expand((e) => e.clubs)
+              .map((e) => StudentClubSearch(e))
+              .toList();
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

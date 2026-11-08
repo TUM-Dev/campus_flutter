@@ -108,9 +108,19 @@ class _CafeteriaWidgetViewState extends ConsumerState<CafeteriaWidgetView> {
           height: 150,
           child: ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.textOnly,
             retry: (() =>
                 ref.read(cafeteriasViewModel).fetchWidgetCafeteria(true)),
+          ),
+        ),
+      );
+    } else if (ref.watch(cafeteriasViewModel).widgetCafeteriaLoaded) {
+      return Card(
+        child: Padding(
+          padding: EdgeInsets.all(context.padding),
+          child: Text(
+            context.tr("noEntriesFound", args: [context.tr("cafeteria")]),
           ),
         ),
       );

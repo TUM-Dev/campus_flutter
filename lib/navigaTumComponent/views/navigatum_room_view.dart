@@ -121,6 +121,7 @@ class _NavigaTumRoomState extends ConsumerState<NavigaTumRoomView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref
                 .read(navigaTumDetailsViewModel(widget.id))

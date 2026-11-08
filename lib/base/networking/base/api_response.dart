@@ -14,11 +14,12 @@ class ApiResponse<T> {
         data: create({"data": json}),
         saved: extras["saved"] as DateTime?,
       );
-    } else {
+    } else if (json is Map<String, dynamic>) {
       return ApiResponse<T>(
         data: create(json),
         saved: extras["saved"] as DateTime?,
       );
     }
+    throw const FormatException('Expected a JSON object or list');
   }
 }

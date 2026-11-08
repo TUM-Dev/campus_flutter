@@ -215,15 +215,15 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
                   );
                 }
               },
-              onError: (error) {
+              onError: (Object error, StackTrace stack) {
                 if (context.mounted) {
-                  showErrorSnackBar(context, error);
+                  showErrorSnackBar(context, error, stackTrace: stack);
                 }
               },
             )
-            .catchError((error) {
+            .catchError((Object error, StackTrace stack) {
               if (context.mounted) {
-                showErrorSnackBar(context, error);
+                showErrorSnackBar(context, error, stackTrace: stack);
               }
             });
       },

@@ -14,16 +14,18 @@ class LectureSearchViewModel implements SearchCategoryViewModel<Lecture> {
 
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
-    return LectureSearchService.fetchLectureSearch(forcedRefresh, query).then((
-      value,
-    ) {
-      final results = GlobalSearch.tokenSearch(query, value.$2);
-      if (results == null) {
-        searchResults.addError(SearchException.empty(searchQuery: query));
-      } else {
-        searchResults.add(results);
-      }
-    }, onError: (error) => searchResults.addError(error));
+    return LectureSearchService.fetchLectureSearch(forcedRefresh, query).then(
+      (value) {
+        final results = GlobalSearch.tokenSearch(query, value.$2);
+        if (results == null) {
+          searchResults.addError(SearchException.empty(searchQuery: query));
+        } else {
+          searchResults.add(results);
+        }
+      },
+      onError: (Object error, StackTrace stack) =>
+          searchResults.addError(error, stack),
+    );
   }
 
   @override

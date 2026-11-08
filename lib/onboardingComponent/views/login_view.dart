@@ -187,9 +187,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
     try {
       await ref.read(onboardingViewModel).requestLogin();
       if (mounted) context.push(confirm);
-    } catch (error) {
+    } catch (error, stack) {
       if (mounted) {
-        showErrorSnackBar(context, error);
+        showErrorSnackBar(context, error, stackTrace: stack, isMutation: true);
       }
     } finally {
       if (mounted) setState(() => _isSubmitting = false);

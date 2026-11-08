@@ -94,6 +94,7 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
               child: Card(
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
+                  stackTrace: snapshot.stackTrace,
 
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
                   retry: (() => ref.read(newsViewModel).fetch(true)),

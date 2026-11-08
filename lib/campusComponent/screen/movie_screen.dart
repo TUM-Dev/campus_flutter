@@ -51,6 +51,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
         onRefresh: _refresh,
         hasData: snapshot.hasData,
         error: snapshot.error,
+        stackTrace: snapshot.stackTrace,
 
         itemCount: snapshot.data?.length ?? 0,
         minimumCardWidth: 160,

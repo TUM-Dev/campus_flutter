@@ -54,6 +54,7 @@ class _GradesViewState extends ConsumerState<GradesView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref.read(gradeViewModel).fetch(true)),
           );

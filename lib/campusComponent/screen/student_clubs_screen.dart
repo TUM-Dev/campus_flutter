@@ -50,6 +50,7 @@ class _StudentClubsScreenState extends ConsumerState<StudentClubsScreen> {
           onRefresh: _refresh,
           hasData: snapshot.hasData,
           error: snapshot.error,
+          stackTrace: snapshot.stackTrace,
 
           itemCount: items?.length ?? 0,
           minimumCardWidth: 160,

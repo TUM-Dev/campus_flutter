@@ -89,6 +89,7 @@ class SearchResultCardView<
                 padding: EdgeInsets.all(context.padding),
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
+                  stackTrace: snapshot.stackTrace,
                   errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
                 ),
               );

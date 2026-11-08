@@ -44,96 +44,71 @@ class StudyRoomsViewModel {
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
-    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
-      lastFetched = value.$1;
-      studyRoomData = value.$2;
-      _categorizeAndSort();
-    }, onError: (error) => studyRooms.addError(error));
+    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
+      (value) {
+        lastFetched = value.$1;
+        studyRoomData = value.$2;
+        _categorizeAndSort();
+      },
+      onError: (Object error, StackTrace stack) =>
+          studyRooms.addError(error, stack),
+    );
   }
+
+  bool widgetStudyRoomLoaded = false;
 
   Future<void> fetchWidgetStudyRooms(
     bool forcedRefresh,
     BuildContext context,
   ) async {
-    final preferenceId = getIt<UserPreferencesService>().load(
-      UserPreference.studyRoom,
-    );
-
-    return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
-      lastFetched = value.$1;
-      studyRoomData = value.$2;
-      _categorizeAndSort();
-      final selectedStudyRoom = value.$2.groups?.firstWhereOrNull(
-        (element) => element.id == preferenceId,
+    widgetStudyRoomLoaded = false;
+    widgetStudyRoom.add(null);
+    try {
+      final preferenceId = getIt<UserPreferencesService>().load(
+        UserPreference.studyRoom,
       );
-      if (selectedStudyRoom != null) {
-        widgetStudyRoom.add(selectedStudyRoom);
-      } else {
-        LocationService.getLastKnown().then(
-          (position) {
-            if (context.mounted) {
-              _getClosestStudyRoomGroup(position, context);
-            }
-          },
-          onError: (error) {
-            if (value.$2.groups?.firstOrNull != null) {
-              widgetStudyRoom.add(value.$2.groups!.first);
-            } else {
-              widgetStudyRoom.add(error);
-            }
-          },
+      final response = await StudyRoomsService.fetchStudyRooms(forcedRefresh);
+      lastFetched = response.$1;
+      studyRoomData = response.$2;
+      _categorizeAndSort();
+      final groups = response.$2.groups ?? <StudyRoomGroup>[];
+      if (groups.isEmpty) {
+        widgetStudyRoomLoaded = true;
+        widgetStudyRoom.add(null);
+        return;
+      }
+      final selected = groups.firstWhereOrNull(
+        (group) => group.id == preferenceId,
+      );
+      if (selected != null) {
+        widgetStudyRoomLoaded = true;
+        widgetStudyRoom.add(selected);
+        return;
+      }
+      final position = await LocationService.getLastKnown();
+      if (!context.mounted) return;
+      widgetStudyRoomLoaded = true;
+      if (position == null) {
+        widgetStudyRoom.add(
+          groups.firstWhereOrNull((group) => group.id == 97) ?? groups.first,
         );
+        return;
       }
-    }, onError: (error) => widgetStudyRoom.addError(error));
-  }
-
-  void _getClosestStudyRoomGroup(Position? position, BuildContext context) {
-    if (studyRoomData?.groups == null) {
-      widgetStudyRoom.addError(context.tr("noClosestStudyRoom"));
-      return;
+      final closest = groups.reduce((current, next) {
+        double distance(StudyRoomGroup group) => group.coordinate == null
+            ? double.infinity
+            : Geolocator.distanceBetween(
+                group.coordinate!.latitude,
+                group.coordinate!.longitude,
+                position.latitude,
+                position.longitude,
+              );
+        return distance(current) <= distance(next) ? current : next;
+      });
+      widgetStudyRoom.add(closest);
+    } catch (error, stack) {
+      widgetStudyRoom.addError(error, stack);
     }
-
-    if (position == null) {
-      final defaultStudyRoom =
-          studyRoomData?.groups?.firstWhereOrNull(
-            (element) => element.id == 97,
-          ) ??
-          studyRoomData?.groups?.firstOrNull;
-      if (defaultStudyRoom == null) {
-        widgetStudyRoom.addError(context.tr("noClosestStudyRoom"));
-      } else {
-        widgetStudyRoom.add(defaultStudyRoom);
-      }
-    }
-
-    final group = studyRoomData?.groups?.reduce((currentGroup, nextGroup) {
-      final distanceCurrent =
-          (currentGroup.coordinate != null && position != null)
-          ? Geolocator.distanceBetween(
-              currentGroup.coordinate!.latitude,
-              currentGroup.coordinate!.longitude,
-              position.latitude,
-              position.longitude,
-            )
-          : 0.0;
-
-      final distanceNext = (nextGroup.coordinate != null && position != null)
-          ? Geolocator.distanceBetween(
-              nextGroup.coordinate!.latitude,
-              nextGroup.coordinate!.longitude,
-              position.latitude,
-              position.longitude,
-            )
-          : 0.0;
-
-      if (distanceCurrent < distanceNext) {
-        return currentGroup;
-      } else {
-        return nextGroup;
-      }
-    });
-
-    widgetStudyRoom.add(group);
   }
 
   void _categorizeAndSort() {

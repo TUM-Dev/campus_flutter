@@ -28,27 +28,37 @@ class GradeViewModel {
   GradeViewModel(this.ref);
 
   Future fetch(bool forcedRefresh) async {
-    GradeService.fetchAverageGrades(forcedRefresh).then((response) {
-      _averageGrades = response.data;
-      return _fetchGrades(forcedRefresh);
-    }, onError: (error) => _fetchGrades(forcedRefresh));
+    return GradeService.fetchAverageGrades(forcedRefresh).then(
+      (response) {
+        _averageGrades = response.data;
+        return _fetchGrades(forcedRefresh);
+      },
+      onError: (Object error, StackTrace stack) {
+        _averageGrades = [];
+        return _fetchGrades(forcedRefresh);
+      },
+    );
   }
 
   Future _fetchGrades(bool forcedRefresh) async {
-    return GradeService.fetchGrades(forcedRefresh).then((response) {
-      lastFetched.add(response.saved);
-      _gradesByDegreeAndSemester(response.data);
-    }, onError: (error) => studyProgramGrades.addError(error));
+    return GradeService.fetchGrades(forcedRefresh).then(
+      (response) async {
+        lastFetched.add(response.saved);
+        await _gradesByDegreeAndSemester(response.data);
+      },
+      onError: (Object error, StackTrace stack) =>
+          studyProgramGrades.addError(error, stack),
+    );
   }
 
   AverageGrade? getAverageGrade() {
-    if (studyProgramGrades.hasValue) {
-      return _averageGrades.firstWhereOrNull(
-        (element) =>
-            element.id == studyProgramGrades.value?.values.first.first.studyID,
-      );
-    }
-    return null;
+    final firstGrade = studyProgramGrades.valueOrNull?.values
+        .expand((grades) => grades)
+        .firstOrNull;
+    if (firstGrade == null) return null;
+    return _averageGrades.firstWhereOrNull(
+      (average) => average.id == firstGrade.studyID,
+    );
   }
 
   Future<void> _gradesByDegreeAndSemester(List<Grade> response) async {
@@ -94,8 +104,10 @@ class GradeViewModel {
   List<PopupMenuEntry<String>> getMenuEntries(BuildContext context) {
     if (_allGrades?.values != null) {
       return _allGrades!.values.map((e) {
-        final selectedStudyId =
-            studyProgramGrades.value?.values.first.first.studyID;
+        final selectedStudyId = studyProgramGrades.valueOrNull?.values
+            .expand((grades) => grades)
+            .firstOrNull
+            ?.studyID;
         final studyId = e.values.first.first.studyID;
         final studyDesignation = e.values.first.first.studyDesignation;
         final degreeShort = e.values.first.first.degreeShort;

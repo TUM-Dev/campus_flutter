@@ -17,16 +17,25 @@ abstract class Api {
 
   bool get needsAuth;
 
-  /// false for requests with side effects
+  /// False for reads that must be fresh and requests with side effects.
   bool get cacheable => true;
 
+  /// GET endpoints can also perform writes; keep this separate from caching.
+  bool get hasSideEffects => false;
+
+  static const String mutationKey = "mutation";
   static const String noCacheKey = "noCache";
 
-  Future<dio.Response<String>> get({required dio.Dio dioClient}) async {
+  Future<dio.Response<String>> get({
+    required dio.Dio dioClient,
+    bool forcedRefresh = false,
+  }) async {
     final options = _customDecodingOptions(baseHeaders);
-    if (!cacheable) {
-      options.extra = {noCacheKey: true};
-    }
+    options.extra = {
+      if (!cacheable) noCacheKey: true,
+      if (hasSideEffects) mutationKey: true,
+      if (forcedRefresh) "forcedRefresh": "true",
+    };
     return dioClient.getUri(asURL(), options: options);
   }
 

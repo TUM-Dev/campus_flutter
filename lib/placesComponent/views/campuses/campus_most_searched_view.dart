@@ -57,6 +57,7 @@ class CampusMostSearchedView extends ConsumerWidget {
               return ListTile(
                 title: ErrorHandlingRouter(
                   error: snapshot.error!,
+                  stackTrace: snapshot.stackTrace,
                   errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
                 ),
               );

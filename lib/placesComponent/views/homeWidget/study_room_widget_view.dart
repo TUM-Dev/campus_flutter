@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
@@ -117,37 +118,47 @@ class _StudyRoomWidgetViewState extends ConsumerState<StudyRoomWidgetView> {
 
   Widget _widgetLabel(AsyncSnapshot snapshot, BuildContext context) {
     if (snapshot.hasData) {
-      if (snapshot.data != null) {
-        return _buttonLabel(
-          widget.closestStudyRoom
-              ? snapshot.data! as StudyRoomGroup
-              : ref
-                    .read(studyRoomsViewModel)
-                    .studyRoomData!
-                    .groups!
-                    .firstWhere(
-                      (element) => element.id == widget.studyRoomGroup!.id,
-                    ),
-          context,
-        );
-      } else {
-        return ListTile(
-          title: Center(child: Text(context.tr("noNearFreeStudyRoomsFound"))),
-        );
-      }
+      final group = widget.closestStudyRoom
+          ? snapshot.data as StudyRoomGroup?
+          : ref
+                .read(studyRoomsViewModel)
+                .studyRoomData
+                ?.groups
+                ?.firstWhereOrNull(
+                  (element) => element.id == widget.studyRoomGroup!.id,
+                );
+      return group == null
+          ? _emptyRooms(context)
+          : _buttonLabel(group, context);
     } else if (snapshot.hasError) {
       return ListTile(
         title: ErrorHandlingRouter(
           error: snapshot.error!,
-          errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
+          stackTrace: snapshot.stackTrace,
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+          retry: () => widget.closestStudyRoom
+              ? ref
+                    .read(studyRoomsViewModel)
+                    .fetchWidgetStudyRooms(true, context)
+              : ref.read(studyRoomsViewModel).fetch(true),
         ),
       );
+    } else if (widget.closestStudyRoom &&
+        ref.watch(studyRoomsViewModel).widgetStudyRoomLoaded) {
+      return _emptyRooms(context);
     } else {
       return ListTile(
         title: DelayedLoadingIndicator(name: context.tr("nearestStudyRooms")),
       );
     }
   }
+
+  Widget _emptyRooms(BuildContext context) => ListTile(
+    title: Text(
+      context.tr("noNearFreeStudyRoomsFound"),
+      textAlign: TextAlign.center,
+    ),
+  );
 
   Widget _buttonLabel(StudyRoomGroup studyRoomGroup, BuildContext context) {
     return ListTile(

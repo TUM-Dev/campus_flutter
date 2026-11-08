@@ -21,13 +21,17 @@ class NavigaTumDetailsViewModel {
 
   Future fetchDetails(bool forcedRefresh, BuildContext context) async {
     if (id.isEmpty) {
-      details.addError("Unable to fetch room details");
+      details.addError(
+        ArgumentError.value(id, 'id', 'A location ID is required'),
+        StackTrace.current,
+      );
       return;
     }
 
     return NavigaTumService.details(forcedRefresh, id, context).then(
       (value) => details.add(value),
-      onError: (error) => details.addError(error),
+      onError: (Object error, StackTrace stack) =>
+          details.addError(error, stack),
     );
   }
 

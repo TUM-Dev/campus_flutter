@@ -19,6 +19,7 @@ class CampusCollectionView extends StatefulWidget {
     required this.minimumCardWidth,
     required this.cardAspectRatio,
     this.error,
+    this.stackTrace,
     this.storageKey,
   });
 
@@ -31,6 +32,7 @@ class CampusCollectionView extends StatefulWidget {
   final double minimumCardWidth;
   final double cardAspectRatio;
   final Object? error;
+  final StackTrace? stackTrace;
   final String? storageKey;
 
   @override
@@ -79,7 +81,7 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
                         height: constraints.maxHeight,
                         child: ErrorHandlingRouter(
                           error: widget.error,
-
+                          stackTrace: widget.stackTrace,
                           errorHandlingViewType:
                               ErrorHandlingViewType.fullScreenNoImage,
                           retry: widget.onRefresh,

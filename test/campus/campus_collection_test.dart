@@ -44,6 +44,7 @@ class _ImageCache extends Fake implements BaseCacheManager {
 class _Response {
   bool empty = true;
   Object? error;
+  final StackTrace stack = StackTrace.fromString('original collection stack');
   final calls = <bool>[];
 }
 
@@ -54,7 +55,7 @@ class _News extends NewsViewModel {
   Future<void> fetch(bool forcedRefresh) async {
     response.calls.add(forcedRefresh);
     if (response.error != null) {
-      newsBySource.addError(response.error!);
+      newsBySource.addError(response.error!, response.stack);
       return;
     }
     newsBySource.add(
@@ -82,7 +83,7 @@ class _Movies extends MovieViewModel {
   Future<void> fetch(bool forcedRefresh) async {
     response.calls.add(forcedRefresh);
     if (response.error != null) {
-      movies.addError(response.error!);
+      movies.addError(response.error!, response.stack);
       return;
     }
     movies.add(
@@ -106,7 +107,7 @@ class _Clubs extends StudentClubViewModel {
   ) async {
     response.calls.add(forceRefresh);
     if (response.error != null) {
-      collections.addError(response.error!);
+      collections.addError(response.error!, response.stack);
       return;
     }
     collections.add(
@@ -249,6 +250,11 @@ void main() {
         error: const GrpcError.unavailable(),
       );
       expect(find.byType(ErrorHandlingRouter), findsOneWidget);
+      final router = tester.widget<ErrorHandlingRouter>(
+        find.byType(ErrorHandlingRouter),
+      );
+      expect(router.error, same(response.error));
+      expect(router.stackTrace, same(response.stack));
       response.error = null;
       response.empty = false;
       await tester.tap(find.text('Try Again'));

@@ -15,6 +15,7 @@ mixin ErrorHandlingView {
     String? fixMessage,
     Function()? retry,
     String? retryMessage,
+    bool allowRetry = true,
     required BuildContext context,
   }) {
     switch (errorHandlingViewType) {
@@ -60,7 +61,7 @@ mixin ErrorHandlingView {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                    if ((retry != null || this.retry != null))
+                    if (allowRetry && (retry != null || this.retry != null))
                       Padding(
                         padding: EdgeInsets.only(top: context.padding),
                         child: ElevatedButton(
@@ -97,7 +98,7 @@ mixin ErrorHandlingView {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: bodyColor),
                   ),
-                if ((retry != null || this.retry != null))
+                if (allowRetry && (retry != null || this.retry != null))
                   TextButton(
                     onPressed: () => retry != null ? retry() : this.retry!(),
                     child: Text(retryMessage ?? context.tr("tryAgain")),

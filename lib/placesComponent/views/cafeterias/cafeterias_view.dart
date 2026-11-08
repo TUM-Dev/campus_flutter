@@ -96,6 +96,7 @@ class _CafeteriasState extends ConsumerState<CafeteriasView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref.read(cafeteriasViewModel).fetch(true)),
           );

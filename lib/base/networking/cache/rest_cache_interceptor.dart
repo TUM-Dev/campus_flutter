@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/networking/cache/cache.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/networking/protocols/api.dart';
@@ -52,12 +55,27 @@ class RestCacheInterceptor implements Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final entry = err.requestOptions.extra[staleEntryKey];
-    if (entry is CacheEntryData && err.type != DioExceptionType.cancel) {
+    if (entry is CacheEntryData &&
+        ApiFailure.from(err).allowsStale &&
+        !_hasDomainError(err.response?.data)) {
       return handler.resolve(
         responseFromEntry(entry, err.requestOptions, stale: true),
       );
     }
     handler.next(err);
+  }
+
+  // XML is already converted to JSON by the response decoder. An explicit
+  // domain-error envelope must reach RestClient even on a temporary HTTP status.
+  static bool _hasDomainError(Object? body) {
+    try {
+      final json = body is String ? jsonDecode(body) : body;
+      return json is Map &&
+          json['error'] is Map &&
+          (json['error'] as Map)['message'] is String;
+    } catch (_) {
+      return false;
+    }
   }
 
   static Response<String> responseFromEntry(

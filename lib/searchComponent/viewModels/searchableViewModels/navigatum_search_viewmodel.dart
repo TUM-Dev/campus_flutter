@@ -22,14 +22,18 @@ class NavigaTumSearchViewModel
         query,
         forcedRefresh,
         type: 'room',
-      ).then((value) {
-        final rooms =
-            value.$2.sections
-                .firstWhereOrNull((element) => element.type == "rooms")
-                ?.entries ??
-            [];
-        searchResults.add(rooms);
-      }, onError: (error) => searchResults.addError(error));
+      ).then(
+        (value) {
+          final rooms =
+              value.$2.sections
+                  .firstWhereOrNull((element) => element.type == "rooms")
+                  ?.entries ??
+              [];
+          searchResults.add(rooms);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     }
   }
 

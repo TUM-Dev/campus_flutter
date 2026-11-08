@@ -14,7 +14,7 @@ dependencies:
   # networking
   dio: ^5.11.1
   drift: ^2.35.3
-  sqlite3: ^3.8.0
+  sqlite3: ^3.9.1
   json_annotation: ^4.12.0
   json_serializable: ^6.15.2
   cached_network_image: ^4.0.6
@@ -25,8 +25,8 @@ dependencies:
 
   # state management
   rxdart: ^0.28.0
-  go_router: ^18.1.2
-  flutter_riverpod: ^3.4.3
+  go_router: ^18.1.3
+  flutter_riverpod: ^3.5.0
   get_it: ^9.3.0
 
   # user interface

@@ -42,48 +42,44 @@ class FeedbackViewModel {
   }
 
   Future<void> sendFeedBack(BuildContext context) async {
-    Position? position;
-    if (shareLocation.value) {
-      try {
-        position = await LocationService.getLastKnown();
-      } catch (_) {
-        position = null;
+    try {
+      Position? position;
+      if (shareLocation.value) {
+        try {
+          position = await LocationService.getLastKnown();
+        } catch (_) {
+          position = null;
+        }
+      }
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      final baseInfo = await deviceInfo.deviceInfo;
+      final deviceInfos =
+          "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
+
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String packageInfos = packageInfo.version;
+
+      final feedback = CreateFeedbackRequest(
+        recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
+        fromName: name.text,
+        fromEmail: emailAddress.text,
+        message: message.text,
+        location: Coordinate(
+          latitude: position?.latitude,
+          longitude: position?.longitude,
+        ),
+        osVersion: deviceInfos,
+        appVersion: packageInfos,
+      );
+
+      await FeedbackService.sendFeedback(feedback);
+      if (context.mounted) context.pushReplacement(feedbackSuccess);
+    } catch (error, stack) {
+      if (context.mounted) {
+        showErrorSnackBar(context, error, stackTrace: stack, isMutation: true);
       }
     }
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final baseInfo = await deviceInfo.deviceInfo;
-    final deviceInfos =
-        "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String packageInfos = packageInfo.version;
-
-    final feedback = CreateFeedbackRequest(
-      recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
-      fromName: name.text,
-      fromEmail: emailAddress.text,
-      message: message.text,
-      location: Coordinate(
-        latitude: position?.latitude,
-        longitude: position?.longitude,
-      ),
-      osVersion: deviceInfos,
-      appVersion: packageInfos,
-    );
-
-    FeedbackService.sendFeedback(feedback).then(
-      (value) {
-        if (context.mounted) {
-          context.pushReplacement(feedbackSuccess);
-        }
-      },
-      onError: (error) {
-        if (context.mounted) {
-          showErrorSnackBar(context, error);
-        }
-      },
-    );
   }
 
   void checkMessageValidity() {

@@ -17,10 +17,14 @@ class GradesSearchViewModel implements SearchCategoryViewModel<Grade> {
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (gradesData.isEmpty) {
-      return GradeService.fetchGrades(forcedRefresh).then((value) {
-        gradesData = value.data;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return GradeService.fetchGrades(forcedRefresh).then(
+        (value) {
+          gradesData = value.data;
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       return _search(query);
     }

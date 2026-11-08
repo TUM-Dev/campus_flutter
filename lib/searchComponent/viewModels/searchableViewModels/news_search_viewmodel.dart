@@ -21,19 +21,23 @@ class NewsSearchViewModel implements SearchCategoryViewModel<NewsSearch> {
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (newsData.isEmpty) {
-      return NewsService.fetchNews(forcedRefresh).then((value) {
-        Set<String> seenTitles = {};
-        value.$2.retainWhere((element) {
-          if (seenTitles.contains(element.title)) {
-            return false;
-          } else {
-            seenTitles.add(element.title);
-            return true;
-          }
-        });
-        newsData = value.$2.map((e) => NewsSearch(e)).toList();
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return NewsService.fetchNews(forcedRefresh).then(
+        (value) {
+          Set<String> seenTitles = {};
+          value.$2.retainWhere((element) {
+            if (seenTitles.contains(element.title)) {
+              return false;
+            } else {
+              seenTitles.add(element.title);
+              return true;
+            }
+          });
+          newsData = value.$2.map((e) => NewsSearch(e)).toList();
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

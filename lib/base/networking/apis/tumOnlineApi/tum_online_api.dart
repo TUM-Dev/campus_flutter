@@ -57,18 +57,18 @@ class TumOnlineApi extends Api {
   Map<String, String> get parameters => tumOnlineEndpoint.getParameters();
 
   @override
-  bool get cacheable {
-    switch (tumOnlineEndpoint) {
-      case TumOnlineEndpointTokenRequest _:
-      case TumOnlineEndpointTokenConfirmation _:
-      case TumOnlineEndpointSecretUpload _:
-      case TumOnlineEndpointEventCreate _:
-      case TumOnlineEndpointEventDelete _:
-        return false;
-      default:
-        return true;
-    }
-  }
+  bool get hasSideEffects => switch (tumOnlineEndpoint) {
+    TumOnlineEndpointTokenRequest() ||
+    TumOnlineEndpointSecretUpload() ||
+    TumOnlineEndpointEventCreate() ||
+    TumOnlineEndpointEventDelete() => true,
+    _ => false,
+  };
+
+  @override
+  bool get cacheable =>
+      !hasSideEffects &&
+      tumOnlineEndpoint is! TumOnlineEndpointTokenConfirmation;
 
   @override
   bool get needsAuth {

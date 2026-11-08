@@ -20,7 +20,7 @@ class NavigaTumCampusViewModel {
   Future mostSearched(bool forcedRefresh) async {
     final searchString = campus.searchStringRooms;
     if (searchString.isEmpty) {
-      mostSearchedResults.addError("Empty Search String");
+      mostSearchedResults.add([]);
       return;
     }
 
@@ -28,14 +28,19 @@ class NavigaTumCampusViewModel {
       forcedRefresh,
       searchString,
       type: 'room',
-    ).then((value) {
-      final mostSearchResults = value.sections
-          .expand((element) => element.entries)
-          .toList();
-      mostSearchResults.removeWhere(
-        (element) => int.tryParse(element.name[0]) == null,
-      );
-      mostSearchedResults.add(mostSearchResults);
-    }, onError: (error) => mostSearchedResults.addError(error));
+    ).then(
+      (value) {
+        final mostSearchResults = value.sections
+            .expand((element) => element.entries)
+            .toList();
+        mostSearchResults.removeWhere(
+          (element) =>
+              element.name.isEmpty || int.tryParse(element.name[0]) == null,
+        );
+        mostSearchedResults.add(mostSearchResults);
+      },
+      onError: (Object error, StackTrace stack) =>
+          mostSearchedResults.addError(error, stack),
+    );
   }
 }

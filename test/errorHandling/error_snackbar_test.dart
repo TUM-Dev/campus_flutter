@@ -1,3 +1,6 @@
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:dio/dio.dart';
 import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,18 @@ class _Messages extends AssetLoader {
   @override
   Future<Map<String, dynamic>> load(String path, Locale locale) async => {
     'tryAgain': 'Try again',
+    'apiUnavailable': 'Service temporarily unavailable',
+    'apiTryLater': 'Please try again later.',
+    'apiNotFound': 'Information unavailable',
+    'apiNotFoundRecovery': 'This information is unavailable.',
+    'apiRequestTimeout': 'Request timed out',
+    'apiSubmissionUncertainRecovery':
+        'Check whether the request completed before submitting again.',
+    'noPermission': 'No permission',
+    'apiForbiddenRecovery': 'Your account cannot access this information.',
+    'login': 'Log in',
+    'loginNeeded': 'Login required',
+    'loginNeededRecovery': 'Please log in.',
   };
 }
 
@@ -69,7 +84,10 @@ void main() {
     );
     await tester.tap(find.text('Fail'));
     await tester.pumpAndSettle();
-    expect(find.text('Unavailable'), findsOneWidget);
+    expect(
+      find.textContaining('Service temporarily unavailable'),
+      findsOneWidget,
+    );
     expect(
       tester.widget<SnackBar>(find.byType(SnackBar)).behavior,
       SnackBarBehavior.floating,
@@ -78,8 +96,11 @@ void main() {
     latest = true;
     await tester.tap(find.text('Fail'));
     await tester.pumpAndSettle();
-    expect(find.text('Unavailable'), findsNothing);
-    expect(find.text('Not found'), findsOneWidget);
+    expect(
+      find.textContaining('Service temporarily unavailable'),
+      findsNothing,
+    );
+    expect(find.textContaining('Information unavailable'), findsOneWidget);
     await tester.tap(find.byTooltip('Close'));
     await tester.pumpAndSettle();
     expect(find.byType(SnackBar), findsNothing);
@@ -108,5 +129,94 @@ void main() {
     await tester.pumpAndSettle();
     expect(retries, 1);
     expect(find.byType(SnackBar), findsNothing);
+  });
+  testWidgets(
+    'submission errors preserve cause and stack without unsafe retry actions',
+    (tester) async {
+      const failure = GrpcError.deadlineExceeded('private details');
+      final stack = StackTrace.fromString('original submission stack');
+      await pumpAction(
+        tester,
+        (context) =>
+            () => showErrorSnackBar(
+              context,
+              failure,
+              stackTrace: stack,
+              isMutation: true,
+              retry: () => fail('Do not resubmit an uncertain write'),
+            ),
+      );
+      await tester.tap(find.text('Fail'));
+      await tester.pumpAndSettle();
+      final router = tester.widget<ErrorHandlingRouter>(
+        find.byType(ErrorHandlingRouter),
+      );
+      expect(router.error, same(failure));
+      expect(router.stackTrace, same(stack));
+      expect(router.isMutation, isTrue);
+      expect(tester.widget<SnackBar>(find.byType(SnackBar)).action, isNull);
+      expect(
+        find.textContaining('Check whether the request completed'),
+        findsOneWidget,
+      );
+      expect(find.textContaining('private details'), findsNothing);
+      expect(find.byType(AlertDialog), findsNothing);
+    },
+  );
+
+  testWidgets('Dio write context is inferred for native snackbar actions', (
+    tester,
+  ) async {
+    final failure = DioException(
+      requestOptions: RequestOptions(method: 'POST'),
+      type: DioExceptionType.receiveTimeout,
+    );
+    await pumpAction(
+      tester,
+      (context) =>
+          () => showErrorSnackBar(context, failure, retry: () {}),
+    );
+    await tester.tap(find.text('Fail'));
+    await tester.pumpAndSettle();
+    expect(tester.widget<SnackBar>(find.byType(SnackBar)).action, isNull);
+    expect(
+      find.textContaining('Check whether the request completed'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('permission failures do not expose an ineffective retry action', (
+    tester,
+  ) async {
+    await pumpAction(
+      tester,
+      (context) =>
+          () => showErrorSnackBar(
+            context,
+            const GrpcError.permissionDenied('private'),
+            retry: () {},
+          ),
+    );
+    await tester.tap(find.text('Fail'));
+    await tester.pumpAndSettle();
+    expect(tester.widget<SnackBar>(find.byType(SnackBar)).action, isNull);
+    expect(find.textContaining('No permission'), findsOneWidget);
+  });
+
+  testWidgets('invalid tokens retain the domain login action', (tester) async {
+    final failure = TumOnlineApiException(
+      tumOnlineApiExceptionType: TumOnlineApiExceptionInvalidToken(),
+    );
+    await pumpAction(
+      tester,
+      (context) =>
+          () => showErrorSnackBar(context, failure),
+    );
+    await tester.tap(find.text('Fail'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<SnackBar>(find.byType(SnackBar)).action?.label,
+      'Log in',
+    );
   });
 }

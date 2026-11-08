@@ -5,6 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ApiResponse.fromJson', () {
+    test('rejects scalar and null response roots as malformed data', () {
+      for (final value in [null, true, 42, 'unexpected']) {
+        expect(
+          () => ApiResponse<Object>.fromJson(value, {}, (json) => json),
+          throwsFormatException,
+        );
+      }
+    });
     test('decodes when root JSON is a Map', () {
       final json = jsonDecode('{"name": "Test", "value": 42}');
       final extras = <String, dynamic>{};
