@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
@@ -109,10 +109,10 @@ class EventCreationView extends ConsumerWidget {
                     }
                   } catch (error, stack) {
                     if (context.mounted) {
-                      await showErrorDialog(
+                      showErrorSnackBar(
                         context,
                         error,
-                        stack,
+                        stackTrace: stack,
                         isMutation: true,
                       );
                     }

@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
@@ -133,10 +133,10 @@ class CalendarSettingsView extends ConsumerWidget {
                 }
               } catch (error, stack) {
                 if (context.mounted) {
-                  await showErrorDialog(
+                  showErrorSnackBar(
                     context,
                     error,
-                    stack,
+                    stackTrace: stack,
                     isMutation: true,
                   );
                 }
@@ -175,10 +175,10 @@ class CalendarSettingsView extends ConsumerWidget {
                 ref.read(syncCalendarWithDevice.notifier).state = false;
               } catch (error, stack) {
                 if (context.mounted) {
-                  await showErrorDialog(
+                  showErrorSnackBar(
                     context,
                     error,
-                    stack,
+                    stackTrace: stack,
                     isMutation: true,
                   );
                 }

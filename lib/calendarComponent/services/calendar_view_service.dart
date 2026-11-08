@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
@@ -85,11 +85,12 @@ class CalendarViewService {
                       .deleteCalendarElement(calendarEvent!.id);
                   if (context.mounted) context.pop();
                 } catch (error, stack) {
+                  if (dialogContext.mounted) Navigator.of(dialogContext).pop();
                   if (context.mounted) {
-                    await showErrorDialog(
+                    showErrorSnackBar(
                       context,
                       error,
-                      stack,
+                      stackTrace: stack,
                       isMutation: true,
                     );
                   }

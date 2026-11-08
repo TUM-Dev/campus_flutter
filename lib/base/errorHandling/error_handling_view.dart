@@ -76,6 +76,8 @@ mixin ErrorHandlingView {
             ),
           ),
         );
+      case ErrorHandlingViewType.snackBar:
+        return Text([errorMessage, ?fixMessage].join('\n'));
       case ErrorHandlingViewType.textOnly:
         return Center(
           child: SingleChildScrollView(

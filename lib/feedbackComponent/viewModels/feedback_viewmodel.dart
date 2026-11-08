@@ -1,4 +1,4 @@
-import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
@@ -77,7 +77,7 @@ class FeedbackViewModel {
       if (context.mounted) context.pushReplacement(feedbackSuccess);
     } catch (error, stack) {
       if (context.mounted) {
-        await showErrorDialog(context, error, stack, isMutation: true);
+        showErrorSnackBar(context, error, stackTrace: stack, isMutation: true);
       }
     }
   }

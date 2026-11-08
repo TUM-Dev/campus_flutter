@@ -53,6 +53,8 @@ void main() {
       expect(router.error, same(originalFailure));
       expect(router.stackTrace, same(originalStack));
       expect(router.isMutation, isTrue);
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.byType(AlertDialog), findsNothing);
       expect(find.byType(EventCreationView), findsOneWidget);
       expect(tester.takeException(), isNull);
       await model.from.close();
