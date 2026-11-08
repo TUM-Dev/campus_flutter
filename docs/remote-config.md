@@ -5,6 +5,10 @@ banner in debug, profile, and release builds. Debug builds fetch on every startu
 profile and release builds use a one-hour minimum fetch interval. Live updates
 also refresh activated values while the app is running.
 
+The banner appears on the login screen and in the main app. On the login screen,
+it spans the full width and stays above the form. The form scrolls when needed on
+small displays or with the keyboard open.
+
 | Key | Type | Default | Effect |
 | --- | --- | --- | --- |
 | `tumOnlineStatusMessage_en` | String | Empty | Custom English announcement |
