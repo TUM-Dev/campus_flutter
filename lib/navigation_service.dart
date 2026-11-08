@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:campus_flutter/base/enums/credentials.dart';
 import 'package:campus_flutter/base/enums/search_type.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/util/status_message_banner.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_screen.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
@@ -134,14 +135,10 @@ class NavigationService {
         preferredSize: Size(width, height + padding),
         child: Padding(
           padding: EdgeInsets.only(bottom: padding),
-          child: Container(
-            color: context.primaryColor,
+          child: SizedBox(
             height: height,
             width: width,
-            padding: EdgeInsets.all(padding),
-            child: Center(
-              child: Text(text, style: style, textAlign: TextAlign.center),
-            ),
+            child: StatusMessageBanner(text: text),
           ),
         ),
       );
