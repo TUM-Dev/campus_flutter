@@ -79,7 +79,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
         aspectRatio: 2,
         child: Card(
           child: ErrorHandlingRouter(
-            error: Error(),
+            error: snapshot.error!,
             errorHandlingViewType: ErrorHandlingViewType.textOnly,
             retry: (() => ref.read(movieViewModel).fetch(true)),
           ),

@@ -67,7 +67,7 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
               aspectRatio: 2,
               child: Card(
                 child: ErrorHandlingRouter(
-                  error: Error(),
+                  error: snapshot.error!,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
                 ),
               ),
