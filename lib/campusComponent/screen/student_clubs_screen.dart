@@ -55,6 +55,7 @@ class _StudentClubsScreenState extends ConsumerState<StudentClubsScreen> {
           itemCount: items?.length ?? 0,
           minimumCardWidth: 160,
           cardAspectRatio: 1,
+          cardHeight: StudentClubCardView.heightFor(context),
           itemBuilder: (context, index) =>
               StudentClubCardView(studentClub: items![index]),
         );
