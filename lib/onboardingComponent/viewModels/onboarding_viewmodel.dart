@@ -21,8 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 final onboardingViewModel = Provider((ref) => OnboardingViewModel());
@@ -106,13 +106,10 @@ class OnboardingViewModel {
   }
 
   Future<void> requestLocation(WidgetRef ref, BuildContext context) async {
-    Permission.location.request().then((value) {
-      {
-        if (context.mounted) {
-          finishOnboarding(ref, context);
-        }
-      }
-    });
+    await Geolocator.requestPermission();
+    if (context.mounted) {
+      finishOnboarding(ref, context);
+    }
   }
 
   void finishOnboarding(WidgetRef ref, BuildContext context) {
