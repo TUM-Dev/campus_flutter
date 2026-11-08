@@ -1,3 +1,6 @@
+import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
@@ -23,6 +26,20 @@ class CalendarSettingsView extends ConsumerWidget {
             _showWeekends(context, ref),
             _showHiddenCalendarEntries(context, ref),
             _syncWithDeviceCalendar(context, ref),
+            StreamBuilder(
+              stream: ref.watch(calendarViewModel).integrationErrors,
+              builder: (context, snapshot) => snapshot.hasError
+                  ? Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: ErrorHandlingRouter(
+                        error: snapshot.error!,
+                        stackTrace: snapshot.stackTrace,
+                        isMutation: true,
+                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ],
         ),
       ),
@@ -92,7 +109,7 @@ class CalendarSettingsView extends ConsumerWidget {
   void _showEnableExportDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (_) => AlertDialog(
         title: Text(
           context.tr("exportToDeviceCalendar"),
           textAlign: TextAlign.center,
@@ -107,11 +124,22 @@ class CalendarSettingsView extends ConsumerWidget {
           ElevatedButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              final success = await ref
-                  .read(calendarViewModel)
-                  .enableCalendarSync();
-              if (success) {
-                ref.read(syncCalendarWithDevice.notifier).state = true;
+              try {
+                final success = await ref
+                    .read(calendarViewModel)
+                    .enableCalendarSync();
+                if (success) {
+                  ref.read(syncCalendarWithDevice.notifier).state = true;
+                }
+              } catch (error, stack) {
+                if (context.mounted) {
+                  await showErrorDialog(
+                    context,
+                    error,
+                    stack,
+                    isMutation: true,
+                  );
+                }
               }
             },
             child: Text(context.tr("enable")),
@@ -124,7 +152,7 @@ class CalendarSettingsView extends ConsumerWidget {
   void _showDisableExportDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (_) => AlertDialog(
         title: Text(
           context.tr("removeExportedCalendar"),
           textAlign: TextAlign.center,
@@ -142,8 +170,19 @@ class CalendarSettingsView extends ConsumerWidget {
             ),
             onPressed: () async {
               Navigator.of(context).pop();
-              await ref.read(calendarViewModel).disableCalendarSync();
-              ref.read(syncCalendarWithDevice.notifier).state = false;
+              try {
+                await ref.read(calendarViewModel).disableCalendarSync();
+                ref.read(syncCalendarWithDevice.notifier).state = false;
+              } catch (error, stack) {
+                if (context.mounted) {
+                  await showErrorDialog(
+                    context,
+                    error,
+                    stack,
+                    isMutation: true,
+                  );
+                }
+              }
             },
             child: Text(context.tr("remove")),
           ),

@@ -1,12 +1,10 @@
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/feedbackComponent/services/feedback_service.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -44,69 +42,44 @@ class FeedbackViewModel {
   }
 
   Future<void> sendFeedBack(BuildContext context) async {
-    Position? position;
-    if (shareLocation.value) {
-      try {
-        position = await LocationService.getLastKnown();
-      } catch (_) {
-        position = null;
+    try {
+      Position? position;
+      if (shareLocation.value) {
+        try {
+          position = await LocationService.getLastKnown();
+        } catch (_) {
+          position = null;
+        }
+      }
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      final baseInfo = await deviceInfo.deviceInfo;
+      final deviceInfos =
+          "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
+
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String packageInfos = packageInfo.version;
+
+      final feedback = CreateFeedbackRequest(
+        recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
+        fromName: name.text,
+        fromEmail: emailAddress.text,
+        message: message.text,
+        location: Coordinate(
+          latitude: position?.latitude,
+          longitude: position?.longitude,
+        ),
+        osVersion: deviceInfos,
+        appVersion: packageInfos,
+      );
+
+      await FeedbackService.sendFeedback(feedback);
+      if (context.mounted) context.pushReplacement(feedbackSuccess);
+    } catch (error, stack) {
+      if (context.mounted) {
+        await showErrorDialog(context, error, stack, isMutation: true);
       }
     }
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final baseInfo = await deviceInfo.deviceInfo;
-    final deviceInfos =
-        "${baseInfo.data["machine"] ?? baseInfo.data["model"]} - ${baseInfo.data["systemVersion"]}";
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String packageInfos = packageInfo.version;
-
-    final feedback = CreateFeedbackRequest(
-      recipient: CreateFeedbackRequest_Recipient.TUM_DEV,
-      fromName: name.text,
-      fromEmail: emailAddress.text,
-      message: message.text,
-      location: Coordinate(
-        latitude: position?.latitude,
-        longitude: position?.longitude,
-      ),
-      osVersion: deviceInfos,
-      appVersion: packageInfos,
-    );
-
-    FeedbackService.sendFeedback(feedback).then(
-      (value) {
-        if (context.mounted) {
-          context.pushReplacement(feedbackSuccess);
-        }
-      },
-      onError: (error) {
-        if (context.mounted) {
-          _errorDialog(error, context);
-        }
-      },
-    );
-  }
-
-  void _errorDialog(dynamic error, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(context.tr("unableToSend"), textAlign: TextAlign.center),
-        content: ErrorHandlingRouter(
-          error: error,
-          isMutation: true,
-          errorHandlingViewType: ErrorHandlingViewType.textOnly,
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            onPressed: () => context.pop(),
-            child: Text(context.tr("back")),
-          ),
-        ],
-      ),
-    );
   }
 
   void checkMessageValidity() {

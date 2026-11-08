@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:campus_flutter/base/enums/user_preference.dart';
@@ -23,36 +24,60 @@ class CalendarViewModel {
   final BehaviorSubject<(List<CalendarEvent>, List<CalendarEvent>)?>
   widgetEvents = BehaviorSubject.seeded(null);
 
-  Future fetch(bool forcedRefresh) async {
-    isLoading.add(true);
-    CalendarService.fetchCalendar(forcedRefresh).then(
-      (response) {
-        lastFetched.add(response.$1);
-        response.$2.removeWhere((element) => element.isCanceled);
-        getIt<CalendarPreferenceService>().loadPreferences();
-        for (var element in response.$2) {
-          final eventColor = getIt<CalendarPreferenceService>()
-              .getColorPreference(element.lvNr ?? element.id);
-          if (eventColor != null) {
-            element.setColor(eventColor);
-          }
+  /// Optional export/widget failures must not replace the fetched timetable.
+  final BehaviorSubject<Object?> integrationErrors = BehaviorSubject.seeded(
+    null,
+  );
 
-          final eventVisibility = getIt<CalendarPreferenceService>()
-              .getVisibilityPreference(element.lvNr ?? element.id);
-          if (eventVisibility != null) {
-            element.isVisible = eventVisibility;
-          }
+  Future<void> _updateIntegrations(List<CalendarEvent> events) async {
+    integrationErrors.add(null);
+    for (final action in [
+      () => updateHomeWidget(events),
+      () => _syncToDeviceCalendar(events),
+    ]) {
+      try {
+        await action();
+      } catch (error, stack) {
+        integrationErrors.addError(error, stack);
+      }
+    }
+  }
+
+  Future<void> fetch(bool forcedRefresh) async {
+    isLoading.add(true);
+    try {
+      final response = await CalendarService.fetchCalendar(forcedRefresh);
+      lastFetched.add(response.$1);
+      response.$2.removeWhere((element) => element.isCanceled);
+      getIt<CalendarPreferenceService>().loadPreferences();
+      for (var element in response.$2) {
+        final eventColor = getIt<CalendarPreferenceService>()
+            .getColorPreference(element.lvNr ?? element.id);
+        if (eventColor != null) {
+          element.setColor(eventColor);
         }
-        events.add(response.$2);
-        isLoading.add(false);
-        updateHomeWidget(response.$2);
-        _syncToDeviceCalendar(response.$2);
-      },
-      onError: (error) {
-        isLoading.add(false);
-        events.addError(error);
-      },
-    );
+
+        final eventVisibility = getIt<CalendarPreferenceService>()
+            .getVisibilityPreference(element.lvNr ?? element.id);
+        if (eventVisibility != null) {
+          element.isVisible = eventVisibility;
+        }
+      }
+      events.add(response.$2);
+      unawaited(_updateIntegrations(response.$2));
+    } catch (error, stack) {
+      events.addError(error, stack);
+    } finally {
+      isLoading.add(false);
+    }
+  }
+
+  Future<void> _updateHomeWidgetSafely(List<CalendarEvent> events) async {
+    try {
+      await updateHomeWidget(events);
+    } catch (error, stack) {
+      integrationErrors.addError(error, stack);
+    }
   }
 
   Future<void> updateHomeWidget(List<CalendarEvent> calendarEvents) async {
@@ -132,7 +157,7 @@ class CalendarViewModel {
       }
     });
     events.add(elements);
-    updateHomeWidget(events.value ?? []);
+    unawaited(_updateHomeWidgetSafely(events.value ?? []));
   }
 
   void toggleEventVisibility(String key) {
@@ -158,7 +183,7 @@ class CalendarViewModel {
       }
     });
     events.add(elements);
-    updateHomeWidget(events.value ?? []);
+    unawaited(_updateHomeWidgetSafely(events.value ?? []));
   }
 
   int getTabPreference() {
@@ -183,14 +208,14 @@ class CalendarViewModel {
     final elements = events.value;
     elements?.forEach((element) => element.setColor(null));
     events.add(elements);
-    updateHomeWidget(events.value ?? []);
+    unawaited(_updateHomeWidgetSafely(events.value ?? []));
   }
 
   void _resetVisibility() {
     final elements = events.value;
     elements?.forEach((element) => element.setColor(null));
     events.add(elements);
-    updateHomeWidget(events.value ?? []);
+    unawaited(_updateHomeWidgetSafely(events.value ?? []));
   }
 
   Future<void> _syncToDeviceCalendar(List<CalendarEvent> calendarEvents) async {
@@ -201,7 +226,8 @@ class CalendarViewModel {
     if (!isSyncEnabled) return;
 
     final syncService = getIt<CalendarSyncService>();
-    await syncService.syncEvents(calendarEvents);
+    final result = await syncService.syncEvents(calendarEvents);
+    _checkSyncResult(result);
   }
 
   Future<bool> enableCalendarSync() async {
@@ -209,19 +235,26 @@ class CalendarViewModel {
     final granted = await syncService.requestPermissions();
     if (!granted) return false;
 
-    getIt<UserPreferencesService>().save(UserPreference.calendarSync, true);
-
     // Trigger an initial sync with current events
     final currentEvents = events.value;
     if (currentEvents != null) {
-      await syncService.syncEvents(currentEvents);
+      _checkSyncResult(await syncService.syncEvents(currentEvents));
     }
+    getIt<UserPreferencesService>().save(UserPreference.calendarSync, true);
     return true;
   }
 
+  void _checkSyncResult(SyncResult result) {
+    if (result.failures.isNotEmpty) {
+      final original = result.failures.first;
+      Error.throwWithStackTrace(original.error, original.stack);
+    }
+    if (result.hasError) throw result;
+  }
+
   Future<void> disableCalendarSync() async {
-    getIt<UserPreferencesService>().save(UserPreference.calendarSync, false);
     final syncService = getIt<CalendarSyncService>();
     await syncService.removeSyncedCalendar();
+    getIt<UserPreferencesService>().save(UserPreference.calendarSync, false);
   }
 }

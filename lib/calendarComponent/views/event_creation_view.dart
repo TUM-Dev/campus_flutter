@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
@@ -97,15 +98,26 @@ class EventCreationView extends ConsumerWidget {
       builder: (context, snapshot) {
         return ElevatedButton(
           onPressed: (snapshot.data ?? false)
-              ? () => ref
-                    .read(calendarAdditionViewModel(calendarEvent))
-                    .saveEvent()
-                    .then((value) {
-                      if (context.mounted) {
-                        ref.invalidate(calendarAdditionViewModel);
-                        context.canPop() ? context.pop() : context.go(calendar);
-                      }
-                    })
+              ? () async {
+                  try {
+                    await ref
+                        .read(calendarAdditionViewModel(calendarEvent))
+                        .saveEvent();
+                    if (context.mounted) {
+                      ref.invalidate(calendarAdditionViewModel);
+                      context.canPop() ? context.pop() : context.go(calendar);
+                    }
+                  } catch (error, stack) {
+                    if (context.mounted) {
+                      await showErrorDialog(
+                        context,
+                        error,
+                        stack,
+                        isMutation: true,
+                      );
+                    }
+                  }
+                }
               : null,
           child: Text(context.tr("submit")),
         );

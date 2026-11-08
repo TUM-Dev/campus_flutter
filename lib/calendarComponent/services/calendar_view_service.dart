@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/errorHandling/error_dialog.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
@@ -63,7 +64,7 @@ class CalendarViewService {
     } else if (calendarEvent != null) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (dialogContext) => AlertDialog(
           title: Text(
             calendarEvent!.title ?? "-",
             textAlign: TextAlign.center,
@@ -77,15 +78,22 @@ class CalendarViewService {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.redAccent),
               ),
-              onPressed: () {
-                ref
-                    .read(calendarViewModel)
-                    .deleteCalendarElement(calendarEvent!.id)
-                    .then((value) {
-                      if (context.mounted) {
-                        context.pop();
-                      }
-                    });
+              onPressed: () async {
+                try {
+                  await ref
+                      .read(calendarViewModel)
+                      .deleteCalendarElement(calendarEvent!.id);
+                  if (context.mounted) context.pop();
+                } catch (error, stack) {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      error,
+                      stack,
+                      isMutation: true,
+                    );
+                  }
+                }
               },
               child: Text(context.tr("delete")),
             ),
