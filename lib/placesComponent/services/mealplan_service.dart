@@ -58,9 +58,15 @@ class MealPlanService {
 
         return (response.saved, thisWeekMenu);
       } catch (e) {
+        if (e is DioException && e.type == DioExceptionType.cancel) rethrow;
         return (response.saved, thisWeekMenu);
       }
     } catch (currentError, currentStack) {
+      if (currentError is DioException &&
+          currentError.type == DioExceptionType.cancel) {
+        rethrow;
+      }
+
       /// current week's meal plan not available, attempt to fetch next week's meal plan
       try {
         final today = DateTime.now();

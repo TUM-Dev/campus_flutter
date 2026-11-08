@@ -285,4 +285,26 @@ void main() {
       );
     }
   });
+  test('cancelled menu requests preserve the cancellation and do not fetch another week', () async {
+    getIt.registerSingleton<RestClient>(client);
+    final cancellation = DioException(
+      requestOptions: RequestOptions(),
+      type: DioExceptionType.cancel,
+    );
+    var calls = 0;
+    client.dio.httpClientAdapter = StubAdapter((_) {
+      calls++;
+      throw cancellation;
+    });
+    final cafeteria = Cafeteria.fromJson({
+      'canteen_id': 'mensa-garching',
+      'name': 'Mensa',
+      'location': {'latitude': 48.0, 'longitude': 11.0, 'address': 'Campus'},
+    });
+    await expectLater(
+      MealPlanService.getCafeteriaMenu(true, cafeteria),
+      throwsA(same(cancellation)),
+    );
+    expect(calls, 1);
+  });
 }
