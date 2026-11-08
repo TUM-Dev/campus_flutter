@@ -12,86 +12,57 @@ class MovieCardView extends ConsumerWidget {
   final Movie movie;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: () {
-        UrlLauncher.urlString(movie.additionalInformationUrl, ref);
-      },
-      child: body(context),
-    );
-  }
+  Widget build(BuildContext context, WidgetRef ref) => Material(
+    color:
+        Theme.of(context).cardTheme.color ??
+        Theme.of(context).colorScheme.surfaceContainerLow,
+    borderRadius: BorderRadius.circular(12),
+    clipBehavior: Clip.antiAlias,
+    child: InkWell(
+      onTap: () => UrlLauncher.urlString(movie.additionalInformationUrl, ref),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: CachedNetworkImage(
+              imageUrl: movie.coverUrl.toString(),
+              fit: BoxFit.cover,
+              fadeOutDuration: Duration.zero,
+              fadeInDuration: Duration.zero,
+              placeholder: (context, _) => _placeholder(),
+              errorWidget: (context, _, _) => _placeholder(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movie.movieTitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  StringParser.dateFormatter(movie.date.toDateTime(), context),
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 
-  Widget body(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: AspectRatio(
-        aspectRatio: 250 / 470,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 8,
-              child: CachedNetworkImage(
-                imageUrl: movie.coverUrl.toString(),
-                fit: BoxFit.fill,
-                height: double.infinity,
-                width: double.infinity,
-                fadeOutDuration: Duration.zero,
-                fadeInDuration: Duration.zero,
-                placeholder: (context, string) => Image.asset(
-                  "assets/images/placeholders/movie_placeholder.png",
-                  fit: BoxFit.fill,
-                  height: double.infinity,
-                  width: double.infinity,
-                ),
-                errorWidget: (context, url, error) => Image.asset(
-                  "assets/images/placeholders/movie_placeholder.png",
-                  fit: BoxFit.fill,
-                  height: double.infinity,
-                  width: double.infinity,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          movie.movieTitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          StringParser.dateFormatter(
-                            movie.date.toDateTime(),
-                            context,
-                          ),
-                          style: Theme.of(context).textTheme.bodySmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget _placeholder() => Image.asset(
+    'assets/images/placeholders/movie_placeholder.png',
+    fit: BoxFit.cover,
+    width: double.infinity,
+  );
 }

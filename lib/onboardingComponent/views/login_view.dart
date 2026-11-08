@@ -1,5 +1,4 @@
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
@@ -177,17 +176,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
       if (mounted) context.push(confirm);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: const Duration(seconds: 10),
-            content: ErrorHandlingRouter(
-              error: error,
-              errorHandlingViewType: ErrorHandlingViewType.textOnly,
-              titleColor: Colors.white,
-              bodyColor: Colors.white,
-            ),
-          ),
-        );
+        showErrorSnackBar(context, error);
       }
     } finally {
       if (mounted) setState(() => _isSubmitting = false);

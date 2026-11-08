@@ -109,6 +109,7 @@ dev_dependencies:
   drift_dev: ^2.35.2
 
   # testing
+  flutter_cache_manager: ^3.5.0
   flutter_test:
     sdk: flutter
   test: ^1.31.1

@@ -1,10 +1,9 @@
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -218,31 +217,13 @@ class _ConfirmViewState extends ConsumerState<ConfirmView> {
               },
               onError: (error) {
                 if (context.mounted) {
-                  ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                    SnackBar(
-                      duration: const Duration(seconds: 10),
-                      content: ErrorHandlingRouter(
-                        error: error,
-                        errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                        titleColor: Colors.white,
-                      ),
-                    ),
-                  );
+                  showErrorSnackBar(context, error);
                 }
               },
             )
             .catchError((error) {
               if (context.mounted) {
-                ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                  SnackBar(
-                    duration: const Duration(seconds: 10),
-                    content: ErrorHandlingRouter(
-                      error: error,
-                      errorHandlingViewType: ErrorHandlingViewType.textOnly,
-                      titleColor: Colors.white,
-                    ),
-                  ),
-                );
+                showErrorSnackBar(context, error);
               }
             });
       },
