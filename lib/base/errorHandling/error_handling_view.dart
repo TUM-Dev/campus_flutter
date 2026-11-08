@@ -20,84 +20,90 @@ mixin ErrorHandlingView {
     switch (errorHandlingViewType) {
       case ErrorHandlingViewType.fullScreen:
       case ErrorHandlingViewType.fullScreenNoImage:
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (errorHandlingViewType ==
-                  ErrorHandlingViewType.fullScreen) ...[
-                const Spacer(),
-                SvgPicture.asset(
-                  "assets/images/errors/error.svg",
-                  height: MediaQuery.of(context).size.height * 0.3333,
-                  fit: BoxFit.scaleDown,
-                ),
-                const Spacer(),
-              ],
-              Expanded(
-                flex: 0,
+        return LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.hasBoundedHeight
+                    ? constraints.maxHeight
+                    : 0,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(context.padding),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: context.padding),
-                      child: _errorMessageText(
-                        errorMessage,
-                        context,
-                        style: Theme.of(context).textTheme.headlineMedium
-                            ?.copyWith(
-                              color: titleColor ?? context.primaryColor,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                    if (errorHandlingViewType ==
+                        ErrorHandlingViewType.fullScreen)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: context.padding * 2),
+                        child: SvgPicture.asset(
+                          "assets/images/errors/error.svg",
+                          height: MediaQuery.sizeOf(context).height * 0.25,
+                          fit: BoxFit.scaleDown,
+                        ),
                       ),
+                    _errorMessageText(
+                      errorMessage,
+                      context,
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(color: titleColor ?? context.primaryColor),
+                      textAlign: TextAlign.center,
                     ),
                     if (fixMessage != null)
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.padding,
-                        ),
+                        padding: EdgeInsets.only(top: context.padding),
                         child: Text(
                           fixMessage,
                           style: Theme.of(context).textTheme.bodyLarge
                               ?.copyWith(color: bodyColor),
                           textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    if ((retry != null || this.retry != null))
+                      Padding(
+                        padding: EdgeInsets.only(top: context.padding),
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              retry != null ? retry() : this.retry!(),
+                          child: Text(retryMessage ?? context.tr("tryAgain")),
                         ),
                       ),
                   ],
                 ),
               ),
-              const Spacer(),
-              if (retry != null || this.retry != null) ...[
-                ElevatedButton(
-                  onPressed: () => retry != null ? retry() : this.retry!(),
-                  child: Text(retryMessage ?? context.tr("tryAgain")),
-                ),
-                const Spacer(),
-              ],
-            ],
+            ),
           ),
         );
+      case ErrorHandlingViewType.snackBar:
+        return Text([errorMessage, ?fixMessage].join('\n'));
       case ErrorHandlingViewType.textOnly:
         return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _errorMessageText(
-                errorMessage,
-                context,
-                style: Theme.of(context).textTheme.bodyLarge
-                    ?.copyWith(color: titleColor ?? context.primaryColor),
-                textAlign: TextAlign.center,
-              ),
-              if (fixMessage != null)
-                Text(
-                  fixMessage,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _errorMessageText(
+                  errorMessage,
+                  context,
+                  style: Theme.of(context).textTheme.bodyLarge
+                      ?.copyWith(color: titleColor ?? context.primaryColor),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: bodyColor),
                 ),
-            ],
+                if (fixMessage != null)
+                  Text(
+                    fixMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: bodyColor),
+                  ),
+                if ((retry != null || this.retry != null))
+                  TextButton(
+                    onPressed: () => retry != null ? retry() : this.retry!(),
+                    child: Text(retryMessage ?? context.tr("tryAgain")),
+                  ),
+              ],
+            ),
           ),
         );
       case ErrorHandlingViewType.descriptionOnly:

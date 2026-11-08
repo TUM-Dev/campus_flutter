@@ -1,88 +1,84 @@
-import 'package:campus_flutter/base/enums/device.dart';
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/services/device_type_service.dart';
-import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/campusComponent/view/news/news_card_view.dart';
+import 'package:campus_flutter/campusComponent/view/shared/campus_collection_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/news_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewsScreen extends ConsumerWidget {
+class NewsScreen extends ConsumerStatefulWidget {
   const NewsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: ref.watch(newsViewModel).newsBySource,
-      builder: (context, snapshot) {
-        return DefaultTabController(
-          length: snapshot.data?.length ?? 0,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(context.tr("news")),
-              bottom: TabBar(
-                isScrollable: true,
-                tabs: [
-                  for (var newsSourceTitle in snapshot.data?.keys ?? <String>[])
-                    Tab(text: newsSourceTitle),
-                ],
-              ),
-            ),
-            body: () {
-              if (snapshot.hasData) {
-                return TabBarView(
-                  children: [
-                    for (var collection in snapshot.data!.values)
-                      Scrollbar(
-                        child: GridView.count(
-                          crossAxisCount: crossAxisCount(context),
-                          mainAxisSpacing: context.padding,
-                          crossAxisSpacing: context.padding,
-                          padding: EdgeInsets.all(context.padding),
-                          childAspectRatio: 1.1,
-                          children: [
-                            for (var news in collection)
-                              LayoutBuilder(
-                                builder: (context, constraints) => NewsCardView(
-                                  news: news,
-                                  width: constraints.maxWidth,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: ErrorHandlingRouter(
-                    error: snapshot.error,
-                    errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-                  ),
-                );
-              } else {
-                return Center(
-                  child: DelayedLoadingIndicator(name: context.tr("news")),
-                );
-              }
-            }(),
-          ),
-        );
-      },
-    );
-  }
+  ConsumerState<NewsScreen> createState() => _NewsScreenState();
+}
 
-  int crossAxisCount(BuildContext context) {
-    switch (DeviceService.getType(context)) {
-      case Device.landscapeTablet:
-        return 3;
-      case Device.portraitTablet:
-        return 2;
-      case Device.phone:
-        return 1;
+class _NewsScreenState extends ConsumerState<NewsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final model = ref.read(newsViewModel);
+    if (model.newsBySource.value == null && !model.newsBySource.hasError) {
+      model.fetch(false);
     }
   }
+
+  Future<void> _refresh() async => await ref.read(newsViewModel).fetch(true);
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder(
+    stream: ref.watch(newsViewModel).newsBySource,
+    builder: (context, snapshot) {
+      final sources = snapshot.data?.entries.toList() ?? [];
+      Widget collection(int? index) {
+        final items = index == null ? null : sources[index].value;
+        return CampusCollectionView(
+          label: context.tr('news'),
+          icon: Icons.newspaper_outlined,
+          storageKey: index == null
+              ? 'news-empty'
+              : 'news-${sources[index].key}',
+          onRefresh: _refresh,
+          hasData: snapshot.hasData,
+          error: snapshot.error,
+
+          itemCount: items?.length ?? 0,
+          minimumCardWidth: 300,
+          cardAspectRatio: 1.1,
+          itemBuilder: (context, index) =>
+              NewsCardView(news: items![index], width: 0),
+        );
+      }
+
+      return DefaultTabController(
+        length: sources.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(context.tr('news')),
+            actions: [
+              IconButton(
+                onPressed: _refresh,
+                tooltip: context.tr('refresh'),
+                icon: const Icon(Icons.refresh),
+              ),
+            ],
+            bottom: sources.isEmpty
+                ? null
+                : TabBar(
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    tabs: [for (final source in sources) Tab(text: source.key)],
+                  ),
+          ),
+          body: sources.isEmpty
+              ? collection(null)
+              : TabBarView(
+                  children: [
+                    for (var index = 0; index < sources.length; index++)
+                      collection(index),
+                  ],
+                ),
+        ),
+      );
+    },
+  );
 }
