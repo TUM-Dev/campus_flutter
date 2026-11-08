@@ -28,13 +28,17 @@ class PersonDetailsViewModel {
 
   Future fetch(bool forcedRefresh) async {
     if (obfuscatedId != null) {
-      PersonDetailsService.fetchPersonDetails(
+      return PersonDetailsService.fetchPersonDetails(
         forcedRefresh,
         obfuscatedId ?? "",
-      ).then((response) {
-        lastFetched.add(response.$1);
-        personDetails.add(response.$2);
-      }, onError: (error) => personDetails.addError(error));
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          personDetails.add(response.$2);
+        },
+        onError: (Object error, StackTrace stack) =>
+            personDetails.addError(error, stack),
+      );
     } else {
       personDetails.addError(
         TumOnlineApiException(

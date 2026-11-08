@@ -42,6 +42,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
             } else if (snapshot.hasError) {
               return ErrorHandlingRouter(
                 error: snapshot.error!,
+                stackTrace: snapshot.stackTrace,
                 errorHandlingViewType: ErrorHandlingViewType.textOnly,
                 retry: (() => ref.read(calendarViewModel).fetch(true)),
               );
@@ -80,10 +81,7 @@ class _CalendarHomeWidgetView extends ConsumerState<CalendarHomeWidgetView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _todayWidget(),
-              for (final event in [
-                ?currentEvent,
-                ...upcomingEvents,
-              ]) ...[
+              for (final event in [?currentEvent, ...upcomingEvents]) ...[
                 SizedBox(height: context.padding),
                 CalendarHomeWidgetEventView(
                   calendarEvent: event,

@@ -33,6 +33,10 @@ class StudentClubCardView extends ConsumerWidget {
                 child: SvgPicture.network(
                   studentClub.coverUrl,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stack) => Image.asset(
+                    "assets/images/placeholders/student_club_placeholder.png",
+                    fit: BoxFit.cover,
+                  ),
                   placeholderBuilder: (context) => Image.asset(
                     "assets/images/placeholders/student_club_placeholder.png",
                     fit: BoxFit.cover,

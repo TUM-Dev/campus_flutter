@@ -60,7 +60,9 @@ class NewsScreen extends ConsumerWidget {
                 return Center(
                   child: ErrorHandlingRouter(
                     error: snapshot.error,
+                    stackTrace: snapshot.stackTrace,
                     errorHandlingViewType: ErrorHandlingViewType.fullScreen,
+                    retry: () => ref.read(newsViewModel).fetch(true),
                   ),
                 );
               } else {

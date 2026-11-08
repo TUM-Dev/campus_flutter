@@ -20,9 +20,9 @@ class StudentCardViewModel {
         lastFetched.add(response.$1);
         isLoading.add(false);
       },
-      onError: (error) {
+      onError: (Object error, StackTrace stack) {
         isLoading.add(false);
-        studentCard.addError(error);
+        studentCard.addError(error, stack);
       },
     );
   }

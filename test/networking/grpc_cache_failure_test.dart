@@ -73,6 +73,9 @@ void main() {
 
   for (final failure in [
     const GrpcError.unavailable('offline'),
+    const GrpcError.notFound(
+      'HTTP connection completed with 404 instead of 200',
+    ),
     const GrpcError.internal('server problem'),
     const GrpcError.deadlineExceeded('slow'),
   ]) {

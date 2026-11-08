@@ -141,4 +141,18 @@ void main() {
     );
     expect(ApiFailure.forbidden.canRetry(isMutation: true), isFalse);
   });
+  test(
+    'native HTTP routing failures are distinct from domain not-found errors',
+    () {
+      const routing = GrpcError.notFound(
+        'HTTP connection completed with 404 instead of 200',
+      );
+      expect(ApiFailure.from(routing), ApiFailure.unavailable);
+      expect(ApiFailure.from(routing).allowsStale, isTrue);
+      expect(
+        ApiFailure.from(const GrpcError.notFound('No such item')),
+        ApiFailure.notFound,
+      );
+    },
+  );
 }

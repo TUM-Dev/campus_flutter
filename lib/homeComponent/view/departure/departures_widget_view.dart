@@ -84,6 +84,7 @@ class _DeparturesHomeWidgetState extends ConsumerState<DeparturesHomeWidget> {
                     } else if (snapshot.hasError) {
                       return ErrorHandlingRouter(
                         error: snapshot.error!,
+                        stackTrace: snapshot.stackTrace,
                         errorHandlingViewType: ErrorHandlingViewType.textOnly,
                         retry: (() => ref.read(departureViewModel).fetch(true)),
                       );

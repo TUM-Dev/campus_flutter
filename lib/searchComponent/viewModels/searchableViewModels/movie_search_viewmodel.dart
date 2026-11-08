@@ -21,15 +21,19 @@ class MovieSearchViewModel implements SearchCategoryViewModel<MovieSearch> {
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (movieData.isEmpty) {
-      return MovieService.fetchMovies(forcedRefresh).then((value) {
-        movieData = value.$2
-            .where(
-              (element) => element.date.toDateTime().isAfter(DateTime.now()),
-            )
-            .map((e) => MovieSearch(e))
-            .toList();
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return MovieService.fetchMovies(forcedRefresh).then(
+        (value) {
+          movieData = value.$2
+              .where(
+                (element) => element.date.toDateTime().isAfter(DateTime.now()),
+              )
+              .map((e) => MovieSearch(e))
+              .toList();
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

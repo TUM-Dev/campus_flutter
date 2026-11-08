@@ -17,6 +17,7 @@ class ErrorHandlingRouter extends StatefulWidget {
   const ErrorHandlingRouter({
     super.key,
     required this.error,
+    this.stackTrace,
     required this.errorHandlingViewType,
     this.retry,
     this.isMutation = false,
@@ -25,6 +26,7 @@ class ErrorHandlingRouter extends StatefulWidget {
   });
 
   final Object? error;
+  final StackTrace? stackTrace;
   final ErrorHandlingViewType errorHandlingViewType;
   final Function()? retry;
 
@@ -59,7 +61,8 @@ class _ErrorHandlingRouterState extends State<ErrorHandlingRouter> {
       // Never send request URLs, tokens, response bodies or server messages.
       FirebaseCrashlytics.instance.recordError(
         'API failure: ${error.runtimeType} (${ApiFailure.from(error).name})',
-        error is Error ? error.stackTrace : StackTrace.current,
+        widget.stackTrace ??
+            (error is Error ? error.stackTrace : StackTrace.current),
         fatal: false,
       );
     }

@@ -1,3 +1,5 @@
+import '../helpers/localized_test_app.dart';
+
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movies_widget_view.dart';
 import 'package:campus_flutter/campusComponent/view/news/news_widget_view.dart';
@@ -11,20 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grpc/grpc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class _Translations extends AssetLoader {
-  const _Translations();
-  @override
-  Future<Map<String, dynamic>> load(String path, Locale locale) async => {
-    'apiNotFound': 'Information unavailable',
-    'apiNotFoundRecovery': 'This information is unavailable.',
-    'apiUnavailable': 'Service temporarily unavailable',
-    'apiTryLater': 'Please try again later.',
-    'more': 'More',
-    'news': 'News',
-    'tryAgain': 'Try again',
-  };
-}
 
 class _Movies extends MovieViewModel {
   _Movies(this.failure);
@@ -48,27 +36,6 @@ class _Clubs extends StudentClubViewModel {
     bool forceRefresh,
     BuildContext context,
   ) async => suggestions.addError(failure);
-}
-
-Future<void> pumpCard(WidgetTester tester, Widget child) async {
-  await tester.pumpWidget(
-    EasyLocalization(
-      supportedLocales: const [Locale('en')],
-      startLocale: const Locale('en'),
-      saveLocale: false,
-      path: 'unused',
-      assetLoader: const _Translations(),
-      child: Builder(
-        builder: (context) => MaterialApp(
-          locale: context.locale,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          home: Scaffold(body: SingleChildScrollView(child: child)),
-        ),
-      ),
-    ),
-  );
-  await tester.pumpAndSettle();
 }
 
 void main() {

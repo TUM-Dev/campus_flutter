@@ -13,16 +13,22 @@ class NewsViewModel {
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
 
   Future fetch(bool forcedRefresh) async {
-    return NewsService.fetchRecentNews(forcedRefresh).then((value) {
-      lastFetched.add(value.$1);
-      value.$2.sort((news1, news2) {
-        final date1 = news1.date.toDateTime();
-        final date2 = news2.date.toDateTime();
-        return date2.compareTo(date1);
-      });
-      newsBySource.add(mapNewsBySource(value.$2));
-      news.add(value.$2);
-    }, onError: (error) => news.addError(error));
+    return NewsService.fetchRecentNews(forcedRefresh).then(
+      (value) {
+        lastFetched.add(value.$1);
+        value.$2.sort((news1, news2) {
+          final date1 = news1.date.toDateTime();
+          final date2 = news2.date.toDateTime();
+          return date2.compareTo(date1);
+        });
+        newsBySource.add(mapNewsBySource(value.$2));
+        news.add(value.$2);
+      },
+      onError: (Object error, StackTrace stack) {
+        news.addError(error, stack);
+        newsBySource.addError(error, stack);
+      },
+    );
   }
 
   Map<String, List<News>> mapNewsBySource(List<News> news) {
@@ -40,7 +46,7 @@ class NewsViewModel {
 
   List<News> latestFiveNews() {
     if (news.value != null) {
-      final news = this.news.value!;
+      final news = List<News>.of(this.news.value!);
       Set<String> seenTitles = {};
       news.retainWhere((element) {
         if (seenTitles.contains(element.title)) {

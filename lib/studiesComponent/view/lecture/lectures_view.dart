@@ -59,6 +59,7 @@ class _LecturesViewState extends ConsumerState<LecturesView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref.read(lectureViewModel).fetch(true)),
           );

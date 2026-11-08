@@ -1,8 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:flutter/material.dart';
 
 class ContactCardErrorView extends StatelessWidget {
-  const ContactCardErrorView({super.key});
+  const ContactCardErrorView({
+    super.key,
+    required this.error,
+    this.stackTrace,
+    this.retry,
+  });
+
+  final Object error;
+  final StackTrace? stackTrace;
+  final VoidCallback? retry;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +28,11 @@ class ContactCardErrorView extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.only(left: 15)),
           Expanded(
-            child: Text(
-              context.tr("profileError"),
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
+            child: ErrorHandlingRouter(
+              error: error,
+              stackTrace: stackTrace,
+              errorHandlingViewType: ErrorHandlingViewType.textOnly,
+              retry: retry,
             ),
           ),
         ],

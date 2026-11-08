@@ -268,6 +268,7 @@ class _CafeteriaViewState extends ConsumerState<CafeteriaView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.descriptionOnly,
           );
         } else {

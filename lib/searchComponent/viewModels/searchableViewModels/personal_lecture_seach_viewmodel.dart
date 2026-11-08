@@ -20,10 +20,14 @@ class PersonalLectureSearchViewModel
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (_personalLectureData.isEmpty) {
-      return LectureService.fetchLecture(forcedRefresh).then((value) {
-        _personalLectureData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return LectureService.fetchLecture(forcedRefresh).then(
+        (value) {
+          _personalLectureData = value.$2;
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

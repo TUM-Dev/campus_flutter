@@ -38,7 +38,8 @@ class WidgetScreen extends ConsumerWidget {
           return SizedBox(
             height: MediaQuery.sizeOf(context).height * 2 / 5,
             child: ErrorHandlingRouter(
-              error: snapshot.error ?? Error(),
+              error: snapshot.error!,
+              stackTrace: snapshot.stackTrace,
               errorHandlingViewType: ErrorHandlingViewType.textOnly,
             ),
           );

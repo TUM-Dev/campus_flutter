@@ -80,6 +80,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
         child: Card(
           child: ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.textOnly,
             retry: (() => ref.read(movieViewModel).fetch(true)),
           ),

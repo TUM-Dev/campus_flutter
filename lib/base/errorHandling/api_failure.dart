@@ -95,6 +95,14 @@ enum ApiFailure {
       };
     }
     if (error is GrpcError) {
+      // This fork maps a plain HTTP 404 to NOT_FOUND before receiving a gRPC
+      // status. Its exact generated message is the only discriminator exposed
+      // by the native client; do not reinterpret ordinary domain NOT_FOUNDs.
+      if (error.code == StatusCode.notFound &&
+          error.message ==
+              'HTTP connection completed with 404 instead of 200') {
+        return unavailable;
+      }
       return switch (error.code) {
         StatusCode.cancelled => cancelled,
         StatusCode.deadlineExceeded => timeout,

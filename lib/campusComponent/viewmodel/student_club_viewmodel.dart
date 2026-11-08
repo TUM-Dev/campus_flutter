@@ -28,9 +28,9 @@ class StudentClubViewModel {
         studentClubs.shuffle();
         suggestions.add(studentClubs);
       },
-      onError: (error) {
-        collections.addError(error);
-        suggestions.addError(error);
+      onError: (Object error, StackTrace stack) {
+        collections.addError(error, stack);
+        suggestions.addError(error, stack);
       },
     );
   }

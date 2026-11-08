@@ -68,7 +68,11 @@ class _StudentClubWidgetViewState extends ConsumerState<StudentClubWidgetView> {
               child: Card(
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
+                  stackTrace: snapshot.stackTrace,
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
+                  retry: () => ref
+                      .read(studentClubViewModel)
+                      .fetchStudentClubs(true, context),
                 ),
               ),
             );

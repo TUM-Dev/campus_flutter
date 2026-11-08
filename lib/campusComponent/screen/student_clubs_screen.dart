@@ -61,6 +61,7 @@ class StudentClubsScreen extends ConsumerWidget {
                 return Center(
                   child: ErrorHandlingRouter(
                     error: snapshot.error,
+                    stackTrace: snapshot.stackTrace,
                     errorHandlingViewType: ErrorHandlingViewType.fullScreen,
                   ),
                 );

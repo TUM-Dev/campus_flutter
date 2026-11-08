@@ -119,6 +119,7 @@ class _CalendarsViewState extends ConsumerState<CalendarsView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref.read(calendarViewModel).fetch(true)),
           );

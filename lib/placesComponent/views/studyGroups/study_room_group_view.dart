@@ -84,6 +84,7 @@ class StudyRoomGroupView extends ConsumerWidget {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
             retry: (() => ref.read(studyRoomsViewModel).fetch(true)),
           );

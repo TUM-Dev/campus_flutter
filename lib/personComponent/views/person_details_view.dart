@@ -63,6 +63,7 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
         } else if (snapshot.hasError) {
           return ErrorHandlingRouter(
             error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
             errorHandlingViewType: ErrorHandlingViewType.fullScreen,
           );
         } else {
