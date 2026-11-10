@@ -6,6 +6,21 @@ import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+/// A titled group of cards within a [CampusCollectionView].
+class CampusCollectionSection {
+  const CampusCollectionSection({
+    this.title,
+    this.trailing,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
+
+  final String? title;
+  final String? trailing;
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+}
+
 /// The collection pages share responsive cards and refreshable settled states.
 class CampusCollectionView extends StatefulWidget {
   const CampusCollectionView({
@@ -14,24 +29,40 @@ class CampusCollectionView extends StatefulWidget {
     required this.icon,
     required this.onRefresh,
     required this.hasData,
-    required this.itemCount,
-    required this.itemBuilder,
+    this.itemCount = 0,
+    this.itemBuilder,
+    this.sections,
+    this.header,
+    this.emptyMessage,
+    this.emptyAction,
     required this.minimumCardWidth,
-    required this.cardAspectRatio,
+    this.cardAspectRatio,
     this.cardHeight,
     this.error,
     this.stackTrace,
     this.storageKey,
-  });
+  }) : assert(itemBuilder != null || sections != null);
 
   final String label;
   final IconData icon;
   final Future<void> Function() onRefresh;
   final bool hasData;
   final int itemCount;
-  final IndexedWidgetBuilder itemBuilder;
+  final IndexedWidgetBuilder? itemBuilder;
+
+  /// Replaces [itemCount] and [itemBuilder] with several titled grids.
+  final List<CampusCollectionSection>? sections;
+
+  /// Stays pinned above the cards once data has loaded, e.g. search and
+  /// filters.
+  final Widget? header;
+  final String? emptyMessage;
+  final Widget? emptyAction;
   final double minimumCardWidth;
-  final double cardAspectRatio;
+
+  /// Without [cardAspectRatio] and [cardHeight], each row is as tall as its
+  /// tallest card.
+  final double? cardAspectRatio;
   final double? cardHeight;
   final Object? error;
   final StackTrace? stackTrace;
@@ -67,6 +98,16 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
             0.0,
             (constraints.maxWidth - 32 - (columns - 1) * 12) / columns,
           );
+          final sections =
+              widget.sections ??
+              [
+                CampusCollectionSection(
+                  itemCount: widget.itemCount,
+                  itemBuilder: widget.itemBuilder!,
+                ),
+              ];
+          final isEmpty = sections.every((section) => section.itemCount == 0);
+          final aspectRatio = widget.cardAspectRatio;
           return RefreshIndicator(
             onRefresh: widget.onRefresh,
             child: Scrollbar(
@@ -76,6 +117,15 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
                 key: PageStorageKey(widget.storageKey ?? widget.label),
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
+                  if (widget.header != null &&
+                      widget.error == null &&
+                      widget.hasData)
+                    PinnedHeaderSliver(
+                      child: ColoredBox(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: widget.header,
+                      ),
+                    ),
                   if (widget.error != null)
                     SliverFillRemaining(
                       hasScrollBody: false,
@@ -97,7 +147,7 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
                         child: DelayedLoadingIndicator(name: widget.label),
                       ),
                     )
-                  else if (widget.itemCount == 0)
+                  else if (isEmpty)
                     SliverFillRemaining(
                       hasScrollBody: false,
                       child: Padding(
@@ -114,42 +164,89 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              context.tr(
-                                'noEntriesFound',
-                                args: [widget.label],
-                              ),
+                              widget.emptyMessage ??
+                                  context.tr(
+                                    'noEntriesFound',
+                                    args: [widget.label],
+                                  ),
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const SizedBox(height: 16),
-                            TextButton.icon(
-                              onPressed: widget.onRefresh,
-                              icon: const Icon(Icons.refresh),
-                              label: Text(context.tr('refresh')),
-                            ),
+                            widget.emptyAction ??
+                                TextButton.icon(
+                                  onPressed: widget.onRefresh,
+                                  icon: const Icon(Icons.refresh),
+                                  label: Text(context.tr('refresh')),
+                                ),
                           ],
                         ),
                       ),
                     )
                   else
-                    SliverPadding(
-                      padding: const EdgeInsets.all(16),
-                      sliver: SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: columns,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          mainAxisExtent:
-                              widget.cardHeight ??
-                              (cardWidth / widget.cardAspectRatio +
-                                  math.max(0, textScale - 1) * 84),
+                    for (final (index, section) in sections.indexed)
+                      if (section.itemCount > 0) ...[
+                        if (section.title != null)
+                          SliverToBoxAdapter(
+                            child: _SectionHeading(section: section),
+                          ),
+                        SliverPadding(
+                          padding: EdgeInsets.fromLTRB(
+                            16,
+                            section.title == null ? 16 : 4,
+                            16,
+                            index == sections.length - 1 ? 16 : 8,
+                          ),
+                          sliver:
+                              aspectRatio == null && widget.cardHeight == null
+                              ? SliverList.separated(
+                                  itemCount: (section.itemCount / columns)
+                                      .ceil(),
+                                  separatorBuilder: (context, _) =>
+                                      const SizedBox(height: 12),
+                                  itemBuilder: (context, row) =>
+                                      IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          spacing: 12,
+                                          children: [
+                                            for (
+                                              var item = row * columns;
+                                              item < (row + 1) * columns;
+                                              item++
+                                            )
+                                              Expanded(
+                                                child: item < section.itemCount
+                                                    ? section.itemBuilder(
+                                                        context,
+                                                        item,
+                                                      )
+                                                    : const SizedBox(),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                )
+                              : SliverGrid(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: columns,
+                                        mainAxisSpacing: 12,
+                                        crossAxisSpacing: 12,
+                                        mainAxisExtent:
+                                            widget.cardHeight ??
+                                            (cardWidth / aspectRatio! +
+                                                math.max(0, textScale - 1) *
+                                                    84),
+                                      ),
+                                  delegate: SliverChildBuilderDelegate(
+                                    section.itemBuilder,
+                                    childCount: section.itemCount,
+                                  ),
+                                ),
                         ),
-                        delegate: SliverChildBuilderDelegate(
-                          widget.itemBuilder,
-                          childCount: widget.itemCount,
-                        ),
-                      ),
-                    ),
+                      ],
                 ],
               ),
             ),
@@ -158,4 +255,41 @@ class _CampusCollectionViewState extends State<CampusCollectionView> {
       ),
     ),
   );
+}
+
+class _SectionHeading extends StatelessWidget {
+  const _SectionHeading({required this.section});
+
+  final CampusCollectionSection section;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Semantics(
+      header: true,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+        child: Row(
+          spacing: 8,
+          children: [
+            Expanded(
+              child: Text(
+                section.title!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            if (section.trailing != null)
+              Text(
+                section.trailing!,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }

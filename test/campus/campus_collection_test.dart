@@ -261,7 +261,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(response.calls, [false, true]);
       expect(find.byType(ErrorHandlingRouter), findsNothing);
-      expect(find.byType(SliverGrid), findsWidgets);
+      // Club rows are as tall as their content, so they are not in a grid.
+      expect(
+        find.byType(kind == 'clubs' ? SliverList : SliverGrid),
+        findsWidgets,
+      );
       expect(tester.takeException(), isNull);
     });
 
@@ -274,7 +278,19 @@ void main() {
         final title = kind == 'news'
             ? 'Meet your campus community'
             : 'Robotics and Engineering';
-        await tester.tap(find.text(tab));
+        if (kind == 'clubs') {
+          // Clubs pick their category from a sheet instead of tabs.
+          await tester.tap(find.byType(FilterChip).first);
+          await tester.pumpAndSettle();
+          await tester.tap(
+            find.descendant(
+              of: find.byType(ListTile),
+              matching: find.text(tab),
+            ),
+          );
+        } else {
+          await tester.tap(find.text(tab));
+        }
         await tester.pumpAndSettle();
         expect(find.text(title), findsOneWidget);
         await tester.tap(find.byTooltip('Refresh'));
