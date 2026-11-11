@@ -22,7 +22,8 @@ void main() {
   group('CalendarEvent.lvNr', () {
     test('returns the lecture number from a well-formed URL', () {
       final event = makeEvent(
-        url: 'https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=123&LvNr=950123456',
+        url:
+            'https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=123&LvNr=950123456',
       );
       expect(event.lvNr, '950123456');
     });
@@ -37,6 +38,29 @@ void main() {
       final event = makeEvent(url: 'https://campus.tum.de/some/other/path');
       // The result is the URL itself (no LvNr= present → split produces one element)
       expect(event.lvNr, 'https://campus.tum.de/some/other/path');
+    });
+  });
+
+  group('lecture links', () {
+    test('recognizes both supported lecture detail URLs', () {
+      for (final url in [
+        'https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=123&LvNr=950123456',
+        'https://campus.tum.de/tumonline/lv.detail?cLvNr=950123456',
+      ]) {
+        expect(makeEvent(url: url).hasLectureDetailsLink, isTrue);
+      }
+      expect(
+        makeEvent(
+          url: 'https://campus.tum.de/other?LvNr=123',
+        ).hasLectureDetailsLink,
+        isFalse,
+      );
+      expect(
+        makeEvent(
+          url: 'https://campus.tum.de/tumonline/wbLv.wbShowLVDetail',
+        ).hasLectureDetailsLink,
+        isFalse,
+      );
     });
   });
 

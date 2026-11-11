@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
+import 'package:campus_flutter/calendarComponent/views/custom_event_view.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:campus_flutter/campusComponent/screen/campus_screen.dart';
 import 'package:campus_flutter/campusComponent/screen/movie_screen.dart';
@@ -145,10 +146,12 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: calendarDetails,
-      builder: (context, state) => LectureDetailsScaffold(
-        event: state.extra as CalendarEvent,
-        scrollController: null,
-      ),
+      builder: (context, state) {
+        final event = state.extra as CalendarEvent;
+        return event.hasLectureDetailsLink
+            ? LectureDetailsScaffold(event: event, scrollController: null)
+            : CustomEventScaffold(calendarEvent: event);
+      },
     ),
     GoRoute(
       path: studentClubs,

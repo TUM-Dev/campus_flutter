@@ -40,10 +40,13 @@ void main() {
             calendarAdditionViewModel(null)
                 .overrideWith((ref) => model = _FailedAddition(ref)),
           ],
-          child: const EventCreationView(calendarEvent: null),
+          child: const SizedBox(
+            height: 700,
+            child: EventCreationScaffold(calendarEvent: null),
+          ),
         ),
       );
-      final submit = find.widgetWithText(ElevatedButton, 'submit');
+      final submit = find.text('submit');
       await tester.ensureVisible(submit);
       await tester.tap(submit);
       await tester.pumpAndSettle();
@@ -55,7 +58,7 @@ void main() {
       expect(router.isMutation, isTrue);
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.byType(AlertDialog), findsNothing);
-      expect(find.byType(EventCreationView), findsOneWidget);
+      expect(find.byType(EventCreationScaffold), findsOneWidget);
       expect(tester.takeException(), isNull);
       await model.from.close();
       await model.to.close();
