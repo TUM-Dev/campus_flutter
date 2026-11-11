@@ -1,59 +1,64 @@
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
-import 'package:campus_flutter/base/util/grid_utility.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
-import 'package:campus_flutter/campusComponent/view/movie/movie_grid_view.dart';
+import 'package:campus_flutter/campusComponent/view/movie/movie_card_view.dart';
+import 'package:campus_flutter/campusComponent/view/shared/campus_collection_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieScreen extends ConsumerWidget {
+class MovieScreen extends ConsumerStatefulWidget {
   const MovieScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: ref.watch(movieViewModel).movies,
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("TU Film"),
-            actions: [
-              IconButton(
-                onPressed: () =>
-                    UrlLauncher.urlString("https://www.tu-film.de/", ref),
-                icon: const Icon(Icons.open_in_new),
-              ),
-            ],
-          ),
-          body: () {
-            if (snapshot.hasData) {
-              return Scrollbar(
-                child: MovieGridView(
-                  movies: snapshot.data!,
-                  padding: EdgeInsets.all(context.padding),
-                  crossAxisCount: GridUtility.campusCrossAxisCount(context),
-                  withinScrollView: false,
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: ErrorHandlingRouter(
-                  error: snapshot.error,
-                  errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-                ),
-              );
-            } else {
-              return Center(
-                child: DelayedLoadingIndicator(name: context.tr("movies")),
-              );
-            }
-          }(),
-        );
-      },
-    );
+  ConsumerState<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends ConsumerState<MovieScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final model = ref.read(movieViewModel);
+    if (model.movies.value == null && !model.movies.hasError) {
+      model.fetch(false);
+    }
   }
+
+  Future<void> _refresh() async => await ref.read(movieViewModel).fetch(true);
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: const Text('TU Film'),
+      actions: [
+        IconButton(
+          onPressed: _refresh,
+          tooltip: context.tr('refresh'),
+          icon: const Icon(Icons.refresh),
+        ),
+        IconButton(
+          onPressed: () =>
+              UrlLauncher.urlString('https://www.tu-film.de/', ref),
+          tooltip: context.tr('openWebsite'),
+          icon: const Icon(Icons.open_in_new),
+        ),
+      ],
+    ),
+    body: StreamBuilder(
+      stream: ref.watch(movieViewModel).movies,
+      builder: (context, snapshot) => CampusCollectionView(
+        label: context.tr('movies'),
+        icon: Icons.local_movies_outlined,
+        onRefresh: _refresh,
+        hasData: snapshot.hasData,
+        error: snapshot.error,
+        stackTrace: snapshot.stackTrace,
+
+        itemCount: snapshot.data?.length ?? 0,
+        minimumCardWidth: 160,
+        cardAspectRatio: 250 / 470,
+        itemBuilder: (context, index) =>
+            MovieCardView(movie: snapshot.data![index]),
+      ),
+    ),
+  );
 }

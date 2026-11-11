@@ -144,6 +144,7 @@ class _DeparturesDetailsViewState extends ConsumerState<DeparturesDetailsView> {
     } else if (widget.snapshot.hasError) {
       return ErrorHandlingRouter(
         error: widget.snapshot.error!,
+        stackTrace: widget.snapshot.stackTrace,
         errorHandlingViewType: ErrorHandlingViewType.fullScreen,
         retry: (() => ref.read(departureViewModel).fetch(true)),
       );

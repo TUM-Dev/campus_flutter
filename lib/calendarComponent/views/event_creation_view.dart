@@ -1,4 +1,6 @@
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
+
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
@@ -171,15 +173,13 @@ class _SubmitBar extends ConsumerWidget {
                                         : context.go(calendar);
                                   }
                                 })
-                                .catchError((error) {
+                                .catchError((Object error, StackTrace stack) {
                                   if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(error.toString()),
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).colorScheme.error,
-                                      ),
+                                    showErrorSnackBar(
+                                      context,
+                                      error,
+                                      stackTrace: stack,
+                                      isMutation: true,
                                     );
                                   }
                                 })

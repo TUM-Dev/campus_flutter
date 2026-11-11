@@ -24,10 +24,14 @@ class StudyRoomSearchViewModel
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (studyRoomData == null) {
-      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then((value) {
-        studyRoomData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return StudyRoomsService.fetchStudyRooms(forcedRefresh).then(
+        (value) {
+          studyRoomData = value.$2;
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

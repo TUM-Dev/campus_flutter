@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
@@ -219,19 +220,19 @@ class CustomEventDetailsView extends ConsumerWidget {
                               color: Theme.of(context).colorScheme.error,
                             ),
                           ),
-                          onTap: () =>
-                              _deleteEvent(context, ref).catchError((error) {
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(error.toString()),
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.error,
-                                    ),
-                                  );
-                                }
-                              }),
+                          onTap: () => _deleteEvent(context, ref).catchError((
+                            Object error,
+                            StackTrace stack,
+                          ) {
+                            if (context.mounted) {
+                              showErrorSnackBar(
+                                context,
+                                error,
+                                stackTrace: stack,
+                                isMutation: true,
+                              );
+                            }
+                          }),
                         ),
                         if (isSeries)
                           ListTile(
@@ -247,19 +248,18 @@ class CustomEventDetailsView extends ConsumerWidget {
                                 color: Theme.of(context).colorScheme.error,
                               ),
                             ),
-                            onTap: () =>
-                                _deleteSeries(context, ref).catchError((error) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(error.toString()),
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).colorScheme.error,
-                                      ),
-                                    );
-                                  }
-                                }),
+                            onTap: () => _deleteSeries(context, ref).catchError(
+                              (Object error, StackTrace stack) {
+                                if (context.mounted) {
+                                  showErrorSnackBar(
+                                    context,
+                                    error,
+                                    stackTrace: stack,
+                                    isMutation: true,
+                                  );
+                                }
+                              },
+                            ),
                           ),
                       ],
                     ),

@@ -1,97 +1,109 @@
-import 'package:campus_flutter/base/enums/device.dart';
-import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
-import 'package:campus_flutter/base/services/device_type_service.dart';
-import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/model/student_club_collection.dart';
-import 'package:campus_flutter/campusComponent/view/studentClub/student_club_grid_view.dart';
+import 'package:campus_flutter/campusComponent/view/studentClub/student_club_card_view.dart';
+import 'package:campus_flutter/campusComponent/view/shared/campus_collection_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StudentClubsScreen extends ConsumerWidget {
+class StudentClubsScreen extends ConsumerStatefulWidget {
   const StudentClubsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: ref.watch(studentClubViewModel).collections,
-      builder: (context, snapshot) {
-        return DefaultTabController(
-          length: snapshot.data?.length ?? 0,
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text("Student Clubs"),
-              actions: [
-                IconButton(
-                  onPressed: () =>
-                      UrlLauncher.urlString(studentClubUrl(context), ref),
-                  icon: const Icon(Icons.open_in_new),
-                ),
-              ],
-              bottom: TabBar(
-                isScrollable: true,
-                tabs: [
-                  for (var collection
-                      in snapshot.data ?? <StudentClubCollection>[])
-                    Tab(text: collection.parsedTitle),
-                ],
-              ),
-            ),
-            body: () {
-              if (snapshot.hasData) {
-                return TabBarView(
-                  children: [
-                    for (var collection in snapshot.data!)
-                      Scrollbar(
-                        child: StudentClubGridView(
-                          studentClubs: collection.clubs,
-                          padding: EdgeInsets.all(context.padding),
-                          crossAxisCount: crossAxisCount(context),
-                          withinScrollView: false,
-                        ),
-                      ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: ErrorHandlingRouter(
-                    error: snapshot.error,
-                    errorHandlingViewType: ErrorHandlingViewType.fullScreen,
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: DelayedLoadingIndicator(name: "Student Clubs"),
-                );
-              }
-            }(),
-          ),
+  ConsumerState<StudentClubsScreen> createState() => _StudentClubsScreenState();
+}
+
+class _StudentClubsScreenState extends ConsumerState<StudentClubsScreen> {
+  Locale? _locale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = context.locale;
+    final model = ref.read(studentClubViewModel);
+    if ((_locale != null && _locale != locale) ||
+        (_locale == null &&
+            model.collections.value == null &&
+            !model.collections.hasError)) {
+      model.fetchStudentClubs(false, context);
+    }
+    _locale = locale;
+  }
+
+  Future<void> _refresh() async =>
+      await ref.read(studentClubViewModel).fetchStudentClubs(true, context);
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder(
+    stream: ref.watch(studentClubViewModel).collections,
+    builder: (context, snapshot) {
+      final collections = snapshot.data ?? [];
+      Widget collection(int? index) {
+        final items = index == null ? null : collections[index].clubs;
+        return CampusCollectionView(
+          label: context.tr('studentClubs'),
+          icon: Icons.groups_outlined,
+          storageKey: index == null
+              ? 'clubs-empty'
+              : 'clubs-${collections[index].parsedTitle}',
+          onRefresh: _refresh,
+          hasData: snapshot.hasData,
+          error: snapshot.error,
+          stackTrace: snapshot.stackTrace,
+
+          itemCount: items?.length ?? 0,
+          minimumCardWidth: 160,
+          cardAspectRatio: 1,
+          cardHeight: StudentClubCardView.heightFor(context),
+          itemBuilder: (context, index) =>
+              StudentClubCardView(studentClub: items![index]),
         );
-      },
-    );
-  }
+      }
 
-  int crossAxisCount(BuildContext context) {
-    switch (DeviceService.getType(context)) {
-      case Device.landscapeTablet:
-        return 6;
-      case Device.portraitTablet:
-        return 4;
-      case Device.phone:
-        return 2;
-    }
-  }
-
-  String studentClubUrl(BuildContext context) {
-    if (context.locale.languageCode == "de") {
-      return "https://www.sv.tum.de/sv/hochschulgruppen/";
-    } else {
-      return "https://www.sv.tum.de/en/sv/student-groups/";
-    }
-  }
+      return DefaultTabController(
+        length: collections.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(context.tr('studentClubs')),
+            actions: [
+              IconButton(
+                onPressed: _refresh,
+                tooltip: context.tr('refresh'),
+                icon: const Icon(Icons.refresh),
+              ),
+              IconButton(
+                onPressed: () => UrlLauncher.urlString(
+                  context.locale.languageCode == 'de'
+                      ? 'https://www.sv.tum.de/sv/hochschulgruppen/'
+                      : 'https://www.sv.tum.de/en/sv/student-groups/',
+                  ref,
+                ),
+                tooltip: context.tr('openWebsite'),
+                icon: const Icon(Icons.open_in_new),
+              ),
+            ],
+            bottom: collections.isEmpty
+                ? null
+                : TabBar(
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
+                    tabs: [
+                      for (final collection in collections)
+                        Tab(text: collection.parsedTitle),
+                    ],
+                  ),
+          ),
+          body: collections.isEmpty
+              ? collection(null)
+              : TabBarView(
+                  children: [
+                    for (var index = 0; index < collections.length; index++)
+                      collection(index),
+                  ],
+                ),
+        ),
+      );
+    },
+  );
 }

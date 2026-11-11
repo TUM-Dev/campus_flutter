@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,6 +10,7 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
     required this.exception,
     required ErrorHandlingViewType errorHandlingViewType,
     Function()? retry,
+    this.isMutation = false,
     Color? titleColor,
     Color? bodyColor,
   }) {
@@ -20,11 +22,16 @@ class DefaultErrorRouter extends StatelessWidget with ErrorHandlingView {
 
   final Object? exception;
 
+  final bool isMutation;
+
   @override
   Widget build(BuildContext context) {
+    final failure = ApiFailure.from(exception);
+    final mutation = isMutation;
     return exceptionMessage(
-      errorMessage: context.tr("unknownError"),
-      fixMessage: context.tr("pleaseReport"),
+      errorMessage: context.tr(failure.messageKey),
+      fixMessage: context.tr(failure.recoveryKeyFor(isMutation: mutation)),
+      allowRetry: failure.canRetry(isMutation: mutation),
       context: context,
     );
   }

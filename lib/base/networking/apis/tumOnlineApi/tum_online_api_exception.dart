@@ -15,7 +15,7 @@ class TumOnlineApiException implements ApiException {
   /// method for decoder
   factory TumOnlineApiException.fromJson(Map<String, dynamic> json) {
     final exception = ExceptionBody.fromJson(json);
-    switch (exception.exceptionMessage.message) {
+    switch (exception.exceptionMessage.message.trim()) {
       case String message
           when message.contains("Keine Rechte für Funktion") ||
               message.contains("Funktion nicht erlaubt"):
@@ -130,10 +130,20 @@ class TumOnlineApiException implements ApiException {
         return context.tr("personNotFoundRecovery");
       case TumOnlineApiExceptionInvalidSearchString _:
         return context.tr("invalidSearchRecovery");
-      case TumOnlineApiExceptionUnknown unknown:
-        return unknown.message;
+      case TumOnlineApiExceptionUnknown _:
+        return context.tr("pleaseTryAgain");
     }
   }
+
+  bool get canRetry => switch (tumOnlineApiExceptionType) {
+    TumOnlineApiExceptionNoPermission() ||
+    TumOnlineApiExceptionTokenLimitReached() ||
+    TumOnlineApiExceptionNoUserSpecified() ||
+    TumOnlineApiExceptionNoUserFound() ||
+    TumOnlineApiExceptionPersonNotFound() ||
+    TumOnlineApiExceptionInvalidSearchString() => false,
+    _ => true,
+  };
 
   @override
   String toString() {

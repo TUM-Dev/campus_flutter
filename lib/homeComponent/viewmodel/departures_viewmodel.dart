@@ -114,8 +114,8 @@ class DeparturesViewModel {
           await SharedPreferences.getInstance();
       final data = sharedPreferences.get("departuresPreferences") as String?;
       if (data != null) {
-        final decoded = jsonDecode(data);
         try {
+          final decoded = jsonDecode(data);
           final preferences = DeparturesPreference.fromJson(decoded);
           final station = preferences.preferences[widgetCampus.value];
           if (station != null) {
@@ -140,24 +140,26 @@ class DeparturesViewModel {
   Future fetch(bool forcedRefresh) async {
     if (widgetCampus.value != null) {
       if (selectedStation.value != null) {
-        DeparturesService.fetchDepartures(
+        return DeparturesService.fetchDepartures(
           true,
           selectedStation.value!.apiName,
           walkingDistance.value,
           campus: widgetCampus.value,
         ).then(
           (response) => sortDepartures(response),
-          onError: (error) => departures.addError(error),
+          onError: (Object error, StackTrace stack) =>
+              departures.addError(error, stack),
         );
       } else {
-        DeparturesService.fetchDepartures(
+        return DeparturesService.fetchDepartures(
           true,
           widgetCampus.value!.defaultStation.apiName,
           walkingDistance.value,
           campus: widgetCampus.value,
         ).then(
           (response) => sortDepartures(response),
-          onError: (error) => departures.addError(error),
+          onError: (Object error, StackTrace stack) =>
+              departures.addError(error, stack),
         );
       }
     }

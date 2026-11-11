@@ -100,6 +100,9 @@ void main() {
       addTearDown(container.dispose);
       final vm = container.read(calendarAdditionViewModel(events.first));
       vm.titleController.text = 'Updated';
+      vm.setFromDate(DateTime(2026, 11, 4));
+      expect(vm.generateOccurrences().map((date) => date.$1.day), [4, 18, 25]);
+      vm.setUntilDate(DateTime(2026, 12, 10));
       expect(vm.generateOccurrences().map((date) => date.$1.day), [4, 18, 25]);
       vm.setRecurrenceType(RecurrenceType.weekly);
       expect(vm.generateOccurrences().map((date) => date.$1.day), [4, 11, 18]);

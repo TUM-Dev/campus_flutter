@@ -24,21 +24,29 @@ class LectureDetailsViewModel {
 
   Future fetch(bool forcedRefresh) async {
     if (event != null) {
-      LectureDetailsService.fetchLectureDetails(
+      return LectureDetailsService.fetchLectureDetails(
         event!.lvNr ?? "",
         forcedRefresh,
-      ).then((response) {
-        lastFetched.add(response.$1);
-        lectureDetails.add(response.$2);
-      }, onError: (error) => lectureDetails.addError(error));
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          lectureDetails.add(response.$2);
+        },
+        onError: (Object error, StackTrace stack) =>
+            lectureDetails.addError(error, stack),
+      );
     } else {
-      LectureDetailsService.fetchLectureDetails(
+      return LectureDetailsService.fetchLectureDetails(
         lecture?.lvNumber ?? "",
         forcedRefresh,
-      ).then((response) {
-        lastFetched.add(response.$1);
-        lectureDetails.add(response.$2);
-      }, onError: (error) => lectureDetails.addError(error));
+      ).then(
+        (response) {
+          lastFetched.add(response.$1);
+          lectureDetails.add(response.$2);
+        },
+        onError: (Object error, StackTrace stack) =>
+            lectureDetails.addError(error, stack),
+      );
     }
   }
 }

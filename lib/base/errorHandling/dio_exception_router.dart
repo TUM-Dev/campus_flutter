@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/networking/protocols/api.dart';
+import 'package:campus_flutter/base/errorHandling/api_failure.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_view.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +12,7 @@ class DioExceptionRouter extends StatelessWidget with ErrorHandlingView {
     required this.dioException,
     required ErrorHandlingViewType errorHandlingViewType,
     Function()? retry,
+    this.isMutation = false,
     Color? titleColor,
     Color? bodyColor,
   }) {
@@ -21,49 +24,21 @@ class DioExceptionRouter extends StatelessWidget with ErrorHandlingView {
 
   final DioException dioException;
 
+  final bool isMutation;
+
   @override
   Widget build(BuildContext context) {
-    switch (dioException.type) {
-      case DioExceptionType.badResponse:
-        return exceptionMessage(
-          errorMessage: context.tr("badResponse"),
-          fixMessage: context.tr("pleaseTryAgain"),
-          context: context,
-        );
-      case DioExceptionType.connectionError:
-        return exceptionMessage(
-          errorMessage: context.tr("connectionError"),
-          fixMessage: context.tr("makeSureInternetConnection"),
-          context: context,
-        );
-      case DioExceptionType.cancel:
-        return exceptionMessage(
-          errorMessage: context.tr("requestCancelled"),
-          fixMessage: context.tr("pleaseReport"),
-          context: context,
-        );
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return exceptionMessage(
-          errorMessage: context.tr("connectionTimeout"),
-          fixMessage: context.tr("makeSureInternetConnection"),
-          context: context,
-        );
-      default:
-        if (dioException.error.toString().contains("SocketException")) {
-          return exceptionMessage(
-            fixMessage: context.tr("connectionError"),
-            errorMessage: context.tr("makeSureInternetConnection"),
-            context: context,
-          );
-        } else {
-          return exceptionMessage(
-            fixMessage: context.tr("unknownError"),
-            errorMessage: context.tr("pleaseReport"),
-            context: context,
-          );
-        }
-    }
+    final failure = ApiFailure.from(dioException);
+    final options = dioException.requestOptions;
+    final mutation =
+        isMutation ||
+        options.extra[Api.mutationKey] == true ||
+        !{'GET', 'HEAD', 'OPTIONS'}.contains(options.method.toUpperCase());
+    return exceptionMessage(
+      errorMessage: context.tr(failure.messageKey),
+      fixMessage: context.tr(failure.recoveryKeyFor(isMutation: mutation)),
+      allowRetry: failure.canRetry(isMutation: mutation),
+      context: context,
+    );
   }
 }

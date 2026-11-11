@@ -1,3 +1,5 @@
+import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/util/info_row.dart';
@@ -21,14 +23,39 @@ class TuitionView extends ConsumerWidget {
             leading: const Icon(Icons.euro),
             title: Text(context.tr("tuitionFees")),
             trailing: _tuitionStatus(context, snapshot),
-            onTap: () => _alertDialog(context, snapshot),
+            onTap: () => _alertDialog(context, snapshot, ref),
           ),
         );
       },
     );
   }
 
-  void _alertDialog(BuildContext context, AsyncSnapshot<Tuition?> snapshot) {
+  void _alertDialog(
+    BuildContext context,
+    AsyncSnapshot<Tuition?> snapshot,
+    WidgetRef ref,
+  ) {
+    if (snapshot.hasError) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(context.tr("tuitionFees")),
+          content: ErrorHandlingRouter(
+            error: snapshot.error!,
+            stackTrace: snapshot.stackTrace,
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+            retry: () => ref.read(profileViewModel).fetch(true),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: Text(context.tr("back")),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
     if (snapshot.data != null) {
       showDialog(
         context: context,
@@ -76,6 +103,13 @@ class TuitionView extends ConsumerWidget {
     BuildContext context,
     AsyncSnapshot<Tuition?> snapshot,
   ) {
+    if (snapshot.hasError) {
+      return Text(
+        context.tr("notAvailableAbbrev"),
+        style: Theme.of(context).textTheme.bodyMedium
+            ?.copyWith(color: Colors.red),
+      );
+    }
     if (snapshot.hasData && snapshot.data!.amount != null) {
       if (snapshot.data!.amount! <= 0.0) {
         return SymbolText.icon(

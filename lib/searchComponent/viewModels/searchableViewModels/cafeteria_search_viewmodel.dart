@@ -19,10 +19,14 @@ class CafeteriaSearchViewModel implements SearchCategoryViewModel<Cafeteria> {
   @override
   Future search({bool forcedRefresh = false, required String query}) async {
     if (cafeteriaData.isEmpty) {
-      return CafeteriasService.fetchCafeterias(forcedRefresh).then((value) {
-        cafeteriaData = value.$2;
-        _search(query);
-      }, onError: (error) => searchResults.addError(error));
+      return CafeteriasService.fetchCafeterias(forcedRefresh).then(
+        (value) {
+          cafeteriaData = value.$2;
+          _search(query);
+        },
+        onError: (Object error, StackTrace stack) =>
+            searchResults.addError(error, stack),
+      );
     } else {
       _search(query);
     }

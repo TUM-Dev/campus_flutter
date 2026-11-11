@@ -13,66 +13,95 @@ class StudentClubCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
-      child: body(context),
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => UrlLauncher.urlString(studentClub.linkUrl, ref),
+        child: body(context),
+      ),
     );
   }
 
+  static const coverHeight = 96.0;
+
+  static double heightFor(BuildContext context) {
+    final fontSize = Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14;
+    return coverHeight +
+        1 +
+        24 +
+        (MediaQuery.textScalerOf(context).scale(fontSize) * 1.4 * 2).ceil();
+  }
+
   Widget body(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        children: [
-          if (studentClub.coverUrl.contains("svg"))
-            Expanded(
-              flex: 4,
-              child: Container(
-                color: Colors.white,
-                child: SvgPicture.network(
-                  studentClub.coverUrl,
-                  fit: BoxFit.cover,
-                  placeholderBuilder: (context) => Image.asset(
-                    "assets/images/placeholders/student_club_placeholder.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          if (!studentClub.coverUrl.contains("svg"))
-            Expanded(
-              flex: 4,
-              child: CachedNetworkImage(
-                imageBuilder: (context, imageProvider) => Container(
+    final colors = Theme.of(context).colorScheme;
+    final placeholder = ColoredBox(
+      color: Color.alphaBlend(
+        colors.onSurface.withValues(alpha: 0.08),
+        colors.surface,
+      ),
+      child: Center(
+        child: Icon(
+          Icons.groups_outlined,
+          size: 32,
+          color: colors.onSurfaceVariant,
+        ),
+      ),
+    );
+    final url = studentClub.coverUrl;
+    final isSvg =
+        Uri.tryParse(url)?.path.toLowerCase().endsWith('.svg') ?? false;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: coverHeight,
+          child: url.trim().isEmpty
+              ? placeholder
+              : ColoredBox(
                   color: Colors.white,
-                  child: Image(image: imageProvider, fit: BoxFit.cover),
+                  child: isSvg
+                      ? SvgPicture.network(
+                          url,
+                          fit: BoxFit.contain,
+                          imageBuilder: (context, child) => Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: child,
+                          ),
+                          errorBuilder: (context, error, stack) => placeholder,
+                          placeholderBuilder: (context) => placeholder,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: url,
+                          imageBuilder: (context, imageProvider) => Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Image(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          placeholder: (context, _) => placeholder,
+                          errorWidget: (context, _, _) => placeholder,
+                        ),
                 ),
-                imageUrl: studentClub.coverUrl,
-                fit: BoxFit.cover,
-                errorWidget: (context, _, _) => Image.asset(
-                  "assets/images/placeholders/student_club_placeholder.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          Divider(height: 0),
-          Expanded(
-            flex: 2,
+        ),
+        const Divider(height: 1),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Text(
-                  studentClub.parsedName,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
+              child: Text(
+                studentClub.parsedName,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w500, height: 1.4),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

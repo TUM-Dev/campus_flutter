@@ -10,8 +10,10 @@ class CalendarSyncService {
   final DeviceCalendarPlugin _deviceCalendar;
   final SharedPreferences _sharedPreferences;
 
-  CalendarSyncService(this._sharedPreferences)
-    : _deviceCalendar = DeviceCalendarPlugin();
+  CalendarSyncService(
+    this._sharedPreferences, {
+    DeviceCalendarPlugin? deviceCalendar,
+  }) : _deviceCalendar = deviceCalendar ?? DeviceCalendarPlugin();
 
   /// Requests calendar permissions from the user.
   /// Returns true if permissions were granted.
@@ -20,54 +22,43 @@ class CalendarSyncService {
     if (permissionsGranted.isSuccess && !(permissionsGranted.data ?? false)) {
       permissionsGranted = await _deviceCalendar.requestPermissions();
     }
+    if (permissionsGranted.hasErrors) throw permissionsGranted;
     return permissionsGranted.isSuccess && (permissionsGranted.data ?? false);
   }
 
   /// Checks if calendar permissions are currently granted.
   Future<bool> hasPermissions() async {
     final result = await _deviceCalendar.hasPermissions();
+    if (result.hasErrors) throw result;
     return result.isSuccess && (result.data ?? false);
   }
 
   /// Gets or creates the TUM calendar on the device.
-  /// Returns the calendar ID or null if it could not be created.
+  /// Propagates plugin failures with their original result or exception.
   Future<String?> getOrCreateTumCalendar() async {
-    // Check if we have a stored calendar ID that still exists
+    final calendars = await _deviceCalendar.retrieveCalendars();
+    if (!calendars.isSuccess) throw calendars;
     final storedId = _sharedPreferences.getString(_syncCalendarIdKey);
     if (storedId != null) {
-      final calendarsResult = await _deviceCalendar.retrieveCalendars();
-      if (calendarsResult.isSuccess && calendarsResult.data != null) {
-        final exists = calendarsResult.data!.any((c) => c.id == storedId);
-        if (exists) return storedId;
+      for (final calendar in calendars.data!) {
+        if (calendar.id == storedId) return storedId;
       }
     }
-
-    // Try to find an existing TUM calendar
-    final calendarsResult = await _deviceCalendar.retrieveCalendars();
-    if (calendarsResult.isSuccess && calendarsResult.data != null) {
-      for (final calendar in calendarsResult.data!) {
-        if (calendar.name == _calendarName) {
-          _sharedPreferences.setString(_syncCalendarIdKey, calendar.id!);
+    for (final calendar in calendars.data!) {
+      if (calendar.name == _calendarName) {
+        if (calendar.id != null) {
+          await _sharedPreferences.setString(_syncCalendarIdKey, calendar.id!);
           return calendar.id;
         }
       }
     }
-
-    // Create a new calendar
-    // Note: device_calendar createCalendar may not be available on all platforms
-    // On iOS, it creates a local calendar. On Android, it creates under the default account.
-    try {
-      final result = await _deviceCalendar.createCalendar(
-        _calendarName,
-        localAccountName: _calendarName,
-      );
-      if (result.isSuccess && result.data != null) {
-        _sharedPreferences.setString(_syncCalendarIdKey, result.data!);
-        return result.data;
-      }
-    } catch (_) {}
-
-    return null;
+    final result = await _deviceCalendar.createCalendar(
+      _calendarName,
+      localAccountName: _calendarName,
+    );
+    if (!result.isSuccess) throw result;
+    await _sharedPreferences.setString(_syncCalendarIdKey, result.data!);
+    return result.data;
   }
 
   /// Syncs the provided TUM calendar events to the device calendar.
@@ -102,6 +93,7 @@ class CalendarSyncService {
     int synced = 0;
     int failed = 0;
     int deleted = 0;
+    final failures = <({Object error, StackTrace stack})>[];
 
     // Add or update events
     for (final tumEvent in visibleEvents) {
@@ -114,10 +106,11 @@ class CalendarSyncService {
           mapping[tumEvent.id] = result!.data!;
           synced++;
         } else {
-          failed++;
+          throw result ?? StateError('Calendar plugin returned no result');
         }
-      } catch (_) {
+      } catch (error, stack) {
         failed++;
+        failures.add((error: error, stack: stack));
       }
     }
 
@@ -126,10 +119,17 @@ class CalendarSyncService {
     for (final entry in mapping.entries) {
       if (!currentTumEventIds.contains(entry.key)) {
         try {
-          await _deviceCalendar.deleteEvent(calendarId, entry.value);
+          final result = await _deviceCalendar.deleteEvent(
+            calendarId,
+            entry.value,
+          );
+          if (!result.isSuccess || result.data != true) throw result;
           deleted++;
-        } catch (_) {}
-        idsToRemove.add(entry.key);
+          idsToRemove.add(entry.key);
+        } catch (error, stack) {
+          failed++;
+          failures.add((error: error, stack: stack));
+        }
       }
     }
     for (final id in idsToRemove) {
@@ -138,19 +138,23 @@ class CalendarSyncService {
 
     _saveSyncMapping(mapping);
 
-    return SyncResult(synced: synced, failed: failed, deleted: deleted);
+    return SyncResult(
+      synced: synced,
+      failed: failed,
+      deleted: deleted,
+      failures: failures,
+    );
   }
 
   /// Removes the TUM calendar and all synced events from the device.
   Future<void> removeSyncedCalendar() async {
     final calendarId = _sharedPreferences.getString(_syncCalendarIdKey);
     if (calendarId != null) {
-      try {
-        await _deviceCalendar.deleteCalendar(calendarId);
-      } catch (_) {}
+      final result = await _deviceCalendar.deleteCalendar(calendarId);
+      if (!result.isSuccess || result.data != true) throw result;
     }
-    _sharedPreferences.remove(_syncCalendarIdKey);
-    _sharedPreferences.remove(_syncMappingKey);
+    await _sharedPreferences.remove(_syncCalendarIdKey);
+    await _sharedPreferences.remove(_syncMappingKey);
   }
 
   Event _mapToDeviceEvent(
@@ -199,13 +203,15 @@ class SyncResult {
   final int failed;
   final int deleted;
   final String? error;
+  final List<({Object error, StackTrace stack})> failures;
 
   SyncResult({
     required this.synced,
     required this.failed,
     required this.deleted,
     this.error,
+    this.failures = const [],
   });
 
-  bool get hasError => error != null;
+  bool get hasError => error != null || failed > 0 || failures.isNotEmpty;
 }

@@ -21,108 +21,68 @@ class NewsCardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imageUrl = news.imageUrl.toString().contains("src_1.png")
+    final imageUrl = news.imageUrl.toString().contains('src_1.png')
         ? news.link.toString()
         : news.imageUrl.toString();
-    if (isCarousel) {
-      return body(imageUrl, context);
-    } else {
-      return InkWell(
-        onTap: () {
-          if (imageUrl.isNotEmpty) {
-            context.push(networkImage, extra: (imageUrl, null));
-          }
-        },
-        child: body(imageUrl, context),
-      );
-    }
-  }
-
-  Widget body(String imageUrl, BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Theme.of(context).cardTheme.color,
-      ),
-      child: AspectRatio(
-        aspectRatio: 1.1,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(10.0),
-                ),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  fadeOutDuration: Duration.zero,
-                  fadeInDuration: Duration.zero,
-                  placeholder: (context, string) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    "assets/images/placeholders/news_placeholder.png",
-                    fit: BoxFit.fill,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  height: double.infinity,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Text(
-                          news.title.capitalizeFirstLetter(),
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          StringParser.dateFormatter(
-                            news.date.toDateTime(),
-                            context,
-                          ),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          news.sourceTitle,
-                          style: Theme.of(context).textTheme.bodySmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            fadeOutDuration: Duration.zero,
+            fadeInDuration: Duration.zero,
+            placeholder: (context, _) => _placeholder(),
+            errorWidget: (context, _, _) => _placeholder(),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                news.title.capitalizeFirstLetter(),
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${news.sourceTitle} · ${StringParser.dateFormatter(news.date.toDateTime(), context)}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    return Material(
+      color:
+          Theme.of(context).cardTheme.color ??
+          Theme.of(context).colorScheme.surfaceContainerLow,
+      borderRadius: BorderRadius.circular(12),
+      clipBehavior: Clip.antiAlias,
+      child: isCarousel
+          ? content
+          : InkWell(
+              onTap: imageUrl.isEmpty
+                  ? null
+                  : () => context.push(networkImage, extra: (imageUrl, null)),
+              child: content,
+            ),
     );
   }
+
+  Widget _placeholder() => Image.asset(
+    'assets/images/placeholders/news_placeholder.png',
+    fit: BoxFit.cover,
+    width: double.infinity,
+  );
 }

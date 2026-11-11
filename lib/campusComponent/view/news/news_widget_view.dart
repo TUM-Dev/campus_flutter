@@ -1,3 +1,5 @@
+import 'package:campus_flutter/campusComponent/view/shared/campus_carousel_inset.dart';
+import 'package:campus_flutter/campusComponent/view/shared/campus_section_heading.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
@@ -29,56 +31,48 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
   @override
   Widget build(BuildContext context) {
     return WidgetFrameView(
-      titleWidget: Row(
-        children: [
-          Text(
-            context.tr("news"),
-            style: Theme.of(context).textTheme.titleMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          InkWell(
-            child: Text(
-              context.tr("more"),
-              style: Theme.of(context).textTheme.titleMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () => context.push(news),
-          ),
-        ],
+      titleWidget: CampusSectionHeading(
+        title: context.tr("news"),
+        onMore: () => context.push(news),
       ),
       child: StreamBuilder(
         stream: ref.watch(newsViewModel).news,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final fiveNews = ref.watch(newsViewModel).latestFiveNews();
+            final fiveNews = ref.read(newsViewModel).latestFiveNews();
             if (fiveNews.isNotEmpty) {
               return SizedBox(
-                height: newsWidgetHeight,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 11),
-                  child: CarouselView(
-                    itemExtent: width(),
-                    shrinkExtent: width(),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                height:
+                    newsWidgetHeight +
+                    (MediaQuery.textScalerOf(context).scale(14) - 14) * 5,
+                child: LayoutBuilder(
+                  builder: (context, constraints) => CampusCarouselInset(
+                    child: CarouselView(
+                      itemExtent: (constraints.maxWidth * 0.86).clamp(
+                        240.0,
+                        380.0,
+                      ),
+                      itemSnapping: false,
+                      shrinkExtent: 200,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      children: [
+                        for (var news in fiveNews)
+                          NewsCardView(news: news, width: 0, isCarousel: true),
+                      ],
+                      onTap: (index) {
+                        final news = fiveNews[index];
+                        final imageUrl =
+                            news.imageUrl.toString().contains("src_1.png")
+                            ? news.link.toString()
+                            : news.imageUrl.toString();
+                        if (imageUrl.isNotEmpty) {
+                          context.push(networkImage, extra: (imageUrl, null));
+                        }
+                      },
                     ),
-                    children: [
-                      for (var news in fiveNews)
-                        NewsCardView(news: news, width: 0, isCarousel: true),
-                    ],
-                    onTap: (index) {
-                      final news = snapshot.data![index];
-                      final imageUrl =
-                          news.imageUrl.toString().contains("src_1.png")
-                          ? news.link.toString()
-                          : news.imageUrl.toString();
-                      if (imageUrl.isNotEmpty) {
-                        context.push(networkImage, extra: (imageUrl, null));
-                      }
-                    },
                   ),
                 ),
               );
@@ -100,6 +94,8 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
               child: Card(
                 child: ErrorHandlingRouter(
                   error: snapshot.error!,
+                  stackTrace: snapshot.stackTrace,
+
                   errorHandlingViewType: ErrorHandlingViewType.textOnly,
                   retry: (() => ref.read(newsViewModel).fetch(true)),
                 ),
@@ -116,9 +112,5 @@ class _NewsWidgetViewState extends ConsumerState<NewsWidgetView> {
         },
       ),
     );
-  }
-
-  double width() {
-    return newsWidgetHeight * (3 / 5) * 2;
   }
 }

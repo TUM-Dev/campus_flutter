@@ -54,7 +54,11 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
       if (snapshot.hasData) {
         return ContactCardView(profile: snapshot.data!);
       } else if (snapshot.hasError) {
-        return const ContactCardErrorView();
+        return ContactCardErrorView(
+          error: snapshot.error!,
+          stackTrace: snapshot.stackTrace,
+          retry: () => ref.read(profileViewModel).fetch(true),
+        );
       } else {
         return Container();
       }

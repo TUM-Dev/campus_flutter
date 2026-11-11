@@ -50,20 +50,25 @@ class CalendarAdditionViewModel {
   CalendarSeriesResolution? resolvedSeries;
   final Ref ref;
   bool _isSaving = false;
-  (DateTime, DateTime, RecurrenceType, int, RecurrenceEndType, DateTime)?
+  (DateTime, DateTime, RecurrenceType, RecurrenceEndType, int?, DateTime?)?
   _initialSchedule;
 
+  (DateTime, DateTime, RecurrenceType, RecurrenceEndType, int?, DateTime?)
+  get _schedule => (
+    from.value,
+    to.value,
+    recurrenceType.value,
+    recurrenceEndType.value,
+    recurrenceEndType.value == RecurrenceEndType.count
+        ? occurrenceCount.value
+        : null,
+    recurrenceEndType.value == RecurrenceEndType.untilDate
+        ? DateUtils.dateOnly(untilDate.value)
+        : null,
+  );
+
   bool get _scheduleUnchanged =>
-      isEditingSeries &&
-      _initialSchedule ==
-          (
-            from.value,
-            to.value,
-            recurrenceType.value,
-            occurrenceCount.value,
-            recurrenceEndType.value,
-            untilDate.value,
-          );
+      isEditingSeries && _initialSchedule == _schedule;
 
   bool get exceedsOccurrenceLimit =>
       !_scheduleUnchanged &&
@@ -109,14 +114,7 @@ class CalendarAdditionViewModel {
 
     if (isEditingSeries) {
       _seedSeriesRecurrence();
-      _initialSchedule = (
-        from.value,
-        to.value,
-        recurrenceType.value,
-        occurrenceCount.value,
-        recurrenceEndType.value,
-        untilDate.value,
-      );
+      _initialSchedule = _schedule;
     }
 
     checkValidity();
@@ -194,6 +192,9 @@ class CalendarAdditionViewModel {
         dateTime.day,
         from.value.hour,
         from.value.minute,
+        from.value.second,
+        from.value.millisecond,
+        from.value.microsecond,
       );
       from.add(newFrom);
       to.add(newFrom.add(duration));

@@ -38,59 +38,67 @@ class CafeteriasViewModel {
       BehaviorSubject.seeded(null);
 
   Future<void> setWidgetCafeteria(String id) async {
-    final newCafeteria = cafeterias.firstWhereOrNull(
+    final cafeteria = cafeterias.firstWhereOrNull(
       (element) => element.id == id,
     );
-    if (newCafeteria != null) {
-      fetchCafeteriaMenu(false, newCafeteria).then(
-        (value) => widgetCafeteria.add((newCafeteria, value.firstOrNull)),
-        onError: (error) => widgetCafeteria.addError(error),
-      );
+    if (cafeteria == null) return;
+    try {
+      final menu = await fetchCafeteriaMenu(false, cafeteria);
+      widgetCafeteria.add((cafeteria, menu.firstOrNull));
       getIt<UserPreferencesService>().save(UserPreference.cafeteria, id);
+    } catch (error, stack) {
+      widgetCafeteria.addError(error, stack);
     }
   }
+
+  bool widgetCafeteriaLoaded = false;
 
   List<Cafeteria> cafeterias = [];
   DateTime? lastFetched;
 
   Future fetch(bool forcedRefresh) async {
-    return CafeteriasService.fetchCafeterias(forcedRefresh).then((value) {
-      lastFetched = value.$1;
-      _excludeCafeterias(value.$2);
-      _categorizeAndSort(value.$2);
-    }, onError: (error) => campusCafeterias.addError(error));
+    return CafeteriasService.fetchCafeterias(forcedRefresh).then(
+      (value) {
+        lastFetched = value.$1;
+        _excludeCafeterias(value.$2);
+        _categorizeAndSort(value.$2);
+      },
+      onError: (Object error, StackTrace stack) =>
+          campusCafeterias.addError(error, stack),
+    );
   }
 
   Future<void> fetchWidgetCafeteria(bool forcedRefresh) async {
-    final preferenceId = getIt<UserPreferencesService>().load(
-      UserPreference.cafeteria,
-    );
-
-    return CafeteriasService.fetchCafeterias(forcedRefresh).then((value) {
-      lastFetched = value.$1;
-      _excludeCafeterias(value.$2);
-      _categorizeAndSort(value.$2);
-      final selectedCafeteria = value.$2.firstWhereOrNull(
-        (element) => element.id == preferenceId,
+    widgetCafeteriaLoaded = false;
+    widgetCafeteria.add(null);
+    try {
+      final preferenceId = getIt<UserPreferencesService>().load(
+        UserPreference.cafeteria,
       );
-      if (selectedCafeteria != null) {
-        fetchCafeteriaMenu(forcedRefresh, selectedCafeteria).then(
-          (value) =>
-              widgetCafeteria.add((selectedCafeteria, value.firstOrNull)),
-          onError: (error) => widgetCafeteria.addError(error),
-        );
-      } else {
-        LocationService.getLastKnown().then(
-          (position) => _getClosestCafeteria(position, value.$2),
-          onError: (error) =>
-              fetchCafeteriaMenu(forcedRefresh, value.$2.first).then(
-                (menu) =>
-                    widgetCafeteria.add((value.$2.first, menu.firstOrNull)),
-                onError: (error) => widgetCafeteria.addError(error),
-              ),
-        );
+      final response = await CafeteriasService.fetchCafeterias(forcedRefresh);
+      lastFetched = response.$1;
+      _excludeCafeterias(response.$2);
+      _categorizeAndSort(response.$2);
+      if (response.$2.isEmpty) {
+        widgetCafeteriaLoaded = true;
+        widgetCafeteria.add(null);
+        return;
       }
-    }, onError: (error) => widgetCafeteria.addError(error));
+      final selected = response.$2.firstWhereOrNull(
+        (cafeteria) => cafeteria.id == preferenceId,
+      );
+      final cafeteria =
+          selected ??
+          _getClosestCafeteria(
+            await LocationService.getLastKnown(),
+            response.$2,
+          );
+      final menu = await fetchCafeteriaMenu(forcedRefresh, cafeteria);
+      widgetCafeteriaLoaded = true;
+      widgetCafeteria.add((cafeteria, menu.firstOrNull));
+    } catch (error, stack) {
+      widgetCafeteria.addError(error, stack);
+    }
   }
 
   void _excludeCafeterias(List<Cafeteria> cafeterias) {
@@ -118,48 +126,34 @@ class CafeteriasViewModel {
     this.cafeterias = cafeterias;
   }
 
-  Future<void> _getClosestCafeteria(
+  Cafeteria _getClosestCafeteria(
     Position? position,
     List<Cafeteria> cafeterias,
-  ) async {
-    if (position != null) {
-      final closestCafeteriaToLocation = cafeterias
-          .sorted(
-            (a, b) =>
-                Geolocator.distanceBetween(
-                  a.location.latitude,
-                  a.location.longitude,
-                  position.latitude,
-                  position.longitude,
-                ).compareTo(
-                  Geolocator.distanceBetween(
-                    b.location.latitude,
-                    b.location.longitude,
-                    position.latitude,
-                    position.longitude,
-                  ),
-                ),
-          )
-          .first;
-
-      fetchCafeteriaMenu(false, closestCafeteriaToLocation).then(
-        (value) => widgetCafeteria.add((
-          closestCafeteriaToLocation,
-          value.firstOrNull,
-        )),
-        onError: (error) => widgetCafeteria.addError(error),
-      );
-    } else {
-      final defaultCafeteria =
-          cafeterias.firstWhereOrNull(
-            (element) => element.id == "mensa-garching",
+  ) {
+    if (position == null) {
+      return cafeterias.firstWhereOrNull(
+            (cafeteria) => cafeteria.id == "mensa-garching",
           ) ??
           cafeterias.first;
-      fetchCafeteriaMenu(false, defaultCafeteria).then(
-        (value) => widgetCafeteria.add((defaultCafeteria, value.firstOrNull)),
-        onError: (error) => widgetCafeteria.addError(error),
-      );
     }
+    return cafeterias
+        .sorted(
+          (a, b) =>
+              Geolocator.distanceBetween(
+                a.location.latitude,
+                a.location.longitude,
+                position.latitude,
+                position.longitude,
+              ).compareTo(
+                Geolocator.distanceBetween(
+                  b.location.latitude,
+                  b.location.longitude,
+                  position.latitude,
+                  position.longitude,
+                ),
+              ),
+        )
+        .first;
   }
 
   List<ListTile> getCafeteriaEntries(BuildContext context) {
@@ -203,7 +197,7 @@ class CafeteriasViewModel {
     return MealPlanService.getCafeteriaMenu(
       forcedRefresh,
       cafeteria,
-    ).then((response) => response.$2, onError: (error) => error);
+    ).then((response) => response.$2);
   }
 
   List<(Dish, String)> getTodayDishes(CafeteriaMenu? cafeteriaMenu) {

@@ -144,7 +144,7 @@ ThemeData lightTheme(BuildContext context) {
     ),
 
     /// style snackbar
-    snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.redAccent),
+    snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
 
     /// style chip
     chipTheme: ChipThemeData(

@@ -29,6 +29,7 @@ class TumOnlineApiExceptionRouter extends ConsumerWidget
       fixMessage: tumOnlineApiException.recoverySuggestion(context, ref),
       retry: tumOnlineApiException.overwriteRetry(context) ?? retry,
       retryMessage: tumOnlineApiException.overwriteRetryMessage(context),
+      allowRetry: tumOnlineApiException.canRetry,
       context: context,
     );
   }
