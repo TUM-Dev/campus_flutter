@@ -6,7 +6,7 @@ import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmod
 import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
@@ -107,7 +107,10 @@ void main() {
             builder: (context) => MaterialApp(
               locale: context.locale,
               supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
+              localizationsDelegates: [
+                ...GlobalMaterialLocalizations.delegates,
+                ...context.localizationDelegates,
+              ],
               theme: ThemeData(brightness: brightness),
               builder: (context, child) => MediaQuery(
                 data: MediaQuery.of(context)

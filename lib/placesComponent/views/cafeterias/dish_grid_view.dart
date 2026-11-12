@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/placesComponent/model/cafeterias/dish.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_card_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DishGridView extends StatelessWidget {
   const DishGridView({

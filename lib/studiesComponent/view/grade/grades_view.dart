@@ -7,7 +7,7 @@ import 'package:campus_flutter/studiesComponent/view/semester_view.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/studiesComponent/view/grade/chart_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GradesView extends ConsumerStatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pb.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movie_card_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MovieGridView extends StatelessWidget {
   const MovieGridView({

@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HyperLinkListTile extends ConsumerStatefulWidget {

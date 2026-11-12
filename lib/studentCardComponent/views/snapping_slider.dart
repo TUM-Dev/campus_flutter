@@ -1,7 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SnappingSlider extends StatefulWidget {
   const SnappingSlider({super.key, required this.libraryID});

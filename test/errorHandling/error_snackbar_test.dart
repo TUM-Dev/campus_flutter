@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_
 import 'package:dio/dio.dart';
 import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grpc/grpc.dart';
@@ -45,7 +45,10 @@ Future<void> pumpAction(
           builder: (context) => MaterialApp(
             locale: context.locale,
             supportedLocales: context.supportedLocales,
-            localizationsDelegates: context.localizationDelegates,
+            localizationsDelegates: [
+              ...GlobalMaterialLocalizations.delegates,
+              ...context.localizationDelegates,
+            ],
             home: Scaffold(
               body: Builder(
                 builder: (context) => TextButton(

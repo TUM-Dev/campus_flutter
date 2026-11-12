@@ -10,7 +10,7 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
@@ -393,6 +393,7 @@ class CalendarAdditionViewModel {
     try {
       final preferenceService = getIt<CalendarPreferenceService>();
       final createdEventIds = <String>[];
+      final createdEventDates = <String, (DateTime, DateTime)>{};
 
       if (isEditingSeries) {
         // ── Series edit: update all siblings ──────────────────────────────
@@ -440,6 +441,7 @@ class CalendarAdditionViewModel {
               ),
             );
             createdEventIds.add(response.eventId);
+            createdEventDates[response.eventId] = (start, end);
             if (activeSeriesId != null) {
               preferenceService.saveSeriesId(response.eventId, activeSeriesId);
             }
@@ -490,6 +492,7 @@ class CalendarAdditionViewModel {
               ),
             );
             createdEventIds.add(response.eventId);
+            createdEventDates[response.eventId] = (start, end);
             if (newSeriesId != null) {
               preferenceService.saveSeriesId(response.eventId, newSeriesId);
             }
@@ -537,23 +540,29 @@ class CalendarAdditionViewModel {
 
       await calendarVm.fetch(true);
 
-      if (createdEventIds.isNotEmpty &&
-          calendarVm.events.value?.firstWhereOrNull(
-                (e) => e.id == createdEventIds.last,
-              ) ==
-              null) {
-        // Add the first occurrence as a placeholder if not yet fetched
-        calendarVm.events.value?.add(
+      // A refresh may not include every newly created occurrence yet.
+      // Keep each missing event paired with its own dates and publish the merge.
+      final events = [...?calendarVm.events.value];
+      final fetchedIds = events.map((event) => event.id).toSet();
+      for (final entry in createdEventDates.entries) {
+        if (fetchedIds.contains(entry.key)) continue;
+        events.add(
           CalendarEvent(
-            id: createdEventIds.last,
+            id: entry.key,
             status: "FT",
             title: titleController.text,
-            startDate: from.value,
-            endDate: to.value,
+            description: annotationController.text.isEmpty
+                ? null
+                : annotationController.text,
+            startDate: entry.value.$1,
+            endDate: entry.value.$2,
             locations: [],
             color: selectedColor.value.toARGB32(),
           ),
         );
+      }
+      if (events.length != (calendarVm.events.value?.length ?? 0)) {
+        calendarVm.events.add(events);
       }
     } finally {
       _isSaving = false;
@@ -565,9 +574,8 @@ class CalendarAdditionViewModel {
     final hasValidUntilDate =
         recurrenceType.value != RecurrenceType.none &&
             recurrenceEndType.value == RecurrenceEndType.untilDate
-        ? !DateUtils.dateOnly(
-            untilDate.value,
-          ).isBefore(DateUtils.dateOnly(from.value))
+        ? !DateUtils.dateOnly(untilDate.value)
+              .isBefore(DateUtils.dateOnly(from.value))
         : true;
     isValid.add(
       titleController.text.trim().isNotEmpty &&

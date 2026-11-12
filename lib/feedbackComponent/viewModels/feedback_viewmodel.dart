@@ -5,7 +5,7 @@ import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/feedbackComponent/services/feedback_service.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';

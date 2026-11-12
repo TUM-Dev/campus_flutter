@@ -1,5 +1,5 @@
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Adds calendar days without changing the local wall-clock time across DST.
 DateTime addCalendarDays(DateTime date, int days) => DateTime(

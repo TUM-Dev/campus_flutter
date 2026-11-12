@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// CarouselView pads each item by 4 pixels. Supply the rest of the section
 /// gutter outside the carousel so card gaps remain 8 pixels.

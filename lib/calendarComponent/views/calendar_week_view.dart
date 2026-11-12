@@ -6,7 +6,7 @@ import 'package:campus_flutter/calendarComponent/views/calendar_event_view.dart'
 import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';

@@ -5,7 +5,7 @@ import 'package:campus_flutter/feedbackComponent/viewModels/feedback_viewmodel.d
 import 'package:campus_flutter/feedbackComponent/views/feedback_checkmark_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_textfield.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

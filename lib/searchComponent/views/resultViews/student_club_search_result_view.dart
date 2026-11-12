@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/searchComponent/viewModels/search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/viewModels/searchableViewModels/student_club_search_viewmodel.dart';
 import 'package:campus_flutter/searchComponent/views/search_result_card_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

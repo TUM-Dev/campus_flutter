@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Keeps the title readable when larger text pushes the browse action below it.
 class CampusSectionHeading extends StatelessWidget {
