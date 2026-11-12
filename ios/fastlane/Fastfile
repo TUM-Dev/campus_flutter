@@ -56,6 +56,18 @@ platform :ios do
       derived_data_path: "DerivedData"
     )
 
+    # Upload the complete archive, including Flutter's App.framework symbols.
+    dsym_path = lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    UI.user_error!("The iOS archive did not produce a dSYM ZIP") unless dsym_path && File.file?(dsym_path)
+
+    upload_symbols_to_crashlytics(
+      dsym_path: dsym_path,
+      binary_path: File.expand_path("../DerivedData/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols", __dir__),
+      gsp_path: File.expand_path("../Runner/GoogleService-Info.plist", __dir__),
+      platform: "ios",
+      fail_on_error: true
+    )
+
     upload_to_testflight(
       changelog: ENV["RELEASE_NOTES"],
       skip_waiting_for_build_processing: true
