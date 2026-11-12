@@ -16,6 +16,7 @@ import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/theme/dark_theme.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
+import 'package:campus_flutter/base/theme/legacy_package_support.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_sync_service.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_view_service.dart';
@@ -26,7 +27,7 @@ import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_logger/easy_logger.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -204,7 +205,10 @@ class _CampusAppState extends ConsumerState<CampusApp> {
       darkTheme: darkTheme(context),
       themeMode: ref.watch(appearance).themeMode,
       locale: context.locale,
-      localizationsDelegates: context.localizationDelegates,
+      localizationsDelegates: [
+        ...GlobalMaterialLocalizations.delegates,
+        ...context.localizationDelegates,
+      ],
       supportedLocales: context.supportedLocales,
       localeResolutionCallback: (locale, locales) {
         quickActions.setShortcutItems(<ShortcutItem>[
@@ -213,6 +217,8 @@ class _CampusAppState extends ConsumerState<CampusApp> {
         ]);
         return locale;
       },
+      builder: (context, child) =>
+          LegacyPackageSupport(child: child ?? const SizedBox.shrink()),
       routerConfig: ref.watch(routerProvider),
     );
   }

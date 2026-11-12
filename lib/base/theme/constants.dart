@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const Color primaryLightColor = Color(0xff0064BC);
 const Color primaryDarkColor = Color.fromARGB(255, 100, 160, 200);

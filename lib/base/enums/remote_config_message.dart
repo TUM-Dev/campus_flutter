@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/util/status_message.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 enum RemoteConfigMessage implements StatusMessage {
   tumOnlineDegraded,

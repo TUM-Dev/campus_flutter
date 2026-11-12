@@ -5,7 +5,7 @@ import 'package:campus_flutter/studiesComponent/model/grade.dart';
 import 'package:campus_flutter/studiesComponent/model/lecture.dart';
 import 'package:campus_flutter/studiesComponent/view/grade/grade_view.dart';
 import 'package:campus_flutter/studiesComponent/view/lecture/lecture_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SemesterView<T> extends StatelessWidget {
   const SemesterView({super.key, required this.semester});

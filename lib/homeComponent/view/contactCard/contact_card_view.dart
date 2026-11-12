@@ -11,7 +11,7 @@ import 'package:campus_flutter/personComponent/viewModel/person_details_viewmode
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const double contactImageSize = 100;

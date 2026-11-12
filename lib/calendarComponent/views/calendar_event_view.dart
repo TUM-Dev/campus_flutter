@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/util/diagonalStripePattern/diagonal_stripe_pattern_view.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class CalendarEventView extends StatelessWidget {
   const CalendarEventView({

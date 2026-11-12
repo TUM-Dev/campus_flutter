@@ -3,7 +3,7 @@ import 'package:campus_flutter/navigaTumComponent/model/details/navigatum_naviga
 import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 class NavigaTumRoomBuildingView extends StatelessWidget {

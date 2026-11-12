@@ -10,7 +10,7 @@ import 'package:campus_flutter/calendarComponent/views/calendars_view.dart';
 import 'package:campus_flutter/base/theme/constants.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';

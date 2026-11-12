@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/placesComponent/viewModels/places_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/views/campuses/campus_map_legend.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 

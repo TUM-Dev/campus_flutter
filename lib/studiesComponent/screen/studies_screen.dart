@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/studiesComponent/view/grade/grades_view.dart';
 import 'package:campus_flutter/studiesComponent/view/lecture/lectures_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class StudiesScreen extends StatefulWidget {
   const StudiesScreen({super.key});

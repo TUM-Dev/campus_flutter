@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// source: https://github.com/LuuNgocLan/flutter-snippets/blob/main/flutter_stripe_canvas/lib/diagonal_stripe/stripe_pattern_painter.dart
 class StripePatternPainter extends CustomPainter {

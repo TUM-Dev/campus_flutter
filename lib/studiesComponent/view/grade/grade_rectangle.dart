@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GradeRectangle extends StatelessWidget {
   const GradeRectangle({super.key, required this.grade});

@@ -11,7 +11,7 @@ import 'package:campus_flutter/calendarComponent/services/calendar_service.dart'
 import 'package:campus_flutter/calendarComponent/services/calendar_sync_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';

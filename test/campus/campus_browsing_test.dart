@@ -14,7 +14,7 @@ import 'package:campus_flutter/campusComponent/viewmodel/news_viewmodel.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/student_club_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -176,7 +176,10 @@ void main() {
               theme: dark ? darkTheme(context) : lightTheme(context),
               locale: context.locale,
               supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
+              localizationsDelegates: [
+                ...GlobalMaterialLocalizations.delegates,
+                ...context.localizationDelegates,
+              ],
               builder: (context, child) => MediaQuery(
                 data: MediaQuery.of(context)
                     .copyWith(textScaler: TextScaler.linear(scale)),

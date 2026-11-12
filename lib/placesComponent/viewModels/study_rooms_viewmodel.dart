@@ -10,7 +10,7 @@ import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_group
 import 'package:campus_flutter/placesComponent/services/study_rooms_service.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

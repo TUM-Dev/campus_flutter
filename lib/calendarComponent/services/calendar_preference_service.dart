@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:campus_flutter/base/extensions/color.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_preferences.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
