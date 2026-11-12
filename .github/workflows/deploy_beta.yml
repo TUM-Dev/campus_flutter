@@ -95,6 +95,15 @@ jobs:
           FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
           FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 
+      - if: always() && matrix.platform == 'ios'
+        name: Retain iOS debug symbols
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-dsyms-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ios/*.dSYM.zip
+          if-no-files-found: warn
+          retention-days: 90
+
       - if: matrix.platform == 'android'
         name: Deserialize Keystore File
         run: cd ./android/app && echo "$ANDROID_KEYSTORE_FILE" | base64 --decode > ./upload-keystore
