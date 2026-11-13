@@ -46,9 +46,8 @@ class CalendarEvent extends Searchable {
           value;
     }
 
-    final match = RegExp(
-      r'(?:^|[?&])(?:cLvNr|pLvNr|pLVNr|LvNr)=([^&]+)',
-    ).firstMatch(value);
+    final match = RegExp(r'(?:^|[?&])(?:cLvNr|pLvNr|pLVNr|LvNr)=([^&]+)')
+        .firstMatch(value);
     return match?.group(1) ?? value;
   }
 
@@ -72,7 +71,7 @@ class CalendarEvent extends Searchable {
   }
 
   String get timePeriod {
-    return "${DateFormat.Hm().format(startDate)} - ${DateFormat.Hm().format(endDate)}";
+    return "${DateFormat.Hm('en_US').format(startDate)} - ${DateFormat.Hm('en_US').format(endDate)}";
   }
 
   String _localizedDateTime(BuildContext context, DateTime value) {
@@ -84,7 +83,10 @@ class CalendarEvent extends Searchable {
 
   String _dateTimePeriod(BuildContext context) {
     final start = _localizedDateTime(context, startDate);
-    final end = DateFormat("HH:mm").format(endDate);
+    final end = DateFormat(
+      "HH:mm",
+      context.locale.languageCode,
+    ).format(endDate);
     return "$start - $end";
   }
 
