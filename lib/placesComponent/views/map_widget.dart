@@ -101,15 +101,65 @@ class MapWidget extends ConsumerStatefulWidget {
 class _MapWidgetState extends ConsumerState<MapWidget> {
   MapLibreMapController? _mapController;
   bool isMapVisible = false;
+  bool _styleReady = false;
+  int _styleGeneration = 0;
+  int _markerRevision = 0;
+  Future<void> _mapOperations = Future.value();
 
   final Set<String> _loadedImages = {};
 
   @override
   void didUpdateWidget(covariant MapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_mapController != null && widget.markers != oldWidget.markers) {
-      _updateMarkers(_mapController!);
+    if (widget.markers != oldWidget.markers) {
+      _scheduleMarkerUpdate();
     }
+  }
+
+  @override
+  void dispose() {
+    _styleGeneration++;
+    _styleReady = false;
+    _mapController = null;
+    super.dispose();
+  }
+
+  Future<void> _enqueueMapOperation(
+    MapLibreMapController controller,
+    int generation,
+    Future<void> Function(bool Function() isCurrent) action,
+  ) {
+    bool isCurrent() =>
+        mounted &&
+        identical(controller, _mapController) &&
+        generation == _styleGeneration;
+
+    // Annotation layer rebuilds, marker replacement, and taps must not race.
+    _mapOperations = _mapOperations
+        .then((_) async {
+          if (isCurrent()) await action(isCurrent);
+        })
+        .catchError((Object error, StackTrace stack) {
+          if (isCurrent()) {
+            log('Map update failed', error: error, stackTrace: stack);
+          }
+        });
+    return _mapOperations;
+  }
+
+  void _scheduleMarkerUpdate() {
+    final controller = _mapController;
+    if (!_styleReady || controller == null) return;
+    final revision = ++_markerRevision;
+    unawaited(
+      _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
+        if (revision != _markerRevision) return;
+        await _updateMarkers(
+          controller,
+          () => isCurrent() && revision == _markerRevision,
+        );
+      }),
+    );
   }
 
   @override
@@ -168,6 +218,9 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             myLocationEnabled: true,
             myLocationRenderMode: MyLocationRenderMode.compass,
             onMapCreated: (controller) {
+              _styleGeneration++;
+              _styleReady = false;
+              _loadedImages.clear();
               _mapController = controller;
               _setupSymbolHandler(controller);
             },
@@ -211,24 +264,40 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   Future<void> _onStyleLoaded() async {
     final controller = _mapController;
     if (controller == null) return;
+    final generation = ++_styleGeneration;
+    _styleReady = false;
+    await _enqueueMapOperation(controller, generation, (isCurrent) async {
+      _loadedImages.clear();
+      await _loadMarkerImages(controller, isCurrent);
+      if (!isCurrent()) return;
 
-    await _loadMarkerImages(controller);
-    _updateMarkers(controller);
+      // These settings rebuild annotation layers; apply them once per style.
+      await controller.symbolManager?.setIconAllowOverlap(true);
+      if (!isCurrent()) return;
+      await controller.symbolManager?.setIconIgnorePlacement(true);
+      if (!isCurrent()) return;
+      await controller.symbolManager?.setTextAllowOverlap(true);
+      if (!isCurrent()) return;
+      await controller.symbolManager?.setTextIgnorePlacement(true);
+      if (!isCurrent()) return;
 
-    if (mounted) {
-      setState(() {
-        isMapVisible = true;
-      });
-    }
+      _styleReady = true;
+      await _updateMarkers(controller, isCurrent);
+      if (isCurrent()) setState(() => isMapVisible = true);
+    });
   }
 
-  Future<void> _loadMarkerImages(MapLibreMapController controller) async {
+  Future<void> _loadMarkerImages(
+    MapLibreMapController controller,
+    bool Function() isCurrent,
+  ) async {
     Future<void> load(String name, String path) async {
-      if (_loadedImages.contains(name)) return;
+      if (!isCurrent() || _loadedImages.contains(name)) return;
       try {
         final ByteData data = await rootBundle.load(path);
+        if (!isCurrent()) return;
         await controller.addImage(name, data.buffer.asUint8List());
-        _loadedImages.add(name);
+        if (isCurrent()) _loadedImages.add(name);
       } catch (e) {
         log("Error loading map asset $path: $e");
       }
@@ -238,13 +307,13 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     await load("pin_red", "assets/images/map/pin_red.webp");
   }
 
-  void _updateMarkers(MapLibreMapController controller) async {
+  Future<void> _updateMarkers(
+    MapLibreMapController controller,
+    bool Function() isCurrent,
+  ) async {
+    if (!isCurrent()) return;
     await controller.clearSymbols();
-
-    await controller.symbolManager?.setIconAllowOverlap(true);
-    await controller.symbolManager?.setIconIgnorePlacement(true);
-    await controller.symbolManager?.setTextAllowOverlap(true);
-    await controller.symbolManager?.setTextIgnorePlacement(true);
+    if (!isCurrent()) return;
 
     List<SymbolOptions> options = [];
     List<Map<String, dynamic>> data = [];
@@ -272,58 +341,83 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         ),
       );
 
-      data.add({"id": marker.id, "onTap": marker.infoWindow?.onTap});
+      // Symbol data becomes GeoJSON; callbacks must stay on the Dart marker.
+      data.add({"id": marker.id});
     }
 
     for (int i = 0; i < options.length; i++) {
+      if (!isCurrent()) return;
       await controller.addSymbol(options[i], data[i]);
     }
   }
 
   void _setupSymbolHandler(MapLibreMapController controller) {
     controller.onSymbolTapped.add((symbol) {
-      // display text on tapped symbol & remove text from other symbols
-      // if text is already displayed and item has onTap callback, callback is executed
-      final onTap = symbol.data?["onTap"];
+      if (!_styleReady) return;
+      unawaited(
+        _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
+          if (!controller.symbols.contains(symbol)) return;
+          // display text on tapped symbol & remove text from other symbols
+          // if text is already displayed and item has onTap callback, callback is executed
+          final markerId = symbol.data?["id"];
+          final onTap = widget.markers
+              .where((marker) => marker.id == markerId)
+              .firstOrNull
+              ?.infoWindow
+              ?.onTap;
 
-      if (symbol.options.textOpacity == 1 && onTap is void Function()) {
-        onTap();
-      }
+          if (symbol.options.textOpacity == 1 && onTap is void Function()) {
+            onTap();
+            return;
+          }
 
-      for (var s in controller.symbols) {
-        if (s.options.textOpacity == 1) {
-          controller.updateSymbol(s, const SymbolOptions(textOpacity: 0));
-        }
-      }
+          for (var s in controller.symbols.toList()) {
+            if (!isCurrent()) return;
+            if (s.options.textOpacity == 1) {
+              await controller.updateSymbol(
+                s,
+                const SymbolOptions(textOpacity: 0),
+              );
+            }
+          }
 
-      controller.updateSymbol(symbol, const SymbolOptions(textOpacity: 1));
+          if (!isCurrent()) return;
+          await controller.updateSymbol(
+            symbol,
+            const SymbolOptions(textOpacity: 1),
+          );
 
-      if (symbol.options.geometry != null) {
-        controller.animateCamera(
-          CameraUpdate.newLatLng(
-            symbol.options.geometry!,
-          ), // something will have gone very wrong if it goes to 0,0
-          duration: const Duration(seconds: 1), // magic number (felt right)
-        );
-      }
+          if (isCurrent() && symbol.options.geometry != null) {
+            await controller.animateCamera(
+              CameraUpdate.newLatLng(
+                symbol.options.geometry!,
+              ), // something will have gone very wrong if it goes to 0,0
+              duration: const Duration(seconds: 1), // magic number (felt right)
+            );
+          }
+        }),
+      );
     });
   }
 
-  void _onLocateMePressed() async {
-    if (_mapController == null) return;
+  Future<void> _onLocateMePressed() async {
+    final controller = _mapController;
+    if (!_styleReady || controller == null) return;
+    await _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
+      final myLoc = await controller.requestMyLocationLatLng();
+      if (!isCurrent()) return;
 
-    final myLoc = await _mapController!.requestMyLocationLatLng();
+      final target = myLoc != null
+          ? LatLng(myLoc.latitude, myLoc.longitude)
+          : const LatLng(
+              48.26307794976663,
+              11.668018668778569,
+            ); // Default to TUM Garching campus
 
-    final target = myLoc != null
-        ? LatLng(myLoc.latitude, myLoc.longitude)
-        : const LatLng(
-            48.26307794976663,
-            11.668018668778569,
-          ); // Default to TUM Garching campus
-
-    _mapController!.animateCamera(
-      CameraUpdate.newLatLng(target),
-      duration: const Duration(seconds: 1),
-    );
+      await controller.animateCamera(
+        CameraUpdate.newLatLng(target),
+        duration: const Duration(seconds: 1),
+      );
+    });
   }
 }

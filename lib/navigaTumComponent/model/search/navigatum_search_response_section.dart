@@ -21,7 +21,7 @@ class NavigaTumSearchResponseSection {
     return _$NavigaTumSearchResponseSectionFromJson({
       ...json,
       'entries': (json['entries'] as List<dynamic>)
-          .map((entry) => {'type': 'lecture', ...entry as Map<String, dynamic>})
+          .map((entry) => {...entry as Map<String, dynamic>, 'type': 'lecture'})
           .toList(),
     });
   }

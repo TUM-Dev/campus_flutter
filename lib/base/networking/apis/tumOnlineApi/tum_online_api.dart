@@ -93,5 +93,5 @@ class TumOnlineApi extends Api {
     }
   }
 
-  static final dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+  static final dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss", "en_US");
 }

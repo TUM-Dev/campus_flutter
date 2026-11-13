@@ -191,4 +191,18 @@ void main() {
     const failure = GrpcError.internal('failure');
     await expectLater(fetch(failure), throwsA(same(failure)));
   });
+
+  test(
+    'the reported HTTP/2 UNKNOWN error reaches the caller unchanged',
+    () async {
+      const failure = GrpcError.unknown(
+        'HTTP/2 error: Connection error: Connection is being forcefully '
+        'terminated. (errorCode: 10)',
+      );
+    // UNKNOWN failures must reach callers unless a recovery policy is explicit.
+      await expectLater(fetch(failure), throwsA(same(failure)));
+      cache.entries.clear();
+      await expectLater(fetch(failure), throwsA(same(failure)));
+    },
+  );
 }

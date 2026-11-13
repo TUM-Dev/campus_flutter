@@ -53,7 +53,7 @@ class DeparturesDetailsRowView extends ConsumerWidget {
       final delay = departure.servingLine.delay!;
       if (delay > 0) {
         return Text(
-          "+${NumberFormat("00").format(delay)}",
+          "+${delay.toString().padLeft(2, '0')}",
           style: const TextStyle(color: Colors.red),
         );
       }
@@ -81,8 +81,8 @@ class DeparturesDetailsRowView extends ConsumerWidget {
         style: TextStyle(color: color, fontWeight: FontWeight.w500),
       );
     } else {
-      final hour = NumberFormat("00").format(dateTime?.hour ?? 00);
-      final minute = NumberFormat("00").format(dateTime?.minute ?? 00);
+      final hour = (dateTime?.hour ?? 0).toString().padLeft(2, '0');
+      final minute = (dateTime?.minute ?? 0).toString().padLeft(2, '0');
       return Text(
         "$hour:$minute",
         style: TextStyle(color: color, fontWeight: FontWeight.w500),

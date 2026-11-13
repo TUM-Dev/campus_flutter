@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:campus_flutter/base/services/connection_service.dart';
 import 'package:campus_flutter/base/util/fast_hash.dart';
@@ -17,36 +20,38 @@ class Cache {
     final today = DateTime.now();
     final id = fastHash(key);
 
-    cacheDatabase.managers.cacheEntry.create(
-      (o) => CacheEntryCompanion.insert(
-        id: id,
-        url: key,
-        validUntil: today.add(maxAge),
-        saved: today,
-        body: body,
-      ),
-      mode: InsertMode.replace,
+    unawaited(
+      _write(() async {
+        await cacheDatabase.managers.cacheEntry.create(
+          (o) => CacheEntryCompanion.insert(
+            id: id,
+            url: key,
+            validUntil: today.add(maxAge),
+            saved: today,
+            body: body,
+          ),
+          mode: InsertMode.replace,
+        );
+      }),
     );
   }
 
   Future<CacheEntryData?> get(String key) async {
     final id = fastHash(key);
 
-    final entry = await cacheDatabase.managers.cacheEntry
-        .filter((f) => f.id.equals(id))
-        .limit(1)
-        .getSingleOrNull();
-
-    if (entry == null) {
-      return null;
-    }
-
-    if (entry.validUntil.isAfter(DateTime.now())) {
-      return entry;
-    } else {
+    try {
+      final entry = await cacheDatabase.managers.cacheEntry
+          .filter((f) => f.id.equals(id))
+          .limit(1)
+          .getSingleOrNull();
+      if (entry == null) return null;
+      if (entry.validUntil.isAfter(DateTime.now())) return entry;
       delete(key);
-      return null;
+    } on Exception catch (error) {
+      // The cache is optional; an unavailable database must not block network.
+      log('Cache read failed: ${error.runtimeType}');
     }
+    return null;
   }
 
   bool isFresh(CacheEntryData entry, String key) {
@@ -59,10 +64,25 @@ class Cache {
 
   void delete(String key) {
     final id = fastHash(key);
-    cacheDatabase.managers.cacheEntry.filter((f) => f.id.equals(id)).delete();
+    unawaited(
+      _write(() async {
+        await cacheDatabase.managers.cacheEntry
+            .filter((f) => f.id.equals(id))
+            .delete();
+      }),
+    );
   }
 
-  Future<void> resetCache() async {
+  Future<void> resetCache() => _write(() async {
     await cacheDatabase.managers.cacheEntry.delete();
+  });
+
+  Future<void> _write(Future<void> Function() operation) async {
+    try {
+      await operation();
+    } on Exception catch (error) {
+      // Do not log cache keys or response bodies: they can contain credentials.
+      log('Cache write failed: ${error.runtimeType}');
+    }
   }
 }

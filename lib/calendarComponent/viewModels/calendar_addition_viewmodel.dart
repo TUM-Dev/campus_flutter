@@ -390,7 +390,10 @@ class CalendarAdditionViewModel {
     if (!isValid.value) throw StateError('Invalid calendar event');
     _isSaving = true;
     isSaving.add(true);
+    // Finish an accepted save even if its screen closes during the request.
+    final keepAlive = ref.keepAlive();
     try {
+      final calendarVm = ref.read(calendarViewModel);
       final preferenceService = getIt<CalendarPreferenceService>();
       final createdEventIds = <String>[];
       final createdEventDates = <String, (DateTime, DateTime)>{};
@@ -526,7 +529,6 @@ class CalendarAdditionViewModel {
         }
       }
 
-      final calendarVm = ref.read(calendarViewModel);
       for (final eventId in createdEventIds) {
         calendarVm.setEventColor(
           eventId,
@@ -567,6 +569,7 @@ class CalendarAdditionViewModel {
     } finally {
       _isSaving = false;
       isSaving.add(false);
+      keepAlive.close();
     }
   }
 

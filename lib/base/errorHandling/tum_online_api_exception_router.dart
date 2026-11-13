@@ -24,9 +24,15 @@ class TumOnlineApiExceptionRouter extends ConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final title = tumOnlineApiException.message(context, ref);
+    final recovery = tumOnlineApiException.recoverySuggestion(context, ref);
+    final compactNotice =
+        tumOnlineApiException.serviceMessage != null &&
+        (errorHandlingViewType == ErrorHandlingViewType.descriptionOnly ||
+            errorHandlingViewType == ErrorHandlingViewType.redDescriptionOnly);
     return exceptionMessage(
-      errorMessage: tumOnlineApiException.message(context, ref),
-      fixMessage: tumOnlineApiException.recoverySuggestion(context, ref),
+      errorMessage: compactNotice ? '$title\n\n$recovery' : title,
+      fixMessage: recovery,
       retry: tumOnlineApiException.overwriteRetry(context) ?? retry,
       retryMessage: tumOnlineApiException.overwriteRetryMessage(context),
       allowRetry: tumOnlineApiException.canRetry,

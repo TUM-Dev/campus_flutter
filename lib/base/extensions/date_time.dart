@@ -1,15 +1,15 @@
-import 'package:intl/intl.dart';
-
 /// found here: https://stackoverflow.com/a/54129275/20473653
 extension NumberOfWeeks on DateTime {
   int _numOfWeeks(int year) {
-    DateTime dec28 = DateTime(year, 12, 28);
-    int dayOfDec28 = int.parse(DateFormat("D").format(dec28));
+    final dec28 = DateTime.utc(year, 12, 28);
+    int dayOfDec28 = dec28.difference(DateTime.utc(year)).inDays + 1;
     return ((dayOfDec28 - dec28.weekday + 10) / 7).floor();
   }
 
   String weekNumber() {
-    int dayOfYear = int.parse(DateFormat("D").format(this));
+    int dayOfYear =
+        DateTime.utc(year, month, day).difference(DateTime.utc(year)).inDays +
+        1;
     int woy = ((dayOfYear - weekday + 10) / 7).floor();
     if (woy < 1) {
       woy = _numOfWeeks(year - 1);

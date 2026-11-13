@@ -48,6 +48,26 @@ class TumOnlineApiException implements ApiException {
     }
   }
 
+  /// Only this API's dedicated domain-error field is eligible for display.
+  /// Technical payloads still use the generic localized recovery text.
+  String? get serviceMessage {
+    final type = tumOnlineApiExceptionType;
+    if (type is! TumOnlineApiExceptionUnknown) return null;
+    final text = type.message.trim();
+    if (text.isEmpty ||
+        text.length > 1000 ||
+        RegExp(r'[<>\x00-\x08\x0B-\x1F]').hasMatch(text) ||
+        RegExp(
+          r'https?://|\b(?:Exception|StackTrace|Traceback|SQLSTATE|ORA-\d|Bearer)\b',
+          caseSensitive: false,
+        ).hasMatch(text) ||
+        text.startsWith('{') ||
+        text.startsWith('[')) {
+      return null;
+    }
+    return text;
+  }
+
   @override
   String message(BuildContext? context, WidgetRef? ref) {
     if (context != null && ref != null) {
@@ -76,7 +96,11 @@ class TumOnlineApiException implements ApiException {
         case TumOnlineApiExceptionInvalidSearchString _:
           return context.tr("invalidSearch");
         case TumOnlineApiExceptionUnknown _:
-          return context.tr("unknownException");
+          return context.tr(
+            serviceMessage == null
+                ? "unknownException"
+                : "tumOnlineRequestFailed",
+          );
       }
     } else {
       switch (tumOnlineApiExceptionType) {
@@ -99,7 +123,11 @@ class TumOnlineApiException implements ApiException {
         case TumOnlineApiExceptionInvalidSearchString _:
           return tr("invalidSearch");
         case TumOnlineApiExceptionUnknown _:
-          return tr("unknownException");
+          return tr(
+            serviceMessage == null
+                ? "unknownException"
+                : "tumOnlineRequestFailed",
+          );
       }
     }
   }
@@ -131,7 +159,10 @@ class TumOnlineApiException implements ApiException {
       case TumOnlineApiExceptionInvalidSearchString _:
         return context.tr("invalidSearchRecovery");
       case TumOnlineApiExceptionUnknown _:
-        return context.tr("pleaseTryAgain");
+        final notice = serviceMessage;
+        return notice == null
+            ? context.tr("pleaseTryAgain")
+            : '${context.tr("tumOnlineServiceMessage")}\n$notice';
     }
   }
 
