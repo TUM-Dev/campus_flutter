@@ -20,6 +20,8 @@ class CacheEntry extends Table {
 class CacheDatabase extends _$CacheDatabase {
   CacheDatabase() : super(_openConnection());
 
+  CacheDatabase.forTesting(super.executor);
+
   @override
   int get schemaVersion => 1;
 }
