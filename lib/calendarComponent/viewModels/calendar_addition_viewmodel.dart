@@ -390,7 +390,10 @@ class CalendarAdditionViewModel {
     if (!isValid.value) throw StateError('Invalid calendar event');
     _isSaving = true;
     isSaving.add(true);
+    // Finish an accepted save even if its screen closes during the request.
+    final keepAlive = ref.keepAlive();
     try {
+      final calendarVm = ref.read(calendarViewModel);
       final preferenceService = getIt<CalendarPreferenceService>();
       final createdEventIds = <String>[];
 
@@ -523,7 +526,6 @@ class CalendarAdditionViewModel {
         }
       }
 
-      final calendarVm = ref.read(calendarViewModel);
       for (final eventId in createdEventIds) {
         calendarVm.setEventColor(
           eventId,
@@ -558,6 +560,7 @@ class CalendarAdditionViewModel {
     } finally {
       _isSaving = false;
       isSaving.add(false);
+      keepAlive.close();
     }
   }
 
@@ -565,9 +568,8 @@ class CalendarAdditionViewModel {
     final hasValidUntilDate =
         recurrenceType.value != RecurrenceType.none &&
             recurrenceEndType.value == RecurrenceEndType.untilDate
-        ? !DateUtils.dateOnly(
-            untilDate.value,
-          ).isBefore(DateUtils.dateOnly(from.value))
+        ? !DateUtils.dateOnly(untilDate.value)
+              .isBefore(DateUtils.dateOnly(from.value))
         : true;
     isValid.add(
       titleController.text.trim().isNotEmpty &&
