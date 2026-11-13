@@ -324,6 +324,7 @@
   "apiServiceTimeout": "The service took too long to respond",
   "apiServiceRecovery": "The service is having trouble responding. Please try again later.",
   "apiSubmissionUncertainRecovery": "Your request may have been completed. Please check before submitting it again.",
+  "couldNotOpenLink": "This link could not be opened.",
   "tumOnlineRequestFailed": "TUMonline request failed",
   "tumOnlineServiceMessage": "Message from TUMonline:"
 }

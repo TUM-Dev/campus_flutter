@@ -1,34 +1,51 @@
-import 'dart:io';
-
 import 'package:campus_flutter/settingsComponent/views/settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class UrlLauncher {
-  static Future<void> urlString(String urlString, WidgetRef ref) async {
-    if (await canLaunchUrlString(urlString)) {
-      if (ref.read(useWebView)) {
-        launchUrlString(urlString, mode: LaunchMode.inAppBrowserView).onError(
-          (error, stackTrace) =>
-              launchUrlString(urlString, mode: LaunchMode.externalApplication),
-        );
-      } else {
-        launchUrlString(urlString, mode: LaunchMode.externalApplication);
-      }
+  static Future<void> urlString(String value, WidgetRef ref) async {
+    final parsed = Uri.tryParse(value.trim());
+    await _open(parsed, ref);
+  }
+
+  static Future<void> url(Uri url, WidgetRef ref) => _open(url, ref);
+
+  static Future<void> _open(Uri? uri, WidgetRef ref) async {
+    final context = ref.context;
+    if (!context.mounted) return;
+    final isWeb = uri?.scheme == 'http' || uri?.scheme == 'https';
+    final valid =
+        uri != null &&
+        uri.hasScheme &&
+        !{'javascript', 'data', 'file', 'about'}.contains(uri.scheme) &&
+        (isWeb ? uri.host.isNotEmpty : uri.path.isNotEmpty);
+    if (valid) {
+      // Read preferences before awaiting: the originating screen may close.
+      final inApp = isWeb && ref.read(useWebView);
+      if (inApp && await _tryLaunch(uri, LaunchMode.inAppBrowserView)) return;
+      if (await _tryLaunch(uri, LaunchMode.externalApplication)) return;
+    }
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.tr('couldNotOpenLink'))));
     }
   }
 
-  static Future<void> url(Uri url, WidgetRef ref) async {
-    if (await canLaunchUrl(url)) {
-      if (ref.read(useWebView) && Platform.isIOS) {
-        launchUrl(url, mode: LaunchMode.inAppWebView).onError(
-          (error, stackTrace) =>
-              launchUrl(url, mode: LaunchMode.externalApplication),
-        );
-      } else {
-        launchUrl(url, mode: LaunchMode.externalApplication);
-      }
+  static Future<bool> _tryLaunch(Uri uri, LaunchMode mode) async {
+    try {
+      // Attempt the launch directly; canLaunchUrl can reject supported links
+      // when a platform's scheme-query allowlist is incomplete.
+      return await launchUrl(uri, mode: mode);
+    } on PlatformException {
+      return false;
+    } on ArgumentError {
+      return false;
+    } on FormatException {
+      return false;
     }
   }
 }
