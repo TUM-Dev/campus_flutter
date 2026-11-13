@@ -323,5 +323,7 @@
   "apiGatewayError": "Verbindungsproblem beim Dienst",
   "apiServiceTimeout": "Der Dienst hat nicht rechtzeitig geantwortet",
   "apiServiceRecovery": "Der Dienst hat Probleme beim Antworten. Bitte versuche es später erneut.",
-  "apiSubmissionUncertainRecovery": "Deine Anfrage wurde möglicherweise bereits ausgeführt. Bitte prüfe dies, bevor du sie erneut absendest."
+  "apiSubmissionUncertainRecovery": "Deine Anfrage wurde möglicherweise bereits ausgeführt. Bitte prüfe dies, bevor du sie erneut absendest.",
+  "tumOnlineRequestFailed": "TUMonline-Anfrage fehlgeschlagen",
+  "tumOnlineServiceMessage": "Nachricht von TUMonline:"
 }

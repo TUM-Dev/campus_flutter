@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,6 +58,89 @@ void main() {
       ) as Map<String, dynamic>;
     }
   });
+  const serviceNotice =
+      'Kalenderabruf temporär nicht möglich! Bitte TUMonline nutzen! Techniker ist informiert!';
+  for (final language in ['en', 'de']) {
+    for (final view in ErrorHandlingViewType.values) {
+      testWidgets('TUMonline notice is preserved in $language / ${view.name}', (
+        tester,
+      ) async {
+        await pumpError(
+          tester,
+          ProviderScope(
+            child: ErrorHandlingRouter(
+              error: TumOnlineApiException.fromJson({
+                'error': {'message': serviceNotice},
+              }),
+              errorHandlingViewType: view,
+            ),
+          ),
+          language: language,
+        );
+        expect(find.textContaining(serviceNotice), findsOneWidget);
+        expect(
+          find.textContaining(
+            language == 'en'
+                ? 'Message from TUMonline:'
+                : 'Nachricht von TUMonline:',
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.textContaining(
+            language == 'en' ? 'Please try again' : 'Bitte versuche',
+          ),
+          findsNothing,
+        );
+        expect(tester.takeException(), isNull);
+      });
+    }
+  }
+  testWidgets(
+    'technical TUMonline payload retains generic localized recovery',
+    (tester) async {
+      await pumpError(
+        tester,
+        ProviderScope(
+          child: ErrorHandlingRouter(
+            error: TumOnlineApiException.fromJson({
+              'error': {'message': '<html>private server detail</html>'},
+            }),
+            errorHandlingViewType: ErrorHandlingViewType.textOnly,
+          ),
+        ),
+      );
+      expect(find.textContaining('private server detail'), findsNothing);
+      expect(find.textContaining('Message from TUMonline:'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'arbitrary HTTP response messages keep status-based presentation',
+    (tester) async {
+      final options = RequestOptions(path: '/api');
+      await pumpError(
+        tester,
+        ErrorHandlingRouter(
+          error: DioException.badResponse(
+            statusCode: 503,
+            requestOptions: options,
+            response: Response(
+              requestOptions: options,
+              statusCode: 503,
+              data: {
+                'error': {'message': 'private backend diagnostic'},
+              },
+            ),
+          ),
+          errorHandlingViewType: ErrorHandlingViewType.textOnly,
+        ),
+      );
+      expect(find.text('Service temporarily unavailable'), findsOneWidget);
+      expect(find.textContaining('private backend diagnostic'), findsNothing);
+    },
+  );
+
   testWidgets('gRPC hides server details and retries transient errors', (
     tester,
   ) async {

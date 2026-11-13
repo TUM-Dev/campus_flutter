@@ -323,5 +323,7 @@
   "apiGatewayError": "Service connection problem",
   "apiServiceTimeout": "The service took too long to respond",
   "apiServiceRecovery": "The service is having trouble responding. Please try again later.",
-  "apiSubmissionUncertainRecovery": "Your request may have been completed. Please check before submitting it again."
+  "apiSubmissionUncertainRecovery": "Your request may have been completed. Please check before submitting it again.",
+  "tumOnlineRequestFailed": "TUMonline request failed",
+  "tumOnlineServiceMessage": "Message from TUMonline:"
 }

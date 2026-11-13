@@ -5,6 +5,37 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/xml_decoder.dart';
 
 void main() {
+  test('empty and technical server messages are not exposed as notices', () {
+    for (final text in [
+      '',
+      '  ',
+      '<html>error</html>',
+      '{"token":"private"}',
+      'Exception: failed at https://campus.tum.de/?token=private',
+      'error\u0000detail',
+      List.filled(1001, 'a').join(),
+    ]) {
+      final error = TumOnlineApiException.fromJson({
+        'error': {'message': text},
+      });
+      expect(error.serviceMessage, isNull);
+      expect(
+        error.toString(),
+        isNot(contains(text.isEmpty ? 'private' : text)),
+      );
+    }
+  });
+  test('known domain failures retain their localized classification', () {
+    final error = TumOnlineApiException.fromJson({
+      'error': {'message': 'Token ist ungültig!'},
+    });
+    expect(error.serviceMessage, isNull);
+    expect(
+      error.tumOnlineApiExceptionType,
+      isA<TumOnlineApiExceptionInvalidToken>(),
+    );
+  });
+
   group('TumOnlineApiException XML decoding', () {
     test(
       'domain recovery actions distinguish login, input and transient errors',

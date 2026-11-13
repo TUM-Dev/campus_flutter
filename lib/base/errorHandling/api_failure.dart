@@ -6,7 +6,8 @@ import 'package:grpc/grpc.dart';
 import 'package:xml2json/xml2json.dart';
 
 /// Transport-independent presentation and recovery policy. Server messages and
-/// request URLs deliberately stay out of user-facing text and crash reports.
+/// request URLs stay out of crash reports. Only explicit domain-error adapters
+/// may expose a service notice; transport errors keep localized presentation.
 enum ApiFailure {
   connection('connectionError', 'makeSureInternetConnection'),
   timeout('apiRequestTimeout', 'apiTryLater'),
