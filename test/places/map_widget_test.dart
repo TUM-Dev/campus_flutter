@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
@@ -21,7 +22,28 @@ class _MapPlatform extends maps.MapLibrePlatform {
   dynamic noSuchMethod(Invocation invocation) => null;
 }
 
+class _SymbolManager implements maps.SymbolManager {
+  int configurations = 0;
+
+  @override
+  Future<void> setIconAllowOverlap(bool value) async => configurations++;
+  @override
+  Future<void> setIconIgnorePlacement(bool value) async => configurations++;
+  @override
+  Future<void> setTextAllowOverlap(bool value) async => configurations++;
+  @override
+  Future<void> setTextIgnorePlacement(bool value) async => configurations++;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 class _MapController implements maps.MapLibreMapController {
+  Completer<void>? clearGate;
+  Completer<void>? imageGate;
+  bool failClear = false;
+  int clearCalls = 0;
+  int imageCalls = 0;
+  bool clearing = false;
   @override
   final onSymbolTapped = maps.ArgumentCallbacks<maps.Symbol>();
 
@@ -29,10 +51,23 @@ class _MapController implements maps.MapLibreMapController {
   final symbols = <maps.Symbol>{};
 
   @override
-  get symbolManager => null;
+  final _SymbolManager symbolManager = _SymbolManager();
 
   @override
-  Future<void> clearSymbols() async => symbols.clear();
+  Future<void> clearSymbols() async {
+    if (clearing) throw StateError('Overlapping marker updates');
+    if (failClear) {
+      failClear = false;
+      throw StateError('Style was replaced');
+    }
+    clearCalls++;
+    clearing = true;
+    final gate = clearGate;
+    clearGate = null;
+    await gate?.future;
+    symbols.clear();
+    clearing = false;
+  }
 
   @override
   Future<void> addImage(
@@ -40,13 +75,17 @@ class _MapController implements maps.MapLibreMapController {
     Uint8List bytes, [
     bool sdf = false,
     double? pixelRatio,
-  ]) async {}
+  ]) async {
+    imageCalls++;
+    await imageGate?.future;
+  }
 
   @override
   Future<maps.Symbol> addSymbol(
     maps.SymbolOptions options, [
     Map<String, dynamic>? data,
   ]) async {
+    if (clearing) throw StateError('Adding markers during a clear');
     final symbol = maps.Symbol('${symbols.length}', options, data);
     // Exercise the same serialization boundary as MapLibre's GeoJSON source.
     jsonEncode(symbol.toGeoJson());
@@ -74,6 +113,112 @@ void main() {
   final originalFactory = maps.MapLibrePlatform.createInstance;
   setUp(() => maps.MapLibrePlatform.createInstance = _MapPlatform.new);
   tearDown(() => maps.MapLibrePlatform.createInstance = originalFactory);
+
+  Marker marker(String id) => Marker(
+    id: id,
+    position: const maps.LatLng(48.26, 11.67),
+    infoWindow: InfoWindow(title: id),
+  );
+
+  Future<maps.MapLibreMap> show(
+    WidgetTester tester,
+    Set<Marker> markers,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(body: MapWidget.noPadding(markers: markers)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    return tester.widget<maps.MapLibreMap>(find.byType(maps.MapLibreMap));
+  }
+
+  testWidgets('marker changes wait for style readiness and use latest data', (
+    tester,
+  ) async {
+    final controller = _MapController();
+    final map = await show(tester, {marker('old')});
+    map.onMapCreated!(controller);
+    await show(tester, {marker('latest')});
+    expect(controller.clearCalls, 0);
+    expect(controller.symbols, isEmpty);
+
+    map.onStyleLoadedCallback!();
+    await tester.pumpAndSettle();
+    expect(controller.symbols.single.data?['id'], 'latest');
+    expect(controller.symbolManager.configurations, 4);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('marker refreshes are serialized and coalesce pending changes', (
+    tester,
+  ) async {
+    final controller = _MapController();
+    final map = await show(tester, {marker('initial')});
+    map.onMapCreated!(controller);
+    map.onStyleLoadedCallback!();
+    await tester.pumpAndSettle();
+
+    final gate = Completer<void>();
+    controller.clearGate = gate;
+    await show(tester, {marker('intermediate')});
+    expect(controller.clearing, isTrue);
+    await show(tester, {marker('latest')});
+    expect(controller.clearCalls, 2);
+    gate.complete();
+    await tester.pumpAndSettle();
+    expect(controller.symbols.single.data?['id'], 'latest');
+    expect(controller.symbolManager.configurations, 4);
+    expect(tester.takeException(), isNull);
+
+    controller.failClear = true;
+    await show(tester, {marker('failed')});
+    await show(tester, {marker('recovered')});
+    expect(controller.symbols.single.data?['id'], 'recovered');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('disposing during a refresh stops subsequent map operations', (
+    tester,
+  ) async {
+    final controller = _MapController();
+    final map = await show(tester, {marker('initial')});
+    map.onMapCreated!(controller);
+    map.onStyleLoadedCallback!();
+    await tester.pumpAndSettle();
+    final gate = Completer<void>();
+    controller.clearGate = gate;
+    await show(tester, {marker('pending')});
+    await tester.pumpWidget(const SizedBox());
+    gate.complete();
+    await tester.pumpAndSettle();
+    expect(controller.symbols, isEmpty);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a style reload invalidates pending image and marker work', (
+    tester,
+  ) async {
+    final controller = _MapController();
+    final gate = Completer<void>();
+    controller.imageGate = gate;
+    final map = await show(tester, {marker('initial')});
+    map.onMapCreated!(controller);
+    map.onStyleLoadedCallback!();
+    await tester.pumpAndSettle();
+    expect(controller.imageCalls, 1);
+    map.onStyleLoadedCallback!();
+    await show(tester, {marker('latest')});
+    gate.complete();
+    await tester.pumpAndSettle();
+    expect(controller.imageCalls, 3);
+    expect(controller.symbolManager.configurations, 4);
+    expect(controller.clearCalls, 1);
+    expect(controller.symbols.single.data?['id'], 'latest');
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets(
     'marker callbacks stay out of GeoJSON and run on the second tap',
@@ -109,8 +254,10 @@ void main() {
       final symbol = controller.symbols.single;
       expect(symbol.data, {'id': 'cafeteria'});
       controller.onSymbolTapped(symbol);
+      await tester.pumpAndSettle();
       expect(taps, 0);
       controller.onSymbolTapped(symbol);
+      await tester.pumpAndSettle();
       expect(taps, 1);
 
       // An existing symbol resolves the current callback, not a stale closure.
@@ -128,11 +275,13 @@ void main() {
       final replacement = controller.symbols.single;
       controller.onSymbolTapped(replacement);
       controller.onSymbolTapped(replacement);
+      await tester.pumpAndSettle();
       expect(taps, 1);
       expect(replacementTaps, 1);
 
       await show({});
       controller.onSymbolTapped(replacement);
+      await tester.pumpAndSettle();
       expect(replacementTaps, 1);
       expect(tester.takeException(), isNull);
     },
