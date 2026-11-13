@@ -49,6 +49,9 @@ class _ColorPickerViewState extends State<ColorPickerView> {
               content: SingleChildScrollView(
                 child: HueRingPicker(
                   pickerColor: selectedColor,
+                  // The published picker disables hex input in its landscape
+                  // layout. Keep the editable layout inside our scrollable dialog.
+                  portraitOnly: true,
                   onColorChanged: (color) {
                     setState(() {
                       selectedColor = color;
