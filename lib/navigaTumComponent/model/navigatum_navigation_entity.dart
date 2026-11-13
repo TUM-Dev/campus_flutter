@@ -47,8 +47,18 @@ class NavigaTumNavigationEntity extends Searchable {
         .replaceAll("\\x17", "");
   }
 
-  factory NavigaTumNavigationEntity.fromJson(Map<String, dynamic> json) =>
-      _$NavigaTumNavigationEntityFromJson(json);
+  factory NavigaTumNavigationEntity.fromJson(Map<String, dynamic> json) {
+    for (final field in ['id', 'type', 'name', 'subtext']) {
+      if (json[field] is! String ||
+          ((field == 'id' || field == 'type') &&
+              (json[field] as String).trim().isEmpty)) {
+        // Keep invalid identities out of navigation and use the existing
+        // decoding-error UI/stale-cache policy instead of a runtime cast error.
+        throw FormatException('Invalid NavigaTUM search field: $field');
+      }
+    }
+    return _$NavigaTumNavigationEntityFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$NavigaTumNavigationEntityToJson(this);
 }

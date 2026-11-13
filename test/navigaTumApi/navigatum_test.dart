@@ -45,8 +45,7 @@ void main() {
               'entries': [
                 {
                   'id': 'lecture_59fa470af0528c72',
-                  'name':
-                      '\u0019Aud\u0017io Artificial Intelligence for Automotive Systems',
+                  'name': '\u0019Aud\u0017io Artificial Intelligence for Automotive Systems',
                   'subtext': 'Vorlesung',
                   'title_de':
                       'Audio Artificial Intelligence for Automotive Systems',
@@ -143,6 +142,45 @@ void main() {
       expect(response.sections, isEmpty);
     });
   });
+
+  test(
+    'lecture facet supplies its canonical type even when entry type is null',
+    () {
+      final response = NavigaTumSearchResponse.fromJson({
+        'sections': [
+          {
+            'facet': 'lectures',
+            'entries': [
+              {
+                'id': 'lecture_1',
+                'type': null,
+                'name': 'Lecture',
+                'subtext': 'Vorlesung',
+              },
+            ],
+          },
+        ],
+      });
+      expect(response.sections.single.entries.single.type, 'lecture');
+    },
+  );
+  test(
+    'malformed required search fields produce a controlled decoding failure',
+    () {
+      for (final field in ['id', 'type', 'name', 'subtext']) {
+        expect(
+          () => NavigaTumNavigationEntity.fromJson({
+            'id': 'room1',
+            'type': 'room',
+            'name': 'Room',
+            'subtext': 'Campus',
+            field: null,
+          }),
+          throwsFormatException,
+        );
+      }
+    },
+  );
 
   group('NavigaTumNavigationEntity', () {
     NavigaTumNavigationEntity makeEntity({
@@ -241,7 +279,10 @@ void main() {
         'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J',
       );
       expect(details.calendarUri?.host, 'campus.tum.de');
-      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5606.EG.001');
+      expect(
+        details.navigaTumUri.toString(),
+        'https://nav.tum.de/room/5606.EG.001',
+      );
 
       // Maps
       expect(details.maps.defaultMapId, 'rf142');
@@ -285,7 +326,10 @@ void main() {
 ''');
       final details = NavigaTumNavigationDetails.fromJson(json);
 
-      expect(details.navigaTumUri.toString(), 'https://nav.tum.de/room/5500%2F01%3FA');
+      expect(
+        details.navigaTumUri.toString(),
+        'https://nav.tum.de/room/5500%2F01%3FA',
+      );
     });
 
     test('calendarUri rejects untrusted schemes', () {
