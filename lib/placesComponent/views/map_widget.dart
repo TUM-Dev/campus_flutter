@@ -272,7 +272,8 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         ),
       );
 
-      data.add({"id": marker.id, "onTap": marker.infoWindow?.onTap});
+      // Symbol data becomes GeoJSON; callbacks must stay on the Dart marker.
+      data.add({"id": marker.id});
     }
 
     for (int i = 0; i < options.length; i++) {
@@ -284,7 +285,12 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     controller.onSymbolTapped.add((symbol) {
       // display text on tapped symbol & remove text from other symbols
       // if text is already displayed and item has onTap callback, callback is executed
-      final onTap = symbol.data?["onTap"];
+      final markerId = symbol.data?["id"];
+      final onTap = widget.markers
+          .where((marker) => marker.id == markerId)
+          .firstOrNull
+          ?.infoWindow
+          ?.onTap;
 
       if (symbol.options.textOpacity == 1 && onTap is void Function()) {
         onTap();
