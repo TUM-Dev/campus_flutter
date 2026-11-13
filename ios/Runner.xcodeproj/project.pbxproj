@@ -340,7 +340,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\" --build-phase --validate -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\" --build-phase -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n";
+			shellScript = "set -e\nUPLOAD_SYMBOLS=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\nif [ ! -x \"$UPLOAD_SYMBOLS\" ]; then\n  # Flutter archives keep package checkouts outside Xcode's DerivedData.\n  case \"$FLUTTER_BUILD_DIR\" in\n    /*) FLUTTER_OUTPUT_DIR=\"$FLUTTER_BUILD_DIR\" ;;\n    *) FLUTTER_OUTPUT_DIR=\"${FLUTTER_APPLICATION_PATH}/${FLUTTER_BUILD_DIR}\" ;;\n  esac\n  UPLOAD_SYMBOLS=\"${FLUTTER_OUTPUT_DIR}/ios/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\nfi\n\"$UPLOAD_SYMBOLS\" --build-phase --validate -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n\"$UPLOAD_SYMBOLS\" --build-phase -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n";
 		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
