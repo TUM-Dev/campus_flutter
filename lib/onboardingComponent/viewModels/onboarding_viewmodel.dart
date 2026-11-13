@@ -128,12 +128,13 @@ class OnboardingViewModel {
   }
 
   Future logout(WidgetRef ref) async {
+    // Prevent newly started requests from using the old token during cleanup.
+    Api.tumToken = "";
     ref.invalidate(profileViewModel);
     ref.invalidate(personDetailsViewModel);
     ref.invalidate(studentCardViewModel);
     await getIt<RestClient>().clearCache();
     await _storage.delete(key: "token");
-    Api.tumToken = "";
     credentials.add(Credentials.none);
     await resetPreferences(ref);
 

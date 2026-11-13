@@ -14,6 +14,7 @@ import 'package:xml2json/xml2json.dart';
 class RestClient {
   late Dio dio;
   late Cache cache;
+  int _sessionGeneration = 0;
 
   RestClient(CacheDatabase cacheDatabase) {
     final cache = Cache(cacheDatabase: cacheDatabase);
@@ -83,7 +84,7 @@ class RestClient {
     dynamic Function(Map<String, dynamic>) createError,
   ) async {
     final response = await _withErrorBody<U>(
-      () => endpoint.post(dioClient: dio),
+      () => _inCurrentSession(endpoint, () => endpoint.post(dioClient: dio)),
       createError,
     );
     log(
@@ -151,7 +152,41 @@ class RestClient {
   }
 
   Future<Response<String>> _get(Api endpoint, bool forcedRefresh) =>
-      endpoint.get(dioClient: dio, forcedRefresh: forcedRefresh);
+      _inCurrentSession(
+        endpoint,
+        () => endpoint.get(dioClient: dio, forcedRefresh: forcedRefresh),
+      );
+
+  Future<Response<String>> _inCurrentSession(
+    Api endpoint,
+    Future<Response<String>> Function() request,
+  ) async {
+    final generation = _sessionGeneration;
+    void checkSession() {
+      if (generation != _sessionGeneration) {
+        // Never expose a previous session's response or cached fallback.
+        throw DioException(
+          requestOptions: RequestOptions(
+            path: Uri.https(
+              endpoint.domain,
+              endpoint.path + endpoint.slug,
+            ).toString(),
+          ),
+          type: DioExceptionType.cancel,
+          error: 'Session changed while the request was in flight',
+        );
+      }
+    }
+
+    try {
+      final response = await request();
+      checkSession();
+      return response;
+    } catch (_) {
+      checkSession();
+      rethrow;
+    }
+  }
 
   /// only cache parsable responses, fall back to stale entry otherwise
   ApiResponse<T> _parseAndCache<T>(
@@ -230,7 +265,9 @@ class RestClient {
     }
   }
 
-  Future<void> clearCache() async {
-    await cache.resetCache();
+  Future<void> clearCache() {
+    // Invalidate in-flight work before waiting for storage cleanup.
+    _sessionGeneration++;
+    return cache.resetCache();
   }
 }
