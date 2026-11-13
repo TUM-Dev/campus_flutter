@@ -237,6 +237,7 @@
 				28A24B5E2B68F785007DF939 /* Embed Foundation Extensions */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
+				A7432B108ACB4E49B109C874 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
 			);
@@ -321,6 +322,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A7432B108ACB4E49B109C874 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nUPLOAD_SYMBOLS=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\nif [ ! -x \"$UPLOAD_SYMBOLS\" ]; then\n  # Flutter archives keep package checkouts outside Xcode's DerivedData.\n  case \"$FLUTTER_BUILD_DIR\" in\n    /*) FLUTTER_OUTPUT_DIR=\"$FLUTTER_BUILD_DIR\" ;;\n    *) FLUTTER_OUTPUT_DIR=\"${FLUTTER_APPLICATION_PATH}/${FLUTTER_BUILD_DIR}\" ;;\n  esac\n  UPLOAD_SYMBOLS=\"${FLUTTER_OUTPUT_DIR}/ios/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\nfi\n\"$UPLOAD_SYMBOLS\" --build-phase --validate -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n\"$UPLOAD_SYMBOLS\" --build-phase -ai \"1:944892355389:ios:70b9e0e71c71af4b52db54\" -- \"${DWARF_DSYM_FOLDER_PATH}/App.framework.dSYM\"\n";
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -756,6 +777,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2J3C6P6X3N;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
