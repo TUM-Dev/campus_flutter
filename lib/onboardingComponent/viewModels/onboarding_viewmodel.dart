@@ -18,6 +18,7 @@ import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.d
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
@@ -132,14 +133,24 @@ class OnboardingViewModel {
     ref.invalidate(studentCardViewModel);
     await getIt<RestClient>().clearCache();
     await _storage.delete(key: "token");
-    await HomeWidget.saveWidgetData("calendar", null);
-    await HomeWidget.saveWidgetData("calendar_save", null);
-    await HomeWidget.updateWidget(
-      iOSName: "CalendarWidget",
-      androidName: "widgets.calendar.CalendarWidget",
-    );
-    await resetPreferences(ref);
     Api.tumToken = "";
     credentials.add(Credentials.none);
+    await resetPreferences(ref);
+
+    try {
+      await HomeWidget.saveWidgetData("calendar", null);
+      await HomeWidget.saveWidgetData("calendar_save", null);
+      await HomeWidget.updateWidget(
+        iOSName: "CalendarWidget",
+        androidName: "widgets.calendar.CalendarWidgetProvider",
+      );
+    } on PlatformException catch (error, stack) {
+      // A launcher widget failure must not interrupt signing out of the app.
+      log(
+        "Failed to clear the calendar widget on logout",
+        error: error,
+        stackTrace: stack,
+      );
+    }
   }
 }
