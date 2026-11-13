@@ -4,6 +4,7 @@ import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
+import 'package:campus_flutter/base/errorHandling/error_snackbar.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
@@ -15,6 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+final contactCreatorProvider = Provider(
+  (ref) => FlutterContacts.native.showCreator,
+);
 
 class PersonDetailsScaffold extends StatelessWidget {
   const PersonDetailsScaffold({super.key, required this.obfuscatedId});
@@ -45,6 +50,7 @@ class PersonDetailsView extends ConsumerStatefulWidget {
 
 class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
   late Provider<PersonDetailsViewModel> viewModel;
+  bool _creatingContact = false;
 
   @override
   void initState() {
@@ -163,12 +169,25 @@ class _PersonDetailsViewState extends ConsumerState<PersonDetailsView> {
 
   Widget _addContactButton(PersonDetails personDetails) {
     return ElevatedButton(
-      onPressed: () async {
-        // Add the contact to the user's contacts
-        await FlutterContacts.create(personDetails.contact);
-      },
+      onPressed: _creatingContact ? null : () => _addContact(personDetails),
       child: Text(context.tr("add_contact")),
     );
+  }
+
+  Future<void> _addContact(PersonDetails personDetails) async {
+    if (_creatingContact) return;
+    setState(() => _creatingContact = true);
+    try {
+      // The system editor lets the user save or cancel without granting the
+      // app access to their address book.
+      await ref.read(contactCreatorProvider)(contact: personDetails.contact);
+    } catch (error, stack) {
+      if (mounted) {
+        showErrorSnackBar(context, error, stackTrace: stack, isMutation: true);
+      }
+    } finally {
+      if (mounted) setState(() => _creatingContact = false);
+    }
   }
 
   Widget _room(PersonDetails personDetails) {
