@@ -53,6 +53,13 @@ class StudentCard {
     required this.image,
   });
 
+  StudentCardValidity validityAt(DateTime now) {
+    if (validUntil.isBefore(validFrom)) return StudentCardValidity.invalid;
+    if (now.isBefore(validFrom)) return StudentCardValidity.notYetValid;
+    if (now.isAfter(validUntil)) return StudentCardValidity.expired;
+    return StudentCardValidity.current;
+  }
+
   factory StudentCard.fromJson(Map<String, dynamic> json) =>
       _$StudentCardFromJson(json);
 
@@ -94,3 +101,5 @@ class StudentCards {
 
   Map<String, dynamic> toJson() => _$StudentCardsToJson(this);
 }
+
+enum StudentCardValidity { current, notYetValid, expired, invalid }
