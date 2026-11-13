@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:campus_flutter/base/routing/routes.dart' as routes;
 

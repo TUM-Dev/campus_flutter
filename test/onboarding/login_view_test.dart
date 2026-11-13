@@ -9,7 +9,7 @@ import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -89,7 +89,10 @@ void main() {
             builder: (context) => MaterialApp.router(
               locale: context.locale,
               supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
+              localizationsDelegates: [
+                ...GlobalMaterialLocalizations.delegates,
+                ...context.localizationDelegates,
+              ],
               routerConfig: router,
               builder: (context, child) => MediaQuery(
                 data: MediaQuery.of(context).copyWith(
@@ -203,11 +206,7 @@ void main() {
   testWidgets('does not scroll when the form fits below the banner', (
     tester,
   ) async {
-    await openLogin(
-      tester,
-      OnboardingViewModel(),
-      size: const Size(430, 1000),
-    );
+    await openLogin(tester, OnboardingViewModel(), size: const Size(430, 1000));
     final container = ProviderScope.containerOf(
       tester.element(find.byType(LoginView)),
     );

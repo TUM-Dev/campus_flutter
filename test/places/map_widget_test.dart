@@ -5,7 +5,7 @@ import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maplibre_gl/maplibre_gl.dart' as maps;

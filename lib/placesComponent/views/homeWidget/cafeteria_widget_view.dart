@@ -11,7 +11,7 @@ import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.d
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/placesComponent/views/cafeterias/dish_slider_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

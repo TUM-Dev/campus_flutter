@@ -2,7 +2,7 @@ import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
 import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grpc/grpc.dart';

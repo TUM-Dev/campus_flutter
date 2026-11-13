@@ -39,7 +39,7 @@ import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewm
 import 'package:campus_flutter/studiesComponent/viewModel/grade_viewmodel.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/lecture_details_viewmodel.dart';
 import 'package:campus_flutter/studiesComponent/viewModel/lecture_viewmodel.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grpc/grpc.dart';

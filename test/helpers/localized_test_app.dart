@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _Translations extends AssetLoader {
@@ -28,7 +28,10 @@ Future<void> pumpCard(WidgetTester tester, Widget child) async {
         builder: (context) => MaterialApp(
           locale: context.locale,
           supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
+          localizationsDelegates: [
+            ...GlobalMaterialLocalizations.delegates,
+            ...context.localizationDelegates,
+          ],
           home: Scaffold(body: SingleChildScrollView(child: child)),
         ),
       ),

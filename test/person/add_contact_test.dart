@@ -5,7 +5,7 @@ import 'package:campus_flutter/personComponent/model/personDetails/person_detail
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/personComponent/views/person_details_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

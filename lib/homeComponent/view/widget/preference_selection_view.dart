@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class PreferenceSelectionView<T> extends StatelessWidget {
   const PreferenceSelectionView({

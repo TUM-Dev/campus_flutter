@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/util/card_with_padding.dart';
 import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:lottie/lottie.dart';
 
 class InformationView extends StatelessWidget {

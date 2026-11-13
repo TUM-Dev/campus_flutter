@@ -11,7 +11,7 @@ import 'package:campus_flutter/searchComponent/views/resultViews/person_search_r
 import 'package:campus_flutter/searchComponent/views/resultViews/personal_lecture_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/resultViews/student_club_search_result_view.dart';
 import 'package:campus_flutter/searchComponent/views/resultViews/study_room_search_result_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchResultViewBuilder extends StatelessWidget {

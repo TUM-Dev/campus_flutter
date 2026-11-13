@@ -1,5 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+// HueRingPicker still contains Flutter Material text fields.
+import 'package:flutter/material.dart' as legacy show Material, MaterialType;
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class ColorPickerView extends StatefulWidget {
@@ -46,20 +48,22 @@ class _ColorPickerViewState extends State<ColorPickerView> {
             return AlertDialog(
               titlePadding: const EdgeInsets.all(0),
               contentPadding: const EdgeInsets.all(0),
-              content: SingleChildScrollView(
-                child: HueRingPicker(
-                  pickerColor: selectedColor,
-                  // The published picker disables hex input in its landscape
-                  // layout. Keep the editable layout inside our scrollable dialog.
-                  portraitOnly: true,
-                  onColorChanged: (color) {
-                    setState(() {
-                      selectedColor = color;
-                    });
-                    if (widget.onColorChanged != null) {
-                      widget.onColorChanged!(color);
-                    }
-                  },
+              content: legacy.Material(
+                type: legacy.MaterialType.transparency,
+                child: SingleChildScrollView(
+                  child: HueRingPicker(
+                    pickerColor: selectedColor,
+                    // Keep hex input editable in landscape inside the scrollable dialog.
+                    portraitOnly: true,
+                    onColorChanged: (color) {
+                      setState(() {
+                        selectedColor = color;
+                      });
+                      if (widget.onColorChanged != null) {
+                        widget.onColorChanged!(color);
+                      }
+                    },
+                  ),
                 ),
               ),
             );

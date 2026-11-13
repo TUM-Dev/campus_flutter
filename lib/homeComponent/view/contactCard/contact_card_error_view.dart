@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ContactCardErrorView extends StatelessWidget {
   const ContactCardErrorView({

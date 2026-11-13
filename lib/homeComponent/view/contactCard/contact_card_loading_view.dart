@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/services/device_type_service.dart';
 import 'package:campus_flutter/base/util/placeholder_text.dart';
 import 'package:campus_flutter/base/util/shimmer_view.dart';
 import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ContactCardLoadingView extends StatelessWidget {
   const ContactCardLoadingView({super.key});

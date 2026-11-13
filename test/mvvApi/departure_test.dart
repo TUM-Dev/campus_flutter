@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:campus_flutter/homeComponent/model/departure.dart';
 import 'package:campus_flutter/homeComponent/model/mvv_response.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -8,7 +8,7 @@ import 'package:campus_flutter/homeComponent/view/contactCard/contact_card_unaut
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/personComponent/model/profile/profile.dart';
 import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ContactScreen extends ConsumerStatefulWidget {

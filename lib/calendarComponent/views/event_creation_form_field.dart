@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EventCreationFormField extends ConsumerWidget {
@@ -23,12 +23,20 @@ class EventCreationFormField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.padding),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.padding,
+        vertical: context.halfPadding,
+      ),
       child: TextFormField(
         controller: controller,
         maxLength: maxLength,
         minLines: 1,
         maxLines: maxLines,
+        style: Theme.of(context).textTheme.bodyMedium,
+        textCapitalization: TextCapitalization.sentences,
+        textInputAction: maxLines == 1
+            ? TextInputAction.next
+            : TextInputAction.newline,
         decoration: InputDecoration(
           labelText: title,
           border: InputBorder.none,

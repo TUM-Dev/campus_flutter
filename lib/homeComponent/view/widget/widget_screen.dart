@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
 import 'package:campus_flutter/homeComponent/viewmodel/home_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/widget/home_settings_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WidgetScreen extends ConsumerWidget {

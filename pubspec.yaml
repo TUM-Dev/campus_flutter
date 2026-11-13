@@ -38,6 +38,8 @@ dependencies:
   auto_size_text: ^3.0.0
   quick_actions: ^1.1.1
   flutter_native_splash: ^2.4.8
+  material_ui: ^1.11.0
+  cupertino_ui: ^1.1.6
   syncfusion_flutter_core: ^35.1.43
   syncfusion_flutter_calendar: ^35.1.43
   syncfusion_flutter_charts: ^35.1.43

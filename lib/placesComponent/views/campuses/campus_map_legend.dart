@@ -1,7 +1,7 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart' show SymbolText;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class CampusMapLegend extends StatelessWidget {
   const CampusMapLegend({super.key});

@@ -5,6 +5,7 @@ import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_editing.dart';
 import 'package:campus_flutter/calendarComponent/model/calendar_event.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_addition_viewmodel.dart';
@@ -12,7 +13,7 @@ import 'package:campus_flutter/calendarComponent/views/event_creation_date_time_
 import 'package:campus_flutter/calendarComponent/views/event_creation_form_field.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -91,31 +92,34 @@ class EventCreationView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Title + annotation in one card
-            Card(
-              child: Column(
-                children: [
-                  EventCreationFormField(
-                    title: context.tr("title"),
-                    controller: vm.titleController,
-                    maxLength: 255,
-                    maxLines: 1,
-                    calendarEvent: calendarEvent,
-                  ),
-                  const Divider(height: 1, indent: 16, endIndent: 16),
-                  EventCreationFormField(
-                    title: context.tr("annotation"),
-                    controller: vm.annotationController,
-                    maxLength: 4000,
-                    maxLines: 3,
-                    calendarEvent: calendarEvent,
-                  ),
-                ],
+            WidgetFrameView(
+              titleWidget: SymbolText.icon(
+                iconData: Icons.edit_note_rounded,
+                label: context.tr("details"),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              child: Card(
+                child: SeparatedList.widgets(
+                  widgets: [
+                    EventCreationFormField(
+                      title: context.tr("title"),
+                      controller: vm.titleController,
+                      maxLength: 255,
+                      maxLines: 1,
+                      calendarEvent: calendarEvent,
+                    ),
+                    EventCreationFormField(
+                      title: context.tr("annotation"),
+                      controller: vm.annotationController,
+                      maxLength: 4000,
+                      maxLines: 3,
+                      calendarEvent: calendarEvent,
+                    ),
+                  ],
+                ),
               ),
             ),
-            // Date & time card
             _DateTimeCard(calendarEvent: calendarEvent),
-            // Recurrence as collapsible section
             _RecurrenceSection(calendarEvent: calendarEvent),
           ],
         ),
@@ -214,7 +218,6 @@ class _DateTimeCard extends ConsumerWidget {
             (snapshot.data ?? RecurrenceType.none) != RecurrenceType.none;
         final firstLabel = context.tr(isRecurring ? "start" : "from");
         final secondLabel = context.tr(isRecurring ? "end" : "to");
-        final labelWidth = isRecurring ? 56.0 : 44.0;
 
         return WidgetFrameView(
           titleWidget: SymbolText.icon(
@@ -225,24 +228,20 @@ class _DateTimeCard extends ConsumerWidget {
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: context.padding,
-                vertical: context.padding,
-              ),
-              child: Column(
-                children: [
+              padding: EdgeInsets.symmetric(horizontal: context.padding),
+              child: SeparatedList.widgets(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                padded: false,
+                widgets: [
                   EventCreationDateTimeRow(
                     title: firstLabel,
-                    titleWidth: labelWidth,
                     currentDate: vm.from,
                     onDateSet: vm.setFromDate,
                     onTimeOfDaySet: vm.setFromTimeOfDay,
                     showTime: true,
                   ),
-                  SizedBox(height: context.halfPadding * 2),
                   EventCreationDateTimeRow(
                     title: secondLabel,
-                    titleWidth: labelWidth,
                     currentDate: vm.to,
                     onDateSet: vm.setToDate,
                     onTimeOfDaySet: vm.setToTimeOfDay,
@@ -284,7 +283,11 @@ class _RecurrenceSection extends ConsumerWidget {
             child: Column(
               children: [
                 SwitchListTile(
-                  title: Text(context.tr("recurrence")),
+                  dense: true,
+                  title: Text(
+                    context.tr("recurrence"),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                   value: isActive,
                   onChanged: (on) {
                     vm.setRecurrenceType(
@@ -321,9 +324,9 @@ class _RecurrenceSection extends ConsumerWidget {
                                       ],
                                     ),
                                     style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.error,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .error,
                                     ),
                                   ),
                                 )
@@ -376,26 +379,25 @@ class _RecurrenceSentence extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row 1: "Repeat every [week ▾]"
                 Row(
                   children: [
                     Text(
                       context.tr("repeatEvery"),
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: _selectorChip(
+                      child: _selectorButton(
                         context: context,
                         label: frequencyLabel(type),
                         onTap: () {
                           showModalBottomSheet(
                             context: context,
+                            showDragHandle: true,
                             builder: (_) => SafeArea(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const _BottomSheetHandle(),
                                   for (final option in [
                                     RecurrenceType.daily,
                                     RecurrenceType.weekly,
@@ -425,23 +427,24 @@ class _RecurrenceSentence extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                // Row 2: "[for ▾] [4] times" or "[until ▾] [Apr 30]"
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: context.halfPadding,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    _selectorChip(
+                    _selectorButton(
                       context: context,
                       label: endType == RecurrenceEndType.count
                           ? context.tr("for")
                           : context.tr("endsOn"),
-                      compact: true,
                       onTap: () {
                         showModalBottomSheet(
                           context: context,
+                          showDragHandle: true,
                           builder: (_) => SafeArea(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const _BottomSheetHandle(),
                                 ListTile(
                                   title: Text(context.tr("for")),
                                   trailing: endType == RecurrenceEndType.count
@@ -479,7 +482,6 @@ class _RecurrenceSentence extends ConsumerWidget {
                         );
                       },
                     ),
-                    const SizedBox(width: 8),
                     if (endType == RecurrenceEndType.count)
                       StreamBuilder<int>(
                         stream: vm.occurrenceCount,
@@ -488,7 +490,7 @@ class _RecurrenceSentence extends ConsumerWidget {
                           return Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              _countChip(
+                              _occurrenceCount(
                                 context: context,
                                 count: count,
                                 onDecrement: count > 2
@@ -503,52 +505,49 @@ class _RecurrenceSentence extends ConsumerWidget {
                               const SizedBox(width: 8),
                               Text(
                                 context.tr("times"),
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           );
                         },
                       ),
                     if (endType == RecurrenceEndType.untilDate)
-                      Expanded(
-                        child: StreamBuilder<DateTime>(
-                          stream: vm.untilDate,
-                          builder: (context, dateSnapshot) {
-                            final date =
-                                dateSnapshot.data ??
-                                DateTime.now().add(const Duration(days: 30));
-                            return _selectorChip(
-                              context: context,
-                              label: DateFormat.yMMMd(
-                                context.locale.languageCode,
-                              ).format(date),
-                              onTap: () async {
-                                final eventStartDate = DateUtils.dateOnly(
-                                  vm.from.value,
-                                );
-                                final initialPickerDate = DateUtils.dateOnly(
-                                  date.isBefore(eventStartDate)
-                                      ? eventStartDate
-                                      : date,
-                                );
-                                final defaultLastDate = DateUtils.dateOnly(
-                                  DateTime.now().add(const Duration(days: 730)),
-                                );
-                                final lastPickerDate =
-                                    initialPickerDate.isAfter(defaultLastDate)
-                                    ? initialPickerDate
-                                    : defaultLastDate;
-                                final picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: initialPickerDate,
-                                  firstDate: eventStartDate,
-                                  lastDate: lastPickerDate,
-                                );
-                                vm.setUntilDate(picked);
-                              },
-                            );
-                          },
-                        ),
+                      StreamBuilder<DateTime>(
+                        stream: vm.untilDate,
+                        builder: (context, dateSnapshot) {
+                          final date =
+                              dateSnapshot.data ??
+                              DateTime.now().add(const Duration(days: 30));
+                          return _selectorButton(
+                            context: context,
+                            label: DateFormat.yMMMd(context.locale.languageCode)
+                                .format(date),
+                            onTap: () async {
+                              final eventStartDate = DateUtils.dateOnly(
+                                vm.from.value,
+                              );
+                              final initialPickerDate = DateUtils.dateOnly(
+                                date.isBefore(eventStartDate)
+                                    ? eventStartDate
+                                    : date,
+                              );
+                              final defaultLastDate = DateUtils.dateOnly(
+                                DateTime.now().add(const Duration(days: 730)),
+                              );
+                              final lastPickerDate =
+                                  initialPickerDate.isAfter(defaultLastDate)
+                                  ? initialPickerDate
+                                  : defaultLastDate;
+                              final picked = await showDatePicker(
+                                context: context,
+                                initialDate: initialPickerDate,
+                                firstDate: eventStartDate,
+                                lastDate: lastPickerDate,
+                              );
+                              vm.setUntilDate(picked);
+                            },
+                          );
+                        },
                       ),
                   ],
                 ),
@@ -560,118 +559,45 @@ class _RecurrenceSentence extends ConsumerWidget {
     );
   }
 
-  Widget _selectorChip({
+  Widget _selectorButton({
     required BuildContext context,
     required String label,
     required VoidCallback onTap,
-    bool compact = false,
   }) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(8),
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: compact ? 10 : 12,
-          vertical: compact ? 8 : 10,
-        ),
-        decoration: BoxDecoration(
-          color: context.primaryColor.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: context.primaryColor,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(width: 2),
-            Icon(Icons.arrow_drop_down_rounded, color: context.primaryColor),
-          ],
-        ),
-      ),
+    return TextButton.icon(
+      onPressed: onTap,
+      iconAlignment: IconAlignment.end,
+      icon: const Icon(Icons.expand_more_rounded, size: 20),
+      label: Text(label, textAlign: TextAlign.start),
     );
   }
 
-  Widget _countChip({
+  Widget _occurrenceCount({
     required BuildContext context,
     required int count,
     required VoidCallback? onDecrement,
     required VoidCallback? onIncrement,
   }) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 40),
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-      decoration: BoxDecoration(
-        color: context.primaryColor.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              iconSize: 16,
-              onPressed: onDecrement,
-              icon: const Icon(Icons.remove_rounded),
-            ),
-          ),
-          SizedBox(
-            width: 24,
-            child: Center(
-              child: Text(
-                "$count",
-                style: Theme.of(
-                  context,
-                ).textTheme.titleSmall?.copyWith(color: context.primaryColor),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              iconSize: 16,
-              onPressed: onIncrement,
-              icon: const Icon(Icons.add_rounded),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomSheetHandle extends StatelessWidget {
-  const _BottomSheetHandle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 4),
-      child: Center(
-        child: Container(
-          width: 40,
-          height: 4,
-          decoration: BoxDecoration(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(2),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          onPressed: onDecrement,
+          icon: const Icon(Icons.remove_rounded, size: 20),
+        ),
+        SizedBox(
+          width: 28,
+          child: Text(
+            "$count",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
-      ),
+        IconButton(
+          onPressed: onIncrement,
+          icon: const Icon(Icons.add_rounded, size: 20),
+        ),
+      ],
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/studiesComponent/model/grade.dart';
 import 'package:campus_flutter/studiesComponent/view/grade/grade_rectangle.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GradeRow extends StatelessWidget {
   const GradeRow({super.key, required this.grade});

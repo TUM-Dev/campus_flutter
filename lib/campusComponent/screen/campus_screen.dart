@@ -3,7 +3,7 @@ import 'package:campus_flutter/campusComponent/view/studentClub/student_club_wid
 import 'package:campus_flutter/campusComponent/view/movie/movies_widget_view.dart';
 import 'package:campus_flutter/campusComponent/view/news/news_widget_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 class CampusScreen extends StatelessWidget {

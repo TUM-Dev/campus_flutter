@@ -11,7 +11,7 @@ import 'package:campus_flutter/homeComponent/model/station.dart';
 import 'package:campus_flutter/homeComponent/viewmodel/departures_viewmodel.dart';
 import 'package:campus_flutter/homeComponent/view/departure/departures_details_row_view.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:campus_flutter/base/extensions/context.dart';
 

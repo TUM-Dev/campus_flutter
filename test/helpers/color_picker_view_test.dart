@@ -1,5 +1,7 @@
+import 'package:campus_flutter/base/theme/legacy_package_support.dart';
+import 'package:flutter/material.dart' as legacy show TextField;
 import 'package:campus_flutter/base/util/color_picker_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -13,6 +15,8 @@ void main() {
         final changes = <Color>[];
         await tester.pumpWidget(
           MaterialApp(
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            builder: (context, child) => LegacyPackageSupport(child: child!),
             home: Scaffold(
               body: Center(
                 child: ColorPickerView(
@@ -26,7 +30,7 @@ void main() {
         await tester.tap(find.byType(ColorPickerView));
         await tester.pumpAndSettle();
 
-        final field = find.byType(TextField);
+        final field = find.byType(legacy.TextField);
         for (final input in ['#', '#C', '#C92FA', '']) {
           await tester.enterText(field, input);
           await tester.pump();

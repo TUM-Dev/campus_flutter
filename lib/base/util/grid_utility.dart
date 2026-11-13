@@ -1,6 +1,6 @@
 import 'package:campus_flutter/base/enums/device.dart';
 import 'package:campus_flutter/base/services/device_type_service.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GridUtility {
   static int campusCrossAxisCount(BuildContext context) {

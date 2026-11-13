@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/enums/device.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class DeviceService {
   static Device getType(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/custom_back_button.dart';
 import 'package:campus_flutter/base/util/padded_divider.dart';
 import 'package:campus_flutter/searchComponent/protocols/searchable.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SearchResultDetailsScaffold<S extends Searchable>
     extends StatelessWidget {
