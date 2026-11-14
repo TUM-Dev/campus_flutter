@@ -14,6 +14,9 @@ class CacheEntry extends Table {
   DateTimeColumn get validUntil => dateTime()();
   DateTimeColumn get saved => dateTime()();
   TextColumn get body => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 @DriftDatabase(tables: [CacheEntry])
@@ -23,15 +26,32 @@ class CacheDatabase extends _$CacheDatabase {
   CacheDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (m, from, to) async {
+      if (from < 3) {
+        // Legacy entries contain bearer URLs or plaintext card data.
+        await customStatement('PRAGMA secure_delete = ON');
+        await m.deleteTable(cacheEntry.actualTableName);
+        await m.createTable(cacheEntry);
+      }
+    },
+  );
 }
 
 LazyDatabase _openConnection() {
   // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
-    final dbFolder = await getApplicationDocumentsDirectory();
+    // Disposable cache data belongs outside backed-up Documents storage.
+    final legacyFolder = await getApplicationDocumentsDirectory();
+    for (final suffix in ['', '-wal', '-shm', '-journal']) {
+      final legacy = File(p.join(legacyFolder.path, 'db.sqlite$suffix'));
+      if (await legacy.exists()) await legacy.delete();
+    }
+    final dbFolder = await getApplicationCacheDirectory();
+    await dbFolder.create(recursive: true);
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
 
     // Make sqlite3 pick a more suitable location for temporary files - the

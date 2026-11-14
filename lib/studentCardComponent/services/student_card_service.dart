@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_exception.dart';
 import 'package:campus_flutter/base/networking/apis/tumOnlineApi/tum_online_api_endpoint.dart';
@@ -11,20 +9,15 @@ class StudentCardService {
   static Future<(DateTime?, List<StudentCard>)> fetchStudentCard(
     bool forcedRefresh,
   ) async {
-    try {
-      RestClient restClient = getIt<RestClient>();
-      final response = await restClient
-          .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
-            TumOnlineApi(TumOnlineEndpointTumCard()),
-            StudentCards.fromJson,
-            TumOnlineApiException.fromJson,
-            forcedRefresh,
-          );
+    RestClient restClient = getIt<RestClient>();
+    final response = await restClient
+        .getWithException<StudentCards, TumOnlineApi, TumOnlineApiException>(
+          TumOnlineApi(TumOnlineEndpointTumCard()),
+          StudentCards.fromJson,
+          TumOnlineApiException.fromJson,
+          forcedRefresh,
+        );
 
-      return (response.saved, response.data.studentCards);
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
+    return (response.saved, response.data.studentCards);
   }
 }

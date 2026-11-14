@@ -2,11 +2,14 @@ import 'package:campus_flutter/base/networking/cache/cache.dart';
 import 'package:campus_flutter/base/networking/cache/cache_entry.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late CacheDatabase database;
   late Cache cache;
   setUp(() async {
+    FlutterSecureStorage.setMockInitialValues({});
     database = CacheDatabase.forTesting(NativeDatabase.memory());
     cache = Cache(cacheDatabase: database);
     await database.customSelect('SELECT * FROM cache_entry').get();

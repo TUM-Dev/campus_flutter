@@ -16,7 +16,7 @@ class $CacheEntryTable extends CacheEntry
     aliasedName,
     false,
     type: DriftSqlType.int,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _urlMeta = const VerificationMeta('url');
   @override
@@ -72,8 +72,6 @@ class $CacheEntryTable extends CacheEntry
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('url')) {
       context.handle(
@@ -111,7 +109,7 @@ class $CacheEntryTable extends CacheEntry
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   CacheEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -260,24 +258,20 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
   final Value<DateTime> validUntil;
   final Value<DateTime> saved;
   final Value<String> body;
-  final Value<int> rowid;
   const CacheEntryCompanion({
     this.id = const Value.absent(),
     this.url = const Value.absent(),
     this.validUntil = const Value.absent(),
     this.saved = const Value.absent(),
     this.body = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   CacheEntryCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     required String url,
     required DateTime validUntil,
     required DateTime saved,
     required String body,
-    this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       url = Value(url),
+  }) : url = Value(url),
        validUntil = Value(validUntil),
        saved = Value(saved),
        body = Value(body);
@@ -287,7 +281,6 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
     Expression<DateTime>? validUntil,
     Expression<DateTime>? saved,
     Expression<String>? body,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -295,7 +288,6 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
       if (validUntil != null) 'valid_until': validUntil,
       if (saved != null) 'saved': saved,
       if (body != null) 'body': body,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
@@ -305,7 +297,6 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
     Value<DateTime>? validUntil,
     Value<DateTime>? saved,
     Value<String>? body,
-    Value<int>? rowid,
   }) {
     return CacheEntryCompanion(
       id: id ?? this.id,
@@ -313,7 +304,6 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
       validUntil: validUntil ?? this.validUntil,
       saved: saved ?? this.saved,
       body: body ?? this.body,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -335,9 +325,6 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
     if (body.present) {
       map['body'] = Variable<String>(body.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
@@ -348,8 +335,7 @@ class CacheEntryCompanion extends UpdateCompanion<CacheEntryData> {
           ..write('url: $url, ')
           ..write('validUntil: $validUntil, ')
           ..write('saved: $saved, ')
-          ..write('body: $body, ')
-          ..write('rowid: $rowid')
+          ..write('body: $body')
           ..write(')'))
         .toString();
   }
@@ -367,12 +353,11 @@ abstract class _$CacheDatabase extends GeneratedDatabase {
 }
 
 typedef $$CacheEntryTableCreateCompanionBuilder = CacheEntryCompanion Function({
-  required int id,
+  Value<int> id,
   required String url,
   required DateTime validUntil,
   required DateTime saved,
   required String body,
-  Value<int> rowid,
 });
 typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
   Value<int> id,
@@ -380,7 +365,6 @@ typedef $$CacheEntryTableUpdateCompanionBuilder = CacheEntryCompanion Function({
   Value<DateTime> validUntil,
   Value<DateTime> saved,
   Value<String> body,
-  Value<int> rowid,
 });
 
 class $$CacheEntryTableFilterComposer
@@ -516,30 +500,26 @@ class $$CacheEntryTableTableManager
                 Value<DateTime> validUntil = const Value.absent(),
                 Value<DateTime> saved = const Value.absent(),
                 Value<String> body = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => CacheEntryCompanion(
                 id: id,
                 url: url,
                 validUntil: validUntil,
                 saved: saved,
                 body: body,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                required int id,
+                Value<int> id = const Value.absent(),
                 required String url,
                 required DateTime validUntil,
                 required DateTime saved,
                 required String body,
-                Value<int> rowid = const Value.absent(),
               }) => CacheEntryCompanion.insert(
                 id: id,
                 url: url,
                 validUntil: validUntil,
                 saved: saved,
                 body: body,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(

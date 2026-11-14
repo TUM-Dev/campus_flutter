@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/util/string_parser.dart';
 import 'package:campus_flutter/studentCardComponent/model/student_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:lottie/lottie.dart';
+import 'package:campus_flutter/studentCardComponent/views/student_card_validity_badge.dart';
 
 class InformationView extends StatelessWidget {
   const InformationView({super.key, required this.studentCard});
@@ -57,10 +57,9 @@ class InformationView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Spacer(),
-              _validUntil(context),
-              const Spacer(),
-              _validBadge(context),
+              Expanded(child: _validUntil(context)),
+              const SizedBox(width: 12),
+              StudentCardValidityBadge(studentCard: studentCard),
             ],
           ),
         ],
@@ -164,35 +163,6 @@ class InformationView extends StatelessWidget {
       "${context.tr("validUntil")}: ${DateFormat("dd.MM.yyyy", "de").format(studentCard.validUntil)}",
       style: Theme.of(context).textTheme.bodyLarge
           ?.copyWith(fontWeight: FontWeight.bold),
-    );
-  }
-
-  Widget _validBadge(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      width: 80,
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Lottie.asset(
-              "assets/lottieFiles/gradient_background_blue_white_speedup.json",
-            ),
-          ),
-          const Center(
-            child: Text(
-              "VALID",
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 22.0,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
