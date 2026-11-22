@@ -1,4 +1,5 @@
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/campusComponent/view/event/events_widget_view.dart';
 import 'package:campus_flutter/campusComponent/view/studentClub/student_club_widget_view.dart';
 import 'package:campus_flutter/campusComponent/view/movie/movies_widget_view.dart';
 import 'package:campus_flutter/campusComponent/view/news/news_widget_view.dart';
@@ -92,6 +93,21 @@ class CampusScreen extends StatelessWidget {
                           label: Text(context.tr('campusClubsShortcut')),
                           onPressed: () => context.push(studentClubs),
                         ),
+                        ActionChip(
+                          color: WidgetStatePropertyAll(
+                            Theme.of(context).cardTheme.color,
+                          ),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                          ),
+                          labelStyle: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                          avatar: const Icon(Icons.event_outlined, size: 18),
+                          label: Text(context.tr('events')),
+                          onPressed: () => context.push(events),
+                        ),
                       ],
                     ),
                   ],
@@ -99,6 +115,7 @@ class CampusScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const NewsWidgetView(),
+              const EventsWidgetView(),
               LayoutBuilder(
                 builder: (context, constraints) {
                   if (constraints.maxWidth >= 900) {

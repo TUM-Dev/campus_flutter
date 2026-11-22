@@ -10,6 +10,7 @@ import 'package:campus_flutter/calendarComponent/views/event_creation_view.dart'
 import 'package:campus_flutter/campusComponent/screen/campus_screen.dart';
 import 'package:campus_flutter/campusComponent/screen/movie_screen.dart';
 import 'package:campus_flutter/campusComponent/screen/news_screen.dart';
+import 'package:campus_flutter/campusComponent/screen/events_screen.dart';
 import 'package:campus_flutter/campusComponent/screen/student_clubs_screen.dart';
 import 'package:campus_flutter/homeComponent/view/departure/departures_details_view.dart';
 import 'package:campus_flutter/feedbackComponent/views/feedback_form_view.dart';
@@ -159,6 +160,7 @@ final _router = GoRouter(
     ),
     GoRoute(path: news, builder: (context, state) => const NewsScreen()),
     GoRoute(path: movies, builder: (context, state) => const MovieScreen()),
+    GoRoute(path: events, builder: (context, state) => const EventsScreen()),
     GoRoute(
       path: studyRooms,
       builder: (context, state) => const StudyRoomsScaffold(),

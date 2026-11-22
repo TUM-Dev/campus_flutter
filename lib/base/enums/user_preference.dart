@@ -12,7 +12,8 @@ enum UserPreference {
   weekends(bool),
   hiddenCalendarEntries(bool),
   calendarSync(bool),
-  calendarTab(int);
+  calendarTab(int),
+  eventsCampus(int);
 
   final Type type;
 

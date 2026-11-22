@@ -24,6 +24,7 @@ const campus = "/campus";
 const studentClubs = "/studentClubs";
 const news = "/news";
 const movies = "/movies";
+const events = "/events";
 
 /// Places tab
 const places = "/places";

@@ -330,5 +330,6 @@
   "apiSubmissionUncertainRecovery": "Your request may have been completed. Please check before submitting it again.",
   "couldNotOpenLink": "This link could not be opened.",
   "tumOnlineRequestFailed": "TUMonline request failed",
-  "tumOnlineServiceMessage": "Message from TUMonline:"
+  "tumOnlineServiceMessage": "Message from TUMonline:",
+  "noUpcomingEvents": "No upcoming events"
 }

@@ -330,5 +330,6 @@
   "apiSubmissionUncertainRecovery": "Deine Anfrage wurde möglicherweise bereits ausgeführt. Bitte prüfe dies, bevor du sie erneut absendest.",
   "couldNotOpenLink": "Dieser Link konnte nicht geöffnet werden.",
   "tumOnlineRequestFailed": "TUMonline-Anfrage fehlgeschlagen",
-  "tumOnlineServiceMessage": "Nachricht von TUMonline:"
+  "tumOnlineServiceMessage": "Nachricht von TUMonline:",
+  "noUpcomingEvents": "Keine bevorstehenden Events"
 }
