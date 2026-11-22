@@ -158,14 +158,16 @@ class CafeteriasViewModel {
   void _categorizeAndSort(List<Cafeteria> cafeterias) {
     Map<Campus, List<Cafeteria>> campusCafeterias = {};
     for (var campus in Campus.values) {
+      final preferredId = campus.defaultCafeteriaId;
       final closeCafeterias = cafeterias.where((element) {
+        if (preferredId != null && element.id == preferredId) return true;
         return Geolocator.distanceBetween(
               campus.location.latitude,
               campus.location.longitude,
               element.location.latitude,
               element.location.longitude,
             ) <=
-            1000;
+            1500;
       }).toList();
 
       campusCafeterias[campus] = closeCafeterias;

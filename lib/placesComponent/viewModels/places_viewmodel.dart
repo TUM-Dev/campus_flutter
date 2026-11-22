@@ -1,61 +1,92 @@
 import 'package:campus_flutter/base/enums/campus.dart';
-
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
+import 'package:campus_flutter/base/util/map_launcher.dart';
 import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
-import 'package:campus_flutter/placesComponent/model/studyRooms/study_room_data.dart';
 import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
 import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
+import 'package:rxdart/rxdart.dart';
 
-final placesViewModel = Provider((ref) => PlacesViewModel(ref));
+final placesViewModel = Provider((ref) {
+  final model = PlacesViewModel(
+    ref,
+    defaultCampus: ref.read(defaultCampusProvider),
+  );
+  ref.listen(
+    defaultCampusProvider,
+    (_, campus) => model.updateDefaultCampus(campus),
+  );
+  return model;
+});
 
 class PlacesViewModel {
-  List<Campus> campuses = [];
+  static const List<Campus> _defaultOrder = [
+    Campus.stammgelaende,
+    Campus.garching,
+    Campus.freising,
+    Campus.olympiapark,
+    Campus.klinikumRechts,
+    Campus.grosshadern,
+    Campus.ottobrunn,
+    Campus.heilbronn,
+  ];
 
-  StudyRoomData? studyRoomData;
   final Ref ref;
+  Campus? _defaultCampus;
+  Position? _lastLocation;
 
-  PlacesViewModel(this.ref);
+  final BehaviorSubject<List<Campus>> campuses = BehaviorSubject.seeded(
+    _defaultOrder,
+  );
 
-  Future fetch(bool forcedRefresh) {
-    return _getCampusByLocation().then((value) {
-      campuses = value;
-    });
+  PlacesViewModel(this.ref, {Campus? defaultCampus}) {
+    _defaultCampus = defaultCampus;
+    _emitOrderedCampuses();
   }
 
-  Future<List<Campus>> _getCampusByLocation() {
-    List<Campus> defaultOrder = [
-      Campus.stammgelaende,
-      Campus.garching,
-      Campus.olympiapark,
-      Campus.freising,
-    ];
-    return LocationService.getLastKnown().then((location) {
-      if (location == null) {
-        return defaultOrder;
-      } else {
-        defaultOrder.sort((campus1, campus2) {
-          final campus1Location = campus1.location;
-          final campus2Location = campus2.location;
-          final distance1 = Geolocator.distanceBetween(
-            location.latitude,
-            location.longitude,
-            campus1Location.latitude,
-            campus1Location.longitude,
-          );
-          final distance2 = Geolocator.distanceBetween(
-            location.latitude,
-            location.longitude,
-            campus2Location.latitude,
-            campus2Location.longitude,
-          );
-          return distance1.compareTo(distance2);
-        });
-        return defaultOrder;
-      }
-    }, onError: (error) => defaultOrder);
+  void updateDefaultCampus(Campus? campus) {
+    _defaultCampus = campus;
+    _emitOrderedCampuses();
+  }
+
+  Future<void> fetch(bool forcedRefresh) async {
+    try {
+      _lastLocation = await LocationService.getLastKnown();
+    } catch (_) {
+      _lastLocation = null;
+    }
+    _emitOrderedCampuses();
+  }
+
+  void _emitOrderedCampuses() {
+    final ordered = List<Campus>.of(_defaultOrder);
+    final location = _lastLocation;
+    if (location != null) {
+      ordered.sort((a, b) {
+        final distanceA = Geolocator.distanceBetween(
+          location.latitude,
+          location.longitude,
+          a.location.latitude,
+          a.location.longitude,
+        );
+        final distanceB = Geolocator.distanceBetween(
+          location.latitude,
+          location.longitude,
+          b.location.latitude,
+          b.location.longitude,
+        );
+        return distanceA.compareTo(distanceB);
+      });
+    }
+    final preferred = _defaultCampus;
+    if (preferred != null && ordered.remove(preferred)) {
+      ordered.insert(0, preferred);
+    }
+    campuses.add(ordered);
   }
 
   Set<Marker> getCampusMarkers(BuildContext context, Campus campus) {
@@ -65,6 +96,27 @@ class PlacesViewModel {
     final cafeteriaMarkers = ref
         .read(cafeteriasViewModel)
         .mapMakersCampus(context, campus);
-    return studyRoomMarkers.union(cafeteriaMarkers);
+    final stationMarkers = campus.allStations
+        .where((station) => station.location != null)
+        .map(
+          (station) => Marker(
+            id: 'station_${station.apiName}',
+            position: LatLng(
+              station.location!.latitude,
+              station.location!.longitude,
+            ),
+            infoWindow: InfoWindow(
+              title: station.name,
+              onTap: () => showDirectionsDialog(
+                station.name,
+                station.location!,
+                context,
+              ),
+            ),
+          ),
+        )
+        .toSet();
+    final combined = studyRoomMarkers.union(cafeteriaMarkers);
+    return combined.isNotEmpty ? combined : stationMarkers;
   }
 }

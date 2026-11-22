@@ -30,14 +30,18 @@ class NavigaTumCampusViewModel {
       type: 'room',
     ).then(
       (value) {
-        final mostSearchResults = value.sections
+        final allEntries = value.sections
             .expand((element) => element.entries)
+            .where((element) => element.name.isNotEmpty)
             .toList();
-        mostSearchResults.removeWhere(
-          (element) =>
-              element.name.isEmpty || int.tryParse(element.name[0]) == null,
+        final numberedRooms = allEntries
+            .where((element) => int.tryParse(element.name[0]) != null)
+            .toList();
+        mostSearchedResults.add(
+          numberedRooms.isNotEmpty
+              ? numberedRooms
+              : allEntries.take(10).toList(),
         );
-        mostSearchedResults.add(mostSearchResults);
       },
       onError: (Object error, StackTrace stack) =>
           mostSearchedResults.addError(error, stack),

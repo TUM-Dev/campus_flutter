@@ -17,18 +17,6 @@ enum Campus {
 }
 
 extension CampusExtension on Campus {
-  static List<Campus> get campusPlaces {
-    return [
-      Campus.stammgelaende,
-      Campus.garching,
-      Campus.olympiapark,
-      Campus.klinikumRechts,
-      Campus.freising,
-      Campus.ottobrunn,
-      Campus.heilbronn,
-    ];
-  }
-
   String get searchStringRooms {
     switch (this) {
       case Campus.stammgelaende:
@@ -50,20 +38,24 @@ extension CampusExtension on Campus {
     }
   }
 
-  String? get image {
+  String get image {
     switch (this) {
       case Campus.stammgelaende:
-        return "assets/images/campus/campus-stamm.jpeg";
+        return "assets/images/campus/campus-stamm.webp";
       case Campus.olympiapark:
-        return "assets/images/campus/campus-olympia.jpg";
+        return "assets/images/campus/campus-olympia.webp";
       case Campus.klinikumRechts:
-        return "assets/images/campus/campus-klinikum.jpg";
+        return "assets/images/campus/campus-klinikum.webp";
+      case Campus.grosshadern:
+        return "assets/images/campus/campus-grosshadern.webp";
       case Campus.garching:
-        return "assets/images/campus/campus-garching.jpeg";
+        return "assets/images/campus/campus-garching.webp";
       case Campus.freising:
-        return "assets/images/campus/campus-freising.jpg";
-      default:
-        return null;
+        return "assets/images/campus/campus-freising.webp";
+      case Campus.ottobrunn:
+        return "assets/images/campus/campus-ottobrunn.webp";
+      case Campus.heilbronn:
+        return "assets/images/campus/campus-heilbronn.webp";
     }
   }
 

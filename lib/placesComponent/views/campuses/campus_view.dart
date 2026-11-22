@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
+import 'package:campus_flutter/base/util/map_launcher.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:campus_flutter/navigaTumComponent/viewModels/navigatum_campus_viewmodel.dart';
@@ -14,9 +15,9 @@ import 'package:campus_flutter/placesComponent/views/campuses/campus_most_search
 import 'package:campus_flutter/placesComponent/views/homeWidget/study_room_widget_view.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AdaptedCampusView extends StatelessWidget {
   const AdaptedCampusView({
@@ -51,18 +52,9 @@ class CampusView extends ConsumerStatefulWidget {
 }
 
 class _CampusViewState extends ConsumerState<CampusView> {
-  late List<Cafeteria> cafeterias;
-  late List<StudyRoomGroup> studyRooms;
-
   @override
   void initState() {
     ref.read(navigaTumCampusViewModel(widget.campus)).mostSearched(false);
-    cafeterias =
-        ref.read(cafeteriasViewModel).campusCafeterias.value?[widget.campus] ??
-        [];
-    studyRooms =
-        ref.read(studyRoomsViewModel).campusStudyRooms.value?[widget.campus] ??
-        [];
     super.initState();
   }
 
@@ -76,6 +68,8 @@ class _CampusViewState extends ConsumerState<CampusView> {
   }
 
   Widget _landscapeOrientation() {
+    final cafeteriasVM = ref.watch(cafeteriasViewModel);
+    final studyRoomsVM = ref.watch(studyRoomsViewModel);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -83,17 +77,29 @@ class _CampusViewState extends ConsumerState<CampusView> {
           child: WidgetFrameView(
             title: context.tr("map"),
             child: Expanded(
-              child: MapWidget.fullPadding(
-                aspectRatioNeeded: false,
-                markers: ref
-                    .read(placesViewModel)
-                    .getCampusMarkers(context, widget.campus),
-                latLng: LatLng(
-                  widget.campus.location.latitude,
-                  widget.campus.location.longitude,
-                ),
-                zoom: 15,
-                mapLegend: CampusMapLegend(),
+              child: StreamBuilder(
+                stream: cafeteriasVM.campusCafeterias,
+                initialData: cafeteriasVM.campusCafeterias.value,
+                builder: (context, _) {
+                  return StreamBuilder(
+                    stream: studyRoomsVM.campusStudyRooms,
+                    initialData: studyRoomsVM.campusStudyRooms.value,
+                    builder: (context, _) {
+                      return MapWidget.fullPadding(
+                        aspectRatioNeeded: false,
+                        markers: ref
+                            .read(placesViewModel)
+                            .getCampusMarkers(context, widget.campus),
+                        latLng: LatLng(
+                          widget.campus.location.latitude,
+                          widget.campus.location.longitude,
+                        ),
+                        zoom: 15,
+                        mapLegend: const CampusMapLegend(),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ),
@@ -113,44 +119,78 @@ class _CampusViewState extends ConsumerState<CampusView> {
   }
 
   Widget _campusWidgets() {
+    final stations = widget.campus.allStations;
     return Column(
       children: [
-        Column(
-          children: [
-            if (cafeterias.isNotEmpty)
-              WidgetFrameView(
-                titleWidget: SymbolText.image(
-                  image: Image.asset("assets/images/map/pin_blue.webp"),
-                  label: context.tr("cafeterias"),
-                  style: Theme.of(context).textTheme.titleMedium,
-                  leading: false,
-                ),
-                child: Card(
-                  child: SeparatedList.list(
-                    data: cafeterias,
-                    tile: (cafeteria) => CafeteriaRowView(cafeteria: cafeteria),
-                  ),
+        StreamBuilder<Map<Campus, List<Cafeteria>>?>(
+          stream: ref.watch(cafeteriasViewModel).campusCafeterias,
+          initialData: ref.read(cafeteriasViewModel).campusCafeterias.value,
+          builder: (context, snapshot) {
+            final cafeterias = snapshot.data?[widget.campus] ?? const [];
+            if (cafeterias.isEmpty) return const SizedBox.shrink();
+            return WidgetFrameView(
+              titleWidget: SymbolText.image(
+                image: Image.asset("assets/images/map/pin_blue.webp"),
+                label: context.tr("cafeterias"),
+                style: Theme.of(context).textTheme.titleMedium,
+                leading: false,
+              ),
+              child: Card(
+                child: SeparatedList.list(
+                  data: cafeterias,
+                  tile: (cafeteria) => CafeteriaRowView(cafeteria: cafeteria),
                 ),
               ),
-            if (studyRooms.isNotEmpty)
-              WidgetFrameView(
-                titleWidget: SymbolText.image(
-                  image: Image.asset("assets/images/map/pin_red.webp"),
-                  label: context.tr("studyRooms"),
-                  style: Theme.of(context).textTheme.titleMedium,
-                  leading: false,
-                ),
-                child: Card(
-                  child: SeparatedList.list(
-                    data: studyRooms,
-                    tile: (studyRoomGroup) =>
-                        StudyRoomWidgetView(studyRoomGroup),
-                  ),
-                ),
-              ),
-            CampusMostSearchedView(campus: widget.campus),
-          ],
+            );
+          },
         ),
+        StreamBuilder<Map<Campus, List<StudyRoomGroup>>?>(
+          stream: ref.watch(studyRoomsViewModel).campusStudyRooms,
+          initialData: ref.read(studyRoomsViewModel).campusStudyRooms.value,
+          builder: (context, snapshot) {
+            final studyRooms = snapshot.data?[widget.campus] ?? const [];
+            if (studyRooms.isEmpty) return const SizedBox.shrink();
+            return WidgetFrameView(
+              titleWidget: SymbolText.image(
+                image: Image.asset("assets/images/map/pin_red.webp"),
+                label: context.tr("studyRooms"),
+                style: Theme.of(context).textTheme.titleMedium,
+                leading: false,
+              ),
+              child: Card(
+                child: SeparatedList.list(
+                  data: studyRooms,
+                  tile: (studyRoomGroup) =>
+                      StudyRoomWidgetView(studyRoomGroup),
+                ),
+              ),
+            );
+          },
+        ),
+        if (stations.isNotEmpty)
+          WidgetFrameView(
+            title: context.tr("departures"),
+            child: Card(
+              child: SeparatedList.list(
+                data: stations,
+                tile: (station) => ListTile(
+                  leading: const Icon(Icons.directions_transit_outlined),
+                  title: Text(station.name),
+                  trailing: station.location != null
+                      ? const Icon(Icons.directions_outlined, size: 18)
+                      : null,
+                  onTap: station.location == null
+                      ? null
+                      : () => showDirectionsDialog(
+                          station.name,
+                          station.location!,
+                          context,
+                        ),
+                ),
+              ),
+            ),
+          ),
+        CampusMostSearchedView(campus: widget.campus),
       ],
     );
   }

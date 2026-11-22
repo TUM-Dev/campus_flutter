@@ -192,8 +192,10 @@ class StudyRoomsViewModel {
     Map<Campus, List<StudyRoomGroup>> campusStudyRooms = {};
     for (var campus in Campus.values) {
       if (studyRoomData?.groups != null) {
+        final preferredId = campus.defaultStudyRoomGroupId;
         List<StudyRoomGroup> groups = studyRoomData!.groups!;
         groups = groups.where((element) {
+          if (preferredId != null && element.id == preferredId) return true;
           if (element.coordinate != null) {
             return Geolocator.distanceBetween(
                   campus.location.latitude,
@@ -201,7 +203,7 @@ class StudyRoomsViewModel {
                   element.coordinate!.latitude,
                   element.coordinate!.longitude,
                 ) <=
-                1000;
+                1500;
           } else {
             return false;
           }
