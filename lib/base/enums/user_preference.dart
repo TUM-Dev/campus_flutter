@@ -2,6 +2,7 @@ enum UserPreference {
   cafeteria(String),
   departure(int),
   studyRoom(int),
+  cinema(int),
   homeWidgets(List<String>),
   theme(int),
   calendarColors(String),

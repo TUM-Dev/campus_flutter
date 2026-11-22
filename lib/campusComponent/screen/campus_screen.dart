@@ -74,7 +74,7 @@ class CampusScreen extends StatelessWidget {
                             Icons.local_movies_outlined,
                             size: 18,
                           ),
-                          label: const Text('TU Film'),
+                          label: Text(context.tr('movies')),
                           onPressed: () => context.push(movies),
                         ),
                         ActionChip(
