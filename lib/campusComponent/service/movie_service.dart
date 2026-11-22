@@ -35,7 +35,7 @@ class MovieService {
       final img = item.querySelector('img')?.attributes['src'] ?? '';
       final dateText = item.querySelector('.datum')?.text.trim() ?? '';
       final timeText = item.querySelector('.uhrzeit')?.text.trim() ?? '';
-      final room = item.querySelector('.raum')?.text.trim() ?? 'NXTSpace - Bildungscampus';
+      final room = item.querySelector('.raum, .filmraum')?.text.trim() ?? '';
 
       if (title.isEmpty) continue;
 
