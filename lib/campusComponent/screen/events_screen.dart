@@ -1,5 +1,7 @@
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/view/event/event_card_view.dart';
+import 'package:campus_flutter/homeComponent/view/widget/preference_selection_view.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_collection_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/events_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -33,7 +35,24 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: const Text(campusHeilbronnName),
-      actions: [
+            actions: [
+        IconButton(
+          onPressed: () => showModalBottomSheet(
+            builder: (context) => PreferenceSelectionView(
+              data: ref
+                  .read(eventsViewModel)
+                  .getCampusEntries(context),
+              entry: campusHeilbronnName,
+            ),
+            context: context,
+            useRootNavigator: true,
+            isScrollControlled: true,
+            useSafeArea: true,
+            showDragHandle: true,
+          ),
+          tooltip: context.tr('selectPreferred', args: [campusHeilbronnName]),
+          icon: Icon(Icons.filter_list, color: context.primaryColor),
+        ),
         IconButton(
           onPressed: _refresh,
           tooltip: context.tr('refresh'),

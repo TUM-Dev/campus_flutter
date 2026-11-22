@@ -7,7 +7,9 @@ import 'package:campus_flutter/campusComponent/view/event/event_card_view.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_carousel_inset.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_section_heading.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/events_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/view/widget/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
+import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,10 +41,32 @@ class _EventsWidgetViewState extends ConsumerState<EventsWidgetView> {
       if (snapshot.hasData && snapshot.data!.isEmpty) {
         return const SizedBox.shrink();
       }
-      return WidgetFrameView(
-        titleWidget: CampusSectionHeading(
-          title: campusHeilbronnName,
-          onMore: () => context.push(events),
+            return WidgetFrameView(
+        titleWidget: Row(
+          children: [
+            Expanded(
+              child: CampusSectionHeading(
+                title: campusHeilbronnName,
+                onMore: () => context.push(events),
+              ),
+            ),
+            InkWell(
+              child: Icon(Icons.filter_list, color: context.primaryColor),
+              onTap: () => showModalBottomSheet(
+                builder: (context) => PreferenceSelectionView(
+                  data: ref
+                      .read(eventsViewModel)
+                      .getCampusEntries(context),
+                  entry: campusHeilbronnName,
+                ),
+                context: context,
+                useRootNavigator: true,
+                isScrollControlled: true,
+                useSafeArea: true,
+                showDragHandle: true,
+              ),
+            ),
+          ],
         ),
         child: _body(snapshot),
       );
