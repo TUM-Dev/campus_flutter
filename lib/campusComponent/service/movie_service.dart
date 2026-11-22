@@ -30,18 +30,39 @@ class MovieService {
     );
     final document = html_parser.parse(response.data ?? '');
     final movies = <Movie>[];
-    for (final item in document.querySelectorAll('.kino-movie-item, article.movie, .film-item, .screening-item')) {
-      final title = item.querySelector('.movie-title, h2, h3, .title')?.text.trim() ?? '';
+    for (final item in document.querySelectorAll('.film-showcase')) {
+      final title = item.querySelector('h1')?.text.trim() ?? '';
       final img = item.querySelector('img')?.attributes['src'] ?? '';
-      final href = item.querySelector('a')?.attributes['href'] ?? '';
+      final dateText = item.querySelector('.datum')?.text.trim() ?? '';
+      final timeText = item.querySelector('.uhrzeit')?.text.trim() ?? '';
+      final room = item.querySelector('.raum')?.text.trim() ?? 'NXTSpace - Bildungscampus';
+
       if (title.isEmpty) continue;
+
+      DateTime movieDate = currentDate;
+      final dateMatch = RegExp(r'(\d{2})\.(\d{2})\.(\d{4})').firstMatch(dateText);
+      if (dateMatch != null) {
+        final day = int.parse(dateMatch.group(1)!);
+        final month = int.parse(dateMatch.group(2)!);
+        final year = int.parse(dateMatch.group(3)!);
+        final timeMatch = RegExp(r'(\d{1,2}):(\d{2})').firstMatch(timeText);
+        final hour = timeMatch != null ? int.parse(timeMatch.group(1)!) : 18;
+        final minute = timeMatch != null ? int.parse(timeMatch.group(2)!) : 0;
+        movieDate = DateTime(year, month, day, hour, minute);
+      }
+
+      final coverUrl = img.isEmpty
+          ? ''
+          : (img.startsWith('http')
+              ? img
+              : 'https://www.unifilm.de/${img.replaceFirst(RegExp(r'^/'), '')}');
+
       movies.add(Movie(
         title: 'Campuskino Heilbronn: $title',
-        date: Timestamp.fromDateTime(currentDate),
-        coverUrl: img.startsWith('http') ? img : 'https://www.unifilm.de$img',
-        additionalInformationUrl: href.startsWith('http')
-            ? href
-            : 'https://www.unifilm.de$href',
+        date: Timestamp.fromDateTime(movieDate),
+        coverUrl: coverUrl,
+        location: room,
+        additionalInformationUrl: 'https://www.unifilm.de/studentenkinos/heilbronn',
       ));
     }
     // Fallback: die Seite direkt verlinken wenn keine Filme geparst wurden
