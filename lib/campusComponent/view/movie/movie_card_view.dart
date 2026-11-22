@@ -46,12 +46,16 @@ class MovieCardView extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  StringParser.dateFormatter(movie.date.toDateTime(), context),
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                if (movie.hasDate())
+                  Text(
+                    StringParser.dateFormatter(
+                      movie.date.toDateTime(),
+                      context,
+                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
               ],
             ),
           ),

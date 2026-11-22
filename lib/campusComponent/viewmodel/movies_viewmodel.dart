@@ -12,39 +12,55 @@ import 'package:rxdart/rxdart.dart';
 
 final movieViewModel = Provider((ref) => MovieViewModel());
 
-/// 0 = TU Film, 1 = Campuskino Heilbronn
-const _cinemaNames = ['TU Film', 'Campuskino Heilbronn'];
-const _cinemaWebsites = [
-  'https://www.tu-film.de/',
-  'https://www.unifilm.de/studentenkinos/heilbronn',
-];
+const _cinemas = <String, (String, String)>{
+  'tuFilm': ('TU Film', 'https://www.tu-film.de/'),
+  'campuskinoHeilbronn': (
+    'Campuskino Heilbronn',
+    'https://www.unifilm.de/studentenkinos/heilbronn',
+  ),
+};
 
 class MovieViewModel {
   final BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
   final BehaviorSubject<int> selectedCinema;
 
-  MovieViewModel() : selectedCinema = BehaviorSubject.seeded(_loadSavedCinema());
+  static const _defaultCinemaIndex = 0;
 
-  static int _loadSavedCinema() {
+  MovieViewModel()
+    : selectedCinema = BehaviorSubject.seeded(
+        _readSavedCinema() ?? _defaultCinemaIndex,
+      );
+
+  static int? _readSavedCinema() {
+    if (!getIt.isRegistered<UserPreferencesService>()) return null;
     try {
-      if (getIt.isRegistered<UserPreferencesService>()) {
-        return (getIt<UserPreferencesService>().load(UserPreference.cinema) as int?) ?? 0;
-      }
-    } catch (_) {}
-    return 0;
+      return getIt<UserPreferencesService>().load(UserPreference.cinema)
+          as int?;
+    } catch (error) {
+      debugPrint('Could not read the cinema preference: $error');
+      return null;
+    }
   }
 
-  String get cinemaName => _cinemaNames[selectedCinema.value];
-  String get cinemaWebsite => _cinemaWebsites[selectedCinema.value];
+  String get cinemaName => _cinemas.values.elementAt(selectedCinema.value).$1;
+  String get cinemaWebsite =>
+      _cinemas.values.elementAt(selectedCinema.value).$2;
 
-  void setCinema(int index) {
-    selectedCinema.add(index);
+  void setCinema(int? index) {
+    selectedCinema.add(index ?? _defaultCinemaIndex);
     try {
       if (getIt.isRegistered<UserPreferencesService>()) {
-        getIt<UserPreferencesService>().save(UserPreference.cinema, index);
+        final preferences = getIt<UserPreferencesService>();
+        if (index == null) {
+          preferences.reset(UserPreference.cinema);
+        } else {
+          preferences.save(UserPreference.cinema, index);
+        }
       }
-    } catch (_) {}
+    } catch (error) {
+      debugPrint('Could not update the cinema preference: $error');
+    }
     fetch(true);
   }
 
@@ -60,32 +76,21 @@ class MovieViewModel {
   }
 
   List<ListTile> getCinemaEntries(BuildContext context) {
-    int? saved;
-    try {
-      if (getIt.isRegistered<UserPreferencesService>()) {
-        saved = getIt<UserPreferencesService>().load(UserPreference.cinema) as int?;
-      }
-    } catch (_) {}
+    final saved = _readSavedCinema();
     return [
       ListTile(
         dense: true,
         title: Text(context.tr('closest')),
         trailing: saved == null ? const Icon(Icons.check) : null,
         onTap: () {
-          try {
-            if (getIt.isRegistered<UserPreferencesService>()) {
-              getIt<UserPreferencesService>().reset(UserPreference.cinema);
-            }
-          } catch (_) {}
-          selectedCinema.add(0);
-          fetch(true);
+          setCinema(null);
           context.pop();
         },
       ),
-      for (int i = 0; i < _cinemaNames.length; i++)
+      for (int i = 0; i < _cinemas.length; i++)
         ListTile(
           dense: true,
-          title: Text(_cinemaNames[i]),
+          title: Text(_cinemas.values.elementAt(i).$1),
           trailing: saved == i ? const Icon(Icons.check) : null,
           onTap: () {
             setCinema(i);
