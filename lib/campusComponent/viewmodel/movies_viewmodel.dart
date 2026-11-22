@@ -22,16 +22,29 @@ const _cinemaWebsites = [
 class MovieViewModel {
   final BehaviorSubject<List<Movie>?> movies = BehaviorSubject.seeded(null);
   final BehaviorSubject<DateTime?> lastFetched = BehaviorSubject.seeded(null);
-  final BehaviorSubject<int> selectedCinema = BehaviorSubject.seeded(
-    (getIt<UserPreferencesService>().load(UserPreference.cinema) as int?) ?? 0,
-  );
+  final BehaviorSubject<int> selectedCinema;
+
+  MovieViewModel() : selectedCinema = BehaviorSubject.seeded(_loadSavedCinema());
+
+  static int _loadSavedCinema() {
+    try {
+      if (getIt.isRegistered<UserPreferencesService>()) {
+        return (getIt<UserPreferencesService>().load(UserPreference.cinema) as int?) ?? 0;
+      }
+    } catch (_) {}
+    return 0;
+  }
 
   String get cinemaName => _cinemaNames[selectedCinema.value];
   String get cinemaWebsite => _cinemaWebsites[selectedCinema.value];
 
   void setCinema(int index) {
     selectedCinema.add(index);
-    getIt<UserPreferencesService>().save(UserPreference.cinema, index);
+    try {
+      if (getIt.isRegistered<UserPreferencesService>()) {
+        getIt<UserPreferencesService>().save(UserPreference.cinema, index);
+      }
+    } catch (_) {}
     fetch(true);
   }
 
@@ -47,14 +60,23 @@ class MovieViewModel {
   }
 
   List<ListTile> getCinemaEntries(BuildContext context) {
-    final saved = getIt<UserPreferencesService>().load(UserPreference.cinema) as int?;
+    int? saved;
+    try {
+      if (getIt.isRegistered<UserPreferencesService>()) {
+        saved = getIt<UserPreferencesService>().load(UserPreference.cinema) as int?;
+      }
+    } catch (_) {}
     return [
       ListTile(
         dense: true,
         title: Text(context.tr('closest')),
         trailing: saved == null ? const Icon(Icons.check) : null,
         onTap: () {
-          getIt<UserPreferencesService>().reset(UserPreference.cinema);
+          try {
+            if (getIt.isRegistered<UserPreferencesService>()) {
+              getIt<UserPreferencesService>().reset(UserPreference.cinema);
+            }
+          } catch (_) {}
           selectedCinema.add(0);
           fetch(true);
           context.pop();
