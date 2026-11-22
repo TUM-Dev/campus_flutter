@@ -81,8 +81,9 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
         error: snapshot.error,
         stackTrace: snapshot.stackTrace,
         itemCount: snapshot.data?.length ?? 0,
-        minimumCardWidth: 280,
-        cardAspectRatio: 3,
+        minimumCardWidth: 260,
+        cardAspectRatio: 1,
+        cardHeight: 290,
         itemBuilder: (context, index) =>
             EventCardView(event: snapshot.data![index]),
       ),

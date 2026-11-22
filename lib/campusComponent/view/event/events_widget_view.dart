@@ -1,12 +1,13 @@
 import 'package:campus_flutter/base/enums/error_handling_view_type.dart';
 import 'package:campus_flutter/base/errorHandling/error_handling_router.dart';
-import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/delayed_loading_indicator.dart';
 import 'package:campus_flutter/campusComponent/model/campus_event.dart';
 import 'package:campus_flutter/campusComponent/view/event/event_card_view.dart';
+import 'package:campus_flutter/campusComponent/view/shared/campus_carousel_inset.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_section_heading.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/events_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/view/widget/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,6 +46,17 @@ class _EventsWidgetViewState extends ConsumerState<EventsWidgetView> {
           builder: (context, _) => CampusSectionHeading(
             title: ref.read(eventsViewModel).campusName,
             onMore: () => context.push(events),
+            onFilter: () => showModalBottomSheet(
+              context: context,
+              useRootNavigator: true,
+              isScrollControlled: true,
+              useSafeArea: true,
+              showDragHandle: true,
+              builder: (context) => PreferenceSelectionView(
+                data: ref.read(eventsViewModel).getCampusEntries(context),
+                entry: context.tr('events'),
+              ),
+            ),
           ),
         ),
         child: _body(snapshot),
@@ -54,23 +66,24 @@ class _EventsWidgetViewState extends ConsumerState<EventsWidgetView> {
 
   Widget _body(AsyncSnapshot<List<CampusEvent>?> snapshot) {
     if (snapshot.hasData) {
-      final cols = MediaQuery.of(context).size.width >= 600 ? 2 : 1;
-      final items = snapshot.data!.take(cols * 3).toList();
       final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.padding),
-        child: GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: items.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: cols,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            mainAxisExtent: 100 * textScale,
+      return SizedBox(
+        height: 300 * textScale,
+        child: CampusCarouselInset(
+          child: CarouselView(
+            itemExtent: 240,
+            shrinkExtent: 240,
+            itemSnapping: false,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            enableSplash: false,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            children: [
+              for (final event in snapshot.data!.take(10))
+                EventCardView(event: event, compact: true),
+            ],
           ),
-          itemBuilder: (context, index) => EventCardView(event: items[index]),
         ),
       );
     } else if (snapshot.hasError) {

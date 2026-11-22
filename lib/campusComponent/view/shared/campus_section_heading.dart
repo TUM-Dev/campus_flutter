@@ -7,10 +7,12 @@ class CampusSectionHeading extends StatelessWidget {
     super.key,
     required this.title,
     required this.onMore,
+    this.onFilter,
   });
 
   final String title;
   final VoidCallback onMore;
+  final VoidCallback? onFilter;
 
   @override
   Widget build(BuildContext context) => OverflowBar(
@@ -18,12 +20,24 @@ class CampusSectionHeading extends StatelessWidget {
     overflowAlignment: OverflowBarAlignment.start,
     children: [
       Text(title, style: Theme.of(context).textTheme.titleLarge),
-      TextButton(
-        onPressed: onMore,
-        child: Text(
-          context.tr('more'),
-          semanticsLabel: '${context.tr('more')} $title',
-        ),
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (onFilter != null)
+            IconButton(
+              onPressed: onFilter,
+              tooltip: context.tr('filter'),
+              icon: const Icon(Icons.filter_list),
+              visualDensity: VisualDensity.compact,
+            ),
+          TextButton(
+            onPressed: onMore,
+            child: Text(
+              context.tr('more'),
+              semanticsLabel: '${context.tr('more')} $title',
+            ),
+          ),
+        ],
       ),
     ],
   );
