@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_view.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -94,6 +96,24 @@ void main() {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
+    final router = GoRouter(
+      initialLocation: locationPermission,
+      routes: [
+        GoRoute(
+          path: locationPermission,
+          builder: (context, state) => const LocationPermissionView(),
+        ),
+        GoRoute(
+          path: campusOnboarding,
+          redirect: (context, state) {
+            model.finishes++;
+            return null;
+          },
+          builder: (context, state) => const SizedBox.shrink(),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
     await tester.pumpWidget(
       ProviderScope(
         overrides: [onboardingViewModel.overrideWithValue(model)],
@@ -104,7 +124,7 @@ void main() {
           path: 'unused',
           assetLoader: _Translations(),
           child: Builder(
-            builder: (context) => MaterialApp(
+            builder: (context) => MaterialApp.router(
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: [
@@ -117,7 +137,7 @@ void main() {
                     .copyWith(textScaler: TextScaler.linear(scale)),
                 child: child!,
               ),
-              home: const LocationPermissionView(),
+              routerConfig: router,
             ),
           ),
         ),

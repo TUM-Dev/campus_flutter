@@ -1,8 +1,10 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/base/extensions/locale_fullname.dart';
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/util/seperated_list.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
+import 'package:campus_flutter/settingsComponent/views/default_campus_options.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,11 +21,36 @@ class GeneralSettingsView extends ConsumerWidget {
       child: Card(
         child: SeparatedList.widgets(
           widgets: [
+            _defaultCampus(context, ref),
             _tokenPermission(context),
             _localeSelection(context, ref),
             _moreSettings(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _defaultCampus(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      leading: Icon(
+        Icons.place_outlined,
+        size: 20,
+        color: context.primaryColor,
+      ),
+      title: Text(context.tr('defaultCampus')),
+      subtitle: Text(
+        defaultCampusLabel(context, ref.watch(defaultCampusProvider)),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 15),
+      onTap: () => showModalBottomSheet<void>(
+        context: context,
+        useRootNavigator: true,
+        isScrollControlled: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        builder: (context) => _DefaultCampusSheet(),
       ),
     );
   }
@@ -70,6 +97,40 @@ class GeneralSettingsView extends ConsumerWidget {
       title: Text(context.tr("deviceSettings")),
       trailing: const Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () => openAppSettings(),
+    );
+  }
+}
+
+class _DefaultCampusSheet extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          WidgetFrameView(
+            title: context.tr('defaultCampus'),
+            subtitle: Padding(
+              padding: EdgeInsets.only(
+                left: context.padding,
+                right: context.padding,
+                bottom: context.halfPadding,
+              ),
+              child: Text(
+                context.tr('defaultCampusDescription'),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            child: DefaultCampusOptions(
+              selected: ref.watch(defaultCampusProvider),
+              onSelected: (campus) {
+                ref.read(defaultCampusProvider.notifier).select(campus);
+                context.pop();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

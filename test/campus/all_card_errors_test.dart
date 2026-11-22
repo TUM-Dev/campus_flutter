@@ -62,9 +62,9 @@ class _Rooms extends StudyRoomsViewModel {
   bool empty = false;
   @override
   Future<void> fetchWidgetStudyRooms(
-    bool forcedRefresh,
-    BuildContext context,
-  ) async {
+    bool forcedRefresh, [
+    BuildContext? context,
+  ]) async {
     calls++;
     if (empty) {
       widgetStudyRoomLoaded = true;

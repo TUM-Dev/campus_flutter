@@ -238,7 +238,7 @@ class _CampusAppState extends ConsumerState<CampusApp> {
     quickActions = const QuickActions()
       ..initialize((shortcutType) {
         final shortcutItemType = EnumParser.typeFromString(shortcutType);
-        if (getIt<RouterService>().isInitialized) {
+        if (getIt<RouterService>().canNavigate) {
           ref.read(routerProvider).go(shortcutItemType.route);
         } else {
           getIt<RouterService>().alternativeRoute = shortcutItemType.route;
@@ -256,7 +256,7 @@ class _CampusAppState extends ConsumerState<CampusApp> {
     HomeWidget.widgetClicked.listen((uri) async {
       if (uri != null) {
         if (uri.query.contains("calendar")) {
-          if (getIt<RouterService>().isInitialized) {
+          if (getIt<RouterService>().canNavigate) {
             ref.read(routerProvider).go(calendar);
           } else {
             getIt<RouterService>().alternativeRoute = calendar;

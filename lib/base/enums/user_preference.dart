@@ -1,4 +1,5 @@
 enum UserPreference {
+  defaultCampus(String),
   cafeteria(String),
   departure(int),
   studyRoom(int),

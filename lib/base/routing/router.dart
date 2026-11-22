@@ -18,6 +18,7 @@ import 'package:campus_flutter/homeComponent/screen/home_screen.dart';
 import 'package:campus_flutter/navigaTumComponent/model/navigatum_roomfinder_map.dart';
 import 'package:campus_flutter/navigaTumComponent/views/navigatum_room_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/confirm_view.dart';
+import 'package:campus_flutter/onboardingComponent/views/campus_onboarding_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/location_permissions_view.dart';
 import 'package:campus_flutter/onboardingComponent/views/login_view.dart';
 import 'package:campus_flutter/main.dart';
@@ -58,6 +59,10 @@ final _router = GoRouter(
     GoRoute(
       path: locationPermission,
       builder: (context, state) => const LocationPermissionView(),
+    ),
+    GoRoute(
+      path: campusOnboarding,
+      builder: (context, state) => const CampusOnboardingView(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => Navigation(navigationShell: shell),

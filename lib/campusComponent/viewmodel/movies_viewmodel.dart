@@ -1,16 +1,24 @@
+import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
 import 'package:campus_flutter/base/networking/apis/tumdev/campus_backend.pbgrpc.dart';
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:campus_flutter/campusComponent/service/movie_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:rxdart/rxdart.dart';
 
-final movieViewModel = Provider((ref) => MovieViewModel());
+final movieViewModel = Provider((ref) {
+  final model = MovieViewModel(defaultCampus: ref.read(defaultCampusProvider));
+  ref.listen(
+    defaultCampusProvider,
+    (_, campus) => model.updateDefaultCampus(campus),
+  );
+  return model;
+});
 
 const _cinemas = <String, (String, String)>{
   'tuFilm': ('TU Film', 'https://www.tu-film.de/'),
@@ -27,10 +35,32 @@ class MovieViewModel {
 
   static const _defaultCinemaIndex = 0;
 
-  MovieViewModel()
-    : selectedCinema = BehaviorSubject.seeded(
-        _readSavedCinema() ?? _defaultCinemaIndex,
+  Campus? _defaultCampus;
+  int _fetchRequest = 0;
+
+  MovieViewModel({Campus? defaultCampus})
+    : _defaultCampus = defaultCampus,
+      selectedCinema = BehaviorSubject.seeded(
+        _readSavedCinema() ??
+            defaultCampus?.defaultCinemaIndex ??
+            _defaultCinemaIndex,
       );
+
+  int get _fallbackCinemaIndex =>
+      _defaultCampus?.defaultCinemaIndex ?? _defaultCinemaIndex;
+
+  void updateDefaultCampus(Campus? campus) {
+    _defaultCampus = campus;
+    if (_readSavedCinema() == null) {
+      final nextIndex = _fallbackCinemaIndex;
+      if (selectedCinema.value != nextIndex) {
+        selectedCinema.add(nextIndex);
+        if (_fetchRequest > 0) {
+          fetch(true);
+        }
+      }
+    }
+  }
 
   static int? _readSavedCinema() {
     if (!getIt.isRegistered<UserPreferencesService>()) return null;
@@ -48,7 +78,7 @@ class MovieViewModel {
       _cinemas.values.elementAt(selectedCinema.value).$2;
 
   void setCinema(int? index) {
-    selectedCinema.add(index ?? _defaultCinemaIndex);
+    selectedCinema.add(index ?? _fallbackCinemaIndex);
     try {
       if (getIt.isRegistered<UserPreferencesService>()) {
         final preferences = getIt<UserPreferencesService>();
@@ -65,13 +95,21 @@ class MovieViewModel {
   }
 
   Future fetch(bool forcedRefresh) async {
-    return MovieService.fetchMovies(forcedRefresh, selectedCinema.value).then(
+    if (_readSavedCinema() == null &&
+        selectedCinema.value != _fallbackCinemaIndex) {
+      selectedCinema.add(_fallbackCinemaIndex);
+    }
+    final request = ++_fetchRequest;
+    final cinema = selectedCinema.value;
+    return MovieService.fetchMovies(forcedRefresh, cinema).then(
       (response) {
+        if (request != _fetchRequest) return;
         lastFetched.add(response.$1);
         movies.add(response.$2);
       },
-      onError: (Object error, StackTrace stack) =>
-          movies.addError(error, stack),
+      onError: (Object error, StackTrace stack) {
+        if (request == _fetchRequest) movies.addError(error, stack);
+      },
     );
   }
 
@@ -80,7 +118,9 @@ class MovieViewModel {
     return [
       ListTile(
         dense: true,
-        title: Text(context.tr('closest')),
+        title: Text(
+          context.tr(_defaultCampus == null ? 'closest' : 'useDefaultCampus'),
+        ),
         trailing: saved == null ? const Icon(Icons.check) : null,
         onTap: () {
           setCinema(null);
