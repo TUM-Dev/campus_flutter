@@ -42,70 +42,24 @@ class CampusScreen extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        ActionChip(
-                          color: WidgetStatePropertyAll(
-                            Theme.of(context).cardTheme.color,
-                          ),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                          ),
-                          labelStyle: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          avatar: const Icon(
-                            Icons.newspaper_outlined,
-                            size: 18,
-                          ),
-                          label: Text(context.tr('news')),
+                        _CampusChip(
+                          icon: Icons.newspaper_outlined,
+                          label: context.tr('news'),
                           onPressed: () => context.push(news),
                         ),
-                        ActionChip(
-                          color: WidgetStatePropertyAll(
-                            Theme.of(context).cardTheme.color,
-                          ),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                          ),
-                          labelStyle: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          avatar: const Icon(
-                            Icons.local_movies_outlined,
-                            size: 18,
-                          ),
-                          label: Text(context.tr('movies')),
+                        _CampusChip(
+                          icon: Icons.local_movies_outlined,
+                          label: context.tr('movies'),
                           onPressed: () => context.push(movies),
                         ),
-                        ActionChip(
-                          color: WidgetStatePropertyAll(
-                            Theme.of(context).cardTheme.color,
-                          ),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                          ),
-                          labelStyle: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          avatar: const Icon(Icons.groups_outlined, size: 18),
-                          label: Text(context.tr('campusClubsShortcut')),
+                        _CampusChip(
+                          icon: Icons.groups_outlined,
+                          label: context.tr('campusClubsShortcut'),
                           onPressed: () => context.push(studentClubs),
                         ),
-                        ActionChip(
-                          color: WidgetStatePropertyAll(
-                            Theme.of(context).cardTheme.color,
-                          ),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                          ),
-                          labelStyle: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          avatar: const Icon(Icons.event_outlined, size: 18),
-                          label: Text(context.tr('events')),
+                        _CampusChip(
+                          icon: Icons.event_outlined,
+                          label: context.tr('events'),
                           onPressed: () => context.push(events),
                         ),
                       ],
@@ -137,5 +91,28 @@ class CampusScreen extends StatelessWidget {
         ),
       ),
     ),
+  );
+}
+
+class _CampusChip extends StatelessWidget {
+  const _CampusChip({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => ActionChip(
+    color: WidgetStatePropertyAll(Theme.of(context).cardTheme.color),
+    side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+    labelStyle: Theme.of(context).textTheme.labelLarge
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+    avatar: Icon(icon, size: 18),
+    label: Text(label),
+    onPressed: onPressed,
   );
 }

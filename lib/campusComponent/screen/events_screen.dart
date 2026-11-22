@@ -2,7 +2,6 @@ import 'package:campus_flutter/base/util/url_launcher.dart';
 import 'package:campus_flutter/campusComponent/view/event/event_card_view.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_collection_view.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/events_viewmodel.dart';
-import 'package:campus_flutter/homeComponent/view/widget/preference_selection_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -23,49 +22,25 @@ class _EventsScreenState extends ConsumerState<EventsScreen> {
     final languageCode = context.locale.languageCode;
     if (_languageCode == languageCode) return;
     _languageCode = languageCode;
-    final model = ref.read(eventsViewModel);
-    if (model.events.value == null && !model.events.hasError) {
-      model.fetch(false, languageCode: languageCode);
-    }
+    ref.read(eventsViewModel).fetch(false, languageCode: languageCode);
   }
 
-  Future<void> _refresh() async => ref
+  Future<void> _refresh() => ref
       .read(eventsViewModel)
       .fetch(true, languageCode: _languageCode ?? 'en');
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: StreamBuilder<int>(
-        stream: ref.watch(eventsViewModel).selectedCampus,
-        builder: (context, _) => Text(ref.read(eventsViewModel).campusName),
-      ),
+      title: const Text(campusHeilbronnName),
       actions: [
-        IconButton(
-          onPressed: () => showModalBottomSheet(
-            context: context,
-            useRootNavigator: true,
-            isScrollControlled: true,
-            useSafeArea: true,
-            showDragHandle: true,
-            builder: (context) => PreferenceSelectionView(
-              data: ref.read(eventsViewModel).getCampusEntries(context),
-              entry: context.tr('events'),
-            ),
-          ),
-          tooltip: context.tr('filter'),
-          icon: const Icon(Icons.filter_list),
-        ),
         IconButton(
           onPressed: _refresh,
           tooltip: context.tr('refresh'),
           icon: const Icon(Icons.refresh),
         ),
         IconButton(
-          onPressed: () => UrlLauncher.urlString(
-            ref.read(eventsViewModel).campusWebsite,
-            ref,
-          ),
+          onPressed: () => UrlLauncher.urlString(campusHeilbronnUrl, ref),
           tooltip: context.tr('openWebsite'),
           icon: const Icon(Icons.open_in_new),
         ),

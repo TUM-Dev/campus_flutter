@@ -1,23 +1,30 @@
 import 'package:xml/xml.dart';
 
+enum CampusEventSource { studentCouncil, university }
+
 class CampusEvent {
   final String title;
   final String link;
+  final CampusEventSource source;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? time;
   final String? location;
+  final String? coverUrl;
+  final String? description;
 
   const CampusEvent({
     required this.title,
     required this.link,
+    this.source = CampusEventSource.studentCouncil,
     this.startDate,
     this.endDate,
     this.time,
     this.location,
+    this.coverUrl,
+    this.description,
   });
 
-  /// The date to display and sort by.
   DateTime? get eventDate => startDate;
 
   static List<CampusEvent> listFromRss(String rss) {

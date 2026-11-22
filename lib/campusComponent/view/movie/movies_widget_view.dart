@@ -38,7 +38,7 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
         } else {
           return WidgetFrameView(
             titleWidget: CampusSectionHeading(
-              title: 'TU Film',
+              title: "TU Film",
               onMore: () => context.push(movies),
             ),
             child: body(snapshot),

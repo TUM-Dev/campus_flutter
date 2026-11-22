@@ -7,7 +7,6 @@ import 'package:campus_flutter/campusComponent/view/event/event_card_view.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_carousel_inset.dart';
 import 'package:campus_flutter/campusComponent/view/shared/campus_section_heading.dart';
 import 'package:campus_flutter/campusComponent/viewmodel/events_viewmodel.dart';
-import 'package:campus_flutter/homeComponent/view/widget/preference_selection_view.dart';
 import 'package:campus_flutter/homeComponent/view/widget/widget_frame_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,23 +40,9 @@ class _EventsWidgetViewState extends ConsumerState<EventsWidgetView> {
         return const SizedBox.shrink();
       }
       return WidgetFrameView(
-        titleWidget: StreamBuilder<int>(
-          stream: ref.watch(eventsViewModel).selectedCampus,
-          builder: (context, _) => CampusSectionHeading(
-            title: ref.read(eventsViewModel).campusName,
-            onMore: () => context.push(events),
-            onFilter: () => showModalBottomSheet(
-              context: context,
-              useRootNavigator: true,
-              isScrollControlled: true,
-              useSafeArea: true,
-              showDragHandle: true,
-              builder: (context) => PreferenceSelectionView(
-                data: ref.read(eventsViewModel).getCampusEntries(context),
-                entry: context.tr('events'),
-              ),
-            ),
-          ),
+        titleWidget: CampusSectionHeading(
+          title: campusHeilbronnName,
+          onMore: () => context.push(events),
         ),
         child: _body(snapshot),
       );

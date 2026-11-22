@@ -1,4 +1,4 @@
-import 'package:campus_flutter/campusComponent/model/campus_event.dart';
+﻿import 'package:campus_flutter/campusComponent/model/campus_event.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart' as html_parser;
 
@@ -9,24 +9,23 @@ class CampusEventService {
 
   static final _dio = Dio();
 
-  static Future<(DateTime, List<CampusEvent>)> fetchEvents(
-    String languageCode,
-  ) async {
+  static Future<List<CampusEvent>> fetchEvents(String languageCode) async {
     final now = DateTime.now();
     final results = await Future.wait([
       _fetchStudentCouncil(languageCode),
       _fetchUniversity(languageCode),
     ]);
-    final events =
-        [...results[0], ...results[1]].where((e) {
+    return [...results[0], ...results[1]]
+        .where((e) {
           final cutoff = e.endDate ?? e.startDate;
           return cutoff == null || cutoff.isAfter(now);
-        }).toList()..sort((a, b) {
-          final aDate = a.eventDate ?? DateTime(9999);
-          final bDate = b.eventDate ?? DateTime(9999);
-          return aDate.compareTo(bDate);
-        });
-    return (now, events);
+        })
+        .toList()
+      ..sort((a, b) {
+        final aDate = a.eventDate ?? DateTime(9999);
+        final bDate = b.eventDate ?? DateTime(9999);
+        return aDate.compareTo(bDate);
+      });
   }
 
   static Future<List<CampusEvent>> _fetchStudentCouncil(
@@ -40,7 +39,9 @@ class CampusEventService {
     }
   }
 
-  static Future<List<CampusEvent>> _fetchUniversity(String languageCode) async {
+  static Future<List<CampusEvent>> _fetchUniversity(
+    String languageCode,
+  ) async {
     try {
       final url = languageCode == 'de'
           ? 'https://chn.tum.de/de/news-events/events'
@@ -50,23 +51,22 @@ class CampusEventService {
       return document
           .querySelectorAll('article.c-events-solr-list__item')
           .map((item) {
-            final titleAnchor = item.querySelector(
-              '.c-events-solr-list__item-title a',
-            );
+            final titleAnchor =
+                item.querySelector('.c-events-solr-list__item-title a');
             final title = titleAnchor?.text.trim() ?? '';
             if (title.isEmpty) return null;
             final link = titleAnchor?.attributes['href'] ?? '';
             final dateText =
                 item.querySelector('time')?.attributes['datetime'] ?? '';
-            final rawImg =
+            final imgSrc =
                 item.querySelector('picture source')?.attributes['srcset'] ??
                 item.querySelector('img')?.attributes['src'] ??
                 '';
-            final coverUrl = rawImg.isEmpty
+            final coverUrl = imgSrc.isEmpty
                 ? null
-                : (rawImg.startsWith('http')
-                      ? rawImg
-                      : 'https://chn.tum.de$rawImg');
+                : (imgSrc.startsWith('http')
+                    ? imgSrc
+                    : 'https://chn.tum.de$imgSrc');
             final description = item
                 .querySelector('.c-events-solr-list__item-teaser')
                 ?.text

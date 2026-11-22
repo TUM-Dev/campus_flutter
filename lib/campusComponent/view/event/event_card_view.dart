@@ -11,8 +11,6 @@ class EventCardView extends ConsumerWidget {
 
   final CampusEvent event;
 
-  /// true  = carousel widget (image fills remaining height via Expanded)
-  /// false = full-screen grid (image fixed at 120 px)
   final bool compact;
 
   static const _tumBlue = Color(0xFF0065BD);
@@ -24,7 +22,6 @@ class EventCardView extends ConsumerWidget {
         ? context.tr('eventSourceUniversity')
         : context.tr('eventSourceStudentCouncil');
 
-    // University events: image + text layout
     if (event.coverUrl != null) {
       final image = CachedNetworkImage(
         imageUrl: event.coverUrl!,
@@ -93,7 +90,6 @@ class EventCardView extends ConsumerWidget {
       );
     }
 
-    // Student council events: compact list card
     return Card(
       margin: EdgeInsets.zero,
       clipBehavior: Clip.hardEdge,
