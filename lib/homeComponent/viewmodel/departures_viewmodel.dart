@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/util/icon_text.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/homeComponent/model/departure.dart';
@@ -17,10 +18,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:material_ui/material_ui.dart';
 
-final departureViewModel = Provider((ref) => DeparturesViewModel());
+final departureViewModel = Provider((ref) {
+  final model = DeparturesViewModel(
+    defaultCampus: ref.read(defaultCampusProvider),
+  );
+  ref.listen(
+    defaultCampusProvider,
+    (_, campus) => model.updateDefaultCampus(campus),
+  );
+  ref.onDispose(model.dispose);
+  return model;
+});
 
 class DeparturesViewModel {
   final BehaviorSubject<List<Departure>?> departures = BehaviorSubject.seeded(
@@ -33,136 +43,134 @@ class DeparturesViewModel {
     null,
   );
 
+  static const _stationsKey = 'departuresPreferences';
+
+  Campus? _defaultCampus;
+  int _campusRequest = 0;
+  int _departuresRequest = 0;
   Timer? timer;
 
+  DeparturesViewModel({Campus? defaultCampus})
+    : _defaultCampus = defaultCampus {
+    findWidgetCampus(false);
+  }
+
+  Campus? get _savedCampus {
+    final index = getIt<UserPreferencesService>().load(
+      UserPreference.departure,
+    );
+    return index is int && index >= 0 && index < Campus.values.length
+        ? Campus.values[index]
+        : null;
+  }
+
+  void updateDefaultCampus(Campus? campus) {
+    _defaultCampus = campus;
+    if (_savedCampus == null) findWidgetCampus(false);
+  }
+
   void setWidgetCampus(Campus campus) {
-    widgetCampus.add(campus);
-    timer?.cancel();
-    assignSelectedStation();
     getIt<UserPreferencesService>().save(
       UserPreference.departure,
       campus.index,
     );
-  }
-
-  void setSelectedStation(Station? station) {
-    selectedStation.add(station);
-    timer?.cancel();
-    fetchDepartures();
-    updatePreference();
-  }
-
-  DeparturesViewModel() {
     findWidgetCampus(false);
   }
 
-  void findWidgetCampus(bool fetchClosest) async {
-    final preferenceId = getIt<UserPreferencesService>().load(
-      UserPreference.departure,
-    );
-
-    if (preferenceId != null &&
-        !fetchClosest &&
-        (preferenceId as int) <= Campus.values.length) {
-      widgetCampus.add(Campus.values[preferenceId]);
-      assignSelectedStation();
-    } else {
-      LocationService.getLastKnown().then(
-        (location) {
-          if (location != null) {
-            final closestCampus = Campus.values.reduce((
-              currentCampus,
-              nextCampus,
-            ) {
-              final currentDistance = Geolocator.distanceBetween(
-                currentCampus.location.latitude,
-                currentCampus.location.longitude,
-                location.latitude,
-                location.longitude,
-              );
-
-              final nextDistance = Geolocator.distanceBetween(
-                nextCampus.location.latitude,
-                nextCampus.location.longitude,
-                location.latitude,
-                location.longitude,
-              );
-
-              return currentDistance < nextDistance
-                  ? currentCampus
-                  : nextCampus;
-            });
-
-            widgetCampus.add(closestCampus);
-            assignSelectedStation();
-          } else {
-            widgetCampus.add(Campus.garching);
-            assignSelectedStation();
-          }
-        },
-        onError: (error) {
-          widgetCampus.add(Campus.garching);
-          assignSelectedStation();
-        },
-      );
+  void findWidgetCampus(bool ignoreOverride) async {
+    final request = ++_campusRequest;
+    final campus = (ignoreOverride ? null : _savedCampus) ?? _defaultCampus;
+    if (campus != null) {
+      _selectCampus(campus);
+      return;
     }
+
+    final location = await LocationService.getLastKnown();
+    if (request != _campusRequest) return;
+    if (location == null) {
+      _selectCampus(Campus.garching);
+      return;
+    }
+    double distance(Campus campus) => Geolocator.distanceBetween(
+      campus.location.latitude,
+      campus.location.longitude,
+      location.latitude,
+      location.longitude,
+    );
+    _selectCampus(
+      Campus.values.reduce((a, b) => distance(a) < distance(b) ? a : b),
+    );
   }
 
-  Future<void> assignSelectedStation() async {
-    if (widgetCampus.value != null) {
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      final data = sharedPreferences.get("departuresPreferences") as String?;
-      if (data != null) {
-        try {
-          final decoded = jsonDecode(data);
-          final preferences = DeparturesPreference.fromJson(decoded);
-          final station = preferences.preferences[widgetCampus.value];
-          if (station != null) {
-            setSelectedStation(station);
-            return;
-          }
-        } catch (error) {
-          setSelectedStation(widgetCampus.value?.defaultStation);
-        }
-      }
-    }
+  void _selectCampus(Campus campus) {
+    if (campus == widgetCampus.value) return;
+    widgetCampus.add(campus);
+    final station =
+        _readStations().preferences[campus] ?? campus.defaultStation;
+    _selectStation(station);
+  }
 
-    setSelectedStation(widgetCampus.value?.defaultStation);
+  DeparturesPreference _readStations() {
+    try {
+      final data = getIt<UserPreferencesService>().sharedPreferences.getString(
+        _stationsKey,
+      );
+      if (data != null) return DeparturesPreference.fromJson(jsonDecode(data));
+    } catch (_) {
+      // A malformed entry falls back to the campus station.
+    }
+    return DeparturesPreference(preferences: {});
+  }
+
+  void setSelectedStation(Station? station) {
+    final campus = widgetCampus.value;
+    if (campus == null) return;
+    final preferences = _readStations();
+    if (station == null) {
+      preferences.preferences.remove(campus);
+    } else {
+      preferences.preferences[campus] = station;
+    }
+    getIt<UserPreferencesService>().sharedPreferences.setString(
+      _stationsKey,
+      jsonEncode(preferences.toJson()),
+    );
+    _selectStation(station ?? campus.defaultStation);
+  }
+
+  void _selectStation(Station station) {
+    selectedStation.add(station);
+    departures.add(null);
+    fetchDepartures();
   }
 
   void fetchDepartures() {
-    if (widgetCampus.value != null) {
-      fetch(true);
+    fetch(true);
+  }
+
+  Future<void> fetch(bool forcedRefresh) async {
+    final campus = widgetCampus.value;
+    if (campus == null) return;
+    final station = selectedStation.value ?? campus.defaultStation;
+    final request = ++_departuresRequest;
+    timer?.cancel();
+    try {
+      final response = await DeparturesService.fetchDepartures(
+        true,
+        station.apiName,
+        walkingDistance.value,
+        campus: campus,
+      );
+      if (request == _departuresRequest) sortDepartures(response);
+    } catch (error, stack) {
+      if (request == _departuresRequest) departures.addError(error, stack);
     }
   }
 
-  Future fetch(bool forcedRefresh) async {
-    if (widgetCampus.value != null) {
-      if (selectedStation.value != null) {
-        return DeparturesService.fetchDepartures(
-          true,
-          selectedStation.value!.apiName,
-          walkingDistance.value,
-          campus: widgetCampus.value,
-        ).then(
-          (response) => sortDepartures(response),
-          onError: (Object error, StackTrace stack) =>
-              departures.addError(error, stack),
-        );
-      } else {
-        return DeparturesService.fetchDepartures(
-          true,
-          widgetCampus.value!.defaultStation.apiName,
-          walkingDistance.value,
-          campus: widgetCampus.value,
-        ).then(
-          (response) => sortDepartures(response),
-          onError: (Object error, StackTrace stack) =>
-              departures.addError(error, stack),
-        );
-      }
-    }
+  void dispose() {
+    _campusRequest++;
+    _departuresRequest++;
+    timer?.cancel();
   }
 
   void sortDepartures(({DateTime? saved, MvvResponse data}) response) {
@@ -202,38 +210,6 @@ class DeparturesViewModel {
     timer = Timer(const Duration(minutes: 1), fetchDepartures);
   }
 
-  void updatePreference() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
-    if (selectedStation.value != null && widgetCampus.value != null) {
-      final data = sharedPreferences.get("departuresPreferences") as String?;
-      if (data != null) {
-        final decodedData = jsonDecode(data);
-        try {
-          DeparturesPreference preferences = DeparturesPreference.fromJson(
-            decodedData,
-          );
-          preferences.preferences[widgetCampus.value!] = selectedStation.value!;
-          final json = jsonEncode(preferences.toJson());
-          sharedPreferences.setString("departuresPreferences", json);
-        } catch (_) {
-          final DeparturesPreference preferences = DeparturesPreference(
-            preferences: {widgetCampus.value!: selectedStation.value!},
-          );
-          final json = jsonEncode(preferences.toJson());
-          sharedPreferences.setString("departuresPreferences", json);
-        }
-      } else {
-        final DeparturesPreference preferences = DeparturesPreference(
-          preferences: {widgetCampus.value!: selectedStation.value!},
-        );
-        final json = jsonEncode(preferences.toJson());
-        sharedPreferences.setString("departuresPreferences", json);
-      }
-    }
-  }
-
   List<PopupMenuEntry<Station>> getStationEntries() {
     if (widgetCampus.value != null) {
       return widgetCampus.value!.allStations
@@ -256,36 +232,30 @@ class DeparturesViewModel {
   }
 
   List<ListTile> getCampusEntries(BuildContext context) {
-    return Campus.values.map((e) {
-      final isSelected =
-          widgetCampus.value == e &&
-          getIt<UserPreferencesService>().load(UserPreference.departure) !=
-              null;
-      return ListTile(
-        dense: true,
-        title: Text(e.name),
-        trailing: isSelected ? const Icon(Icons.check) : null,
-        onTap: () {
-          setWidgetCampus(e);
-          context.pop();
-        },
-      );
-    }).toList()..insert(
-      0,
+    final saved = _savedCampus;
+    return [
       ListTile(
         dense: true,
-        title: Text(context.tr("closest")),
-        trailing:
-            getIt<UserPreferencesService>().load(UserPreference.departure) ==
-                null
-            ? const Icon(Icons.check)
-            : null,
+        title: Text(
+          context.tr(_defaultCampus == null ? 'closest' : 'useDefaultCampus'),
+        ),
+        trailing: saved == null ? const Icon(Icons.check) : null,
         onTap: () {
           getIt<UserPreferencesService>().reset(UserPreference.departure);
           findWidgetCampus(true);
           context.pop();
         },
       ),
-    );
+      for (final campus in Campus.values)
+        ListTile(
+          dense: true,
+          title: Text(campus.name),
+          trailing: campus == saved ? const Icon(Icons.check) : null,
+          onTap: () {
+            setWidgetCampus(campus);
+            context.pop();
+          },
+        ),
+    ];
   }
 }

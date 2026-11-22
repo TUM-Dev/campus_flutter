@@ -1,5 +1,6 @@
 import 'package:campus_flutter/base/enums/campus.dart';
 import 'package:campus_flutter/base/enums/user_preference.dart';
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/base/services/location_service.dart';
 import 'package:campus_flutter/main.dart';
@@ -19,9 +20,23 @@ import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
-final studyRoomsViewModel = Provider((ref) => StudyRoomsViewModel());
+final studyRoomsViewModel = Provider((ref) {
+  final model = StudyRoomsViewModel(
+    defaultCampus: ref.read(defaultCampusProvider),
+  );
+  ref.listen(
+    defaultCampusProvider,
+    (_, campus) => model.updateDefaultCampus(campus),
+  );
+  return model;
+});
 
 class StudyRoomsViewModel {
+  Campus? _defaultCampus;
+  int _widgetRequest = 0;
+
+  StudyRoomsViewModel({Campus? defaultCampus}) : _defaultCampus = defaultCampus;
+
   BehaviorSubject<Map<Campus, List<StudyRoomGroup>>?> campusStudyRooms =
       BehaviorSubject.seeded(null);
   BehaviorSubject<Map<StudyRoomGroup, List<StudyRoom>>?> studyRooms =
@@ -29,6 +44,17 @@ class StudyRoomsViewModel {
   BehaviorSubject<StudyRoomGroup?> widgetStudyRoom = BehaviorSubject.seeded(
     null,
   );
+
+  int? get _savedStudyRoomId =>
+      getIt<UserPreferencesService>().load(UserPreference.studyRoom) as int?;
+
+  void updateDefaultCampus(Campus? campus) {
+    _defaultCampus = campus;
+    final groups = studyRoomData?.groups ?? const <StudyRoomGroup>[];
+    if (_widgetRequest > 0 && !groups.any((g) => g.id == _savedStudyRoomId)) {
+      fetchWidgetStudyRooms(false);
+    }
+  }
 
   Future<void> setWidgetStudyRoom(int id) async {
     final newStudyRoom = studyRoomData?.groups?.firstWhereOrNull(
@@ -58,58 +84,82 @@ class StudyRoomsViewModel {
   bool widgetStudyRoomLoaded = false;
 
   Future<void> fetchWidgetStudyRooms(
-    bool forcedRefresh,
-    BuildContext context,
-  ) async {
+    bool forcedRefresh, [
+    BuildContext? context,
+  ]) async {
+    final request = ++_widgetRequest;
     widgetStudyRoomLoaded = false;
     widgetStudyRoom.add(null);
     try {
-      final preferenceId = getIt<UserPreferencesService>().load(
-        UserPreference.studyRoom,
-      );
       final response = await StudyRoomsService.fetchStudyRooms(forcedRefresh);
+      if (request != _widgetRequest) return;
       lastFetched = response.$1;
       studyRoomData = response.$2;
       _categorizeAndSort();
       final groups = response.$2.groups ?? <StudyRoomGroup>[];
-      if (groups.isEmpty) {
-        widgetStudyRoomLoaded = true;
-        widgetStudyRoom.add(null);
-        return;
-      }
-      final selected = groups.firstWhereOrNull(
-        (group) => group.id == preferenceId,
-      );
-      if (selected != null) {
-        widgetStudyRoomLoaded = true;
-        widgetStudyRoom.add(selected);
-        return;
-      }
-      final position = await LocationService.getLastKnown();
-      if (!context.mounted) return;
+      final group = await _resolveWidgetStudyRoom(groups);
+      if (request != _widgetRequest) return;
       widgetStudyRoomLoaded = true;
-      if (position == null) {
-        widgetStudyRoom.add(
-          groups.firstWhereOrNull((group) => group.id == 97) ?? groups.first,
-        );
-        return;
-      }
-      final closest = groups.reduce((current, next) {
-        double distance(StudyRoomGroup group) => group.coordinate == null
-            ? double.infinity
-            : Geolocator.distanceBetween(
-                group.coordinate!.latitude,
-                group.coordinate!.longitude,
-                position.latitude,
-                position.longitude,
-              );
-        return distance(current) <= distance(next) ? current : next;
-      });
-      widgetStudyRoom.add(closest);
+      widgetStudyRoom.add(group);
     } catch (error, stack) {
-      widgetStudyRoom.addError(error, stack);
+      if (request == _widgetRequest) widgetStudyRoom.addError(error, stack);
     }
   }
+
+  Future<StudyRoomGroup?> _resolveWidgetStudyRoom(
+    List<StudyRoomGroup> groups,
+  ) async {
+    if (groups.isEmpty) return null;
+    final savedId = _savedStudyRoomId;
+    final selected = groups.firstWhereOrNull((group) => group.id == savedId);
+    if (selected != null) return selected;
+
+    final campus = _defaultCampus;
+    if (campus != null) {
+      final preferredId = campus.defaultStudyRoomGroupId;
+      final preferred = groups.firstWhereOrNull(
+        (group) => group.id == preferredId,
+      );
+      if (preferred != null) return preferred;
+      final nearby = groups
+          .where((g) => _distanceToStudyRoom(campus.location, g) <= 5000)
+          .toList();
+      return nearby.isEmpty
+          ? null
+          : _getClosestStudyRoom(campus.location, nearby);
+    }
+
+    final position = await LocationService.getLastKnown();
+    return _getClosestStudyRoom(
+      position == null ? null : LatLng(position.latitude, position.longitude),
+      groups,
+    );
+  }
+
+  StudyRoomGroup _getClosestStudyRoom(
+    LatLng? position,
+    List<StudyRoomGroup> groups,
+  ) {
+    if (position == null) {
+      return groups.firstWhereOrNull((group) => group.id == 97) ?? groups.first;
+    }
+    return groups.reduce(
+      (a, b) =>
+          _distanceToStudyRoom(position, a) <= _distanceToStudyRoom(position, b)
+          ? a
+          : b,
+    );
+  }
+
+  double _distanceToStudyRoom(LatLng position, StudyRoomGroup group) =>
+      group.coordinate == null
+      ? double.infinity
+      : Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          group.coordinate!.latitude,
+          group.coordinate!.longitude,
+        );
 
   void _categorizeAndSort() {
     final studyRooms = _categorizeAndSortRooms();
@@ -169,41 +219,35 @@ class StudyRoomsViewModel {
   }
 
   List<ListTile> getStudyRoomEntries(BuildContext context) {
-    return studyRooms.value?.entries.map((e) {
-            final isSelected =
-                widgetStudyRoom.value?.id == e.key.id &&
-                getIt<UserPreferencesService>().load(
-                      UserPreference.studyRoom,
-                    ) !=
-                    null;
-            return ListTile(
-              dense: true,
-              title: Text(e.key.name),
-              trailing: isSelected ? const Icon(Icons.check) : null,
-              onTap: () {
-                setWidgetStudyRoom(e.key.id);
-                context.pop();
-              },
-            );
-          }).toList() ??
-          []
-      ..insert(
-        0,
-        ListTile(
-          dense: true,
-          title: Text(context.tr("closest")),
-          trailing:
-              getIt<UserPreferencesService>().load(UserPreference.studyRoom) ==
-                  null
-              ? const Icon(Icons.check)
-              : null,
-          onTap: () {
-            getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
-            fetchWidgetStudyRooms(false, context);
-            context.pop();
-          },
-        ),
+    final savedId = _savedStudyRoomId;
+    final groups = studyRooms.value?.keys.toList() ?? const <StudyRoomGroup>[];
+    return groups.map((group) {
+      return ListTile(
+        dense: true,
+        title: Text(group.name),
+        trailing: savedId == group.id ? const Icon(Icons.check) : null,
+        onTap: () {
+          setWidgetStudyRoom(group.id);
+          context.pop();
+        },
       );
+    }).toList()..insert(
+      0,
+      ListTile(
+        dense: true,
+        title: Text(
+          context.tr(_defaultCampus == null ? "closest" : "useDefaultCampus"),
+        ),
+        trailing: !groups.any((g) => g.id == savedId)
+            ? const Icon(Icons.check)
+            : null,
+        onTap: () {
+          getIt<UserPreferencesService>().reset(UserPreference.studyRoom);
+          fetchWidgetStudyRooms(false);
+          context.pop();
+        },
+      ),
+    );
   }
 
   Set<Marker> mapMakers(BuildContext context) {

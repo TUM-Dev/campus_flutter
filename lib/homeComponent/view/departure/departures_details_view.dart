@@ -42,10 +42,7 @@ class DeparturesDetailsScaffold extends ConsumerWidget {
                     .watch(departureViewModel)
                     .selectedStation
                     .value,
-                onSelected: (station) {
-                  ref.read(departureViewModel).setSelectedStation(station);
-                  ref.read(departureViewModel).fetchDepartures();
-                },
+                onSelected: ref.read(departureViewModel).setSelectedStation,
                 icon: const Icon(Icons.tram),
                 itemBuilder: (context) =>
                     ref.read(departureViewModel).getStationEntries(),

@@ -5,14 +5,19 @@ import 'package:campus_flutter/base/networking/protocols/api.dart';
 import 'package:campus_flutter/base/networking/base/rest_client.dart';
 import 'package:campus_flutter/base/routing/router_service.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/calendarComponent/services/calendar_preference_service.dart';
 import 'package:campus_flutter/calendarComponent/viewModels/calendar_viewmodel.dart';
+import 'package:campus_flutter/campusComponent/viewmodel/movies_viewmodel.dart';
+import 'package:campus_flutter/homeComponent/viewmodel/departures_viewmodel.dart';
 import 'package:campus_flutter/onboardingComponent/model/confirm.dart';
 import 'package:campus_flutter/onboardingComponent/model/tum_id.dart';
 import 'package:campus_flutter/onboardingComponent/services/onboarding_service.dart';
 import 'package:campus_flutter/main.dart';
 import 'package:campus_flutter/personComponent/viewModel/person_details_viewmodel.dart';
 import 'package:campus_flutter/personComponent/viewModel/profile_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/cafeterias_viewmodel.dart';
+import 'package:campus_flutter/placesComponent/viewModels/study_rooms_viewmodel.dart';
 import 'package:campus_flutter/base/services/user_preferences_service.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
 import 'package:campus_flutter/studentCardComponent/viewModel/student_card_viewmodel.dart';
@@ -22,7 +27,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -106,13 +110,6 @@ class OnboardingViewModel {
     context.push(locationPermission);
   }
 
-  Future<void> requestLocation(WidgetRef ref, BuildContext context) async {
-    await Geolocator.requestPermission();
-    if (context.mounted) {
-      finishOnboarding(ref, context);
-    }
-  }
-
   void finishOnboarding(WidgetRef ref, BuildContext context) {
     getIt<OnboardingService>().setOnboarded();
     getIt<RouterService>().setOnboarded();
@@ -122,6 +119,11 @@ class OnboardingViewModel {
 
   Future resetPreferences(WidgetRef ref) async {
     getIt<UserPreferencesService>().resetAll();
+    ref.invalidate(defaultCampusProvider);
+    ref.invalidate(departureViewModel);
+    ref.invalidate(cafeteriasViewModel);
+    ref.invalidate(studyRoomsViewModel);
+    ref.invalidate(movieViewModel);
     getIt<CalendarPreferenceService>().resetPreferences();
     ref.read(settingsViewModel).loadPreferences();
     ref.read(calendarViewModel).resetPreferences();

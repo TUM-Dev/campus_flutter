@@ -1,3 +1,4 @@
+import 'package:campus_flutter/base/providers/default_campus_provider.dart';
 import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
 import 'package:campus_flutter/settingsComponent/viewModels/settings_viewmodel.dart';
@@ -21,8 +22,11 @@ class RouterService {
         await ref.read(settingsViewModel).loadPreferences();
         await ref.read(studentCardViewModel).fetch(false);
         _isInitialized = true;
-        _isOnboarded = true;
         FlutterNativeSplash.remove();
+        // Existing users who never picked a default campus are asked once.
+        // Any pending deep link stays queued until they continue.
+        if (!DefaultCampusNotifier.hasChosen) return campusOnboarding;
+        _isOnboarded = true;
         return _takeAlternativeRoute() ?? home;
       } else {
         _isInitialized = true;

@@ -1,6 +1,7 @@
 const onboarding = "/onboarding";
 const confirm = "/confirm";
 const locationPermission = "/locationPermission";
+const campusOnboarding = "/campusOnboarding";
 const permissionCheck = "/permissionCheck";
 
 /// Home tab

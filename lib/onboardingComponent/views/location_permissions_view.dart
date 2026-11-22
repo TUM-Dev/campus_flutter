@@ -1,19 +1,18 @@
-import 'package:campus_flutter/onboardingComponent/viewModels/onboarding_viewmodel.dart';
+import 'package:campus_flutter/base/routing/routes.dart';
 import 'package:campus_flutter/onboardingComponent/views/permission_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 
-class LocationPermissionView extends ConsumerStatefulWidget {
+class LocationPermissionView extends StatefulWidget {
   const LocationPermissionView({super.key});
 
   @override
-  ConsumerState<LocationPermissionView> createState() =>
-      _LocationPermissionViewState();
+  State<LocationPermissionView> createState() => _LocationPermissionViewState();
 }
 
-class _LocationPermissionViewState extends ConsumerState<LocationPermissionView>
+class _LocationPermissionViewState extends State<LocationPermissionView>
     with WidgetsBindingObserver {
   LocationPermission? _permission;
   bool _isBusy = false;
@@ -44,7 +43,7 @@ class _LocationPermissionViewState extends ConsumerState<LocationPermissionView>
       if (!mounted) return;
       if (permission == LocationPermission.whileInUse ||
           permission == LocationPermission.always) {
-        ref.read(onboardingViewModel).finishOnboarding(ref, context);
+        context.pushReplacement(campusOnboarding);
       } else {
         setState(() => _permission = permission);
       }
@@ -64,7 +63,8 @@ class _LocationPermissionViewState extends ConsumerState<LocationPermissionView>
         final opened = await Geolocator.openAppSettings();
         if (!opened) throw StateError('Could not open settings');
       } else {
-        await ref.read(onboardingViewModel).requestLocation(ref, context);
+        await Geolocator.requestPermission();
+        if (mounted) context.pushReplacement(campusOnboarding);
       }
     } catch (_) {
       if (mounted) {
@@ -98,8 +98,7 @@ class _LocationPermissionViewState extends ConsumerState<LocationPermissionView>
       skipLabel: context.tr('locationNotNow'),
       isBusy: _isBusy,
       onButtonPress: _requestPermission,
-      onSkip: () =>
-          ref.read(onboardingViewModel).finishOnboarding(ref, context),
+      onSkip: () => context.pushReplacement(campusOnboarding),
     );
   }
 }

@@ -92,6 +92,61 @@ extension CampusExtension on Campus {
     return Map.fromEntries(Campus.values.map((e) => MapEntry(e, e.location)));
   }
 
+  /// Cafeteria (eat-api id) shown in the home widget when this is the
+  /// user's default campus. `null` falls back to the closest cafeteria
+  /// within 5 km of the campus.
+  String? get defaultCafeteriaId {
+    switch (this) {
+      case Campus.stammgelaende:
+        return "mensa-arcisstr";
+      case Campus.garching:
+        return "mensa-garching";
+      case Campus.freising:
+        return "mensa-weihenstephan";
+      case Campus.ottobrunn:
+        return "mensa-ottobrunn";
+      case Campus.heilbronn:
+        return "mensa-bildungscampus-heilbronn";
+      case Campus.olympiapark:
+      case Campus.klinikumRechts:
+      case Campus.grosshadern:
+        return null;
+    }
+  }
+
+  /// Study room group id shown in the home widget when this is the user's
+  /// default campus. `null` falls back to the closest study room group
+  /// within 5 km of the campus.
+  int? get defaultStudyRoomGroupId {
+    switch (this) {
+      case Campus.stammgelaende:
+        return 60;
+      case Campus.garching:
+        return 97;
+      case Campus.freising:
+        return 130;
+      case Campus.olympiapark:
+      case Campus.klinikumRechts:
+      case Campus.grosshadern:
+      case Campus.ottobrunn:
+      case Campus.heilbronn:
+        return null;
+    }
+  }
+
+  /// Default cinema index (0 = TU Film, 1 = Campuskino Heilbronn) for the
+  /// movies screen when this is the user's default campus.
+  int get defaultCinemaIndex {
+    switch (this) {
+      case Campus.heilbronn:
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
+  /// Station shown in the departures widget for this campus, unless the
+  /// user picked another one from [allStations].
   Station get defaultStation {
     switch (this) {
       case Campus.stammgelaende:
