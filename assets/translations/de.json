@@ -16,10 +16,9 @@
   "settingsAndFeedback": "Einstellungen & Feedback",
   "generalSettings": "Allgemeine Einstellungen",
   "defaultCampus": "Standardcampus",
-  "defaultCampusDescription": "Wähle einen Campus für passende Nachrichten, Veranstaltungen, Mensen und Abfahrten.",
+  "defaultCampusDescription": "Wähle einen Campus für passende Mensen, Abfahrten, Lernräume und Filme.",
   "campusAutomatic": "Automatisch",
   "useDefaultCampus": "Standardcampus verwenden",
-  "heilbronnNews": "Nachrichten aus Heilbronn",
   "campusNames": {
     "stammgelaende": "Stammgelände",
     "olympiapark": "Olympiapark",

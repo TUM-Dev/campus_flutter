@@ -16,10 +16,9 @@
   "settingsAndFeedback": "Settings & Feedback",
   "generalSettings": "General Settings",
   "defaultCampus": "Default campus",
-  "defaultCampusDescription": "Choose a campus to see more relevant news, events, cafeterias and departures.",
+  "defaultCampusDescription": "Choose a campus to see more relevant cafeterias, departures, study rooms and movies.",
   "campusAutomatic": "Automatic",
   "useDefaultCampus": "Use default campus",
-  "heilbronnNews": "Heilbronn news",
   "campusNames": {
     "stammgelaende": "Stammgelände",
     "olympiapark": "Olympiapark",
