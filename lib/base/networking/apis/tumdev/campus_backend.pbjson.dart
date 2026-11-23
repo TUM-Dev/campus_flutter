@@ -29,6 +29,38 @@ const DeviceType$json = {
 final $typed_data.Uint8List deviceTypeDescriptor = $convert.base64Decode(
     'CgpEZXZpY2VUeXBlEgcKA0lPUxAAEgsKB0FORFJPSUQQARILCgdXSU5ET1dTEAI=');
 
+@$core.Deprecated('Use ratingSortOrderDescriptor instead')
+const RatingSortOrder$json = {
+  '1': 'RatingSortOrder',
+  '2': [
+    {'1': 'RATING_SORT_NEWEST', '2': 0},
+    {'1': 'RATING_SORT_HIGHEST', '2': 1},
+    {'1': 'RATING_SORT_LOWEST', '2': 2},
+    {'1': 'RATING_SORT_HELPFUL', '2': 3},
+  ],
+};
+
+/// Descriptor for `RatingSortOrder`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List ratingSortOrderDescriptor = $convert.base64Decode(
+    'Cg9SYXRpbmdTb3J0T3JkZXISFgoSUkFUSU5HX1NPUlRfTkVXRVNUEAASFwoTUkFUSU5HX1NPUl'
+    'RfSElHSEVTVBABEhYKElJBVElOR19TT1JUX0xPV0VTVBACEhcKE1JBVElOR19TT1JUX0hFTFBG'
+    'VUwQAw==');
+
+@$core.Deprecated('Use cinemaDescriptor instead')
+const Cinema$json = {
+  '1': 'Cinema',
+  '2': [
+    {'1': 'CINEMA_UNSPECIFIED', '2': 0},
+    {'1': 'TU_FILM', '2': 1},
+    {'1': 'CAMPUSKINO_HEILBRONN', '2': 2},
+  ],
+};
+
+/// Descriptor for `Cinema`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List cinemaDescriptor = $convert.base64Decode(
+    'CgZDaW5lbWESFgoSQ0lORU1BX1VOU1BFQ0lGSUVEEAASCwoHVFVfRklMTRABEhgKFENBTVBVU0'
+    'tJTk9fSEVJTEJST05OEAI=');
+
 @$core.Deprecated('Use languageDescriptor instead')
 const Language$json = {
   '1': 'Language',
@@ -330,6 +362,30 @@ const ListCanteenRatingsRequest$json = {
       '10': 'to'
     },
     {'1': 'limit', '3': 4, '4': 1, '5': 5, '10': 'limit'},
+    {'1': 'offset', '3': 5, '4': 1, '5': 5, '10': 'offset'},
+    {
+      '1': 'sort_by',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.api.RatingSortOrder',
+      '10': 'sortBy'
+    },
+    {'1': 'only_with_images', '3': 7, '4': 1, '5': 8, '10': 'onlyWithImages'},
+    {
+      '1': 'only_with_comments',
+      '3': 8,
+      '4': 1,
+      '5': 8,
+      '10': 'onlyWithComments'
+    },
+    {
+      '1': 'omit_inline_images',
+      '3': 9,
+      '4': 1,
+      '5': 8,
+      '10': 'omitInlineImages'
+    },
   ],
 };
 
@@ -338,7 +394,28 @@ final $typed_data.Uint8List listCanteenRatingsRequestDescriptor = $convert.base6
     'ChlMaXN0Q2FudGVlblJhdGluZ3NSZXF1ZXN0Eh0KCmNhbnRlZW5faWQYASABKAlSCWNhbnRlZW'
     '5JZBIuCgRmcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIEZnJvbRIqCgJ0'
     'bxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSAnRvEhQKBWxpbWl0GAQgASgFUg'
-    'VsaW1pdA==');
+    'VsaW1pdBIWCgZvZmZzZXQYBSABKAVSBm9mZnNldBItCgdzb3J0X2J5GAYgASgOMhQuYXBpLlJh'
+    'dGluZ1NvcnRPcmRlclIGc29ydEJ5EigKEG9ubHlfd2l0aF9pbWFnZXMYByABKAhSDm9ubHlXaX'
+    'RoSW1hZ2VzEiwKEm9ubHlfd2l0aF9jb21tZW50cxgIIAEoCFIQb25seVdpdGhDb21tZW50cxIs'
+    'ChJvbWl0X2lubGluZV9pbWFnZXMYCSABKAhSEG9taXRJbmxpbmVJbWFnZXM=');
+
+@$core.Deprecated('Use ratingDistributionDescriptor instead')
+const RatingDistribution$json = {
+  '1': 'RatingDistribution',
+  '2': [
+    {'1': 'stars_1', '3': 1, '4': 1, '5': 3, '10': 'stars1'},
+    {'1': 'stars_2', '3': 2, '4': 1, '5': 3, '10': 'stars2'},
+    {'1': 'stars_3', '3': 3, '4': 1, '5': 3, '10': 'stars3'},
+    {'1': 'stars_4', '3': 4, '4': 1, '5': 3, '10': 'stars4'},
+    {'1': 'stars_5', '3': 5, '4': 1, '5': 3, '10': 'stars5'},
+  ],
+};
+
+/// Descriptor for `RatingDistribution`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List ratingDistributionDescriptor = $convert.base64Decode(
+    'ChJSYXRpbmdEaXN0cmlidXRpb24SFwoHc3RhcnNfMRgBIAEoA1IGc3RhcnMxEhcKB3N0YXJzXz'
+    'IYAiABKANSBnN0YXJzMhIXCgdzdGFyc18zGAMgASgDUgZzdGFyczMSFwoHc3RhcnNfNBgEIAEo'
+    'A1IGc3RhcnM0EhcKB3N0YXJzXzUYBSABKANSBnN0YXJzNQ==');
 
 @$core.Deprecated('Use listCanteenRatingsReplyDescriptor instead')
 const ListCanteenRatingsReply$json = {
@@ -364,6 +441,17 @@ const ListCanteenRatingsReply$json = {
       '6': '.api.RatingTagResult',
       '10': 'ratingTags'
     },
+    {'1': 'rating_count', '3': 7, '4': 1, '5': 3, '10': 'ratingCount'},
+    {
+      '1': 'distribution',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.api.RatingDistribution',
+      '10': 'distribution'
+    },
+    {'1': 'total_matching', '3': 9, '4': 1, '5': 3, '10': 'totalMatching'},
+    {'1': 'has_more', '3': 10, '4': 1, '5': 8, '10': 'hasMore'},
   ],
 };
 
@@ -372,7 +460,10 @@ final $typed_data.Uint8List listCanteenRatingsReplyDescriptor = $convert.base64D
     'ChdMaXN0Q2FudGVlblJhdGluZ3NSZXBseRIuCgZyYXRpbmcYASADKAsyFi5hcGkuU2luZ2xlUm'
     'F0aW5nUmVwbHlSBnJhdGluZxIQCgNhdmcYAiABKAFSA2F2ZxIQCgNzdGQYAyABKAFSA3N0ZBIQ'
     'CgNtaW4YBCABKAVSA21pbhIQCgNtYXgYBSABKAVSA21heBI1CgtyYXRpbmdfdGFncxgGIAMoCz'
-    'IULmFwaS5SYXRpbmdUYWdSZXN1bHRSCnJhdGluZ1RhZ3M=');
+    'IULmFwaS5SYXRpbmdUYWdSZXN1bHRSCnJhdGluZ1RhZ3MSIQoMcmF0aW5nX2NvdW50GAcgASgD'
+    'UgtyYXRpbmdDb3VudBI7CgxkaXN0cmlidXRpb24YCCABKAsyFy5hcGkuUmF0aW5nRGlzdHJpYn'
+    'V0aW9uUgxkaXN0cmlidXRpb24SJQoOdG90YWxfbWF0Y2hpbmcYCSABKANSDXRvdGFsTWF0Y2hp'
+    'bmcSGQoIaGFzX21vcmUYCiABKAhSB2hhc01vcmU=');
 
 @$core.Deprecated('Use getDishRatingsRequestDescriptor instead')
 const GetDishRatingsRequest$json = {
@@ -397,6 +488,37 @@ const GetDishRatingsRequest$json = {
       '10': 'to'
     },
     {'1': 'limit', '3': 5, '4': 1, '5': 5, '10': 'limit'},
+    {'1': 'offset', '3': 6, '4': 1, '5': 5, '10': 'offset'},
+    {
+      '1': 'sort_by',
+      '3': 7,
+      '4': 1,
+      '5': 14,
+      '6': '.api.RatingSortOrder',
+      '10': 'sortBy'
+    },
+    {'1': 'only_with_images', '3': 8, '4': 1, '5': 8, '10': 'onlyWithImages'},
+    {
+      '1': 'only_with_comments',
+      '3': 9,
+      '4': 1,
+      '5': 8,
+      '10': 'onlyWithComments'
+    },
+    {
+      '1': 'omit_inline_images',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'omitInlineImages'
+    },
+    {
+      '1': 'include_unrated_fallback',
+      '3': 11,
+      '4': 1,
+      '5': 8,
+      '10': 'includeUnratedFallback'
+    },
   ],
 };
 
@@ -405,7 +527,12 @@ final $typed_data.Uint8List getDishRatingsRequestDescriptor = $convert.base64Dec
     'ChVHZXREaXNoUmF0aW5nc1JlcXVlc3QSHQoKY2FudGVlbl9pZBgBIAEoCVIJY2FudGVlbklkEh'
     'IKBGRpc2gYAiABKAlSBGRpc2gSLgoEZnJvbRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l'
     'c3RhbXBSBGZyb20SKgoCdG8YBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgJ0bx'
-    'IUCgVsaW1pdBgFIAEoBVIFbGltaXQ=');
+    'IUCgVsaW1pdBgFIAEoBVIFbGltaXQSFgoGb2Zmc2V0GAYgASgFUgZvZmZzZXQSLQoHc29ydF9i'
+    'eRgHIAEoDjIULmFwaS5SYXRpbmdTb3J0T3JkZXJSBnNvcnRCeRIoChBvbmx5X3dpdGhfaW1hZ2'
+    'VzGAggASgIUg5vbmx5V2l0aEltYWdlcxIsChJvbmx5X3dpdGhfY29tbWVudHMYCSABKAhSEG9u'
+    'bHlXaXRoQ29tbWVudHMSLAoSb21pdF9pbmxpbmVfaW1hZ2VzGAogASgIUhBvbWl0SW5saW5lSW'
+    '1hZ2VzEjgKGGluY2x1ZGVfdW5yYXRlZF9mYWxsYmFjaxgLIAEoCFIWaW5jbHVkZVVucmF0ZWRG'
+    'YWxsYmFjaw==');
 
 @$core.Deprecated('Use getDishRatingsReplyDescriptor instead')
 const GetDishRatingsReply$json = {
@@ -439,6 +566,25 @@ const GetDishRatingsReply$json = {
       '6': '.api.RatingTagResult',
       '10': 'nameTags'
     },
+    {'1': 'rating_count', '3': 8, '4': 1, '5': 3, '10': 'ratingCount'},
+    {
+      '1': 'distribution',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.api.RatingDistribution',
+      '10': 'distribution'
+    },
+    {'1': 'total_matching', '3': 10, '4': 1, '5': 3, '10': 'totalMatching'},
+    {'1': 'has_more', '3': 11, '4': 1, '5': 8, '10': 'hasMore'},
+    {'1': 'sold_out', '3': 12, '4': 1, '5': 8, '10': 'soldOut'},
+    {
+      '1': 'sold_out_report_count',
+      '3': 13,
+      '4': 1,
+      '5': 5,
+      '10': 'soldOutReportCount'
+    },
   ],
 };
 
@@ -448,7 +594,11 @@ final $typed_data.Uint8List getDishRatingsReplyDescriptor = $convert.base64Decod
     'dSZXBseVIGcmF0aW5nEhAKA2F2ZxgCIAEoAVIDYXZnEhAKA3N0ZBgDIAEoAVIDc3RkEhAKA21p'
     'bhgEIAEoBVIDbWluEhAKA21heBgFIAEoBVIDbWF4EjUKC3JhdGluZ190YWdzGAYgAygLMhQuYX'
     'BpLlJhdGluZ1RhZ1Jlc3VsdFIKcmF0aW5nVGFncxIxCgluYW1lX3RhZ3MYByADKAsyFC5hcGku'
-    'UmF0aW5nVGFnUmVzdWx0UghuYW1lVGFncw==');
+    'UmF0aW5nVGFnUmVzdWx0UghuYW1lVGFncxIhCgxyYXRpbmdfY291bnQYCCABKANSC3JhdGluZ0'
+    'NvdW50EjsKDGRpc3RyaWJ1dGlvbhgJIAEoCzIXLmFwaS5SYXRpbmdEaXN0cmlidXRpb25SDGRp'
+    'c3RyaWJ1dGlvbhIlCg50b3RhbF9tYXRjaGluZxgKIAEoA1INdG90YWxNYXRjaGluZxIZCghoYX'
+    'NfbW9yZRgLIAEoCFIHaGFzTW9yZRIZCghzb2xkX291dBgMIAEoCFIHc29sZE91dBIxChVzb2xk'
+    'X291dF9yZXBvcnRfY291bnQYDSABKAVSEnNvbGRPdXRSZXBvcnRDb3VudA==');
 
 @$core.Deprecated('Use singleRatingReplyDescriptor instead')
 const SingleRatingReply$json = {
@@ -473,6 +623,19 @@ const SingleRatingReply$json = {
       '6': '.google.protobuf.Timestamp',
       '10': 'visited'
     },
+    {'1': 'rating_id', '3': 6, '4': 1, '5': 3, '10': 'ratingId'},
+    {'1': 'image_url', '3': 7, '4': 1, '5': 9, '10': 'imageUrl'},
+    {'1': 'is_own_rating', '3': 8, '4': 1, '5': 8, '10': 'isOwnRating'},
+    {
+      '1': 'updated_at',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'updatedAt'
+    },
+    {'1': 'helpful_count', '3': 10, '4': 1, '5': 3, '10': 'helpfulCount'},
+    {'1': 'user_voted', '3': 11, '4': 1, '5': 8, '10': 'userVoted'},
   ],
 };
 
@@ -481,16 +644,25 @@ final $typed_data.Uint8List singleRatingReplyDescriptor = $convert.base64Decode(
     'ChFTaW5nbGVSYXRpbmdSZXBseRIWCgZwb2ludHMYASABKAVSBnBvaW50cxIUCgVpbWFnZRgCIA'
     'EoDFIFaW1hZ2USGAoHY29tbWVudBgDIAEoCVIHY29tbWVudBI5CgtyYXRpbmdfdGFncxgEIAMo'
     'CzIYLmFwaS5SYXRpbmdUYWdOZXdSZXF1ZXN0UgpyYXRpbmdUYWdzEjQKB3Zpc2l0ZWQYBSABKA'
-    'syGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgd2aXNpdGVk');
+    'syGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgd2aXNpdGVkEhsKCXJhdGluZ19pZBgGIAEo'
+    'A1IIcmF0aW5nSWQSGwoJaW1hZ2VfdXJsGAcgASgJUghpbWFnZVVybBIiCg1pc19vd25fcmF0aW'
+    '5nGAggASgIUgtpc093blJhdGluZxI5Cgp1cGRhdGVkX2F0GAkgASgLMhouZ29vZ2xlLnByb3Rv'
+    'YnVmLlRpbWVzdGFtcFIJdXBkYXRlZEF0EiMKDWhlbHBmdWxfY291bnQYCiABKANSDGhlbHBmdW'
+    'xDb3VudBIdCgp1c2VyX3ZvdGVkGAsgASgIUgl1c2VyVm90ZWQ=');
 
 @$core.Deprecated('Use createCanteenRatingReplyDescriptor instead')
 const CreateCanteenRatingReply$json = {
   '1': 'CreateCanteenRatingReply',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+  ],
 };
 
 /// Descriptor for `CreateCanteenRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createCanteenRatingReplyDescriptor =
-    $convert.base64Decode('ChhDcmVhdGVDYW50ZWVuUmF0aW5nUmVwbHk=');
+    $convert.base64Decode(
+        'ChhDcmVhdGVDYW50ZWVuUmF0aW5nUmVwbHkSGwoJcmF0aW5nX2lkGAEgASgDUghyYXRpbmdJZA'
+        '==');
 
 @$core.Deprecated('Use createCanteenRatingRequestDescriptor instead')
 const CreateCanteenRatingRequest$json = {
@@ -521,11 +693,14 @@ final $typed_data.Uint8List createCanteenRatingRequestDescriptor = $convert.base
 @$core.Deprecated('Use createDishRatingReplyDescriptor instead')
 const CreateDishRatingReply$json = {
   '1': 'CreateDishRatingReply',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+  ],
 };
 
 /// Descriptor for `CreateDishRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createDishRatingReplyDescriptor =
-    $convert.base64Decode('ChVDcmVhdGVEaXNoUmF0aW5nUmVwbHk=');
+final $typed_data.Uint8List createDishRatingReplyDescriptor = $convert.base64Decode(
+    'ChVDcmVhdGVEaXNoUmF0aW5nUmVwbHkSGwoJcmF0aW5nX2lkGAEgASgDUghyYXRpbmdJZA==');
 
 @$core.Deprecated('Use createDishRatingRequestDescriptor instead')
 const CreateDishRatingRequest$json = {
@@ -553,6 +728,189 @@ final $typed_data.Uint8List createDishRatingRequestDescriptor = $convert.base64D
     '50ZWVuX2lkGAIgASgJUgljYW50ZWVuSWQSEgoEZGlzaBgDIAEoCVIEZGlzaBIUCgVpbWFnZRgE'
     'IAEoDFIFaW1hZ2USLwoLcmF0aW5nX3RhZ3MYBSADKAsyDi5hcGkuUmF0aW5nVGFnUgpyYXRpbm'
     'dUYWdzEhgKB2NvbW1lbnQYByABKAlSB2NvbW1lbnQ=');
+
+@$core.Deprecated('Use updateDishRatingRequestDescriptor instead')
+const UpdateDishRatingRequest$json = {
+  '1': 'UpdateDishRatingRequest',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+    {'1': 'points', '3': 2, '4': 1, '5': 5, '10': 'points'},
+    {'1': 'comment', '3': 3, '4': 1, '5': 9, '10': 'comment'},
+    {
+      '1': 'rating_tags',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.api.RatingTag',
+      '10': 'ratingTags'
+    },
+    {'1': 'image', '3': 5, '4': 1, '5': 12, '10': 'image'},
+    {'1': 'remove_image', '3': 6, '4': 1, '5': 8, '10': 'removeImage'},
+  ],
+};
+
+/// Descriptor for `UpdateDishRatingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateDishRatingRequestDescriptor = $convert.base64Decode(
+    'ChdVcGRhdGVEaXNoUmF0aW5nUmVxdWVzdBIbCglyYXRpbmdfaWQYASABKANSCHJhdGluZ0lkEh'
+    'YKBnBvaW50cxgCIAEoBVIGcG9pbnRzEhgKB2NvbW1lbnQYAyABKAlSB2NvbW1lbnQSLwoLcmF0'
+    'aW5nX3RhZ3MYBCADKAsyDi5hcGkuUmF0aW5nVGFnUgpyYXRpbmdUYWdzEhQKBWltYWdlGAUgAS'
+    'gMUgVpbWFnZRIhCgxyZW1vdmVfaW1hZ2UYBiABKAhSC3JlbW92ZUltYWdl');
+
+@$core.Deprecated('Use updateDishRatingReplyDescriptor instead')
+const UpdateDishRatingReply$json = {
+  '1': 'UpdateDishRatingReply',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+  ],
+};
+
+/// Descriptor for `UpdateDishRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateDishRatingReplyDescriptor = $convert.base64Decode(
+    'ChVVcGRhdGVEaXNoUmF0aW5nUmVwbHkSGwoJcmF0aW5nX2lkGAEgASgDUghyYXRpbmdJZA==');
+
+@$core.Deprecated('Use deleteDishRatingRequestDescriptor instead')
+const DeleteDishRatingRequest$json = {
+  '1': 'DeleteDishRatingRequest',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+  ],
+};
+
+/// Descriptor for `DeleteDishRatingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDishRatingRequestDescriptor =
+    $convert.base64Decode(
+        'ChdEZWxldGVEaXNoUmF0aW5nUmVxdWVzdBIbCglyYXRpbmdfaWQYASABKANSCHJhdGluZ0lk');
+
+@$core.Deprecated('Use deleteDishRatingReplyDescriptor instead')
+const DeleteDishRatingReply$json = {
+  '1': 'DeleteDishRatingReply',
+};
+
+/// Descriptor for `DeleteDishRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteDishRatingReplyDescriptor =
+    $convert.base64Decode('ChVEZWxldGVEaXNoUmF0aW5nUmVwbHk=');
+
+@$core.Deprecated('Use reportDishRatingRequestDescriptor instead')
+const ReportDishRatingRequest$json = {
+  '1': 'ReportDishRatingRequest',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+    {'1': 'reason', '3': 2, '4': 1, '5': 9, '10': 'reason'},
+  ],
+};
+
+/// Descriptor for `ReportDishRatingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reportDishRatingRequestDescriptor =
+    $convert.base64Decode(
+        'ChdSZXBvcnREaXNoUmF0aW5nUmVxdWVzdBIbCglyYXRpbmdfaWQYASABKANSCHJhdGluZ0lkEh'
+        'YKBnJlYXNvbhgCIAEoCVIGcmVhc29u');
+
+@$core.Deprecated('Use reportDishRatingReplyDescriptor instead')
+const ReportDishRatingReply$json = {
+  '1': 'ReportDishRatingReply',
+  '2': [
+    {'1': 'hidden', '3': 1, '4': 1, '5': 8, '10': 'hidden'},
+  ],
+};
+
+/// Descriptor for `ReportDishRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reportDishRatingReplyDescriptor =
+    $convert.base64Decode(
+        'ChVSZXBvcnREaXNoUmF0aW5nUmVwbHkSFgoGaGlkZGVuGAEgASgIUgZoaWRkZW4=');
+
+@$core.Deprecated('Use voteDishRatingRequestDescriptor instead')
+const VoteDishRatingRequest$json = {
+  '1': 'VoteDishRatingRequest',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+    {'1': 'helpful', '3': 2, '4': 1, '5': 8, '10': 'helpful'},
+  ],
+};
+
+/// Descriptor for `VoteDishRatingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List voteDishRatingRequestDescriptor = $convert.base64Decode(
+    'ChVWb3RlRGlzaFJhdGluZ1JlcXVlc3QSGwoJcmF0aW5nX2lkGAEgASgDUghyYXRpbmdJZBIYCg'
+    'doZWxwZnVsGAIgASgIUgdoZWxwZnVs');
+
+@$core.Deprecated('Use voteDishRatingReplyDescriptor instead')
+const VoteDishRatingReply$json = {
+  '1': 'VoteDishRatingReply',
+  '2': [
+    {'1': 'helpful_count', '3': 1, '4': 1, '5': 3, '10': 'helpfulCount'},
+    {'1': 'user_voted', '3': 2, '4': 1, '5': 8, '10': 'userVoted'},
+  ],
+};
+
+/// Descriptor for `VoteDishRatingReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List voteDishRatingReplyDescriptor = $convert.base64Decode(
+    'ChNWb3RlRGlzaFJhdGluZ1JlcGx5EiMKDWhlbHBmdWxfY291bnQYASABKANSDGhlbHBmdWxDb3'
+    'VudBIdCgp1c2VyX3ZvdGVkGAIgASgIUgl1c2VyVm90ZWQ=');
+
+@$core.Deprecated('Use listDishPhotosRequestDescriptor instead')
+const ListDishPhotosRequest$json = {
+  '1': 'ListDishPhotosRequest',
+  '2': [
+    {'1': 'canteen_id', '3': 1, '4': 1, '5': 9, '10': 'canteenId'},
+    {'1': 'dish', '3': 2, '4': 1, '5': 9, '10': 'dish'},
+    {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+    {'1': 'offset', '3': 4, '4': 1, '5': 5, '10': 'offset'},
+  ],
+};
+
+/// Descriptor for `ListDishPhotosRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listDishPhotosRequestDescriptor = $convert.base64Decode(
+    'ChVMaXN0RGlzaFBob3Rvc1JlcXVlc3QSHQoKY2FudGVlbl9pZBgBIAEoCVIJY2FudGVlbklkEh'
+    'IKBGRpc2gYAiABKAlSBGRpc2gSFAoFbGltaXQYAyABKAVSBWxpbWl0EhYKBm9mZnNldBgEIAEo'
+    'BVIGb2Zmc2V0');
+
+@$core.Deprecated('Use dishPhotoDescriptor instead')
+const DishPhoto$json = {
+  '1': 'DishPhoto',
+  '2': [
+    {'1': 'rating_id', '3': 1, '4': 1, '5': 3, '10': 'ratingId'},
+    {'1': 'image_url', '3': 2, '4': 1, '5': 9, '10': 'imageUrl'},
+    {'1': 'points', '3': 3, '4': 1, '5': 5, '10': 'points'},
+    {'1': 'comment', '3': 4, '4': 1, '5': 9, '10': 'comment'},
+    {'1': 'helpful_count', '3': 5, '4': 1, '5': 3, '10': 'helpfulCount'},
+    {
+      '1': 'visited',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'visited'
+    },
+  ],
+};
+
+/// Descriptor for `DishPhoto`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishPhotoDescriptor = $convert.base64Decode(
+    'CglEaXNoUGhvdG8SGwoJcmF0aW5nX2lkGAEgASgDUghyYXRpbmdJZBIbCglpbWFnZV91cmwYAi'
+    'ABKAlSCGltYWdlVXJsEhYKBnBvaW50cxgDIAEoBVIGcG9pbnRzEhgKB2NvbW1lbnQYBCABKAlS'
+    'B2NvbW1lbnQSIwoNaGVscGZ1bF9jb3VudBgFIAEoA1IMaGVscGZ1bENvdW50EjQKB3Zpc2l0ZW'
+    'QYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgd2aXNpdGVk');
+
+@$core.Deprecated('Use listDishPhotosReplyDescriptor instead')
+const ListDishPhotosReply$json = {
+  '1': 'ListDishPhotosReply',
+  '2': [
+    {
+      '1': 'photos',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.api.DishPhoto',
+      '10': 'photos'
+    },
+    {'1': 'total', '3': 2, '4': 1, '5': 3, '10': 'total'},
+    {'1': 'has_more', '3': 3, '4': 1, '5': 8, '10': 'hasMore'},
+  ],
+};
+
+/// Descriptor for `ListDishPhotosReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listDishPhotosReplyDescriptor = $convert.base64Decode(
+    'ChNMaXN0RGlzaFBob3Rvc1JlcGx5EiYKBnBob3RvcxgBIAMoCzIOLmFwaS5EaXNoUGhvdG9SBn'
+    'Bob3RvcxIUCgV0b3RhbBgCIAEoA1IFdG90YWwSGQoIaGFzX21vcmUYAyABKAhSB2hhc01vcmU=');
 
 @$core.Deprecated('Use listAvailableDishTagsRequestDescriptor instead')
 const ListAvailableDishTagsRequest$json = {
@@ -777,6 +1135,230 @@ const ListDishesReply$json = {
 final $typed_data.Uint8List listDishesReplyDescriptor = $convert
     .base64Decode('Cg9MaXN0RGlzaGVzUmVwbHkSEgoEZGlzaBgBIAMoCVIEZGlzaA==');
 
+@$core.Deprecated('Use listDishRatingSummariesRequestDescriptor instead')
+const ListDishRatingSummariesRequest$json = {
+  '1': 'ListDishRatingSummariesRequest',
+  '2': [
+    {'1': 'canteen_id', '3': 1, '4': 1, '5': 9, '10': 'canteenId'},
+    {'1': 'year', '3': 2, '4': 1, '5': 5, '10': 'year'},
+    {'1': 'week', '3': 3, '4': 1, '5': 5, '10': 'week'},
+    {'1': 'day', '3': 4, '4': 1, '5': 5, '10': 'day'},
+    {'1': 'dishes', '3': 5, '4': 3, '5': 9, '10': 'dishes'},
+    {
+      '1': 'from',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'from'
+    },
+    {
+      '1': 'to',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'to'
+    },
+  ],
+};
+
+/// Descriptor for `ListDishRatingSummariesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listDishRatingSummariesRequestDescriptor = $convert.base64Decode(
+    'Ch5MaXN0RGlzaFJhdGluZ1N1bW1hcmllc1JlcXVlc3QSHQoKY2FudGVlbl9pZBgBIAEoCVIJY2'
+    'FudGVlbklkEhIKBHllYXIYAiABKAVSBHllYXISEgoEd2VlaxgDIAEoBVIEd2VlaxIQCgNkYXkY'
+    'BCABKAVSA2RheRIWCgZkaXNoZXMYBSADKAlSBmRpc2hlcxIuCgRmcm9tGAYgASgLMhouZ29vZ2'
+    'xlLnByb3RvYnVmLlRpbWVzdGFtcFIEZnJvbRIqCgJ0bxgHIAEoCzIaLmdvb2dsZS5wcm90b2J1'
+    'Zi5UaW1lc3RhbXBSAnRv');
+
+@$core.Deprecated('Use dishRatingSummaryDescriptor instead')
+const DishRatingSummary$json = {
+  '1': 'DishRatingSummary',
+  '2': [
+    {'1': 'dish', '3': 1, '4': 1, '5': 9, '10': 'dish'},
+    {'1': 'avg', '3': 2, '4': 1, '5': 1, '10': 'avg'},
+    {'1': 'std', '3': 3, '4': 1, '5': 1, '10': 'std'},
+    {'1': 'min', '3': 4, '4': 1, '5': 5, '10': 'min'},
+    {'1': 'max', '3': 5, '4': 1, '5': 5, '10': 'max'},
+    {'1': 'rating_count', '3': 6, '4': 1, '5': 3, '10': 'ratingCount'},
+    {
+      '1': 'distribution',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.api.RatingDistribution',
+      '10': 'distribution'
+    },
+    {
+      '1': 'rating_tags',
+      '3': 8,
+      '4': 3,
+      '5': 11,
+      '6': '.api.RatingTagResult',
+      '10': 'ratingTags'
+    },
+    {
+      '1': 'name_tags',
+      '3': 9,
+      '4': 3,
+      '5': 11,
+      '6': '.api.RatingTagResult',
+      '10': 'nameTags'
+    },
+    {
+      '1': 'latest_image_rating_id',
+      '3': 10,
+      '4': 1,
+      '5': 3,
+      '10': 'latestImageRatingId'
+    },
+    {'1': 'latest_image_url', '3': 11, '4': 1, '5': 9, '10': 'latestImageUrl'},
+    {'1': 'sold_out', '3': 12, '4': 1, '5': 8, '10': 'soldOut'},
+    {
+      '1': 'sold_out_report_count',
+      '3': 13,
+      '4': 1,
+      '5': 5,
+      '10': 'soldOutReportCount'
+    },
+  ],
+};
+
+/// Descriptor for `DishRatingSummary`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List dishRatingSummaryDescriptor = $convert.base64Decode(
+    'ChFEaXNoUmF0aW5nU3VtbWFyeRISCgRkaXNoGAEgASgJUgRkaXNoEhAKA2F2ZxgCIAEoAVIDYX'
+    'ZnEhAKA3N0ZBgDIAEoAVIDc3RkEhAKA21pbhgEIAEoBVIDbWluEhAKA21heBgFIAEoBVIDbWF4'
+    'EiEKDHJhdGluZ19jb3VudBgGIAEoA1ILcmF0aW5nQ291bnQSOwoMZGlzdHJpYnV0aW9uGAcgAS'
+    'gLMhcuYXBpLlJhdGluZ0Rpc3RyaWJ1dGlvblIMZGlzdHJpYnV0aW9uEjUKC3JhdGluZ190YWdz'
+    'GAggAygLMhQuYXBpLlJhdGluZ1RhZ1Jlc3VsdFIKcmF0aW5nVGFncxIxCgluYW1lX3RhZ3MYCS'
+    'ADKAsyFC5hcGkuUmF0aW5nVGFnUmVzdWx0UghuYW1lVGFncxIzChZsYXRlc3RfaW1hZ2VfcmF0'
+    'aW5nX2lkGAogASgDUhNsYXRlc3RJbWFnZVJhdGluZ0lkEigKEGxhdGVzdF9pbWFnZV91cmwYCy'
+    'ABKAlSDmxhdGVzdEltYWdlVXJsEhkKCHNvbGRfb3V0GAwgASgIUgdzb2xkT3V0EjEKFXNvbGRf'
+    'b3V0X3JlcG9ydF9jb3VudBgNIAEoBVISc29sZE91dFJlcG9ydENvdW50');
+
+@$core.Deprecated('Use listDishRatingSummariesReplyDescriptor instead')
+const ListDishRatingSummariesReply$json = {
+  '1': 'ListDishRatingSummariesReply',
+  '2': [
+    {
+      '1': 'summaries',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.api.DishRatingSummary',
+      '10': 'summaries'
+    },
+  ],
+};
+
+/// Descriptor for `ListDishRatingSummariesReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listDishRatingSummariesReplyDescriptor =
+    $convert.base64Decode(
+        'ChxMaXN0RGlzaFJhdGluZ1N1bW1hcmllc1JlcGx5EjQKCXN1bW1hcmllcxgBIAMoCzIWLmFwaS'
+        '5EaXNoUmF0aW5nU3VtbWFyeVIJc3VtbWFyaWVz');
+
+@$core.Deprecated('Use listTopRatedDishesRequestDescriptor instead')
+const ListTopRatedDishesRequest$json = {
+  '1': 'ListTopRatedDishesRequest',
+  '2': [
+    {'1': 'year', '3': 1, '4': 1, '5': 5, '10': 'year'},
+    {'1': 'week', '3': 2, '4': 1, '5': 5, '10': 'week'},
+    {'1': 'day', '3': 3, '4': 1, '5': 5, '10': 'day'},
+    {'1': 'canteen_id', '3': 4, '4': 1, '5': 9, '10': 'canteenId'},
+    {'1': 'limit', '3': 5, '4': 1, '5': 5, '10': 'limit'},
+    {'1': 'min_ratings', '3': 6, '4': 1, '5': 5, '10': 'minRatings'},
+  ],
+};
+
+/// Descriptor for `ListTopRatedDishesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listTopRatedDishesRequestDescriptor = $convert.base64Decode(
+    'ChlMaXN0VG9wUmF0ZWREaXNoZXNSZXF1ZXN0EhIKBHllYXIYASABKAVSBHllYXISEgoEd2Vlax'
+    'gCIAEoBVIEd2VlaxIQCgNkYXkYAyABKAVSA2RheRIdCgpjYW50ZWVuX2lkGAQgASgJUgljYW50'
+    'ZWVuSWQSFAoFbGltaXQYBSABKAVSBWxpbWl0Eh8KC21pbl9yYXRpbmdzGAYgASgFUgptaW5SYX'
+    'Rpbmdz');
+
+@$core.Deprecated('Use topRatedDishDescriptor instead')
+const TopRatedDish$json = {
+  '1': 'TopRatedDish',
+  '2': [
+    {'1': 'canteen_id', '3': 1, '4': 1, '5': 9, '10': 'canteenId'},
+    {'1': 'dish', '3': 2, '4': 1, '5': 9, '10': 'dish'},
+    {'1': 'avg', '3': 3, '4': 1, '5': 1, '10': 'avg'},
+    {'1': 'bayesian_score', '3': 4, '4': 1, '5': 1, '10': 'bayesianScore'},
+    {'1': 'rating_count', '3': 5, '4': 1, '5': 3, '10': 'ratingCount'},
+    {
+      '1': 'latest_image_rating_id',
+      '3': 6,
+      '4': 1,
+      '5': 3,
+      '10': 'latestImageRatingId'
+    },
+    {'1': 'latest_image_url', '3': 7, '4': 1, '5': 9, '10': 'latestImageUrl'},
+    {'1': 'sold_out', '3': 8, '4': 1, '5': 8, '10': 'soldOut'},
+  ],
+};
+
+/// Descriptor for `TopRatedDish`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List topRatedDishDescriptor = $convert.base64Decode(
+    'CgxUb3BSYXRlZERpc2gSHQoKY2FudGVlbl9pZBgBIAEoCVIJY2FudGVlbklkEhIKBGRpc2gYAi'
+    'ABKAlSBGRpc2gSEAoDYXZnGAMgASgBUgNhdmcSJQoOYmF5ZXNpYW5fc2NvcmUYBCABKAFSDWJh'
+    'eWVzaWFuU2NvcmUSIQoMcmF0aW5nX2NvdW50GAUgASgDUgtyYXRpbmdDb3VudBIzChZsYXRlc3'
+    'RfaW1hZ2VfcmF0aW5nX2lkGAYgASgDUhNsYXRlc3RJbWFnZVJhdGluZ0lkEigKEGxhdGVzdF9p'
+    'bWFnZV91cmwYByABKAlSDmxhdGVzdEltYWdlVXJsEhkKCHNvbGRfb3V0GAggASgIUgdzb2xkT3'
+    'V0');
+
+@$core.Deprecated('Use listTopRatedDishesReplyDescriptor instead')
+const ListTopRatedDishesReply$json = {
+  '1': 'ListTopRatedDishesReply',
+  '2': [
+    {
+      '1': 'dishes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.api.TopRatedDish',
+      '10': 'dishes'
+    },
+  ],
+};
+
+/// Descriptor for `ListTopRatedDishesReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listTopRatedDishesReplyDescriptor =
+    $convert.base64Decode(
+        'ChdMaXN0VG9wUmF0ZWREaXNoZXNSZXBseRIpCgZkaXNoZXMYASADKAsyES5hcGkuVG9wUmF0ZW'
+        'REaXNoUgZkaXNoZXM=');
+
+@$core.Deprecated('Use reportDishSoldOutRequestDescriptor instead')
+const ReportDishSoldOutRequest$json = {
+  '1': 'ReportDishSoldOutRequest',
+  '2': [
+    {'1': 'canteen_id', '3': 1, '4': 1, '5': 9, '10': 'canteenId'},
+    {'1': 'dish', '3': 2, '4': 1, '5': 9, '10': 'dish'},
+  ],
+};
+
+/// Descriptor for `ReportDishSoldOutRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reportDishSoldOutRequestDescriptor =
+    $convert.base64Decode(
+        'ChhSZXBvcnREaXNoU29sZE91dFJlcXVlc3QSHQoKY2FudGVlbl9pZBgBIAEoCVIJY2FudGVlbk'
+        'lkEhIKBGRpc2gYAiABKAlSBGRpc2g=');
+
+@$core.Deprecated('Use reportDishSoldOutReplyDescriptor instead')
+const ReportDishSoldOutReply$json = {
+  '1': 'ReportDishSoldOutReply',
+  '2': [
+    {'1': 'report_count', '3': 1, '4': 1, '5': 5, '10': 'reportCount'},
+    {'1': 'confirmed', '3': 2, '4': 1, '5': 8, '10': 'confirmed'},
+    {'1': 'already_reported', '3': 3, '4': 1, '5': 8, '10': 'alreadyReported'},
+  ],
+};
+
+/// Descriptor for `ReportDishSoldOutReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List reportDishSoldOutReplyDescriptor = $convert.base64Decode(
+    'ChZSZXBvcnREaXNoU29sZE91dFJlcGx5EiEKDHJlcG9ydF9jb3VudBgBIAEoBVILcmVwb3J0Q2'
+    '91bnQSHAoJY29uZmlybWVkGAIgASgIUgljb25maXJtZWQSKQoQYWxyZWFkeV9yZXBvcnRlZBgD'
+    'IAEoCFIPYWxyZWFkeVJlcG9ydGVk');
+
 @$core.Deprecated('Use roomInformationElementDescriptor instead')
 const RoomInformationElement$json = {
   '1': 'RoomInformationElement',
@@ -841,13 +1423,22 @@ const ListMoviesRequest$json = {
       '6': '.google.protobuf.Timestamp',
       '10': 'oldestDateAt'
     },
+    {
+      '1': 'cinema',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.api.Cinema',
+      '10': 'cinema'
+    },
   ],
 };
 
 /// Descriptor for `ListMoviesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List listMoviesRequestDescriptor = $convert.base64Decode(
     'ChFMaXN0TW92aWVzUmVxdWVzdBIXCgdsYXN0X2lkGAEgASgFUgZsYXN0SWQSQAoOb2xkZXN0X2'
-    'RhdGVfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgxvbGRlc3REYXRlQXQ=');
+    'RhdGVfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgxvbGRlc3REYXRlQXQS'
+    'IwoGY2luZW1hGAMgASgOMgsuYXBpLkNpbmVtYVIGY2luZW1h');
 
 @$core.Deprecated('Use listMoviesReplyDescriptor instead')
 const ListMoviesReply$json = {
@@ -884,6 +1475,14 @@ const Movie$json = {
     },
     {'1': 'title', '3': 6, '4': 1, '5': 9, '10': 'title'},
     {'1': 'location', '3': 18, '4': 1, '5': 9, '10': 'location'},
+    {
+      '1': 'cinema',
+      '3': 19,
+      '4': 1,
+      '5': 14,
+      '6': '.api.Cinema',
+      '10': 'cinema'
+    },
     {'1': 'release_year', '3': 7, '4': 1, '5': 9, '10': 'releaseYear'},
     {'1': 'runtime', '3': 8, '4': 1, '5': 9, '10': 'runtime'},
     {'1': 'genre', '3': 9, '4': 1, '5': 9, '10': 'genre'},
@@ -913,13 +1512,14 @@ final $typed_data.Uint8List movieDescriptor = $convert.base64Decode(
     'CgVNb3ZpZRIZCghtb3ZpZV9pZBgDIAEoA1IHbW92aWVJZBIuCgRkYXRlGAQgASgLMhouZ29vZ2'
     'xlLnByb3RvYnVmLlRpbWVzdGFtcFIEZGF0ZRI0CgdjcmVhdGVkGAUgASgLMhouZ29vZ2xlLnBy'
     'b3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBIUCgV0aXRsZRgGIAEoCVIFdGl0bGUSGgoIbG9jYX'
-    'Rpb24YEiABKAlSCGxvY2F0aW9uEiEKDHJlbGVhc2VfeWVhchgHIAEoCVILcmVsZWFzZVllYXIS'
-    'GAoHcnVudGltZRgIIAEoCVIHcnVudGltZRIUCgVnZW5yZRgJIAEoCVIFZ2VucmUSGgoIZGlyZW'
-    'N0b3IYCiABKAlSCGRpcmVjdG9yEhYKBmFjdG9ycxgLIAEoCVIGYWN0b3JzEh8KC2ltZGJfcmF0'
-    'aW5nGAwgASgJUgppbWRiUmF0aW5nEiAKC2Rlc2NyaXB0aW9uGA0gASgJUgtkZXNjcmlwdGlvbh'
-    'IfCgt0cmFpbGVyX3VybBgPIAEoCVIKdHJhaWxlclVybBI8ChphZGRpdGlvbmFsX2luZm9ybWF0'
-    'aW9uX3VybBgQIAEoCVIYYWRkaXRpb25hbEluZm9ybWF0aW9uVXJsEhkKCGNvdmVyX2lkGA4gAS'
-    'gDUgdjb3ZlcklkEhsKCWNvdmVyX3VybBgRIAEoCVIIY292ZXJVcmxKBAgBEAJKBAgCEAM=');
+    'Rpb24YEiABKAlSCGxvY2F0aW9uEiMKBmNpbmVtYRgTIAEoDjILLmFwaS5DaW5lbWFSBmNpbmVt'
+    'YRIhCgxyZWxlYXNlX3llYXIYByABKAlSC3JlbGVhc2VZZWFyEhgKB3J1bnRpbWUYCCABKAlSB3'
+    'J1bnRpbWUSFAoFZ2VucmUYCSABKAlSBWdlbnJlEhoKCGRpcmVjdG9yGAogASgJUghkaXJlY3Rv'
+    'chIWCgZhY3RvcnMYCyABKAlSBmFjdG9ycxIfCgtpbWRiX3JhdGluZxgMIAEoCVIKaW1kYlJhdG'
+    'luZxIgCgtkZXNjcmlwdGlvbhgNIAEoCVILZGVzY3JpcHRpb24SHwoLdHJhaWxlcl91cmwYDyAB'
+    'KAlSCnRyYWlsZXJVcmwSPAoaYWRkaXRpb25hbF9pbmZvcm1hdGlvbl91cmwYECABKAlSGGFkZG'
+    'l0aW9uYWxJbmZvcm1hdGlvblVybBIZCghjb3Zlcl9pZBgOIAEoA1IHY292ZXJJZBIbCgljb3Zl'
+    'cl91cmwYESABKAlSCGNvdmVyVXJsSgQIARACSgQIAhAD');
 
 @$core.Deprecated('Use createFeedbackRequestDescriptor instead')
 const CreateFeedbackRequest$json = {
@@ -1105,6 +1705,106 @@ final $typed_data.Uint8List getCanteenHeadCountReplyDescriptor = $convert.base64
     '9jb3VudBgCIAEoDVIIbWF4Q291bnQSGAoHcGVyY2VudBgDIAEoAlIHcGVyY2VudBI4Cgl0aW1l'
     'c3RhbXAYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgl0aW1lc3RhbXA=');
 
+@$core.Deprecated('Use getCanteenBusynessRequestDescriptor instead')
+const GetCanteenBusynessRequest$json = {
+  '1': 'GetCanteenBusynessRequest',
+  '2': [
+    {'1': 'canteen_id', '3': 1, '4': 1, '5': 9, '10': 'canteenId'},
+    {
+      '1': 'weekday',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '9': 0,
+      '10': 'weekday',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_weekday'},
+  ],
+};
+
+/// Descriptor for `GetCanteenBusynessRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCanteenBusynessRequestDescriptor =
+    $convert.base64Decode(
+        'ChlHZXRDYW50ZWVuQnVzeW5lc3NSZXF1ZXN0Eh0KCmNhbnRlZW5faWQYASABKAlSCWNhbnRlZW'
+        '5JZBIdCgd3ZWVrZGF5GAIgASgFSABSB3dlZWtkYXmIAQFCCgoIX3dlZWtkYXk=');
+
+@$core.Deprecated('Use busynessSlotDescriptor instead')
+const BusynessSlot$json = {
+  '1': 'BusynessSlot',
+  '2': [
+    {'1': 'hour', '3': 1, '4': 1, '5': 5, '10': 'hour'},
+    {'1': 'minute', '3': 2, '4': 1, '5': 5, '10': 'minute'},
+    {'1': 'typical_percent', '3': 3, '4': 1, '5': 1, '10': 'typicalPercent'},
+    {'1': 'typical_count', '3': 4, '4': 1, '5': 1, '10': 'typicalCount'},
+    {'1': 'sample_days', '3': 5, '4': 1, '5': 5, '10': 'sampleDays'},
+  ],
+};
+
+/// Descriptor for `BusynessSlot`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List busynessSlotDescriptor = $convert.base64Decode(
+    'CgxCdXN5bmVzc1Nsb3QSEgoEaG91chgBIAEoBVIEaG91chIWCgZtaW51dGUYAiABKAVSBm1pbn'
+    'V0ZRInCg90eXBpY2FsX3BlcmNlbnQYAyABKAFSDnR5cGljYWxQZXJjZW50EiMKDXR5cGljYWxf'
+    'Y291bnQYBCABKAFSDHR5cGljYWxDb3VudBIfCgtzYW1wbGVfZGF5cxgFIAEoBVIKc2FtcGxlRG'
+    'F5cw==');
+
+@$core.Deprecated('Use getCanteenBusynessReplyDescriptor instead')
+const GetCanteenBusynessReply$json = {
+  '1': 'GetCanteenBusynessReply',
+  '2': [
+    {
+      '1': 'current',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.api.GetCanteenHeadCountReply',
+      '10': 'current'
+    },
+    {'1': 'weekday', '3': 2, '4': 1, '5': 5, '10': 'weekday'},
+    {
+      '1': 'typical_slots',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.api.BusynessSlot',
+      '10': 'typicalSlots'
+    },
+    {
+      '1': 'vs_typical_percent',
+      '3': 4,
+      '4': 1,
+      '5': 1,
+      '10': 'vsTypicalPercent'
+    },
+    {
+      '1': 'has_typical_comparison',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'hasTypicalComparison'
+    },
+    {
+      '1': 'best_upcoming_slot',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.api.BusynessSlot',
+      '10': 'bestUpcomingSlot'
+    },
+  ],
+};
+
+/// Descriptor for `GetCanteenBusynessReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCanteenBusynessReplyDescriptor = $convert.base64Decode(
+    'ChdHZXRDYW50ZWVuQnVzeW5lc3NSZXBseRI3CgdjdXJyZW50GAEgASgLMh0uYXBpLkdldENhbn'
+    'RlZW5IZWFkQ291bnRSZXBseVIHY3VycmVudBIYCgd3ZWVrZGF5GAIgASgFUgd3ZWVrZGF5EjYK'
+    'DXR5cGljYWxfc2xvdHMYAyADKAsyES5hcGkuQnVzeW5lc3NTbG90Ugx0eXBpY2FsU2xvdHMSLA'
+    'oSdnNfdHlwaWNhbF9wZXJjZW50GAQgASgBUhB2c1R5cGljYWxQZXJjZW50EjQKFmhhc190eXBp'
+    'Y2FsX2NvbXBhcmlzb24YBSABKAhSFGhhc1R5cGljYWxDb21wYXJpc29uEj8KEmJlc3RfdXBjb2'
+    '1pbmdfc2xvdBgGIAEoCzIRLmFwaS5CdXN5bmVzc1Nsb3RSEGJlc3RVcGNvbWluZ1Nsb3Q=');
+
 @$core.Deprecated('Use listStudentClubRequestDescriptor instead')
 const ListStudentClubRequest$json = {
   '1': 'ListStudentClubRequest',
@@ -1228,3 +1928,279 @@ final $typed_data.Uint8List studentClubCollectionDescriptor = $convert.base64Dec
     'B0aW9uGAIgASgJUgtkZXNjcmlwdGlvbhImCgVjbHVicxgDIAMoCzIQLmFwaS5TdHVkZW50Q2x1'
     'YlIFY2x1YnMSNAoWdW5zdGFibGVfY29sbGVjdGlvbl9pZBgEIAEoBFIUdW5zdGFibGVDb2xsZW'
     'N0aW9uSWQ=');
+
+@$core.Deprecated('Use listStudentGroupRequestDescriptor instead')
+const ListStudentGroupRequest$json = {
+  '1': 'ListStudentGroupRequest',
+  '2': [
+    {
+      '1': 'language',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.api.Language',
+      '9': 0,
+      '10': 'language',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_language'},
+  ],
+};
+
+/// Descriptor for `ListStudentGroupRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listStudentGroupRequestDescriptor =
+    $convert.base64Decode(
+        'ChdMaXN0U3R1ZGVudEdyb3VwUmVxdWVzdBIuCghsYW5ndWFnZRgBIAEoDjINLmFwaS5MYW5ndW'
+        'FnZUgAUghsYW5ndWFnZYgBAUILCglfbGFuZ3VhZ2U=');
+
+@$core.Deprecated('Use listStudentGroupReplyDescriptor instead')
+const ListStudentGroupReply$json = {
+  '1': 'ListStudentGroupReply',
+  '2': [
+    {
+      '1': 'student_clubs',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.api.StudentClubCollection',
+      '10': 'studentClubs'
+    },
+    {
+      '1': 'student_councils',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.api.StudentCouncilCollection',
+      '10': 'studentCouncils'
+    },
+  ],
+};
+
+/// Descriptor for `ListStudentGroupReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listStudentGroupReplyDescriptor = $convert.base64Decode(
+    'ChVMaXN0U3R1ZGVudEdyb3VwUmVwbHkSPwoNc3R1ZGVudF9jbHVicxgBIAMoCzIaLmFwaS5TdH'
+    'VkZW50Q2x1YkNvbGxlY3Rpb25SDHN0dWRlbnRDbHVicxJIChBzdHVkZW50X2NvdW5jaWxzGAIg'
+    'AygLMh0uYXBpLlN0dWRlbnRDb3VuY2lsQ29sbGVjdGlvblIPc3R1ZGVudENvdW5jaWxz');
+
+@$core.Deprecated('Use studentCouncilDescriptor instead')
+const StudentCouncil$json = {
+  '1': 'StudentCouncil',
+  '2': [
+    {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    {
+      '1': 'description',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '9': 0,
+      '10': 'description',
+      '17': true
+    },
+    {
+      '1': 'link_url',
+      '3': 3,
+      '4': 1,
+      '5': 9,
+      '9': 1,
+      '10': 'linkUrl',
+      '17': true
+    },
+    {
+      '1': 'cover_url',
+      '3': 4,
+      '4': 1,
+      '5': 9,
+      '9': 2,
+      '10': 'coverUrl',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_description'},
+    {'1': '_link_url'},
+    {'1': '_cover_url'},
+  ],
+};
+
+/// Descriptor for `StudentCouncil`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List studentCouncilDescriptor = $convert.base64Decode(
+    'Cg5TdHVkZW50Q291bmNpbBISCgRuYW1lGAEgASgJUgRuYW1lEiUKC2Rlc2NyaXB0aW9uGAIgAS'
+    'gJSABSC2Rlc2NyaXB0aW9uiAEBEh4KCGxpbmtfdXJsGAMgASgJSAFSB2xpbmtVcmyIAQESIAoJ'
+    'Y292ZXJfdXJsGAQgASgJSAJSCGNvdmVyVXJsiAEBQg4KDF9kZXNjcmlwdGlvbkILCglfbGlua1'
+    '91cmxCDAoKX2NvdmVyX3VybA==');
+
+@$core.Deprecated('Use studentCouncilCollectionDescriptor instead')
+const StudentCouncilCollection$json = {
+  '1': 'StudentCouncilCollection',
+  '2': [
+    {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
+    {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
+    {
+      '1': 'councils',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.api.StudentCouncil',
+      '10': 'councils'
+    },
+    {
+      '1': 'unstable_collection_id',
+      '3': 4,
+      '4': 1,
+      '5': 4,
+      '10': 'unstableCollectionId'
+    },
+  ],
+};
+
+/// Descriptor for `StudentCouncilCollection`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List studentCouncilCollectionDescriptor = $convert.base64Decode(
+    'ChhTdHVkZW50Q291bmNpbENvbGxlY3Rpb24SFAoFdGl0bGUYASABKAlSBXRpdGxlEiAKC2Rlc2'
+    'NyaXB0aW9uGAIgASgJUgtkZXNjcmlwdGlvbhIvCghjb3VuY2lscxgDIAMoCzITLmFwaS5TdHVk'
+    'ZW50Q291bmNpbFIIY291bmNpbHMSNAoWdW5zdGFibGVfY29sbGVjdGlvbl9pZBgEIAEoBFIUdW'
+    '5zdGFibGVDb2xsZWN0aW9uSWQ=');
+
+@$core.Deprecated('Use listLibrariesRequestDescriptor instead')
+const ListLibrariesRequest$json = {
+  '1': 'ListLibrariesRequest',
+  '2': [
+    {'1': 'campus', '3': 1, '4': 1, '5': 9, '10': 'campus'},
+  ],
+};
+
+/// Descriptor for `ListLibrariesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listLibrariesRequestDescriptor =
+    $convert.base64Decode(
+        'ChRMaXN0TGlicmFyaWVzUmVxdWVzdBIWCgZjYW1wdXMYASABKAlSBmNhbXB1cw==');
+
+@$core.Deprecated('Use libraryOccupancyDescriptor instead')
+const LibraryOccupancy$json = {
+  '1': 'LibraryOccupancy',
+  '2': [
+    {'1': 'library_id', '3': 1, '4': 1, '5': 9, '10': 'libraryId'},
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'campus', '3': 3, '4': 1, '5': 9, '10': 'campus'},
+    {'1': 'count', '3': 4, '4': 1, '5': 13, '10': 'count'},
+    {'1': 'max_count', '3': 5, '4': 1, '5': 13, '10': 'maxCount'},
+    {'1': 'percent', '3': 6, '4': 1, '5': 2, '10': 'percent'},
+    {
+      '1': 'timestamp',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'timestamp'
+    },
+  ],
+};
+
+/// Descriptor for `LibraryOccupancy`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List libraryOccupancyDescriptor = $convert.base64Decode(
+    'ChBMaWJyYXJ5T2NjdXBhbmN5Eh0KCmxpYnJhcnlfaWQYASABKAlSCWxpYnJhcnlJZBISCgRuYW'
+    '1lGAIgASgJUgRuYW1lEhYKBmNhbXB1cxgDIAEoCVIGY2FtcHVzEhQKBWNvdW50GAQgASgNUgVj'
+    'b3VudBIbCgltYXhfY291bnQYBSABKA1SCG1heENvdW50EhgKB3BlcmNlbnQYBiABKAJSB3Blcm'
+    'NlbnQSOAoJdGltZXN0YW1wGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJdGlt'
+    'ZXN0YW1w');
+
+@$core.Deprecated('Use listLibrariesReplyDescriptor instead')
+const ListLibrariesReply$json = {
+  '1': 'ListLibrariesReply',
+  '2': [
+    {
+      '1': 'libraries',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.api.LibraryOccupancy',
+      '10': 'libraries'
+    },
+  ],
+};
+
+/// Descriptor for `ListLibrariesReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listLibrariesReplyDescriptor = $convert.base64Decode(
+    'ChJMaXN0TGlicmFyaWVzUmVwbHkSMwoJbGlicmFyaWVzGAEgAygLMhUuYXBpLkxpYnJhcnlPY2'
+    'N1cGFuY3lSCWxpYnJhcmllcw==');
+
+@$core.Deprecated('Use getLibraryBusynessRequestDescriptor instead')
+const GetLibraryBusynessRequest$json = {
+  '1': 'GetLibraryBusynessRequest',
+  '2': [
+    {'1': 'library_id', '3': 1, '4': 1, '5': 9, '10': 'libraryId'},
+    {
+      '1': 'weekday',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '9': 0,
+      '10': 'weekday',
+      '17': true
+    },
+  ],
+  '8': [
+    {'1': '_weekday'},
+  ],
+};
+
+/// Descriptor for `GetLibraryBusynessRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getLibraryBusynessRequestDescriptor =
+    $convert.base64Decode(
+        'ChlHZXRMaWJyYXJ5QnVzeW5lc3NSZXF1ZXN0Eh0KCmxpYnJhcnlfaWQYASABKAlSCWxpYnJhcn'
+        'lJZBIdCgd3ZWVrZGF5GAIgASgFSABSB3dlZWtkYXmIAQFCCgoIX3dlZWtkYXk=');
+
+@$core.Deprecated('Use getLibraryBusynessReplyDescriptor instead')
+const GetLibraryBusynessReply$json = {
+  '1': 'GetLibraryBusynessReply',
+  '2': [
+    {
+      '1': 'current',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.api.LibraryOccupancy',
+      '10': 'current'
+    },
+    {'1': 'weekday', '3': 2, '4': 1, '5': 5, '10': 'weekday'},
+    {
+      '1': 'typical_slots',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.api.BusynessSlot',
+      '10': 'typicalSlots'
+    },
+    {
+      '1': 'vs_typical_percent',
+      '3': 4,
+      '4': 1,
+      '5': 1,
+      '10': 'vsTypicalPercent'
+    },
+    {
+      '1': 'has_typical_comparison',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'hasTypicalComparison'
+    },
+    {
+      '1': 'best_upcoming_slot',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.api.BusynessSlot',
+      '10': 'bestUpcomingSlot'
+    },
+  ],
+};
+
+/// Descriptor for `GetLibraryBusynessReply`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getLibraryBusynessReplyDescriptor = $convert.base64Decode(
+    'ChdHZXRMaWJyYXJ5QnVzeW5lc3NSZXBseRIvCgdjdXJyZW50GAEgASgLMhUuYXBpLkxpYnJhcn'
+    'lPY2N1cGFuY3lSB2N1cnJlbnQSGAoHd2Vla2RheRgCIAEoBVIHd2Vla2RheRI2Cg10eXBpY2Fs'
+    'X3Nsb3RzGAMgAygLMhEuYXBpLkJ1c3luZXNzU2xvdFIMdHlwaWNhbFNsb3RzEiwKEnZzX3R5cG'
+    'ljYWxfcGVyY2VudBgEIAEoAVIQdnNUeXBpY2FsUGVyY2VudBI0ChZoYXNfdHlwaWNhbF9jb21w'
+    'YXJpc29uGAUgASgIUhRoYXNUeXBpY2FsQ29tcGFyaXNvbhI/ChJiZXN0X3VwY29taW5nX3Nsb3'
+    'QYBiABKAsyES5hcGkuQnVzeW5lc3NTbG90UhBiZXN0VXBjb21pbmdTbG90');

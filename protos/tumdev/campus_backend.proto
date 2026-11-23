@@ -63,6 +63,43 @@ service Campus {
     };
   }
 
+  // Update a dish rating previously created by the calling device.
+  rpc UpdateDishRating(UpdateDishRatingRequest) returns (UpdateDishRatingReply) {
+    option (google.api.http) = {
+      put: "/dish/rating/{rating_id}"
+      body: "*"
+    };
+  }
+
+  // Delete a dish rating previously created by the calling device.
+  rpc DeleteDishRating(DeleteDishRatingRequest) returns (DeleteDishRatingReply) {
+    option (google.api.http) = {delete: "/dish/rating/{rating_id}"};
+  }
+
+  // Report an abusive or invalid dish rating for moderation.
+  rpc ReportDishRating(ReportDishRatingRequest) returns (ReportDishRatingReply) {
+    option (google.api.http) = {
+      post: "/dish/rating/{rating_id}/report"
+      body: "*"
+    };
+  }
+
+  // Cast or remove a "helpful" vote on a dish rating.
+  rpc VoteDishRating(VoteDishRatingRequest) returns (VoteDishRatingReply) {
+    option (google.api.http) = {
+      post: "/dish/rating/{rating_id}/vote"
+      body: "*"
+    };
+  }
+
+  // Returns a paginated photo strip for a dish, ranked by helpful votes and recency.
+  rpc ListDishPhotos(ListDishPhotosRequest) returns (ListDishPhotosReply) {
+    option (google.api.http) = {
+      post: "/dish/photos"
+      body: "*"
+    };
+  }
+
   rpc ListAvailableDishTags(ListAvailableDishTagsRequest) returns (ListAvailableDishTagsReply) {
     option (google.api.http) = {
       get: "/dish/rating/allRatingTags"
@@ -99,6 +136,27 @@ service Campus {
     };
   }
 
+  // Batch-fetches rating summaries (average, count, histogram, tags) for a daily menu or list of dishes.
+  rpc ListDishRatingSummaries(ListDishRatingSummariesRequest) returns (ListDishRatingSummariesReply) {
+    option (google.api.http) = {
+      post: "/dish/rating/summaries"
+      body: "*"
+    };
+  }
+
+  // Returns the highest-rated dishes served on a given day, ranked by Bayesian weighted average.
+  rpc ListTopRatedDishes(ListTopRatedDishesRequest) returns (ListTopRatedDishesReply) {
+    option (google.api.http) = {get: "/dishes/top"};
+  }
+
+  // Crowdsourced report that a dish is sold out today (resets automatically at midnight Berlin time).
+  rpc ReportDishSoldOut(ReportDishSoldOutRequest) returns (ReportDishSoldOutReply) {
+    option (google.api.http) = {
+      post: "/dish/soldOut"
+      body: "*"
+    };
+  }
+
   rpc GetUpdateNote(GetUpdateNoteRequest) returns (GetUpdateNoteReply) {
     option (google.api.http) = {get: "/updatenote/{version}"};
   }
@@ -118,6 +176,11 @@ service Campus {
     option (google.api.http) = {get: "/canteen/headCount/{canteen_id}"};
   }
 
+  // Returns live canteen occupancy alongside typical 15-minute weekday busyness curves and quieter-slot hints.
+  rpc GetCanteenBusyness(GetCanteenBusynessRequest) returns (GetCanteenBusynessReply) {
+    option (google.api.http) = {get: "/canteen/busyness/{canteen_id}"};
+  }
+
   // Create an device (Android/iOS/Windows) for push notifications
   rpc CreateDevice(CreateDeviceRequest) returns (CreateDeviceReply) {
     option (google.api.http) = {
@@ -134,6 +197,22 @@ service Campus {
   // List all avaliable student clubs
   rpc ListStudentClub(ListStudentClubRequest) returns (ListStudentClubReply) {
     option (google.api.http) = {get: "/student_clubs"};
+    option deprecated = true;
+  }
+
+  // List student clubs and student councils, as shown on the "Campus" tab
+  rpc ListStudentGroup(ListStudentGroupRequest) returns (ListStudentGroupReply) {
+    option (google.api.http) = {get: "/student_groups"};
+  }
+
+  // List TUM libraries with their latest live occupancy estimates.
+  rpc ListLibraries(ListLibrariesRequest) returns (ListLibrariesReply) {
+    option (google.api.http) = {get: "/libraries"};
+  }
+
+  // Returns live library occupancy alongside typical 15-minute weekday busyness curves.
+  rpc GetLibraryBusyness(GetLibraryBusynessRequest) returns (GetLibraryBusynessReply) {
+    option (google.api.http) = {get: "/libraries/{library_id}/busyness"};
   }
 }
 
@@ -224,6 +303,13 @@ message NewsAlert {
   google.protobuf.Timestamp to = 5;
 }
 
+enum RatingSortOrder {
+  RATING_SORT_NEWEST = 0;
+  RATING_SORT_HIGHEST = 1;
+  RATING_SORT_LOWEST = 2;
+  RATING_SORT_HELPFUL = 3;
+}
+
 message ListCanteenRatingsRequest {
   // canteenId Mandatory Name of the canteen (EAT-API naming scheme "MENSA_GARCHING")
   string canteen_id = 1;
@@ -234,7 +320,26 @@ message ListCanteenRatingsRequest {
 
   // Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
   int32 limit = 4;
+  // Optional pagination offset (0-based)
+  int32 offset = 5;
+  // Optional sort order for returned ratings (default: newest first)
+  RatingSortOrder sort_by = 6;
+  // Optional filter: return only ratings with an attached photo
+  bool only_with_images = 7;
+  // Optional filter: return only ratings with a non-empty comment
+  bool only_with_comments = 8;
+  // Optional: omit raw JPEG bytes from SingleRatingReply.image (use image_url instead)
+  bool omit_inline_images = 9;
 }
+
+message RatingDistribution {
+  int64 stars_1 = 1;
+  int64 stars_2 = 2;
+  int64 stars_3 = 3;
+  int64 stars_4 = 4;
+  int64 stars_5 = 5;
+}
+
 message ListCanteenRatingsReply {
   repeated SingleRatingReply rating = 1;
   double avg = 2;
@@ -242,6 +347,12 @@ message ListCanteenRatingsReply {
   int32 min = 4;
   int32 max = 5;
   repeated RatingTagResult rating_tags = 6;
+  int64 rating_count = 7;
+  RatingDistribution distribution = 8;
+  // Total ratings matching the active filters (from/to, only_with_images, only_with_comments)
+  int64 total_matching = 9;
+  // True if additional ratings exist beyond offset + len(rating)
+  bool has_more = 10;
 }
 
 message GetDishRatingsRequest {
@@ -256,6 +367,18 @@ message GetDishRatingsRequest {
   google.protobuf.Timestamp to = 4;
   // Optional Parameter defines how many ratings are queried. If all ratings should be queried, enter "-1"
   int32 limit = 5;
+  // Optional pagination offset (0-based)
+  int32 offset = 6;
+  // Optional sort order for returned ratings (default: newest first)
+  RatingSortOrder sort_by = 7;
+  // Optional filter: return only ratings with an attached photo
+  bool only_with_images = 8;
+  // Optional filter: return only ratings with a non-empty comment
+  bool only_with_comments = 9;
+  // Optional: omit raw JPEG bytes from SingleRatingReply.image (use image_url instead)
+  bool omit_inline_images = 10;
+  // Optional: when true, returns rating_count=0 with name_tags fallback instead of NotFound if a dish has no direct ratings yet.
+  bool include_unrated_fallback = 11;
 }
 
 message GetDishRatingsReply {
@@ -271,20 +394,44 @@ message GetDishRatingsReply {
   int32 max = 5;
   repeated RatingTagResult rating_tags = 6;
   repeated RatingTagResult name_tags = 7;
+  int64 rating_count = 8;
+  RatingDistribution distribution = 9;
+  // Total ratings matching the active filters (from/to, only_with_images, only_with_comments)
+  int64 total_matching = 10;
+  // True if additional ratings exist beyond offset + len(rating)
+  bool has_more = 11;
+  // True if enough distinct devices reported this dish sold out today
+  bool sold_out = 12;
+  // Number of distinct devices that reported this dish sold out today
+  int32 sold_out_report_count = 13;
 }
 
 message SingleRatingReply {
   // number in the range 1-5
   int32 points = 1;
-  // Optional JPEG image in Base64
+  // Optional JPEG image in Base64 (omitted when omit_inline_images is true)
   bytes image = 2;
   // Optional comment (max 256 chars)
   string comment = 3;
   repeated RatingTagNewRequest rating_tags = 4;
   google.protobuf.Timestamp visited = 5;
+  // Unique identifier of the rating
+  int64 rating_id = 6;
+  // URL to fetch the rating photo over HTTP with caching; empty if no photo attached
+  string image_url = 7;
+  // True if the rating was submitted by the calling device (x-device-id)
+  bool is_own_rating = 8;
+  // Present if the rating was edited after creation
+  google.protobuf.Timestamp updated_at = 9;
+  // Number of helpful votes on this rating
+  int64 helpful_count = 10;
+  // True if the calling device has voted this rating helpful
+  bool user_voted = 11;
 }
 
-message CreateCanteenRatingReply {}
+message CreateCanteenRatingReply {
+  int64 rating_id = 1;
+}
 
 message CreateCanteenRatingRequest {
   // number in the range 1-5
@@ -297,7 +444,9 @@ message CreateCanteenRatingRequest {
   string comment = 6;
 }
 
-message CreateDishRatingReply {}
+message CreateDishRatingReply {
+  int64 rating_id = 1;
+}
 message CreateDishRatingRequest {
   // number in the range 1-5
   int32 points = 1;
@@ -312,6 +461,76 @@ message CreateDishRatingRequest {
   repeated RatingTag rating_tags = 5;
   // Optional comment (max 256 chars)
   string comment = 7;
+}
+
+message UpdateDishRatingRequest {
+  int64 rating_id = 1;
+  // number in the range 1-5
+  int32 points = 2;
+  // Optional comment (max 256 chars)
+  string comment = 3;
+  // Replaces the tag ratings for this rating
+  repeated RatingTag rating_tags = 4;
+  // Optional replacement JPEG/PNG image
+  bytes image = 5;
+  // If true, removes any existing image from the rating
+  bool remove_image = 6;
+}
+
+message UpdateDishRatingReply {
+  int64 rating_id = 1;
+}
+
+message DeleteDishRatingRequest {
+  int64 rating_id = 1;
+}
+
+message DeleteDishRatingReply {}
+
+message ReportDishRatingRequest {
+  int64 rating_id = 1;
+  // Optional reason for reporting (max 256 chars)
+  string reason = 2;
+}
+
+message ReportDishRatingReply {
+  // True if the rating has been hidden after reaching the report threshold
+  bool hidden = 1;
+}
+
+message VoteDishRatingRequest {
+  int64 rating_id = 1;
+  // True to cast a helpful vote, false to remove a previously cast vote.
+  bool helpful = 2;
+}
+
+message VoteDishRatingReply {
+  int64 helpful_count = 1;
+  bool user_voted = 2;
+}
+
+message ListDishPhotosRequest {
+  string canteen_id = 1;
+  string dish = 2;
+  // Optional page size (default 12, max 50)
+  int32 limit = 3;
+  // Optional pagination offset (0-based)
+  int32 offset = 4;
+}
+
+message DishPhoto {
+  int64 rating_id = 1;
+  string image_url = 2;
+  int32 points = 3;
+  string comment = 4;
+  int64 helpful_count = 5;
+  google.protobuf.Timestamp visited = 6;
+}
+
+message ListDishPhotosReply {
+  repeated DishPhoto photos = 1;
+  int64 total = 2;
+  bool has_more = 3;
 }
 
 message ListAvailableDishTagsRequest {}
@@ -367,9 +586,9 @@ message Canteen {
 
 message ListDishesRequest {
   string canteen_id = 1;
-  // >=2022 until the current year
+  // ISO week-numbering year, >=2022
   int32 year = 2;
-  // Must be in the range 1 - 52
+  // ISO week, in the range 1 - 52 or 1 - 53 depending on the ISO year
   int32 week = 3;
   // Day of the week
   // Days must be in the range 0 (Monday) - 4 (Friday)
@@ -378,6 +597,81 @@ message ListDishesRequest {
 
 message ListDishesReply {
   repeated string dish = 1;
+}
+
+message ListDishRatingSummariesRequest {
+  // Mandatory canteen identifier (eat-api id or enum name)
+  string canteen_id = 1;
+  // Optional ISO date selector: when year > 0, summarizes all dishes on that day's menu.
+  int32 year = 2;
+  int32 week = 3;
+  int32 day = 4;
+  // Optional explicit list of dish names (used when year == 0).
+  repeated string dishes = 5;
+  // Optional lower/upper timestamp bounds for windowed statistics.
+  google.protobuf.Timestamp from = 6;
+  google.protobuf.Timestamp to = 7;
+}
+
+message DishRatingSummary {
+  string dish = 1;
+  double avg = 2;
+  double std = 3;
+  int32 min = 4;
+  int32 max = 5;
+  int64 rating_count = 6;
+  RatingDistribution distribution = 7;
+  repeated RatingTagResult rating_tags = 8;
+  repeated RatingTagResult name_tags = 9;
+  int64 latest_image_rating_id = 10;
+  string latest_image_url = 11;
+  bool sold_out = 12;
+  int32 sold_out_report_count = 13;
+}
+
+message ListDishRatingSummariesReply {
+  repeated DishRatingSummary summaries = 1;
+}
+
+message ListTopRatedDishesRequest {
+  // ISO week-numbering year, >=2022
+  int32 year = 1;
+  // ISO week (1..52 or 1..53)
+  int32 week = 2;
+  // Day of the week: 0 (Monday) - 4 (Friday)
+  int32 day = 3;
+  // Optional canteen filter; omit to rank across all canteens.
+  string canteen_id = 4;
+  // Optional max number of dishes returned (default 10, max 50).
+  int32 limit = 5;
+  // Optional minimum number of visible ratings required (default 1).
+  int32 min_ratings = 6;
+}
+
+message TopRatedDish {
+  string canteen_id = 1;
+  string dish = 2;
+  double avg = 3;
+  double bayesian_score = 4;
+  int64 rating_count = 5;
+  int64 latest_image_rating_id = 6;
+  string latest_image_url = 7;
+  bool sold_out = 8;
+}
+
+message ListTopRatedDishesReply {
+  repeated TopRatedDish dishes = 1;
+}
+
+message ReportDishSoldOutRequest {
+  string canteen_id = 1;
+  string dish = 2;
+}
+
+message ReportDishSoldOutReply {
+  int32 report_count = 1;
+  bool confirmed = 2;
+  bool already_reported = 3;
 }
 
 message RoomInformationElement {
@@ -401,11 +695,19 @@ message GetUpdateNoteReply {
   string version_name = 2;
 }
 
+enum Cinema {
+  CINEMA_UNSPECIFIED = 0;
+  TU_FILM = 1;
+  CAMPUSKINO_HEILBRONN = 2;
+}
+
 message ListMoviesRequest {
   // the last Id you have requested. Use -1 to get all movies
   int32 last_id = 1;
   // the oldest time you want to be included in the response
   google.protobuf.Timestamp oldest_date_at = 2;
+  // optional cinema filter (CINEMA_UNSPECIFIED returns movies from all cinemas)
+  Cinema cinema = 3;
 }
 
 message ListMoviesReply {
@@ -423,6 +725,8 @@ message Movie {
   string title = 6;
   // Where the movie is shown
   string location = 18;
+  // Which student cinema screens this movie
+  Cinema cinema = 19;
   // release year of the movie if available, empty otherwise
   string release_year = 7;
   // runtime of the movie if available, empty otherwise
@@ -527,6 +831,41 @@ message GetCanteenHeadCountReply {
   google.protobuf.Timestamp timestamp = 4;
 }
 
+message GetCanteenBusynessRequest {
+  // Canteen ID (eat-api id or enum name, e.g. "mensa-garching").
+  string canteen_id = 1;
+  // Optional weekday: 0 (Monday) - 6 (Sunday). Defaults to today in Europe/Berlin when omitted.
+  optional int32 weekday = 2;
+}
+
+message BusynessSlot {
+  // Hour in Europe/Berlin (0-23)
+  int32 hour = 1;
+  // Minute in Europe/Berlin (0, 15, 30, 45)
+  int32 minute = 2;
+  // Typical utilization percentage (0-100) averaged across recent weeks
+  double typical_percent = 3;
+  // Typical head count averaged across recent weeks
+  double typical_count = 4;
+  // Number of distinct days contributing to this slot
+  int32 sample_days = 5;
+}
+
+message GetCanteenBusynessReply {
+  // Current live head count (same shape as GetCanteenHeadCountReply; percent == -1 if unavailable)
+  GetCanteenHeadCountReply current = 1;
+  // Weekday (0=Monday .. 6=Sunday) that the curve represents
+  int32 weekday = 2;
+  // Typical 15-minute occupancy curve for the requested weekday
+  repeated BusynessSlot typical_slots = 3;
+  // Difference between current percent and typical percent for the current 15-min slot (0 if unavailable)
+  double vs_typical_percent = 4;
+  // True when vs_typical_percent is computed from both live data and historical data
+  bool has_typical_comparison = 5;
+  // Quietest upcoming 15-minute lunch slot (11:00-14:30 Berlin) with historical data, if any
+  BusynessSlot best_upcoming_slot = 6;
+}
+
 enum Language {
   German = 0;
   English = 1;
@@ -557,4 +896,69 @@ message StudentClubCollection {
   // id of the collection.
   // Might not be stable over time because of scraping
   uint64 unstable_collection_id = 4;
+}
+
+message ListStudentGroupRequest {
+  // Language of the student groups and categories
+  // Defaults to german
+  optional Language language = 1;
+}
+message ListStudentGroupReply {
+  repeated StudentClubCollection student_clubs = 1;
+  repeated StudentCouncilCollection student_councils = 2;
+}
+message StudentCouncil {
+  // The name of the council
+  string name = 1;
+  // How the council describes itself
+  optional string description = 2;
+  // Where the council's main internet presence is
+  optional string link_url = 3;
+  // Where to find an image for this council
+  optional string cover_url = 4;
+}
+message StudentCouncilCollection {
+  string title = 1;
+  string description = 2;
+  repeated StudentCouncil councils = 3;
+  // id of the collection.
+  // Might not be stable over time.
+  // Not unique across student club and student council collections.
+  uint64 unstable_collection_id = 4;
+}
+
+message ListLibrariesRequest {
+  // Optional campus filter (e.g. "garching", "stammgelaende", "weihenstephan")
+  string campus = 1;
+}
+
+message LibraryOccupancy {
+  string library_id = 1;
+  string name = 2;
+  string campus = 3;
+  uint32 count = 4;
+  uint32 max_count = 5;
+  // Current capacity utilization clamped to 0..100, or -1 if unavailable.
+  float percent = 6;
+  google.protobuf.Timestamp timestamp = 7;
+}
+
+message ListLibrariesReply {
+  repeated LibraryOccupancy libraries = 1;
+}
+
+message GetLibraryBusynessRequest {
+  string library_id = 1;
+  // Optional weekday: 0 (Monday) - 6 (Sunday). Defaults to today in Europe/Berlin.
+  optional int32 weekday = 2;
+}
+
+message GetLibraryBusynessReply {
+  LibraryOccupancy current = 1;
+  int32 weekday = 2;
+  repeated BusynessSlot typical_slots = 3;
+  double vs_typical_percent = 4;
+  bool has_typical_comparison = 5;
+  // Quietest upcoming 15-minute study slot (08:00-21:00 Berlin) with historical data, if any
+  BusynessSlot best_upcoming_slot = 6;
 }

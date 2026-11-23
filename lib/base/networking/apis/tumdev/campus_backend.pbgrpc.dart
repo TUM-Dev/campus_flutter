@@ -83,6 +83,46 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$createDishRating, request, options: options);
   }
 
+  /// Update a dish rating previously created by the calling device.
+  $grpc.ResponseFuture<$0.UpdateDishRatingReply> updateDishRating(
+    $0.UpdateDishRatingRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$updateDishRating, request, options: options);
+  }
+
+  /// Delete a dish rating previously created by the calling device.
+  $grpc.ResponseFuture<$0.DeleteDishRatingReply> deleteDishRating(
+    $0.DeleteDishRatingRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$deleteDishRating, request, options: options);
+  }
+
+  /// Report an abusive or invalid dish rating for moderation.
+  $grpc.ResponseFuture<$0.ReportDishRatingReply> reportDishRating(
+    $0.ReportDishRatingRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$reportDishRating, request, options: options);
+  }
+
+  /// Cast or remove a "helpful" vote on a dish rating.
+  $grpc.ResponseFuture<$0.VoteDishRatingReply> voteDishRating(
+    $0.VoteDishRatingRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$voteDishRating, request, options: options);
+  }
+
+  /// Returns a paginated photo strip for a dish, ranked by helpful votes and recency.
+  $grpc.ResponseFuture<$0.ListDishPhotosReply> listDishPhotos(
+    $0.ListDishPhotosRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$listDishPhotos, request, options: options);
+  }
+
   $grpc.ResponseFuture<$0.ListAvailableDishTagsReply> listAvailableDishTags(
     $0.ListAvailableDishTagsRequest request, {
     $grpc.CallOptions? options,
@@ -121,6 +161,31 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$listDishes, request, options: options);
   }
 
+  /// Batch-fetches rating summaries (average, count, histogram, tags) for a daily menu or list of dishes.
+  $grpc.ResponseFuture<$0.ListDishRatingSummariesReply> listDishRatingSummaries(
+    $0.ListDishRatingSummariesRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$listDishRatingSummaries, request,
+        options: options);
+  }
+
+  /// Returns the highest-rated dishes served on a given day, ranked by Bayesian weighted average.
+  $grpc.ResponseFuture<$0.ListTopRatedDishesReply> listTopRatedDishes(
+    $0.ListTopRatedDishesRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$listTopRatedDishes, request, options: options);
+  }
+
+  /// Crowdsourced report that a dish is sold out today (resets automatically at midnight Berlin time).
+  $grpc.ResponseFuture<$0.ReportDishSoldOutReply> reportDishSoldOut(
+    $0.ReportDishSoldOutRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$reportDishSoldOut, request, options: options);
+  }
+
   $grpc.ResponseFuture<$0.GetUpdateNoteReply> getUpdateNote(
     $0.GetUpdateNoteRequest request, {
     $grpc.CallOptions? options,
@@ -150,6 +215,14 @@ class CampusClient extends $grpc.Client {
     return $createUnaryCall(_$getCanteenHeadCount, request, options: options);
   }
 
+  /// Returns live canteen occupancy alongside typical 15-minute weekday busyness curves and quieter-slot hints.
+  $grpc.ResponseFuture<$0.GetCanteenBusynessReply> getCanteenBusyness(
+    $0.GetCanteenBusynessRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getCanteenBusyness, request, options: options);
+  }
+
   /// Create an device (Android/iOS/Windows) for push notifications
   $grpc.ResponseFuture<$0.CreateDeviceReply> createDevice(
     $0.CreateDeviceRequest request, {
@@ -167,11 +240,36 @@ class CampusClient extends $grpc.Client {
   }
 
   /// List all avaliable student clubs
+  @$core.Deprecated('This method is deprecated')
   $grpc.ResponseFuture<$0.ListStudentClubReply> listStudentClub(
     $0.ListStudentClubRequest request, {
     $grpc.CallOptions? options,
   }) {
     return $createUnaryCall(_$listStudentClub, request, options: options);
+  }
+
+  /// List student clubs and student councils, as shown on the "Campus" tab
+  $grpc.ResponseFuture<$0.ListStudentGroupReply> listStudentGroup(
+    $0.ListStudentGroupRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$listStudentGroup, request, options: options);
+  }
+
+  /// List TUM libraries with their latest live occupancy estimates.
+  $grpc.ResponseFuture<$0.ListLibrariesReply> listLibraries(
+    $0.ListLibrariesRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$listLibraries, request, options: options);
+  }
+
+  /// Returns live library occupancy alongside typical 15-minute weekday busyness curves.
+  $grpc.ResponseFuture<$0.GetLibraryBusynessReply> getLibraryBusyness(
+    $0.GetLibraryBusynessRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$getLibraryBusyness, request, options: options);
   }
 
   // method descriptors
@@ -211,6 +309,31 @@ class CampusClient extends $grpc.Client {
           '/api.Campus/CreateDishRating',
           ($0.CreateDishRatingRequest value) => value.writeToBuffer(),
           $0.CreateDishRatingReply.fromBuffer);
+  static final _$updateDishRating =
+      $grpc.ClientMethod<$0.UpdateDishRatingRequest, $0.UpdateDishRatingReply>(
+          '/api.Campus/UpdateDishRating',
+          ($0.UpdateDishRatingRequest value) => value.writeToBuffer(),
+          $0.UpdateDishRatingReply.fromBuffer);
+  static final _$deleteDishRating =
+      $grpc.ClientMethod<$0.DeleteDishRatingRequest, $0.DeleteDishRatingReply>(
+          '/api.Campus/DeleteDishRating',
+          ($0.DeleteDishRatingRequest value) => value.writeToBuffer(),
+          $0.DeleteDishRatingReply.fromBuffer);
+  static final _$reportDishRating =
+      $grpc.ClientMethod<$0.ReportDishRatingRequest, $0.ReportDishRatingReply>(
+          '/api.Campus/ReportDishRating',
+          ($0.ReportDishRatingRequest value) => value.writeToBuffer(),
+          $0.ReportDishRatingReply.fromBuffer);
+  static final _$voteDishRating =
+      $grpc.ClientMethod<$0.VoteDishRatingRequest, $0.VoteDishRatingReply>(
+          '/api.Campus/VoteDishRating',
+          ($0.VoteDishRatingRequest value) => value.writeToBuffer(),
+          $0.VoteDishRatingReply.fromBuffer);
+  static final _$listDishPhotos =
+      $grpc.ClientMethod<$0.ListDishPhotosRequest, $0.ListDishPhotosReply>(
+          '/api.Campus/ListDishPhotos',
+          ($0.ListDishPhotosRequest value) => value.writeToBuffer(),
+          $0.ListDishPhotosReply.fromBuffer);
   static final _$listAvailableDishTags = $grpc.ClientMethod<
           $0.ListAvailableDishTagsRequest, $0.ListAvailableDishTagsReply>(
       '/api.Campus/ListAvailableDishTags',
@@ -236,6 +359,21 @@ class CampusClient extends $grpc.Client {
           '/api.Campus/ListDishes',
           ($0.ListDishesRequest value) => value.writeToBuffer(),
           $0.ListDishesReply.fromBuffer);
+  static final _$listDishRatingSummaries = $grpc.ClientMethod<
+          $0.ListDishRatingSummariesRequest, $0.ListDishRatingSummariesReply>(
+      '/api.Campus/ListDishRatingSummaries',
+      ($0.ListDishRatingSummariesRequest value) => value.writeToBuffer(),
+      $0.ListDishRatingSummariesReply.fromBuffer);
+  static final _$listTopRatedDishes = $grpc.ClientMethod<
+          $0.ListTopRatedDishesRequest, $0.ListTopRatedDishesReply>(
+      '/api.Campus/ListTopRatedDishes',
+      ($0.ListTopRatedDishesRequest value) => value.writeToBuffer(),
+      $0.ListTopRatedDishesReply.fromBuffer);
+  static final _$reportDishSoldOut = $grpc.ClientMethod<
+          $0.ReportDishSoldOutRequest, $0.ReportDishSoldOutReply>(
+      '/api.Campus/ReportDishSoldOut',
+      ($0.ReportDishSoldOutRequest value) => value.writeToBuffer(),
+      $0.ReportDishSoldOutReply.fromBuffer);
   static final _$getUpdateNote =
       $grpc.ClientMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
           '/api.Campus/GetUpdateNote',
@@ -256,6 +394,11 @@ class CampusClient extends $grpc.Client {
       '/api.Campus/GetCanteenHeadCount',
       ($0.GetCanteenHeadCountRequest value) => value.writeToBuffer(),
       $0.GetCanteenHeadCountReply.fromBuffer);
+  static final _$getCanteenBusyness = $grpc.ClientMethod<
+          $0.GetCanteenBusynessRequest, $0.GetCanteenBusynessReply>(
+      '/api.Campus/GetCanteenBusyness',
+      ($0.GetCanteenBusynessRequest value) => value.writeToBuffer(),
+      $0.GetCanteenBusynessReply.fromBuffer);
   static final _$createDevice =
       $grpc.ClientMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
           '/api.Campus/CreateDevice',
@@ -271,6 +414,21 @@ class CampusClient extends $grpc.Client {
           '/api.Campus/ListStudentClub',
           ($0.ListStudentClubRequest value) => value.writeToBuffer(),
           $0.ListStudentClubReply.fromBuffer);
+  static final _$listStudentGroup =
+      $grpc.ClientMethod<$0.ListStudentGroupRequest, $0.ListStudentGroupReply>(
+          '/api.Campus/ListStudentGroup',
+          ($0.ListStudentGroupRequest value) => value.writeToBuffer(),
+          $0.ListStudentGroupReply.fromBuffer);
+  static final _$listLibraries =
+      $grpc.ClientMethod<$0.ListLibrariesRequest, $0.ListLibrariesReply>(
+          '/api.Campus/ListLibraries',
+          ($0.ListLibrariesRequest value) => value.writeToBuffer(),
+          $0.ListLibrariesReply.fromBuffer);
+  static final _$getLibraryBusyness = $grpc.ClientMethod<
+          $0.GetLibraryBusynessRequest, $0.GetLibraryBusynessReply>(
+      '/api.Campus/GetLibraryBusyness',
+      ($0.GetLibraryBusynessRequest value) => value.writeToBuffer(),
+      $0.GetLibraryBusynessReply.fromBuffer);
 }
 
 @$pb.GrpcServiceName('api.Campus')
@@ -339,6 +497,51 @@ abstract class CampusServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.CreateDishRatingRequest.fromBuffer(value),
         ($0.CreateDishRatingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.UpdateDishRatingRequest,
+            $0.UpdateDishRatingReply>(
+        'UpdateDishRating',
+        updateDishRating_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.UpdateDishRatingRequest.fromBuffer(value),
+        ($0.UpdateDishRatingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DeleteDishRatingRequest,
+            $0.DeleteDishRatingReply>(
+        'DeleteDishRating',
+        deleteDishRating_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.DeleteDishRatingRequest.fromBuffer(value),
+        ($0.DeleteDishRatingReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ReportDishRatingRequest,
+            $0.ReportDishRatingReply>(
+        'ReportDishRating',
+        reportDishRating_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ReportDishRatingRequest.fromBuffer(value),
+        ($0.ReportDishRatingReply value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.VoteDishRatingRequest, $0.VoteDishRatingReply>(
+            'VoteDishRating',
+            voteDishRating_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.VoteDishRatingRequest.fromBuffer(value),
+            ($0.VoteDishRatingReply value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.ListDishPhotosRequest, $0.ListDishPhotosReply>(
+            'ListDishPhotos',
+            listDishPhotos_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.ListDishPhotosRequest.fromBuffer(value),
+            ($0.ListDishPhotosReply value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.ListAvailableDishTagsRequest,
             $0.ListAvailableDishTagsReply>(
         'ListAvailableDishTags',
@@ -382,6 +585,33 @@ abstract class CampusServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ListDishesRequest.fromBuffer(value),
         ($0.ListDishesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListDishRatingSummariesRequest,
+            $0.ListDishRatingSummariesReply>(
+        'ListDishRatingSummaries',
+        listDishRatingSummaries_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ListDishRatingSummariesRequest.fromBuffer(value),
+        ($0.ListDishRatingSummariesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListTopRatedDishesRequest,
+            $0.ListTopRatedDishesReply>(
+        'ListTopRatedDishes',
+        listTopRatedDishes_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ListTopRatedDishesRequest.fromBuffer(value),
+        ($0.ListTopRatedDishesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ReportDishSoldOutRequest,
+            $0.ReportDishSoldOutReply>(
+        'ReportDishSoldOut',
+        reportDishSoldOut_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ReportDishSoldOutRequest.fromBuffer(value),
+        ($0.ReportDishSoldOutReply value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.GetUpdateNoteRequest, $0.GetUpdateNoteReply>(
             'GetUpdateNote',
@@ -416,6 +646,15 @@ abstract class CampusServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.GetCanteenHeadCountRequest.fromBuffer(value),
         ($0.GetCanteenHeadCountReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetCanteenBusynessRequest,
+            $0.GetCanteenBusynessReply>(
+        'GetCanteenBusyness',
+        getCanteenBusyness_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.GetCanteenBusynessRequest.fromBuffer(value),
+        ($0.GetCanteenBusynessReply value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.CreateDeviceRequest, $0.CreateDeviceReply>(
             'CreateDevice',
@@ -443,6 +682,33 @@ abstract class CampusServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $0.ListStudentClubRequest.fromBuffer(value),
             ($0.ListStudentClubReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListStudentGroupRequest,
+            $0.ListStudentGroupReply>(
+        'ListStudentGroup',
+        listStudentGroup_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ListStudentGroupRequest.fromBuffer(value),
+        ($0.ListStudentGroupReply value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.ListLibrariesRequest, $0.ListLibrariesReply>(
+            'ListLibraries',
+            listLibraries_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.ListLibrariesRequest.fromBuffer(value),
+            ($0.ListLibrariesReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetLibraryBusynessRequest,
+            $0.GetLibraryBusynessReply>(
+        'GetLibraryBusyness',
+        getLibraryBusyness_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.GetLibraryBusynessRequest.fromBuffer(value),
+        ($0.GetLibraryBusynessReply value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.ListNewsAlertsReply> listNewsAlerts_Pre(
@@ -507,6 +773,51 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.CreateDishRatingReply> createDishRating(
       $grpc.ServiceCall call, $0.CreateDishRatingRequest request);
 
+  $async.Future<$0.UpdateDishRatingReply> updateDishRating_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.UpdateDishRatingRequest> $request) async {
+    return updateDishRating($call, await $request);
+  }
+
+  $async.Future<$0.UpdateDishRatingReply> updateDishRating(
+      $grpc.ServiceCall call, $0.UpdateDishRatingRequest request);
+
+  $async.Future<$0.DeleteDishRatingReply> deleteDishRating_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.DeleteDishRatingRequest> $request) async {
+    return deleteDishRating($call, await $request);
+  }
+
+  $async.Future<$0.DeleteDishRatingReply> deleteDishRating(
+      $grpc.ServiceCall call, $0.DeleteDishRatingRequest request);
+
+  $async.Future<$0.ReportDishRatingReply> reportDishRating_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ReportDishRatingRequest> $request) async {
+    return reportDishRating($call, await $request);
+  }
+
+  $async.Future<$0.ReportDishRatingReply> reportDishRating(
+      $grpc.ServiceCall call, $0.ReportDishRatingRequest request);
+
+  $async.Future<$0.VoteDishRatingReply> voteDishRating_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.VoteDishRatingRequest> $request) async {
+    return voteDishRating($call, await $request);
+  }
+
+  $async.Future<$0.VoteDishRatingReply> voteDishRating(
+      $grpc.ServiceCall call, $0.VoteDishRatingRequest request);
+
+  $async.Future<$0.ListDishPhotosReply> listDishPhotos_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListDishPhotosRequest> $request) async {
+    return listDishPhotos($call, await $request);
+  }
+
+  $async.Future<$0.ListDishPhotosReply> listDishPhotos(
+      $grpc.ServiceCall call, $0.ListDishPhotosRequest request);
+
   $async.Future<$0.ListAvailableDishTagsReply> listAvailableDishTags_Pre(
       $grpc.ServiceCall $call,
       $async.Future<$0.ListAvailableDishTagsRequest> $request) async {
@@ -549,6 +860,33 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.ListDishesReply> listDishes(
       $grpc.ServiceCall call, $0.ListDishesRequest request);
 
+  $async.Future<$0.ListDishRatingSummariesReply> listDishRatingSummaries_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListDishRatingSummariesRequest> $request) async {
+    return listDishRatingSummaries($call, await $request);
+  }
+
+  $async.Future<$0.ListDishRatingSummariesReply> listDishRatingSummaries(
+      $grpc.ServiceCall call, $0.ListDishRatingSummariesRequest request);
+
+  $async.Future<$0.ListTopRatedDishesReply> listTopRatedDishes_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListTopRatedDishesRequest> $request) async {
+    return listTopRatedDishes($call, await $request);
+  }
+
+  $async.Future<$0.ListTopRatedDishesReply> listTopRatedDishes(
+      $grpc.ServiceCall call, $0.ListTopRatedDishesRequest request);
+
+  $async.Future<$0.ReportDishSoldOutReply> reportDishSoldOut_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ReportDishSoldOutRequest> $request) async {
+    return reportDishSoldOut($call, await $request);
+  }
+
+  $async.Future<$0.ReportDishSoldOutReply> reportDishSoldOut(
+      $grpc.ServiceCall call, $0.ReportDishSoldOutRequest request);
+
   $async.Future<$0.GetUpdateNoteReply> getUpdateNote_Pre(
       $grpc.ServiceCall $call,
       $async.Future<$0.GetUpdateNoteRequest> $request) async {
@@ -578,6 +916,15 @@ abstract class CampusServiceBase extends $grpc.Service {
   $async.Future<$0.GetCanteenHeadCountReply> getCanteenHeadCount(
       $grpc.ServiceCall call, $0.GetCanteenHeadCountRequest request);
 
+  $async.Future<$0.GetCanteenBusynessReply> getCanteenBusyness_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.GetCanteenBusynessRequest> $request) async {
+    return getCanteenBusyness($call, await $request);
+  }
+
+  $async.Future<$0.GetCanteenBusynessReply> getCanteenBusyness(
+      $grpc.ServiceCall call, $0.GetCanteenBusynessRequest request);
+
   $async.Future<$0.CreateDeviceReply> createDevice_Pre($grpc.ServiceCall $call,
       $async.Future<$0.CreateDeviceRequest> $request) async {
     return createDevice($call, await $request);
@@ -602,4 +949,31 @@ abstract class CampusServiceBase extends $grpc.Service {
 
   $async.Future<$0.ListStudentClubReply> listStudentClub(
       $grpc.ServiceCall call, $0.ListStudentClubRequest request);
+
+  $async.Future<$0.ListStudentGroupReply> listStudentGroup_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListStudentGroupRequest> $request) async {
+    return listStudentGroup($call, await $request);
+  }
+
+  $async.Future<$0.ListStudentGroupReply> listStudentGroup(
+      $grpc.ServiceCall call, $0.ListStudentGroupRequest request);
+
+  $async.Future<$0.ListLibrariesReply> listLibraries_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.ListLibrariesRequest> $request) async {
+    return listLibraries($call, await $request);
+  }
+
+  $async.Future<$0.ListLibrariesReply> listLibraries(
+      $grpc.ServiceCall call, $0.ListLibrariesRequest request);
+
+  $async.Future<$0.GetLibraryBusynessReply> getLibraryBusyness_Pre(
+      $grpc.ServiceCall $call,
+      $async.Future<$0.GetLibraryBusynessRequest> $request) async {
+    return getLibraryBusyness($call, await $request);
+  }
+
+  $async.Future<$0.GetLibraryBusynessReply> getLibraryBusyness(
+      $grpc.ServiceCall call, $0.GetLibraryBusynessRequest request);
 }

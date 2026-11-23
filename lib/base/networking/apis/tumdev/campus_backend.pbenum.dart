@@ -35,6 +35,52 @@ class DeviceType extends $pb.ProtobufEnum {
   const DeviceType._(super.value, super.name);
 }
 
+class RatingSortOrder extends $pb.ProtobufEnum {
+  static const RatingSortOrder RATING_SORT_NEWEST =
+      RatingSortOrder._(0, _omitEnumNames ? '' : 'RATING_SORT_NEWEST');
+  static const RatingSortOrder RATING_SORT_HIGHEST =
+      RatingSortOrder._(1, _omitEnumNames ? '' : 'RATING_SORT_HIGHEST');
+  static const RatingSortOrder RATING_SORT_LOWEST =
+      RatingSortOrder._(2, _omitEnumNames ? '' : 'RATING_SORT_LOWEST');
+  static const RatingSortOrder RATING_SORT_HELPFUL =
+      RatingSortOrder._(3, _omitEnumNames ? '' : 'RATING_SORT_HELPFUL');
+
+  static const $core.List<RatingSortOrder> values = <RatingSortOrder>[
+    RATING_SORT_NEWEST,
+    RATING_SORT_HIGHEST,
+    RATING_SORT_LOWEST,
+    RATING_SORT_HELPFUL,
+  ];
+
+  static final $core.List<RatingSortOrder?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
+  static RatingSortOrder? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const RatingSortOrder._(super.value, super.name);
+}
+
+class Cinema extends $pb.ProtobufEnum {
+  static const Cinema CINEMA_UNSPECIFIED =
+      Cinema._(0, _omitEnumNames ? '' : 'CINEMA_UNSPECIFIED');
+  static const Cinema TU_FILM = Cinema._(1, _omitEnumNames ? '' : 'TU_FILM');
+  static const Cinema CAMPUSKINO_HEILBRONN =
+      Cinema._(2, _omitEnumNames ? '' : 'CAMPUSKINO_HEILBRONN');
+
+  static const $core.List<Cinema> values = <Cinema>[
+    CINEMA_UNSPECIFIED,
+    TU_FILM,
+    CAMPUSKINO_HEILBRONN,
+  ];
+
+  static final $core.List<Cinema?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
+  static Cinema? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const Cinema._(super.value, super.name);
+}
+
 class Language extends $pb.ProtobufEnum {
   static const Language German = Language._(0, _omitEnumNames ? '' : 'German');
   static const Language English =
