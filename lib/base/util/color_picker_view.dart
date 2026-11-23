@@ -1,7 +1,9 @@
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:material_ui/material_ui.dart';
 // HueRingPicker still contains Flutter Material text fields.
-import 'package:flutter/material.dart' as legacy show Material, MaterialType;
+import 'package:material_ui/material_ui.dart'
+    as legacy
+    show Material, MaterialType;
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class ColorPickerView extends StatefulWidget {

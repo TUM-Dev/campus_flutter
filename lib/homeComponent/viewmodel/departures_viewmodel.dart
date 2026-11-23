@@ -50,8 +50,7 @@ class DeparturesViewModel {
   int _departuresRequest = 0;
   Timer? timer;
 
-  DeparturesViewModel({Campus? defaultCampus})
-    : _defaultCampus = defaultCampus {
+  DeparturesViewModel({this._defaultCampus}) {
     findWidgetCampus(false);
   }
 

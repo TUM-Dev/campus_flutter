@@ -34,8 +34,7 @@ class PlacesView extends ConsumerWidget {
               (constraints.maxWidth - (columns + 1) * spacing) / columns,
             );
             final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
-            final cardHeight =
-                cardWidth / 1.6 + 52 * textScale.clamp(1.0, 1.4);
+            final cardHeight = cardWidth / 1.6 + 52 * textScale.clamp(1.0, 1.4);
 
             return StreamBuilder<List<Campus>>(
               stream: vm.campuses,

@@ -160,8 +160,7 @@ class _CampusViewState extends ConsumerState<CampusView> {
               child: Card(
                 child: SeparatedList.list(
                   data: studyRooms,
-                  tile: (studyRoomGroup) =>
-                      StudyRoomWidgetView(studyRoomGroup),
+                  tile: (studyRoomGroup) => StudyRoomWidgetView(studyRoomGroup),
                 ),
               ),
             );

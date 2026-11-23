@@ -295,10 +295,8 @@ class _SeriesIndicator extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               context.tr("series"),
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.labelLarge
+                  ?.copyWith(color: color, fontWeight: FontWeight.w600),
             ),
           ],
         ),

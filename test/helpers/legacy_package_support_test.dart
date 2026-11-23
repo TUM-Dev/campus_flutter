@@ -4,7 +4,7 @@ import 'package:campus_flutter/base/theme/legacy_package_support.dart';
 import 'package:campus_flutter/base/theme/light_theme.dart';
 import 'package:campus_flutter/base/util/color_picker_view.dart';
 // The dependency boundary intentionally uses Flutter's legacy Material types.
-import 'package:flutter/material.dart' as legacy;
+import 'package:material_ui/material_ui.dart' as legacy;
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';

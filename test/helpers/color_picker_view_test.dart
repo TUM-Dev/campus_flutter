@@ -1,5 +1,5 @@
 import 'package:campus_flutter/base/theme/legacy_package_support.dart';
-import 'package:flutter/material.dart' as legacy show TextField;
+import 'package:material_ui/material_ui.dart' as legacy show TextField;
 import 'package:campus_flutter/base/util/color_picker_view.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';

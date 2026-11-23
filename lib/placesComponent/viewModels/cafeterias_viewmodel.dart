@@ -44,7 +44,7 @@ class CafeteriasViewModel {
   Campus? _defaultCampus;
   int _widgetRequest = 0;
 
-  CafeteriasViewModel({Campus? defaultCampus}) : _defaultCampus = defaultCampus;
+  CafeteriasViewModel({this._defaultCampus});
 
   BehaviorSubject<Map<Campus, List<Cafeteria>>?> campusCafeterias =
       BehaviorSubject.seeded(null);

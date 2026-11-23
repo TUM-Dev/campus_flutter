@@ -35,7 +35,7 @@ class StudyRoomsViewModel {
   Campus? _defaultCampus;
   int _widgetRequest = 0;
 
-  StudyRoomsViewModel({Campus? defaultCampus}) : _defaultCampus = defaultCampus;
+  StudyRoomsViewModel({this._defaultCampus});
 
   BehaviorSubject<Map<Campus, List<StudyRoomGroup>>?> campusStudyRooms =
       BehaviorSubject.seeded(null);

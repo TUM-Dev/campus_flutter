@@ -194,8 +194,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     return Stack(
       children: [
         MapLibreMap(
-          styleString:
-              "https://nav.tum.de/martin/style/navigatum-basemap.json",
+          styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
           initialCameraPosition: CameraPosition(
             target: LatLng(
               widget.latLng?.latitude ?? 48.26307794976663,
