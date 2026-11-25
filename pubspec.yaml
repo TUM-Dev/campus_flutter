@@ -1,7 +1,7 @@
 name: campus_flutter
 description: "TUM Campus App"
 publish_to: 'none'
-version: 5.4.2+1
+version: 5.4.3+1
 
 environment:
   sdk: ^3.13.5
@@ -139,11 +139,14 @@ flutter:
     - assets/lottieFiles/gradient_background_silver_white.json
     - assets/images/tower.png
     - assets/videos/token-tutorial.mp4
-    - assets/images/campus/campus-freising.jpg
-    - assets/images/campus/campus-garching.jpeg
-    - assets/images/campus/campus-klinikum.jpg
-    - assets/images/campus/campus-olympia.jpg
-    - assets/images/campus/campus-stamm.jpeg
+    - assets/images/campus/campus-freising.webp
+    - assets/images/campus/campus-garching.webp
+    - assets/images/campus/campus-grosshadern.webp
+    - assets/images/campus/campus-heilbronn.webp
+    - assets/images/campus/campus-klinikum.webp
+    - assets/images/campus/campus-olympia.webp
+    - assets/images/campus/campus-ottobrunn.webp
+    - assets/images/campus/campus-stamm.webp
     - assets/images/location.png
     - assets/images/map/locate.webp
     - assets/images/map/pin_blue.webp

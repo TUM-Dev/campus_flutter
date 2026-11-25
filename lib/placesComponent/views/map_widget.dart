@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' show Point;
 
 import 'package:campus_flutter/base/extensions/context.dart';
 import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MapWidget extends ConsumerStatefulWidget {
   factory MapWidget.fullPadding({
@@ -99,11 +100,16 @@ class MapWidget extends ConsumerStatefulWidget {
 }
 
 class _MapWidgetState extends ConsumerState<MapWidget> {
+  static const String _markerSourceId = 'campus_markers_source';
+  static const String _markerLayerId = 'campus_markers_layer';
+
   MapLibreMapController? _mapController;
   bool isMapVisible = false;
   bool _styleReady = false;
+  bool _sourceAdded = false;
   int _styleGeneration = 0;
   int _markerRevision = 0;
+  String? _selectedMarkerId;
   Future<void> _mapOperations = Future.value();
 
   final Set<String> _loadedImages = {};
@@ -112,6 +118,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   void didUpdateWidget(covariant MapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.markers != oldWidget.markers) {
+      if (_selectedMarkerId != null &&
+          !widget.markers.any((m) => m.id == _selectedMarkerId)) {
+        _selectedMarkerId = null;
+      }
       _scheduleMarkerUpdate();
     }
   }
@@ -120,6 +130,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   void dispose() {
     _styleGeneration++;
     _styleReady = false;
+    _sourceAdded = false;
     _mapController = null;
     super.dispose();
   }
@@ -134,7 +145,6 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         identical(controller, _mapController) &&
         generation == _styleGeneration;
 
-    // Annotation layer rebuilds, marker replacement, and taps must not race.
     _mapOperations = _mapOperations
         .then((_) async {
           if (isCurrent()) await action(isCurrent);
@@ -148,16 +158,13 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   }
 
   void _scheduleMarkerUpdate() {
+    final revision = ++_markerRevision;
     final controller = _mapController;
     if (!_styleReady || controller == null) return;
-    final revision = ++_markerRevision;
     unawaited(
       _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
         if (revision != _markerRevision) return;
-        await _updateMarkers(
-          controller,
-          () => isCurrent() && revision == _markerRevision,
-        );
+        await _syncMarkers(controller, isCurrent);
       }),
     );
   }
@@ -188,76 +195,80 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   }
 
   Widget _buildMapStack() {
-    return AnimatedOpacity(
-      curve: Curves.fastOutSlowIn,
-      opacity: isMapVisible ? 1.0 : 0.01,
-      duration: const Duration(milliseconds: 200),
-      child: Stack(
-        children: [
-          MapLibreMap(
-            styleString:
-                "https://nav.tum.de/martin/style/navigatum-basemap.json",
-            initialCameraPosition: CameraPosition(
-              target:
-                  // mapLibre and Google Maps have different latLng classes. This converts between them and also provides a default location. - Nathan
-                  LatLng(
-                    widget.latLng?.latitude ?? 48.26307794976663,
-                    widget.latLng?.longitude ?? 11.668018668778569,
-                  ),
-              zoom: widget.zoom ?? 10,
+    return Stack(
+      children: [
+        MapLibreMap(
+          styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+          initialCameraPosition: CameraPosition(
+            target: LatLng(
+              widget.latLng?.latitude ?? 48.26307794976663,
+              widget.latLng?.longitude ?? 11.668018668778569,
             ),
-            gestureRecognizers: {
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
-              ),
-            },
-            rotateGesturesEnabled: false,
-            compassEnabled: false,
-            tiltGesturesEnabled: false,
-            zoomGesturesEnabled: true,
-            myLocationEnabled: true,
-            myLocationRenderMode: MyLocationRenderMode.compass,
-            onMapCreated: (controller) {
-              _styleGeneration++;
-              _styleReady = false;
-              _loadedImages.clear();
-              _mapController = controller;
-              _setupSymbolHandler(controller);
-            },
-            onStyleLoadedCallback: () => _onStyleLoaded(),
-            attributionButtonPosition: AttributionButtonPosition.bottomLeft,
+            zoom: widget.zoom ?? 10,
           ),
-
-          if (widget.mapLegend != null)
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: EdgeInsets.all(context.padding),
-                child: widget.mapLegend!,
-              ),
+          gestureRecognizers: {
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
             ),
-
-          Positioned(
-            right: context.padding,
-            bottom: context.padding,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              heroTag: "geolocation_button",
-              backgroundColor: context.theme.cardColor,
-              elevation: 6,
-              onPressed: _onLocateMePressed,
-              child: Image.asset(
-                "assets/images/map/locate.webp",
-                height: 36,
-                width: 36,
-                color: context.theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
+          },
+          dragEnabled: true,
+          scrollGesturesEnabled: true,
+          rotateGesturesEnabled: false,
+          compassEnabled: false,
+          tiltGesturesEnabled: false,
+          zoomGesturesEnabled: true,
+          myLocationEnabled: true,
+          myLocationRenderMode: MyLocationRenderMode.compass,
+          onMapCreated: (controller) {
+            _styleGeneration++;
+            _styleReady = false;
+            _sourceAdded = false;
+            _selectedMarkerId = null;
+            _loadedImages.clear();
+            _mapController = controller;
+          },
+          onStyleLoadedCallback: () => _onStyleLoaded(),
+          onMapClick: (point, _) => _onMapClick(point),
+          attributionButtonPosition: AttributionButtonPosition.bottomLeft,
+        ),
+        Positioned.fill(
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              curve: Curves.fastOutSlowIn,
+              opacity: isMapVisible ? 0.0 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              child: ColoredBox(color: context.theme.scaffoldBackgroundColor),
             ),
           ),
-        ],
-      ),
+        ),
+        if (widget.mapLegend != null)
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.all(context.padding),
+              child: widget.mapLegend!,
+            ),
+          ),
+        Positioned(
+          right: context.padding,
+          bottom: context.padding,
+          child: FloatingActionButton(
+            shape: const CircleBorder(),
+            heroTag: "geolocation_button",
+            backgroundColor: context.theme.cardColor,
+            elevation: 6,
+            onPressed: _onLocateMePressed,
+            child: Image.asset(
+              "assets/images/map/locate.webp",
+              height: 36,
+              width: 36,
+              color: context.theme.brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -266,24 +277,61 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     if (controller == null) return;
     final generation = ++_styleGeneration;
     _styleReady = false;
+    _sourceAdded = false;
+
     await _enqueueMapOperation(controller, generation, (isCurrent) async {
-      _loadedImages.clear();
-      await _loadMarkerImages(controller, isCurrent);
-      if (!isCurrent()) return;
+      try {
+        _loadedImages.clear();
+        await _loadMarkerImages(controller, isCurrent);
+        if (!isCurrent()) return;
 
-      // These settings rebuild annotation layers; apply them once per style.
-      await controller.symbolManager?.setIconAllowOverlap(true);
-      if (!isCurrent()) return;
-      await controller.symbolManager?.setIconIgnorePlacement(true);
-      if (!isCurrent()) return;
-      await controller.symbolManager?.setTextAllowOverlap(true);
-      if (!isCurrent()) return;
-      await controller.symbolManager?.setTextIgnorePlacement(true);
-      if (!isCurrent()) return;
+        final markerRevision = _markerRevision;
+        await controller.addGeoJsonSource(
+          _markerSourceId,
+          _buildMarkerFeatureCollection(),
+        );
+        if (!isCurrent()) return;
 
-      _styleReady = true;
-      await _updateMarkers(controller, isCurrent);
-      if (isCurrent()) setState(() => isMapVisible = true);
+        await controller.addSymbolLayer(
+          _markerSourceId,
+          _markerLayerId,
+          const SymbolLayerProperties(
+            iconImage: ['get', 'iconImage'],
+            iconSize: 3.0,
+            iconRotate: ['get', 'iconRotate'],
+            iconOffset: [0.0, -5.0],
+            iconOpacity: ['get', 'iconOpacity'],
+            iconAllowOverlap: true,
+            iconIgnorePlacement: true,
+            iconPadding: 0.0,
+            symbolSortKey: ['get', 'zIndex'],
+            textField: ['get', 'title'],
+            textOffset: [0.0, -3.0],
+            textColor: '#000000',
+            textHaloColor: '#FFFFFF',
+            textHaloWidth: 3.0,
+            textHaloBlur: 0.0,
+            textOpacity: ['get', 'textOpacity'],
+            textMaxWidth: 100.0,
+            textAllowOverlap: true,
+            textIgnorePlacement: true,
+            textOptional: true,
+          ),
+          enableInteraction: false,
+        );
+        if (!isCurrent()) return;
+
+        _sourceAdded = true;
+        _styleReady = true;
+
+        if (_markerRevision != markerRevision) {
+          await _syncMarkers(controller, isCurrent);
+        }
+      } finally {
+        if (isCurrent() && !isMapVisible) {
+          setState(() => isMapVisible = true);
+        }
+      }
     });
   }
 
@@ -296,7 +344,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       try {
         final ByteData data = await rootBundle.load(path);
         if (!isCurrent()) return;
-        await controller.addImage(name, data.buffer.asUint8List());
+        await controller.addImage(
+          name,
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+        );
         if (isCurrent()) _loadedImages.add(name);
       } catch (e) {
         log("Error loading map asset $path: $e");
@@ -307,97 +358,103 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     await load("pin_red", "assets/images/map/pin_red.webp");
   }
 
-  Future<void> _updateMarkers(
+  Map<String, dynamic> _buildMarkerFeatureCollection() {
+    return {
+      'type': 'FeatureCollection',
+      'features': [
+        for (final marker in widget.markers)
+          {
+            'type': 'Feature',
+            'id': marker.id,
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                marker.position.longitude,
+                marker.position.latitude,
+              ],
+            },
+            'properties': {
+              'id': marker.id,
+              'iconImage': marker.isRed ? 'pin_red' : 'pin_blue',
+              'iconRotate': marker.rotation ?? 0.0,
+              'iconOpacity': marker.alpha ?? 1.0,
+              'zIndex': (marker.zIndex ?? 0).toDouble(),
+              'title': marker.id == _selectedMarkerId
+                  ? (marker.infoWindow?.title ?? '')
+                  : '',
+              'textOpacity': marker.id == _selectedMarkerId ? 1.0 : 0.0,
+            },
+          },
+      ],
+    };
+  }
+
+  Future<void> _syncMarkers(
     MapLibreMapController controller,
     bool Function() isCurrent,
   ) async {
-    if (!isCurrent()) return;
-    await controller.clearSymbols();
-    if (!isCurrent()) return;
-
-    List<SymbolOptions> options = [];
-    List<Map<String, dynamic>> data = [];
-
-    for (var marker in widget.markers) {
-      options.add(
-        SymbolOptions(
-          iconSize: 3,
-          iconImage: marker.isRed ? "pin_red" : "pin_blue",
-          iconRotate: marker.rotation,
-          iconOffset: const Offset(0, -5),
-          textField: marker.infoWindow?.title,
-          textOffset: const Offset(0, -3),
-          iconOpacity: marker.alpha,
-          geometry: LatLng(marker.position.latitude, marker.position.longitude),
-          zIndex: marker.zIndex,
-          draggable: marker.draggable,
-          fontNames: ["Roboto Regular"],
-          textColor: "#000000",
-          textHaloColor: "#FFFFFF",
-          textHaloWidth: 3.0, // magic number (done by eye)
-          textHaloBlur: 0,
-          textOpacity: 0, // Starts hidden (handled on tap)
-          textMaxWidth: -1, // No limit
-        ),
-      );
-
-      // Symbol data becomes GeoJSON; callbacks must stay on the Dart marker.
-      data.add({"id": marker.id});
-    }
-
-    for (int i = 0; i < options.length; i++) {
-      if (!isCurrent()) return;
-      await controller.addSymbol(options[i], data[i]);
-    }
+    if (!isCurrent() || !_sourceAdded) return;
+    await controller.setGeoJsonSource(
+      _markerSourceId,
+      _buildMarkerFeatureCollection(),
+    );
   }
 
-  void _setupSymbolHandler(MapLibreMapController controller) {
-    controller.onSymbolTapped.add((symbol) {
-      if (!_styleReady) return;
-      unawaited(
-        _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
-          if (!controller.symbols.contains(symbol)) return;
-          // display text on tapped symbol & remove text from other symbols
-          // if text is already displayed and item has onTap callback, callback is executed
-          final markerId = symbol.data?["id"];
-          final onTap = widget.markers
-              .where((marker) => marker.id == markerId)
-              .firstOrNull
-              ?.infoWindow
-              ?.onTap;
+  void _onMapClick(Point<double> point) {
+    final controller = _mapController;
+    if (!_styleReady || !_sourceAdded || controller == null) return;
 
-          if (symbol.options.textOpacity == 1 && onTap is void Function()) {
-            onTap();
-            return;
+    unawaited(
+      _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
+        final hitRect = Rect.fromCenter(
+          center: Offset(point.x, point.y),
+          width: 44,
+          height: 44,
+        );
+        final features = await controller.queryRenderedFeaturesInRect(
+          hitRect,
+          const [_markerLayerId],
+          null,
+        );
+        if (!isCurrent()) return;
+
+        if (features.isEmpty) {
+          if (_selectedMarkerId != null) {
+            _selectedMarkerId = null;
+            await _syncMarkers(controller, isCurrent);
           }
+          return;
+        }
 
-          for (var s in controller.symbols.toList()) {
-            if (!isCurrent()) return;
-            if (s.options.textOpacity == 1) {
-              await controller.updateSymbol(
-                s,
-                const SymbolOptions(textOpacity: 0),
-              );
-            }
-          }
+        final first = features.first;
+        final props = first is Map ? first['properties'] : null;
+        final markerId = props is Map ? props['id']?.toString() : null;
+        if (markerId == null) return;
 
-          if (!isCurrent()) return;
-          await controller.updateSymbol(
-            symbol,
-            const SymbolOptions(textOpacity: 1),
+        final marker = widget.markers
+            .where((m) => m.id == markerId)
+            .firstOrNull;
+        if (marker == null) return;
+
+        final onTap = marker.infoWindow?.onTap;
+        if (_selectedMarkerId == markerId && onTap is void Function()) {
+          onTap();
+          return;
+        }
+
+        _selectedMarkerId = markerId;
+        await _syncMarkers(controller, isCurrent);
+
+        if (isCurrent()) {
+          await controller.animateCamera(
+            CameraUpdate.newLatLng(
+              LatLng(marker.position.latitude, marker.position.longitude),
+            ),
+            duration: const Duration(seconds: 1),
           );
-
-          if (isCurrent() && symbol.options.geometry != null) {
-            await controller.animateCamera(
-              CameraUpdate.newLatLng(
-                symbol.options.geometry!,
-              ), // something will have gone very wrong if it goes to 0,0
-              duration: const Duration(seconds: 1), // magic number (felt right)
-            );
-          }
-        }),
-      );
-    });
+        }
+      }),
+    );
   }
 
   Future<void> _onLocateMePressed() async {
@@ -409,10 +466,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
 
       final target = myLoc != null
           ? LatLng(myLoc.latitude, myLoc.longitude)
-          : const LatLng(
-              48.26307794976663,
-              11.668018668778569,
-            ); // Default to TUM Garching campus
+          : const LatLng(48.26307794976663, 11.668018668778569);
 
       await controller.animateCamera(
         CameraUpdate.newLatLng(target),
