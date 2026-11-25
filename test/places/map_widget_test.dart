@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' show Point;
 
 import 'package:campus_flutter/placesComponent/model/maps/marker.dart';
 import 'package:campus_flutter/placesComponent/views/map_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maplibre_gl/maplibre_gl.dart' as maps;
+import 'package:material_ui/material_ui.dart';
 
 class _MapPlatform extends maps.MapLibrePlatform {
   @override
@@ -22,52 +23,30 @@ class _MapPlatform extends maps.MapLibrePlatform {
   dynamic noSuchMethod(Invocation invocation) => null;
 }
 
-class _SymbolManager implements maps.SymbolManager {
-  int configurations = 0;
-
-  @override
-  Future<void> setIconAllowOverlap(bool value) async => configurations++;
-  @override
-  Future<void> setIconIgnorePlacement(bool value) async => configurations++;
-  @override
-  Future<void> setTextAllowOverlap(bool value) async => configurations++;
-  @override
-  Future<void> setTextIgnorePlacement(bool value) async => configurations++;
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
 class _MapController implements maps.MapLibreMapController {
-  Completer<void>? clearGate;
   Completer<void>? imageGate;
-  bool failClear = false;
-  int clearCalls = 0;
+  Completer<void>? setGeoJsonGate;
+  bool failSetGeoJson = false;
+  bool updating = false;
   int imageCalls = 0;
-  bool clearing = false;
-  @override
-  final onSymbolTapped = maps.ArgumentCallbacks<maps.Symbol>();
+  int addGeoJsonCalls = 0;
+  int setGeoJsonCalls = 0;
+  int addSymbolLayerCalls = 0;
+  int animateCameraCalls = 0;
+  maps.SymbolLayerProperties? symbolLayerProperties;
+  Map<String, dynamic>? geoJsonSource;
+  List<dynamic>? queriedFeaturesOverride;
 
-  @override
-  final symbols = <maps.Symbol>{};
-
-  @override
-  final _SymbolManager symbolManager = _SymbolManager();
-
-  @override
-  Future<void> clearSymbols() async {
-    if (clearing) throw StateError('Overlapping marker updates');
-    if (failClear) {
-      failClear = false;
-      throw StateError('Style was replaced');
-    }
-    clearCalls++;
-    clearing = true;
-    final gate = clearGate;
-    clearGate = null;
-    await gate?.future;
-    symbols.clear();
-    clearing = false;
+  List<Map<String, dynamic>> get features {
+    final raw = geoJsonSource?['features'] as List<dynamic>?;
+    if (raw == null) return const [];
+    return raw.cast<Map<String, dynamic>>();
   }
+
+  List<String> get markerIds => [
+    for (final feature in features)
+      (feature['properties'] as Map<String, dynamic>)['id'] as String,
+  ];
 
   @override
   Future<void> addImage(
@@ -81,29 +60,71 @@ class _MapController implements maps.MapLibreMapController {
   }
 
   @override
-  Future<maps.Symbol> addSymbol(
-    maps.SymbolOptions options, [
-    Map<String, dynamic>? data,
-  ]) async {
-    if (clearing) throw StateError('Adding markers during a clear');
-    final symbol = maps.Symbol('${symbols.length}', options, data);
+  Future<void> addGeoJsonSource(
+    String sourceId,
+    Map<String, dynamic> geojson, {
+    String? promoteId,
+  }) async {
+    if (updating) throw StateError('Overlapping marker updates');
+    addGeoJsonCalls++;
     // Exercise the same serialization boundary as MapLibre's GeoJSON source.
-    jsonEncode(symbol.toGeoJson());
-    symbols.add(symbol);
-    return symbol;
+    geoJsonSource = jsonDecode(jsonEncode(geojson)) as Map<String, dynamic>;
   }
 
   @override
-  Future<void> updateSymbol(
-    maps.Symbol symbol,
-    maps.SymbolOptions changes,
-  ) async => symbol.options = symbol.options.copyWith(changes);
+  Future<void> setGeoJsonSource(
+    String sourceId,
+    Map<String, dynamic> geojson,
+  ) async {
+    if (updating) throw StateError('Overlapping marker updates');
+    if (failSetGeoJson) {
+      failSetGeoJson = false;
+      throw StateError('Style was replaced');
+    }
+    setGeoJsonCalls++;
+    updating = true;
+    final gate = setGeoJsonGate;
+    setGeoJsonGate = null;
+    try {
+      await gate?.future;
+      // Exercise the same serialization boundary as MapLibre's GeoJSON source.
+      geoJsonSource = jsonDecode(jsonEncode(geojson)) as Map<String, dynamic>;
+    } finally {
+      updating = false;
+    }
+  }
+
+  @override
+  Future<void> addSymbolLayer(
+    String sourceId,
+    String layerId,
+    maps.SymbolLayerProperties properties, {
+    String? belowLayerId,
+    String? sourceLayer,
+    double? minzoom,
+    double? maxzoom,
+    dynamic filter,
+    bool enableInteraction = true,
+  }) async {
+    addSymbolLayerCalls++;
+    symbolLayerProperties = properties;
+  }
+
+  @override
+  Future<List<dynamic>> queryRenderedFeaturesInRect(
+    Rect rect,
+    List<String> layerIds,
+    String? filter,
+  ) async => queriedFeaturesOverride ?? features;
 
   @override
   Future<bool?> animateCamera(
     maps.CameraUpdate cameraUpdate, {
     Duration? duration,
-  }) async => true;
+  }) async {
+    animateCameraCalls++;
+    return true;
+  }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -142,13 +163,20 @@ void main() {
     final map = await show(tester, {marker('old')});
     map.onMapCreated!(controller);
     await show(tester, {marker('latest')});
-    expect(controller.clearCalls, 0);
-    expect(controller.symbols, isEmpty);
+    expect(controller.addGeoJsonCalls, 0);
+    expect(controller.setGeoJsonCalls, 0);
+    expect(controller.features, isEmpty);
 
     map.onStyleLoadedCallback!();
     await tester.pumpAndSettle();
-    expect(controller.symbols.single.data?['id'], 'latest');
-    expect(controller.symbolManager.configurations, 4);
+    expect(controller.addGeoJsonCalls, 1);
+    expect(controller.addSymbolLayerCalls, 1);
+    expect(controller.setGeoJsonCalls, 0);
+    expect(controller.markerIds, ['latest']);
+    expect(controller.symbolLayerProperties?.iconAllowOverlap, isTrue);
+    expect(controller.symbolLayerProperties?.iconIgnorePlacement, isTrue);
+    expect(controller.symbolLayerProperties?.textAllowOverlap, isTrue);
+    expect(controller.symbolLayerProperties?.textIgnorePlacement, isTrue);
     expect(tester.takeException(), isNull);
   });
 
@@ -160,23 +188,27 @@ void main() {
     map.onMapCreated!(controller);
     map.onStyleLoadedCallback!();
     await tester.pumpAndSettle();
+    expect(controller.addGeoJsonCalls, 1);
+    expect(controller.setGeoJsonCalls, 0);
 
     final gate = Completer<void>();
-    controller.clearGate = gate;
+    controller.setGeoJsonGate = gate;
     await show(tester, {marker('intermediate')});
-    expect(controller.clearing, isTrue);
+    expect(controller.updating, isTrue);
+    await show(tester, {marker('skipped')});
     await show(tester, {marker('latest')});
-    expect(controller.clearCalls, 2);
+    expect(controller.setGeoJsonCalls, 1);
     gate.complete();
     await tester.pumpAndSettle();
-    expect(controller.symbols.single.data?['id'], 'latest');
-    expect(controller.symbolManager.configurations, 4);
+    expect(controller.setGeoJsonCalls, 2);
+    expect(controller.markerIds, ['latest']);
+    expect(controller.addSymbolLayerCalls, 1);
     expect(tester.takeException(), isNull);
 
-    controller.failClear = true;
+    controller.failSetGeoJson = true;
     await show(tester, {marker('failed')});
     await show(tester, {marker('recovered')});
-    expect(controller.symbols.single.data?['id'], 'recovered');
+    expect(controller.markerIds, ['recovered']);
     expect(tester.takeException(), isNull);
   });
 
@@ -188,13 +220,19 @@ void main() {
     map.onMapCreated!(controller);
     map.onStyleLoadedCallback!();
     await tester.pumpAndSettle();
+
     final gate = Completer<void>();
-    controller.clearGate = gate;
+    controller.setGeoJsonGate = gate;
     await show(tester, {marker('pending')});
+    await show(tester, {marker('queued')});
+    expect(controller.updating, isTrue);
+    expect(controller.setGeoJsonCalls, 1);
+
     await tester.pumpWidget(const SizedBox());
     gate.complete();
     await tester.pumpAndSettle();
-    expect(controller.symbols, isEmpty);
+    expect(controller.setGeoJsonCalls, 1);
+    expect(controller.markerIds, ['pending']);
     expect(tester.takeException(), isNull);
   });
 
@@ -209,14 +247,17 @@ void main() {
     map.onStyleLoadedCallback!();
     await tester.pumpAndSettle();
     expect(controller.imageCalls, 1);
+    expect(controller.addGeoJsonCalls, 0);
+
     map.onStyleLoadedCallback!();
     await show(tester, {marker('latest')});
     gate.complete();
     await tester.pumpAndSettle();
     expect(controller.imageCalls, 3);
-    expect(controller.symbolManager.configurations, 4);
-    expect(controller.clearCalls, 1);
-    expect(controller.symbols.single.data?['id'], 'latest');
+    expect(controller.addGeoJsonCalls, 1);
+    expect(controller.addSymbolLayerCalls, 1);
+    expect(controller.setGeoJsonCalls, 0);
+    expect(controller.markerIds, ['latest']);
     expect(tester.takeException(), isNull);
   });
 
@@ -231,38 +272,46 @@ void main() {
       );
       final controller = _MapController();
 
-      Future<void> show(Set<Marker> markers) async {
-        await tester.pumpWidget(
-          ProviderScope(
-            child: MaterialApp(
-              home: Scaffold(body: MapWidget.noPadding(markers: markers)),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-      }
+      Future<maps.MapLibreMap> showMap(Set<Marker> markers) =>
+          show(tester, markers);
 
-      await show({marker});
-      final map = tester.widget<maps.MapLibreMap>(
-        find.byType(maps.MapLibreMap),
-      );
+      final map = await showMap({marker});
       map.onMapCreated!(controller);
       map.onStyleLoadedCallback!();
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
-      final symbol = controller.symbols.single;
-      expect(symbol.data, {'id': 'cafeteria'});
-      controller.onSymbolTapped(symbol);
+      final initialProps =
+          controller.features.single['properties'] as Map<String, dynamic>;
+      expect(initialProps['id'], 'cafeteria');
+      expect(initialProps['textOpacity'], 0.0);
+
+      map.onMapClick!(const Point<double>(100, 100), marker.position);
       await tester.pumpAndSettle();
       expect(taps, 0);
-      controller.onSymbolTapped(symbol);
+      expect(controller.animateCameraCalls, 1);
+      final selectedProps =
+          controller.features.single['properties'] as Map<String, dynamic>;
+      expect(selectedProps['title'], 'Cafeteria');
+      expect(selectedProps['textOpacity'], 1.0);
+
+      map.onMapClick!(const Point<double>(100, 100), marker.position);
       await tester.pumpAndSettle();
       expect(taps, 1);
 
-      // An existing symbol resolves the current callback, not a stale closure.
+      // Tapping empty space deselects the marker.
+      controller.queriedFeaturesOverride = const [];
+      map.onMapClick!(const Point<double>(10, 10), marker.position);
+      await tester.pumpAndSettle();
+      final deselectedProps =
+          controller.features.single['properties'] as Map<String, dynamic>;
+      expect(deselectedProps['title'], '');
+      expect(deselectedProps['textOpacity'], 0.0);
+      controller.queriedFeaturesOverride = null;
+
+      // An existing marker resolves the current callback, not a stale closure.
       var replacementTaps = 0;
-      await show({
+      await showMap({
         Marker(
           id: marker.id,
           position: marker.position,
@@ -272,15 +321,19 @@ void main() {
           ),
         ),
       });
-      final replacement = controller.symbols.single;
-      controller.onSymbolTapped(replacement);
-      controller.onSymbolTapped(replacement);
+      map.onMapClick!(const Point<double>(100, 100), marker.position);
+      await tester.pumpAndSettle();
+      expect(taps, 1);
+      expect(replacementTaps, 0);
+      map.onMapClick!(const Point<double>(100, 100), marker.position);
       await tester.pumpAndSettle();
       expect(taps, 1);
       expect(replacementTaps, 1);
 
-      await show({});
-      controller.onSymbolTapped(replacement);
+      final staleFeature = controller.features.single;
+      await showMap({});
+      controller.queriedFeaturesOverride = [staleFeature];
+      map.onMapClick!(const Point<double>(100, 100), marker.position);
       await tester.pumpAndSettle();
       expect(replacementTaps, 1);
       expect(tester.takeException(), isNull);

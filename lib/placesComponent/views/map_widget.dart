@@ -118,6 +118,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   void didUpdateWidget(covariant MapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.markers != oldWidget.markers) {
+      if (_selectedMarkerId != null &&
+          !widget.markers.any((m) => m.id == _selectedMarkerId)) {
+        _selectedMarkerId = null;
+      }
       _scheduleMarkerUpdate();
     }
   }
@@ -154,9 +158,9 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
   }
 
   void _scheduleMarkerUpdate() {
+    final revision = ++_markerRevision;
     final controller = _mapController;
     if (!_styleReady || controller == null) return;
-    final revision = ++_markerRevision;
     unawaited(
       _enqueueMapOperation(controller, _styleGeneration, (isCurrent) async {
         if (revision != _markerRevision) return;
@@ -194,8 +198,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
     return Stack(
       children: [
         MapLibreMap(
-          styleString:
-              "https://nav.tum.de/martin/style/navigatum-basemap.json",
+          styleString: "https://nav.tum.de/martin/style/navigatum-basemap.json",
           initialCameraPosition: CameraPosition(
             target: LatLng(
               widget.latLng?.latitude ?? 48.26307794976663,
@@ -220,6 +223,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
             _styleGeneration++;
             _styleReady = false;
             _sourceAdded = false;
+            _selectedMarkerId = null;
             _loadedImages.clear();
             _mapController = controller;
           },
@@ -281,6 +285,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
         await _loadMarkerImages(controller, isCurrent);
         if (!isCurrent()) return;
 
+        final markerRevision = _markerRevision;
         await controller.addGeoJsonSource(
           _markerSourceId,
           _buildMarkerFeatureCollection(),
@@ -318,6 +323,10 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
 
         _sourceAdded = true;
         _styleReady = true;
+
+        if (_markerRevision != markerRevision) {
+          await _syncMarkers(controller, isCurrent);
+        }
       } finally {
         if (isCurrent() && !isMapVisible) {
           setState(() => isMapVisible = true);
