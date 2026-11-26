@@ -37,12 +37,9 @@ class _MoviesHomeWidgetState extends ConsumerState<MovieWidgetView> {
           return const SizedBox.shrink();
         } else {
           return WidgetFrameView(
-            titleWidget: StreamBuilder<int>(
-              stream: ref.watch(movieViewModel).selectedCinema,
-              builder: (context, _) => CampusSectionHeading(
-                title: ref.read(movieViewModel).cinemaName,
-                onMore: () => context.push(movies),
-              ),
+            titleWidget: CampusSectionHeading(
+              title: "TU Film",
+              onMore: () => context.push(movies),
             ),
             child: body(snapshot),
           );

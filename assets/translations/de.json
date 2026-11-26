@@ -343,6 +343,8 @@
   "apiServiceRecovery": "Der Dienst hat Probleme beim Antworten. Bitte versuche es später erneut.",
   "apiSubmissionUncertainRecovery": "Deine Anfrage wurde möglicherweise bereits ausgeführt. Bitte prüfe dies, bevor du sie erneut absendest.",
   "couldNotOpenLink": "Dieser Link konnte nicht geöffnet werden.",
-  "tumOnlineRequestFailed": "TUMonline-Anfrage fehlgeschlagen",
-  "tumOnlineServiceMessage": "Nachricht von TUMonline:"
+    "tumOnlineRequestFailed": "TUMonline-Anfrage fehlgeschlagen",
+  "tumOnlineServiceMessage": "Nachricht von TUMonline:",
+  "eventSourceUniversity": "Universit\u00e4t",
+  "eventSourceStudentCouncil": "Fachschaft"
 }
